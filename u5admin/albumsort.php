@@ -4,7 +4,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>sortp</title>
-<?php require('backendcss.php'); ?></head>
+<?php
+
+require_once('../myfunctions.inc.php');
+require('backendcss.php');
+
+?></head>
 
 <body style="background:#eeeeee">
 <?php
@@ -18,7 +23,7 @@ if($_GET['t']<1)$t=1;
 else $t=$_GET['t'];
 
 $old=explode('_',$f);
-$old=$old[count($old)-1];
+$old=$old[tnuoc($old)-1];
 $old=explode('.',$old);
 $old=$old[0];
 

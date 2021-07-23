@@ -61,7 +61,7 @@ $stringa=trim($stringa);
   $stringa = str_replace('[:h]', '<!--[:h]-->!_-q-_!', $stringa);
   $stringa = explode('!_-q-_!', $stringa);
 
-  for ($iii = 0;$iii < count($stringa);$iii++) {
+  for ($iii = 0;$iii < tnuoc($stringa);$iii++) {
 
     $string = $stringa[$iii];
 
@@ -77,7 +77,7 @@ $stringa=trim($stringa);
         $string = str_replace($row_b['source2'], $row_b['source2'] . '!_-q-_!', $string);
         $string = explode('!_-q-_!', $string);
 
-        for ($ii = 0;$ii < count($string);$ii++) {
+        for ($ii = 0;$ii < tnuoc($string);$ii++) {
 
 
           if (str_replace($row_b['source1'], '', $string[$ii]) != $string[$ii]) {
@@ -134,13 +134,13 @@ else  $stringa[$iii]= ($stringa[$iii]);
   $stringa = str_replace(']!_-q-_!]!_-q-_!', ']]', $stringa);
   $stringa = explode('!_-q-_!', $stringa);
 
-  for ($i = 0;$i < count($stringa);$i++) {
+  for ($i = 0;$i < tnuoc($stringa);$i++) {
 
 
     if (strpos($stringa[$i], '[') === 0 && $stringa[$i] != '[h:]' && $stringa[$i] != '[:h]') {
 
       $tokens = explode(':',$stringa[$i]);
-      $name=$tokens[count($tokens)-1];
+      $name=$tokens[tnuoc($tokens)-1];
       $name = str_replace(']','',$name);
       $name = str_replace('[','',$name);
       $name = str_replace(':','',$name);
@@ -399,7 +399,7 @@ $vfile_e=$vfile_e[0];
 $vfile_f=$vfile_f[0];
 
 $ext=explode('.',def($file_d,$file_e,$file_f));
-$ext=$ext[count($ext)-1];
+$ext=$ext[tnuoc($ext)-1];
 if ($ext=='mp3' || $ext=='ogg' ) {
 $audiovideo='audio';
 $audiovideompeg='audio/mpeg';
@@ -475,7 +475,7 @@ else $stringa[$i] = '<a target="_blank" ' . $title . ' href="r/'.$row_a['name'].
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if ($row_a['typ'] == 'y') {        
+        if ($row_a['typ'] == 'y') {
         require('getfile.inc.php');
 
 if (str_replace('[:::::', '', $stringa[$i]) != $stringa[$i]) {
@@ -559,7 +559,7 @@ $stringa[$i] ='';
 $album=explode(',',$album);
 sort($album);
 $stringa[$i].= '<dl class="albumthumbnails"><dt>';
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if($recalculateonpagethumbs=='no') $jpgsrc='r/'.$row_a['name'].'/'.$album[$ia].'?t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'];
 else $jpgsrc='thumb.php?h='.($smallimgL_h*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'&sq='.$tosquare.'&ed='.$cropedge.'';
  $stringa[$i].= '<a href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img height="'.$smallimgL_h.'" title="'.def($czoom_d,$czoom_e,$czoom_f).'"  src="'.$jpgsrc.'" '.$alt.' /></a>';
@@ -586,7 +586,7 @@ else if (str_replace('[:::::::', '', $stringa[$i]) != $stringa[$i]) {
 $album=explode(',',$album);
 
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if ($ia>1) {
 $notfirst='style="display:none"';
 $notfirst2='for';
@@ -605,7 +605,7 @@ else $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filem
 
     $stringa[$i].= '
      </dt>
-     <dd>Total '.(count($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
+     <dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
     </dl>
 ';
 }
@@ -628,7 +628,7 @@ else  if (str_replace('[::::::', '', $stringa[$i]) != $stringa[$i]) {
 $album=explode(',',$album);
 
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if ($ia>1) {
 $notfirst='style="display:none"';
 $notfirst2='for';
@@ -647,7 +647,7 @@ else $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filem
 
     $stringa[$i].= '
      </dt>
-     <dd>Total '.(count($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
+     <dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
     </dl>
 ';
 }
@@ -670,7 +670,7 @@ else if (str_replace('[:::::', '', $stringa[$i]) != $stringa[$i]) {
 
 $album=explode(',',$album);
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if($recalculateonpagejpgs!='yes') $jpgsrc='r/'.$row_a['name'].'/'.$album[$ia].'?t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'];
 else $jpgsrc='thumb.php?h='.($scrollingalbum_h*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia];
 
@@ -703,7 +703,7 @@ else if (str_replace('[::::', '', $stringa[$i]) != $stringa[$i]) {
 
 $album=explode(',',$album);
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if ($ia>1) {
 $notfirst='style="display:none"';
 $notfirst2='for';
@@ -722,7 +722,7 @@ else $jpgsrc='thumb.php?w='.($smallimgC_w*$sharptillnfoldmanualzoom).'&t='.@file
 
     $stringa[$i].= '
      </dt>
-     <dd>Total '.(count($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
+     <dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
     </dl>
 ';
 }
@@ -744,7 +744,7 @@ else if (str_replace('[:::', '', $stringa[$i]) != $stringa[$i]) {
 
 $album=explode(',',$album);
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if ($ia>1) {
 $notfirst='style="display:none"';
 $notfirst2='for';
@@ -763,7 +763,7 @@ else $jpgsrc='thumb.php?w='.($smallimgR_w*$sharptillnfoldmanualzoom).'&t='.@file
 
     $stringa[$i].= '
      </dt>
-     <dd>Total '.(count($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
+     <dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
     </dl>
 ';
 }
@@ -787,7 +787,7 @@ else if (str_replace('[::', '', $stringa[$i]) != $stringa[$i]) {
 
 $album=explode(',',$album);
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if($recalculateonpagejpgs!='yes') $jpgsrc='r/'.$row_a['name'].'/'.$album[$ia].'?t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'];
 else $jpgsrc='thumb.php?h='.($scrollingalbum_h*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia];
 
@@ -818,7 +818,7 @@ else  if (str_replace('[:', '', $stringa[$i]) != $stringa[$i]) {
 
 $album=explode(',',$album);
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if ($ia>1) {
 $notfirst='style="display:none"';
 $notfirst2='for';
@@ -837,7 +837,7 @@ else $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filem
 
     $stringa[$i].= '
      </dt>
-     <dd>Total '.(count($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
+     <dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
     </dl>
 ';
 }
@@ -858,7 +858,7 @@ else {
 
 $album=explode(',',$album);
 sort($album);
-for ($ia=1;$ia<count($album);$ia++) {
+for ($ia=1;$ia<tnuoc($album);$ia++) {
 if ($ia>1) {
 $notfirst='style="display:none"';
 $notfirst2='for';
@@ -877,7 +877,7 @@ else $jpgsrc='thumb.php?w='.($smallimgL_w*$sharptillnfoldmanualzoom).'&t='.@file
 
     $stringa[$i].= '
      </dt>
-     <dd>Total '.(count($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
+     <dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd>
     </dl>
 ';
 }
@@ -1042,7 +1042,7 @@ if ($notes=='?') {
 	$notes=$_SERVER['QUERY_STRING'];
 	$notes=str_replace('?','&',$notes);
 	$notes=explode('&notes=',$notes);
-	$notes=explode('&',$notes{1});
+	$notes=explode('&',$notes[1]);
 	$notes=$notes[0];
   $notes = preg_replace_callback(
     '/%u(.{4})/',
@@ -1050,7 +1050,7 @@ if ($notes=='?') {
 		return "&#".hexdec("x".$match[1]).",.";
     },
     $notes
-  );	
+  );
 $notes=rawurldecode($notes);
 }
 if ($notes=='(authuser)') $notes='('.$_SERVER['PHP_AUTH_USER'].')';
@@ -1110,7 +1110,7 @@ $return.= $htmlbefore;
 
 
 $fields=explode(',',$field);
-for($f=0;$f<count($fields);$f++) {
+for($f=0;$f<tnuoc($fields);$f++) {
 $fields[$f]=trim($fields[$f]);
 $position=array_search($fields[$f],$headcsv);
 if ($position!==0) $wrongfield=1;
@@ -1209,9 +1209,9 @@ else $return.= islnfy(mynl2br(str_replace('&amp;#','&#',(str_replace(',.',';',$r
 }
 
 if(is_array($htmlbetween)) {
-if($f<count($fields)-1 && count($fields)>1)$return.=$htmlbetween[$f];
+if($f<tnuoc($fields)-1 && tnuoc($fields)>1)$return.=$htmlbetween[$f];
 }
-else if($f<count($fields)-1 && count($fields)>1)$return.=$htmlbetween;
+else if($f<tnuoc($fields)-1 && tnuoc($fields)>1)$return.=$htmlbetween;
 
 }
 ///
@@ -1287,7 +1287,7 @@ REGEX;
 		else if(in_array($text[strlen($text)-1],array(")","]","}")))$end=$text[strlen($text)-1];
 		}
 		else $end='';
-		
+
 		if($lfyonoff[0]==4){$ishL='[h:]';$ishR='[:h]';};
 		return $ishL.str_replace($srchtfrnd,$rplctwnd,str_replace($srchtfrnd,$rplctwnd,str_replace($srchtfrnd,$rplctwnd,"<a target='_blank' href='$url'>".shorten($text)."</a>$end"))).$ishR;
     },
@@ -1303,7 +1303,7 @@ function u5xcap($text,$album,$ia) {
 /*
          $title = '';
    if (def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']) != '') $title = 'data-caption="' . rawurlencode(render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']))) . '"';	
-str_replace('title="','title="('.$ia.'/'.(count($album)-1).') ',$title).'
+str_replace('title="','title="('.$ia.'/'.(tnuoc($album)-1).') ',$title).'
 }
 */
 $img=$album[$ia];
@@ -1314,13 +1314,13 @@ $img=$img[0].'>>>';
 $intro='';
 if(strpos($text,'[ca:]')>0) {
 $intro=explode('[ca:]',$text);
-$intro=$intro[0];	
+$intro=$intro[0];
 }
 
 $outro='';
 if(strpos($text,'[:ca]')>0) {
 $outro=explode('[:ca]',$text);
-$outro=$outro[1];	
+$outro=$outro[1];
 }
 
 $middle='';
@@ -1338,9 +1338,9 @@ $middle=implode('[/]',$middle);
 $counter='';
 $string=$intro.$middle.$outro;
 if($string[0]=='#'){
-$string=substr($string, 1);	
-$counter=$ia.'/'.(count($album)-1).' ';
+$string=substr($string, 1);
+$counter=$ia.'/'.(tnuoc($album)-1).' ';
 }
 return rawurlencode(render($counter.$string));
 }
-?>
+

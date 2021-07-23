@@ -1,6 +1,11 @@
-<?php require_once('connect.inc.php'); ?>
-<?php $pidvesa = 'a'; $donotshowtogglearchive=1;
-setcookie('pidvesa', $pidvesa, time() + 3600 * 24 * 365 * 10, '/'); ?>
+<?php
+
+require_once('connect.inc.php');
+
+$pidvesa = 'a'; $donotshowtogglearchive=1;
+setcookie('pidvesa', $pidvesa, time() + 3600 * 24 * 365 * 10, '/');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

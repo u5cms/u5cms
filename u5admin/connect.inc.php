@@ -1,7 +1,9 @@
 <?php
+
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
 ini_set('default_charset','latin1');
+require_once('../myfunctions.inc.php');
 require_once('../mysql.php');
 $_GET['name']=basename($_GET['name']);
 $_POST['name']=basename($_POST['name']);
@@ -117,4 +119,4 @@ function pwdcookieget($p) {
     if ($sticksessiontoip == 'yes') $installationfingerprint .= $_SERVER['REMOTE_ADDR'];
     return sha1($sessioncookiehashsalt . $installationfingerprint . $p);
 }
-?>
+

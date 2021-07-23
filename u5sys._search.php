@@ -54,7 +54,7 @@ $leven='';
 $qq='';
 $qqq=trim(str_replace(',,',',',str_replace(',,',',',str_replace(',,',',',$_GET['q']))));
 $qqq=explode('"',$qqq);
-for($i=0;$i<count($qqq);$i++) {
+for($i=0;$i<tnuoc($qqq);$i++) {
 if($i % 2 == 0)	$qq.=' '.$qqq[$i].' ';
 else $qq.=' '.str_replace(',','_',$qqq[$i]).' ';
 }
@@ -99,7 +99,7 @@ $alloc=$sfor;
 $sfor=str_replace('-','_',$sfor);
 $sfor=explode(' ',trim($sfor));
 
-for ($i=0;$i<count($sfor);$i++) {
+for ($i=0;$i<tnuoc($sfor);$i++) {
 
 $sfor[$i]=str_replace('<','&lt;',$sfor[$i]);
 $sfor[$i]=str_replace('>','&gt;',$sfor[$i]);
@@ -233,7 +233,7 @@ global $nohit_f;
 
 
 $leven=def($nohit_d,$nohit_e,$nohit_f).'<br />';
-for ($liii=0; $liii<count($sfor); $liii++) {
+for ($liii=0; $liii<tnuoc($sfor); $liii++) {
 
 if ($doesfindpasswordprotectedcontent == 'yes') $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c'";
 else $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%'";

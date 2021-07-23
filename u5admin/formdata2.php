@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 setcookie('ffrm', $_SERVER['QUERY_STRING'], time()+3600*24*365*10,'/');
 $_GET['f']=htmlspecialchars(trim(strip_tags($_GET['f'])));
@@ -170,14 +171,14 @@ $andfilter="AnD ( (";
 $orand='oR';
 if ($_COOKIE['fdbool']=='and') $orand='anD';
 
-for ($k=0;$k<count($keywords);$k++) {
+for ($k=0;$k<tnuoc($keywords);$k++) {
 $andfilter.="datacsv='' ";
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR notes LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR humantime LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-if ($k==count($keywords)-1) $andfilter.=')';
+if ($k==tnuoc($keywords)-1) $andfilter.=')';
 else $andfilter.=") $orand (";
 }
 $andfilter.=')';
@@ -224,7 +225,7 @@ $oldhead=$row_a['headcsv'];
 
 $datacsv=explode(';',$row_a['datacsv']);
 
-for ($dwi=0;$dwi<count($datacsv);$dwi++) {
+for ($dwi=0;$dwi<tnuoc($datacsv);$dwi++) {
 $datacsv[$dwi]=dowords($datacsv[$dwi]);
 
 if (strpos($datacsv[$dwi],'@')>0) {
@@ -248,7 +249,7 @@ $csv.='<a title="edit: Click here or Alt+Click anywhere" id="i'.$row_a['id'].'" 
 $dnummer=date("YmdHis");
 $echo = str_replace(',.',';',str_replace('<tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)"><b>','<tr '.$trattribs.' style="font-weight:bold"><td ondblclick="dbl(this.innerHTML)"><b>','<table><tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)">'.str_replace(';','</td><td ondblclick="dbl(this.innerHTML)">',str_replace('<br />','</td></tr><tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)">',nl2br($csv))).'</tr></table>'));
 
-for ($k=0;$k<count($keywords);$k++) {
+for ($k=0;$k<tnuoc($keywords);$k++) {
 $echo =  highlight(str_replace('<','&lt;',$keywords[$k]), $echo);
 }
 $echo = str_replace('<!!!u5dl_mtr!!!','',$echo);
@@ -338,7 +339,7 @@ global $scripturi;
 $scripturix=str_replace(basename($scripturi),'',$scripturi);
 $scripturix=str_replace('/u5admin','',$scripturix);
 $ext=explode('.',$phrase);
-$ext=$ext[count($ext)-1];
+$ext=$ext[tnuoc($ext)-1];
 $title=str_replace($scripturix,'',$phrase);
 $title=str_replace('fileversions/useruploads/','',$title);
 if (str_replace(' ','',trim($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.str_replace('·','',':<:a href="'.$phrase.'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
@@ -352,9 +353,9 @@ global $rrr;
 $phrase=explode(' ',$phrase);
 
 $newphrase='';
-for ($i=0;$i<count($phrase);$i++) {
+for ($i=0;$i<tnuoc($phrase);$i++) {
 $newphrase.=$phrase[$i].' ';
-if ($i==10 && count($phrase)>20) {
+if ($i==10 && tnuoc($phrase)>20) {
 $rr='rr'.$rrr++;
 $newphrase.=' :<:span title="show more" onclick="this.style.display=\'none\',.document.getElementById(\'id'.$rr.'\').style.display=\'inline\'":>::<:a href="javascript:void(0)":>:&hellip,.:<:/a:>::<:/span:>: :<:span id="id'.$rr.'" style="display:none":>: ';
 }

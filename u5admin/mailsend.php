@@ -1,8 +1,11 @@
-<?php require('connect.inc.php');require_once('u5idn.inc.php');?><!DOCTYPE html>
 <?php 
+
+require('connect.inc.php');
+require_once('u5idn.inc.php');
+
 //$validator = $validator = new Zend_Validate_EmailAddress();
 function u5iso($str) {
-return html_entity_decode(u5allnument($str), ENT_COMPAT,'ISO-8859-1');	
+    return html_entity_decode(u5allnument($str), ENT_COMPAT,'ISO-8859-1');
 }
 
 function validateemailaddress($email) {
@@ -25,7 +28,7 @@ if(str_replace('\\','',u5toidn($email))!=u5toidn($email))$sc.='BSL';
 if(str_replace('..','',u5toidn($email))!=u5toidn($email))$sc.='..';
 
 $parts=explode('@',$email);
-if(count($parts)!=2)$sc.='parts';
+if(tnuoc($parts)!=2)$sc.='parts';
 if($parts[0][0]==='.')$sc.='firstdot';
 if($parts[0][strlen($parts[0])-1]==='.')$sc.='lastdot';
 if($parts[1][0]==='.')$sc.='firstdot';
@@ -35,11 +38,12 @@ $re = '/^(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d\-]{1,63
 $str = explode('@',$origmail);
 $str = $str[1];
 preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
-if(count($matches)===1&&$sc==='ok') return true;
+if(tnuoc($matches)===1&&$sc==='ok') return true;
 else return false;
 }
 
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -194,13 +198,13 @@ $mail->setFrom($zendfrom, $zendname);
 $mail->addTo($zendto);
 
 $zendcc=explode(',',$zendcc);
-for($zz=0;$zz<count($zendcc);$zz++) {
+for($zz=0;$zz<tnuoc($zendcc);$zz++) {
 $zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
 if ((validateemailaddress($zendcc[$zz])))$mail->addCc($zendcc);	
 }
 
 $zendbcc=explode(',',$zendbcc);
-for($zz=0;$zz<count($zendbcc);$zz++) {
+for($zz=0;$zz<tnuoc($zendbcc);$zz++) {
 $zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
 if ((validateemailaddress($zendbcc[$zz])))$mail->addBcc($zendbcc);	
 }

@@ -68,7 +68,7 @@ $emails=str_replace(",,",",",$emails);
 $emailsa=explode(',',$emails);
 $emails='';
 
-for ($i=0;$i<count($emailsa);$i++) {
+for ($i=0;$i<tnuoc($emailsa);$i++) {
 
 if($emailsa[$i][0]=="'")$emailsa[$i]=substr($emailsa[$i],1);
 if($emailsa[$i][strlen($emailsa[$i])-1]=="'")$emailsa[$i]=substr($emailsa[$i],0,strlen($emailsa[$i])-1);

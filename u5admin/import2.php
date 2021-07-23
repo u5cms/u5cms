@@ -154,7 +154,7 @@ $c=explode("\n",$c);
 $m=$_POST['m'];
 $n=$_POST['n'];
 
-for($i=0;$i<count($c);$i++) {
+for($i=0;$i<tnuoc($c);$i++) {
 $d=explode(';',$c[$i]);
 $h=explode(';',$headcsv);
 
@@ -189,10 +189,10 @@ unset($h[1]);
 
 if($n==2) {
 $end=2;
-$sent=$d[count($d)-2];
-$ip=$d[count($d)-1];
-unset($h[count($h)]);
-unset($h[count($h)]);
+$sent=$d[tnuoc($d)-2];
+$ip=$d[tnuoc($d)-1];
+unset($h[tnuoc($h)]);
+unset($h[tnuoc($h)]);
 }
 
 else {
@@ -205,7 +205,7 @@ $h=implode(';',$h);
 
 
 $datacsv='';
-for($ii=$start;$ii<count($d)-$end;$ii++) {
+for($ii=$start;$ii<tnuoc($d)-$end;$ii++) {
 ////////////////////////////////////////
 //echo $h;
 $datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'·'.$d[$ii]).';';
@@ -216,7 +216,7 @@ $datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'·'.$d[$ii]).';';
 
 
 $datacsv=explode(';',$datacsv);
-for($iii=0;$iii<count($datacsv);$iii++) {
+for($iii=0;$iii<tnuoc($datacsv);$iii++) {
 if ($datacsv[$iii][1]=='"') {
 $datacsv[$iii]='·'.substr($datacsv[$iii],2);
 if ($datacsv[$iii][strlen($datacsv[$iii])-1]=='"') $datacsv[$iii]=substr($datacsv[$iii],0,-1);

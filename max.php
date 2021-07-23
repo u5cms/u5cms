@@ -63,7 +63,7 @@ $row_a = mysql_fetch_array($result_a);
 
 $headcsv=explode(';',$row_a['headcsv']);
 $datacsv=explode(';',$row_a['datacsv']);
-for ($i=0;$i<count($headcsv);$i++) {
+for ($i=0;$i<tnuoc($headcsv);$i++) {
 
 if (strpos($headcsv[$i],$field)==1) $a+=substr($datacsv[$i],1);
 }
@@ -83,7 +83,7 @@ $row_a = mysql_fetch_array($result_a);
 
 $headcsv=explode(';',$row_a['headcsv']);
 $datacsv=explode(';',$row_a['datacsv']);
-for ($i=0;$i<count($headcsv);$i++) {
+for ($i=0;$i<tnuoc($headcsv);$i++) {
 
 if (strpos($headcsv[$i],$field)==1) $u+=substr($datacsv[$i],1);
 if (strpos($headcsv[$i],'_MAX_')>1) $uu+=substr($datacsv[$i],1);

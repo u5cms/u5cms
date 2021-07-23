@@ -82,14 +82,14 @@ $andfilter="AnD ( (";
 $orand='oR';
 if ($_COOKIE['fdbool']=='and') $orand='anD';
 
-for ($k=0;$k<count($keywords);$k++) {
+for ($k=0;$k<tnuoc($keywords);$k++) {
 $andfilter.="datacsv='' ";
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR notes LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR humantime LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-if ($k==count($keywords)-1) $andfilter.=')';
+if ($k==tnuoc($keywords)-1) $andfilter.=')';
 else $andfilter.=") $orand (";
 
 }
@@ -122,7 +122,7 @@ $row_a = mysql_fetch_array($result_a);
 
 $head=explode(';',$row_a['headcsv']);
 
-for ($i=0;$i<count($head);$i++) {
+for ($i=0;$i<tnuoc($head);$i++) {
 
 if (trim(substr($head[$i],1,strlen($head[$i])-1))!='') echo '<script>if (parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).') parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).'.value=""</script>';
 
@@ -141,7 +141,7 @@ $head=explode(';',$row_a['headcsv']);
 $data=explode(';',$row_a['datacsv']);
 
 
-for ($i=0;$i<count($head);$i++) {
+for ($i=0;$i<tnuoc($head);$i++) {
 
 $data[$i]=str_replace("\r",'\r',$data[$i]);
 $data[$i]=str_replace("\n",'\n',$data[$i]);

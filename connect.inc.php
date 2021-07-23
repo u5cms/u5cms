@@ -3,6 +3,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED)
 header('X-XSS-Protection: 0');
 ini_set('default_charset','latin1');
 ini_set('magic_quotes_gpc', 'Off');
+require_once('myfunctions.inc.php');
 require_once('mysql.php');
 include('config.php');
 require_once('san.inc.php');

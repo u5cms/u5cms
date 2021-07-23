@@ -47,14 +47,14 @@ if ($_GET['f'] != '') {
     $orand = 'oR';
     if ($_GET['fdb'] == 'and') $orand = 'anD';
 
-    for ($k = 0; $k < count($keywords); $k++) {
+    for ($k = 0; $k < tnuoc($keywords); $k++) {
         $andfilter .= "datacsv='' ";
         $andfilter .= "OR datacsv LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR authuser LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR ip LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR notes LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR humantime LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
-        if ($k == count($keywords) - 1) $andfilter .= ')';
+        if ($k == tnuoc($keywords) - 1) $andfilter .= ')';
         else $andfilter .= ") $orand (";
 
     }
@@ -86,7 +86,7 @@ $e = str_replace('</body>', '<iframe frameborder="0" width="0" height="0" src="c
 $f = explode('<select', $e);
 $ifrid = 0;
 
-for ($i = 0; $i < count($f); $i++) {
+for ($i = 0; $i < tnuoc($f); $i++) {
 
     if (str_replace('</select>', '', $f[$i]) != $f[$i]) {
         $g = explode('</select>', $f[$i]);

@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 $_GET['f']=htmlspecialchars(trim(strip_tags($_GET['f'])));
 
@@ -64,14 +65,14 @@ $andfilter="AnD ( (";
 $orand='oR';
 if ($_COOKIE['fdbool']=='and') $orand='anD';
 
-for ($k=0;$k<count($keywords);$k++) {
+for ($k=0;$k<tnuoc($keywords);$k++) {
 $andfilter.="datacsv='' ";
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR notes LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR humantime LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-if ($k==count($keywords)-1) $andfilter.=')';
+if ($k==tnuoc($keywords)-1) $andfilter.=')';
 else $andfilter.=") $orand (";
 
 }
@@ -105,7 +106,7 @@ if ($oldhead!=$row_a['headcsv']) echo 'Status;Notes;Authuser;'.str_replace('·',
 $oldhead=$row_a['headcsv'];
 
 $data=explode(';',(str_replace('·','',$row_a['datacsv'])));
-for ($i=0;$i<count($data);$i++) {
+for ($i=0;$i<tnuoc($data);$i++) {
 $data[$i]=str_replace(',.',';',$data[$i]);
 $data[$i]=str_replace('"','&#8243;',$data[$i]);
 $data[$i]=html_entity_decode((($data[$i])), ENT_QUOTES, 'UTF-8');
@@ -114,7 +115,7 @@ $data[$i]=str_replace(';',',.',$data[$i]);
 $row_a['datacsv']=implode(';',$data);
 
 $data=explode(';',(str_replace('·','',$row_a['notes'])));
-for ($i=0;$i<count($data);$i++) {
+for ($i=0;$i<tnuoc($data);$i++) {
 $data[$i]=str_replace(',.',';',$data[$i]);
 $data[$i]=str_replace('"','&#8243;',$data[$i]);
 $data[$i]=html_entity_decode((($data[$i])), ENT_QUOTES, 'UTF-8');

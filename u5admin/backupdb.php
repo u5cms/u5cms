@@ -170,7 +170,7 @@ function mail_att($to, $from, $subject, $message)
     global $backup_pfad;
 
 
-    if (is_array($backup_pfad) AND count($backup_pfad) > 0) {
+    if (is_array($backup_pfad) AND tnuoc($backup_pfad) > 0) {
         $mime_boundary = "-----=" . md5(uniqid(rand(), 1));
 
 

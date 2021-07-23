@@ -53,7 +53,7 @@ $c=str_replace('=   ','=',$c);
 $c=explode(' ',$c);
 
 $string='';
-for ($i=0;$i<count($c);$i++) {
+for ($i=0;$i<tnuoc($c);$i++) {
 if (str_replace('name=','',$c[$i])!=$c[$i]) {
 //echo htmlXspecialchars($c[$i]).'<hr>';
 if (str_replace($c[$i],'',$string)!=$string)
@@ -120,7 +120,7 @@ $c=str_replace('=   ','=',$c);
 $c=explode(' ',$c);
 
 $string='';
-for ($i=0;$i<count($c);$i++) {
+for ($i=0;$i<tnuoc($c);$i++) {
 if (str_replace('name=','',$c[$i])!=$c[$i]) {
 //echo htmlXspecialchars($c[$i]).'<hr>';
 if (str_replace($c[$i],'',$string)!=$string)
@@ -187,7 +187,7 @@ $c=str_replace('=   ','=',$c);
 $c=explode(' ',$c);
 
 $string='';
-for ($i=0;$i<count($c);$i++) {
+for ($i=0;$i<tnuoc($c);$i++) {
 if (str_replace('name=','',$c[$i])!=$c[$i]) {
 //echo htmlXspecialchars($c[$i]).'<hr>';
 if (str_replace($c[$i],'',$string)!=$string)

@@ -3,6 +3,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED)
 if($_GET['more']==1) header("Location: characters/punctuation.php");
 $ucrs='';
 if (isset($_GET['s'])) setcookie('mochr', $_GET['s'] , time()+3600*24*365*10,'/'); 
+require_once('../myfunctions.inc.php');
 require('../config.php');
 ?>
 <!DOCTYPE html>
@@ -517,7 +518,7 @@ function uchr ($codes) {
 ?>
 <?php 
 $xc=explode(',',$ucrs);
-for ($xi=0;$xi<count($xc);$xi++) {
+for ($xi=0;$xi<tnuoc($xc);$xi++) {
 if (strpos($xc[$xi],'!')==1) echo $xc[$xi];
 else {
 $xc[$xi]=rawurlencode($xc[$xi]);

@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 $_GET['i']=htmlspecialchars(strip_tags($_GET['i']));
+require_once('../myfunctions.inc.php');
 require('../config.php');
 if(function_exists('UPLOADexec'))UPLOADexec();
 if($_GET['k']!=sha1(date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=sha1(date('Ymd',time()-24*60*60).$password.$sessioncookiehashsalt))die('ERROR: Authorization failed.');
@@ -32,7 +33,7 @@ if ($filehash1 != $_GET['h'] && $filehash2 != $_GET['h']) die('<script>alert("ER
 <?php
 $_FILES['userfile']['name'] = str_replace(chr(0), '', $_FILES['userfile']['name']);
 $ext = explode('.', $_FILES['userfile']['name']);
-$ext = strtolower($ext[count($ext) - 1]);
+$ext = strtolower($ext[tnuoc($ext) - 1]);
 require('../configallowedfileextensions.php');
 $okext = $extokFRONTend;
 if (!in_array($ext, $okext)&&$renamenotallowedfileextensionstotxt=='yes') $_FILES['userfile']['name'] .= '.txt';

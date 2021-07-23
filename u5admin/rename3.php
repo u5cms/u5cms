@@ -121,12 +121,12 @@ if ($_POST['ulinks'] == 'yes') {
 
     if(strpos($search,'!')>0) {
     $searchstart=explode('!',$search);
-    $searchend=$searchstart[count($searchstart)-1];
+    $searchend=$searchstart[tnuoc($searchstart)-1];
 	array_pop($searchstart);
     $searchstart=implode('!',$searchstart); 
 
     $replacestart=explode('!',$replace);
-    $replaceend=$replacestart[count($replacestart)-1];
+    $replaceend=$replacestart[tnuoc($replacestart)-1];
 	array_pop($replacestart);
     $replacestart=implode('!',$replacestart); 
 
@@ -170,7 +170,7 @@ function sere13($fields, $search, $replace)
     $search = mysql_real_escape_string($search);
     $replace = mysql_real_escape_string($replace);
 
-    for ($i = 0; $i < count($fields); $i++) {
+    for ($i = 0; $i < tnuoc($fields); $i++) {
 
         $fields[$i] = mysql_real_escape_string($fields[$i]);
 

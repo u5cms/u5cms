@@ -1,6 +1,8 @@
 <?php
+
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 if($_GET['more']==1) header("Location: characters/punctuation.php");
+require_once('../myfunctions.inc.php');
 require('../config.php');
 ?>
 <!DOCTYPE html>
@@ -48,7 +50,7 @@ $ucrs='<!><span style="font-size:60%">Space</span><span style="background:yellow
 }
 
 $xc=explode(',',$ucrs);
-for ($xi=0;$xi<count($xc);$xi++) {
+for ($xi=0;$xi<tnuoc($xc);$xi++) {
 if (strpos($xc[$xi],'!')==1) echo $xc[$xi];
 else {
 $xc[$xi]=rawurlencode($xc[$xi]);

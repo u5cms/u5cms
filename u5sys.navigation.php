@@ -33,7 +33,7 @@ $oldz2  = 0;
 $z3     = 0;
 $oldz3  = 0;
 $z4     = 0;
-for ($i = 0; $i < count($string); $i++) {
+for ($i = 0; $i < tnuoc($string); $i++) {
     $string[$i] = trim($string[$i]);
     if (trim($string[$i]) != '') {
         if (str_replace('##[', '', $string[$i]) == $string[$i] && str_replace('###[', '', $string[$i]) == $string[$i] && str_replace('####[', '', $string[$i]) == $string[$i]) { // if level 1
@@ -41,7 +41,7 @@ for ($i = 0; $i < count($string); $i++) {
             $z2        = 0;
             $oldz2     = 0;
             $tokens    = explode(':', $string[$i]);
-            $name      = $tokens[count($tokens) - 1];
+            $name      = $tokens[tnuoc($tokens) - 1];
             $name      = str_replace(']', '', $name);
             $name      = str_replace('[', '', $name);
             $name      = str_replace(':', '', $name);
@@ -58,7 +58,7 @@ for ($i = 0; $i < count($string); $i++) {
             $z3     = 0;
             $oldz3  = 0;
             $tokens = explode(':', $string[$i]);
-            $name   = $tokens[count($tokens) - 1];
+            $name   = $tokens[tnuoc($tokens) - 1];
             $name   = str_replace(']', '', $name);
             $name   = str_replace('[', '', $name);
             $name   = str_replace(':', '', $name);
@@ -75,7 +75,7 @@ for ($i = 0; $i < count($string); $i++) {
             $z3++;
             $z4     = 0;
             $tokens = explode(':', $string[$i]);
-            $name   = $tokens[count($tokens) - 1];
+            $name   = $tokens[tnuoc($tokens) - 1];
             $name   = str_replace(']', '', $name);
             $name   = str_replace('[', '', $name);
             $name   = str_replace(':', '', $name);
@@ -92,7 +92,7 @@ for ($i = 0; $i < count($string); $i++) {
         } else if (str_replace('####[', '', $string[$i]) != $string[$i]) { // if level 4
             $z4++;
             $tokens = explode(':', $string[$i]);
-            $name   = $tokens[count($tokens) - 1];
+            $name   = $tokens[tnuoc($tokens) - 1];
             $name   = str_replace(']', '', $name);
             $name   = str_replace('[', '', $name);
             $name   = str_replace(':', '', $name);
@@ -125,7 +125,7 @@ $subsub       = 0;
 $wassubsubsub = 0;
 $subsubsub    = 0;
 
-for ($i = 0; $i < count($string); $i++) {
+for ($i = 0; $i < tnuoc($string); $i++) {
     $string[$i] = trim($string[$i]);
     if (trim($string[$i]) != '') {
         if (str_replace('##[', '', $string[$i]) == $string[$i] && str_replace('###[', '', $string[$i]) == $string[$i] && str_replace('####[', '', $string[$i]) == $string[$i]) { // if level 1
@@ -152,7 +152,7 @@ for ($i = 0; $i < count($string); $i++) {
             }
             
             $tokens     = explode(':', $string[$i]);
-            $name       = $tokens[count($tokens) - 1];
+            $name       = $tokens[tnuoc($tokens) - 1];
             $name       = str_replace(']', '', $name);
             $name       = str_replace('[', '', $name);
             $name       = str_replace(':', '', $name);
@@ -202,7 +202,7 @@ for ($i = 0; $i < count($string); $i++) {
             
             $wassub = 1;
             $tokens = explode(':', $string[$i]);
-            $name   = $tokens[count($tokens) - 1];
+            $name   = $tokens[tnuoc($tokens) - 1];
             $name   = str_replace(']', '', $name);
             $name   = str_replace('[', '', $name);
             $name   = str_replace(':', '', $name);
@@ -246,7 +246,7 @@ for ($i = 0; $i < count($string); $i++) {
             
             
             $tokens = explode(':', $string[$i]);
-            $name   = $tokens[count($tokens) - 1];
+            $name   = $tokens[tnuoc($tokens) - 1];
             $name   = str_replace(']', '', $name);
             $name   = str_replace('[', '', $name);
             $name   = str_replace(':', '', $name);
@@ -280,7 +280,7 @@ for ($i = 0; $i < count($string); $i++) {
             $z4++;
             $wassubsubsub = 1;
             $tokens       = explode(':', $string[$i]);
-            $name         = $tokens[count($tokens) - 1];
+            $name         = $tokens[tnuoc($tokens) - 1];
             $name         = str_replace(']', '', $name);
             $name         = str_replace('[', '', $name);
             $name         = str_replace(':', '', $name);

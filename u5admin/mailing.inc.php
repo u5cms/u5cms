@@ -20,8 +20,8 @@ Available variables (<a href="javascript:alert(instructions)">Instructions</a>):
 <?php 
 $lasthead = str_replace('<small>N°</small><br>','',$lasthead);
 $lasthead = explode(';',$lasthead);
-for ($l=0;$l<count($lasthead);$l++) {
-if($l<4 || $l>count($lasthead)-3) $q='?';
+for ($l=0;$l<tnuoc($lasthead);$l++) {
+if($l<4 || $l>tnuoc($lasthead)-3) $q='?';
 else {
 $q='';
 $lasthead[$l]=substr($lasthead[$l],1);

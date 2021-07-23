@@ -21,7 +21,7 @@ $basisdiff=$wert1-$wert2;
 
 $oldwert='';
 $totaln=0;
-for ($i=0;$i<count($m)-1;$i++) {
+for ($i=0;$i<tnuoc($m)-1;$i++) {
 $n=explode('!*!',$m[$i]);
 
 $totaln+=trim($n[0]);
@@ -41,7 +41,7 @@ $wertarray=explode('!',$wert);
 $newn=0;
 $newwert=0;
 $newwertarray='';
-for ($i=0;$i<count($anzahlarray)-1;$i++) {
+for ($i=0;$i<tnuoc($anzahlarray)-1;$i++) {
 $newn+=$anzahlarray[$i];
 $newwert+=$anzahlarray[$i]*$wertarray[$i];
 
@@ -79,13 +79,13 @@ function sd_square($x, $mean) { return pow($x - $mean,2); }
 function sd($array) {
     
 // square root of sum of squares devided by N-1
-return sqrt(array_sum(array_map("sd_square", $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
+return sqrt(array_sum(array_map("sd_square", $array, array_fill(0,tnuoc($array), (array_sum($array) / tnuoc($array)) ) ) ) / (tnuoc($array)-1) );
 }
 
 
 function calculate_median($arr) {
     sort($arr);
-    $count = count($arr); //total numbers in array
+    $count = tnuoc($arr); //total numbers in array
     $middleval = floor(($count-1)/2); // find the middle value, or the lowest middle value
     if($count % 2) { // odd number, middle is the median
         $median = $arr[$middleval];
