@@ -76,6 +76,7 @@ function get_def($dbname, $table)
 {
     global $verbindung;
     $def = "";
+    $index = [];
 
     $def .= "CREATE TABLE $table (\n";
     $result = @mysql_db_query($dbname, "SHOW FIELDS FROM $table", $verbindung);
@@ -94,7 +95,7 @@ function get_def($dbname, $table)
         if (!isset($index[$kname])) $index[$kname] = array();
         $index[$kname][] = $row[Column_name];
     }
-    while (list($x, $columns) = @each($index)) {
+    foreach ($index as $x => $columns) {
         $def .= ",\n";
         if ($x == "PRIMARY") $def .= "  PRIMARY KEY (" . implode($columns, ", ") . ")";
         else if (substr($x, 0, 6) == "UNIQUE") $def .= "  UNIQUE " . substr($x, 7) . " (" . implode($columns, ", ") . ")";
@@ -208,7 +209,7 @@ function mail_att($to, $from, $subject, $message)
 
 
 //Backup erstellen
-while (list(, $val) = each($dbname)) {
+foreach ($dbname as $val) {
     $newfile = "# Strukturbackup: $cur_time \r\n# http://www.yuba.ch/u5cms/ \r\n";
     $newfile_data = "# Datenbackup: $cur_time \r\n# http://www.yuba.ch/u5cms/ \r\n";
 
