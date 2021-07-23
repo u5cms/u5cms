@@ -1,0 +1,2 @@
+<div id="selfclose" style="position:absolute;top:0px;left:95%;color:red;background:#ddd;height:27px;width:25px;text-align:center;cursor:pointer;font-size:20px" onmouseover="this.style.fontWeight='bold';this.style.background='#ccc';" onmouseout="this.style.fontWeight='100';this.style.background='#ddd';" onclick="self.close()">&#215;</div>
+<script>if(top!==self)document.getElementById('selfclose').style.display='none';</script>

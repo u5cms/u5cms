@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{{{meta}}}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="r/cssbase.css" type="text/css" />
+<link href="favicon.ico" rel="shortcut icon" />
+<link rel="stylesheet" href="js/jquery.fancybox.min.css" />
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<script src="js/u5_scripts.js" type="text/javascript"></script>
+<script src="r/jsmobilespecific.css"></script>
+</head>
+<body id="body">
+<div class="skipLinks">{{{skiplinks}}}</div>
+<div id="main">
+  <div id="header" style="background:url([_logo_]);background-size:cover">
+    <div id="metanavi">&nbsp;&nbsp;&nbsp;<a name="search"></a>{{{search}}}
+      <div id="languages">{{{languages}}}</div>
+    </div>
+    <div id="clickhome" onclick="location.href='./'">
+      <div id="slogan">{{{slogan}}}</div>
+    </div>
+  </div>
+  <div id="navigation">
+    <div id="navLeft"><a name="navigation"></a>{{{navigation}}}</div>
+  </div>
+  <!-- <div id="navigationtop">
+    <div id="navTop"><a name="navigation"></a>{{{navigation}}}</div> 
+  </div> REMOVING HTML COMMENT TAG HERE = SWITCH SPLIT NAVIGATION ON. FURTHER: RENAME id="navLeft" TO id="navLeftSubTop" HERE IN THIS WINDOW! -->
+  <div id="content"><a name="content"></a>{{{content}}}</div>
+  <div id="news">{{{news}}}</div>
+  <div id="footer"><a name="contact"></a>{{{footer}}}</div>
+</div>
+<script>
+function autoequalsone() {
+if(location.href.indexOf('auto=1')>0)location.reload();
+}
+setTimeout("autoequalsone()",2222);
+</script>
+<script>if(typeof u5mkmobile==="function")u5mkmobile();</script>
+</body>
+</html> 

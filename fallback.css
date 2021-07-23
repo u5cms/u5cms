@@ -1,0 +1,179 @@
+.skipLinks {
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+    display: inline;
+    width: 0;
+    height: 0;
+}
+.imgBoxLeft {
+    float: left;
+}
+.imgBoxCenter {
+    margin: auto;
+}
+.imgBoxRight {
+    float: right;
+}
+.freeImgLeft {
+    float: left;
+}
+.freeImgCenter {
+    text-align:center;
+}
+.freeImgRight {
+    float: right;
+}
+.clearing {
+    clear: both;
+}
+.separator {
+    height: 1px;
+    width: 100%;
+    background: #ddd;
+}
+.mono {
+    display: inline;
+    font-family: monospace;
+}
+.stabiloboss {
+    display: inline;
+    background: gold;
+}
+.italic {
+    display: inline;
+    font-style: italic;
+}
+.bold {
+    display: inline;
+    font-weight: bold;
+}
+.veil {
+    display: none;
+}
+.mark {
+    border-left: 1px solid red;
+    padding-left: 7px;
+}
+.justify {
+    text-align: justify;
+    hyphens: auto;
+}
+.right {
+    text-align: right;
+}
+.center {
+    text-align: center;
+}
+.abbroracro {
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+.hitshilite {
+    background-color: yellow;
+}
+.stayright {
+    margin-left: 234px;
+}
+.freecaption {
+    font-size: 0.8em;
+    line-height: 16px;
+}
+.superscript {
+    position: relative;
+    bottom: 0.5em;
+    font-size: 0.8em;
+}
+.subscript {
+    position: relative;
+    top: 0.3em;
+    font-size: 0.8em;
+}
+.larger {
+    font-size: 130%;
+}
+.smaller {
+    font-size: 70%;
+    line-height: 130%;
+}
+
+/*CSS-Elements for "show content block [?:][:?] on click"*/
+.showblockactivetab {
+    background: #eee;
+    padding: 4px;
+    opacity: 0.97;
+    margin-left: -2px;
+}
+.showblockinactivetab {
+    background: #ddd;
+    padding: 4px;
+    opacity: 0.97;
+    margin-left: -2px;
+}
+.showblockdivinner {
+    display: none;
+    width: 720px;
+    background: #f2f2f2;
+    padding: 4px;
+    position: absolute;
+    z-index: 999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 15px 0 15px;
+    margin: 0 10px 1px 1px;
+    opacity: 0.97;
+    margin-left: -2px;
+}
+.showblockclose {
+    cursor: pointer;
+    float: right;
+    font-weight: bold;
+    margin-right: -14px;
+    margin-top: -9px;
+    color: #ddd;
+    height: 21px;
+    background: #666;
+}
+/*End of CSS-Elements for "show content block [?:][:?] on click"*/
+
+/*CSS-Elements for "show content block [??:][:??] on click"*/
+.showblock2activetab {
+    background: #eee;
+    padding: 4px;
+    opacity: 0.97;
+    margin-left: -2px;
+}
+.showblock2inactivetab {
+    background: #ddd;
+    padding: 4px;
+    opacity: 0.97;
+    margin-left: -2px;
+}
+.showblock2divinner {
+    display: none;
+    background: #f2f2f2;
+    padding: 4px;
+    padding: 0 15px 0 15px;
+    margin: 0 10px 1px 1px;
+    margin-left: -2px;
+}
+.showblock2close {
+    cursor: pointer;
+    float: right;
+    font-weight: bold;
+    margin-right: -14px;
+    margin-top: -9px;
+    color: #ddd;
+    height: 21px;
+    background: #666;
+}
+/*End of CSS-Elements for "show content block [??:][:??] on click"*/
+
+div {
+    -webkit-overflow-scrolling: touch;
+}
+
+.hot {
+    color: green;
+}
+

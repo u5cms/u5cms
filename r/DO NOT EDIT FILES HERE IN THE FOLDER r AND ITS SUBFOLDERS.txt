@@ -1,0 +1,7 @@
+DO NOT EDIT FILES IN THE FOLDER r AND ITS SUBFOLDERS
+
+The content in the folder r and its subfolders is written by the server.
+Therefore the folder r, its files, its subdirectories and there files must be writable by the server.
+
+If you want to edit the htmltemplate and/or css files, do this in the u5CMS backend: 
+Section s (special functions) in the PIDVESA navigation, there click the button 'code (html template & css)'.

@@ -1,0 +1,4 @@
+AuthName "LOGIN"
+AuthType Basic
+AuthUserFile "E:/Dropbox/www/u7/r/invoicepdf/.htpasswd"
+Require valid-user

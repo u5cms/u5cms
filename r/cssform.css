@@ -1,0 +1,109 @@
+/*FORM*/
+form.unibeform {
+	font-family: Helvetica, "Segoe UI", Verdana, Calibri, Corbel, sans-serif;
+}
+fieldset {
+	background-color: #F2F2F2;
+	border: 1px solid #ccc;
+	margin: 0 0 20px 0;
+	padding: 25px;
+}
+form.unibeform ol li {
+	font-size: 0.9em;
+}
+fieldset fieldset {
+	margin: 0;
+}
+fieldset.horizontal {
+	border: none;
+	margin: 0 0 -5px 0;
+	padding: 2px 0;
+}
+fieldset legend {
+	color: #000;
+	font-size: 14px;
+}
+fieldset.horizontal legend {
+	font-size: 12px;
+}
+label {
+	display: inline;
+	padding-top: 14px;
+	margin-bottom: 0px;
+	cursor: pointer;
+	font-size: 0.9em;
+}
+fieldset.horizontal label {
+	display: inline;
+	margin: 0;
+}
+form.unibeform li {
+	margin-top: 3px;
+	margin-bottom: 8px;
+	margin-left: 0;
+}
+fieldset.horizontal li {
+	display: inline;
+	list-style: none;
+	margin-top: 0;
+	margin-right: 15px;
+}
+input, select, textarea {
+	border: 1px solid #999;
+}
+input[type=text], textarea, select {
+	width: 100%;
+}
+input:hover, input:focus, input:active, select:hover, select:focus, select:active, textarea:hover, textarea:focus, textarea:active {
+	border: 1px solid #333333;
+}
+form.unibeform ol, form.unibeform ul {
+	list-style: none;
+}
+label.mandatory:after, legend.mandatory:after {
+	content: "*";
+	color: #ff0000;
+}
+input.readonly, input.readonly:hover, input.readonly:focus, input.readonly:active {
+	background-color: #F2F2F2;
+	color: #333333;
+	border: 1px solid #999999;
+}
+label.readonly {
+	cursor: default;
+}
+form.unibeform fieldset fieldset.horizontal.error, form.unibeform fieldset.ksl fieldset.horizontal ul.error, form.unibeform .error {
+	border: 2px #A9002E solid;
+}
+form fieldset.ksl {
+	padding: 10px 20px;
+}
+fieldset.ksl label {
+	cursor: pointer;
+	width: 36%;
+	text-align: left;
+	margin-right: 8px;
+	display: inline-block;	/* wichtig! */
+	border-bottom: 1px dotted #ccc;
+	vertical-align: bottom;
+}
+fieldset.ksl li {
+	line-height: 1.6em;
+}
+fieldset.ksl li.long {
+	line-height: 1.2em;
+}
+fieldset.ksl input[type=text], fieldset.ksl select {
+	width: 61%;
+	text-align: left;
+}
+fieldset.ksl button.inFieldset {
+	width: auto;
+}
+fieldset.ksl input[type=text].short, fieldset.ksl select.short {
+	width: 30%;
+}
+form.unibeform input[type=checkbox], form.unibeform input[type=radio] {
+	border: none;
+}
+ 

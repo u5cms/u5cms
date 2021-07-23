@@ -1,0 +1,73 @@
+/*LAYOUT*/
+#main {
+	margin: auto;
+	width: 1250px;
+}
+#header {
+	border-radius: 11px;
+	width: 1020px;
+	height: 200px;
+	box-shadow: 2px 2px 4px #AAA;
+}
+#metanavi {
+	font-size: 90%;
+	float: right;
+	padding: 10px;
+}
+#languages {
+	font-size: 80%;
+	padding: 3px;
+}
+#clickhome {
+	width: 300px;
+	height: 300px;
+	cursor: pointer;
+}
+#slogan {
+	padding: 20px 0 0 20px;
+	color: lightgray;
+	font-size: 200%;
+	text-shadow: 2px 2px 4px #AAA;
+}
+#navigation {
+	font-size: 90%;
+	width: 200px;
+	height: 150px;
+	float: left;
+	hyphens: auto;
+}
+#content {
+	width: 740px;
+	min-height: 600px;
+	float: left;
+	padding: 30px;
+	hyphens: auto;
+	background: #f9f9f9;
+	border-top: 1px solid #ddd;
+	margin-top: 2px;
+}
+#news {
+	font-size: 90%;
+	border-radius: 11px;
+	background: lightblue;
+	width: 170px;
+	min-height: 270px;
+	float: right;
+	margin-top: 80px;
+	margin-right: 10px;
+	padding: 15px;
+	box-shadow: 2px 2px 4px #AAA;
+	hyphens: auto;
+}
+#footer {
+	font-size: 90%;
+	border-radius: 11px;
+	background: lightblue;
+	width: 1000px;
+	float: left;
+	padding: 7px;
+	text-align: center;
+	box-shadow: 2px 2px 4px #AAA;
+	margin-bottom: 100px;
+}
+ 

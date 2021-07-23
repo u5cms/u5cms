@@ -1,0 +1,2 @@
+<div id="pidvesadivinc" style="position:fixed;background:white;width:100%;height:auto;">
+<script>if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)document.getElementById('pidvesadivinc').style.position='absolute';</script>

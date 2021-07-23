@@ -1,0 +1,101 @@
+/*
+This CSS formats the second (vertical) level of a split navigation.
+
+If you want a split navigation, you have to
+
+1: In PIDVESA's S, htmltemplate, switch the #navTop on
+
+  <div id="navigationtop">
+    <div id="navTop"><a name="navigation"></a>{{{navigation}}}</div>
+  </div>
+
+by removing <!-- and -->
+
+2: Also in htmltemplate, change
+
+<div id="navLeft"><a name="navigation"></a>{{{navigation}}}</div>
+
+to
+
+<div id="navLeftSubTop"><a name="navigation"></a>{{{navigation}}}</div>
+
+*/
+
+/*NAVLEFTSUBTOP*/
+#navLeftSubTop {
+	padding-top: 100px;
+}
+#navLeftSubTop a {
+	display: block;
+	text-decoration: none;
+	color: #3F3F3F;
+}
+#navLeftSubTop li {
+	list-style-type: none;
+	margin: 0;
+	margin-left: -40px;
+	border-bottom: 0px solid #ddd;
+}
+#navLeftSubTop li a {
+	padding: 7px 5px 10px 0px;
+	display: none;
+}
+#navLeftSubTop li a:hover {
+	text-decoration: none;
+	color: black;
+}
+#navLeftSubTop li li a {
+	margin-left: -38px;
+	padding: 7px 2px 3px 58px;
+	display: block;
+}
+#navLeftSubTop li li a:hover {
+	text-decoration: none;
+}
+#navLeftSubTop .inactive {
+	padding-left: 7px;
+}
+#navLeftSubTop .inactive a:hover, #navLeftSubTop .inactive a:focus, #navLeftSubTop .inactive a:active {
+	background-color: transparent;
+}
+#navLeftSubTop .active {
+	padding-left: 7px;
+	color: #3F3F3F;
+	background-color: #f3f3f3;
+}
+#navLeftSubTop .active a:hover, #navLeftSubTop .active a:focus, #navLeftSubTop .active a:active {
+	color: #000000;
+}
+#navLeftSubTop li a.activeItem {
+	color: #e63320;
+	font-weight: bolder;
+}
+#navLeftSubTop li li a.activeItem {
+	color: red;
+	font-weight: bold;
+}
+#navLeftSubTop li.active ul {
+	padding-top: 0.4em;
+}
+#navLeftSubTop li.active ul li.subItem {
+	padding-bottom: 0.6em;
+	margin-top: -0.5em;
+	border-bottom: none;
+}		
+#navLeftSubTop li.active ul li.subSubItem {
+	padding-bottom: 1.0em;
+	margin-top: -1.3em;
+}
+#navLeftSubTop li.subSubItem {
+	margin-left: -65px;
+	font-size: 85%;
+	border-bottom: none;
+}
+#navLeftSubTop li.subsubSubItem {
+	margin-left: -90px;
+	font-size: 80%;
+	xborder-bottom: none;
+	margin-top: -1.9em;
+	margin-bottom: 1.6em;
+}
+ 

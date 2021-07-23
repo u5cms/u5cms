@@ -1,0 +1,4 @@
+#http://www.besthostratings.com/articles/http-auth-php-cgi.html
+RewriteEngine on
+RewriteCond %{HTTP:Authorization} !^$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
