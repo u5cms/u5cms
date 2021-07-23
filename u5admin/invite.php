@@ -56,18 +56,20 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) {
 echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 }
+if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
 ?>
 <script>
 alert('Username '+document.getElementById('e').innerHTML+' and password <?php echo $p ?> sent.\n\n\WRITE IT DOWN IN CASE THE EMAIL GETS LOST!\n\nYou can now give Higher Admin Rights to him/her by changing this property in the current user table on the page at hand.');
 </script>
 <?php 
+}
 if($doublepasswordmailing!='no')mail($e,'Your u5CMS backend user login',"Username: $e Password: $p");
 $zendfrom=$mymail;
 $zendname=$mymail;
 $zendto=$e;
 $zendsubject='Your u5CMS backend user login';
 $zendmessage="Username: $e Password: $p";
-include('../zendmail.php');
+if(!(isset($u5samlsalt)&&$u5samlsalt!=''))include('../zendmail.php');
 
 trxlog('invite '.$e);
 ?>

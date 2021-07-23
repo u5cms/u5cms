@@ -57,7 +57,7 @@ if ($num > 0) {
 if($automaticallyskipbackendlogin!='yes') {
 if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
 //trxlog('loginrequest');
-if(isset($u5samlsalt)&&$u5samlsalt!='')die('<center>'.ehtml($_COOKIE['u5samlusername']).'<br><br><button id="samllogin" onclick="top.location.href=\'../loginsave.php?u=u5admin\'">LOGIN</button><br><br>'.$u5samllogininfo.'</center><script>document.getElementById("samllogin").focus();if(top!=self)top.close();if(isNaN(location.href.split("%26")[location.href.split("%26").length-1]))document.getElementById("samllogin").click()</script>');
+if(isset($u5samlsalt)&&$u5samlsalt!='')die('<div style="font-family:sans-serif"><br><center>'.ehtml($_COOKIE['u5samlusername']).'<br><br><button id="samllogin" onclick="top.location.href=\'../loginsave.php?u=u5admin\'">LOGIN</button><br><br>'.$u5samllogininfo.'</center><script>document.getElementById("samllogin").focus();if(top!=self)top.close();if(isNaN(location.href.split("%26")[location.href.split("%26").length-1])&&location.href.indexOf("'.time().'")<0)document.getElementById("samllogin").click();else document.write("<br<br><br><center style=color:red>Is the user '.ehtml($_COOKIE['u5samlusername']).' registered in this u5CMS backend as a backend user?</center>")</script></div>');
     if ($usesessioninsteadofbasicauth == 'no') {
 		if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';
         header('WWW-Authenticate: Basic realm="'.$u5cmsrealm.'", charset="UTF-8"');
