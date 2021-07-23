@@ -11,8 +11,9 @@ HOW TO INSTALL THE u5CMS (license see bottom of this page)
  a preconfigured conference system with review process, PayPal a.s.o.
  
  4.
- Adjust the MySQL connection parameters in config.php to the ones needed in your 
- environment (ask your provider). Also adjust your e-mail address in this file.
+ Copy the example configuration file config.php.sample to config.php and adjust the MySQL connection
+ parameters in config.php to the ones needed in your environment (ask your provider). Also adjust
+ your e-mail address in this file.
 
  5.
  Transfer (e. g. by FTP) all files into a surfable directory (e. g. www, htdocs, public_html)
