@@ -1,4 +1,4 @@
-<?php 
+<?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
 ini_set('default_charset','latin1');
@@ -18,7 +18,7 @@ $url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.
 header('Location: ' . $url);
 echo "<script>location.href='$url'</script>";
 exit;
-}	
+}
 }
 
 if ($quotehandling=='on') include('../quotehandling.inc.php');
@@ -28,7 +28,8 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 
 require_once(str_replace(basename($_SERVER['SCRIPT_FILENAME']),'',$_SERVER['SCRIPT_FILENAME']).'../lib/Zend/Loader.php');
 
-function __autoload($class) {
+spl_autoload_register('myautoload');
+function myautoload($class) {
     Zend_Loader::loadClass($class);
 }
 
