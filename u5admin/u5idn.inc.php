@@ -140,4 +140,3 @@ return u5fromidn(u5toidn($e));
 function u5flatidnlower($e){
 return u5fromidn(u5toidnlower($e));
 }
-?>

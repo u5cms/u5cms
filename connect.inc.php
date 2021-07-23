@@ -106,4 +106,3 @@ function pwdcookieget($p) {
     if ($sticksessiontoip == 'yes') $installationfingerprint .= $_SERVER['REMOTE_ADDR'];
     return sha1($sessioncookiehashsalt . $installationfingerprint . $p);
 }
-?>

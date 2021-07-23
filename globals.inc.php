@@ -1,4 +1,4 @@
-<?php 
+<?php
 //require_once ('connect.inc.php');
 $sql_a="SELECT * FROM languages";
 $result_a=mysql_query($sql_a);
@@ -86,4 +86,3 @@ $scrollingalbum_h=ehtml($row_a['scrollingalbum_h']);
 $scrollingalbum_w=ehtml($row_a['scrollingalbum_w']);
 $tosquare=ehtml($row_a['tosquare']);
 $cropedge=ehtml($row_a['cropedge']);
-?>
