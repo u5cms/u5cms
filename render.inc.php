@@ -69,7 +69,9 @@ function render($stringa) {
         if (str_replace('[h:]', '', $stringa[$iii]) == $stringa[$iii]) {
 
             $string = nl2br(ehtml($string));
-            mysql_data_seek($result_b, 0);
+            if ($result_b !== null) {
+                mysql_data_seek($result_b, 0);
+            }
 
             for ($i_b = 0;$i_b < $num_b;$i_b++) {
 
@@ -179,7 +181,6 @@ function render($stringa) {
                     if ($human=='' || $human=='linktext') {
                         $human=ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']));
                     }
-                    //TODO: cleanup instances above and below as they are identical!
                     if ($human=='' || $human=='linktext') $human='LINK';
 
                     if ($human=='$$$') {
@@ -193,9 +194,9 @@ function render($stringa) {
                     }
                 }
 
-                ////////////////////////////
-                /// Render image element ///
-                ////////////////////////////
+                /////////////////////////////////////
+                /// Render standard image element ///
+                /////////////////////////////////////
                 if ($row_a['typ'] == 'i') {
 
                     $title = '';
@@ -327,9 +328,9 @@ function render($stringa) {
                     }
                 }
 
-                /////////////////////////////
-                /// Render a file element ///
-                /////////////////////////////
+                ///////////////////////////////////
+                /// Render a free image element ///
+                ///////////////////////////////////
                 if ($row_a['typ'] == 'f') {
 
                     $fowihi='';
@@ -521,7 +522,7 @@ function render($stringa) {
                 }
 
                 //////////////////////////
-                /// Render a y element ///
+                /// Render a youtube video element ///
                 //////////////////////////
                 if ($row_a['typ'] == 'y') {
                     require('getfile.inc.php');
@@ -1005,20 +1006,45 @@ function renderspecial($name,$human) {
     global $lfyonoff;
 
     if ($name=='dat') {
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Handling dat command                                                                                                  ///
+        ///                                                                                                                       ///
+        /// Synopsis: [a|b|c|d|e|f|g|h|i|j|k|l|m|n:dat]                                                                           ///
+        ///                                                                                                                       ///
+        /// Example: [name*,youremail*,userupload1|survey|ALL|?|1|<tr><td>|</td></tr>|</td><td>|datacsv ASC|<br>|0x100!|||0!:dat] ///
+        ///                                                                                                                       ///
+        /// See https://yuba.ch/index.php?l=en&c=u5erenderformdata#datcommand                                                     ///
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $dat=explode('|',$human);
 
+        //////////////////////////////////
+        /// a: Name of fields
+        /// The form fields that should be printed
         $dat[0]=renderspecialphp($dat[0]);
         $field=str_replace('*','_mandatory',$dat[0]);
         $field=trim(strip_tags($field));
 
+        ////////////////////////////////////////
+        /// b: Name of from carrying page
+        ///
+        /// Virtual table to consult aka form
+        /// to consider aka "FROM formdata WHERE
+        /// formname=", i.e. !uploadabstract
         $dat[1]=renderspecialphp($dat[1]);
         $table=$dat[1];
         $table=trim(strip_tags($table));
 
+        ///////////////////////////////////////////////////////////////
+        /// c: id of the record
+        /// "ALL" for all or "?" to take id form a GET parameter "&id="
         $dat[2]=renderspecialphp($dat[2]);
         $id=$dat[2];
         $id=trim(strip_tags($id));
 
+        /////////////////////////////////////////////////////////
+        /// d: A where clause in one of the follwoing forms
+        /// "?", "field = LIKE %Peter%", "searchword", "(exact)",
+        /// "SELF", "WHERE notes='foo' AND cost > 1000"
         $dat[3]=renderspecialphp($dat[3]);
         $notes=$dat[3];
         $notes=str_replace('%&middot;','%'.chr(183),$notes);
@@ -1028,18 +1054,32 @@ function renderspecial($name,$human) {
         $notes=str_replace(' &#183;',' '.chr(183),$notes);
         $notes=str_replace(' &#xb7;',' '.chr(183),$notes);
 
+        ///////////////////////////////////////
+        /// e: LIKE status, "1" for new records
         $dat[4]=renderspecialphp($dat[4]);
         $status=$dat[4];
         $status=strip_tags(trim($status));
 
+        ///////////////////////////////////////
+        /// f: HTML or PHP to render BEFORE each(!)* record
         $htmlbefore=htmlX_entity_decode($dat[5]);
+
+        ///////////////////////////////////////
+        /// g: HTML or PHP to render AFTER each(!)* record
         $htmlafter=htmlX_entity_decode($dat[6]);
+
+        ///////////////////////////////////////
+        /// h: HTML or PHP to render BETWEEN FIELDS
         $htmlbetween=htmlX_entity_decode($dat[7]);
 
+        // more than one between snippet is support with;
+        // double at is used as seperator
         if(strpos('x'.$htmlbetween,'@@')>0) {
             $htmlbetween=explode('@@',$htmlbetween);
         }
 
+        ///////////////////////////////////////////////////
+        /// i: Evoke an ORDER BY and optionally set a LIMIT
         $dat[8]=renderspecialphp(trim($dat[8]));
         $orderby='';
         if(trim($dat[8][0])=='?' && strpos($_GET['sort'],'ORDER BY')===0) {
@@ -1051,19 +1091,40 @@ function renderspecial($name,$human) {
             $orderby.=' '.mysql_real_escape_string(str_replace('?','',$dat[8]));
         }
 
+        //////////////////////////////////////////////
+        /// j: Replacement for newlines, i.e. "<br />"
         $dat[9]=renderspecialphp($dat[9]);
         $mynl2br=$dat[9];
 
+        //////////////////////////////////
+        /// k: render uploaded images as images and not as links
+        /// Provide dimensions here, i.e. "300x0"
         $dat[10]=renderspecialphp(trim($dat[10]));
         $renderimg=$dat[10];
         $renderimg=strip_tags(trim($renderimg));
 
+        //////////////////////////////////////////////////////////
+        /// l: String that mus be the content of the field a:
+        /// true: render content of m below
+        /// false: render nothing
         $dat[11]=renderspecialphp($dat[11]);
         $cond=$dat[11];
 
+        /////////////////////////////////////
+        /// m: String to render if l: is true
         $dat[12]=renderspecialphp($dat[12]);
         $output=htmlX_entity_decode($dat[12]);
 
+        //////////////////////////////////
+        /// n: Switch HTML interpretation
+        /// Possible values:
+        /// 0 or empty: no HTML interpretation
+        /// 1: Parameter notes only
+        /// 2: All fields but notes
+        /// 3: for all fields
+        /// 4: do not interpret HTML but u5CMS syntax
+        /// 5: interpret both (does not render parameter j)
+        //////////////////////////////////
         $dat[13]=renderspecialphp(trim($dat[13]));
         $rhtml=$dat[13][0];
         $lfyonoff=$dat[13];
@@ -1098,7 +1159,7 @@ function renderspecial($name,$human) {
         if ($notes=='(authuser)') $notes='('.$_SERVER['PHP_AUTH_USER'].')';
 
         $where=" formname='".mysql_real_escape_string($table)."' ";
-        if ($id>0) $where.=" AND id='".mysql_real_escape_string($id)."'";
+        if (0 < (int) $id) $where.=" AND id='".mysql_real_escape_string($id)."'";
         if ($status!='') $where.=" AND status='".mysql_real_escape_string($status)."'";
 
 
@@ -1129,6 +1190,8 @@ function renderspecial($name,$human) {
             }
         }
 
+        // Fetch all data records from formdata that match the
+        // the above built criteria
         $sql_a="SELECT * FROM formdata WHERE $where $orderby";
         $result_a=mysql_query($sql_a);
 
@@ -1136,6 +1199,7 @@ function renderspecial($name,$human) {
             $return.=mysql_error();
         }
 
+        //echo '<pre>';
         $num_a = mysql_num_rows($result_a);
         for ($i_a=0; $i_a<$num_a; $i_a++) {
             if($id=='?') $i_a=$num_a-1;
@@ -1152,13 +1216,20 @@ function renderspecial($name,$human) {
 
             $return.= $htmlbefore;
 
-
             $fields=explode(',',$field);
+            //var_dump($row_a['id']);
+            //var_dump($headcsv);
+            //var_dump($fields);
+            //var_dump($datacsv);
             for($f=0;$f<tnuoc($fields);$f++) {
                 $fields[$f]=trim($fields[$f]);
                 $position=array_search($fields[$f],$headcsv);
-                $wrongfield = ($position!==0) ? 1 : 0;
-                if ($position>0) $wrongfield='';
+                //var_dump($position);
+
+                // SISSEL
+                if ($position!==0) $wrongfield=1;
+                else $wrongfield=0;
+                if ($position>0) $wrongfield=0;
 
                 ////////////////////////////////////////////
                 $isupload=0;
@@ -1223,7 +1294,6 @@ function renderspecial($name,$human) {
                     else if ( (trim($cond)!='' || trim($output)!='') && trim($row_a[str_replace('sent','humantime',substr(strtolower($fields[$f]),1))]!=trim($cond))) $row_a[str_replace('sent','humantime',substr(strtolower($fields[$f]),1))]='';
 
                     if( (trim($cond)=='' && trim($output)=='') ) {
-
                         if($rhtml<1) {
                             if ($fields[$f][0]!='?' && $wrongfield==0) $return.= islnfy(mynl2br(str_replace('&amp;#','&#',htmlXentities(str_replace(',.',';',$datacsv[$position])))));
                             else $return.= islnfy(mynl2br(str_replace('&amp;#','&#',htmlXentities(str_replace(',.',';',$row_a[str_replace('sent','humantime',substr(strtolower($fields[$f]),1))])))));
@@ -1253,9 +1323,7 @@ function renderspecial($name,$human) {
                             if ($fields[$f][0]!='?' && $wrongfield==0) $return.= islnfy(str_replace('&amp;#','&#',(str_replace('&lt;','<',str_replace('&gt;','>',str_replace('&quot;','"',render(str_replace(',.',';',$datacsv[$position]))))))));
                             else $return.= islnfy(mynl2br(str_replace('&amp;#','&#',(str_replace(',.',';',$row_a[str_replace('sent','humantime',substr(strtolower($fields[$f]),1))])))));
                         }
-                    }
-
-                    else {
+                    } else {
                         if ($fields[$f][0]!='?' && $wrongfield==0) $return.= islnfy(mynl2br(str_replace('&amp;#','&#',(str_replace('&lt;','<',str_replace('&gt;','>',str_replace(',.',';',$datacsv[$position])))))));
                         else $return.= islnfy(mynl2br(str_replace('&amp;#','&#',(str_replace(',.',';',$row_a[str_replace('sent','humantime',substr(strtolower($fields[$f]),1))])))));
                     }
