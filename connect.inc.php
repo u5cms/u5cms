@@ -20,15 +20,14 @@ exit;
 $_GET['l']=htmlspecialchars($_GET['l']);
 if ($quotehandling=='on') include('quotehandling.inc.php');
 
-$path = str_replace(basename($_SERVER['SCRIPT_FILENAME']),'',$_SERVER['SCRIPT_FILENAME']) . '/lib/';
-set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+// Add U5ROOT_PATH/lib to include_path
+set_include_path(get_include_path() . PATH_SEPARATOR . U5ROOT_PATH . DIRECTORY_SEPARATOR . 'lib');
 
-require_once(str_replace(basename($_SERVER['SCRIPT_FILENAME']),'',$_SERVER['SCRIPT_FILENAME']).'/lib/Zend/Loader.php');
+require_once('Zend/Loader.php');
 
-spl_autoload_register('myautoload');
-function myautoload($class) {
+spl_autoload_register(function ($class) {
     Zend_Loader::loadClass($class);
-}
+});
 
 function connect_to_db() {
 include('config.php');

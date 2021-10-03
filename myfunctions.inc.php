@@ -1,5 +1,8 @@
 <?php
 
+define('U5ROOT_PATH', dirname(__FILE__));
+define('U5ADMIN_PATH', U5ROOT_PATH . DIRECTORY_SEPARATOR . 'u5admin');
+
 /* Mimics the behaviour of the old count() function adn
    avoids the warning introduced in PHP-7.2.
 
