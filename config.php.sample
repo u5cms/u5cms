@@ -8,6 +8,10 @@
    $password = 'enterpasswordhere';
    $db = 'enterdatabasenamehere';
 
+// Backup related settings
+   $backup_compress = true;  // compress database dump files (only works if zlib extension is availalbe)
+   $backup_send_mail = true; // should the above dumps additionally be sent by mail to logged in user?
+
 // Quote handling. If you get results in the form of Peter\'s instead of Peter's, switch this option to 'on';
    $quotehandling='off';
 

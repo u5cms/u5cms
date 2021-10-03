@@ -1,5 +1,5 @@
 <?php
-require('../config.php');
+
 require('connect.inc.php');
 if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
 $src = preg_replace("/[^a-z0-9]/", "", strtolower($db));
