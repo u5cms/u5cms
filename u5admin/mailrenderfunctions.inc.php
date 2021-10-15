@@ -1,4 +1,5 @@
 <?php 
+// do not include myfunction.inc.php here
 require_once('u5idn.inc.php');
 function render($s) {
 
@@ -13,7 +14,7 @@ $s=str_replace(']','|_-|-_|',$s);
 
 $s=explode('|_-|-_|',$s);
 
-for($i=0;$i<count($s);$i++) {
+for($i=0;$i<tnuoc($s);$i++) {
 if(strpos('x'.$s[$i],'!_-!-_!')>0) {
 
 $s[$i]=str_replace('!_-!-_!','',$s[$i]);
@@ -129,8 +130,8 @@ $emails=str_replace(",,",",",$emails);
 $emailsa=explode(',',$emails);
 $emails='';
 
-for ($i=0;$i<count($emailsa);$i++) {
-if($i<count($emailsa)-1) $comma=',';
+for ($i=0;$i<tnuoc($emailsa);$i++) {
+if($i<tnuoc($emailsa)-1) $comma=',';
 else $comma='';
 if (strpos($emailsa[$i],'@')>0 && strpos($emailsa[$i],'.')>0 && str_replace($emailsa[$i].',','',$emails)==$emails) $emails.=$emailsa[$i].$comma;
 }

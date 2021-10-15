@@ -44,7 +44,7 @@ $row_a = mysql_fetch_array($result_a);
 $members=explode(',',$row_a['members']);
 
 $htaccess=$htaccess.='?'.(rand(1000000,9999999)).':'.(rand(1000000,9999999)).';'."\r\n";
-for ($i=0;$i<count($members);$i++) {
+for ($i=0;$i<tnuoc($members);$i++) {
 $p=floor(crc32(u5flatidnlower($members[$i]).$salt));
 if (trim(str_replace('&#0;@&#0;','',$members[$i]))!='' && $admins==str_replace(','.$members[$i].',','',$admins)) $htaccess.='?'.$members[$i].':'.$p.';'."\r\n";	
 }

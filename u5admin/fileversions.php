@@ -1,5 +1,8 @@
-<?php require_once('connect.inc.php'); 
-if($fileversionsRqHIADRI!='no')require('accadmin.inc.php'); 
+<?php
+
+require_once('connect.inc.php');
+if($fileversionsRqHIADRI!='no')require('accadmin.inc.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,11 +19,12 @@ shortcut.add("Ctrl+S",function() {
 
 <body>
 <h1>File versions</h1>
-<?php 
+<?php
+
 $echo='';
- $path='../fileversions/';
-     if ($handle = @opendir($path))  { 
-     while (false !== ($file = readdir($handle)))  { 
+$path='../fileversions/';
+if ($handle = @opendir($path))  {
+     while (false !== ($file = readdir($handle)))  {
 
 if (str_replace('.','',$file)!='') if ($file[0]!='.') if ($file!='useruploads') $echo.=',<a href="../ff.php?f='.$file.'?t='.filemtime('../fileversions/'.$file).'" target=_blank>'.$file.'</a><br>';}
 }
@@ -29,7 +33,7 @@ $echo=explode(',',$echo);
 
 rsort($echo);
 
-for ($i=0;$i<count($echo);$i++) {
+for ($i=0;$i<tnuoc($echo);$i++) {
 echo $echo[$i];
 }
 

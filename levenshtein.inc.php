@@ -2,7 +2,7 @@
 
 echo '<span id="levenshtein"><b><big>Meinten Sie: ';
 
-for ($liii=0; $liii<count($sfor); $liii++) {
+for ($liii=0; $liii<tnuoc($sfor); $liii++) {
 
 $sql_la="SELECT text FROM search_d";
 $result_la=mysql_query($sql_la);

@@ -1,8 +1,9 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+require_once('../myfunctions.inc.php');
 if($_GET['more']==1) header("Location: characters/punctuation.php");
 $ucrs='';
-if (isset($_GET['s'])) setcookie('mochr', htmlspecialchars($_GET['s']) , time()+3600*24*365*10,'/'); 
+if (isset($_GET['s'])) setcookie('mochr', htmlspecialchars($_GET['s']) , time()+3600*24*365*10,'/');
 require('../config.php');
 ?>
 <!DOCTYPE html>
@@ -12,7 +13,7 @@ require('../config.php');
 <title><?php echo str_replace('1114111&ndash;NaN','u5CMS Commons&ndash;',htmlspecialchars($_GET['s']).'&ndash;'.htmlspecialchars($_GET['e'])) ?> characters</title>
 <script>
 function noopener() {
-if (!opener) self.close();	
+if (!opener) self.close();
 setTimeout("noopener()",1111);
 }
 setTimeout("noopener()",1111);
@@ -521,7 +522,7 @@ function uchr ($codes) {
 
 <?php 
 $xc=explode(',',$ucrs);
-for ($xi=0;$xi<count($xc);$xi++) {
+for ($xi=0;$xi<tnuoc($xc);$xi++) {
 if (strpos($xc[$xi],'!')==1) echo $xc[$xi];
 else {
 $xc[$xi]=rawurlencode($xc[$xi]);

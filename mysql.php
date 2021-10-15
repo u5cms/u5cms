@@ -1,1100 +1,995 @@
 <?php
-# PHP MySQL to MySQLi migration shim library
-# ------------------------------------------
-# purpose: Redefines deprecated or missing mysql_ functions and calls
-# mysqli_ functions for PHP5.5+.
-#
-# website: http://www.dotpointer.tk/
-#
-# author: Robert Klebe, dotpointer, dotpointer at gmail.com
-#
-# licensing: Public domain, edit and share without permission.
-#
-# changelog
-# ---------
-# 2013-09-24 xx:xx:xx - first version
-# 2013-09-25 xx:xx:xx - updated with is_mysql_resource() and bugfixes
-# 2013-09-26 19:23:00 - adding some more function wrappers
-# 2013-10-24 23:16:41 - bugfix, mysql_connect used invalid error functions
-# 2013-11-11 xx:xx:xx - updated mysql_result() contributed by marc17 (GitHub)
-# 2014-02-16 xx:xx:xx - updated mysql_result() contributed by marc17 (GitHub)
-# 2015-03-24 21:57:45 - updated is_mysql_resource() with suggestions from
-# Colin McKinnon
-# 2015-03-25 00:06:50 - updated is_mysql_resource() with suggestions from
-# Colin McKinnon
-# 2016-02-20 00:35:36 - checking that function error return values are the
-# same as the original ones as suggested by Yaff Are
-# 2016-02-23 21:30:57 - bugfix, mysql_connect halted execution upon invalid
-# credentials
-# 2016-02-23 21:58:43 - bugfix, mysql_create_db - quotation forbidden
-# 2016-02-23 22:19:36 - bugfix, mysql_list_dbs - null when no link
-# 2016-02-23 22:24:20 - bugfix, mysql_list_tables - quotation forbidden
-# 2016-02-23 22:27:38 - bugfix, mysql_ping - null when no link
-# 2016-02-23 22:47:44 - bugfix, mysql_info - null when no link
-# 2016-02-23 22:59:36 - bugfix, mysql_errno, mysql_error - null when no link
-# 2016-02-23 23:34:45 - adding mysql_db_name
-# 2016-02-23 23:38:01 - bugfix, mysql_client_encoding - null when no link
-# 2016-02-23 22:19:36 - bugfix, mysql_data_seek - null when invalid row number
-# 2016-02-23 23:55:36 - bugfix, mysql_drop_db - quotation forbidden
-# 2016-02-24 00:12:41 - bugfix, mysql_db_query - selected database could be
-# bypassed
-# 2016-02-24 00:38:04 - bugfix, mysql_fetch_field - null when invalid
-# parameters
-# 2016-02-24 01:02:44 - bugfix, mysql_fetch_lengths - null when invalid
-# parameters
-# 2016-02-24 02:17:27 - bugfix, mysql_field_flags returned invalid value,
-# adding mysql_field_bitflags_to_flags
-# 2016-02-24 02:35:15 - bugfix, mysql_field_seek - null when invalid
-# parameters
-# 2016-02-24 02:55:09 - bugfix, mysql_field_type - returned invalid value,
-# adding mysql_field_bittypes_to_types
-# 2016-02-24 03:40:26 - bugfix, mysql_get_client_info, adding link argument
-# 2016-02-24 03:43:55 - bugfix, mysql_get_host_info - null when invalid
-# parameters
-# 2016-02-24 04:10:19 - bugfix, mysql_get_proto_info - null when invalid
-# parameters
-# 2016-02-24 04:25:01 - bugfix, mysql_get_server_info - null when invalid
-# parameters
-# 2016-02-24 15:13:31 - bugfix, mysql_affected_rows - invalid value when
-# invalid parameters
-# 2016-02-24 15:17:10 - bugfix, mysql_thread_i - null when invalid parameters
-# 2016-02-24 17:47:23 - bugfix, mysql_insert_id - null when invalid parameters
-# 2016-02-24 18:29:02 - adding mysql_list_processes
-# 2016-02-24 19:21:21 - bugfix, mysql_num_fields - null when invalid
-# parameters
-# 2016-02-25 16:08:51 - cleanup
-# 2016-02-25 18:08:54 - cleanup
-# 2016-12-26 15:07:00 - renaming library from mysql.php to mysql-shim.php
-# 2017-02-01 20:51:00 - domain name edit
-# 2017-02-20 18:56:00 - adding mysql_unbuffered_query, noted missing and
-# requested by Tony Russo
-# 2017-02-20 22:20:08 - bugfixes to mysql_num_rows and
-# mysqli_real_escape_string, cleanup, adding confirmation
-# 2017-02-22 00:51:18 - adding mysql_createdb(), editing error return values
-# of several functions according to native PHP 5.6.3 error return values
-# 2017-02-22 20:27:02 - adding mysql_dbname()
-# 2017-02-24 21:00:17 - adjusting to 80 column width, replacing a lot of
-# internal local function calls with mysqli function calls
-#
-# notes
-# -----
-# mysql constants are directly translated to mysqli, so the actual value may
-# 	differ
-# mysql_escape_string now takes the last used connection
 
-# to check if an item is a (mysql) resource or a mysqli object
-# note that all types of resources must get through as this is a
-# generic replacement for is_resource()
-function is_mysqli_or_resource($r) {
-	# get the type of the variable
-	switch(gettype($r)) {
-		# if it is a resource - could be mysql, file handle etc...
-		case 'resource':
-			return true;
-		# if it is an object - must be a mysqli object then
-		case 'object':
-			# is this an instance of mysqli?
-			if ($r instanceof mysqli) {
-				# make sure there is no connection error
-				return !($r->connect_error);
-			}
-			# or is this an instance of a mysqli result?
-			if ($r instanceof mysqli_result) {
-				return true;
-			}
-			return false;
-		# negative on all other variable types
-		default:
-			return false;
-	}
+/**
+ * php7-mysql-shim
+ *
+ * @author Davey Shafik <me@daveyshafik.com>
+ * @copyright Copyright (c) 2017 Davey Shafik
+ * @license MIT License
+ * @link https://github.com/dshafik/php7-mysql-shim
+ */
+
+/**
+ * A drop-in replacement for ext/mysql in PHP 7+ using ext/mysqli instead
+ *
+ * This library is meant to be a _stop-gap_. It will be slower than using
+ * the native functions directly.
+ *
+ * You should switch to ext/pdo_mysql or ext/mysqli, and migrate to prepared
+ * queries (@see http://php.net/manual/en/pdo.prepared-statements.php) to
+ * ensure you are securely interacting with your database.
+ */
+namespace {
+    use Dshafik\MySQL;
+
+    if (!extension_loaded('mysql')) {
+        if (!extension_loaded('mysqli')) {
+            trigger_error('php7-mysql-shim: ext/mysqli is required', E_USER_ERROR);
+        }
+
+        define('MYSQL_ASSOC', 1);
+        define('MYSQL_NUM', 2);
+        define('MYSQL_BOTH', 3);
+        define('MYSQL_CLIENT_COMPRESS', 32);
+        define('MYSQL_CLIENT_SSL', 2048);
+        define('MYSQL_CLIENT_INTERACTIVE', 1024);
+        define('MYSQL_CLIENT_IGNORE_SPACE', 256);
+
+        function mysql_connect(
+            $hostname = null,
+            $username = null,
+            $password = null,
+            $new = false,
+            $flags = 0
+        ) {
+            if ($new !== false) {
+                trigger_error('Argument $new is no longer supported in PHP > 7', E_USER_WARNING);
+            }
+
+            if (null === $hostname) {
+                $hostname = ini_get('mysqli.default_host') ?: null;
+            }
+            if (null === $username) {
+                $username = ini_get('mysqli.default_user') ?: null;
+            }
+            if (null === $password) {
+                $password = ini_get('mysqli.default_pw') ?: null;
+            }
+
+            $socket = '';
+            if (strpos($hostname, ':/') === 0) {
+                // it's a unix socket
+                $socket = $hostname;
+                $hostname = 'localhost';
+            }
+
+            $hash = sha1($hostname . $username . $flags);
+            /* persistent connections start with p: */
+            /* don't use a cached link for those */
+            if ($hostname[1] !== ':' && isset(MySQL::$connections[$hash])) {
+                MySQL::$last_connection = MySQL::$connections[$hash]['conn'];
+                MySQL::$connections[$hash]['refcount'] += 1;
+                return MySQL::$connections[$hash]['conn'];
+            }
+
+            /* A custom port can be specified by appending the hostname with :{port} e.g. hostname:3307 */
+            if (preg_match('/^(.+):([\d]+)$/', $hostname, $port_matches) === 1 && $port_matches[1] !== "p") {
+                $hostname = $port_matches[1];
+                $port = (int) $port_matches[2];
+            } else {
+                $port = null;
+            }
+
+            /* No flags, means we can use mysqli_connect() */
+            if ($flags === 0) {
+                $conn = mysqli_connect($hostname, $username, $password, '', $port);
+                if (!$conn instanceof mysqli) {
+                    return false;
+                }
+                MySQL::$last_connection = $conn;
+                $conn->hash = $hash; // @phpstan-ignore-line
+                MySQL::$connections[$hash] = array('refcount' => 1, 'conn' => $conn);
+
+                return $conn;
+            }
+
+            /* Flags means we need to use mysqli_real_connect() instead, and handle exceptions */
+            try {
+                MySQL::$last_connection = $conn = mysqli_init();
+
+                mysqli_real_connect(
+                    $conn,
+                    $hostname,
+                    $username,
+                    $password,
+                    '',
+                    $port,
+                    $socket,
+                    $flags
+                );
+
+                // @codeCoverageIgnoreStart
+                // PHPUnit turns the warning from mysqli_real_connect into an exception, so this never runs
+                if ($conn === false) {
+                    return false;
+                }
+                // @codeCoverageIgnoreEnd
+
+                $conn->hash = $hash; // @phpstan-ignore-line
+                MySQL::$connections[$hash] = array('refcount' => 1, 'conn' => $conn);
+
+                return $conn;
+            } catch (Throwable $e) {
+                trigger_error($e->getMessage(), E_USER_WARNING);
+                // @codeCoverageIgnoreStart
+                // PHPUnit turns the warning into an exception, so this never runs
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+        }
+
+        function mysql_pconnect(
+            $hostname = null,
+            $username = null,
+            $password = null,
+            $flags = 0
+        ) {
+            $hostname = 'p:' . $hostname;
+            return mysql_connect($hostname, $username, $password, false, $flags);
+        }
+
+        function mysql_close(mysqli $link = null)
+        {
+            $isDefault = ($link === null);
+
+            $link = MySQL::getConnection($link, __FUNCTION__);
+            if ($link === null) {
+                // @codeCoverageIgnoreStart
+                // PHPUnit Warning -> Exception
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            if (isset(MySQL::$connections[$link->hash])) {
+                MySQL::$connections[$link->hash]['refcount'] -= 1;
+            }
+
+            $return = true;
+            if (MySQL::$connections[$link->hash]['refcount'] === 0) {
+                $return = mysqli_close($link);
+                unset(MySQL::$connections[$link->hash]);
+            }
+
+            if ($isDefault) {
+                Dshafik\MySQL::$last_connection = null;
+            }
+
+            return $return;
+        }
+
+        function mysql_select_db($databaseName, mysqli $link = null)
+        {
+            $link = MySQL::getConnection($link);
+
+            return mysqli_query(
+                $link,
+                'USE `' . mysqli_real_escape_string($link, $databaseName) . '`'
+            ) !== false;
+        }
+
+        function mysql_query($query, mysqli $link = null)
+        {
+            return mysqli_query(MySQL::getConnection($link), $query);
+        }
+
+        function mysql_unbuffered_query($query, mysqli $link = null)
+        {
+            $link = MySQL::getConnection($link);
+            if (mysqli_real_query($link, $query)) {
+                return mysqli_use_result($link);
+            }
+
+            return false;
+        }
+
+        function mysql_db_query($databaseName, $query, mysqli $link = null)
+        {
+            if (mysql_select_db($databaseName, $link)) {
+                return mysql_query($query, $link);
+            }
+            return false;
+        }
+
+        function mysql_list_dbs(mysqli $link = null)
+        {
+            return mysql_query('SHOW DATABASES', $link);
+        }
+
+        function mysql_list_tables($databaseName, mysqli $link = null)
+        {
+            $link = MySQL::getConnection($link);
+            $query = sprintf(
+                'SHOW TABLES FROM `%s`',
+                mysql_real_escape_string($databaseName, $link)
+            );
+            return mysql_query($query, $link);
+        }
+
+        function mysql_list_fields($databaseName, $tableName, mysqli $link = null)
+        {
+            $link = MySQL::getConnection($link);
+
+            $query = sprintf(
+                'SHOW COLUMNS FROM `%s`.`%s`',
+                mysqli_real_escape_string($link, $databaseName),
+                mysqli_real_escape_string($link, $tableName)
+            );
+
+            $result = mysqli_query($link, $query);
+
+            if ($result instanceof mysqli_result) {
+                $result->table = $tableName; // @phpstan-ignore-line
+                return $result;
+            }
+
+            trigger_error('mysql_list_fields(): Unable to save MySQL query result', E_USER_WARNING);
+            // @codeCoverageIgnoreStart
+            return false;
+            // @codeCoverageIgnoreEnd
+        }
+
+        function mysql_list_processes(mysqli $link = null)
+        {
+            return mysql_query('SHOW PROCESSLIST', $link);
+        }
+
+        function mysql_error(mysqli $link = null)
+        {
+            return mysqli_error(MySQL::getConnection($link));
+        }
+
+        function mysql_errno(mysqli $link = null)
+        {
+            return mysqli_errno(MySQL::getConnection($link));
+        }
+
+        function mysql_affected_rows(mysqli $link = null)
+        {
+            return mysqli_affected_rows(MySQL::getConnection($link));
+        }
+
+        function mysql_insert_id($link = null) /*|*/
+        {
+            return mysqli_insert_id(MySQL::getConnection($link));
+        }
+
+        function mysql_result($result, $row, $field = 0)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            if (!mysqli_data_seek($result, $row)) {
+                trigger_error(
+                    sprintf(
+                        'mysql_result(): Unable to jump to row %d on MySQL result index %s',
+                        $row,
+                        spl_object_hash($result)
+                    ),
+                    E_USER_WARNING
+                );
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            $found = true;
+            if (strpos($field, '.') !== false) {
+                list($table, $name) = explode('.', $field);
+                $i = 0;
+                $found = false;
+                mysqli_field_seek($result, 0);
+                while ($column = mysqli_fetch_field($result)) {
+                    if ($column->table === $table && $column->name === $name) {
+                        $field = $i;
+                        $found = true;
+                        break;
+                    }
+                    $i++;
+                }
+            }
+
+            $row = mysql_fetch_array($result);
+            if ($found && array_key_exists($field, $row)) {
+                return $row[$field];
+            }
+
+            trigger_error(
+                sprintf(
+                    '%s(): %s not found in MySQL result index %s',
+                    __FUNCTION__,
+                    $field,
+                    spl_object_hash($result)
+                ),
+                E_USER_WARNING
+            );
+            // @codeCoverageIgnoreStart
+            return false;
+            // @codeCoverageIgnoreEnd
+        }
+
+        function mysql_num_rows($result)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            $previous = error_reporting(0);
+            $rows = mysqli_num_rows($result);
+            error_reporting($previous);
+
+            return $rows;
+        }
+
+        function mysql_num_fields($result)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return mysqli_num_fields($result);
+        }
+
+        function mysql_fetch_row($result)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return mysqli_fetch_row($result) ?: false;
+        }
+
+        function mysql_fetch_array($result, $resultType = MYSQL_BOTH)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return mysqli_fetch_array($result, $resultType) ?: false;
+        }
+
+        function mysql_fetch_assoc($result) /* : array|null */
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            return mysqli_fetch_assoc($result) ?: false;
+        }
+
+        function mysql_fetch_object($result, $class = null, array $params = array()) /* : object|null */
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            if ($class === null) {
+                $object = mysqli_fetch_object($result);
+            } else {
+                $object = mysqli_fetch_object($result, $class, $params);
+            }
+
+            return $object ?: false;
+        }
+
+        function mysql_data_seek($result, $offset)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return mysqli_data_seek($result, $offset);
+        }
+
+        function mysql_fetch_lengths($result) /* : array|*/
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return mysqli_fetch_lengths($result);
+        }
+
+        function mysql_fetch_field($result, $field_offset = null) /* : object|*/
+        {
+            static $fields = array();
+
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            $result_hash = spl_object_hash($result);
+            if ($field_offset === null) {
+                $fields[$result_hash][] = true;
+                $res = mysqli_fetch_field($result);
+            } elseif ($field_offset > mysqli_num_fields($result)) {
+                trigger_error('mysql_fetch_field(): Bad field offset', E_USER_WARNING);
+                return false;
+            } else {
+                $i = 0;
+                if (isset($fields[$result_hash])) {
+                    $i = count($fields[$result_hash]);
+                }
+
+                while ($i <= $field_offset) {
+                    $res = mysqli_fetch_field($result);
+
+                    if ($res === false) {
+                        return false;
+                    }
+
+                    $fields[$result_hash][$i] = true;
+                    $i++;
+                }
+            }
+
+            if (isset($res) && $res instanceof stdClass) {
+                $res->not_null = ($res->flags & MYSQLI_NOT_NULL_FLAG) ? 1 : 0;
+                $res->primary_key = ($res->flags & MYSQLI_PRI_KEY_FLAG) ? 1 : 0;
+                $res->unique_key = ($res->flags & MYSQLI_UNIQUE_KEY_FLAG) ? 1 : 0;
+                $res->multiple_key = ($res->flags & MYSQLI_MULTIPLE_KEY_FLAG) ? 1 : 0;
+                $res->numeric = ($res->flags & MYSQLI_NUM_FLAG) ? 1 : 0;
+                $res->blob = ($res->flags & MYSQLI_BLOB_FLAG) ? 1 : 0;
+                $res->unsigned = ($res->flags & MYSQLI_UNSIGNED_FLAG) ? 1 : 0;
+                $res->zerofill = ($res->flags & MYSQLI_ZEROFILL_FLAG) ? 1 : 0;
+
+                switch ($res->type) {
+                    case MYSQLI_TYPE_CHAR:
+                        $res->type = 'tinyint';
+                        break;
+                    case MYSQLI_TYPE_SHORT:
+                        $res->type = 'smallint';
+                        break;
+                    case MYSQLI_TYPE_DECIMAL:
+                        $res->type = 'decimal';
+                        break;
+                    case MYSQLI_TYPE_LONG:
+                        $res->type = 'int';
+                        break;
+                    case MYSQLI_TYPE_FLOAT:
+                        $res->type = 'float';
+                        break;
+                    case MYSQLI_TYPE_DOUBLE:
+                        $res->type = 'double';
+                        break;
+                    case MYSQLI_TYPE_NULL:
+                        $res->type = 'null';
+                        break;
+                    case MYSQLI_TYPE_TIMESTAMP:
+                        $res->type = 'timestamp';
+                        break;
+                    case MYSQLI_TYPE_LONGLONG:
+                        $res->type = 'bigint';
+                        break;
+                    case MYSQLI_TYPE_INT24:
+                        $res->type = 'mediumint';
+                        break;
+                    case MYSQLI_TYPE_NEWDATE:
+                    case MYSQLI_TYPE_DATE:
+                        $res->type = 'date';
+                        break;
+                    case MYSQLI_TYPE_TIME:
+                        $res->type = 'time';
+                        break;
+                    case MYSQLI_TYPE_DATETIME:
+                        $res->type = 'datetime';
+                        break;
+                    case MYSQLI_TYPE_YEAR:
+                        $res->type = 'year';
+                        break;
+                    case MYSQLI_TYPE_BIT:
+                        $res->type = 'bit';
+                        break;
+                    case MYSQLI_TYPE_ENUM:
+                        $res->type = 'enum';
+                        break;
+                    case MYSQLI_TYPE_SET:
+                        $res->type = 'set';
+                        break;
+                    case MYSQLI_TYPE_TINY_BLOB:
+                        $res->type = 'tinyblob';
+                        break;
+                    case MYSQLI_TYPE_MEDIUM_BLOB:
+                        $res->type = 'mediumblob';
+                        break;
+                    case MYSQLI_TYPE_LONG_BLOB:
+                        $res->type = 'longblob';
+                        break;
+                    case MYSQLI_TYPE_BLOB:
+                        $res->type = 'blob';
+                        break;
+                    case MYSQLI_TYPE_STRING:
+                    case MYSQLI_TYPE_VAR_STRING:
+                        $res->type = 'string';
+                        break;
+                    case MYSQLI_TYPE_GEOMETRY:
+                        $res->type = 'geometry';
+                        break;
+                    case MYSQLI_TYPE_NEWDECIMAL:
+                        $res->type = 'numeric';
+                        break;
+                }
+
+                return $res;
+            }
+
+            return false;
+        }
+
+        function mysql_field_seek($result, $field)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return mysqli_field_seek($result, $field);
+        }
+
+        function mysql_free_result($result)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            mysqli_free_result($result);
+            return null;
+        }
+
+        function mysql_field_name($result, $field)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return MySQL::mysqlFieldInfo($result, $field, 'name');
+        }
+
+        function mysql_field_table($result, $field)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return MySQL::mysqlFieldInfo($result, $field, 'table');
+        }
+
+        function mysql_field_len($result, $field)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return MySQL::mysqlFieldInfo($result, $field, 'length');
+        }
+
+        function mysql_field_type($result, $field)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return MySQL::mysqlFieldInfo($result, $field, 'type');
+        }
+
+        function mysql_field_flags($result, $field)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+            return MySQL::mysqlFieldInfo($result, $field, 'flags');
+        }
+
+        function mysql_escape_string($unescapedString)
+        {
+            if (MySQL::$last_connection === null) {
+                trigger_error(
+                    sprintf(
+                        '%s() is insecure; use mysql_real_escape_string() instead!',
+                        __FUNCTION__
+                    )
+                );
+
+                return MySQL::escapeString($unescapedString);
+            }
+            return mysql_real_escape_string($unescapedString);
+        }
+
+        function mysql_real_escape_string($unescapedString, mysqli $link = null)
+        {
+            return mysqli_real_escape_string(MySQL::getConnection($link), $unescapedString);
+        }
+
+        function mysql_stat(mysqli $link = null)
+        {
+            return mysqli_stat(MySQL::getConnection($link));
+        }
+
+        function mysql_thread_id(mysqli $link = null)
+        {
+            return mysqli_thread_id(MySQL::getConnection($link));
+        }
+
+        function mysql_client_encoding(mysqli $link = null)
+        {
+            return mysqli_character_set_name(MySQL::getConnection($link));
+        }
+
+        function mysql_ping(mysqli $link = null)
+        {
+            return mysqli_ping(MySQL::getConnection($link));
+        }
+
+        function mysql_get_client_info(mysqli $link = null)
+        {
+            return mysqli_get_client_info(MySQL::getConnection($link));
+        }
+
+        function mysql_get_host_info(mysqli $link = null)
+        {
+            return mysqli_get_host_info(MySQL::getConnection($link));
+        }
+
+        function mysql_get_proto_info(mysqli $link = null)
+        {
+            return mysqli_get_proto_info(MySQL::getConnection($link));
+        }
+
+        function mysql_get_server_info(mysqli $link = null)
+        {
+            return mysqli_get_server_info(MySQL::getConnection($link));
+        }
+
+        function mysql_info(mysqli $link = null)
+        {
+            return mysqli_info(MySQL::getConnection($link));
+        }
+
+        function mysql_set_charset($charset, mysqli $link = null)
+        {
+            return mysqli_set_charset(MySQL::getConnection($link), $charset);
+        }
+
+        function mysql_db_name($result, $row, $field = 0)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            // Alias as per https://github.com/php/php-src/blob/PHP-5.6/ext/mysql/php_mysql.c#L319
+            return mysql_result($result, $row, $field);
+        }
+
+        function mysql_tablename($result, $row)
+        {
+            if (!MySQL::checkValidResult($result, __FUNCTION__)) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            // Alias as per http://lxr.php.net/xref/PHP_5_6/ext/mysql/php_mysql.c#321
+            return mysql_result($result, $row, 'Table');
+        }
+
+        /* Aliases */
+
+        function mysql_fieldname($result, $field)
+        {
+            return mysql_field_name($result, $field);
+        }
+
+        function mysql_fieldtable($result, $field)
+        {
+            return mysql_field_table($result, $field);
+        }
+
+        function mysql_fieldlen($result, $field)
+        {
+            return mysql_field_len($result, $field);
+        }
+
+        function mysql_fieldtype($result, $field)
+        {
+            return mysql_field_type($result, $field);
+        }
+
+        function mysql_fieldflags($result, $field)
+        {
+            return mysql_field_flags($result, $field);
+        }
+
+        function mysql_selectdb($databaseName, $link = null)
+        {
+            return mysql_select_db($databaseName, $link);
+        }
+
+        function mysql_freeresult($result)
+        {
+            return mysql_free_result($result);
+        }
+
+        function mysql_numfields($result)
+        {
+            return mysql_num_fields($result);
+        }
+
+        function mysql_numrows($result)
+        {
+            return mysql_num_rows($result);
+        }
+
+        function mysql_listdbs($link)
+        {
+            return mysql_list_dbs($link);
+        }
+
+        function mysql_listtables($databaseName, $link = null)
+        {
+            return mysql_list_tables($databaseName, $link);
+        }
+
+        function mysql_listfields($databaseName, $tableName, $link = null)
+        {
+            return mysql_list_fields($databaseName, $tableName, $link);
+        }
+
+        function mysql_dbname($result, $row, $field = 0)
+        {
+            return mysql_db_name($result, $row, $field);
+        }
+
+        function mysql_table_name($result, $row)
+        {
+            return mysql_tablename($result, $row);
+        }
+    }
 }
 
-# alias for is_mysqli_or_resource()
-function is_mysql_resource($r) {
-	return is_mysqli_or_resource($r);
+namespace Dshafik {
+
+    use Exception;
+    use mysqli_result;
+
+    class MySQL
+    {
+        public static $last_connection;
+        public static $connections = array();
+
+        public static function getConnection($link = null, $func = null)
+        {
+            if ($link !== null) {
+                return $link;
+            }
+
+            if (static::$last_connection === null) {
+                $err = 'A link to the server could not be established';
+                if ($func !== null) {
+                    $err = $func . '(): no MySQL-Link resource supplied';
+                }
+                trigger_error($err, E_USER_WARNING);
+                return false;
+            }
+
+            return static::$last_connection;
+        }
+
+        public static function mysqlFieldInfo(mysqli_result $result, $field, $what)
+        {
+            try {
+                $field = mysqli_fetch_field_direct($result, $field);
+
+                if ($field === false) {
+                    return false;
+                }
+            } catch (Exception $e) {
+                trigger_error(
+                    sprintf(
+                        'mysql_field_%s(): Field %d is invalid for MySQL result index %s',
+                        ($what !== 'length') ? $what : 'len',
+                        $field,
+                        spl_object_hash($result)
+                    ),
+                    E_USER_WARNING
+                );
+                // @codeCoverageIgnoreStart
+                // PHPUnit turns the warning into an exception, so this never runs
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+
+            if ($what === 'type') {
+                return static::getFieldType($field->type);
+            }
+
+            if ($what === 'flags') {
+                return static::getFieldFlags($field->flags);
+            }
+
+            if (isset($field->{$what})) {
+                return $field->{$what};
+            }
+
+            return false;
+        }
+
+        public static function checkValidResult($result, $function)
+        {
+            if (!($result instanceof mysqli_result)) {
+                $type = strtolower(gettype($result));
+                $file = "";
+                $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+                $backtraceIndex = 0;
+
+                /**
+                 * Iterate through backtrace until finding a backtrace with an origin
+                 * Some methods may not leave file and line metadata like call_user_func_array and __call
+                 */
+                do {
+                    $currentBacktrace = $backtrace[$backtraceIndex];
+                    $callerHasFileAndLine = isset($currentBacktrace['file'], $currentBacktrace['line']);
+
+                    if ($callerHasFileAndLine && $currentBacktrace['file'] !== __FILE__) {
+                        $file = $currentBacktrace['file'] . ':' . $currentBacktrace['line'];
+                    }
+                } while ($backtraceIndex++ < count($backtrace) && $file === "");
+
+                if ($function !== 'mysql_fetch_object') {
+                    trigger_error(
+                        "$function() expects parameter 1 to be resource, $type given on $file",
+                        E_USER_WARNING
+                    );
+                }
+
+                if ($function === 'mysql_fetch_object') {
+                    trigger_error(
+                        "$function(): supplied argument is not a valid MySQL result resource on $file",
+                        E_USER_WARNING
+                    );
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        public static function escapeString($unescapedString)
+        {
+            $escapedString = '';
+            for ($i = 0, $max = strlen($unescapedString); $i < $max; $i++) {
+                $escapedString .= self::escapeChar($unescapedString[$i]);
+            }
+
+            return $escapedString;
+        }
+
+        protected static function getFieldFlags($what)
+        {
+            // Order of flags taken from http://lxr.php.net/xref/PHP_5_6/ext/mysql/php_mysql.c#2507
+            $flags = array(
+                MYSQLI_NOT_NULL_FLAG => 'not_null',
+                MYSQLI_PRI_KEY_FLAG => 'primary_key',
+                MYSQLI_UNIQUE_KEY_FLAG => 'unique_key',
+                MYSQLI_MULTIPLE_KEY_FLAG => 'multiple_key',
+                MYSQLI_BLOB_FLAG => 'blob',
+                MYSQLI_UNSIGNED_FLAG => 'unsigned',
+                MYSQLI_ZEROFILL_FLAG => 'zerofill',
+                MYSQLI_BINARY_FLAG => 'binary',
+                MYSQLI_ENUM_FLAG => 'enum',
+                MYSQLI_SET_FLAG => 'set',
+                MYSQLI_AUTO_INCREMENT_FLAG => 'auto_increment',
+                MYSQLI_TIMESTAMP_FLAG => 'timestamp',
+            );
+
+            $fieldFlags = array();
+            foreach ($flags as $flag => $value) {
+                if ($what & $flag) {
+                    $fieldFlags[] = $value;
+                }
+            }
+
+            return implode(' ', $fieldFlags);
+        }
+
+        protected static function getFieldType($what)
+        {
+            $types = array(
+                MYSQLI_TYPE_STRING => 'string',
+                MYSQLI_TYPE_VAR_STRING => 'string',
+                MYSQLI_TYPE_ENUM => 'string',
+                MYSQLI_TYPE_SET => 'string',
+
+                MYSQLI_TYPE_LONG => 'int',
+                MYSQLI_TYPE_TINY => 'int',
+                MYSQLI_TYPE_SHORT => 'int',
+                MYSQLI_TYPE_INT24 => 'int',
+                MYSQLI_TYPE_LONGLONG => 'int',
+
+                MYSQLI_TYPE_DECIMAL => 'real',
+                MYSQLI_TYPE_FLOAT => 'real',
+                MYSQLI_TYPE_DOUBLE => 'real',
+                MYSQLI_TYPE_NEWDECIMAL => 'real',
+
+                MYSQLI_TYPE_TINY_BLOB => 'blob',
+                MYSQLI_TYPE_MEDIUM_BLOB => 'blob',
+                MYSQLI_TYPE_LONG_BLOB => 'blob',
+                MYSQLI_TYPE_BLOB => 'blob',
+
+                MYSQLI_TYPE_NEWDATE => 'date',
+                MYSQLI_TYPE_DATE => 'date',
+                MYSQLI_TYPE_TIME => 'time',
+                MYSQLI_TYPE_YEAR => 'year',
+                MYSQLI_TYPE_DATETIME => 'datetime',
+                MYSQLI_TYPE_TIMESTAMP => 'timestamp',
+
+                MYSQLI_TYPE_NULL => 'null',
+
+                MYSQLI_TYPE_GEOMETRY => 'geometry',
+            );
+
+            return isset($types[$what]) ? $types[$what] : 'unknown';
+        }
+
+        protected static function escapeChar($char)
+        {
+            switch ($char) {
+                case "\0":
+                    $esc = "\\0";
+                    break;
+                case "\n":
+                    $esc = "\\n";
+                    break;
+                case "\r":
+                    $esc = "\\r";
+                    break;
+                case '\\':
+                case '\'':
+                case '"':
+                    $esc = "\\{$char}";
+                    break;
+                case "\032":
+                    $esc = "\\Z";
+                    break;
+                default:
+                    $esc = $char;
+                    break;
+            }
+
+            return $esc;
+        }
+    }
 }
-
-# alias for is_mysqli_or_resource()
-function is_generic_resource($r) {
-	return is_mysqli_or_resource($r);
-}
-
-# to check if an item is a resource/object - replace is_resource with this
-# old version, this will break if testing file handles too
-function is_mysql_resource_old($result) {
-
-	# first try to treat as resource if original mysql is loaded
-	if (extension_loaded('mysql')) {
-		return is_resource($result);
-	}
-
-	# or if mysqli is loaded, try to check object
-	if (extension_loaded('mysqli')) {
-		return is_object($result);
-	}
-
-	echo 'Fatal error, mysqli extension not loaded.'."\n";
-	die(1);
-}
-
-# only do this if mysql extension is not there
-if (!extension_loaded('mysql')) {
-
-	# check if mysqli extension is loaded - its required as we rely on it
-	if (!extension_loaded('mysqli')) {
-		echo 'Fatal error, mysqli extension not loaded.'."\n";
-		die(1);
-	}
-
-# --- helper variables and constants -------------------------------------------
-
-	# a list of connections, used to get the last one
-	$mysql_links = array();
-
-	# our own constants to reach default connection values in INI file
-	define('MYSQL_DEFAULT_HOST', ini_get('mysql.default_host'));
-	define('MYSQL_DEFAULT_USER', ini_get('mysql.default_user'));
-	define('MYSQL_DEFAULT_PASSWORD', ini_get('mysql.default_password'));
-
-# --- MySQL constants (from PHP.net) -------------------------------------------
-
-	# MySQL client constants
-
-	# Use compression protocol
-	define('MYSQL_CLIENT_COMPRESS', MYSQLI_CLIENT_COMPRESS);
-
-	# Allow space after function names
-	define('MYSQL_CLIENT_IGNORE_SPACE', MYSQLI_CLIENT_IGNORE_SPACE);
-
-	# Allow interactive_timeout seconds
-	# (instead of wait_timeout ) of
-	# inactivity before closing the connection.
-	define('MYSQL_CLIENT_INTERACTIVE', MYSQLI_CLIENT_INTERACTIVE);
-
-	# Use SSL encryption. This flag is only
-	# available with version 4.x of the MySQL
-	# client library or newer. Version 3.23.x is
-	# bundled both with PHP 4 and Windows binaries
-	# of PHP 5.
-	define('MYSQL_CLIENT_SSL', MYSQLI_CLIENT_SSL);
-
-	# mysql_fetch_array() uses a constant for the different types of result
-	# arrays. The following constants are defined:
-
-	# MySQL fetch constants
-
-	# Columns are returned into the array having
-	# the fieldname as the array index.
-	define('MYSQL_ASSOC', MYSQLI_ASSOC);
-
-	# Columns are returned into the array having
-	# both a numerical index and the fieldname as
-	# the array index.
-	define('MYSQL_BOTH', MYSQLI_BOTH);
-
-	# Columns are returned into the array having a
-	# numerical index to the fields. This index
-	# starts with 0, the first field in the result.
-	define('MYSQL_NUM', MYSQLI_NUM);
-
-# --- helper functions ---------------------------------------------------------
-
-	# internal function to convert bitflags of mysqli to flags in text
-	# of mysql
-	# thanks to andre at koethur dot de at
-	# http://www.php.net/manual/en/mysqli-result.fetch-fields.php#101828
-	function mysql_field_bitflags_to_flags($flags_num) {
-
-		$flags = array();
-		$constants = get_defined_constants(true);
-		foreach ($constants['mysqli'] as $c => $n) {
-			if (preg_match('/MYSQLI_(.*)_FLAG$/', $c, $m)) {
-				if (!array_key_exists($n, $flags)) {
-					$flags[$n] = $m[1];
-				}
-			}
-		}
-		$result = array();
-		foreach ($flags as $n => $t) {
-			if ($flags_num & $n) {
-				$result[] = $t;
-			}
-		}
-		return implode(' ', $result);
-	}
-
-	# function to convert bit-types of mysqli to types in text of mysql
-	# thanks to andre at koethur dot de at
-	# http://www.php.net/manual/en/mysqli-result.fetch-fields.php#101828
-	function mysql_field_bittypes_to_types($type_id) {
-
-		$types = array();
-		$constants = get_defined_constants(true);
-		foreach ($constants['mysqli'] as $c => $n) {
-			if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
-				$types[$n] = $m[1];
-			}
-		}
-
-		if (array_key_exists($type_id, $types)) {
-			return $types[$type_id];
-		}
-		return NULL;
-	}
-
-	# lib helper function - to ensure mysql link as mysqli always needs
-	# one but mysql takes last one
-	function mysql_ensure_link($link_identifier) {
-		# no link specified
-		if ($link_identifier === NULL) {
-			global $mysql_links;
-
-			# no connection at all - then go null
-			if (!count($mysql_links)) {
-				return NULL;
-			}
-
-			# get the last item of the array
-			$last = end($mysql_links);
-
-			# return the last stored link
-			return $last['link'];
-		}
-
-		return $link_identifier;
-	}
-
-# --- MySQL functions (from PHP.net) -------------------------------------------
-
-	# mysql_affected_rows - Get number of affected rows in previous MySQL
-	# operation
-	# int mysql_affected_rows ([ resource $link_identifier = NULL ] )
-	# int mysqli_affected_rows ( mysqli $link )
-	function mysql_affected_rows($link_identifier = NULL) {
-		# mysql_affected_rows = -1 if the last query failed
-		# mysqli_affected_rows = -1 indicates that the query returned
-		# an error
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_affected_rows(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_client_encoding - Returns the name of the character set
-	# string mysql_client_encoding ([ resource $link_identifier = NULL ] )
-	# mysqli_character_set_name ( mysqli $link )
-	function mysql_client_encoding($link_identifier = NULL) {
-		# note that mysqlI_client_encoding ALSO is deprecated, so we
-		# cannot it
-		# mysql_client_encoding/mysqli_character_set_name = Returns
-		# the default character set name for the current connection.
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_character_set_name(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_close - Close MySQL connection
-	# bool mysql_close ([ resource $link_identifier = NULL ] )
-	# bool mysqli_close ( mysqli $link )
-	function mysql_close($link = NULL) {
-
-		# mysql_close/mysqli_close = returns TRUE on success or FALSE
-		# on failure
-		global $mysql_links;
-		$link = mysql_ensure_link($link);
-
-		if (isset($link->thread_id) && is_numeric($link->thread_id)) {
-			$thread_id =  $link->thread_id;
-		} else {
-			$thread_id =  false;
-		}
-
-		$result = mysqli_close($link);
-
-		# did the removal suceed and and we have thread id
-		if ($result && $thread_id) {
-			# walk the links
-			foreach ($mysql_links as $k => $v) {
-
-				# does this thread-id match the one we just
-				# removed?
-				if ($v['thread_id'] === $thread_id) {
-					# then remove it from connection array
-					array_splice($mysql_links, $k, 1);
-					break;
-				}
-			}
-
-		# when connection already has been closed this error appears:
-		# Couldn't fetch mysqli in mysql-shim.php on line xxx
-		# and this gives null instead of false
-		} else if ($result === null) {
-			return false;
-		}
-
-		return $result;
-	}
-
-	# mysql_connect - Open a connection to a MySQL Server
-	# resource mysql_connect (
-	# [ string $server = ini_get('mysql.default_host')
-	# [, string $username = ini_get('mysql.default_user')
-	# [, string $password = ini_get('mysql.default_password')
-	# [, bool $new_link = false [, int $client_flags = 0 ]]]]] )
-	# mysqli mysqli_connect (
-	# [ string $host = ini_get('mysqli.default_host')
-	# [, string $username = ini_get('mysqli.default_user')
-	# [, string $passwd = ini_get('mysqli.default_pw')
-	# [, string $dbname = ''
-	# [, int $port = ini_get('mysqli.default_port')
-	# [, string $socket = ini_get('mysqli.default_socket') ]]]]]] )
-	function mysql_connect(
-		$server = MYSQL_DEFAULT_HOST,
-		$username = MYSQL_DEFAULT_USER,
-		$password = MYSQL_DEFAULT_PASSWORD,
-		$new_link = false, $client_flags = 0
-	) {
-		global $mysql_links;
-
-		# no newlink but s/u/p matches prev ones-take last link
-		if (!$new_link) {
-			global $mysql_links;
-
-			# are there prev links?
-			if (count($mysql_links)) {
-
-				# get the last one made
-				$last = end($mysql_links);
-
-				# does the s/u/p match last one?
-				if (
-					$server === $last['server'] &&
-					$username === $last['username'] &&
-					$password === $last['password'] &&
-					is_resource($last['link'])
-				) {
-					# then take that
-					return mysql_ensure_link(NULL);
-				}
-			}
-		}
-
-		# try to connect using current credentials
-		$link = mysqli_connect($server, $username, $password, '');
-
-		if (mysqli_connect_errno()) {
-			# printf('Connect failed: %s'."\n",
-			# mysqli_connect_error());
-			# die();
-			return false;
-		}
-
-		# store this
-		$mysql_links[] = array(
-			'thread_id' => $link->thread_id,
-			'server' => $server,
-			'username' => $username,
-			'password' => $password,
-			'link' => $link
-		);
-
-		return $link;
-	}
-
-	# mysql_createdb - Create a MySQL database - alias for mysql_create_db
-	function mysql_createdb($database_name, $link_identifier = NULL) {
-		# return mysql_create_db($database_name, $link_identifier);
-		$link_identifier = mysql_ensure_link($link_identifier);
-		return mysqli_query(
-			$link_identifier,
-			'CREATE DATABASE '.mysqli_real_escape_string(
-				$link_identifier,
-				$database_name
-			)
-		);
-	}
-
-	# mysql_create_db - Create a MySQL database
-	# bool mysql_create_db ( string $database_name
-	# [, resource $link_identifier = NULL ] )
-	# CREATE DATABASE
-	function mysql_create_db($database_name, $link_identifier = NULL) {
-		# mysql_create_db/mysql_query+CREATE DATABASE = false on error
-		# return mysql_query('CREATE DATABASE '.
-		# mysql_real_escape_string($database_name), $link_identifier);
-		$link_identifier = mysql_ensure_link($link_identifier);
-		return mysqli_query(
-			$link_identifier,
-			'CREATE DATABASE '.mysqli_real_escape_string(
-				$link_identifier,
-				$database_name
-			)
-		);
-
-	}
-
-	# mysql_data_seek - Move internal result pointer
-	# bool mysql_data_seek ( resource $result , int $row_number )
-	# bool mysqli_data_seek ( mysqli_result $result , int $offset )
-	function mysql_data_seek($result, $row_number) {
-		# mysql_data_seek/mysqli_data_seek = false on error
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_data_seek($result, $row_number);
-	}
-
-	# mysql_db_name - Retrieves database name from the call to
-	# mysql_list_dbs
-	# string mysql_db_name ( resource $result , int $row
-	# [, mixed $field = NULL ] )
-	# SELECT DATABASE()
-	function mysql_db_name($result, $row, $field = NULL) {
-		# return mysql_query('SELECT DATABASE()',
-		# mysql_ensure_link($link_identifier));
-		# null does not fit mysql_result
-		$field = $field === null ? 0 : $field;
-		# return mysql_result($result, $row, $field);
-		# below is from mysql_result
-		if (mysqli_data_seek($result, $row) === false) {
-			return false;
-		}
-		$row = mysqli_fetch_array($result);
-		if ($row === NULL) {
-			return $row;
-		}
-		if (!isset($row[$field])) {
-			return false;
-		}
-		return $row[$field];
-	}
-
-	# mysql_dbname - Retrieves database name from the call to
-	# mysql_list_dbs, alias for mysql_db_name
-	function mysql_dbname($result, $row, $field = NULL) {
-		# return mysql_db_name($result, $row, $field);
-		if (mysqli_data_seek($result, $row) === false) {
-			return false;
-		}
-		$row = mysqli_fetch_array($result);
-		if ($row === NULL) {
-			return $row;
-		}
-		if (!isset($row[$field])) {
-			return false;
-		}
-		return $row[$field];
-	}
-
-	# mysql_db_query - Selects a database and executes a query on it
-	# resource mysql_db_query ( string $database , string $query
-	# [, resource $link_identifier = NULL ] )
-	# mysqli_select_db() then the query
-	function mysql_db_query($database, $query, $link_identifier = NULL) {
-		# mysql_db_query = false on error, mysql_query+sql
-		# = false on error
-		# if (mysql_select_db($database, $link_identifier) !== true) {
-		if (mysqli_select_db($link_identifier, $database) !== true) {
-			return false;
-		}
-		# return mysql_query($query, $link_identifier);
-		return mysqli_query($link_identifier, $query);
-	}
-
-	# mysql_drop_db - Drop (delete) a MySQL database
-	# bool mysql_drop_db ( string $database_name
-	# [, resource $link_identifier = NULL ] )
-	# DROP DATABASE
-	function mysql_drop_db($database_name, $link_identifier = NULL) {
-		# mysql_drop_db = false on error, mysql_query + DROP DATABASE
-		# = false on error
-		# return mysql_query('DROP DATABASE '.
-		# mysql_real_escape_string($database_name), $link_identifier);
-		return mysqli_query(
-			$link_identifier,
-			'DROP DATABASE '.
-			mysqli_real_escape_string(
-				$link_identifier,
-				$database_name
-			)
-		);
-	}
-
-	# mysql_errno -Returns the numerical value of the error message from
-	# previous MySQL operation
-	# int mysql_errno ([ resource $link_identifier = NULL ] )
-	# int mysqli_errno ( mysqli $link )
-	function mysql_errno($link_identifier = NULL) {
-		# mysql_errno/mysqli_errno = returns a number, 0 if no error
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_errno (mysql_ensure_link($link_identifier));
-	}
-
-	# mysql_error - Returns the text of the error message from previous
-	# MySQL operation
-	# string mysql_error ([ resource $link_identifier = NULL ] )
-	# string mysqli_error ( mysqli $link )
-	function mysql_error($link_identifier = NULL) {
-		# mysql_error/mysqli_error = returns empty string on no error
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_error(mysql_ensure_link($link_identifier));
-	}
-
-	# mysql_escape_string - Escapes a string for use in a # mysql_query
-	# string mysql_escape_string ( string $unescaped_string )
-	# string mysqli::real_escape_string ( string $escapestr )
-	function mysql_escape_string($unescaped_string) {
-		# mysql_escape_string = returns the escaped string
-		# mysql_real_escape_string = returns FALSE on error
-		# return mysql_real_escape_string($unescaped_string);
-		return mysqli_real_escape_string(
-			mysql_ensure_link(NULL),
-			$unescaped_string
-		);
-	}
-
-	# mysql_fetch_array - Fetch a result row as an associative array, a
-	# numeric array, or both
-	# array mysql_fetch_array ( resource $result
-	# [, int $result_type = MYSQL_BOTH ] )
-	# mixed mysqli_fetch_array ( mysqli_result $result
-	# [, int $resulttype = MYSQLI_BOTH ] )
-	function mysql_fetch_array($result, $result_type = MYSQL_BOTH) {
-		# mysql_fetch_array = Returns an array of strings that
-		# corresponds to the fetched row, or FALSE if there are no more
-		# rows
-		# mysqli_fetch_array = Returns an array of strings that
-		# corresponds to the fetched row or NULL if there are no more
-		# rows in resultset
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_fetch_array($result, $result_type);
-	}
-
-	# mysql_fetch_assoc - Fetch a result row as an associative array
-	# array mysql_fetch_assoc ( resource $result )
-	# array mysqli_fetch_assoc ( mysqli_result $result )
-	function mysql_fetch_assoc($result) {
-		# mysql_fetch_assoc = returns FALSE if there are no more rows
-		# mysqli_fetch_assoc = returns NULL if there are no more rows in
-		# resultset
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_fetch_assoc($result);
-	}
-
-	# mysql_fetch_field - Get column information from a result and
-	# return as an object
-	# object mysql_fetch_field ( resource $result
-	# [, int $field_offset = 0 ] )
-	# object mysqli_fetch_field ( mysqli_result $result ) - but
-	# field_offset is missing
-	function mysql_fetch_field($result, $field_offset = NULL) {
-		# if field offset is specified
-		if (is_numeric($field_offset)) {
-			# then seek to that
-			mysqli_field_seek($result, $field_offset);
-		}
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_fetch_field($result);
-	}
-
-	# mysql_fetch_lengths - Get the length of each output in a result
-	# array mysql_fetch_lengths ( resource $result )
-	# array mysqli_fetch_lengths ( mysqli_result $result )
-	function mysql_fetch_lengths($result) {
-		# mysql_fetch_lengths/mysqli_fetch_lengths = FALSE on error
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_fetch_lengths($result);
-	}
-
-	# mysql_fetch_object - Fetch a result row as an object
-	# object mysql_fetch_object ( resource $result [, string $class_name
-	# [, array $params ]] )
-	# object mysqli_fetch_object ( mysqli_result $result
-	# [, string $class_name [, array $params ]] )
-	function mysql_fetch_object($result, $class_name = NULL,
-		$params = NULL
-	) {
-
-		# mysql_fetch_object = FALSE if there are no more rows
-		# mysqli_fetch_object = NULL if there are no more rows
-		# in resultset
-
-		if ($class_name !== NULL && $params !== NULL) {
-			$t = mysqli_fetch_object($result, $class_name, $params);
-		} else if ($class_name !== NULL) {
-			$t = mysqli_fetch_object($result, $class_name);
-		} else {
-			$t = mysqli_fetch_object($result);
-		}
-		# is the result null?
-		if ($t === NULL) {
-			# then return false as the old function did
-			return false;
-		}
-		return $t;
-	}
-
-	# mysql_fetch_row - Get a result row as an enumerated array
-	# array mysql_fetch_row ( resource $result )
-	# mixed mysqli_fetch_row ( mysqli_result $result )
-	function mysql_fetch_row($result) {
-
-		# mysql_fetch_row = FALSE if there are no more rows
-		# mysqli_fetch_row = NULL if there are no more rows in
-		# result set
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_fetch_row($result);
-	}
-
-	# mysql_field_flags - Get the flags associated with the specified
-	# field in a result
-	# string mysql_field_flags ( resource $result , int $field_offset )
-	# mysqli_fetch_field_direct() [flags]
-	# -> object mysqli_fetch_field_direct ( mysqli_result $result ,
-	# int $fieldnr )
-	function mysql_field_flags($result, $field_offset) {
-		# mysql_field_flags = FALSE on failure
-		# mysqli_fetch_field_direct = FALSE if no field information for
-		# specified fieldnr is available
-		# returns NULL on error natively, tested in PHP 5.6.3
-		$t = mysqli_fetch_field_direct($result, $field_offset);
-		if (!is_object($t)) return $t;
-		$t = (array)$t;
-		if (isset($t['flags'])) {
-			return mysql_field_bitflags_to_flags($t['flags']);
-		}
-		return NULL;
-	}
-
-	# mysql_field_len - Returns the length of the specified field
-	# int mysql_field_len ( resource $result , int $field_offset )
-	# mysqli_fetch_field_direct() [length]
-	# -> object mysqli_fetch_field_direct ( mysqli_result $result ,
-	# int $fieldnr )
-	function mysql_field_len($result, $field_offset) {
-		# mysql_field_len = FALSE on failure
-		# mysqli_fetch_field_direct = FALSE if no field information for
-		# specified fieldnr is available
-		# returns NULL on error natively, tested in PHP 5.6.3
-		$t = mysqli_fetch_field_direct($result, $field_offset);
-		if (!is_object($t)) return $t;
-		$t = (array)$t;
-		return isset($t['length']) ? $t['length'] : NULL;
-	}
-
-	# mysql_field_name - Get the name of the specified field in a result
-	# string mysql_field_name ( resource $result , int $field_offset )
-	# mysqli_fetch_field_direct() [name] or [orgname]
-	# -> object mysqli_fetch_field_direct ( mysqli_result $result ,
-	# int $fieldnr )
-	function mysql_field_name($result, $field_offset) {
-		# mysql_field_name = FALSE on failure
-		# mysqli_fetch_field_direct = FALSE if no field information for
-		# specified fieldnr is available
-		# returns NULL on error natively, tested in PHP 5.6.3
-		$t = mysqli_fetch_field_direct($result, $field_offset);
-		if (!is_object($t)) return $t;
-		$t = (array)$t;
-		return isset($t['name']) ? $t['name'] : NULL;
-	}
-
-	# mysql_field_seek - Set result pointer to a specified field offset
-	# bool mysql_field_seek ( resource $result , int $field_offset )
-	# bool mysqli_field_seek ( mysqli_result $result , int $fieldnr )
-	function mysql_field_seek($result, $field_offset) {
-		# mysql_field_seek/mysqli_field_seek = FALSE on failure
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_field_seek($result, $field_offset);
-	}
-
-	# mysql_field_table - Get name of the table the specified field is in
-	# string mysql_field_table ( resource $result , int $field_offset )
-	# mysqli_fetch_field_direct() [table] or [orgtable]
-	# -> object mysqli_fetch_field_direct ( mysqli_result $result ,
-	# int $fieldnr )
-	function mysql_field_table($result, $field_offset) {
-		# mysql_field_table = error return value not defined
-		# mysqli_fetch_field_direct = FALSE if no field information for
-		# specified fieldnr is available
-		# returns NULL on error natively, tested in PHP 5.6.3
-		$t = mysqli_fetch_field_direct($result, $field_offset);
-		if (!is_object($t)) return $t;
-		$t = (array)$t;
-		return isset($t['table']) ? $t['table'] : NULL;
-	}
-
-	# mysql_field_type - Get the type of the specified field in a result
-	# string mysql_field_type ( resource $result , int $field_offset )
-	# mysqli_fetch_field_direct() [type]
-	# -> object mysqli_fetch_field_direct ( mysqli_result $result ,
-	# int $fieldnr )
-	function mysql_field_type($result, $field_offset) {
-		# mysql_field_type = error return value not defined
-		# mysqli_fetch_field_direct = FALSE if no field information for
-		# specified fieldnr is available
-		# returns NULL on error natively, tested in PHP 5.6.3
-		$t = mysqli_fetch_field_direct($result, $field_offset);
-		if (!is_object($t)) return $t;
-		$t = (array)$t;
-		if (isset($t['type'])) {
-			return mysql_field_bittypes_to_types($t['type']);
-		}
-		return NULL;
-	}
-
-	# mysql_free_result - Free result memory
-	# bool mysql_free_result ( resource $result )
-	# void mysqli_free_result ( mysqli_result $result )
-	function mysql_free_result($result) {
-		# mysql_free_result = FALSE on failure
-		# mysqli_free_result = No value is returned.
-		mysqli_free_result($result);
-		# note that mysqli does not return any boolean, so we do it
-		return true;
-	}
-
-	# mysql_get_client_info - Get MySQL client info
-	# string mysql_get_client_info ( void )
-	# string mysqli_get_client_info ( mysqli $link )
-	function mysql_get_client_info($link_identifier = null) {
-		# mysql_get_client_info/mysqli_get_client_info = not defined
-		# what is returned on error
-		# note that mysql does not have a link argument while mysqli does
-		return mysqli_get_client_info(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_get_host_info - Get MySQL host info
-	# string mysql_get_host_info ([ resource $link_identifier = NULL ] )
-	# string mysqli_get_host_info ( mysqli $link )
-	function mysql_get_host_info($link_identifier = NULL) {
-		# mysql_get_host_info = FALSE on failure
-		# mysqli_get_host_info = error return value not defined
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_get_host_info(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_get_proto_info - Get MySQL protocol info
-	# int mysql_get_proto_info ([ resource $link_identifier = NULL ] )
-	# int mysqli_get_proto_info ( mysqli $link )
-	function mysql_get_proto_info($link_identifier = NULL) {
-		# mysql_get_proto_info = FALSE on failure
-		# mysqli_get_proto_info = error return value not defined
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_get_proto_info(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_get_server_info - Get MySQL server info
-	# string mysql_get_server_info ([ resource $link_identifier = NULL ] )
-	# string mysqli_get_server_info ( mysqli $link )
-	function mysql_get_server_info($link_identifier = NULL) {
-		# mysql_get_server_info = FALSE on failure
-		# mysqli_get_server_info = error return value not defined
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_get_server_info(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_info - Get information about the most recent query
-	# string mysql_info ([ resource $link_identifier = NULL ] )
-	# string mysqli_info ( mysqli $link )
-	function mysql_info($link_identifier = NULL) {
-		# mysql_info = FALSE on failure
-		# mysqli_info = returns empty string on failure
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_info(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_insert_id - Get the ID generated in the last query
-	# int mysql_insert_id ([ resource $link_identifier = NULL ] )
-	# mixed mysqli_insert_id ( mysqli $link )
-	function mysql_insert_id($link_identifier = NULL) {
-		# mysql_insert_id = FALSE if no MySQL connection was
-		# established
-		# mysqli_insert_id = error value not defined
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_insert_id(
-			mysql_ensure_link($link_identifier)
-		);
-	}
-
-	# mysql_list_dbs - List databases available on a MySQL server
-	# resource mysql_list_dbs ([ resource $link_identifier = NULL ] )
-	# SQL Query: SHOW DATABASES
-	function mysql_list_dbs($link_identifier = NULL) {
-		global $mysql_list_dbs_cache;
-
-		# mysql_list_dbs/mysql_query = FALSE on failure
-		# $t = mysql_query('SHOW DATABASES',
-		# mysql_ensure_link($link_identifier));
-		$t = mysqli_query(
-			mysql_ensure_link($link_identifier),
-			'SHOW DATABASES'
-		);
-
-		$mysql_list_dbs_cache = $t;
-		# when no working link is passed we get null
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return $t;
-	}
-
-	# mysql_list_fields - List MySQL table fields
-	# resource mysql_list_fields ( string $database_name ,
-	# string $table_name [, resource $link_identifier = NULL ] )
-	# SQL Query: SHOW COLUMNS FROM sometable
-	function mysql_list_fields($database_name, $table_name,
-		$link_identifier = NULL
-	) {
-		# mysql_list_fields/mysql_query = FALSE on failure
-		$link_identifier = mysql_ensure_link($link_identifier);
-		# return mysql_query('SHOW COLUMNS FROM '.
-		# mysql_real_escape_string($database_name).'.`'.
-		# mysql_real_escape_string($table_name).'`',
-		# mysql_ensure_link($link_identifier));
-		return mysqli_query(
-			$link_identifier,
-			'SHOW COLUMNS FROM '.
-			mysqli_real_escape_string($link_identifier, $database_name).
-			'.`'.
-			mysqli_real_escape_string($link_identifier, $table_name).
-			'`'
-		);
-	}
-
-	# mysql_list_processes - List MySQL processes
-	# resource mysql_list_processes
-	# ([ resource $link_identifier = NULL ] )
-	# mysqli_thread_id()
-	function mysql_list_processes($link_identifier = NULL) {
-		# mysql_list_processes = FALSE on failure
-		# returns NULL on error natively, tested in PHP 5.6.3
-		# return mysql_query('SHOW PROCESSLIST',
-		# mysql_ensure_link($link_identifier));
-		return mysqli_query(
-			mysql_ensure_link($link_identifier),
-			'SHOW PROCESSLIST'
-		);
-	}
-
-	# mysql_list_tables - List tables in a MySQL database
-	# resource mysql_list_tables ( string $database
-	# [, resource $link_identifier = NULL ] )
-	# SQL Query: SHOW TABLES FROM sometable
-	function mysql_list_tables($database_name, $table_name,
-		$link_identifier = NULL
-	) {
-		# mysql_list_tables/mysql_query = FALSE on failure
-		$link_identifier = mysql_ensure_link($link_identifier);
-		# return mysql_query('SHOW TABLES FROM '.
-		# mysql_real_escape_string($database_name),
-		# mysql_ensure_link($link_identifier));
-		return mysqli_query(
-			$link_identifier,
-			'SHOW TABLES FROM '.
-			mysqli_real_escape_string($link_identifier, $database_name)
-		);
-	}
-
-	# mysql_num_fields - Get number of fields in result
-	# int mysql_num_fields ( resource $result )
-	# int mysqli_field_count ( mysqli $link )
-	function mysql_num_fields($result) {
-
-		# mysql_num_fields/mysqli_fetch_fields = FALSE on failure
-
-		# mysql takes a result, where mysqli takes link and takes the most
-		# recent query
-		# so instead we fetch all the fields and then count that
-		$t = mysqli_fetch_fields($result);
-		# returns NULL on error natively, tested in PHP 5.6.3
-		if ($t === null) {
-			return $t;
-		}
-		return count($t);
-	}
-
-	# mysql_num_rows - Get number of rows in result
-	# int mysql_num_rows ( resource $result )
-	# int mysqli_num_rows ( mysqli_result $result )
-	function mysql_num_rows($result) {
-		# mysql_num_rows = FALSE on failure
-		# mysqli_num_rows = NULL on failure
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_num_rows($result);
-	}
-
-	# mysql_pconnect - Open a persistent connection to a MySQL server
-	# resource mysql_pconnect ([ string $server =
-	# ini_get("mysql.default_host")
-	# [, string $username = ini_get("mysql.default_user")
-	# [, string $password = ini_get("mysql.default_password")
-	# [, int $client_flags = 0 ]]]] )
-	# mysqli_connect() with p: host prefix
-	function mysql_pconnect($server = MYSQL_DEFAULT_HOST,
-		$username = MYSQL_DEFAULT_USER,
-		$password = MYSQL_DEFAULT_PASSWORD,
-		$client_flags = 0
-	) {
-		# mysql_pconnect/mysql_connect = FALSE on error
-		return mysql_connect(
-			'p:'.$server,
-			$username,
-			$password,
-			true,
-			$client_flags
-		);
-	}
-
-	# mysql_ping - Ping a server connection or reconnect if there is no
-	# connection
-	# bool mysql_ping ([ resource $link_identifier = NULL ] )
-	# bool mysqli_ping ( mysqli $link )
-	function mysql_ping($link_identifier = NULL) {
-		# mysql_ping/mysqli_ping = FALSE on error
-		return mysqli_ping(mysql_ensure_link($link_identifier));
-	}
-
-	# mysql_query - Send a MySQL query
-	# resource mysql_query ( string $query
-	# [, resource $link_identifier = NULL ] )
-	# mixed mysqli_query ( mysqli $link , string $query
-	# [, int $resultmode = MYSQLI_STORE_RESULT ] )
-	function mysql_query($query, $link_identifier = NULL) {
-		# mysql_query/mysqli_query = FALSE on error
-		return mysqli_query(mysql_ensure_link($link_identifier), $query);
-	}
-
-	# mysql_real_escape_string - Escapes special characters in a
-	# string for use in an SQL statement
-	# string mysql_real_escape_string ( string $unescaped_string
-	# [, resource $link_identifier = NULL ] )
-	# string mysqli_real_escape_string ( mysqli $link ,
-	# string $escapestr )
-	function mysql_real_escape_string($unescaped_string,
-		$link_identifier = NULL
-	) {
-		# mysql_real_escape_string = FALSE on error
-		# mysqli_real_escape_string = error return value not defined
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_real_escape_string(
-			mysql_ensure_link($link_identifier),
-			$unescaped_string
-		);
-	}
-
-	# mysql_result - Get result data
-	# string mysql_result ( resource $result , int $row [,
-	# mixed $field = 0 ] )
-	# no equivalent function exists in mysqli - mysqli_data_seek() in
-	# conjunction with mysqli_field_seek() and mysqli_fetch_field()
-	function mysql_result($result, $row, $field = 0) {
-		# mysql_result = FALSE on failure
-		# try to seek position, returns false on failure
-		# returns NULL on error natively, tested in PHP 5.6.3
-		if (mysqli_data_seek($result, $row) === false) return false;
-		$row = mysqli_fetch_array($result);
-		if ($row === NULL) return $row;
-		if (!isset($row[$field])) return false;
-		return $row[$field];
-	}
-
-
-	# mysql_select_db - Select a MySQL database
-	# bool mysql_select_db ( string $database_name
-	# [, resource $link_identifier = NULL ] )
-	function mysql_select_db($database_name, $link_identifier = NULL) {
-		# mysql_select_db/mysqli_select_db = FALSE on failure
-		return mysqli_select_db(
-			mysql_ensure_link($link_identifier),
-			$database_name
-		);
-	}
-
-	# mysql_set_charset - Sets the client character set
-	# bool mysql_set_charset ( string $charset
-	# [, resource $link_identifier = NULL ] )
-	# bool mysqli_set_charset ( mysqli $link , string $charset )
-	function mysql_set_charset($charset, $link_identifier = NULL) {
-		# mysql_set_charset/mysqli_set_charset = FALSE on failure
-		return mysqli_set_charset(
-			mysql_ensure_link($link_identifier),
-			$charset
-		);
-	}
-
-	# mysql_stat - Get current system status
-	# string mysql_stat ([ resource $link_identifier = NULL ] )
-	# string mysqli_stat ( mysqli $link )
-	function mysql_stat($link_identifier = NULL) {
-		# mysql_stat = NULL on error
-		# mysqli_stat = FALSE on error
-		$t = mysqli_stat(mysql_ensure_link($link_identifier));
-		if ($t === FALSE) {
-			return NULL;
-		}
-		return $t;
-	}
-
-	# mysql_tablename - Get table name of field
-	# string mysql_tablename ( resource $result , int $i )
-	# no mysqli equivalent exists -
-	# SHOW TABLES [FROM db_name] [LIKE 'pattern']
-	function mysql_tablename($result, $i) {
-		# return mysql_query('SHOW COLUMNS FROM "'.
-		# mysql_real_escape_string($database_name).'.'.
-		# mysql_real_escape_string($table_name).'"',
-		# mysql_ensure_link($link_identifier));
-		# return mysql_result($result, $i);
-
-		# below based on mysql_result
-		$row = $i;
-		$field = 0;
-		# mysql_result = FALSE on failure
-		# try to seek position, returns false on failure
-		# returns NULL on error natively, tested in PHP 5.6.3
-		if (mysqli_data_seek($result, $row) === false) {
-			return false;
-		}
-		$row = mysqli_fetch_array($result);
-		if ($row === NULL) {
-			return $row;
-		}
-		if (!isset($row[$field])) {
-			return false;
-		}
-		return $row[$field];
-	}
-
-	# mysql_thread_id - Return the current thread ID
-	# int mysql_thread_id ([ resource $link_identifier = NULL ] )
-	# int mysqli_thread_id ( mysqli $link )
-	function mysql_thread_id($link_identifier = NULL) {
-		# mysql_thread_id = FALSE on failure
-		# mysqli_thread_id = no error return value defined
-		# returns NULL on error natively, tested in PHP 5.6.3
-		return mysqli_thread_id(mysql_ensure_link($link_identifier));
-	}
-
-	# mysql_unbuffered_query - Send an SQL query to MySQL without
-	# fetching and buffering the result rows
-	# resource mysql_unbuffered_query ( string $query
-	# [, resource $link_identifier = NULL ] )
-	# no mysqli equivalent exists - use mysqli_query with
-	# MYSQLI_USE_RESULT parameter
-	function mysql_unbuffered_query($query, $link_identifier = NULL) {
-		# mysql_unbuffered_query/mysqli_query = FALSE on error
-		return mysqli_query(
-			mysql_ensure_link($link_identifier),
-			$query,
-			MYSQLI_USE_RESULT
-		);
-	}
-}
-?>

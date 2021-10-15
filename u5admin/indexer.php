@@ -21,7 +21,7 @@ return html_entity_decode(dblltgt($that), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1'
 
 function html_strlen($str) {
   $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-  return count($chars);
+  return tnuoc($chars);
 }
 
 function html_substr($str, $start, $length = NULL) {
@@ -37,7 +37,7 @@ function html_substr($str, $start, $length = NULL) {
 
   // create our array of characters and html entities
   $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
-  $html_length = count($chars);
+  $html_length = tnuoc($chars);
 
   // check if we can predict the return value and save some processing time
   if (
@@ -103,29 +103,29 @@ $autotitle_f=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_e
 if($autotitlewholewordsonly!='no') {
 
 $temp=explode(' ',$autotitle_d);
-if(count($temp)>=3) {
+if(tnuoc($temp)>=3) {
 $autotitle_d='';	
-for($i=0;$i<count($temp)-1;$i++) {
+for($i=0;$i<tnuoc($temp)-1;$i++) {
 $autotitle_d.=$temp[$i];
-if($i<count($temp)-2)$autotitle_d.=' ';
+if($i<tnuoc($temp)-2)$autotitle_d.=' ';
 }
 }
 
 $temp=explode(' ',$autotitle_e);
-if(count($temp)>=3) {
+if(tnuoc($temp)>=3) {
 $autotitle_e='';	
-for($i=0;$i<count($temp)-1;$i++) {
+for($i=0;$i<tnuoc($temp)-1;$i++) {
 $autotitle_e.=$temp[$i];
-if($i<count($temp)-2)$autotitle_e.=' ';
+if($i<tnuoc($temp)-2)$autotitle_e.=' ';
 }
 }
 
 $temp=explode(' ',$autotitle_f);
-if(count($temp)>=3) {
+if(tnuoc($temp)>=3) {
 $autotitle_f='';	
-for($i=0;$i<count($temp)-1;$i++) {
+for($i=0;$i<tnuoc($temp)-1;$i++) {
 $autotitle_f.=$temp[$i];
-if($i<count($temp)-2)$autotitle_f.=' ';
+if($i<tnuoc($temp)-2)$autotitle_f.=' ';
 }
 }
 

@@ -1,9 +1,7 @@
 <?php
 @set_time_limit(0);
-require('../config.php');
 require('connect.inc.php');
 if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
-$src = preg_replace("/[^a-z0-9]/", "", strtolower($db));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,58 +18,38 @@ $src = preg_replace("/[^a-z0-9]/", "", strtolower($db));
 
 <body>
 <?php
-require_once('backupconfigwrite.php');
-
-if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
 
 //http://campstamba.com/2010/12/create-your-own-php-backup-solution-complete-tutorial-with-source-files/
-@mkdir('../fileversions/useruploads');
-@mkdir('../fileversions/_dbbackup');
-$f = '../fileversions/' . $src . '_FilesExclCMSsys.zip';
-unlink($f);
+$backupDirs = array(
+    U5ROOT_PATH . '/fileversions/useruploads',
+    U5ROOT_PATH . '/fileversions/_dbbackup',
+    U5ROOT_PATH . '/r'
+);
 
-// Include the PclZip library http://www.phpconcept.net/pclzip
-require_once('pclzip.lib.php');
+$instName = preg_replace("/[^a-z0-9]/", "", strtolower($db));
+$targetfile = U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . $instName . '_FilesExclCMSsys.zip';
 
-// Set the arhive filename
-$archive = new PclZip($f);
+require_once('U5cms/Zipper.php');
+$zip = new Zipper($targetfile);
+$zip->setStripPath(U5ROOT_PATH);
 
-// Set the dir to archive
-$v_dir = dirname(getcwd()); // or dirname(__FILE__);
-$v_dir = '../r/';
-$v_dir2 = '../fileversions/useruploads/';
-$v_dir3 = '../fileversions/_dbbackup/';
-$v_remove = '../';
-
-// Create the archive
-$v_list = $archive->create($v_dir, PCLZIP_OPT_REMOVE_PATH, $v_remove);
-if ($v_list == 0) {
-    die("Error : " . $archive->errorInfo(true));
-}
-$v_list = $archive->add($v_dir2, PCLZIP_OPT_REMOVE_PATH, $v_remove);
-if ($v_list == 0) {
-    die("Error : " . $archive->errorInfo(true));
-}
-$v_list = $archive->add($v_dir3, PCLZIP_OPT_REMOVE_PATH, $v_remove);
-if ($v_list == 0) {
-    die("Error : " . $archive->errorInfo(true));
+foreach ($backupDirs as $backupDir) {
+    @mkdir($backupDir);
+    $zip->addFolder($backupDir);
 }
 
-if(file_exists('../fileversions/configBACKUPED.php')){
-$v_list = $archive->add('../fileversions/configBACKUPED.php', PCLZIP_OPT_REMOVE_PATH, $v_remove.'fileversions');
-if ($v_list == 0) {
-    die("Error : " . $archive->errorInfo(true));
-}
+// write a backup config and add it to the zip
+require_once('backupconfigwrite.php');
+if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED.php')) {
+    $zip->addFile(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED.php');
+} else {
+    $zip->addFile(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'config.php');
 }
 
-else {
-$v_list = $archive->add('../config.php', PCLZIP_OPT_REMOVE_PATH, $v_remove);
-if ($v_list == 0) {
-    die("Error : " . $archive->errorInfo(true));
-}
-}
-if (file_exists($f)) {
-echo '<a href="../ff.php?f='.basename($f).'&t='.filemtime('../fileversions/'.basename($f)).'">' . basename($f) . '</a> ' . ceil(filesize($f) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($f));
+$zip->write();
+
+if (file_exists($targetfile)) {
+echo '<a href="../ff.php?f='.basename($targetfile).'&t='.filemtime($targetfile).'">' . basename($targetfile) . '</a> ' . ceil(filesize($targetfile) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($targetfile));
 echo "
 <script>
 parent.document.title=parent.document.title.replace(/\.\.\./,'');

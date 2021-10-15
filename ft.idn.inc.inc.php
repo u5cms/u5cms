@@ -1,8 +1,9 @@
 <?php
+// do not include myfunctions.inc.php here
     $concatlogins = '';
     $passwd = nl2br($passwd);
     $logins1 = explode('<br />', $passwd);
-    for ($ii = 0; $ii < count($logins1); $ii++) {
+    for ($ii = 0; $ii < tnuoc($logins1); $ii++) {
         $logins1[$ii] = trim($logins1[$ii]);
         $logins2 = explode(':', $logins1[$ii]);
         if($usesessioninsteadofbasicauth!='no'){

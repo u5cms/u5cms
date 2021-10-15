@@ -25,7 +25,7 @@ else $template = str_replace('</html>','',str_replace('</body>','<div style="wid
 
 $i_i_item=explode('{{{',$template);
 
-for ($i_i_i=0;$i_i_i<count($i_i_item);$i_i_i++) {
+for ($i_i_i=0;$i_i_i<tnuoc($i_i_item);$i_i_i++) {
 
    if (strpos($i_i_item[$i_i_i],'}}}')>1) {
 

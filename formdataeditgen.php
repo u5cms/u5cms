@@ -52,7 +52,7 @@ $keywords=explode(' ',trim($keywords));
 
 $andfilter="AND (datacsv='' ";
 
-for ($k=0;$k<count($keywords);$k++) {
+for ($k=0;$k<tnuoc($keywords);$k++) {
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
@@ -105,7 +105,7 @@ document.u5form.submit();
 <input type="hidden" name="thanks" value="thanks" />
 <?php
 $h=explode(';',$row_a['headcsv']);
-for($i=0;$i<count($h)-1;$i++) {
+for($i=0;$i<tnuoc($h)-1;$i++) {
 gen($h[$i]);
 }
 ?>

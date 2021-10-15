@@ -1,4 +1,5 @@
 <?php 
+// do not include myfunction.inc.php here
 if($_COOKIE['u5samlnonce']!=$u5samlnonce||!isset($_COOKIE['u5samlusername']))die('<script>location.href="saml/saml.php?u='.rawurlencode($_GET['u']).'"</script>');
 $founduserincookie=$_COOKIE['u5samlusername'];
 $newautosamlpw=sha1($u5samlsalt.$founduserincookie.$db);
@@ -44,7 +45,7 @@ $logins=explode(';',$row_a['logins']);
 $newlogins='';
 $foundone=0;
 $totalfound=0;
-for($ii=0;$ii<count($logins);$ii++) {
+for($ii=0;$ii<tnuoc($logins);$ii++) {
 if(str_replace('?'.u5flatidnlower($founduserincookie).':','',$logins[$ii])==$logins[$ii])$newlogins.=$logins[$ii].';';	
 else {
 	$newlogins.='

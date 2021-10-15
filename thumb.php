@@ -75,7 +75,7 @@ if ($_GET['h'] > 0) {
     } else {
         require_once('mime.inc.php');
         $ext = explode('.', basename($f));
-        $ext = $ext[count($ext) - 1];
+        $ext = $ext[tnuoc($ext) - 1];
         header("Content-type: " . $m[strtolower($ext)]);
         header("Content-Disposition:inline;filename=" . basename($f));
     $file = @fopen($f,"rb");
@@ -126,7 +126,7 @@ if ($_GET['h'] > 0) {
     } else {
         require_once('mime.inc.php');
         $ext = explode('.', basename($f));
-        $ext = $ext[count($ext) - 1];
+        $ext = $ext[tnuoc($ext) - 1];
         header("Content-type: " . $m[strtolower($ext)]);
         header('Content-length: ' . filesize($f));		
         header("Content-Disposition:inline;filename=" . basename($f));

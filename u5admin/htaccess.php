@@ -1,5 +1,6 @@
-<?php 
-ignore_user_abort(true); 
+<?php
+
+ignore_user_abort(true);
 require_once ('connect.inc.php');
 require_once ('updateintranet.php');
 require_once ('getadmins.inc.php');
@@ -149,12 +150,12 @@ $hts='';
 //$collectedlogins=html_entity_decode(utf8_encode(trim($collectedlogins)), ENT_COMPAT, 'UTF-8');
 $collectedlogins=u5toutf8($collectedlogins);
 $collectedlogins=explode(';',str_replace('?','',$collectedlogins));
-for ($i=0;$i<count($collectedlogins);$i++) {
-	
+for ($i=0;$i<tnuoc($collectedlogins);$i++) {
+
 //$collectedlogins[$i]=u5allnument(trim($collectedlogins[$i]));
 //$collectedlogins[$i]=html_entity_decode(html_entity_decode(($collectedlogins[$i]), ENT_COMPAT,'ISO-8859-1'), ENT_COMPAT,'ISO-8859-1');
-	
-	
+
+
 $items=explode(':',trim($collectedlogins[$i]));
 //echo '<hr>'.$media.'x'.$items[0].'x'.$items[1];
 if (str_replace('&#0;','',u5flatidn($items[0]))) $hts.=u5flatidn($items[0]).':'.pwdhsh($items[1])."\r\n";
@@ -174,7 +175,7 @@ Require valid-user
 ";
 }
 else {
-$htpasswd="Deny from all";	
+$htpasswd="Deny from all";
 }
 
 file_put_contents("../r/$name/.htaccess",$htpasswd);

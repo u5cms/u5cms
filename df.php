@@ -10,7 +10,7 @@ if(strlen(str_replace('.','',$f))>0)$allfiles.=$f.',';
 }
 $allfiles=explode(',',$allfiles);
 
-for($i=0;$i<count($allfiles)-1;$i++) {
+for($i=0;$i<tnuoc($allfiles)-1;$i++) {
 $fhash1=sha1($mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$allfiles[$i].date('Ymd'));
 $fhash2=sha1($mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$allfiles[$i].date('Ymd',time()-12*60*60));
 if ($fhash1==$_GET['f'] || $fhash2==$_GET['f']) $f=$allfiles[$i]; 
@@ -28,7 +28,7 @@ if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 }
 
 $ext=explode('.',$f);
-$ext=$ext[count($ext)-1];
+$ext=$ext[tnuoc($ext)-1];
 
 
 if (strpos($f,'.jpg')>0 || strpos($f,'.JPG')>0 || strpos($f,'.jpeg')>0 || strpos($f,'.JPEG')>0) {

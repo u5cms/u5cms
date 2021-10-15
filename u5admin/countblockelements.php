@@ -14,7 +14,7 @@ $sql_a = "SELECT * FROM resources WHERE name='" . mysql_real_escape_string($_GET
 $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
 $row_a = mysql_fetch_array($result_a);
-    
+
 $l1=basename(htmlentities($_GET['l1']));
 $l2=basename(htmlentities($_GET['l2']));
 $l3=basename(htmlentities($_GET['l3']));
@@ -97,9 +97,9 @@ function c0($tag) {
 global $l1;
 global $l2;
 global $l3;
-cb($tag,$l1);	
-cb($tag,$l2);	
-cb($tag,$l3);	
+cb($tag,$l1);
+cb($tag,$l2);
+cb($tag,$l3);
 }
 
 if($err!='') {
@@ -113,30 +113,31 @@ $ctag='</'.$tag.' ';
 
 $opos=0;
 $cpos=0;
+$tagpos=[];
 $str=str_replace('>',' >',$str);
 if(strpos('x'.$str,$otag)>0){
-$ostr=explode($otag,$str);
-for($i=1;$i<count($ostr);$i++) {
-$opos+=strlen($ostr[$i-1])+strlen($otag);;
-$tagpos[$opos]=1;
-}
+		$ostr=explode($otag,$str);
+		for($i=1;$i<tnuoc($ostr);$i++) {
+				$opos+=strlen($ostr[$i-1])+strlen($otag);;
+				$tagpos[$opos]=1;
+		}
 }
 
 if(strpos('x'.$str,$ctag)>0){
-$cstr=explode($ctag,$str);
-for($i=1;$i<count($cstr);$i++) {
-$cpos+=strlen($cstr[$i-1])+strlen($ctag);
-$tagpos[$cpos]=-1;
-}
+		$cstr=explode($ctag,$str);
+		for($i=1;$i<tnuoc($cstr);$i++) {
+				$cpos+=strlen($cstr[$i-1])+strlen($ctag);
+				$tagpos[$cpos]=-1;
+		}
 }
 
 ksort($tagpos);
 $tagpos=array_values($tagpos);
 
 $tagposres=0;
-for($i=0;$i<count($tagpos);$i++) {
-$tagposres+=$tagpos[$i];
-if($tagposres<0)$tagposres=0;
+for($i=0;$i<tnuoc($tagpos);$i++) {
+		$tagposres+=$tagpos[$i];
+		if($tagposres<0)$tagposres=0;
 }
 
 return $tagposres;

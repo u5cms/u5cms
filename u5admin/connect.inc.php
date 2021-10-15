@@ -1,7 +1,9 @@
-<?php 
+<?php
+
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
 ini_set('default_charset','latin1');
+require_once('../myfunctions.inc.php');
 require_once('../mysql.php');
 $_GET['name']=basename($_GET['name']);
 $_POST['name']=basename($_POST['name']);
@@ -18,19 +20,19 @@ $url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.
 header('Location: ' . $url);
 echo "<script>location.href='$url'</script>";
 exit;
-}	
+}
 }
 
 if ($quotehandling=='on') include('../quotehandling.inc.php');
 
-$path = str_replace(basename($_SERVER['SCRIPT_FILENAME']),'',$_SERVER['SCRIPT_FILENAME']) . '../lib/';
-set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+// Add U5ROOT_PATH/lib to include_path
+set_include_path(get_include_path() . PATH_SEPARATOR . U5ROOT_PATH . DIRECTORY_SEPARATOR . 'lib');
 
-require_once(str_replace(basename($_SERVER['SCRIPT_FILENAME']),'',$_SERVER['SCRIPT_FILENAME']).'../lib/Zend/Loader.php');
+require_once('Zend/Loader.php');
 
-function __autoload($class) {
+spl_autoload_register(function ($class) {
     Zend_Loader::loadClass($class);
-}
+});
 
 function connect_to_db() {
 include('../config.php');
@@ -116,4 +118,4 @@ function pwdcookieget($p) {
     if ($sticksessiontoip == 'yes') $installationfingerprint .= $_SERVER['REMOTE_ADDR'];
     return sha1($sessioncookiehashsalt . $installationfingerprint . $p);
 }
-?>
+

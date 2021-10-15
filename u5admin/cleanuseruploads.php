@@ -10,7 +10,7 @@ if ($handle = @opendir($path))  {
    }
 $files=explode($delimiter,$files);
 
-for ($i=0; $i<count($files);$i++) {
+for ($i=0; $i<tnuoc($files);$i++) {
 
 $sql_a="SELECT * FROM formdata WHERE datacsv LIKE '%".mysql_real_escape_string($files[$i])."%' AND status!=5";
 $result_a=mysql_query($sql_a);
@@ -51,7 +51,7 @@ if ($handle = @opendir($path))  {
    }
 $files=explode($delimiter,$files);
 
-for ($i=0; $i<count($files);$i++) {
+for ($i=0; $i<tnuoc($files);$i++) {
 
 $sql_a="SELECT * FROM formdata WHERE datacsv LIKE '%".mysql_real_escape_string($files[$i])."%' AND status!=5";
 $result_a=mysql_query($sql_a);

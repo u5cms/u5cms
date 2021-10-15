@@ -76,7 +76,7 @@ $path='../r/'.$_GET['name'];
      while (false !== ($file = readdir($handle)))  { 
 
      $ext=explode('.',$file);
-     $ext=$ext[count($ext)-1];
+     $ext=$ext[tnuoc($ext)-1];
 
 
 if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan1na.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan1na.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$lan1na.'.'.$ext);
@@ -100,7 +100,7 @@ $path='../r/v'.$_GET['name'];
      while (false !== ($file = readdir($handle)))  { 
 
      $ext=explode('.',$file);
-     $ext=$ext[count($ext)-1];
+     $ext=$ext[tnuoc($ext)-1];
 
 
 if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan1na.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan1na.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$lan1na.'.'.$ext);
