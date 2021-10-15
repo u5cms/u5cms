@@ -20,15 +20,6 @@ exit;
 $_GET['l']=htmlspecialchars($_GET['l']);
 if ($quotehandling=='on') include('quotehandling.inc.php');
 
-// Add U5ROOT_PATH/lib to include_path
-set_include_path(get_include_path() . PATH_SEPARATOR . U5ROOT_PATH . DIRECTORY_SEPARATOR . 'lib');
-
-require_once('Zend/Loader.php');
-
-spl_autoload_register(function ($class) {
-    Zend_Loader::loadClass($class);
-});
-
 function connect_to_db() {
 include('config.php');
 

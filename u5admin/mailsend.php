@@ -3,7 +3,8 @@
 require('connect.inc.php');
 require_once('u5idn.inc.php');
 
-//$validator = $validator = new Zend_Validate_EmailAddress();
+use Laminas\Mail\Message;
+
 function u5iso($str) {
     return html_entity_decode(u5allnument($str), ENT_COMPAT,'ISO-8859-1');
 }
@@ -191,31 +192,33 @@ if($cron!='cron' || ($i_a>=$nextmail && $i_a<$calcnum_a)) {
 
 $adrerror='';
 if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
-if($usesmtp=='yes') $transport = new Zend_Mail_Transport_Smtp($smtpservername, $mysmtpconfigdata);
-$mail = new Zend_Mail('UTF-8');
-//if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
-$mail->setFrom($zendfrom, $zendname);
-$mail->addTo($zendto);
+	$mail = new Message();
+    $mail->setEncoding('UTF-8');
+	//if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
+	$mail->addFrom($zendfrom, $zendname);
+	$mail->addTo($zendto);
 
-$zendcc=explode(',',$zendcc);
-for($zz=0;$zz<tnuoc($zendcc);$zz++) {
-$zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
-if ((validateemailaddress($zendcc[$zz])))$mail->addCc($zendcc);	
-}
+	$zendcc=explode(',',$zendcc);
+	for ($zz=0;$zz<tnuoc($zendcc);$zz++) {
+		$zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
+		if ((validateemailaddress($zendcc[$zz]))) {
+			$mail->addCc($zendcc);
+		}
+	}
 
-$zendbcc=explode(',',$zendbcc);
-for($zz=0;$zz<tnuoc($zendbcc);$zz++) {
-$zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
-if ((validateemailaddress($zendbcc[$zz])))$mail->addBcc($zendbcc);	
-}
+	$zendbcc=explode(',',$zendbcc);
+	for ($zz=0;$zz<tnuoc($zendbcc);$zz++) {
+		$zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
+		if ((validateemailaddress($zendbcc[$zz]))) {
+			$mail->addBcc($zendbcc);
+		}
+	}
 
-$mail->setSubject($zendsubject);
-$mail->setReplyTo($zendfrom);
-$mail->setBodyHtml('<span>'.$zendmessage.'</span>');
-$mail->setBodyText(strip_tags($zendmessage));
+	$mail->setSubject($zendsubject);
+	$mail->addReplyTo($zendfrom);
+	$mail->setBody(strip_tags($zendmessage));
 
-if($usesmtp=='yes') $mail->send($transport);
-else $mail->send();
+    MailTransport($usesmtp, $mysmtpoptions)->send($mail);
 }
 else $adrerror='ERROR!!!';
 

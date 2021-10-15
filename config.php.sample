@@ -19,6 +19,21 @@
    $canonicalprotocolanddomain='';
 
 // E-mail transport via SMTP ('no' or 'yes')? Some providers demand 'yes', sometimes even TO or FROM must be registered with the respective domain (concerns $mymail on line 3 of this file);
+   $usesmtp='yes';
+   //If NO encryption, remove all this: 'ssl' => 'tsl', (adjust port assignment or also remove if standard);
+   //If NO authentication, set connection_class to smtp and remove username/password lines
+   $mysmtpoptions = new SmtpOptions([
+       'name' => 'type_your_web_server_FQDN_here',
+       'host' => 'type_your_smtp_server_FQDN_here',
+       'port' => 587,
+       'connection_class' => 'login',
+       'connection_config' => [
+           'ssl'      => 'tls',
+           'username' => 'type_your_smtp_username_here',
+           'password' => 'type_your_smtp_password_here',
+       ],
+   ]);
+
    $usesmtp='no';
    $smtpservername='type_your_smtp_servername_here';
    //If NO encryption, remove all this: 'ssl' => 'ssl', (adjust port assignment or also remove if standard);

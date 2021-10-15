@@ -1,6 +1,9 @@
 <?php
 @set_time_limit(0);
 require('connect.inc.php');
+
+use U5cms\Zipper;
+
 if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
 ?>
 <!DOCTYPE html>
@@ -29,7 +32,6 @@ $backupDirs = array(
 $instName = preg_replace("/[^a-z0-9]/", "", strtolower($db));
 $targetfile = U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . $instName . '_FilesExclCMSsys.zip';
 
-require_once('U5cms/Zipper.php');
 $zip = new Zipper($targetfile);
 $zip->setStripPath(U5ROOT_PATH);
 

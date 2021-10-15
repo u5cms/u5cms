@@ -1,0 +1,12 @@
+{
+    "require": {
+        "laminas/laminas-mail": "^2.15",
+        "laminas/laminas-mime": "^2.9",
+        "laminas/laminas-servicemanager": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+                "U5cms\\": "src/"
+        }
+    }
+}
