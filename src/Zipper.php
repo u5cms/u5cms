@@ -22,7 +22,7 @@ class Zipper
 
     public function addFolder(string $folder) {
         if (!$this->isOpen()) {
-            throw new Exception('Cannot add folders to the zip file as the zip file is not open');
+            throw new \Exception('Cannot add folders to the zip file as the zip file is not open');
         }
 
         $handle = opendir($folder);
@@ -48,7 +48,7 @@ class Zipper
 
     public function addFile(string $filePath) {
         if (!$this->isOpen()) {
-            throw new Exception('Cannot add files to the zip file as the zip file is not open');
+            throw new \Exception('Cannot add files to the zip file as the zip file is not open');
         }
 
         // Remove prefix from file path before add to zip
