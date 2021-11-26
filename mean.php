@@ -4,7 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family:Arial, Helvetica, sans-serif;font-size:60%;color:#666666;">
-<?php 
+<?php
+include 'myfunctions.inc.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 $m= explode ('!,!',$_GET['m']);
 
