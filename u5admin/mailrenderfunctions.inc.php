@@ -27,6 +27,7 @@ function render($s) {
 
             $position=array_search($field,$headcsv);
 
+            // SISSEL
             if ($position!==0) {
                 $wrongfield=1;
             } else {
@@ -34,7 +35,7 @@ function render($s) {
             }
 
             if ($position>0) {
-                $wrongfield='';
+                $wrongfield=0;
             }
 
 
