@@ -5,7 +5,7 @@
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family:Arial, Helvetica, sans-serif;font-size:60%;color:#666666;">
 <?php
-include 'myfunctions.inc.php';
+require_once 'myfunctions.inc.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 $m= explode ('!,!',$_GET['m']);
 
