@@ -3,8 +3,8 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED)
 if($_GET['more']==1) header("Location: characters/punctuation.php");
 $ucrs='';
 if (isset($_GET['s'])) setcookie('mochr', $_GET['s'] , time()+3600*24*365*10,'/'); 
-require_once('../myfunctions.inc.php');
-require('../config.php');
+require_once '../myfunctions.inc.php';
+require_once '../config.php';
 ?>
 <!DOCTYPE html>
 <html>

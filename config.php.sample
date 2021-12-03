@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/myfunctions.inc.php';
+
 use Laminas\Mail\Transport\SmtpOptions;
 
 // E-mail address applied as standard FROM-address and system message recipient. Notice: Some picky providers demand a dedicated address here (MX with the respective domain or other prerequisites);
