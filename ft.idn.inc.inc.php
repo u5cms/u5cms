@@ -17,8 +17,8 @@
     $passwd = $concatlogins;
 
     if ($usesessioninsteadofbasicauth != 'no') {
-        $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
-        $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
+        $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'] ?? '';
+        $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'] ?? '';
     }
     $_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
     $_SERVER['PHP_AUTH_PW'] = trim($_SERVER['PHP_AUTH_PW']);
