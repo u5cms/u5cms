@@ -88,7 +88,7 @@ shortcut.add("Ctrl+S",function() {
 <?php if($row_a['mailsent']==0) {?>
 <input id="save" style="float:right" type="submit" value="save mailjob &#19904;<?php echo $_GET['id'] ?> (does not send any mail)" title="[Ctrl+s] save mailjob &#19904;<?php echo $_GET['id'] ?>. To execute the mailjob, use the send button on the list in the very right column." />
 <?php }
-else echo 'sent '.date('Y-m-d H:i:s',$row_a['mailsent'].' by '.$row_a['mailsentop']);
+else echo 'sent ' . date('Y-m-d H:i:s',$row_a['mailsent']) . ' by ' . $row_a['mailsentop'];
 ?>
 
 
