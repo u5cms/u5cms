@@ -369,6 +369,7 @@ file_put_contents('../config.php',$configphp);
    } 
  }
 rrmdir('../fancybox');
+rrmdir('../lib');
 unlink('../v.js');
 unlink('../c.js');
 ?>
