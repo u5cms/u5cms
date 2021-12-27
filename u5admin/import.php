@@ -175,7 +175,7 @@ Headings:
 <option value="1">Sent date and IP = now</option>
 <option value="2">Sent date and IP = last two columns in my pasted data</option>
 </select>
-fix Notes:<textarea style="height:15px;font-size:80%" name="fixnotes"><?php echo 'imp'.date(YmdHis); ?></textarea>
+fix Notes:<textarea style="height:15px;font-size:80%" name="fixnotes"><?php echo 'imp'.date('YmdHis'); ?></textarea>
 fix Authuser:<input type="text" name="fixauthuser" value="<?php echo $_SERVER['PHP_AUTH_USER'] ?>" style="font-size:80%" /></span>
 <textarea id="csv" onkeydown="if(event.keyCode == 9){doins(this.id,'\t');return false};" id="csv" style="width:100%;font-size:8px;tab-size:77" wrap="off" name="csv"></textarea>
 </small>
