@@ -54,7 +54,7 @@ $backup_files = array();
 //Erstelle Struktur von Datenbank
 function get_def($table, $link)
 {
-    $def = sprintf("DROP TABLE IF EXISTS `%s`\n", $table);
+    $def = sprintf("DROP TABLE IF EXISTS `%s`;\n", $table);
     $def.= sprintf("CREATE TABLE `%s` (\n", $table);
     $index = [];
 
