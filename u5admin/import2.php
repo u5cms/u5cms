@@ -25,7 +25,7 @@ $importer = new CsvImporter("../fileversions/$filename",true);
 $fp = fopen('../fileversions/_'.$filename, 'w');
 while($data = $importer->get())
 {
-array_walk($data,subone);
+array_walk($data,'subone');
 $for=0;
 foreach ($data as $fields) {
 if($for==0){
@@ -38,7 +38,7 @@ fputcsv($fp, $fields,';');
 }
 fclose($fp);
 
-array_walk($keys,nice);
+array_walk($keys,'nice');
 $keys=implode(';',$keys);
 $keys=$keys.';';
 
@@ -50,14 +50,14 @@ function clean($string) {
    $string = str_replace(' ', '', $string); 
    $string=str_replace('*','_mandatory',$string);
    
-$badascii = array(" ",":","¦","|","@" ,"&","¢","£","¤","¥","€","§","¨","©","ª","¬","®","¯","°","±","´","µ","¶","…","·","¸","º","÷","†","ß" ,"„","“","”","‚","‘","’","«","»","‹","›","¡","¿","–","À","Á","Â","Ã","Ä" ,"Å","Æ" ,"Ç","È","É","Ê","Ë","Ì","Í","Î","Ï","Ñ","Ò","Ó","Ô","Õ","#","Ö", "Ø","Œ" ,"Ù","Ú","Û","Ü", "à","á","â","ã","ä", "å","æ" ,"ç","è","é","ê","ë","ì","í","î","ï","ñ","ò","ó","ô","õ","#","ö", "ø","œ", "ù","ú","û","ü", "ÿ","'","%","/","\\","<",">",   ",",   ";","+","=","(",")","[","]","{","}","*","?","!","`","\"");
+$badascii = array(" ",":","Â¦","|","@" ,"&","Â¢","Â£","Â¤","Â¥","Â€","Â§","Â¨","Â©","Âª","Â¬","Â®","Â¯","Â°","Â±","Â´","Âµ","Â¶","Â…","Â·","Â¸","Âº","Ã·","Â†","ÃŸ" ,"Â„","Â“","Â”","Â‚","Â‘","Â’","Â«","Â»","Â‹","Â›","Â¡","Â¿","Â–","Ã€","Ã","Ã‚","Ãƒ","Ã„" ,"Ã…","Ã†" ,"Ã‡","Ãˆ","Ã‰","ÃŠ","Ã‹","ÃŒ","Ã","Ã","Ã","Ã‘","Ã’","Ã“","Ã”","Ã•","#","Ã–", "Ã˜","ÂŒ" ,"Ã™","Ãš","Ã›","Ãœ", "Ã ","Ã¡","Ã¢","Ã£","Ã¤", "Ã¥","Ã¦" ,"Ã§","Ã¨","Ã©","Ãª","Ã«","Ã¬","Ã­","Ã®","Ã¯","Ã±","Ã²","Ã³","Ã´","Ãµ","#","Ã¶", "Ã¸","Âœ", "Ã¹","Ãº","Ã»","Ã¼", "Ã¿","'","%","/","\\","<",">",   ",",   ";","+","=","(",")","[","]","{","}","*","?","!","`","\"");
 $goodascii= array("_","", "", "", "AT","u","c","L","", "Y","E","S","","c","a","N","R","", "o","pm","", "u","P","", "", "", "o","", "", "ss","", "", "", "", "", "", "", "", "", "", "", "", "", "A","A","A","A","Ae","A","Ae","C","E","E","E","E","I","I","I","I","N","O","O","O","O","","Oe","O","Oe","U","U","U","Ue","a","a","a","a","ae","a","ae","c","e","e","e","e","i","i","i","i","n","o","o","o","o","","oe","o","oe","u","u","u","ue","y","", "", "", "",  "", "",     "",    "","u","", "", "", "", "", "", "", "x","", "", "", "_");
 $string=str_replace($badascii,$goodascii,$string);
    
    $string = preg_replace('/[^A-Za-z_0-9]/', '', $string); // Removes special chars.
    //$string=str_replace('mandatory','_mandatory',$string);
    if(is_numeric($string[0])) $string='i'.$string;
-   return '·'.$string;
+   return 'Â·'.$string;
 }
 
 $sql_a="SELECT headcsv FROM formdata WHERE formname='".mysql_real_escape_string($_POST['target'])."' AND status!=5 AND status!=7 ORDER BY status DESC, id DESC LIMIT 0,1";
@@ -72,12 +72,7 @@ $headcsv=$row_a['headcsv'];
 $num_a = mysql_num_rows($result_a);
 
 if($num_a==0 || $_POST['h']==2) $headcsv=$keys;
-?>
 
-
-
-
-<?php
 class CsvImporter
 {
     private $fp;
@@ -92,7 +87,6 @@ class CsvImporter
         $this->parse_header = $parse_header;
         $this->delimiter = $delimiter;
         $this->length = $length;
-        $this->lines = $lines;
 
         if ($this->parse_header)
         {
@@ -144,9 +138,6 @@ class CsvImporter
 
 }
 
-?>
-
-<?php
 $c=trim(file_get_contents("../fileversions/_".$filename));
 $c=str_replace("\r","",$c);
 $c=explode("\n",$c);
@@ -208,7 +199,7 @@ $datacsv='';
 for($ii=$start;$ii<tnuoc($d)-$end;$ii++) {
 ////////////////////////////////////////
 //echo $h;
-$datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'·'.$d[$ii]).';';
+$datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'Â·'.$d[$ii]).';';
 //echo $d;
 ////////////////////////////////////////
 }
@@ -218,7 +209,7 @@ $datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'·'.$d[$ii]).';';
 $datacsv=explode(';',$datacsv);
 for($iii=0;$iii<tnuoc($datacsv);$iii++) {
 if ($datacsv[$iii][1]=='"') {
-$datacsv[$iii]='·'.substr($datacsv[$iii],2);
+$datacsv[$iii]='Â·'.substr($datacsv[$iii],2);
 if ($datacsv[$iii][strlen($datacsv[$iii])-1]=='"') $datacsv[$iii]=substr($datacsv[$iii],0,-1);
 }
 }
