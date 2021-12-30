@@ -8,7 +8,7 @@
 <script>
 document.write('<!--'+unescape(location.href)+'-->');
 </script>
-<button onclick="cf=prompt('Beginning a new mailjob. Please enter the subject (may be changed later):','');if(cf)location.replace('mailnew.php?y='+cf+'&n=<?php echo $_GET['n']?>&t=<?php echo $_GET['t'] ?>')">new mailjob &#19904;</button>
+<button onclick="cf=prompt('Beginning a new mailjob. Please enter the subject (may be changed later):','');if(cf)location.replace('mailnew.php?y='+encodeURIComponent(cf)+'&n=<?php echo $_GET['n']?>&t=<?php echo $_GET['t'] ?>')">new mailjob &#19904;</button>
 <?php 
 $sql_a="SELECT * FROM mailing WHERE maildeleted=0 ORDER BY id DESC";
 $result_a=mysql_query($sql_a);
@@ -19,7 +19,9 @@ echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font
 
 $num_a = mysql_num_rows($result_a);
 
-echo '<hr>';
+echo '
+<hr>
+';
 
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
@@ -69,7 +71,9 @@ echo '<span title="'.$title.'">'.$row_a['mailsubject'].'</span>';
 
 echo '</span>';
 
-echo '<hr>';
+echo '
+<hr>
+';
 
 }
 
