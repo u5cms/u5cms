@@ -55,9 +55,9 @@ function render($s) {
         }
     }
     $s=implode('',$s);
-    $s=str_replace('(Â¨','[',$s);
-    $s=str_replace('Â¨)',']',$s);
-    $s=str_replace('Â¤','&nbsp;',$s);
+    $s=str_replace('(¨','[',$s);
+    $s=str_replace('¨)',']',$s);
+    $s=str_replace('¤','&nbsp;',$s);
     return nl2br($s);
 }
 
@@ -110,7 +110,7 @@ function mynl2br($str) {
 
 function xm($emails) {
     $emails=u5toidn($emails);
-    $emails=str_replace("Â·",",",$emails);
+    $emails=str_replace("·",",",$emails);
     $emails=str_replace(" ",",",$emails);
     $emails=str_replace(";",",",$emails);
     $emails=str_replace(":",",",$emails);
@@ -124,7 +124,7 @@ function xm($emails) {
     $emails=str_replace(">",",",$emails);
     $emails=str_replace("<",",",$emails);
     $emails=str_replace("|",",",$emails);
-    $emails=str_replace("Â¦",",",$emails);
+    $emails=str_replace("¦",",",$emails);
     $emails=str_replace("#",",",$emails);
     $emails=str_replace("(",",",$emails);
     $emails=str_replace("[",",",$emails);
