@@ -1,4 +1,4 @@
-﻿if(window.name=='fu5prvldd')setTimeout("location.href=location.href",2222);
+if(window.name=='fu5prvldd')setTimeout("location.href=location.href",2222);
 
 //Script for [?:][:?] and [??:][:??]
 oldsbthis=false;

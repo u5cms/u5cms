@@ -48,7 +48,7 @@ $cur_time=date("d.m.Y H:i");
 $cur_date=date("Y-m-d");
 
 // Pfade zu den neuen Backup-Dateien (fur den Mailversand)
-//__Nicht ver√§ndern___
+//__Nicht ver‰ndern___
 $backup_files = array();
 
 //Erstelle Struktur von Datenbank
@@ -100,7 +100,7 @@ function get_def($table, $link)
     return (stripslashes($def));
 }
 
-//Erstelle Eint√§ge von Tabelle
+//Erstelle Eintr‰ge von Tabelle
 function get_content($table, $link)
 {
     $content = "";
