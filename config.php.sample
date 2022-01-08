@@ -24,7 +24,7 @@ use Laminas\Mail\Transport\SmtpOptions;
    $canonicalprotocolanddomain='';
 
 // E-mail transport via SMTP ('no' or 'yes')? Some providers demand 'yes', sometimes even TO or FROM must be registered with the respective domain (concerns $mymail on line 3 of this file);
-   $usesmtp='yes';
+   $usesmtp='no';
    //If NO encryption, remove all this: 'ssl' => 'tsl', (adjust port assignment or also remove if standard);
    //If NO authentication, set connection_class to smtp and remove username/password lines
    $mysmtpoptions = new SmtpOptions([
