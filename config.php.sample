@@ -39,12 +39,6 @@ use Laminas\Mail\Transport\SmtpOptions;
        ],
    ]);
 
-   $usesmtp='no';
-   $smtpservername='type_your_smtp_servername_here';
-   //If NO encryption, remove all this: 'ssl' => 'ssl', (adjust port assignment or also remove if standard);
-   $mysmtpconfigdata = array('auth' => 'login', 'username' => 'type_your_smtp_username_here','password' => 'type_your_smtp_password_here', 'ssl' => 'ssl', 'port' => 465);
-   // Do not change this:    'auth' => 'login',
-
 // Passwords are sent by zendmail. Set $doublepasswordmailing='yes' to send a duplicate by phpmail (recommended). Note: Other data (coming from your html forms) is always sent by zendmail;
    $doublepasswordmailing='yes';
 
