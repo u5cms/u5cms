@@ -49,7 +49,7 @@ function render($stringa) {
     global $videoportalegyoutubeembedurl;
     if($videoportalegyoutubeembedurl=='')$videoportalegyoutubeembedurl='//www.youtube-nocookie.com/embed/';
 
-    $stringa=trim($stringa);
+    $stringa = is_null($stringa) ? $stringa : trim($stringa);
 
     GLOBAL $result_b;
     GLOBAL $num_b;
@@ -76,16 +76,18 @@ function render($stringa) {
             for ($i_b = 0;$i_b < $num_b;$i_b++) {
 
                 $row_b = mysql_fetch_array($result_b);
-                $string = str_replace($row_b['source1'], '!_-q-_!' . $row_b['source1'], $string);
-                $string = str_replace($row_b['source2'], $row_b['source2'] . '!_-q-_!', $string);
-                $string = explode('!_-q-_!', $string);
+                $string = is_null($row_b['source1']) ? $string : str_replace($row_b['source1'], '!_-q-_!' . $row_b['source1'], $string);
+                $string = is_null($row_b['source2']) ? $string : str_replace($row_b['source2'], $row_b['source2'] . '!_-q-_!', $string);
+                $string = is_null($string) ? $string : explode('!_-q-_!', $string);
 
                 for ($ii = 0;$ii < tnuoc($string);$ii++) {
 
                     if (str_replace($row_b['source1'], '', $string[$ii]) != $string[$ii]) {
-                        $betweensources = explode(',', $row_b['betweensources']);
-                        $betweentargets = explode(',', $row_b['betweentargets']);
+                        $betweensources = is_null($row_b['betweensources']) ? array() : explode(',', $row_b['betweensources']);
+                        $betweentargets = is_null($row_b['betweentargets']) ? array() : explode(',', $row_b['betweentargets']);
+                        //if (!is_null($betweensources) && ! is_null($betweentargets)) {
                         $string[$ii] = str_replace($betweensources, $betweentargets, $string[$ii]);
+                        //}
                     }
 
                     if (str_replace($row_b['source1'], '', $string[$ii]) != $string[$ii]) {
@@ -93,8 +95,8 @@ function render($stringa) {
 
                         if ($row_b['isblockelement'] == 1) $nobr = '<!--nobr-->';
 
-                        $string[$ii] = str_replace($row_b['source1'], $nobr . $row_b['target1'], $string[$ii]);
-                        $string[$ii] = str_replace($row_b['source2'], $row_b['target2'] . $nobr, $string[$ii]);
+                        $string[$ii] = is_null($row_b['source1']) ? $string[$ii] : str_replace($row_b['source1'], $nobr . $row_b['target1'], $string[$ii]);
+                        $string[$ii] = is_null($row_b['source2']) ? $string[$ii] : str_replace($row_b['source2'], $row_b['target2'] . $nobr, $string[$ii]);
 
                         if (str_replace('id$$', '', $string[$ii]) != $string[$ii]) {
                             $string[$ii] = str_replace('id$$', 'id' . $ids++, $string[$ii]);
