@@ -91,7 +91,3 @@ if($automaticallyskipbackendlogin!='yes') {
 }
 $sql = "UPDATE accounts SET lastused=" . time() . " WHERE email='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "'";
 $result = mysql_query($sql);
-
-if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
-}
-?>
