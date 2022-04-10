@@ -148,7 +148,7 @@ function render($stringa) {
             $name = str_replace('[','',$name);
             $name = str_replace(':','',$name);
             $name = explode('?',$name,2);
-            $quer = $name[1];
+            $quer = isset($name[1]) ? $name[1] : '';
             $name = $name[0];
 
             if ($quer!='') $quer='&'.$quer;
@@ -948,7 +948,7 @@ function render($stringa) {
         $lastp='</p>';
     }
 
-    if ($_GET['p']>0) {
+    if (key_exists('p', $_GET) && $_GET['p']>0) {
         $stringa=str_replace('</form','</xform',str_replace('<form','<xform',$stringa));
     }
 
@@ -1285,6 +1285,9 @@ function renderspecial($name,$human) {
                     }
                 }
                 ////////////////////////////////////////////
+                // Fix deprecation error if $cond is null
+                $cond = $cond ?? '';
+
                 if ($isupload==1) {
                     if ($fields[$f][0]!='?' && $wrongfield==0) $return.= mynl2br(str_replace(',.',';',$datacsv[$position]));
                     else $return.= mynl2br(str_replace(',.',';',$row_a[str_replace('sent','humantime',substr(strtolower($fields[$f]),1))]));

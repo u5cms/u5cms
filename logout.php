@@ -15,7 +15,7 @@ setcookie('u5samlnonce', '', 0, '/', '', $httpsisinuse, true);
 <body>
 <script>
 if(opener)self.close();
-else location.href='index.php?c=loggedout&u=<?php echo rawurlencode($_GET['u'])?>';
+else location.href='index.php?c=loggedout&u=<?php echo rawurlencode($_GET['u'] ?? '')?>';
 </script>
 </body>
 </html>
