@@ -8,15 +8,17 @@ require_once('mysql.php');
 include('config.php');
 require_once('san.inc.php');
 require_once('u5admin/u5idn.inc.php');
-if($forcehttpsonfrontend=='yes') {
-eval($evaluateifhttpsisinuse);
-if (!$httpsisinuse) {
-$url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-header('Location: ' . $url);
-echo "<script>location.href='$url'</script>";
-exit;
+
+$httpsisinuse = eval($evaluateifhttpsisinuse);
+if ($forcehttpsonfrontend=='yes' && !$httpsisinuse) {
+    $url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    header('Location: ' . $url);
+    echo "<script>location.href='$url'</script>";
+    exit;
+} else {
+    $httpsisinuse = false;
 }
-}
+
 $_GET['l']=htmlspecialchars($_GET['l']);
 if ($quotehandling=='on') include('quotehandling.inc.php');
 
