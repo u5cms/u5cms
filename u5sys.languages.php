@@ -28,6 +28,6 @@ if($u5showlinkofactivelanguageinmetanavi=='yes')$lanswitch='<a href="'.chglang($
 else $lanswitch='<a href="'.chglang($lan3na).'">'.$lan3name.'</a>'.$nbsp.'<a href="'.chglang($lan2na).'">'.$lan2name.'</a>';
 }
 
-if ($_GET['p']=='2') $lanswitch='';
+if (key_exists('p', $_GET) && $_GET['p']=='2') $lanswitch='';
 echo $lanswitch;
 ?>
