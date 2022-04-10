@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
-ini_set('default_charset','latin1');
+ini_set('default_charset','iso-8859-1');
 require_once('../myfunctions.inc.php');
 require_once('../mysql.php');
 $_GET['name']=basename($_GET['name']);
