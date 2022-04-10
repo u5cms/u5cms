@@ -27,7 +27,7 @@ if ($usesessioninsteadofbasicauth == 'no') {
 }
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
-$sql = "SELECT email, pw FROM accounts WHERE user='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "' AND pw='" . mysql_real_escape_string(pwdhsh($_SERVER['PHP_AUTH_PW'])) . "'";
+$sql = "SELECT email, pw FROM accounts WHERE hash='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "' AND pw='" . mysql_real_escape_string(pwdhsh($_SERVER['PHP_AUTH_PW'])) . "'";
 $result = mysql_query($sql);
 
 $num = @mysql_num_rows($result);
