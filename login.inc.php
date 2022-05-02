@@ -8,8 +8,8 @@ if ($autoresolvefastcgiproblems == 'yes') {
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
-    $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
-    $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
+    $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'] ?? '';
+    $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'] ?? '';
     setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
     setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
 }
@@ -26,6 +26,8 @@ $_SERVER['PHP_AUTH_PW']=html_entity_decode($_SERVER['PHP_AUTH_PW'], ENT_COMPAT,'
 }
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
+if (!isset($_GET['c'])) $_GET['c'] = '';
+if (!isset($_GET['n'])) $_GET['n'] = '';
 if ($_GET['c'] == '' && $_GET['n'] != '') $_GET['c'] = $_GET['n'];
 if (!isset($thatpage) || $thatpage == '') $thatpage = $_GET['c'];
 

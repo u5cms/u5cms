@@ -952,7 +952,7 @@ function render($stringa) {
         $stringa=str_replace('</form','</xform',str_replace('<form','<xform',$stringa));
     }
 
-    if ($_GET['c']=='navigation' && strpos('x'.$stringa,'#<a href="index.php?c=')>0 ) {
+    if (isset($_GET['c']) && $_GET['c']=='navigation' && strpos('x'.$stringa,'#<a href="index.php?c=')>0 ) {
         $stringa='Semantic navigation preview (without layout, e. g. for checking links):<br><br>'.$stringa;
     }
 
@@ -1103,7 +1103,7 @@ function renderspecial($name,$human) {
         /// Provide dimensions here, i.e. "300x0"
         $dat[10]=renderspecialphp(trim($dat[10]));
         $renderimg=$dat[10];
-        $renderimg=strip_tags(trim($renderimg));
+        if (!is_null($renderimg)) $renderimg=strip_tags(trim($renderimg));
 
         //////////////////////////////////////////////////////////
         /// l: String that mus be the content of the field a:

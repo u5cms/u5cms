@@ -163,7 +163,10 @@ use Laminas\Mail\Transport\SmtpOptions;
      if(filter_var($shxofwfL, FILTER_VALIDATE_IP))$_SERVER['REMOTE_ADDR']=$shxofwfL;
    }
 
+   $orderingintranetpasswordsisforbidden='no';
+   $waitsecondsbetweenintranetpworders=600;
+   $u5showlinkofactivelanguageinmetanavi='no';
+
 // If your config.php is incomplete or messed up, get its initial structure and values at http://yuba.ch/cp
 
 // Allowed file extensions for http uploads in the front and the back end are configured in configallowedfileextensions.php
-?>

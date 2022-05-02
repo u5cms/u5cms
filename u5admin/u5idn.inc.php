@@ -47,7 +47,7 @@ chr(0x9C) => '&oelig;',
 chr(0x9E) => '&#x17E;',
 chr(0x9F) => '&Yuml;',
     );
-    return html_entity_decode(mb_convert_encoding(strtr($text, $map), 'UTF-8', 'ISO-8859-1'), ENT_QUOTES, 'UTF-8');
+    return html_entity_decode(mb_convert_encoding(strtr($text ?? '', $map), 'UTF-8', 'ISO-8859-1'), ENT_QUOTES, 'UTF-8');
 }
 
 function u5toidn($e){
