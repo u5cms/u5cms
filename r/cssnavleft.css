@@ -26,76 +26,52 @@ to
 #navLeft {
 	padding-top: 100px;
 }
+
+/* anchor styling */
 #navLeft a {
 	display: block;
 	text-decoration: none;
 	color: #3F3F3F;
 }
-#navLeft li {
-	list-style-type: none;
-	margin: 0;
-	margin-left: -40px;
-	border-bottom: 1px solid #ddd;
-}
-#navLeft li a {
-	padding: 7px 5px 10px 0px;
-}
-#navLeft li a:hover {
+
+#navLeft a:hover {
 	text-decoration: none;
 	color: black;
 }
-#navLeft li li a {
-	margin-left: -38px;
-	font-size: 0.9em;
-	padding: 0px 2px 3px 58px;
-}
-#navLeft li li a:hover {
-	text-decoration: none;
-}
-#navLeft .inactive {
-	padding-left: 7px;
-}
-#navLeft .inactive a:hover, #navLeft .inactive a:focus, #navLeft .inactive a:active {
-	background-color: transparent;
-}
-#navLeft .active {
-	padding-left: 7px;
-	color: #3F3F3F;
-	background-color: #f9f9f9;
-}
-#navLeft .active a:hover, #navLeft .active a:focus, #navLeft .active a:active {
-	color: #000000;
-}
-#navLeft li a.activeItem {
+
+#navLeft a.activeItem {
 	color: #e63320;
 	font-weight: bolder;
 }
-#navLeft li li a.activeItem {
-	color: red;
-	font-weight: bold;
+
+/* list stylings */
+#navLeft ul {
+    margin: 0;
+    padding: 0;
 }
-#navLeft li.active ul {
-	padding-top: 0.4em;
+
+#navLeft ul ul {
+    margin-left: 1.5em;
 }
-#navLeft li.active ul li.subItem {
-	padding-bottom: 0.6em;
-	margin-top: -0.5em;
-	border-bottom: none;
+
+#navLeft li {
+	list-style-type: none;
+	margin: 0;
+	margin-left: 0;
+	border-bottom: 1px solid #ddd;
+    line-height: 2em;
 }
-#navLeft li.active ul li.subSubItem {
-	padding-bottom: 1.0em;
-	margin-top: -1.3em;
+
+#navLeft li li {
+	font-size: 0.9em;
+    border-bottom: none;
 }
-#navLeft li.subSubItem {
-	margin-left: -65px;
-	font-size: 85%;
-	border-bottom: none;
+
+#navLeft li.active {
+	color: #3F3F3F;
+	background-color: #f9f9f9;
 }
-#navLeft li.subsubSubItem {
-	margin-left: -90px;
-	font-size: 80%;
-	border-bottom: none;
-	margin-top: -1.9em;
-	margin-bottom: 1.6em;
+
+#navLeft li.active>ul {
+ 	padding: 0.1em 0 0.3em 0;
 }
- 

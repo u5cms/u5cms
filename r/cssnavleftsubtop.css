@@ -25,77 +25,65 @@ to
 #navLeftSubTop {
 	padding-top: 100px;
 }
+
+/* anchor styling */
 #navLeftSubTop a {
-	display: block;
+	display: none;
 	text-decoration: none;
 	color: #3F3F3F;
 }
-#navLeftSubTop li {
-	list-style-type: none;
-	margin: 0;
-	margin-left: -40px;
-	border-bottom: 0px solid #ddd;
+
+/* turn on visibility for second and subsequent levels only */
+#navLeftSubTop li li a {
+    display: block;
 }
-#navLeftSubTop li a {
-	padding: 7px 5px 10px 0px;
-	display: none;
-}
-#navLeftSubTop li a:hover {
+
+#navLeftSubTop a:hover {
 	text-decoration: none;
 	color: black;
 }
-#navLeftSubTop li li a {
-	margin-left: -38px;
-	padding: 7px 2px 3px 58px;
-	display: block;
-}
-#navLeftSubTop li li a:hover {
-	text-decoration: none;
-}
-#navLeftSubTop .inactive {
-	padding-left: 7px;
-}
-#navLeftSubTop .inactive a:hover, #navLeftSubTop .inactive a:focus, #navLeftSubTop .inactive a:active {
-	background-color: transparent;
-}
-#navLeftSubTop .active {
-	padding-left: 7px;
-	color: #3F3F3F;
-	background-color: #f3f3f3;
-}
-#navLeftSubTop .active a:hover, #navLeftSubTop .active a:focus, #navLeftSubTop .active a:active {
-	color: #000000;
-}
+
 #navLeftSubTop li a.activeItem {
 	color: #e63320;
 	font-weight: bolder;
 }
+
 #navLeftSubTop li li a.activeItem {
-	color: red;
+	color: #ff0000;
 	font-weight: bold;
 }
-#navLeftSubTop li.active ul {
-	padding-top: 0.4em;
+
+/* list stylings */
+#navLeftSubTop .inactive {
+    display: none;
+	padding-left: 7px;
 }
-#navLeftSubTop li.active ul li.subItem {
-	padding-bottom: 0.6em;
-	margin-top: -0.5em;
+
+#navLeftSubTop ul {
+    margin: 0;
+    padding: 0;
+}
+
+#navLeftSubTop li {
+	list-style-type: none;
+	margin: 0;
+	margin-left: 0;
 	border-bottom: none;
-}		
-#navLeftSubTop li.active ul li.subSubItem {
-	padding-bottom: 1.0em;
-	margin-top: -1.3em;
+    line-height: 0;
 }
-#navLeftSubTop li.subSubItem {
-	margin-left: -65px;
-	font-size: 85%;
-	border-bottom: none;
+
+#navLeftSubTop li li {
+	padding: 0px 2px 0.1em 1em;
+    border-bottom: 1px solid #fff;
+    line-height: 1.6em;
 }
-#navLeftSubTop li.subsubSubItem {
-	margin-left: -90px;
-	font-size: 80%;
-	xborder-bottom: none;
-	margin-top: -1.9em;
-	margin-bottom: 1.6em;
+
+#navLeftSubTop li li li {
+	font-size: 0.9em;
+    border-bottom: none;
 }
- 
+
+#navLeftSubTop li.active {
+	color: #3F3F3F;
+	background-color: #f9f9f9;
+}
