@@ -321,8 +321,22 @@ $result_a=mysql_query($sql_a);
 
 $sql_a="ALTER TABLE `sizes` ADD `cropedge` INT NULL DEFAULT '0' AFTER `tosquare`;";
 $result_a=mysql_query($sql_a);
-?>
-<?php
+
+// 2022-05-27: update navigation CSS for navigaton fix
+$sql_a=" UPDATE `resources` SET
+  `content_d` = '/*\r\nThis CSS formats the navigation if you hav NOT A split navigation.\r\n\r\nIf you want a split navigation, you have to\r\n\r\n1: In PIDVESA''s S, htmltemplate, switch the #navTop on\r\n\r\n  <div id=\"navigationtop\">\r\n    <div id=\"navTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n  </div>\r\n\r\nby removing <!-- and -->\r\n\r\n2: Also in htmltemplate, change\r\n\r\n<div id=\"navLeft\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\nto\r\n\r\n<div id=\"navLeftSubTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\n*/\r\n\r\n\r\n/*NAVLEFT*/\r\n#navLeft {\r\n	padding-top: 100px;\r\n}\r\n\r\n/* anchor styling */\r\n#navLeft a {\r\n	display: block;\r\n	text-decoration: none;\r\n	color: #3F3F3F;\r\n}\r\n\r\n#navLeft a:hover {\r\n	text-decoration: none;\r\n	color: black;\r\n}\r\n\r\n#navLeft a.activeItem {\r\n	color: #e63320;\r\n	font-weight: bolder;\r\n}\r\n\r\n/* list stylings */\r\n#navLeft ul {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#navLeft ul ul {\r\n    margin-left: 1.5em;\r\n}\r\n\r\n#navLeft li {\r\n	list-style-type: none;\r\n	margin: 0;\r\n	margin-left: 0;\r\n	border-bottom: 1px solid #ddd;\r\n    line-height: 2em;\r\n}\r\n\r\n#navLeft li li {\r\n	font-size: 0.9em;\r\n    border-bottom: none;\r\n}\r\n\r\n#navLeft li.active {\r\n	color: #3F3F3F;\r\n	background-color: #f9f9f9;\r\n}\r\n\r\n#navLeft li.active>ul {\r\n 	padding: 0.1em 0 0.3em 0;\r\n}\r\n',
+  `content_e` = '', `content_f` = '', `title_d` = '', `title_e` = '', `title_f` = '', `desc_d` = '', `desc_e` = '', `desc_f` = '', `key_d` = '', `key_e` = '', `key_f` = '', `search_d` = '', `search_e` = '', `search_f` = '',
+  `logins` = '', `hidden` = 0, `operator` = 'Temp', `ip` = '::1', `lastmut` = 1653623611, `deleted` = 0, `typ` = 'c', `ishomepage` = 0
+  WHERE `resources`.`name` = 'cssnavleft' AND `resources`.`deleted` = 0;";
+$result_a=mysql_query($sql_a);
+
+$sql_a=" UPDATE `resources` SET
+  `content_d` = '/*\r\nThis CSS formats the second (vertical) level of a split navigation.\r\n\r\nIf you want a split navigation, you have to\r\n\r\n1: In PIDVESA''s S, htmltemplate, switch the #navTop on\r\n\r\n  <div id=\"navigationtop\">\r\n    <div id=\"navTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n  </div>\r\n\r\nby removing <!-- and -->\r\n\r\n2: Also in htmltemplate, change\r\n\r\n<div id=\"navLeft\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\nto\r\n\r\n<div id=\"navLeftSubTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\n*/\r\n\r\n/*NAVLEFTSUBTOP*/\r\n#navLeftSubTop {\r\n	padding-top: 100px;\r\n}\r\n\r\n/* anchor styling */\r\n#navLeftSubTop a {\r\n	display: none;\r\n	text-decoration: none;\r\n	color: #3F3F3F;\r\n}\r\n\r\n/* turn on visibility for second and subsequent levels only */\r\n#navLeftSubTop li li a {\r\n    display: block;\r\n}\r\n\r\n#navLeftSubTop a:hover {\r\n	text-decoration: none;\r\n	color: black;\r\n}\r\n\r\n#navLeftSubTop li a.activeItem {\r\n	color: #e63320;\r\n	font-weight: bolder;\r\n}\r\n\r\n#navLeftSubTop li li a.activeItem {\r\n	color: #ff0000;\r\n	font-weight: bold;\r\n}\r\n\r\n/* list stylings */\r\n#navLeftSubTop .inactive {\r\n    display: none;\r\n	padding-left: 7px;\r\n}\r\n\r\n#navLeftSubTop ul {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#navLeftSubTop li {\r\n	list-style-type: none;\r\n	margin: 0;\r\n	margin-left: 0;\r\n	border-bottom: none;\r\n    line-height: 0;\r\n}\r\n\r\n#navLeftSubTop li li {\r\n	padding: 0px 2px 0.1em 1em;\r\n    border-bottom: 1px solid #fff;\r\n    line-height: 1.6em;\r\n}\r\n\r\n#navLeftSubTop li li li {\r\n	font-size: 0.9em;\r\n    border-bottom: none;\r\n}\r\n\r\n#navLeftSubTop li.active {\r\n	color: #3F3F3F;\r\n	background-color: #f9f9f9;\r\n}\r\n',
+  `content_e` = '', `content_f` = '', `title_d` = '', `title_e` = '', `title_f` = '', `desc_d` = '', `desc_e` = '', `desc_f` = '', `key_d` = '', `key_e` = '', `key_f` = '', `search_d` = '', `search_e` = '', `search_f` = '',
+  `logins` = '', `hidden` = 0, `operator` = 'Temp', `ip` = '::1', `lastmut` = 1653623611, `deleted` = 0, `typ` = 'c', `ishomepage` = 0
+  WHERE `resources`.`name` = 'cssnavleftsubtop' AND `resources`.`deleted` = 0;";
+$result_a=mysql_query($sql_a);
+
 $t=time();
 $beforets=array('.css"'       ,  '.css)'       ,  '.jpg)'       ,  '.jpe)'       ,  '.jpeg)'       ,  '.gif)'       ,  '.htm)'       ,  '.html)'       ,  '.svg)'       ,  '.ttf)'       ,  '.woff)'           );
 $afterts= array('.css?'.$t.'"',  '.css?'.$t.')',  '.jpg?'.$t.')',  '.jpe?'.$t.')',  '.jpeg?'.$t.')',  '.gif?'.$t.')',  '.htm?'.$t.')',  '.html?'.$t.')',  '.svg?'.$t.')',  '.ttf?'.$t.')',  '.woff?'.$t.')'    );
