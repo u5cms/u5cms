@@ -163,6 +163,11 @@ use Laminas\Mail\Transport\SmtpOptions;
      if(filter_var($shxofwfL, FILTER_VALIDATE_IP))$_SERVER['REMOTE_ADDR']=$shxofwfL;
    }
 
+// Newly added configuration that were only discussed in the doucmentation
+   $orderingintranetpasswordsisforbidden='no';
+   $waitsecondsbetweenintranetpworders=600;
+   $u5showlinkofactivelanguageinmetanavi='no';
+
 ////// ****** SAML integration configuration ******
 // The u5CMS features SAML integration based on SimpleSAMLphp (https://simplesamlphp.org/).
 // You are free to install the package wherever you want. In addition to the following config

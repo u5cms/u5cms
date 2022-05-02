@@ -18,8 +18,7 @@ if ($forcehttpsonfrontend=='yes' && !$httpsisinuse) {
 } else {
     $httpsisinuse = false;
 }
-
-$_GET['l']=htmlspecialchars($_GET['l']);
+if (isset($_GET['l']) && !is_null($_GET['l'])) $_GET['l']=htmlspecialchars($_GET['l']);
 if ($quotehandling=='on') include('quotehandling.inc.php');
 
 function connect_to_db() {

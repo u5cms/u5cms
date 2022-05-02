@@ -34,23 +34,23 @@ $template=str_replace('[_logo_]','r/logo/'.def($file_d,$file_e,$file_f).'?t='.fi
 if (key_exists('p', $_GET) && $_GET['p']=='1') {
     echo'<script>u5prvldd=0;setTimeout("if(u5prvldd==0&&location.href.indexOf(\'u5prvldd=1\')<0&&parent.window.name==\'i1\')parent.parent.i2.phperror();if(u5prvldd==0&&location.href.indexOf(\'u5prvldd=1\')<0&&parent.window.name==\'i2\')parent.parent.i1.phperror();if(u5prvldd==0){location.href=location.href.replace(/\\\?u5prvldd=1&/,\'?\').replace(/\\\?/,\'?u5prvldd=1&\')}",1111)</script>';
 
-if ($_GET['u5prvldd']==1)echo'<script>document.cookie=\'aclan=; expires=Thu, 31 Dec 2037 12:00:00 GMT\';</script><iframe scrolling="no" id="fu5prvldd" name="fu5prvldd" frameborder="0" style="width:150%;height:100%;overflow:visible;position:absolute;top:0;left:0;z-index:9999999"></iframe>
+    if ($_GET['u5prvldd']==1)echo'<script>document.cookie=\'aclan=; expires=Thu, 31 Dec 2037 12:00:00 GMT\';</script><iframe scrolling="no" id="fu5prvldd" name="fu5prvldd" frameborder="0" style="width:150%;height:100%;overflow:visible;position:absolute;top:0;left:0;z-index:9999999"></iframe>
 <script>
 if(parent.window.name==\'i1\')document.getElementById(\'fu5prvldd\').src=\'index.php?c=-&l=\'+parent.parent.parent.i2.form1.view.value;
 if(parent.window.name==\'i2\')document.getElementById(\'fu5prvldd\').src=\'index.php?c=-&l=\'+parent.parent.parent.i1.form1.view.value;
 </script>';
 
-	$template=str_replace('{{{content}}}',render($_POST['r']),$template);
+    $template=str_replace('{{{content}}}',render($_POST['r']),$template);
     $template=preg_replace('/<!--(.*)-->/Uis', '', $template);
-   }
-
-else
-  $the_n = key_exists('n', $_GET) ? $_GET['n'] : '';
-  $the_c = key_exists('c', $_GET) ? $_GET['c'] : '';
-  $the_l = key_exists('l', $_GET) ? $_GET['l'] : '';
-  $template = str_replace('</html>','',str_replace('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:absolute;top:0;left:0;z-index:999;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.htmlspecialchars($the_n).'&c='.htmlspecialchars($the_c).'&l='.htmlspecialchars($the_l).'\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
+} else {
+    $the_l = $_GET['l'] ?? '';
+    $the_n = $_GET['n'] ?? '';
+    $the_c = $_GET['c'] ?? '';
+    // echo"<pre>", var_dump($_GET), "the_n: ", var_dump($the_n), "the_c: ", var_dump($the_c), "the_l: ", var_dump($the_l);
+    $template = str_replace('</html>','',str_replace('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:absolute;top:0;left:0;z-index:999;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.htmlspecialchars($the_n).'&c='.htmlspecialchars($the_c).'&l='.htmlspecialchars($the_l).'\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
 <!-- This site is built with the u5CMS. Get it for free at http://www.yuba.ch/u5cms -->
 </html>';
+}
 
 $i_i_item=explode('{{{',$template);
 
