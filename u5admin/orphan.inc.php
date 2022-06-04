@@ -1,13 +1,13 @@
-<?php 
+<?php
 require('../config.php');
 $squot1='"';
 $squot2="\\'";
 
-$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['sql']);
+$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].htmlspecialchars_decode($_GET['sql']));
 
 if($h!=$_GET['h'])die('<script>alert("forbidden6")</script>');
 
-$sql_a=$_GET['sql'];
+$sql_a=htmlspecialchars_decode($_GET['sql']);
 $sql_a='SELECT * FROM resources WHERE'.str_replace('SELECT * FROM resources WHERE','',$sql_a);  
 
 $result_a=mysql_query($sql_a);
