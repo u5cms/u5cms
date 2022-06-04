@@ -67,9 +67,14 @@ return str_replace($search,$replace,htmlXentities($superstring));
 require_once('../globals.inc.php');
 
 function def($d, $e, $f) {
-global $lan1na;
-global $lan2na;
-global $lan3na;
+    $d = $d ?? '';
+    $f = $f ?? '';
+    $e = $e ?? '';
+
+    global $lan1na;
+    global $lan2na;
+    global $lan3na;
+
        if ($_GET['l'] == $lan1na && trim($d) != '') return $d;
   else if ($_GET['l'] == $lan2na && trim($e) != '') return $e;
   else if ($_GET['l'] == $lan3na && trim($f) != '') return $f;
@@ -82,15 +87,18 @@ global $lan3na;
 }
 
 function htmlXspecialchars($that) {
-return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    $that = $that ?? '';
+    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 function htmlXentities($that) {
-return htmlentities($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    $that = $that ?? '';
+    return htmlentities($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 function htmlX_entity_decode($that) {
-return html_entity_decode($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    $that = $that ?? '';
+    return html_entity_decode($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 function pwdhsh($p) {
