@@ -246,15 +246,15 @@ $zendname=$email1;
 $zendto=$email2;
 if ($_POST['em2cu']!='off') if ($email1!='' && $email2!='') include('zendmail.php');
 
-$zendfrom=$email2;
-$zendname=$email2;
+$zendfrom=$email1;
+$zendname=$email1;
 $zendto=$email1;
 if ($_POST['em2me']!='off') if ($email1!='' && $email2!='') include('zendmail.php');
 
 ?>
 <script type="text/javascript">
 function firstsaverwins() {
-if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';	
+if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';
 }
 if('<?php echo htmlspecialchars($thanks) ?>'.indexOf('(')<1){
 ziel='index.php?c=<?php echo htmlspecialchars($thanks) ?>&l=<?php echo $_GET['l']?>&f=<?php echo $_GET['n']?>';
