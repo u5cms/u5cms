@@ -1,0 +1,22 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# As primary developer works on Windows, crlf is enforced
+# for most files
+[*.{php,js,css,txt}]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = latin1
+#trim_trailing_whitespace = true
+#insert_final_newline = true
+
+# Markdown
+# - 4 space indent
+# - Trailing whitespace is potentially meaningful, leave it
+[*.md]
+indent_size = 4
+trim_trailing_whitespace = false
+
