@@ -143,7 +143,25 @@
    $shxofwfL=trim($shxofwfL[count($shxofwfL)-2]);
    if(filter_var($shxofwfL, FILTER_VALIDATE_IP))$_SERVER['REMOTE_ADDR']=$shxofwfL;
 
+////// ****** SAML integration configuration ******
+// The u5CMS features SAML integration based on SimpleSAMLphp (https://simplesamlphp.org/).
+// You are free to install the package wherever you want. In addition to the following config
+// parameters you have to create a symlink named simplesaml in your document root that
+// points to the www-subdir of your SimpleSAMLphp installation. i.e.
+// httpdocs/simplesaml -> ../vendor/simplesamlphp/simplesamlphp/www
+
+/*
+$u5samlsalt='randomstring';
+$u5samlnonce = "randomstring" . date('Ymd');
+$u5samlnonce = hash('sha256', $u5samlnonce);
+$u5samlsspconfigdir = 'path/to/config';  // path to the directoy with the authsources.php and config.php file
+$u5samlsspauthsourcekey = 'default-sp';  // array key of SP in the authsources.php file
+$u5samllogoutresultpage = 'https://test.example.com/index.php?c=farewell';  // where to send the user after SAML logout
+$u5samlautointranetenrollment = 'yes';
+$u5samlmockauth = 'no';
+$u5samlmockauthusername = 'xavier.yalonden@example.com';
+*/
+
 // If your config.php is incomplete or messed up, get its initial structure and values at http://yuba.ch/cp
 
 // Allowed file extensions for http uploads in the front and the back end are configured in configallowedfileextensions.php
-?>
