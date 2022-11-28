@@ -3,9 +3,11 @@ require('connect.inc.php');
 setcookie('u', '', 0, '/', '', $httpsisinuse, true);
 setcookie('p', '', 0, '/', '', $httpsisinuse, true);
 if(isset($u5samlsalt)&&$u5samlsalt!='') {
-    setcookie('u5samlusername', '', 0, '/', '', $httpsisinuse, true);
-    setcookie('u5samlnonce', '', 0, '/', '', $httpsisinuse, true);
-    setcookie('u5samlattribs', '', 0, '/', '', $httpsisinuse, true);
+    foreach (array_keys($_COOKIE) as $key) {
+        if (strpos($key, 'u5saml') === 0) {
+            setcookie($key, '', 0, '/', '', $httpsisinuse, true);
+        }
+    }
     header('Location: /saml/logout.php');
     exit;
 }
