@@ -60,7 +60,9 @@ if ($u5samlmockauth != 'yes') {
 // cookie for later use anywhere in the CMS
 setcookie('u5samlusername', strtolower(trim($samlattribs['emailaddress'])), 0, '/', '', $httpsisinuse, true);
 setcookie('u5samlnonce', $u5samlnonce, 0, '/', '', $httpsisinuse, true);
-setcookie('u5samlattribs', $samlattribs, 0, '/', $httpsisinuse, true);
+foreach ($samlattribs as $attrib => $value) {
+    setcookie('u5saml' . $attrib, $value, 0, '/', $httpsisinuse, true);
+}
 
 // on CMS instance www.flyssi.ch we want an autoenrollment
 // of user as intranet members
@@ -72,7 +74,7 @@ if ($debug) {
     // Print out processed attributes as saved in cookie
     echo "<h3>Attributes saved for the application:</h3>";
     echo "<table>";
-    foreach($samlattribs AS $key => $value){
+    foreach($samlattribs as $key => $value){
         echo "<tr><td>" . $key . "</td><td>" . $value . "</td></tr>";
     }
     echo "</table>";
