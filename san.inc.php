@@ -1,7 +1,7 @@
 <?php
 
 function u5stz($that) {
-    return htmlspecialchars($that);
+    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 $filterChars = array('\r', '\n', ';', '<', '>', '(', ')');
