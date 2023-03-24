@@ -157,9 +157,16 @@ use Laminas\Mail\Transport\SmtpOptions;
 ////// ****** ONLY IF YOU SET $usesessioninsteadofbasicauth = 'no', THE ABOVE PARAGRAPH IS OF INTEREST  ******
 
 // What variable for IP control and logging shall be used; consult http://urltoyouru5cmsinstallation/server.php
-   $shxofwfL=explode(',',($_SERVER['HTTP_X_ORIGINAL_FORWARDED_FOR'].','));
-   $shxofwfL=trim($shxofwfL[count($shxofwfL)-2]);
-   if(filter_var($shxofwfL, FILTER_VALIDATE_IP))$_SERVER['REMOTE_ADDR']=$shxofwfL;
+   if (key_exists('HTTP_X_ORIGINAL_FORWARDED_FOR', $_SERVER)) {
+     $shxofwfL=explode(',',($_SERVER['HTTP_X_ORIGINAL_FORWARDED_FOR'].','));
+     $shxofwfL=trim($shxofwfL[count($shxofwfL)-2]);
+     if(filter_var($shxofwfL, FILTER_VALIDATE_IP))$_SERVER['REMOTE_ADDR']=$shxofwfL;
+   }
+
+// Newly added configuration that were only discussed in the doucmentation
+   $orderingintranetpasswordsisforbidden='no';
+   $waitsecondsbetweenintranetpworders=600;
+   $u5showlinkofactivelanguageinmetanavi='no';
 
 ////// ****** SAML integration configuration ******
 // The u5CMS features SAML integration based on SimpleSAMLphp (https://simplesamlphp.org/).

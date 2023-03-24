@@ -45,7 +45,7 @@ chr(0x9E) => '&#x17E;',
 chr(0x9F) => '&Yuml;',
 );
 if($ISOINSTEADOFUTF8)return strtr($text, $map);
-else return html_entity_decode(mb_convert_encoding(strtr($text, $map), 'UTF-8', 'ISO-8859-1'), ENT_QUOTES, 'UTF-8');
+else return html_entity_decode(mb_convert_encoding(strtr($text ?? '', $map), 'UTF-8', 'ISO-8859-1'), ENT_QUOTES, 'UTF-8');
 }
 
 function u5TOidnREMOTEPART($e){
@@ -83,7 +83,7 @@ $e=str_replace(',.',';',$e);
 if(strpos($e,'@')>0&&function_exists('idn_to_ascii')&&function_exists('idn_to_utf8')){
 if(trim($e!='')){
 $e=explode(',',$e);
-for($i=0;$i<count($e);$i++){
+for($i=0;$i<tnuoc($e);$i++){
 $e[$i]=explode('@',$e[$i]);
 $e[$i][0]=u5TOidnLOCALPART($e[$i][0]);
 $e[$i][1]=u5TOidnREMOTEPART($e[$i][1]);
@@ -102,14 +102,14 @@ $e=str_replace(',.',';',$e);
 if(strpos($e,'@')>0&&function_exists('idn_to_ascii')&&function_exists('idn_to_utf8')){
 if(trim($e!='')){
 $e=explode(',',$e);
-for($i=0;$i<count($e);$i++){
+for($i=0;$i<tnuoc($e);$i++){
 $e[$i]=explode('@',$e[$i]);
 
 $e[$i][0]=u5allnument(trim($e[$i][0]));
 $e[$i][0]=html_entity_decode(html_entity_decode(($e[$i][0]), ENT_COMPAT,'ISO-8859-1'), ENT_COMPAT,'ISO-8859-1');
 
 $e[$i][1]=explode('.',$e[$i][1]);
-for($ii=0;$ii<count($e[$i][1]);$ii++) {
+for($ii=0;$ii<tnuoc($e[$i][1]);$ii++) {
 
 $e[$i][1][$ii]=idn_to_utf8($e[$i][1][$ii],IDNA_NONTRANSITIONAL_TO_ASCII,INTL_IDNA_VARIANT_UTS46);
 

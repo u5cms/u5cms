@@ -42,7 +42,7 @@ require('ft.idn.inc.php');
     $ext = explode('.', basename($f));
     $ext = $ext[tnuoc($ext) - 1];
     header("Content-type: " . $m[strtolower($ext)]);
-	header('Content-length: ' . filesize($f));
+	  header('Content-length: ' . filesize($f));
     header("Content-Disposition:inline;filename=" . basename($f));
     $file = @fopen($f,"rb");
     while(!feof($file))
@@ -52,7 +52,8 @@ require('ft.idn.inc.php');
 	   flush();
     }
 } else {
-    if ($t != '' && $_GET['s'] != '') $f .= '?t=' . $t . '&s=' . $_GET['s'];
+    $s = $_GET['s'] ?? '';
+    if ($t != '' && $s != '') $f .= '?t=' . $t . '&s=' . $s;
     else if ($t != '') $f .= '?t=' . $t;
     header("Location: $f");
 }

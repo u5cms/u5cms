@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
-ini_set('default_charset','latin1');
+ini_set('default_charset','iso-8859-1');
 require_once('../myfunctions.inc.php');
 require_once('../mysql.php');
 $_GET['name']=basename($_GET['name']);
@@ -13,14 +13,16 @@ $_GET['l']=htmlspecialchars($_GET['l']);
 include('../config.php');
 require_once('../san.inc.php');
 require_once('u5idn.inc.php');
-if($forcehttpsonbackend=='yes') {
+
 eval($evaluateifhttpsisinuse);
-if (!$httpsisinuse) {
-$url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-header('Location: ' . $url);
-echo "<script>location.href='$url'</script>";
-exit;
-}
+$httpsisinuse = $httpsisinuse ? true : false;
+if ($forcehttpsonfrontend=='yes' && !$httpsisinuse) {
+    $url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    header('Location: ' . $url);
+    echo "<script>location.href='$url'</script>";
+    exit;
+} else {
+    $httpsisinuse = false;
 }
 
 if ($quotehandling=='on') include('../quotehandling.inc.php');
@@ -65,9 +67,14 @@ return str_replace($search,$replace,htmlXentities($superstring));
 require_once('../globals.inc.php');
 
 function def($d, $e, $f) {
-global $lan1na;
-global $lan2na;
-global $lan3na;
+    $d = $d ?? '';
+    $f = $f ?? '';
+    $e = $e ?? '';
+
+    global $lan1na;
+    global $lan2na;
+    global $lan3na;
+
        if ($_GET['l'] == $lan1na && trim($d) != '') return $d;
   else if ($_GET['l'] == $lan2na && trim($e) != '') return $e;
   else if ($_GET['l'] == $lan3na && trim($f) != '') return $f;
@@ -80,15 +87,18 @@ global $lan3na;
 }
 
 function htmlXspecialchars($that) {
-return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    $that = $that ?? '';
+    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 function htmlXentities($that) {
-return htmlentities($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    $that = $that ?? '';
+    return htmlentities($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 function htmlX_entity_decode($that) {
-return html_entity_decode($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    $that = $that ?? '';
+    return html_entity_decode($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 function pwdhsh($p) {

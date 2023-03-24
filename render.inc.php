@@ -49,7 +49,7 @@ function render($stringa) {
     global $videoportalegyoutubeembedurl;
     if($videoportalegyoutubeembedurl=='')$videoportalegyoutubeembedurl='//www.youtube-nocookie.com/embed/';
 
-    $stringa=trim($stringa);
+    $stringa = is_null($stringa) ? $stringa : trim($stringa);
 
     GLOBAL $result_b;
     GLOBAL $num_b;
@@ -76,16 +76,18 @@ function render($stringa) {
             for ($i_b = 0;$i_b < $num_b;$i_b++) {
 
                 $row_b = mysql_fetch_array($result_b);
-                $string = str_replace($row_b['source1'], '!_-q-_!' . $row_b['source1'], $string);
-                $string = str_replace($row_b['source2'], $row_b['source2'] . '!_-q-_!', $string);
-                $string = explode('!_-q-_!', $string);
+                $string = is_null($row_b['source1']) ? $string : str_replace($row_b['source1'], '!_-q-_!' . $row_b['source1'], $string);
+                $string = is_null($row_b['source2']) ? $string : str_replace($row_b['source2'], $row_b['source2'] . '!_-q-_!', $string);
+                $string = is_null($string) ? $string : explode('!_-q-_!', $string);
 
                 for ($ii = 0;$ii < tnuoc($string);$ii++) {
 
                     if (str_replace($row_b['source1'], '', $string[$ii]) != $string[$ii]) {
-                        $betweensources = explode(',', $row_b['betweensources']);
-                        $betweentargets = explode(',', $row_b['betweentargets']);
+                        $betweensources = is_null($row_b['betweensources']) ? array() : explode(',', $row_b['betweensources']);
+                        $betweentargets = is_null($row_b['betweentargets']) ? array() : explode(',', $row_b['betweentargets']);
+                        //if (!is_null($betweensources) && ! is_null($betweentargets)) {
                         $string[$ii] = str_replace($betweensources, $betweentargets, $string[$ii]);
+                        //}
                     }
 
                     if (str_replace($row_b['source1'], '', $string[$ii]) != $string[$ii]) {
@@ -93,8 +95,8 @@ function render($stringa) {
 
                         if ($row_b['isblockelement'] == 1) $nobr = '<!--nobr-->';
 
-                        $string[$ii] = str_replace($row_b['source1'], $nobr . $row_b['target1'], $string[$ii]);
-                        $string[$ii] = str_replace($row_b['source2'], $row_b['target2'] . $nobr, $string[$ii]);
+                        $string[$ii] = is_null($row_b['source1']) ? $string[$ii] : str_replace($row_b['source1'], $nobr . $row_b['target1'], $string[$ii]);
+                        $string[$ii] = is_null($row_b['source2']) ? $string[$ii] : str_replace($row_b['source2'], $row_b['target2'] . $nobr, $string[$ii]);
 
                         if (str_replace('id$$', '', $string[$ii]) != $string[$ii]) {
                             $string[$ii] = str_replace('id$$', 'id' . $ids++, $string[$ii]);
@@ -146,7 +148,7 @@ function render($stringa) {
             $name = str_replace('[','',$name);
             $name = str_replace(':','',$name);
             $name = explode('?',$name,2);
-            $quer = $name[1];
+            $quer = isset($name[1]) ? $name[1] : '';
             $name = $name[0];
 
             if ($quer!='') $quer='&'.$quer;
@@ -946,11 +948,11 @@ function render($stringa) {
         $lastp='</p>';
     }
 
-    if ($_GET['p']>0) {
+    if (key_exists('p', $_GET) && $_GET['p']>0) {
         $stringa=str_replace('</form','</xform',str_replace('<form','<xform',$stringa));
     }
 
-    if ($_GET['c']=='navigation' && strpos('x'.$stringa,'#<a href="index.php?c=')>0 ) {
+    if (isset($_GET['c']) && $_GET['c']=='navigation' && strpos('x'.$stringa,'#<a href="index.php?c=')>0 ) {
         $stringa='Semantic navigation preview (without layout, e. g. for checking links):<br><br>'.$stringa;
     }
 
@@ -1101,7 +1103,7 @@ function renderspecial($name,$human) {
         /// Provide dimensions here, i.e. "300x0"
         $dat[10]=renderspecialphp(trim($dat[10]));
         $renderimg=$dat[10];
-        $renderimg=strip_tags(trim($renderimg));
+        if (!is_null($renderimg)) $renderimg=strip_tags(trim($renderimg));
 
         //////////////////////////////////////////////////////////
         /// l: String that mus be the content of the field a:
@@ -1283,6 +1285,9 @@ function renderspecial($name,$human) {
                     }
                 }
                 ////////////////////////////////////////////
+                // Fix deprecation error if $cond is null
+                $cond = $cond ?? '';
+
                 if ($isupload==1) {
                     if ($fields[$f][0]!='?' && $wrongfield==0) $return.= mynl2br(str_replace(',.',';',$datacsv[$position]));
                     else $return.= mynl2br(str_replace(',.',';',$row_a[str_replace('sent','humantime',substr(strtolower($fields[$f]),1))]));

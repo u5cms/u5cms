@@ -13,14 +13,16 @@
 <?php
 require_once('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
-if($orderingintranetpasswordsisforbidden=='yes')die("MESSAGE TO THE ADMINISTRATOR: You have to set $orderingintranetpasswordsisforbidden=='no' in the file config.php of your u5CMS installation to allow that.");
+if($orderingintranetpasswordsisforbidden=='yes') {
+  die("MESSAGE TO THE ADMINISTRATOR: You have to set $orderingintranetpasswordsisforbidden=='no' in the file config.php of your u5CMS installation to allow that.");
+}
 if(function_exists('INTRANETORDERPWexec'))INTRANETORDERPWexec();
 
-if(!isset($waitsecondsbetweenintranetpworders))$waitsecondsbetweenintranetpworders=(60*10);
-if(time()-file_get_contents('fileversions/lastintrapworder.txt')<$waitsecondsbetweenintranetpworders){
-require_once('globalslogin.inc.php');
-echo('<b>'.def($wait_d,$wait_e,$wait_f).' '.(file_get_contents('fileversions/lastintrapworder.txt')-time()+$waitsecondsbetweenintranetpworders).'&#8243;</b><script>document.getElementById("spinner").style.display="none";document.getElementById("form").style.display="block";setTimeout("location.href=location.href",1000)</script>');
-exit;	
+$lastintrapworder = file_exists('fileversions/lastintrapworder.txt') ? file_get_contents('fileversions/lastintrapworder.txt') : 0;
+if(time()-$lastintrapworder < $waitsecondsbetweenintranetpworders){
+  require_once('globalslogin.inc.php');
+  echo('<b>'.def($wait_d,$wait_e,$wait_f).' '.($lastintrapworder-time()+$waitsecondsbetweenintranetpworders).'&#8243;</b><script>document.getElementById("spinner").style.display="none";document.getElementById("form").style.display="block";setTimeout("location.href=location.href",1000)</script>');
+  exit;
 }
 
 $sql_a="UPDATE intranetsalt SET salt=".rand(1000000,9999999)." WHERE salt<1000";
@@ -34,16 +36,14 @@ if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font colo
 $row_a = mysql_fetch_array($result_a);
 $salt=$row_a['salt'];
 
-
+echo '<pre>', var_dump($_POST);
 $_POST['email']=trim($_POST['email']);
 
 if (strpos($_POST['email'],'@')>0 && strpos($_POST['email'],'.')>0) {
-	
-if(!isset($waitsecondsbetweenintranetpworders))$waitsecondsbetweenintranetpworders=(60*10);
-if(time()-file_get_contents('fileversions/lastintrapworder.txt')<$waitsecondsbetweenintranetpworders){
-echo('<script>location.href=location.href</script>');
-exit;	
-}
+  if(time()-$lastintrapworder < $waitsecondsbetweenintranetpworders){
+    echo('<script>location.href=location.href</script>');
+    exit;
+  }
 file_put_contents('fileversions/lastintrapworder.txt',time());
 
 echo '<span style="font-size:130%;font-family:Arial, Helvetica, sans-serif;color:green">OK &rarr; E-Mail Inbox<br><small>'.str_replace('&amp;','&',htmlXspecialchars($_POST['email'])).'</small></span><iframe src="autointranet.php" frameborder="0" width="0" height="0"></iframe><script>if(parent.donescript)parent.donescript();document.getElementById(\'form\').style.display=\'block\';document.getElementById(\'spinner\').style.display=\'none\';</script>';

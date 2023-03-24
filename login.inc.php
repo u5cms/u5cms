@@ -8,8 +8,8 @@ if ($autoresolvefastcgiproblems == 'yes') {
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
-    $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
-    $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
+    $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'] ?? '';
+    $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'] ?? '';
     setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
     setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
 }
@@ -26,8 +26,10 @@ $_SERVER['PHP_AUTH_PW']=html_entity_decode($_SERVER['PHP_AUTH_PW'], ENT_COMPAT,'
 }
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
+if (!isset($_GET['c'])) $_GET['c'] = '';
+if (!isset($_GET['n'])) $_GET['n'] = '';
 if ($_GET['c'] == '' && $_GET['n'] != '') $_GET['c'] = $_GET['n'];
-if ($thatpage == '') $thatpage = $_GET['c'];
+if (!isset($thatpage) || $thatpage == '') $thatpage = $_GET['c'];
 
 $sql = "SELECT name, logins FROM resources WHERE logins NOT LIKE '' AND name='" . mysql_real_escape_string($thatpage) . "'";
 $result = mysql_query($sql);
@@ -84,4 +86,3 @@ if ($num > 0) {
 include('config.php');
 if(function_exists('INTRANETexec'))INTRANETexec();
 }
-?>

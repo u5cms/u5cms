@@ -1,7 +1,7 @@
 <?php 
 require_once('connect.inc.php');
 $siteandintranet='';
-if (substr($_GET['c'],0,1)=='!' || $_GET['c']=='_searchsi') $siteandintranet='si';
+if (isset($_GET['c']) && (substr($_GET['c'],0,1)=='!' || $_GET['c']=='_searchsi')) $siteandintranet='si';
 ?>
 <form id="frm_Search" name="fsearch" method="get" action="javascript:location.href='index.php?c=_search<?php echo $siteandintranet ?>&amp;l=<?php echo $_GET['l']?>&amp;q='+escape(document.fsearch.q.value.replace(/ /g,',').replace(/\+/g,','))" onsubmit="return isterm()">
   <input type="hidden" name="l" value="<?php echo $_GET['l']?>" />
