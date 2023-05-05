@@ -45,7 +45,7 @@ if(parent.window.name==\'i2\')document.getElementById(\'fu5prvldd\').src=\'index
    }
 
 else $template = str_replace('</html>','',str_replace('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:absolute;top:0;left:0;z-index:999;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.htmlspecialchars($_GET['n']).'&c='.htmlspecialchars($_GET['c']).'&l='.htmlspecialchars($_GET['l']).'\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
-<!-- This site runs in u5CMS V8.3.5. Get u5CMS for free at http://www.yuba.ch/u5cms -->
+<!-- This site runs in u5CMS. Get u5CMS for free at http://www.yuba.ch/u5cms -->
 </html>';
 
 $i_i_item=explode('{{{',$template);
