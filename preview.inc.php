@@ -23,11 +23,11 @@ if (parent.window.name=='i2') {
    document.formp.r.value=parent.parent.i1.document.form1.content_3.value;
    }
 
-    if (parent.parent.i1.document.form1.view[2].checked==true) {
+    if (parent.parent.i1.document.form1.view[3].checked==true) {
         document.formp.r.value=parent.parent.i1.document.form1.content_4.value;
     }
 
-    if (parent.parent.i1.document.form1.view[2].checked==true) {
+    if (parent.parent.i1.document.form1.view[4].checked==true) {
         document.formp.r.value=parent.parent.i1.document.form1.content_5.value;
     }
 }
@@ -46,11 +46,11 @@ if (parent.window.name=='i1') {
    document.formp.r.value=parent.parent.i2.document.form1.content_3.value;
    }
 
-    if (parent.parent.i2.document.form1.view[2].checked==true) {
+    if (parent.parent.i2.document.form1.view[3].checked==true) {
         document.formp.r.value=parent.parent.i2.document.form1.content_4.value;
     }
 
-    if (parent.parent.i2.document.form1.view[2].checked==true) {
+    if (parent.parent.i2.document.form1.view[4].checked==true) {
         document.formp.r.value=parent.parent.i2.document.form1.content_5.value;
     }
 
