@@ -60,6 +60,16 @@ If in the <i><?php echo $lan2na?></i> version of the website a <i><?php echo $la
 If in the <i><?php echo $lan3na?></i> version of the website a <i><?php echo $lan3na?></i> version of this file should appear, upload it here: 
 <iframe src="sendfile.php?name=<?php echo $_GET['name']?>&l=_<?php echo $lan3na ?>&typ=<?php echo $_GET['typ']?>" frameborder="0" width="100%" height="88"></iframe>
 </div>
+<div id="lan4name"><hr>
+
+    If in the <i><?php echo $lan4na?></i> version of the website a <i><?php echo $lan4na?></i> version of this file should appear, upload it here:
+    <iframe src="sendfile.php?name=<?php echo $_GET['name']?>&l=_<?php echo $lan4na ?>&typ=<?php echo $_GET['typ']?>" frameborder="0" width="100%" height="88"></iframe>
+</div>
+<div id="lan5name"><hr>
+
+    If in the <i><?php echo $lan5na?></i> version of the website a <i><?php echo $lan5na?></i> version of this file should appear, upload it here:
+    <iframe src="sendfile.php?name=<?php echo $_GET['name']?>&l=_<?php echo $lan5na ?>&typ=<?php echo $_GET['typ']?>" frameborder="0" width="100%" height="88"></iframe>
+</div>
 <script src="emptylanhide.js.php"></script>
 <?php include('focuslinktitle.inc.php') ?>
 </body>

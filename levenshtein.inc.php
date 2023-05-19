@@ -4,7 +4,7 @@ echo '<span id="levenshtein"><b><big>Meinten Sie: ';
 
 for ($liii=0; $liii<tnuoc($sfor); $liii++) {
 
-$sql_la="SELECT text FROM search_d";
+$sql_la="SELECT text FROM search_1";
 $result_la=mysql_query($sql_la);
 
 if ($result_la==false) {

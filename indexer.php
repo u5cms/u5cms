@@ -97,46 +97,66 @@ for ($i_ii = 0;$i_ii < $num_ii;$i_ii++) {
   $num_b = mysql_num_rows($result_b);
   $notp = '';
 
-$autotitle_d=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_d'])))) )))),0,$resulttitlemaxlength));
-$autotitle_e=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_e'])))) )))),0,$resulttitlemaxlength));
-$autotitle_f=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_f'])))) )))),0,$resulttitlemaxlength));
+$autotitle_1=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_1'])))) )))),0,$resulttitlemaxlength));
+$autotitle_2=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_2'])))) )))),0,$resulttitlemaxlength));
+$autotitle_3=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_3'])))) )))),0,$resulttitlemaxlength));
+$autotitle_4=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_4'])))) )))),0,$resulttitlemaxlength));
+$autotitle_5=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_5'])))) )))),0,$resulttitlemaxlength));
 if($autotitlewholewordsonly!='no') {
 
-$temp=explode(' ',$autotitle_d);
-if(tnuoc($temp)>=3) {
-$autotitle_d='';	
-for($i=0;$i<tnuoc($temp)-1;$i++) {
-$autotitle_d.=$temp[$i];
-if($i<tnuoc($temp)-2)$autotitle_d.=' ';
-}
-}
+    $temp = explode(' ', $autotitle_1);
+    if (tnuoc($temp) >= 3) {
+        $autotitle_1 = '';
+        for ($i = 0; $i < tnuoc($temp) - 1; $i++) {
+            $autotitle_1 .= $temp[$i];
+            if ($i < tnuoc($temp) - 2) $autotitle_1 .= ' ';
+        }
+    }
 
-$temp=explode(' ',$autotitle_e);
-if(tnuoc($temp)>=3) {
-$autotitle_e='';	
-for($i=0;$i<tnuoc($temp)-1;$i++) {
-$autotitle_e.=$temp[$i];
-if($i<tnuoc($temp)-2)$autotitle_e.=' ';
-}
-}
+    $temp = explode(' ', $autotitle_2);
+    if (tnuoc($temp) >= 3) {
+        $autotitle_2 = '';
+        for ($i = 0; $i < tnuoc($temp) - 1; $i++) {
+            $autotitle_2 .= $temp[$i];
+            if ($i < tnuoc($temp) - 2) $autotitle_2 .= ' ';
+        }
+    }
 
-$temp=explode(' ',$autotitle_f);
-if(tnuoc($temp)>=3) {
-$autotitle_f='';	
-for($i=0;$i<tnuoc($temp)-1;$i++) {
-$autotitle_f.=$temp[$i];
-if($i<tnuoc($temp)-2)$autotitle_f.=' ';
-}
-}
+    $temp = explode(' ', $autotitle_3);
+    if (tnuoc($temp) >= 3) {
+        $autotitle_3 = '';
+        for ($i = 0; $i < tnuoc($temp) - 1; $i++) {
+            $autotitle_3 .= $temp[$i];
+            if ($i < tnuoc($temp) - 2) $autotitle_3 .= ' ';
+        }
+    }
+
+    $temp=explode(' ',$autotitle_4);
+    if(tnuoc($temp)>=3) {
+        $autotitle_4='';
+        for($i=0;$i<tnuoc($temp)-1;$i++) {
+            $autotitle_4.=$temp[$i];
+            if($i<tnuoc($temp)-2)$autotitle_4.=' ';
+        }
+    }
+
+    $temp=explode(' ',$autotitle_5);
+    if(tnuoc($temp)>=3) {
+        $autotitle_5='';
+        for($i=0;$i<tnuoc($temp)-1;$i++) {
+            $autotitle_5.=$temp[$i];
+            if($i<tnuoc($temp)-2)$autotitle_5.=' ';
+        }
+    }
 
 }
 
 if($_GET['l']==$lan1na) {
-if (trim($row_ii['title_d'])=='' || str_replace(' . . .','',$row_ii['title_d'])!=$row_ii['title_d']) {
-$title_d=idef($autotitle_d,$autotitle_e,$autotitle_f,'d').' . . .';
+if (trim($row_ii['title_1'])=='' || str_replace(' . . .','',$row_ii['title_1'])!=$row_ii['title_1']) {
+$title_1=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'1').' . . .';
   $sql_i = "UPDATE resources
 SET 
-title_d='" . mysql_real_escape_string($title_d) ."'
+title_1='" . mysql_real_escape_string($title_1) ."'
 WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
   $result_i = mysql_query($sql_i);
 //echo '<hr>'.$sql_i.'<hr>';
@@ -147,12 +167,12 @@ WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['na
 }
 
 if($_GET['l']==$lan2na) {
-if (trim($row_ii['title_e'])=='' || str_replace(' . . .','',$row_ii['title_e'])!=$row_ii['title_e']) {
-$title_e=idef($autotitle_d,$autotitle_e,$autotitle_f,'e').' . . .';
-if(str_replace(' . . .','',$row_ii['title_d'])==$row_ii['title_d'])$title_e='';
+if (trim($row_ii['title_2'])=='' || str_replace(' . . .','',$row_ii['title_2'])!=$row_ii['title_2']) {
+$title_2=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'2').' . . .';
+if(str_replace(' . . .','',$row_ii['title_1'])==$row_ii['title_1'])$title_2='';
   $sql_i = "UPDATE resources
 SET 
-title_e='" . mysql_real_escape_string($title_e) ."'
+title_2='" . mysql_real_escape_string($title_2) ."'
 WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
   $result_i = mysql_query($sql_i);
 //echo '<hr>'.$sql_i.'<hr>';
@@ -163,12 +183,12 @@ WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['na
 }
 
 if($_GET['l']==$lan3na) {
-if (trim($row_ii['title_f'])=='' || str_replace(' . . .','',$row_ii['title_f'])!=$row_ii['title_f']) {
-$title_f=idef($autotitle_d,$autotitle_e,$autotitle_f,'f').' . . .';
-if(str_replace(' . . .','',$row_ii['title_d'])==$row_ii['title_d'])$title_f='';
+if (trim($row_ii['title_3'])=='' || str_replace(' . . .','',$row_ii['title_3'])!=$row_ii['title_3']) {
+$title_3=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'3').' . . .';
+if(str_replace(' . . .','',$row_ii['title_1'])==$row_ii['title_1'])$title_3='';
   $sql_i = "UPDATE resources
 SET 
-title_f='" . mysql_real_escape_string($title_f) ."'
+title_3='" . mysql_real_escape_string($title_3) ."'
 WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
   $result_i = mysql_query($sql_i);
 //echo '<hr>'.$sql_i.'<hr>';
@@ -177,16 +197,48 @@ WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['na
 
   }}
 }
+
+    if($_GET['l']==$lan4na) {
+        if (trim($row_ii['title_4'])=='' || str_replace(' . . .','',$row_ii['title_4'])!=$row_ii['title_4']) {
+            $title_4=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'4').' . . .';
+            if(str_replace(' . . .','',$row_ii['title_1'])==$row_ii['title_1'])$title_4='';
+            $sql_i = "UPDATE resources
+SET 
+title_4='" . mysql_real_escape_string($title_4) ."'
+WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+            $result_i = mysql_query($sql_i);
+//echo '<hr>'.$sql_i.'<hr>';
+            if ($result_i == false) {
+                echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+
+            }}
+    }
+
+    if($_GET['l']==$lan5na) {
+        if (trim($row_ii['title_5'])=='' || str_replace(' . . .','',$row_ii['title_5'])!=$row_ii['title_5']) {
+            $title_5=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'5').' . . .';
+            if(str_replace(' . . .','',$row_ii['title_1'])==$row_ii['title_1'])$title_5='';
+            $sql_i = "UPDATE resources
+SET 
+title_5='" . mysql_real_escape_string($title_5) ."'
+WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+            $result_i = mysql_query($sql_i);
+//echo '<hr>'.$sql_i.'<hr>';
+            if ($result_i == false) {
+                echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+
+            }}
+    }
 
 if(!isset($donotautoindexifthisstringisfoundinfinalpagecontent))$donotautoindexifthisstringisfoundinfinalpagecontent='DoNotAutoIndexIfThisStringIsFoundInFinalPageContentLiterally';
-if(strpos('x'.render($row_ii['content_d'].$row_ii['content_e'].$row_ii['content_f']),$donotautoindexifthisstringisfoundinfinalpagecontent)<1) {
+if(strpos('x'.render($row_ii['content_1'].$row_ii['content_2'].$row_ii['content_3'].$row_ii['content_4'].$row_ii['content_5']),$donotautoindexifthisstringisfoundinfinalpagecontent)<1) {
 
 
 if($_GET['l']==$lan1na) {
-$content_d=idef($row_ii['content_d'],$row_ii['content_e'],$row_ii['content_f'],'d');
+$content_1=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'1');
   $sql_i = "UPDATE resources
 SET 
-search_d='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_d)))))))) . "'
+search_1='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_1)))))))) . "'
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
   $result_i = mysql_query($sql_i);
 //echo '<hr>'.$sql_i.'<hr>';
@@ -195,10 +247,10 @@ WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'"
 
 
 if($_GET['l']==$lan2na) {
-$content_e=idef($row_ii['content_d'],$row_ii['content_e'],$row_ii['content_f'],'e');
+$content_2=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'2');
   $sql_i = "UPDATE resources
 SET 
-search_e='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_e)))))))) . "'
+search_2='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_2)))))))) . "'
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
   $result_i = mysql_query($sql_i);
 //echo '<hr>'.$sql_i.'<hr>';
@@ -206,30 +258,55 @@ WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'"
 }
 
 if($_GET['l']==$lan3na) {
-$content_f=idef($row_ii['content_d'],$row_ii['content_e'],$row_ii['content_f'],'f');
+$content_3=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'3');
   $sql_i = "UPDATE resources
 SET 
-search_f='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_f)))))))) . "'
+search_3='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_3)))))))) . "'
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
   $result_i = mysql_query($sql_i);
 //echo '<hr>'.$sql_i.'<hr>';
   if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
 }
 
+    if($_GET['l']==$lan4na) {
+        $content_4=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'4');
+        $sql_i = "UPDATE resources
+SET 
+search_4='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_4)))))))) . "'
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+        $result_i = mysql_query($sql_i);
+//echo '<hr>'.$sql_i.'<hr>';
+        if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+    }
+
+    if($_GET['l']==$lan5na) {
+        $content_5=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'5');
+        $sql_i = "UPDATE resources
+SET 
+search_5='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_5)))))))) . "'
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+        $result_i = mysql_query($sql_i);
+//echo '<hr>'.$sql_i.'<hr>';
+        if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+    }
 }
 
 }
 
 
-function idef($d, $e, $f, $l) {
-       if ($l == 'd' && trim($d) != '') return $d;
-  else if ($l == 'e' && trim($e) != '') return $e;
-  else if ($l == 'f' && trim($f) != '') return $f;
+function idef($l1, $l2, $l3, $l4, $l5, $l) {
+       if ($l == '1' && trim($l1) != '') return $l1;
+  else if ($l == '2' && trim($l2) != '') return $l2;
+  else if ($l == '3' && trim($l3) != '') return $l3;
+  else if ($l == '4' && trim($l4) != '') return $l4;
+  else if ($l == '5' && trim($l5) != '') return $l5;
   else {
-  if (trim($d) != '') return $d;
-  else if (trim($e) != '') return $e;
-  else if (trim($f) != '') return $f;
-  else return $d;
+  if (trim($l1) != '') return $l1;
+  else if (trim($l2) != '') return $l2;
+  else if (trim($l3) != '') return $l3;
+  else if (trim($l4) != '') return $l4;
+  else if (trim($l5) != '') return $l5;
+  else return $l1;
   }
 }
 //if($_GET['l']==$lan1na&&$_GET['r']!='!') echo"<script>location.href='indexer.php?l=$lan2na';</script>";

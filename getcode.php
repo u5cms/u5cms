@@ -9,5 +9,5 @@ echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font
 
 $row_a = mysql_fetch_array($result_a);
 
-echo $row_a['content_d'];
+echo $row_a['content_1'];
 ?>

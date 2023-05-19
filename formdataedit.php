@@ -16,7 +16,7 @@ $delstatgetc=$row_a['deleted'];
 
 $row_a['name']='logo';
 include('getfile.inc.php');
-$template=str_replace('[_logo_]','r/logo/'.def($file_d,$file_e,$file_f).'?t='.filemtime('r/logo/'.def($file_d,$file_e,$file_f)),file_get_contents('r/htmltemplate.css'));
+$template=str_replace('[_logo_]','r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.filemtime('r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5)),file_get_contents('r/htmltemplate.css'));
 
 if ($_GET['p']=='1') $template=str_replace('{{{content}}}',render($_POST['r']),$template);
 

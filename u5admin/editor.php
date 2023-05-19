@@ -171,15 +171,20 @@ ns
 
             <td>
                 <?php $onechar = false;
-                if ($lan1na[0] != $lan2na[0] && $lan1na[0] != $lan3na[0] && $lan2na[0] != $lan3na[0]) $onechar = true; ?>
+                $unique_lans = array_unique(array($lan1na[0], $lan2na[0], $lan3na[0], $lan4na[0], $lan5na[0]));
+                if (sizeof($unique_lans) == 5) $onechar = true; ?>
                 <span
-                    title="Click a radio (<?php echo $onechar ? $lan1na[0] : $lan1na ?>, <?php echo $onechar ? $lan2na[0] : $lan2na ?> or <?php echo $onechar ? $lan3na[0] : $lan3na ?>) to choose a language or click the P-radio to wysiwyg preview this page in the nighbor editor area.">
-<input onclick="manlview=1;lview('d')" name="view" type="radio" value="d"/><span
+                    title="Click a radio (<?php echo $onechar ? $lan1na[0] : $lan1na ?>, <?php echo $onechar ? $lan2na[0] : $lan2na ?>, <?php echo $onechar ? $lan3na[0] : $lan3na ?>, <?php echo $onechar ? $lan4na[0] : $lan4na ?> or <?php echo $onechar ? $lan5na[0] : $lan5na ?>) to choose a language or click the P-radio to wysiwyg preview this page in the nighbor editor area.">
+<input onclick="manlview=1;lview('1')" name="view" type="radio" value="1"/><span
                         id="sl01"><?php echo $onechar ? $lan1na[0] : $lan1na ?></span>
-<input onclick="manlview=1;lview('e')" name="view" type="radio" value="e"/><span
+<input onclick="manlview=1;lview('2')" name="view" type="radio" value="2"/><span
                         id="sl02"><?php echo $onechar ? $lan2na[0] : $lan2na ?></span>
-<input onclick="manlview=1;lview('f')" name="view" type="radio" value="f"/><span
+<input onclick="manlview=1;lview('3')" name="view" type="radio" value="3"/><span
                         id="sl03"><?php echo $onechar ? $lan3na[0] : $lan3na ?></span>
+<input onclick="manlview=1;lview('4')" name="view" type="radio" value="4"/><span
+                        id="sl04"><?php echo $onechar ? $lan4na[0] : $lan4na ?></span>
+<input onclick="manlview=1;lview('5')" name="view" type="radio" value="5"/><span
+                        id="sl05"><?php echo $onechar ? $lan5na[0] : $lan5na ?></span>
 <input
     title="Click the radio for wysiwyg preview. Doubleclick the radio to highlight paragraphs. Click the letter P to go to the live web page"
     ondblclick="hilitp()" onclick="lview('P');preload()" name="view" type="radio" value="P" id="pvradio"/><script>if (parent.location.href.indexOf('?i') > 1)document.getElementById('pvradio').style.display = 'none'</script><a
@@ -262,130 +267,214 @@ ns
     </div>
 
 
-    <div id="d_d" style="display:none">
+    <div id="d_1" style="display:none">
         <div id="insert1" style="background:#D0F4B0;display:none">
-            <?php $lanhere = 'd';
+            <?php $lanhere = '1';
             include('inserts.inc.php') ?>
         </div>
         <div id="meta1" style="display:none">
             <table bgcolor="#FFFF99" width="100%">
                 <tr>
                     <td>Title</td>
-                    <td width="99%"><input name="title_d" lang="<?php echo $lan1na ?>" type="text" id="t11" style="width:100%"
+                    <td width="99%"><input name="title_1" lang="<?php echo $lan1na ?>" type="text" id="t11" style="width:100%"
                                            onkeydown="tov=this.value"
                                            onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                            onmouseover="tov=this.value"
                                            onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                                           value="<?php echo ehtml($row_a['title_d']) ?>"/></td>
+                                           value="<?php echo ehtml($row_a['title_1']) ?>"/></td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input name="desc_d" lang="<?php echo $lan1na ?>" type="text" id="t12" style="width:100%" onkeydown="tov=this.value"
+                    <td><input name="desc_1" lang="<?php echo $lan1na ?>" type="text" id="t12" style="width:100%" onkeydown="tov=this.value"
                                onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                onmouseover="tov=this.value"
                                onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                               value="<?php echo ehtml($row_a['desc_d']) ?>"/></td>
+                               value="<?php echo ehtml($row_a['desc_1']) ?>"/></td>
                 </tr>
                 <tr>
                     <td>Keywords</td>
-                    <td><input name="key_d" lang="<?php echo $lan1na ?>" type="text" id="t13" style="width:100%" onkeydown="tov=this.value"
+                    <td><input name="key_1" lang="<?php echo $lan1na ?>" type="text" id="t13" style="width:100%" onkeydown="tov=this.value"
                                onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                onmouseover="tov=this.value"
                                onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                               value="<?php echo ehtml($row_a['key_d']) ?>"/></td>
+                               value="<?php echo ehtml($row_a['key_1']) ?>"/></td>
                 </tr>
             </table>
         </div>
-        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('d','\t');return false};"
+        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('1','\t');return false};"
                   onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                   onmouseover="tov=this.value"
                   onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                  name="content_d" lang="<?php echo $lan1na ?>" id="ta1"
-                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_d']) ?></textarea>
+                  name="content_1" lang="<?php echo $lan1na ?>" id="ta1"
+                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_1']) ?></textarea>
     </div>
 
-    <div id="d_e" style="display:none">
+    <div id="d_2" style="display:none">
         <div id="insert2" style="background:#D0F4B0;display:none">
-            <?php $lanhere = 'e';
+            <?php $lanhere = '2';
             include('inserts.inc.php') ?>
         </div>
         <div id="meta2" style="display:none">
             <table bgcolor="#FFFF99" width="100%">
                 <tr>
                     <td>Title</td>
-                    <td width="99%"><input name="title_e" lang="<?php echo $lan2na ?>" type="text" id="t21" style="width:100%"
+                    <td width="99%"><input name="title_2" lang="<?php echo $lan2na ?>" type="text" id="t21" style="width:100%"
                                            onkeydown="tov=this.value"
                                            onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                            onmouseover="tov=this.value"
                                            onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                                           value="<?php echo ehtml($row_a['title_e']) ?>"/></td>
+                                           value="<?php echo ehtml($row_a['title_2']) ?>"/></td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input name="desc_e" lang="<?php echo $lan2na ?>" type="text" id="t22" style="width:100%" onkeydown="tov=this.value"
+                    <td><input name="desc_2" lang="<?php echo $lan2na ?>" type="text" id="t22" style="width:100%" onkeydown="tov=this.value"
                                onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                onmouseover="tov=this.value"
                                onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                               value="<?php echo ehtml($row_a['desc_e']) ?>"/></td>
+                               value="<?php echo ehtml($row_a['desc_2']) ?>"/></td>
                 </tr>
                 <tr>
                     <td>Keywords</td>
-                    <td><input name="key_e" lang="<?php echo $lan2na ?>" type="text" id="t23" style="width:100%" onkeydown="tov=this.value"
+                    <td><input name="key_2" lang="<?php echo $lan2na ?>" type="text" id="t23" style="width:100%" onkeydown="tov=this.value"
                                onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                onmouseover="tov=this.value"
                                onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                               value="<?php echo ehtml($row_a['key_e']) ?>"/></td>
+                               value="<?php echo ehtml($row_a['key_2']) ?>"/></td>
                 </tr>
             </table>
         </div>
-        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('e','\t');return false};"
+        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('2','\t');return false};"
                   onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                   onmouseover="tov=this.value"
                   onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                  name="content_e" lang="<?php echo $lan2na ?>" id="ta2"
-                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_e']) ?></textarea>
+                  name="content_2" lang="<?php echo $lan2na ?>" id="ta2"
+                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_2']) ?></textarea>
     </div>
 
-    <div id="d_f" style="display:none">
+    <div id="d_3" style="display:none">
         <div id="insert3" style="background:#D0F4B0;display:none">
-            <?php $lanhere = 'f';
+            <?php $lanhere = '3';
             include('inserts.inc.php') ?>
         </div>
         <div id="meta3" style="display:none">
             <table bgcolor="#FFFF99" width="100%">
                 <tr>
                     <td>Title</td>
-                    <td width="99%"><input name="title_f" lang="<?php echo $lan3na ?>" type="text" id="t31" style="width:100%"
+                    <td width="99%"><input name="title_3" lang="<?php echo $lan3na ?>" type="text" id="t31" style="width:100%"
                                            onkeydown="tov=this.value"
                                            onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                            onmouseover="tov=this.value"
                                            onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                                           value="<?php echo ehtml($row_a['title_f']) ?>"/></td>
+                                           value="<?php echo ehtml($row_a['title_3']) ?>"/></td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><input name="desc_f" lang="<?php echo $lan3na ?>" type="text" id="t32" style="width:100%" onkeydown="tov=this.value"
+                    <td><input name="desc_3" lang="<?php echo $lan3na ?>" type="text" id="t32" style="width:100%" onkeydown="tov=this.value"
                                onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                onmouseover="tov=this.value"
                                onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                               value="<?php echo ehtml($row_a['desc_f']) ?>"/></td>
+                               value="<?php echo ehtml($row_a['desc_3']) ?>"/></td>
                 </tr>
                 <tr>
                     <td>Keywords</td>
-                    <td><input name="key_f" lang="<?php echo $lan3na ?>" type="text" id="t33" style="width:100%" onkeydown="tov=this.value"
+                    <td><input name="key_3" lang="<?php echo $lan3na ?>" type="text" id="t33" style="width:100%" onkeydown="tov=this.value"
                                onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                                onmouseover="tov=this.value"
                                onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                               value="<?php echo ehtml($row_a['key_f']) ?>"/></td>
+                               value="<?php echo ehtml($row_a['key_3']) ?>"/></td>
                 </tr>
             </table>
         </div>
-        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('f','\t');return false};"
+        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('3','\t');return false};"
                   onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
                   onmouseover="tov=this.value"
                   onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
-                  name="content_f" lang="<?php echo $lan3na ?>" id="ta3"
-                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_f']) ?></textarea>
+                  name="content_3" lang="<?php echo $lan3na ?>" id="ta3"
+                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_3']) ?></textarea>
+    </div>
+
+    <div id="d_4" style="display:none">
+        <div id="insert4" style="background:#D0F4B0;display:none">
+            <?php $lanhere = '4';
+            include('inserts.inc.php') ?>
+        </div>
+        <div id="meta4" style="display:none">
+            <table bgcolor="#FFFF99" width="100%">
+                <tr>
+                    <td>Title</td>
+                    <td width="99%"><input name="title_4" lang="<?php echo $lan4na ?>" type="text" id="t41" style="width:100%"
+                                           onkeydown="tov=this.value"
+                                           onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                                           onmouseover="tov=this.value"
+                                           onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                                           value="<?php echo ehtml($row_a['title_4']) ?>"/></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><input name="desc_4" lang="<?php echo $lan4na ?>" type="text" id="t42" style="width:100%" onkeydown="tov=this.value"
+                               onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                               onmouseover="tov=this.value"
+                               onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                               value="<?php echo ehtml($row_a['desc_4']) ?>"/></td>
+                </tr>
+                <tr>
+                    <td>Keywords</td>
+                    <td><input name="key_4" lang="<?php echo $lan4na ?>" type="text" id="t43" style="width:100%" onkeydown="tov=this.value"
+                               onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                               onmouseover="tov=this.value"
+                               onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                               value="<?php echo ehtml($row_a['key_4']) ?>"/></td>
+                </tr>
+            </table>
+        </div>
+        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('4','\t');return false};"
+                  onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                  onmouseover="tov=this.value"
+                  onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                  name="content_4" lang="<?php echo $lan4na ?>" id="ta4"
+                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_4']) ?></textarea>
+    </div>
+
+    <div id="d_5" style="display:none">
+        <div id="insert5" style="background:#D0F4B0;display:none">
+            <?php $lanhere = '5';
+            include('inserts.inc.php') ?>
+        </div>
+        <div id="meta5" style="display:none">
+            <table bgcolor="#FFFF99" width="100%">
+                <tr>
+                    <td>Title</td>
+                    <td width="99%"><input name="title_5" lang="<?php echo $lan5na ?>" type="text" id="t51" style="width:100%"
+                                           onkeydown="tov=this.value"
+                                           onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                                           onmouseover="tov=this.value"
+                                           onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                                           value="<?php echo ehtml($row_a['title_5']) ?>"/></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><input name="desc_5" lang="<?php echo $lan5na ?>" type="text" id="t52" style="width:100%" onkeydown="tov=this.value"
+                               onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                               onmouseover="tov=this.value"
+                               onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                               value="<?php echo ehtml($row_a['desc_5']) ?>"/></td>
+                </tr>
+                <tr>
+                    <td>Keywords</td>
+                    <td><input name="key_5" lang="<?php echo $lan5na ?>" type="text" id="t53" style="width:100%" onkeydown="tov=this.value"
+                               onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                               onmouseover="tov=this.value"
+                               onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                               value="<?php echo ehtml($row_a['key_5']) ?>"/></td>
+                </tr>
+            </table>
+        </div>
+        <textarea onkeydown="tov=this.value;if(event.keyCode == 9){doins('5','\t');return false};"
+                  onkeyup="dosync(window.name,this.id,this.value);if (this.value!=tov) {mychanges()};"
+                  onmouseover="tov=this.value"
+                  onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"
+                  name="content_5" lang="<?php echo $lan5na ?>" id="ta5"
+                  style="width:100%;height:1000px"><?php echo ehtml($row_a['content_5']) ?></textarea>
     </div>
 
     <div id="d_P" style="display:none">
@@ -414,13 +503,17 @@ ns
     }
 
     function doins(lanhere, that) {
-        if (lanhere == 'd') insertAtCursor(document.form1.content_d, that);
-        if (lanhere == 'e') insertAtCursor(document.form1.content_e, that);
-        if (lanhere == 'f') insertAtCursor(document.form1.content_f, that);
+        if (lanhere == '1') insertAtCursor(document.form1.content_1, that);
+        if (lanhere == '2') insertAtCursor(document.form1.content_2, that);
+        if (lanhere == '3') insertAtCursor(document.form1.content_3, that);
+        if (lanhere == '4') insertAtCursor(document.form1.content_4, that);
+        if (lanhere == '5') insertAtCursor(document.form1.content_5, that);
 
-        if (lanhere == 'd') dosync2(window.name, 'ta1', that);
-        if (lanhere == 'e') dosync2(window.name, 'ta2', that);
-        if (lanhere == 'f') dosync2(window.name, 'ta3', that);
+        if (lanhere == '1') dosync2(window.name, 'ta1', that);
+        if (lanhere == '2') dosync2(window.name, 'ta2', that);
+        if (lanhere == '3') dosync2(window.name, 'ta3', that);
+        if (lanhere == '4') dosync2(window.name, 'ta4', that);
+        if (lanhere == '5') dosync2(window.name, 'ta5', that);
         pview();
         setTimeout("pview()", 999);
 //window.scrollTo(0,0);
@@ -477,6 +570,8 @@ ns
             document.getElementById('ta1').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
             document.getElementById('ta2').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
             document.getElementById('ta3').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
+            document.getElementById('ta4').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
+            document.getElementById('ta5').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
             document.getElementById('pframe2').style.height = document.documentElement.clientHeight - res + 10 + 'px';
         }
     }
@@ -486,6 +581,8 @@ ns
             if (document.getElementById('ta1').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
             if (document.getElementById('ta2').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
             if (document.getElementById('ta3').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
+            if (document.getElementById('ta4').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
+            if (document.getElementById('ta5').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
             if (document.getElementById('pframe2').style.height != document.documentElement.clientHeight - res) sizer();
         }
         if (parent.i3) if (parent.i3.document.getElementById('a_<?php echo $_GET['c']?>')) {
@@ -495,14 +592,20 @@ ns
         ;
         fnhic();
 
-        if (document.form1.content_d.value.replace(/ /, '') == '') document.getElementById('sl01').style.color = '#aaa';
+        if (document.form1.content_1.value.replace(/ /, '') == '') document.getElementById('sl01').style.color = '#aaa';
         else document.getElementById('sl01').style.color = 'black';
 
-        if (document.form1.content_e.value.replace(/ /, '') == '') document.getElementById('sl02').style.color = '#aaa';
+        if (document.form1.content_2.value.replace(/ /, '') == '') document.getElementById('sl02').style.color = '#aaa';
         else document.getElementById('sl02').style.color = 'black';
 
-        if (document.form1.content_f.value.replace(/ /, '') == '') document.getElementById('sl03').style.color = '#aaa';
+        if (document.form1.content_3.value.replace(/ /, '') == '') document.getElementById('sl03').style.color = '#aaa';
         else document.getElementById('sl03').style.color = 'black';
+
+        if (document.form1.content_4.value.replace(/ /, '') == '') document.getElementById('sl04').style.color = '#aaa';
+        else document.getElementById('sl04').style.color = 'black';
+
+        if (document.form1.content_5.value.replace(/ /, '') == '') document.getElementById('sl05').style.color = '#aaa';
+        else document.getElementById('sl05').style.color = 'black';
 
 
         setTimeout("resizer()", 333);
@@ -514,6 +617,8 @@ ns
             document.getElementById('meta1').style.display = 'block';
             document.getElementById('meta2').style.display = 'block';
             document.getElementById('meta3').style.display = 'block';
+            document.getElementById('meta4').style.display = 'block';
+            document.getElementById('meta5').style.display = 'block';
             document.cookie = 'metaonoff=on;path=/';
         }
 
@@ -522,6 +627,8 @@ ns
             document.getElementById('meta1').style.display = 'none';
             document.getElementById('meta2').style.display = 'none';
             document.getElementById('meta3').style.display = 'none';
+            document.getElementById('meta4').style.display = 'none';
+            document.getElementById('meta5').style.display = 'none';
             document.cookie = 'metaonoff=off;path=/';
         }
     }
@@ -546,6 +653,8 @@ ns
             document.getElementById('insert1').style.display = 'block';
             document.getElementById('insert2').style.display = 'block';
             document.getElementById('insert3').style.display = 'block';
+            document.getElementById('insert4').style.display = 'block';
+            document.getElementById('insert5').style.display = 'block';
             document.cookie = 'insertonoff=on;path=/';
         }
 
@@ -554,14 +663,16 @@ ns
             document.getElementById('insert1').style.display = 'none';
             document.getElementById('insert2').style.display = 'none';
             document.getElementById('insert3').style.display = 'none';
+            document.getElementById('insert4').style.display = 'none';
+            document.getElementById('insert5').style.display = 'none';
             document.getElementById('pubctrl').style.display = 'none';
             document.cookie = 'insertonoff=off;path=/';
         }
     }
 
     function pview() {
-//if (parent.i1 && window.name=='i2' && parent.i1.document.form1.view[3].checked==true && parent.i1.pframe.pviewit) parent.i1.pframe.pviewit();
-//if (parent.i2 && window.name=='i1' && parent.i2.document.form1.view[3].checked==true && parent.i2.pframe.pviewit) parent.i2.pframe.pviewit();
+//if (parent.i1 && window.name=='i2' && parent.i1.document.form1.view[5].checked==true && parent.i1.pframe.pviewit) parent.i1.pframe.pviewit();
+//if (parent.i2 && window.name=='i1' && parent.i2.document.form1.view[5].checked==true && parent.i2.pframe.pviewit) parent.i2.pframe.pviewit();
         lagp = 0;
     }
 
@@ -569,22 +680,24 @@ ns
     function lagpview() {
         lagp++;
         if (lagp == 2) {
-            if (parent.i1 && window.name == 'i2' && parent.i1.document.form1.view[3].checked == true && parent.i1.pframe.pviewit) parent.i1.pframe.pviewit();
-            if (parent.i2 && window.name == 'i1' && parent.i2.document.form1.view[3].checked == true && parent.i2.pframe.pviewit) parent.i2.pframe.pviewit();
+            if (parent.i1 && window.name == 'i2' && parent.i1.document.form1.view[5].checked == true && parent.i1.pframe.pviewit) parent.i1.pframe.pviewit();
+            if (parent.i2 && window.name == 'i1' && parent.i2.document.form1.view[5].checked == true && parent.i2.pframe.pviewit) parent.i2.pframe.pviewit();
         }
         setTimeout("lagpview()", 300);
     }
 
     function preload() {
-        if (window.name == 'i1' && parent.i1.document.form1.view[3].checked == true && parent.i1.pframe.pviewit) parent.i1.pframe.pviewit();
-        if (window.name == 'i2' && parent.i2.document.form1.view[3].checked == true && parent.i2.pframe.pviewit) parent.i2.pframe.pviewit();
+        if (window.name == 'i1' && parent.i1.document.form1.view[5].checked == true && parent.i1.pframe.pviewit) parent.i1.pframe.pviewit();
+        if (window.name == 'i2' && parent.i2.document.form1.view[5].checked == true && parent.i2.pframe.pviewit) parent.i2.pframe.pviewit();
     }
 
     function lview(that) {
         lansel = that;
-        document.getElementById('d_d').style.display = 'none';
-        document.getElementById('d_e').style.display = 'none';
-        document.getElementById('d_f').style.display = 'none';
+        document.getElementById('d_1').style.display = 'none';
+        document.getElementById('d_2').style.display = 'none';
+        document.getElementById('d_3').style.display = 'none';
+        document.getElementById('d_4').style.display = 'none';
+        document.getElementById('d_5').style.display = 'none';
         document.getElementById('d_P').style.display = 'none';
 
 
@@ -635,7 +748,7 @@ ns
     function lgotopage(that) {
 	document.cookie='ns=true;path=/';
 	parent.i2.form1.ns.checked=true;
-	if(parent.i1.form1.view[3].checked) document.cookie='i1_l=d;path=/';
+	if(parent.i1.form1.view[5].checked) document.cookie='i1_l=1;path=/';
 	gotopage(that);
 	}
 	
@@ -672,26 +785,34 @@ ns
 
     function readcookies() {
         if (window.name == 'i1') {
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'd') lview('d');
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'e') lview('e');
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'f') lview('f');
+            if ('<?php echo $_COOKIE['i1_l']?>' == '1') lview('1');
+            if ('<?php echo $_COOKIE['i1_l']?>' == '2') lview('2');
+            if ('<?php echo $_COOKIE['i1_l']?>' == '3') lview('3');
+            if ('<?php echo $_COOKIE['i1_l']?>' == '4') lview('4');
+            if ('<?php echo $_COOKIE['i1_l']?>' == '5') lview('5');
             if ('<?php echo $_COOKIE['i1_l']?>' == 'P') lview('P');
 
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'd') document.form1.view[0].checked = true;
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'e') document.form1.view[1].checked = true;
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'f') document.form1.view[2].checked = true;
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'P') document.form1.view[3].checked = true;
+            if ('<?php echo $_COOKIE['i1_l']?>' == '1') document.form1.view[0].checked = true;
+            if ('<?php echo $_COOKIE['i1_l']?>' == '2') document.form1.view[1].checked = true;
+            if ('<?php echo $_COOKIE['i1_l']?>' == '3') document.form1.view[2].checked = true;
+            if ('<?php echo $_COOKIE['i1_l']?>' == '4') document.form1.view[3].checked = true;
+            if ('<?php echo $_COOKIE['i1_l']?>' == '5') document.form1.view[4].checked = true;
+            if ('<?php echo $_COOKIE['i1_l']?>' == 'P') document.form1.view[5].checked = true;
         }
         if (window.name == 'i2') {
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'd') lview('d');
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'e') lview('e');
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'f') lview('f');
+            if ('<?php echo $_COOKIE['i2_l']?>' == '1') lview('1');
+            if ('<?php echo $_COOKIE['i2_l']?>' == '2') lview('2');
+            if ('<?php echo $_COOKIE['i2_l']?>' == '3') lview('3');
+            if ('<?php echo $_COOKIE['i2_l']?>' == '4') lview('4');
+            if ('<?php echo $_COOKIE['i2_l']?>' == '5') lview('5');
             if ('<?php echo $_COOKIE['i2_l']?>' == 'P') lview('P');
 
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'd') document.form1.view[0].checked = true;
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'e') document.form1.view[1].checked = true;
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'f') document.form1.view[2].checked = true;
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'P') document.form1.view[3].checked = true;
+            if ('<?php echo $_COOKIE['i2_l']?>' == '1') document.form1.view[0].checked = true;
+            if ('<?php echo $_COOKIE['i2_l']?>' == '2') document.form1.view[1].checked = true;
+            if ('<?php echo $_COOKIE['i2_l']?>' == '3') document.form1.view[2].checked = true;
+            if ('<?php echo $_COOKIE['i2_l']?>' == '4') document.form1.view[3].checked = true;
+            if ('<?php echo $_COOKIE['i2_l']?>' == '5') document.form1.view[4].checked = true;
+            if ('<?php echo $_COOKIE['i2_l']?>' == 'P') document.form1.view[5].checked = true;
         }
     }
 
@@ -699,6 +820,7 @@ ns
     if (window.name == 'i2') parent.i4c.location.replace('cookie.php?a=' + window.name + '_p&b=' + document.form1.page.value);
 
     function dosync(w, i, v) {
+        console.log(w, i, v);
         if (parent.i1.document.form1.page.value == parent.i2.document.form1.page.value) {
             if (w == 'i1') {
                 parent.i2.document.getElementById(i).value = v;
@@ -711,6 +833,7 @@ ns
     }
 
     function dosync2(w, i, v) {
+        console.log(w, i, v, 'dosync 2');
         if (parent.i1.document.form1.page.value == parent.i2.document.form1.page.value) {
             if (w == 'i1') {
                 parent.i2.document.getElementById(i).value = parent.i1.document.getElementById(i).value;
@@ -782,9 +905,11 @@ ns
 
     function starthide() {
         if (document.form1.page.value == '_') {
-            document.getElementById('d_d').style.display = 'none';
-            document.getElementById('d_e').style.display = 'none';
-            document.getElementById('d_f').style.display = 'none';
+            document.getElementById('d_1').style.display = 'none';
+            document.getElementById('d_2').style.display = 'none';
+            document.getElementById('d_3').style.display = 'none';
+            document.getElementById('d_4').style.display = 'none';
+            document.getElementById('d_5').style.display = 'none';
             document.getElementById('d_P').style.display = 'none';
         }
     }
@@ -813,7 +938,7 @@ setTimeout("fcheckco()",1000*' . $monitorprospectivesaveconflictseverynseconds .
 if (document.form1.page.value == '' || document.form1.page.value == '_') setTimeout("location.href = 'selectpage.php'",777);
 if(getCookie(window.name+'edfo')-0>0)tareatextfo();
 function countblockels() {
-if(document.getElementById('idcoblel'))document.getElementById('idcoblel').src='countblockelements.php?c=<?php echo htmlentities($_GET['c'])?>&l1=<?php echo $lan1na ?>&l2=<?php echo $lan2na?>&l3=<?php echo $lan3na ?>';
+if(document.getElementById('idcoblel'))document.getElementById('idcoblel').src='countblockelements.php?c=<?php echo htmlentities($_GET['c'])?>&l1=<?php echo $lan1na ?>&l2=<?php echo $lan2na?>&l3=<?php echo $lan3na ?>&l4=<?php echo $lan4na ?>&l5=<?php echo $lan5na ?>';
 }
 setTimeout("countblockels()",777);
 </script>

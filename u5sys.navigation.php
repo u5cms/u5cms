@@ -30,7 +30,7 @@ if ($result_a == false) {
 $row_a  = mysql_fetch_array($result_a);
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-$string = def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']);
+$string = def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']);
 
 if ($debug) echo "<pre>", var_dump($string), "</pre>";
 
@@ -79,7 +79,7 @@ foreach ($navitems as $navitem) {
 if ($debug) echo "<pre>\n", var_dump($pack1), var_dump($pack2), var_dump($pack3), var_dump($pack4), "</pre>\n";
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// $string       = def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']);
+// $string       = def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']);
 // $string       = explode('<br />', nl2br($string));
 $z1 = $z2 = $z3 = $z4 = 0;
 $oldlevel = 0;

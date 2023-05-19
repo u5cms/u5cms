@@ -54,46 +54,70 @@ rename("../r/".$n."/".$n."_".$old  .".jpg" , "../r/".$n."/".$n."_".$new  .".jpg"
 rename("../r/".$n."/".$n."_".(9999).".jpg" , "../r/".$n."/".$n."_".$old  .".jpg");
 
 
-$sql_a="UPDATE resources SET content_d=(replace(content_d,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$sql_a="UPDATE resources SET content_1=(replace(content_1,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_d=(replace(content_d,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$sql_a="UPDATE resources SET content_1=(replace(content_1,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_d=(replace(content_d,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-
-
-
-$sql_a="UPDATE resources SET content_e=(replace(content_e,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-
-$sql_a="UPDATE resources SET content_e=(replace(content_e,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-
-$sql_a="UPDATE resources SET content_e=(replace(content_e,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$sql_a="UPDATE resources SET content_1=(replace(content_1,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 
-$sql_a="UPDATE resources SET content_f=(replace(content_f,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+
+$sql_a="UPDATE resources SET content_2=(replace(content_2,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_f=(replace(content_f,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$sql_a="UPDATE resources SET content_2=(replace(content_2,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_f=(replace(content_f,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$sql_a="UPDATE resources SET content_2=(replace(content_2,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET lastmut=".time()." WHERE name='".mysql_real_escape_string($n)."'";
+
+$sql_a="UPDATE resources SET content_3=(replace(content_3,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_3=(replace(content_3,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_3=(replace(content_3,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_4=(replace(content_4,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_4=(replace(content_4,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_4=(replace(content_4,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_5=(replace(content_5,'$new>>>','9999>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_5=(replace(content_5,'$old>>>','$new>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="UPDATE resources SET content_5=(replace(content_5,'9999>>>','$old>>>')) WHERE name='".mysql_real_escape_string($n)."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+    $sql_a="UPDATE resources SET lastmut=".time()." WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>'; 
 

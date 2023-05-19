@@ -12,32 +12,47 @@ function pviewit() {
 if (parent.window.name=='i2') {
    
    if (parent.parent.i1.document.form1.view[0].checked==true) {
-   document.formp.r.value=parent.parent.i1.document.form1.content_d.value;
+   document.formp.r.value=parent.parent.i1.document.form1.content_1.value;
    }
 
    if (parent.parent.i1.document.form1.view[1].checked==true) {
-   document.formp.r.value=parent.parent.i1.document.form1.content_e.value;
+   document.formp.r.value=parent.parent.i1.document.form1.content_2.value;
    }
 
    if (parent.parent.i1.document.form1.view[2].checked==true) {
-   document.formp.r.value=parent.parent.i1.document.form1.content_f.value;
+   document.formp.r.value=parent.parent.i1.document.form1.content_3.value;
    }
 
+    if (parent.parent.i1.document.form1.view[2].checked==true) {
+        document.formp.r.value=parent.parent.i1.document.form1.content_4.value;
+    }
+
+    if (parent.parent.i1.document.form1.view[2].checked==true) {
+        document.formp.r.value=parent.parent.i1.document.form1.content_5.value;
+    }
 }
 
 if (parent.window.name=='i1') {
    
    if (parent.parent.i2.document.form1.view[0].checked==true) {
-   document.formp.r.value=parent.parent.i2.document.form1.content_d.value;
+   document.formp.r.value=parent.parent.i2.document.form1.content_1.value;
    }
 
    if (parent.parent.i2.document.form1.view[1].checked==true) {
-   document.formp.r.value=parent.parent.i2.document.form1.content_e.value;
+   document.formp.r.value=parent.parent.i2.document.form1.content_2.value;
    }
 
    if (parent.parent.i2.document.form1.view[2].checked==true) {
-   document.formp.r.value=parent.parent.i2.document.form1.content_f.value;
+   document.formp.r.value=parent.parent.i2.document.form1.content_3.value;
    }
+
+    if (parent.parent.i2.document.form1.view[2].checked==true) {
+        document.formp.r.value=parent.parent.i2.document.form1.content_4.value;
+    }
+
+    if (parent.parent.i2.document.form1.view[2].checked==true) {
+        document.formp.r.value=parent.parent.i2.document.form1.content_5.value;
+    }
 
 }
 

@@ -11,7 +11,7 @@ require('archivecheck.inc.php');
 require('delcheck.inc.php');
 
 if ($_POST['name']=='htmltemplate') {
-$teststr=$_POST['content_d'];
+$teststr=$_POST['content_1'];
 $teststr=str_replace("\t",' ',$teststr);
 $teststr=str_replace("\r",' ',$teststr);
 $teststr=str_replace("\n",' ',$teststr);
@@ -43,21 +43,29 @@ msgconflict='CONFLICT(!)\n\nYour data has been saved only in the section «text v
 else {
 $conflict='';
 require('delold.php');
-$sql_a="INSERT INTO resources (name,content_d,content_e,content_f,title_d,title_e,title_f,desc_d,desc_e,desc_f,key_d,key_e,key_f,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES
+$sql_a="INSERT INTO resources (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES
 (
 '".mysql_real_escape_string($_POST['name'])."',
-'".mysql_real_escape_string($_POST['content_d'])."',
-'".mysql_real_escape_string($_POST['content_e'])."',
-'".mysql_real_escape_string($_POST['content_f'])."',
-'".mysql_real_escape_string($_POST['title_d'])."',
-'".mysql_real_escape_string($_POST['title_e'])."',
-'".mysql_real_escape_string($_POST['title_f'])."',
-'".mysql_real_escape_string($_POST['desc_d'])."',
-'".mysql_real_escape_string($_POST['desc_e'])."',
-'".mysql_real_escape_string($_POST['desc_f'])."',
-'".mysql_real_escape_string($_POST['key_d'])."',
-'".mysql_real_escape_string($_POST['key_e'])."',
-'".mysql_real_escape_string($_POST['key_f'])."',
+'".mysql_real_escape_string($_POST['content_1'])."',
+'".mysql_real_escape_string($_POST['content_2'])."',
+'".mysql_real_escape_string($_POST['content_3'])."',
+'".mysql_real_escape_string($_POST['content_4'])."',
+'".mysql_real_escape_string($_POST['content_5'])."',
+'".mysql_real_escape_string($_POST['title_1'])."',
+'".mysql_real_escape_string($_POST['title_2'])."',
+'".mysql_real_escape_string($_POST['title_3'])."',
+'".mysql_real_escape_string($_POST['title_4'])."',
+'".mysql_real_escape_string($_POST['title_5'])."',
+'".mysql_real_escape_string($_POST['desc_1'])."',
+'".mysql_real_escape_string($_POST['desc_2'])."',
+'".mysql_real_escape_string($_POST['desc_3'])."',
+'".mysql_real_escape_string($_POST['desc_4'])."',
+'".mysql_real_escape_string($_POST['desc_5'])."',
+'".mysql_real_escape_string($_POST['key_1'])."',
+'".mysql_real_escape_string($_POST['key_2'])."',
+'".mysql_real_escape_string($_POST['key_3'])."',
+'".mysql_real_escape_string($_POST['key_4'])."',
+'".mysql_real_escape_string($_POST['key_5'])."',
 '".mysql_real_escape_string($_POST['logins'])."',
 0,
 '".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
@@ -75,21 +83,29 @@ else echo "<script>parent.document.getElementById('changes').value=0;parent.docu
 
 } // else if coco
 
-$sql_a="INSERT INTO resources_log (name,content_d,content_e,content_f,title_d,title_e,title_f,desc_d,desc_e,desc_f,key_d,key_e,key_f,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES
+$sql_a="INSERT INTO resources_log (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES
 (
 '".mysql_real_escape_string($_POST['name'])."',
-'".mysql_real_escape_string($_POST['content_d'])."',
-'".mysql_real_escape_string($_POST['content_e'])."',
-'".mysql_real_escape_string($_POST['content_f'])."',
-'".mysql_real_escape_string($_POST['title_d'])."',
-'".mysql_real_escape_string($_POST['title_e'])."',
-'".mysql_real_escape_string($_POST['title_f'])."',
-'".mysql_real_escape_string($_POST['desc_d'])."',
-'".mysql_real_escape_string($_POST['desc_e'])."',
-'".mysql_real_escape_string($_POST['desc_f'])."',
-'".mysql_real_escape_string($_POST['key_d'])."',
-'".mysql_real_escape_string($_POST['key_e'])."',
-'".mysql_real_escape_string($_POST['key_f'])."',
+'".mysql_real_escape_string($_POST['content_1'])."',
+'".mysql_real_escape_string($_POST['content_2'])."',
+'".mysql_real_escape_string($_POST['content_3'])."',
+'".mysql_real_escape_string($_POST['content_4'])."',
+'".mysql_real_escape_string($_POST['content_5'])."',
+'".mysql_real_escape_string($_POST['title_1'])."',
+'".mysql_real_escape_string($_POST['title_2'])."',
+'".mysql_real_escape_string($_POST['title_3'])."',
+'".mysql_real_escape_string($_POST['title_4'])."',
+'".mysql_real_escape_string($_POST['title_5'])."',
+'".mysql_real_escape_string($_POST['desc_1'])."',
+'".mysql_real_escape_string($_POST['desc_2'])."',
+'".mysql_real_escape_string($_POST['desc_3'])."',
+'".mysql_real_escape_string($_POST['desc_4'])."',
+'".mysql_real_escape_string($_POST['desc_5'])."',
+'".mysql_real_escape_string($_POST['key_1'])."',
+'".mysql_real_escape_string($_POST['key_2'])."',
+'".mysql_real_escape_string($_POST['key_3'])."',
+'".mysql_real_escape_string($_POST['key_4'])."',
+'".mysql_real_escape_string($_POST['key_5'])."',
 '".mysql_real_escape_string($_POST['logins'])."',
 0,
 '".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].$conflict)."',

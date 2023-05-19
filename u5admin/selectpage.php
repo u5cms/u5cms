@@ -63,9 +63,11 @@
   </select>
 </span>
 <span style="display:none">
-<input onclick="manlview=1;lview('d')" name="view" type="radio" value="d"/>
-<input onclick="manlview=1;lview('e')" name="view" type="radio" value="e"/>
-<input onclick="manlview=1;lview('f')" name="view" type="radio" value="f"/>
+<input onclick="manlview=1;lview('1')" name="view" type="radio" value="1"/>
+<input onclick="manlview=1;lview('2')" name="view" type="radio" value="2"/>
+<input onclick="manlview=1;lview('3')" name="view" type="radio" value="3"/>
+<input onclick="manlview=1;lview('4')" name="view" type="radio" value="4"/>
+<input onclick="manlview=1;lview('5')" name="view" type="radio" value="5"/>
 </span>
 </form>
 </td>

@@ -1,4 +1,4 @@
 AuthName "LOGIN"
 AuthType Basic
-AuthUserFile "E:/Dropbox/www/u7/fileversions/.htpasswd"
+AuthUserFile "/var/www/html/u5cms/fileversions/.htpasswd"
 Require valid-user

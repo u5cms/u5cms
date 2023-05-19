@@ -36,15 +36,23 @@ It's recommended that you start with a space, followed by a delimiter (<a href="
 <table bgcolor="#FFFF99" width="100%">
     <tr id="lan1name">
       <td><?php echo $lan1name ?></td>
-      <td width="99%"><input name="d" type="text" id="t11" style="width:100%" value="<?php echo ehtml($row_a['d'])?>" /></td>
+      <td width="99%"><input name="1" type="text" id="t11" style="width:100%" value="<?php echo ehtml($row_a['1'])?>" /></td>
     </tr>
     <tr id="lan2name">
       <td><?php echo $lan2name ?></td>
-      <td><input name="e" type="text" id="t12" style="width:100%" value="<?php echo ehtml($row_a['e'])?>" /></td>
+      <td><input name="2" type="text" id="t12" style="width:100%" value="<?php echo ehtml($row_a['2'])?>" /></td>
     </tr>
     <tr id="lan3name">
       <td><?php echo $lan3name ?></td>
-      <td><input name="f" type="text" id="t13" style="width:100%" value="<?php echo ehtml($row_a['f'])?>" /></td>
+      <td><input name="3" type="text" id="t13" style="width:100%" value="<?php echo ehtml($row_a['3'])?>" /></td>
+    </tr>
+    <tr id="lan4name">
+        <td><?php echo $lan4name ?></td>
+        <td><input name="4" type="text" id="t14" style="width:100%" value="<?php echo ehtml($row_a['4'])?>" /></td>
+    </tr>
+    <tr id="lan5name">
+        <td><?php echo $lan5name ?></td>
+        <td><input name="5" type="text" id="t13" style="width:100%" value="<?php echo ehtml($row_a['5'])?>" /></td>
     </tr>
   </table>
   <p><input type="submit" title="[Ctrl+s]" name="button" value="save &amp; close" /><span class="asterisk" style="display:none;color:red">*</span>
@@ -57,12 +65,16 @@ It's recommended that you start with a space, followed by a delimiter (<a href="
 <?php include('selfclose.inc.php')?>
 <script>
 function putdoins(that) {
-if(document.form1.d.value[0]==' ')document.form1.d.value=' '+that+' '+document.form1.d.value.substr(3);
-else document.form1.d.value=' '+that+' '+document.form1.d.value;
-if(document.form1.e.value[0]==' ')document.form1.e.value=' '+that+' '+document.form1.e.value.substr(3);
-else document.form1.e.value=' '+that+' '+document.form1.e.value;
-if(document.form1.f.value[0]==' ')document.form1.f.value=' '+that+' '+document.form1.f.value.substr(3);
-else document.form1.f.value=' '+that+' '+document.form1.f.value;
+if(document.form1.1.value[0]==' ')document.form1.1.value=' '+that+' '+document.form1.1.value.substr(3);
+else document.form1.1.value=' '+that+' '+document.form1.1.value;
+if(document.form1.2.value[0]==' ')document.form1.1.value=' '+that+' '+document.form1.2.value.substr(3);
+else document.form1.2.value=' '+that+' '+document.form1.2.value;
+if(document.form1.3.value[0]==' ')document.form1.3.value=' '+that+' '+document.form1.3.value.substr(3);
+else document.form1.3.value=' '+that+' '+document.form1.3.value;
+if(document.form1.4.value[0]==' ')document.form1.4.value=' '+that+' '+document.form1.4.value.substr(3);
+else document.form1.4.value=' '+that+' '+document.form1.4.value;
+if(document.form1.5.value[0]==' ')document.form1.5.value=' '+that+' '+document.form1.5.value.substr(3);
+else document.form1.5.value=' '+that+' '+document.form1.5.value;
 }
 </script>
 </body>

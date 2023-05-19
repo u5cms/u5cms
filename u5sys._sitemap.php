@@ -18,7 +18,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   <input type="hidden" name="c" value="_search" />
 
   <input  style="width:450px" name="q"  id="searchlarge" type="text" value="" />
-  <input  type="submit" class="btnSubmit" alt="search" value="<?php echo def($recherche_d,$recherche_e,$recherche_f)?>" />
+  <input  type="submit" class="btnSubmit" alt="search" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
   <script type="text/javascript">//document.fsearch2.q.value=unescape('<?php echo (str_replace('  ',' ',str_replace(',',' ',trim($_GET['q']))))?>')</script>
 </form>
 <br>
@@ -26,7 +26,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
 <script type="text/javascript">
 function isterm2() {
 if (document.fsearch2.q.value.replace(/ /g,'')=='') {
-valert=jQuery('<textarea />').html("<?php echo def($term_d,$term_e,$term_f)?>").text();
+valert=jQuery('<textarea />').html("<?php echo def($term_1,$term_2,$term_3,$term_4,$term_5)?>").text();
 alert(valert);
 document.fsearch2.q.focus();
 return false;
@@ -101,39 +101,39 @@ $num_a = mysql_num_rows($result_a);
 
 global $doesfindpasswordprotectedcontent;
 global $doesshowpreviewofsuchcontent;
-global $term_d;
-global $term_e;
-global $term_f;
-global $andhit_d;
-global $andhit_e;
-global $andhit_f;
-global $andhits_d;
-global $andhits_e;
-global $andhits_f;
-global $orhit_d;
-global $orhit_e;
-global $orhit_f;
-global $orhits_d;
-global $orhits_e;
-global $orhits_f;
-global $nohit_d;
-global $nohit_e;
-global $nohit_f;
+global $term_1;
+global $term_2;
+global $term_3;
+global $andhit_1;
+global $andhit_2;
+global $andhit_3;
+global $andhits_1;
+global $andhits_2;
+global $andhits_3;
+global $orhit_1;
+global $orhit_2;
+global $orhit_3;
+global $orhits_1;
+global $orhits_2;
+global $orhits_3;
+global $nohit_1;
+global $nohit_2;
+global $nohit_3;
 
 
 if ($num_a>1) {$hits='<p><strong>' . $num_a . '</strong> ' . 
 def(
-$andhits_d.' <strong>'.$terms.'</strong>',
-$andhits_e.' <strong>'.$terms.'</strong>.',
-$andhits_f.' <strong>'.$terms.'</strong>.'
+$andhits_1.' <strong>'.$terms.'</strong>',
+$andhits_2.' <strong>'.$terms.'</strong>.',
+$andhits_3.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
 else { $hits='<p><strong>' . $num_a . '</strong> ' . 
 def(
-$andhit_d.' <strong>'.$terms.'</strong>',
-$andhit_e.' <strong>'.$terms.'</strong>.',
-$andhit_f.' <strong>'.$terms.'</strong>.'
+$andhit_1.' <strong>'.$terms.'</strong>',
+$andhit_2.' <strong>'.$terms.'</strong>.',
+$andhit_3.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
@@ -160,17 +160,17 @@ $num_a = mysql_num_rows($result_a);
 
 if ($num_a>1) {$hits='<p><strong>' . $num_a . '</strong> ' . 
 def(
-$orhits_d.' <strong>'.$terms.'</strong>',
-$orhits_e.' <strong>'.$terms.'</strong>.',
-$orhits_f.' <strong>'.$terms.'</strong>.'
+$orhits_1.' <strong>'.$terms.'</strong>',
+$orhits_2.' <strong>'.$terms.'</strong>.',
+$orhits_3.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
 else { $hits='<p><strong>' . $num_a . '</strong> ' . 
 def(
-$orhit_d.' <strong>'.$terms.'</strong>',
-$orhit_e.' <strong>'.$terms.'</strong>.',
-$orhit_f.' <strong>'.$terms.'</strong>.'
+$orhit_1.' <strong>'.$terms.'</strong>',
+$orhit_2.' <strong>'.$terms.'</strong>.',
+$orhit_3.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
@@ -188,27 +188,27 @@ global $doesfindpasswordprotectedcontent;
 global $doesshowpreviewofsuchcontent;
 global $leven;
 global $turn;
-global $term_d;
-global $term_e;
-global $term_f;
-global $andhit_d;
-global $andhit_e;
-global $andhit_f;
-global $andhits_d;
-global $andhits_e;
-global $andhits_f;
-global $orhit_d;
-global $orhit_e;
-global $orhit_f;
-global $orhits_d;
-global $orhits_e;
-global $orhits_f;
-global $nohit_d;
-global $nohit_e;
-global $nohit_f;
+global $term_1;
+global $term_2;
+global $term_3;
+global $andhit_1;
+global $andhit_2;
+global $andhit_3;
+global $andhits_1;
+global $andhits_2;
+global $andhits_3;
+global $orhit_1;
+global $orhit_2;
+global $orhit_3;
+global $orhits_1;
+global $orhits_2;
+global $orhits_3;
+global $nohit_1;
+global $nohit_2;
+global $nohit_3;
 
 
-$leven=def($nohit_d,$nohit_e,$nohit_f).'<br />';
+$leven=def($nohit_1,$nohit_2,$nohit_3).'<br />';
 for ($liii=0; $liii<tnuoc($sfor); $liii++) {
 
 if ($doesfindpasswordprotectedcontent == 'yes') $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c'";

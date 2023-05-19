@@ -34,18 +34,25 @@ require_once('connect.inc.php');
 
         $pend = '';
         $onechar = false;
-        if ($lan1na[0] != $lan2na[0] && $lan1na[0] != $lan3na[0] && $lan2na[0] != $lan3na[0]) $onechar = true;
+        $unique_lans = array_unique(array($lan1na[0], $lan2na[0], $lan3na[0], $lan4na[0], $lan5na[0]));
+        if (sizeof($unique_lans) == 5) $onechar = true;
         if ($onechar) {
-            $lngpnd_d = $lan1na[0];
-            $lngpnd_e = $lan2na[0];
-            $lngpnd_f = $lan3na[0];
+            $lngpnd_1 = $lan1na[0];
+            $lngpnd_2 = $lan2na[0];
+            $lngpnd_3 = $lan3na[0];
+            $lngpnd_4 = $lan4na[0];
+            $lngpnd_5 = $lan5na[0];
         } else {
-            $lngpnd_d = $lan1na;
-            $lngpnd_e = $lan2na;
-            $lngpnd_f = $lan3na;
+            $lngpnd_1 = $lan1na;
+            $lngpnd_2 = $lan2na;
+            $lngpnd_3 = $lan3na;
+            $lngpnd_4 = $lan4na;
+            $lngpnd_5 = $lan5na;
         }
-        if ($lngpnd_e == '2' || $lngpnd_e == '20') $lngpnd_e = '';
-        if ($lngpnd_f == '3' || $lngpnd_f == '30') $lngpnd_f = '';
+        if ($lngpnd_2 == '2' || $lngpnd_2 == '20') $lngpnd_2 = '';
+        if ($lngpnd_3 == '3' || $lngpnd_3 == '30') $lngpnd_3 = '';
+        if ($lngpnd_4 == '4' || $lngpnd_4 == '40') $lngpnd_4 = '';
+        if ($lngpnd_5 == '5' || $lngpnd_5 == '50') $lngpnd_5 = '';
 
         if (str_replace(' ', '', $row_a['ishomepage']) == 1) $pend .= ' <span title="homepage (as defined in S of the PIDVESA-Navigation)" style="background:yellow">&nbsp;&larr;&nbsp;</span>';
         if (str_replace(' ', '', $row_a['logins']) != '') $pend .= ' <span title="closed user group (logins)" style="color:white;background:green">&nbsp;c&nbsp;</span>';
@@ -53,13 +60,17 @@ require_once('connect.inc.php');
         if (str_replace(' ', '', $row_a['hidden']) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
         if (str_replace(' ', '', $row_a['hidden']) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
 
-        if (str_replace(' ', '', $row_a['title_d']) == '') $pend .= ' <span title="' . $lngpnd_d . ' title missing in metadata" style="color:red">' . $lngpnd_d . '</span>';
-        if (str_replace(' ', '', $row_a['title_e']) == '') $pend .= ' <span title="' . $lngpnd_e . ' title missing in metadata" style="color:red">' . $lngpnd_e . '</span>';
-        if (str_replace(' ', '', $row_a['title_f']) == '') $pend .= ' <span title="' . $lngpnd_f . ' title missing in metadata" style="color:red">' . $lngpnd_f . '</span>';
+        if (str_replace(' ', '', $row_a['title_1']) == '') $pend .= ' <span title="' . $lngpnd_1 . ' title missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
+        if (str_replace(' ', '', $row_a['title_2']) == '') $pend .= ' <span title="' . $lngpnd_2 . ' title missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
+        if (str_replace(' ', '', $row_a['title_3']) == '') $pend .= ' <span title="' . $lngpnd_3 . ' title missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
+        if (str_replace(' ', '', $row_a['title_4']) == '') $pend .= ' <span title="' . $lngpnd_4 . ' title missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
+        if (str_replace(' ', '', $row_a['title_5']) == '') $pend .= ' <span title="' . $lngpnd_5 . ' title missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
 
-        if (str_replace(' ', '', $row_a['content_d']) == '') $pend .= ' <span title="' . $lngpnd_d . ' content missing" style="color:red">' . strtoupper($lngpnd_d) . '</span>';
-        if (str_replace(' ', '', $row_a['content_e']) == '') $pend .= ' <span title="' . $lngpnd_e . ' content missing" style="color:red">' . strtoupper($lngpnd_e) . '</span>';
-        if (str_replace(' ', '', $row_a['content_f']) == '') $pend .= ' <span title="' . $lngpnd_f . ' content missing" style="color:red">' . strtoupper($lngpnd_f) . '</span>';
+        if (str_replace(' ', '', $row_a['content_1']) == '') $pend .= ' <span title="' . $lngpnd_1 . ' content missing" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
+        if (str_replace(' ', '', $row_a['content_2']) == '') $pend .= ' <span title="' . $lngpnd_2 . ' content missing" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
+        if (str_replace(' ', '', $row_a['content_3']) == '') $pend .= ' <span title="' . $lngpnd_3 . ' content missing" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
+        if (str_replace(' ', '', $row_a['content_4']) == '') $pend .= ' <span title="' . $lngpnd_4 . ' content missing" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
+        if (str_replace(' ', '', $row_a['content_5']) == '') $pend .= ' <span title="' . $lngpnd_5 . ' content missing" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
 
 
         $lspan1 = '<span id="o_' . $row_a['name'] . '">';
@@ -73,7 +84,7 @@ require_once('connect.inc.php');
 <td style="background:#ffcc66" id="tdR_' . $row_a['name'] . '"><a title="insert as link in the right editor" href="javascript:void(0)" onclick="parent.i2.doteleins(\'linktext:' . $row_a['name'] . '\')">&lt;</a>
 </td>
 
-<td width="99%" style="word-break:break-all" title="Open right (+Alt=left). ' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['content_d'], 0, 150)) . '"><a id="a_' . $row_a['name'] . '" href="javascript:void(0)" onclick="if(event.altKey)parent.i1.lgotopage(\'' . $row_a['name'] . '\');else parent.i2.gotopage(\'' . $row_a['name'] . '\')">' . $row_a['name'] . '</a>' . $pend . '
+<td width="99%" style="word-break:break-all" title="Open right (+Alt=left). ' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['content_1'], 0, 150)) . '"><a id="a_' . $row_a['name'] . '" href="javascript:void(0)" onclick="if(event.altKey)parent.i1.lgotopage(\'' . $row_a['name'] . '\');else parent.i2.gotopage(\'' . $row_a['name'] . '\')">' . $row_a['name'] . '</a>' . $pend . '
 </td>
 
 <td>
@@ -99,8 +110,8 @@ require_once('connect.inc.php');
 
         if ($_GET['pvs_p'] == 'on') {
             echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#FFFFCC"><td colspan="8" style="word-break:break-all">';
-            echo ehtml(substr($row_a['content_d'], 0, 150));
-            if (strlen(trim($row_a['content_d'])) > 150) echo '&hellip;';
+            echo ehtml(substr($row_a['content_1'], 0, 150));
+            if (strlen(trim($row_a['content_1'])) > 150) echo '&hellip;';
             echo '<hr></td></tr>';
         } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="8"></td></tr>';
     }

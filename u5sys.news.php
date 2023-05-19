@@ -27,8 +27,8 @@ $num_b = mysql_num_rows($result_b);
 
 $notp='';
 if ($row_a['typ']!='p') $notp='['.$row_a['name'].']';
-if ($row_a['hidden']<1) $echo=render($notp.' '.def($row_a['content_d'],$row_a['content_e'],$row_a['content_f']));
-else $echo=def($notpub_d,$notpub_e,$notpub_f);
+if ($row_a['hidden']<1) $echo=render($notp.' '.def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']));
+else $echo=def($notpub_1,$notpub_2,$notpub_3,$notpub_4,$notpub_5);
 
 $echo=str_replace('[]','',$echo);
 if ($executephp=='onallpages' || ($executephp=='inarchiveonly' && $row_a['deleted']==2)) echo eval('?>'.$echo);

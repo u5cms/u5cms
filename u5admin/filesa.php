@@ -127,9 +127,11 @@ imagejpeg($tn,$path.'/'.$file,$resamplingquality);
 <a style="text-decoration:none;font-size:140%;color:blue;" href="javascript:void(0)" onclick="if(document.getElementById(\'sacabu\').style.display==\'block\')alert(\'You have to save your changes before resorting.\');else{parent.albumsort.location.href=\'albumsort.php?d=d&n=' . $_GET['name'] . '&f=' . $file . '\'}">&darr;</a>
 </td>'.$remstart.'</tr><tr class="trB" id="trB'.$fileno.'" bgcolor="#eeeeee" onmouseover="this.style.background=\'lightyellow\';document.getElementById(\'trA'.$fileno.'\').style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eeeeee\';document.getElementById(\'trA'.$fileno.'\').style.background=\'#eeeeee\'" align="left">'.$remend.'
     <td colspan="6"><span class="tx">
-	<textarea lang="'.$lan1na.'" placeholder="'.strtoupper($lan1na).' caption" class="tex txlan1 '.strtoupper($lan1na).'" id="txd'.$fileno.'" '.$txparam.'></textarea>
-	<textarea lang="'.$lan2na.'" placeholder="'.strtoupper($lan2na).' caption" class="tex txlan2 '.strtoupper($lan2na).'" id="txe'.$fileno.'" '.$txparam.'></textarea>
-	<textarea lang="'.$lan3na.'" placeholder="'.strtoupper($lan3na).' caption" class="tex txlan3 '.strtoupper($lan3na).'" id="txf'.$fileno.'" '.$txparam.'></textarea>
+	<textarea lang="'.$lan1na.'" placeholder="'.strtoupper($lan1na).' caption" class="tex txlan1 '.strtoupper($lan1na).'" id="tx1'.$fileno.'" '.$txparam.'></textarea>
+	<textarea lang="'.$lan2na.'" placeholder="'.strtoupper($lan2na).' caption" class="tex txlan2 '.strtoupper($lan2na).'" id="tx2'.$fileno.'" '.$txparam.'></textarea>
+	<textarea lang="'.$lan3na.'" placeholder="'.strtoupper($lan3na).' caption" class="tex txlan3 '.strtoupper($lan3na).'" id="tx3'.$fileno.'" '.$txparam.'></textarea>
+	<textarea lang="'.$lan4na.'" placeholder="'.strtoupper($lan4na).' caption" class="tex txlan4 '.strtoupper($lan4na).'" id="tx4'.$fileno.'" '.$txparam.'></textarea>
+	<textarea lang="'.$lan5na.'" placeholder="'.strtoupper($lan5na).' caption" class="tex txlan5 '.strtoupper($lan5na).'" id="tx5'.$fileno.'" '.$txparam.'></textarea>
 	</span></td>
   </tr>
 ';
@@ -180,46 +182,66 @@ $return.='</select>';
 return $return;
 }
 ?>
-<input type="hidden" id="pro_d" />
-<input type="hidden" id="epi_d" />
-<input type="hidden" id="pro_e" />
-<input type="hidden" id="epi_e" />
-<input type="hidden" id="pro_f" />
-<input type="hidden" id="epi_f" />
+<input type="hidden" id="pro_1" />
+<input type="hidden" id="epi_1" />
+<input type="hidden" id="pro_2" />
+<input type="hidden" id="epi_2" />
+<input type="hidden" id="pro_3" />
+<input type="hidden" id="epi_3" />
+<input type="hidden" id="pro_4" />
+<input type="hidden" id="epi_4" />
+<input type="hidden" id="pro_5" />
+<input type="hidden" id="epi_5" />
 
 <script>
-document.getElementById('pro_d').value=document.form1.content_d.value.split('[ca:]')[0];
-document.getElementById('pro_e').value=document.form1.content_e.value.split('[ca:]')[0];
-document.getElementById('pro_f').value=document.form1.content_f.value.split('[ca:]')[0];
+document.getElementById('pro_1').value=document.form1.content_1.value.split('[ca:]')[0];
+document.getElementById('pro_2').value=document.form1.content_2.value.split('[ca:]')[0];
+document.getElementById('pro_3').value=document.form1.content_3.value.split('[ca:]')[0];
+document.getElementById('pro_4').value=document.form1.content_4.value.split('[ca:]')[0];
+document.getElementById('pro_5').value=document.form1.content_5.value.split('[ca:]')[0];
 
-if(document.form1.content_d.value.indexOf('[:ca]')>-1)document.getElementById('epi_d').value=document.form1.content_d.value.split('[:ca]')[1];
-if(document.form1.content_e.value.indexOf('[:ca]')>-1)document.getElementById('epi_e').value=document.form1.content_e.value.split('[:ca]')[1];
-if(document.form1.content_f.value.indexOf('[:ca]')>-1)document.getElementById('epi_f').value=document.form1.content_f.value.split('[:ca]')[1];
+if(document.form1.content_1.value.indexOf('[:ca]')>-1)document.getElementById('epi_1').value=document.form1.content_1.value.split('[:ca]')[1];
+if(document.form1.content_2.value.indexOf('[:ca]')>-1)document.getElementById('epi_2').value=document.form1.content_2.value.split('[:ca]')[1];
+if(document.form1.content_3.value.indexOf('[:ca]')>-1)document.getElementById('epi_3').value=document.form1.content_3.value.split('[:ca]')[1];
+if(document.form1.content_4.value.indexOf('[:ca]')>-1)document.getElementById('epi_4').value=document.form1.content_4.value.split('[:ca]')[1];
+if(document.form1.content_5.value.indexOf('[:ca]')>-1)document.getElementById('epi_5').value=document.form1.content_5.value.split('[:ca]')[1];
 
-statics=document.getElementById('pro_d').value.trim()+document.getElementById('pro_e').value.trim()+document.getElementById('pro_f').value.trim();
-statics+=document.getElementById('epi_d').value.trim()+document.getElementById('epi_e').value.trim()+document.getElementById('epi_f').value.trim();
+statics=document.getElementById('pro_1').value.trim()+document.getElementById('pro_2').value.trim()+document.getElementById('pro_3').value.trim()+document.getElementById('pro_4').value.trim()+document.getElementById('pro_5').value.trim();
+statics+=document.getElementById('epi_1').value.trim()+document.getElementById('epi_2').value.trim()+document.getElementById('epi_3').value.trim()+document.getElementById('epi_4').value.trim()+document.getElementById('epi_5').value.trim();
 
 fixedparts='Edit the fixed parts of <?php echo htmlentities($_GET['name']) ?>\'s captions in its metadata section (cf. textarea «long caption» there). Access the metadata section by clicking the M link at the top of the page at hand.\n\nNOTICE: If a language contains fixed parts but no per-image-captions, these empty per-image-captions won\'t fall back to filled per-image-captions of another language!\n\nWHAT ARE FIXED PARTS? In the aforementioned metadata section\'s textarea «long caption», per-image-captions are represented as pieces of text between the syntax elements [ca:] and [:ca]. Characters outside of [ca:] ... [:ca] are so called fixed parts: they will be part of the caption of EVERY image of the respective album. If the very first character of the capion is the number sign #, this will be replaced by image number slash total images.';
 
 if(statics.trim()!='')document.write('<small><br>The system detected that your captions contain fixed parts; <a href="javascsript:void(0)" onclick="alert(fixedparts)">please read this info!</a></small>');
 
-if(document.form1.content_d.value.indexOf('[ca]')>-1&&document.form1.content_d.value.indexOf('>>>')>document.form1.content_d.value.indexOf('[ca]')) {
-e=document.form1.content_d.value.split('[ca]');
+if(document.form1.content_1.value.indexOf('[ca]')>-1&&document.form1.content_1.value.indexOf('>>>')>document.form1.content_1.value.indexOf('[ca]')) {
+e=document.form1.content_1.value.split('[ca]');
 for(i=1;i<e.length;i++) {
-if(document.getElementById('txd'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('txd'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);	
+if(document.getElementById('tx1'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('tx1'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);
 }
 }
-if(document.form1.content_e.value.indexOf('[ca]')>-1&&document.form1.content_e.value.indexOf('>>>')>document.form1.content_e.value.indexOf('[ca]')) {
-e=document.form1.content_e.value.split('[ca]');
+if(document.form1.content_2.value.indexOf('[ca]')>-1&&document.form1.content_2.value.indexOf('>>>')>document.form1.content_2.value.indexOf('[ca]')) {
+e=document.form1.content_2.value.split('[ca]');
 for(i=1;i<e.length;i++) {
-if(document.getElementById('txe'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('txe'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);	
+if(document.getElementById('tx2'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('tx2'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);
 }
 }
-if(document.form1.content_f.value.indexOf('[ca]')>-1&&document.form1.content_f.value.indexOf('>>>')>document.form1.content_f.value.indexOf('[ca]')) {
-e=document.form1.content_f.value.split('[ca]');
+if(document.form1.content_3.value.indexOf('[ca]')>-1&&document.form1.content_3.value.indexOf('>>>')>document.form1.content_3.value.indexOf('[ca]')) {
+e=document.form1.content_3.value.split('[ca]');
 for(i=1;i<e.length;i++) {
-if(document.getElementById('txf'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('txf'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);	
+if(document.getElementById('tx3'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('tx3'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);
 }
+}
+if(document.form1.content_4.value.indexOf('[ca]')>-1&&document.form1.content_4.value.indexOf('>>>')>document.form1.content_4.value.indexOf('[ca]')) {
+    e=document.form1.content_4.value.split('[ca]');
+    for(i=1;i<e.length;i++) {
+        if(document.getElementById('tx4'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('tx4'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);
+    }
+}
+if(document.form1.content_5.value.indexOf('[ca]')>-1&&document.form1.content_5.value.indexOf('>>>')>document.form1.content_5.value.indexOf('[ca]')) {
+    e=document.form1.content_5.value.split('[ca]');
+    for(i=1;i<e.length;i++) {
+        if(document.getElementById('tx5'+e[i].split('>>>')[0].replace(/\s/g,'')))document.getElementById('tx5'+e[i].split('>>>')[0].replace(/\s/g,'')).value=e[i].split('>>>')[1].split('[:ca]')[0].trim().substr(0,(e[i].split('>>>')[1].split('[:ca]')[0].trim().length)-3);
+    }
 }
 
 function nety(thatclass) {
@@ -329,51 +351,82 @@ if(document.getElementById('sacabu'))if(document.getElementById('sacabu').style.
 
 function saca() {
 lansymreset();
-ametai.form1.content_d.value=document.getElementById('pro_d').value;	
+ametai.form1.content_1.value=document.getElementById('pro_1').value;
 if(nety('txlan1')){
-ametai.form1.content_d.value=ametai.form1.content_d.value+'[ca:]';	
+ametai.form1.content_1.value=ametai.form1.content_1.value+'[ca:]';
 e=document.getElementsByClassName('txlan1');
 for(i=0;i<e.length;i++) {
 if(i==0)space5='';
 else space5='     ';
-ametai.form1.content_d.value+=space5+'[ca]'+e[i].id.replace(/txd/,'')+'>>>'+e[i].value+'[/]'+"\n";	
+ametai.form1.content_1.value+=space5+'[ca]'+e[i].id.replace(/tx1/,'')+'>>>'+e[i].value+'[/]'+"\n";
 }
-ametai.form1.content_d.value=ametai.form1.content_d.value+'[:ca]';
-ametai.form1.content_d.value=ametai.form1.content_d.value+document.getElementById('epi_d').value;	
+ametai.form1.content_1.value=ametai.form1.content_1.value+'[:ca]';
+ametai.form1.content_1.value=ametai.form1.content_1.value+document.getElementById('epi_1').value;
 }
-else ametai.form1.content_d.value=document.getElementById('pro_d').value+document.getElementById('epi_d').value;	
+else ametai.form1.content_1.value=document.getElementById('pro_1').value+document.getElementById('epi_1').value;
 
 ///
 
-ametai.form1.content_e.value=document.getElementById('pro_e').value;	
+ametai.form1.content_2.value=document.getElementById('pro_2').value;
 if(nety('txlan2')){
-ametai.form1.content_e.value=ametai.form1.content_e.value+'[ca:]';	
+ametai.form1.content_2.value=ametai.form1.content_2.value+'[ca:]';
 e=document.getElementsByClassName('txlan2');
 for(i=0;i<e.length;i++) {
 if(i==0)space5='';
 else space5='     ';
-ametai.form1.content_e.value+=space5+'[ca]'+e[i].id.replace(/txe/,'')+'>>>'+e[i].value+'[/]'+"\n";	
+ametai.form1.content_2.value+=space5+'[ca]'+e[i].id.replace(/tx2/,'')+'>>>'+e[i].value+'[/]'+"\n";
 }
-ametai.form1.content_e.value=ametai.form1.content_e.value+'[:ca]';
-ametai.form1.content_e.value=ametai.form1.content_e.value+document.getElementById('epi_e').value;	
+ametai.form1.content_2.value=ametai.form1.content_2.value+'[:ca]';
+ametai.form1.content_2.value=ametai.form1.content_2.value+document.getElementById('epi_2').value;
 }
-else ametai.form1.content_e.value=document.getElementById('pro_e').value+document.getElementById('epi_e').value;	
+else ametai.form1.content_2.value=document.getElementById('pro_2').value+document.getElementById('epi_2').value;
 
 ///
 
-ametai.form1.content_f.value=document.getElementById('pro_f').value;	
+ametai.form1.content_3.value=document.getElementById('pro_3').value;
 if(nety('txlan3')){
-ametai.form1.content_f.value=ametai.form1.content_f.value+'[ca:]';	
+ametai.form1.content_3.value=ametai.form1.content_3.value+'[ca:]';
 e=document.getElementsByClassName('txlan3');
 for(i=0;i<e.length;i++) {
 if(i==0)space5='';
 else space5='     ';
-ametai.form1.content_f.value+=space5+'[ca]'+e[i].id.replace(/txf/,'')+'>>>'+e[i].value+'[/]'+"\n";	
+ametai.form1.content_3.value+=space5+'[ca]'+e[i].id.replace(/tx3/,'')+'>>>'+e[i].value+'[/]'+"\n";
 }
-ametai.form1.content_f.value=ametai.form1.content_f.value+'[:ca]';
-ametai.form1.content_f.value=ametai.form1.content_f.value+document.getElementById('epi_f').value;	
+ametai.form1.content_3.value=ametai.form1.content_3.value+'[:ca]';
+ametai.form1.content_3.value=ametai.form1.content_3.value+document.getElementById('epi_3').value;
 }
-else ametai.form1.content_f.value=document.getElementById('pro_f').value+document.getElementById('epi_f').value;	
+else ametai.form1.content_3.value=document.getElementById('pro_3').value+document.getElementById('epi_3').value;
+
+///
+
+    ametai.form1.content_4.value=document.getElementById('pro_4').value;
+    if(nety('txlan4')){
+        ametai.form1.content_4.value=ametai.form1.content_4.value+'[ca:]';
+        e=document.getElementsByClassName('txlan4');
+        for(i=0;i<e.length;i++) {
+            if(i==0)space5='';
+            else space5='     ';
+            ametai.form1.content_4.value+=space5+'[ca]'+e[i].id.replace(/tx4/,'')+'>>>'+e[i].value+'[/]'+"\n";
+        }
+        ametai.form1.content_4.value=ametai.form1.content_4.value+'[:ca]';
+        ametai.form1.content_4.value=ametai.form1.content_4.value+document.getElementById('epi_4').value;
+    }
+    else ametai.form1.content_4.value=document.getElementById('pro_4').value+document.getElementById('epi_4').value;
+///
+
+    ametai.form1.content_5.value=document.getElementById('pro_5').value;
+    if(nety('txlan5')){
+        ametai.form1.content_5.value=ametai.form1.content_5.value+'[ca:]';
+        e=document.getElementsByClassName('txlan5');
+        for(i=0;i<e.length;i++) {
+            if(i==0)space5='';
+            else space5='     ';
+            ametai.form1.content_5.value+=space5+'[ca]'+e[i].id.replace(/tx5/,'')+'>>>'+e[i].value+'[/]'+"\n";
+        }
+        ametai.form1.content_5.value=ametai.form1.content_5.value+'[:ca]';
+        ametai.form1.content_5.value=ametai.form1.content_5.value+document.getElementById('epi_5').value;
+    }
+    else ametai.form1.content_5.value=document.getElementById('pro_5').value+document.getElementById('epi_5').value;
 
 ///
 lansym();

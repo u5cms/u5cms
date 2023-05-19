@@ -7,7 +7,7 @@
 <td style="background:#ffcc66" id="tdR_' . $row_a['name'] . '"><a title="insert in right editor" href="javascript:void(0)" onclick="parent.i2.doteleins(\'' . $row_a['name'] . '\')">&lt;</a>
 </td>
 
-<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['desc_d'], 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
+<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['desc_1'], 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
 </td>
 
 
@@ -47,12 +47,12 @@
             echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#FFFFCC"><td colspan="9" style="word-break:break-all">';
             include('getfile.inc.php');
 
-            if (file_exists('../r/' . $row_a['name'] . '/' . ($file_d))) echo '<a target="_blank" href="../f.php?f=r/' . $row_a['name'] . '/' . ($file_d) . '?t=' . @filemtime('../r/' . $row_a['name'] . '/' . ($file_d)).'&s='.$row_a['lastmut'] . '" title="' . date('Y-m-d H:i', @filemtime('../r/' . $row_a['name'] . '/' . ($file_d))) . ' ../r/' . $row_a['name'] . '/' . ($file_d) . '">';
-            echo '<img border="0" width="100" align="left" src="../thumb.php?w=100&t=' . @filemtime('../r/' . $row_a['name'] . '/' . ($file_d)).'&s='.$row_a['lastmut'] . '&f=r/' . $row_a['name'] . '/' . ($file_d) . '" />';
-            if (file_exists('../r/' . $row_a['name'] . '/' . ($file_d))) echo '</a>';
+            if (file_exists('../r/' . $row_a['name'] . '/' . ($file_1))) echo '<a target="_blank" href="../f.php?f=r/' . $row_a['name'] . '/' . ($file_1) . '?t=' . @filemtime('../r/' . $row_a['name'] . '/' . ($file_1)).'&s='.$row_a['lastmut'] . '" title="' . date('Y-m-d H:i', @filemtime('../r/' . $row_a['name'] . '/' . ($file_1))) . ' ../r/' . $row_a['name'] . '/' . ($file_1) . '">';
+            echo '<img border="0" width="100" align="left" src="../thumb.php?w=100&t=' . @filemtime('../r/' . $row_a['name'] . '/' . ($file_1)).'&s='.$row_a['lastmut'] . '&f=r/' . $row_a['name'] . '/' . ($file_1) . '" />';
+            if (file_exists('../r/' . $row_a['name'] . '/' . ($file_1))) echo '</a>';
 
-            echo ehtml(substr(trim($row_a['desc_d']), 0, 80));
-            if (strlen(trim($row_a['desc_d'])) > 80) echo '&hellip;';
+            echo ehtml(substr(trim($row_a['desc_1']), 0, 80));
+            if (strlen(trim($row_a['desc_1'])) > 80) echo '&hellip;';
             echo '<hr></td></tr>';
 
         } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="9"></td></tr>';
