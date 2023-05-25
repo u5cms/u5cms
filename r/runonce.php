@@ -146,6 +146,15 @@ foreach ($migrate_tables as $table_name => $table_fields) {
     adapt_table_to_5languages($table_name, $table_fields);
 }
 
+$sql_a="UPDATE languages SET lan4na = 'it', lan5na = 'pt', lan4name = 'italian', lan5name = 'portuguese', term_4 = 'Inserisci il termine di ricerca', term_5 = 'Por favor, insira o termo de pesquisa', andhit_4 = 'hit contenente tutto il termine', andhit_5 = 'hit contendo todo o termo', andhits_4 = 'risultati contenenti tutto il termine', andhits_5 = 'hits contendo todo o termo', orhit_4 = 'hit contenente parte del termine', orhit_5 = 'hit contendo parte do termo', orhits_4 = 'risultati contenenti parte del termine', orhits_5 = 'hits contendo parte do termo', nohit_4 = 'Nessun risultato con la tua ricerca. Suggerimento:', nohit_5 = 'Nenhum resultado com sua pesquisa. Sugestão:', recherche_4 = 'ricerca', recherche_5 = 'procurar',  notpub_4 = 'Navigazione.Questa pagina non è attualmente pubblicata. Si prega di selezionare dal menu.', notpub_5 = 'Navegação. Esta página não está publicada no momento. Selecione no menu.', picsfound_1 = 'Bilder (klicken Sie auf das Bild)', picsfound_2 = 'images (click the image)', picsfound_3 = 'images (veuillez cliquer l''image)', picsfound_4 = 'immagini (clicca sull''immagine)', picsfound_5 = 'imagens (clique na imagem)', morepics_4 = 'Clique para mais imagens.', morepics_5 = 'Clique para mais imagens.', czoom_4 = 'clicca per ingrandire', czoom_5 = 'clique para ampliar' where lan1na = 'de'";
+mysql_query($sql_a);
+
+$sql_a="UPDATE titlefixum SET `4` = ' — notieren Sie hier Ihren Firmennamen', `5` = ' — notieren Sie hier Ihren Firmennamen' where `1` = ' — notieren Sie hier Ihren Firmennamen';";
+mysql_query($sql_a);
+
+$sql_a="UPDATE loginglobals SET logintitle_4 = 'Login', logintitle_5 = 'Login', loginintro_4 = '', loginintro_5 = '', username_4 = 'Username', username_5 = 'Username', password_4 = 'Password', password_5 = 'Password', loginbutton_4 = 'log in', loginbutton_5 = 'log in', loginoutro_4 = '', loginoutro_5 = '', logout_4 = 'log out', logout_5 = 'log out', wait_4 = 'Too many login attempts. Try again in', wait_5 = 'Too many login attempts. Try again in' where logintitle_1 = 'Login';";
+mysql_query($sql_a);
+
 $sql_a="SELECT content_1 FROM resources WHERE deleted!=1 AND name='htmltemplate'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';

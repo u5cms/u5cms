@@ -27,6 +27,12 @@
     $thislan = '_'.$lan3na;
     include('files.calc.php');
 
+    $thislan = '_'.$lan4na;
+    include('files.calc.php');
+
+    $thislan = '_'.$lan5na;
+    include('files.calc.php');
+
     $thislan = '';
     include('files.calc.php');
 

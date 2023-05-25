@@ -9,7 +9,9 @@ if (file_exists('../r/' . $_GET['name'])) {
             if (str_replace('.', '', $file) != '' && (str_replace($thislan, '', $file) != $file || ($thislan == '' &&
                         str_replace('_'.$lan1na, '', $file) == $file &&
                         str_replace('_'.$lan2na, '', $file) == $file &&
-                        str_replace('_'.$lan3na, '', $file) == $file
+                        str_replace('_'.$lan3na, '', $file) == $file &&
+                        str_replace('_'.$lan4na, '', $file) == $file &&
+                        str_replace('_'.$lan5na, '', $file) == $file
                     ))
             ) {
                 $i++;

@@ -204,6 +204,8 @@ function sere13($fields, $search, $replace)
     global $lan1na;
     global $lan2na;
     global $lan3na;
+    global $lan4na;
+    global $lan5na;
 
     $fields = explode(',', $fields);
 
