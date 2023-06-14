@@ -157,7 +157,8 @@ echo $echo;
 if(trim($lan1name)!='') echo "<script>e=document.getElementsByClassName('txlan1');for(i=0;i<e.length;i++){e[i].style.display='block'}</script>";
 if(trim($lan2name)!='') echo "<script>e=document.getElementsByClassName('txlan2');for(i=0;i<e.length;i++){e[i].style.display='block'}</script>";
 if(trim($lan3name)!='') echo "<script>e=document.getElementsByClassName('txlan3');for(i=0;i<e.length;i++){e[i].style.display='block'}</script>";
-
+if(trim($lan4name)!='') echo "<script>e=document.getElementsByClassName('txlan4');for(i=0;i<e.length;i++){e[i].style.display='block'}</script>";
+if(trim($lan5name)!='') echo "<script>e=document.getElementsByClassName('txlan5');for(i=0;i<e.length;i++){e[i].style.display='block'}</script>";
 
 ?>
 </table>
