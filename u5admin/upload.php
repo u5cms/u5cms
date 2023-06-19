@@ -44,7 +44,7 @@ echo '\')">infos&nbsp;</a>';
 <p> 
  
 Files already uploaded here: 
-<iframe src="files.php?name=<?php echo $_GET['name']?>&typ=<?php echo $_GET['typ']?>" name="files" frameborder="0" width="100%" height="110"></iframe>
+<iframe src="files.php?name=<?php echo $_GET['name']?>&typ=<?php echo $_GET['typ']?>" name="files" frameborder="0" width="100%" height="180"></iframe>
 <p> 
  
 Upload the <i><?php echo "$lan1na"?></i> version or the only and one main version of the file here:
