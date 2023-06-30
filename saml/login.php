@@ -23,12 +23,11 @@ if ($u5samlmockauth != 'yes') {
     // Require authenthication, redirects to IdP if not yet authenticated
     $simpleSaml->requireAuth();
 
-    // We are authenticated, now fetch attributes from response
-    // and fill inAuslesen der Attribute und in array abfüllen
+    // We are authenticated, now fetch attributes from response and fill in
     $attributes = $simpleSaml->getAttributes();
 
     /*
-     * The attributes coming from the SAML response are store in a nested arrazy,
+     * The attributes coming from the SAML response are store in a nested array,
      * the keys are the URN from the schema:
      * Array
      * (
