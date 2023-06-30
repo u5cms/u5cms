@@ -18,11 +18,15 @@ if($_SERVER['PHP_AUTH_USER']=='')exit;
 echo '<span class="authuser_welcomemessage">' . $_GET['t'] . '</span> <span class="authuser_username">' . $_SERVER['PHP_AUTH_USER'] . '</span>';
 if ($usesessioninsteadofbasicauth != 'no') {
     $_GET['l'] = $lan1na;
-    echo ' <button id="d" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_d, $logout_e, $logout_f) . '</button>';
+    echo ' <button id="1" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_1, $logout_2, $logout_3, $logout_4, $logout_5) . '</button>';
     $_GET['l'] = $lan2na;
-    echo ' <button id="e" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_d, $logout_e, $logout_f) . '</button>';
+    echo ' <button id="2" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_1, $logout_2, $logout_3, $logout_4, $logout_5) . '</button>';
     $_GET['l'] = $lan3na;
-    echo ' <button id="f" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_d, $logout_e, $logout_f) . '</button>';
+    echo ' <button id="3" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_1, $logout_2, $logout_3, $logout_4, $logout_5) . '</button>';
+    $_GET['l'] = $lan4na;
+    echo ' <button id="4" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_1, $logout_2, $logout_3, $logout_4, $logout_5) . '</button>';
+    $_GET['l'] = $lan5na;
+    echo ' <button id="5" style="display:none" class="authuser_logoutbutton" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">' . def($logout_1, $logout_2, $logout_3, $logout_4, $logout_5) . '</button>';
 }
 ?>
 <script>
@@ -31,9 +35,11 @@ if ($usesessioninsteadofbasicauth != 'no') {
     }
     setTimeout("automailfill()", 1111);
 <?php if ($usesessioninsteadofbasicauth != 'no') { ?>
-    if (parent.location.href.indexOf('&l=<?php echo $lan3na ?>') > 0)document.getElementById('f').style.display = 'inline';
-    else if (parent.location.href.indexOf('&l=<?php echo $lan2na ?>') > 0)document.getElementById('e').style.display = 'inline';
-    else document.getElementById('d').style.display = 'inline';
+    if (parent.location.href.indexOf('&l=<?php echo $lan5na ?>') > 0)document.getElementById('5').style.display = 'inline';
+    else if (parent.location.href.indexOf('&l=<?php echo $lan4na ?>') > 0)document.getElementById('4').style.display = 'inline';
+    else if (parent.location.href.indexOf('&l=<?php echo $lan3na ?>') > 0)document.getElementById('3').style.display = 'inline';
+    else if (parent.location.href.indexOf('&l=<?php echo $lan2na ?>') > 0)document.getElementById('2').style.display = 'inline';
+    else document.getElementById('1').style.display = 'inline';
 <?php } ?>
 </script>
 </body>

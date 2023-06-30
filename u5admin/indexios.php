@@ -1,9 +1,9 @@
 <?php
 require_once('connect.inc.php');
 if ($_COOKIE['i1_l']=='') setcookie('i1_l', 'P', time()+3600*24*365*10,'/');
-if ($_COOKIE['i2_l']=='') setcookie('i2_l', 'd', time()+3600*24*365*10,'/');
-if($_SERVER['QUERY_STRING']=='i') setcookie('i1_l', 'd', time()+3600*24*365*10,'/');
-if($_SERVER['QUERY_STRING']=='i') setcookie('i2_1', 'd', time()+3600*24*365*10,'/');
+if ($_COOKIE['i2_l']=='') setcookie('i2_l', '1', time()+3600*24*365*10,'/');
+if($_SERVER['QUERY_STRING']=='i') setcookie('i1_l', '1', time()+3600*24*365*10,'/');
+if($_SERVER['QUERY_STRING']=='i') setcookie('i2_1', '1', time()+3600*24*365*10,'/');
 ?>
 <!DOCTYPE html>
 <html lang="en">

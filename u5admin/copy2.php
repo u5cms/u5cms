@@ -34,6 +34,8 @@ function duplicateallrecsinTABLENAMEwithoutAUTOINCFIELDwhereCONDITIONSaltervlaue
   global $lan1na;
   global $lan2na;
   global $lan3na;
+    global $lan4na;
+    global $lan5na;
 
 $sql="SELECT * FROM $tablename $conditions";
 $result=@mysql_query($sql);
@@ -82,6 +84,8 @@ $path='../r/'.$_GET['name'];
 if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan1na.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan1na.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$lan1na.'.'.$ext);
 if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan2na.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan2na.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$lan2na.'.'.$ext);
 if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan3na.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan3na.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$lan3na.'.'.$ext);
+         if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan4na.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan4na.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$lan4na.'.'.$ext);
+         if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan5na.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan5na.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$lan5na.'.'.$ext);
 
 for ($a=100;$a<1000;$a++) {
 if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$a.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$a.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$a.'.'.$ext);
@@ -106,6 +110,8 @@ $path='../r/v'.$_GET['name'];
 if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan1na.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan1na.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$lan1na.'.'.$ext);
 if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan2na.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan2na.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$lan2na.'.'.$ext);
 if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan3na.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan3na.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$lan3na.'.'.$ext);
+         if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan4na.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan4na.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$lan4na.'.'.$ext);
+         if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan5na.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan5na.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$lan5na.'.'.$ext);
 
 for ($a=100;$a<1000;$a++) {
 if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$a.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$a.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$a.'.'.$ext);

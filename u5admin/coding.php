@@ -159,7 +159,7 @@ echo '</div>';
 </div>
 
        <input type="hidden" name="name" value="<?php echo $_GET['name']?>">
-<br><br><br>  <textarea onKeyUp="tov=this.value;watchchanges()" onMouseOut="this.onchange()" onMouseOver="this.onchange()" onChange="tov=this.value;watchchanges()" name="content_d" wrap="off" id="codeTextarea"><?php echo htmlXspecialchars($row_a['content_d'])?></textarea>
+<br><br><br>  <textarea onKeyUp="tov=this.value;watchchanges()" onMouseOut="this.onchange()" onMouseOver="this.onchange()" onChange="tov=this.value;watchchanges()" name="content_1" wrap="off" id="codeTextarea"><?php echo htmlXspecialchars($row_a['content_1'])?></textarea>
 </form>
 <script type="text/javascript">
        createTextAreaWithLines('codeTextarea');

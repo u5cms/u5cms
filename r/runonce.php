@@ -1,7 +1,6 @@
 <?php
 $sql_a="SET storage_engine=MYISAM;";
 $result_a=mysql_query($sql_a);
-
 $sql_a="ALTER TABLE accounts ENGINE = MyISAM, DEFAULT CHARSET=utf8;";
 $result_a=mysql_query($sql_a);
 
@@ -50,11 +49,117 @@ $result_a=mysql_query($sql_a);
 $sql_a="ALTER TABLE trxlog ENGINE = MyISAM, DEFAULT CHARSET=utf8;";
 $result_a=mysql_query($sql_a);
 
-$sql_a="SELECT content_d FROM resources WHERE deleted!=1 AND name='htmltemplate'";
+
+$sql_a="ALTER TABLE languages ADD IF NOT EXISTS lan4na varchar(255) DEFAULT NULL AFTER lan3na";
+mysql_query($sql_a);
+$sql_a="ALTER TABLE languages ADD IF NOT EXISTS lan5na varchar(255) DEFAULT NULL AFTER lan4na";
+mysql_query($sql_a);
+
+$sql_a="ALTER TABLE languages ADD IF NOT EXISTS lan4name varchar(255) DEFAULT NULL AFTER lan3name";
+mysql_query($sql_a);
+$sql_a="ALTER TABLE languages ADD IF NOT EXISTS lan5name varchar(255) DEFAULT NULL AFTER lan4name";
+mysql_query($sql_a);
+
+$sql_a="ALTER TABLE titlefixum CHANGE COLUMN IF EXISTS d `1` varchar(255) DEFAULT NULL";
+mysql_query($sql_a);
+$sql_a="ALTER TABLE titlefixum CHANGE COLUMN IF EXISTS e `2` varchar(255) DEFAULT NULL";
+mysql_query($sql_a);
+$sql_a="ALTER TABLE titlefixum CHANGE COLUMN IF EXISTS f `3` varchar(255) DEFAULT NULL";
+mysql_query($sql_a);
+
+$sql_a="ALTER TABLE titlefixum ADD IF NOT EXISTS `4` varchar(255) DEFAULT NULL AFTER `3`";
+mysql_query($sql_a);
+$sql_a="ALTER TABLE titlefixum ADD IF NOT EXISTS `5` varchar(255) DEFAULT NULL AFTER `4`";
+mysql_query($sql_a);
+
+$migrate_tables = array(
+    'languages' => array(
+        'term',
+        'andhit',
+        'andhits',
+        'orhit',
+        'orhits',
+        'nohit',
+        'recherche',
+        'notpub',
+        'picsfound',
+        'morepics',
+        'czoom'
+    ),
+    'loginglobals' => array(
+        'logintitle',
+        'loginintro',
+        'username',
+        'password',
+        'loginbutton',
+        'loginoutro',
+        'logout',
+        'wait'
+    ),
+    'resources' => array(
+        'content',
+        'title',
+        'desc',
+        'key',
+        'search'
+    ),
+    'resources_log' => array(
+        'content',
+        'title',
+        'desc',
+        'key'
+    )
+);
+$datatype_definition = array(
+    'resources#content' => 'mediumtext',
+    'resources#desc' => 'text',
+    'resources#search' => 'mediumtext',
+    'resources_log#content' => 'mediumtext',
+    'resources_log#desc' => 'text',
+);
+
+function get_data_type($table_name, $table_field) {
+    if (isset($data_def[$table_name.'#'.$table_field])) {
+        return $data_def[$table_name.'#'.$table_field];
+    }
+    return 'varchar(255)';
+}
+
+function adapt_table_to_5languages($table_name, $table_fields) {
+    foreach ($table_fields as $table_field) {
+        $datatype = get_data_type($table_name, $table_field);
+        $sql_a="ALTER TABLE $table_name RENAME COLUMN IF EXISTS {$table_field}_d TO {$table_field}_1";
+        mysql_query($sql_a);
+        $sql_a="ALTER TABLE $table_name RENAME COLUMN IF EXISTS {$table_field}_e TO {$table_field}_2";
+        mysql_query($sql_a);
+        $sql_a="ALTER TABLE $table_name RENAME COLUMN IF EXISTS {$table_field}_f TO {$table_field}_3";
+        mysql_query($sql_a);
+
+        $sql_a="ALTER TABLE $table_name ADD IF NOT EXISTS {$table_field}_4 ".$datatype." DEFAULT NULL AFTER {$table_field}_3";
+        mysql_query($sql_a);
+        $sql_a="ALTER TABLE $table_name ADD IF NOT EXISTS {$table_field}_5 ".$datatype." DEFAULT NULL AFTER {$table_field}_4";
+        mysql_query($sql_a);
+    }
+}
+
+foreach ($migrate_tables as $table_name => $table_fields) {
+    adapt_table_to_5languages($table_name, $table_fields);
+}
+
+$sql_a="UPDATE languages SET lan4na = 'it', lan5na = 'pt', lan4name = 'italian', lan5name = 'portuguese', term_4 = 'Inserisci il termine di ricerca', term_5 = 'Por favor, insira o termo de pesquisa', andhit_4 = 'hit contenente tutto il termine', andhit_5 = 'hit contendo todo o termo', andhits_4 = 'risultati contenenti tutto il termine', andhits_5 = 'hits contendo todo o termo', orhit_4 = 'hit contenente parte del termine', orhit_5 = 'hit contendo parte do termo', orhits_4 = 'risultati contenenti parte del termine', orhits_5 = 'hits contendo parte do termo', nohit_4 = 'Nessun risultato con la tua ricerca. Suggerimento:', nohit_5 = 'Nenhum resultado com sua pesquisa. Sugestão:', recherche_4 = 'ricerca', recherche_5 = 'procurar',  notpub_4 = 'Navigazione.Questa pagina non è attualmente pubblicata. Si prega di selezionare dal menu.', notpub_5 = 'Navegação. Esta página não está publicada no momento. Selecione no menu.', picsfound_1 = 'Bilder (klicken Sie auf das Bild)', picsfound_2 = 'images (click the image)', picsfound_3 = 'images (veuillez cliquer l''image)', picsfound_4 = 'immagini (clicca sull''immagine)', picsfound_5 = 'imagens (clique na imagem)', morepics_4 = 'Clique para mais imagens.', morepics_5 = 'Clique para mais imagens.', czoom_4 = 'clicca per ingrandire', czoom_5 = 'clique para ampliar' where lan1na = 'de'";
+mysql_query($sql_a);
+
+$sql_a="UPDATE titlefixum SET `4` = ' — notieren Sie hier Ihren Firmennamen', `5` = ' — notieren Sie hier Ihren Firmennamen' where `1` = ' — notieren Sie hier Ihren Firmennamen';";
+mysql_query($sql_a);
+
+$sql_a="UPDATE loginglobals SET logintitle_4 = 'Login', logintitle_5 = 'Login', loginintro_4 = '', loginintro_5 = '', username_4 = 'Username', username_5 = 'Username', password_4 = 'Password', password_5 = 'Password', loginbutton_4 = 'log in', loginbutton_5 = 'log in', loginoutro_4 = '', loginoutro_5 = '', logout_4 = 'log out', logout_5 = 'log out', wait_4 = 'Too many login attempts. Try again in', wait_5 = 'Too many login attempts. Try again in' where logintitle_1 = 'Login';";
+mysql_query($sql_a);
+
+$sql_a="SELECT content_1 FROM resources WHERE deleted!=1 AND name='htmltemplate'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 $row_a = mysql_fetch_array($result_a);
-$c=explode('<body',$row_a['content_d']);
+$c=explode('<body',$row_a['content_1']);
 $c=$c[1];
 $head='<!DOCTYPE html>
 {{{meta}}}
@@ -70,7 +175,7 @@ $head='<!DOCTYPE html>
 <body';
 $c=$head.$c;
 
-$sql_a="UPDATE resources SET content_d='".mysql_real_escape_string($c)."' WHERE deleted!=1 AND name='htmltemplate' AND content_d NOT LIKE '%js/jquery.fancybox.min.js%'";
+$sql_a="UPDATE resources SET content_1='".mysql_real_escape_string($c)."' WHERE deleted!=1 AND name='htmltemplate' AND content_1 NOT LIKE '%js/jquery.fancybox.min.js%'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 file_put_contents('../fileversions/'.sha1($c).'.updatedone',file_get_contents('../r/runonce.php'));
@@ -101,27 +206,27 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $sql_a="CREATE TABLE IF NOT EXISTS `loginglobals` (
-  `logintitle_d` varchar(255)  DEFAULT 'Login',
-  `logintitle_e` varchar(255)  DEFAULT 'Login',
-  `logintitle_f` varchar(255)  DEFAULT 'Login',
-  `loginintro_d` text ,
-  `loginintro_e` text ,
-  `loginintro_f` text ,
-  `username_d` varchar(255)  DEFAULT 'Username',
-  `username_e` varchar(255)  DEFAULT 'Username',
-  `username_f` varchar(255)  DEFAULT 'Username',
-  `password_d` varchar(255)  DEFAULT 'Password',
-  `password_e` varchar(255)  DEFAULT 'Password',
-  `password_f` varchar(255)  DEFAULT 'Password',
-  `loginbutton_d` varchar(255)  DEFAULT 'OK',
-  `loginbutton_e` varchar(255)  DEFAULT 'OK',
-  `loginbutton_f` varchar(255)  DEFAULT 'OK',
-  `loginoutro_d` text ,
-  `loginoutro_e` text ,
-  `loginoutro_f` text ,
-  `logout_d` varchar(255)  DEFAULT 'logout',
-  `logout_e` varchar(255)  DEFAULT 'logout',
-  `logout_f` varchar(255)  DEFAULT 'logout'
+  `logintitle_1` varchar(255)  DEFAULT 'Login',
+  `logintitle_2` varchar(255)  DEFAULT 'Login',
+  `logintitle_3` varchar(255)  DEFAULT 'Login',
+  `loginintro_1` text ,
+  `loginintro_2` text ,
+  `loginintro_3` text ,
+  `username_1` varchar(255)  DEFAULT 'Username',
+  `username_2` varchar(255)  DEFAULT 'Username',
+  `username_3` varchar(255)  DEFAULT 'Username',
+  `password_1` varchar(255)  DEFAULT 'Password',
+  `password_2` varchar(255)  DEFAULT 'Password',
+  `password_3` varchar(255)  DEFAULT 'Password',
+  `loginbutton_1` varchar(255)  DEFAULT 'OK',
+  `loginbutton_2` varchar(255)  DEFAULT 'OK',
+  `loginbutton_3` varchar(255)  DEFAULT 'OK',
+  `loginoutro_1` text ,
+  `loginoutro_2` text ,
+  `loginoutro_3` text ,
+  `logout_1` varchar(255)  DEFAULT 'logout',
+  `logout_2` varchar(255)  DEFAULT 'logout',
+  `logout_3` varchar(255)  DEFAULT 'logout'
 ) ENGINE=MyISAM, DEFAULT CHARSET=utf8;";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
@@ -136,18 +241,22 @@ $sql_a="DELETE FROM `loginglobals`";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="INSERT INTO `loginglobals` (`logintitle_d`, `logintitle_e`, `logintitle_f`, `loginintro_d`, `loginintro_e`, `loginintro_f`, `username_d`, `username_e`, `username_f`, `password_d`, `password_e`, `password_f`, `loginbutton_d`, `loginbutton_e`, `loginbutton_f`, `loginoutro_d`, `loginoutro_e`, `loginoutro_f`, `logout_d`, `logout_e`, `logout_f`, `wait_d`, `wait_e`, `wait_f`) VALUES
+$sql_a="INSERT INTO `loginglobals` (`logintitle_1`, `logintitle_2`, `logintitle_3`, `loginintro_1`, `loginintro_2`, `loginintro_3`, `username_1`, `username_2`, `username_3`, `password_1`, `password_2`, `password_3`, `loginbutton_1`, `loginbutton_2`, `loginbutton_3`, `loginoutro_1`, `loginoutro_2`, `loginoutro_3`, `logout_1`, `logout_2`, `logout_3`, `wait_1`, `wait_2`, `wait_3`) VALUES
 ('Login', 'Login', 'Login', '', '', '', 'Username', 'Username', 'Username', 'Password', 'Password', 'Password', 'log in', 'log in', 'log in', '', '', '', 'log out', 'log out', 'log out', 'Too many login attempts. Try again in', 'Too many login attempts. Try again in', 'Too many login attempts. Try again in');
 ";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 }
 
-$sql_a="ALTER TABLE `mailing` ADD `mailtested` TINYINT DEFAULT '0'";
+$sql_a="ALTER TABLE `mailing` ADD IF NOT EXISTS `mailtested` TINYINT DEFAULT '0'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="INSERT INTO `resources` (`name`, `content_d`, `content_e`, `content_f`, `title_d`, `title_e`, `title_f`, `desc_d`, `desc_e`, `desc_f`, `key_d`, `key_e`, `key_f`, `logins`, `hidden`, `operator`, `ip`, `lastmut`, `deleted`, `typ`, `ishomepage`, `search_d`, `search_e`, `search_f`) VALUES
+$sql_a="DELETE FROM resources where name = 'cssauthuser'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="INSERT INTO `resources` (`name`, `content_1`, `content_2`, `content_3`, `title_1`, `title_2`, `title_3`, `desc_1`, `desc_2`, `desc_3`, `key_1`, `key_2`, `key_3`, `logins`, `hidden`, `operator`, `ip`, `lastmut`, `deleted`, `typ`, `ishomepage`, `search_1`, `search_2`, `search_3`) VALUES
 ('cssauthuser', '@import url(//fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic&subset=latin,cyrillic,latin-ext,vietnamese,greek,greek-ext,cyrillic-ext);\r\n\r\n.authuser_welcomemessage {\r\nfont-size:90%;\r\nfont-family:Arimo;\r\n}\r\n\r\n.authuser_username {\r\nfont-size:90%;\r\nfont-family:Arimo;\r\n}\r\n\r\n.authuser_logoutbutton {\r\nfont-size:80%;\r\nbackground:lightyellow;\r\n}\r\n\r\n', '', '', '', '', '', '', '', '', '', '', '', '', 0, 'Temp', '::1', 1469085797, 0, 'c', 0, ' @import url(//fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic&subset=latin,cyrillic,latin-ext,vietnamese,greek,greek-ext,cyrillic-ext);  .authuser_welcomemessage {  font-size:90%;  font-family:Arimo;  }  .authuser_username {  font-size:90%;  font-family:Arimo;  }  .authuser_logoutbutton {  font-size:80%;  background:lightyellow;  }', ' @import url(//fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic&subset=latin,cyrillic,latin-ext,vietnamese,greek,greek-ext,cyrillic-ext);  .authuser_welcomemessage {  font-size:90%;  font-family:Arimo;  }  .authuser_username {  font-size:90%;  font-family:Arimo;  }  .authuser_logoutbutton {  font-size:80%;  background:lightyellow;  }', ' @import url(//fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic&subset=latin,cyrillic,latin-ext,vietnamese,greek,greek-ext,cyrillic-ext);  .authuser_welcomemessage {  font-size:90%;  font-family:Arimo;  }  .authuser_username {  font-size:90%;  font-family:Arimo;  }  .authuser_logoutbutton {  font-size:80%;  background:lightyellow;  }');";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
@@ -156,7 +265,7 @@ $sql_a="ALTER TABLE `mailing` CHANGE `mailsubject` `mailsubject` VARCHAR(255) CH
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="ALTER TABLE `loginglobals` ADD `wait_d` VARCHAR(255)  DEFAULT 'Too many login attempts. Try again in' AFTER `logout_f`, ADD `wait_e` VARCHAR(255)  DEFAULT 'Too many login attempts. Try again in' AFTER `wait_d`, ADD `wait_f` VARCHAR(255)  DEFAULT 'Too many login attempts. Try again in' AFTER `wait_e`;";
+$sql_a="ALTER TABLE `loginglobals` ADD IF NOT EXISTS `wait_1` VARCHAR(255)  DEFAULT 'Too many login attempts. Try again in' AFTER `logout_3`, ADD IF NOT EXISTS `wait_2` VARCHAR(255)  DEFAULT 'Too many login attempts. Try again in' AFTER `wait_1`, ADD IF NOT EXISTS `wait_3` VARCHAR(255)  DEFAULT 'Too many login attempts. Try again in' AFTER `wait_2`;";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
@@ -168,36 +277,36 @@ $sql_a="CREATE TABLE IF NOT EXISTS `loginattempts` (
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="ALTER TABLE `loginattempts` ADD `mailed` INT DEFAULT '0' ;";
+$sql_a="ALTER TABLE `loginattempts` ADD IF NOT EXISTS `mailed` INT DEFAULT '0' ;";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $sql_a="ALTER TABLE `loginattempts`
-  ADD KEY `username` (`username`),
-  ADD KEY `mailed` (`mailed`);";
+  ADD KEY IF NOT EXISTS `username` (`username`),
+  ADD KEY IF NOT EXISTS `mailed` (`mailed`);";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $sql_a="ALTER TABLE `loginattempts`
-  ADD KEY `timestamp` (`timestamp`);";
+  ADD KEY IF NOT EXISTS `timestamp` (`timestamp`);";
 
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $search='@import url("../plugins/overlay/jquery.fancybox.css");';
-$sql_a="UPDATE `resources` SET content_d=REPLACE(content_d,'$search','')";
+$sql_a="UPDATE `resources` SET content_1=REPLACE(content_1,'$search','')";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $search="if (document.cookie.indexOf(\'u5cmsfrcthsvw=desktop\') > -1) document.getElementById(\'body\').innerHTML +=";
 $replace="if (document.cookie.indexOf(\'u5cmsfrcthsvw=desktop\') > -1) document.getElementById(\'footer\').innerHTML +=";
-$sql_a="UPDATE `resources` SET content_d=REPLACE(content_d,'$search','$replace')";
+$sql_a="UPDATE `resources` SET content_1=REPLACE(content_1,'$search','$replace')";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $search='r/cssbase.css?';
 $replace='r/cssbase.css" "?';
-$sql_a="UPDATE `resources` SET content_d=REPLACE(content_d,'$search','$replace')";
+$sql_a="UPDATE `resources` SET content_1=REPLACE(content_1,'$search','$replace')";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
@@ -220,7 +329,7 @@ $sql_a="CREATE TABLE IF NOT EXISTS `mailing` (
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="ALTER TABLE `mailing` ADD PRIMARY KEY(`id`);";
+$sql_a="ALTER TABLE `mailing` ADD PRIMARY KEY IF NOT EXISTS (`id`);";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
@@ -230,7 +339,7 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $sql_a="ALTER TABLE `mailingcron`
- ADD PRIMARY KEY (`id`);";
+ ADD PRIMARY KEY IF NOT EXISTS (`id`);";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
@@ -247,23 +356,23 @@ $sql_a="ALTER TABLE `resources_log` CHANGE `logins` `logins` MEDIUMTEXT CHARACTE
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_d=REPLACE(content_d,'window.onload = function() {','function u5mkmobile() {') WHERE name='jsmobilespecific';";
+$sql_a="UPDATE resources SET content_1=REPLACE(content_1,'window.onload = function() {','function u5mkmobile() {') WHERE name='jsmobilespecific';";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_d=REPLACE(content_d,'<script>if(typeof u5mkmobile===\"function\")u5mkmobile();</script>\r\n','') WHERE name='htmltemplate';";
+$sql_a="UPDATE resources SET content_1=REPLACE(content_1,'<script>if(typeof u5mkmobile===\"function\")u5mkmobile();</script>\r\n','') WHERE name='htmltemplate';";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_d=REPLACE(content_d,'<script>if(typeof u5mkmobile===\"function\")u5mkmobile();</script>','') WHERE name='htmltemplate';";
+$sql_a="UPDATE resources SET content_1=REPLACE(content_1,'<script>if(typeof u5mkmobile===\"function\")u5mkmobile();</script>','') WHERE name='htmltemplate';";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_d=REPLACE(content_d,'u5mkmobile()','//uXXX5mkmobile()DUPLICATE LINE REMOVE THIS LINE!!!') WHERE name='htmltemplate';";
+$sql_a="UPDATE resources SET content_1=REPLACE(content_1,'u5mkmobile()','//uXXX5mkmobile()DUPLICATE LINE REMOVE THIS LINE!!!') WHERE name='htmltemplate';";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_d=REPLACE(content_d,'</body>','<script>if(typeof u5mkmobile===\"function\")u5mkmobile();</script>\r\n</body>') WHERE name='htmltemplate';";
+$sql_a="UPDATE resources SET content_1=REPLACE(content_1,'</body>','<script>if(typeof u5mkmobile===\"function\")u5mkmobile();</script>\r\n</body>') WHERE name='htmltemplate';";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
@@ -297,13 +406,13 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 }
 
-$sql_a="SELECT * FROM `resources` WHERE content_d LIKE '%smallerblock%' AND name='cssstyle'";
+$sql_a="SELECT * FROM `resources` WHERE content_1 LIKE '%smallerblock%' AND name='cssstyle'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 $num_a = mysql_num_rows($result_a);
 if($num_a==0) {
 
-$sql_a="UPDATE `resources` SET content_d=CONCAT(content_d,'
+$sql_a="UPDATE `resources` SET content_1=CONCAT(content_1,'
 .largerblock {
 	font-size: 130%;
 }
@@ -316,23 +425,23 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 }
 
-$sql_a="ALTER TABLE `sizes` ADD `tosquare` TINYINT NULL DEFAULT '1' AFTER `scrollingalbum_w`;";
+$sql_a="ALTER TABLE `sizes` ADD IF NOT EXISTS `tosquare` TINYINT NULL DEFAULT '1' AFTER `scrollingalbum_w`;";
 $result_a=mysql_query($sql_a);
 
-$sql_a="ALTER TABLE `sizes` ADD `cropedge` INT NULL DEFAULT '0' AFTER `tosquare`;";
+$sql_a="ALTER TABLE `sizes` ADD IF NOT EXISTS `cropedge` INT NULL DEFAULT '0' AFTER `tosquare`;";
 $result_a=mysql_query($sql_a);
 
 // 2022-05-27: update navigation CSS for navigaton fix
 $sql_a=" UPDATE `resources` SET
-  `content_d` = '/*\r\nThis CSS formats the navigation if you hav NOT A split navigation.\r\n\r\nIf you want a split navigation, you have to\r\n\r\n1: In PIDVESA''s S, htmltemplate, switch the #navTop on\r\n\r\n  <div id=\"navigationtop\">\r\n    <div id=\"navTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n  </div>\r\n\r\nby removing <!-- and -->\r\n\r\n2: Also in htmltemplate, change\r\n\r\n<div id=\"navLeft\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\nto\r\n\r\n<div id=\"navLeftSubTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\n*/\r\n\r\n\r\n/*NAVLEFT*/\r\n#navLeft {\r\n	padding-top: 100px;\r\n}\r\n\r\n/* anchor styling */\r\n#navLeft a {\r\n	display: block;\r\n	text-decoration: none;\r\n	color: #3F3F3F;\r\n}\r\n\r\n#navLeft a:hover {\r\n	text-decoration: none;\r\n	color: black;\r\n}\r\n\r\n#navLeft a.activeItem {\r\n	color: #e63320;\r\n	font-weight: bolder;\r\n}\r\n\r\n/* list stylings */\r\n#navLeft ul {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#navLeft ul ul {\r\n    margin-left: 1.5em;\r\n}\r\n\r\n#navLeft li {\r\n	list-style-type: none;\r\n	margin: 0;\r\n	margin-left: 0;\r\n	border-bottom: 1px solid #ddd;\r\n    line-height: 2em;\r\n}\r\n\r\n#navLeft li li {\r\n	font-size: 0.9em;\r\n    border-bottom: none;\r\n}\r\n\r\n#navLeft li.active {\r\n	color: #3F3F3F;\r\n	background-color: #f9f9f9;\r\n}\r\n\r\n#navLeft li.active>ul {\r\n 	padding: 0.1em 0 0.3em 0;\r\n}\r\n',
-  `content_e` = '', `content_f` = '', `title_d` = '', `title_e` = '', `title_f` = '', `desc_d` = '', `desc_e` = '', `desc_f` = '', `key_d` = '', `key_e` = '', `key_f` = '', `search_d` = '', `search_e` = '', `search_f` = '',
+  `content_1` = '/*\r\nThis CSS formats the navigation if you hav NOT A split navigation.\r\n\r\nIf you want a split navigation, you have to\r\n\r\n1: In PIDVESA''s S, htmltemplate, switch the #navTop on\r\n\r\n  <div id=\"navigationtop\">\r\n    <div id=\"navTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n  </div>\r\n\r\nby removing <!-- and -->\r\n\r\n2: Also in htmltemplate, change\r\n\r\n<div id=\"navLeft\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\nto\r\n\r\n<div id=\"navLeftSubTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\n*/\r\n\r\n\r\n/*NAVLEFT*/\r\n#navLeft {\r\n	padding-top: 100px;\r\n}\r\n\r\n/* anchor styling */\r\n#navLeft a {\r\n	display: block;\r\n	text-decoration: none;\r\n	color: #3F3F3F;\r\n}\r\n\r\n#navLeft a:hover {\r\n	text-decoration: none;\r\n	color: black;\r\n}\r\n\r\n#navLeft a.activeItem {\r\n	color: #e63320;\r\n	font-weight: bolder;\r\n}\r\n\r\n/* list stylings */\r\n#navLeft ul {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#navLeft ul ul {\r\n    margin-left: 1.5em;\r\n}\r\n\r\n#navLeft li {\r\n	list-style-type: none;\r\n	margin: 0;\r\n	margin-left: 0;\r\n	border-bottom: 1px solid #ddd;\r\n    line-height: 2em;\r\n}\r\n\r\n#navLeft li li {\r\n	font-size: 0.9em;\r\n    border-bottom: none;\r\n}\r\n\r\n#navLeft li.active {\r\n	color: #3F3F3F;\r\n	background-color: #f9f9f9;\r\n}\r\n\r\n#navLeft li.active>ul {\r\n 	padding: 0.1em 0 0.3em 0;\r\n}\r\n',
+  `content_2` = '', `content_3` = '', `title_1` = '', `title_2` = '', `title_3` = '', `desc_1` = '', `desc_2` = '', `desc_3` = '', `key_1` = '', `key_2` = '', `key_3` = '', `search_1` = '', `search_2` = '', `search_3` = '',
   `logins` = '', `hidden` = 0, `operator` = 'Temp', `ip` = '::1', `lastmut` = 1653623611, `deleted` = 0, `typ` = 'c', `ishomepage` = 0
   WHERE `resources`.`name` = 'cssnavleft' AND `resources`.`deleted` = 0;";
 $result_a=mysql_query($sql_a);
 
 $sql_a=" UPDATE `resources` SET
-  `content_d` = '/*\r\nThis CSS formats the second (vertical) level of a split navigation.\r\n\r\nIf you want a split navigation, you have to\r\n\r\n1: In PIDVESA''s S, htmltemplate, switch the #navTop on\r\n\r\n  <div id=\"navigationtop\">\r\n    <div id=\"navTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n  </div>\r\n\r\nby removing <!-- and -->\r\n\r\n2: Also in htmltemplate, change\r\n\r\n<div id=\"navLeft\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\nto\r\n\r\n<div id=\"navLeftSubTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\n*/\r\n\r\n/*NAVLEFTSUBTOP*/\r\n#navLeftSubTop {\r\n	padding-top: 100px;\r\n}\r\n\r\n/* anchor styling */\r\n#navLeftSubTop a {\r\n	display: none;\r\n	text-decoration: none;\r\n	color: #3F3F3F;\r\n}\r\n\r\n/* turn on visibility for second and subsequent levels only */\r\n#navLeftSubTop li li a {\r\n    display: block;\r\n}\r\n\r\n#navLeftSubTop a:hover {\r\n	text-decoration: none;\r\n	color: black;\r\n}\r\n\r\n#navLeftSubTop li a.activeItem {\r\n	color: #e63320;\r\n	font-weight: bolder;\r\n}\r\n\r\n#navLeftSubTop li li a.activeItem {\r\n	color: #ff0000;\r\n	font-weight: bold;\r\n}\r\n\r\n/* list stylings */\r\n#navLeftSubTop .inactive {\r\n    display: none;\r\n	padding-left: 7px;\r\n}\r\n\r\n#navLeftSubTop ul {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#navLeftSubTop li {\r\n	list-style-type: none;\r\n	margin: 0;\r\n	margin-left: 0;\r\n	border-bottom: none;\r\n    line-height: 0;\r\n}\r\n\r\n#navLeftSubTop li li {\r\n	padding: 0px 2px 0.1em 1em;\r\n    border-bottom: 1px solid #fff;\r\n    line-height: 1.6em;\r\n}\r\n\r\n#navLeftSubTop li li li {\r\n	font-size: 0.9em;\r\n    border-bottom: none;\r\n}\r\n\r\n#navLeftSubTop li.active {\r\n	color: #3F3F3F;\r\n	background-color: #f9f9f9;\r\n}\r\n',
-  `content_e` = '', `content_f` = '', `title_d` = '', `title_e` = '', `title_f` = '', `desc_d` = '', `desc_e` = '', `desc_f` = '', `key_d` = '', `key_e` = '', `key_f` = '', `search_d` = '', `search_e` = '', `search_f` = '',
+  `content_1` = '/*\r\nThis CSS formats the second (vertical) level of a split navigation.\r\n\r\nIf you want a split navigation, you have to\r\n\r\n1: In PIDVESA''s S, htmltemplate, switch the #navTop on\r\n\r\n  <div id=\"navigationtop\">\r\n    <div id=\"navTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n  </div>\r\n\r\nby removing <!-- and -->\r\n\r\n2: Also in htmltemplate, change\r\n\r\n<div id=\"navLeft\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\nto\r\n\r\n<div id=\"navLeftSubTop\"><a name=\"navigation\"></a>{{{navigation}}}</div>\r\n\r\n*/\r\n\r\n/*NAVLEFTSUBTOP*/\r\n#navLeftSubTop {\r\n	padding-top: 100px;\r\n}\r\n\r\n/* anchor styling */\r\n#navLeftSubTop a {\r\n	display: none;\r\n	text-decoration: none;\r\n	color: #3F3F3F;\r\n}\r\n\r\n/* turn on visibility for second and subsequent levels only */\r\n#navLeftSubTop li li a {\r\n    display: block;\r\n}\r\n\r\n#navLeftSubTop a:hover {\r\n	text-decoration: none;\r\n	color: black;\r\n}\r\n\r\n#navLeftSubTop li a.activeItem {\r\n	color: #e63320;\r\n	font-weight: bolder;\r\n}\r\n\r\n#navLeftSubTop li li a.activeItem {\r\n	color: #ff0000;\r\n	font-weight: bold;\r\n}\r\n\r\n/* list stylings */\r\n#navLeftSubTop .inactive {\r\n    display: none;\r\n	padding-left: 7px;\r\n}\r\n\r\n#navLeftSubTop ul {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#navLeftSubTop li {\r\n	list-style-type: none;\r\n	margin: 0;\r\n	margin-left: 0;\r\n	border-bottom: none;\r\n    line-height: 0;\r\n}\r\n\r\n#navLeftSubTop li li {\r\n	padding: 0px 2px 0.1em 1em;\r\n    border-bottom: 1px solid #fff;\r\n    line-height: 1.6em;\r\n}\r\n\r\n#navLeftSubTop li li li {\r\n	font-size: 0.9em;\r\n    border-bottom: none;\r\n}\r\n\r\n#navLeftSubTop li.active {\r\n	color: #3F3F3F;\r\n	background-color: #f9f9f9;\r\n}\r\n',
+  `content_2` = '', `content_3` = '', `title_1` = '', `title_2` = '', `title_3` = '', `desc_1` = '', `desc_2` = '', `desc_3` = '', `key_1` = '', `key_2` = '', `key_3` = '', `search_1` = '', `search_2` = '', `search_3` = '',
   `logins` = '', `hidden` = 0, `operator` = 'Temp', `ip` = '::1', `lastmut` = 1653623611, `deleted` = 0, `typ` = 'c', `ishomepage` = 0
   WHERE `resources`.`name` = 'cssnavleftsubtop' AND `resources`.`deleted` = 0;";
 $result_a=mysql_query($sql_a);
@@ -354,7 +463,7 @@ $num_a = mysql_num_rows($result_a);
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-if (file_put_contents('../r/'.$row_a['name'].'.css',str_replace($beforets,$afterts,$row_a['content_d'].' '))) {
+if (file_put_contents('../r/'.$row_a['name'].'.css',str_replace($beforets,$afterts,$row_a['content_1'].' '))) {
 echo '<!--w ../r/ ok -->';
 }
 else echo '<script>alert("PROBLEM: The server can store your data but not write the consequent output file '.$row_a['name'].'.\n\nEFFECTS: The data you typed is stored but you won\'t see any effects in the layout.\n\nSOLUTION: CHMOD the folder named \'r\' RECURSIVELY (incl. all its files, subfolders a.s.o.) e. g. to 777 e. g. with FileZilla.");</script>';

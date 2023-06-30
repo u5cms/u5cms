@@ -21,7 +21,7 @@ $minutes=ceil(($firstattempt-time())/60);
 echo '<html><head>';
 include('u5admin/backendcss.php');
 echo '<title></title></head><body><h1>';
-echo def($wait_d,$wait_e,$wait_f).' '.$minutes.'&#8242;';
+echo def($wait_1,$wait_2,$wait_3).' '.$minutes.'&#8242;';
 echo '<script>setTimeout("location.reload()",20000);</script>';
 echo '</h1></body></html><!--';
 

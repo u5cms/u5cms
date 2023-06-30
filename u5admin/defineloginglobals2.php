@@ -21,30 +21,46 @@ if($definelanguagesRqHIADRI!='no')require_once('accadmin.inc.php');
 
 $sql_a="UPDATE loginglobals SET 
 
-logintitle_d='".mysql_real_escape_string($_POST['logintitle_d'])."',
-logintitle_e='".mysql_real_escape_string($_POST['logintitle_e'])."',
-logintitle_f='".mysql_real_escape_string($_POST['logintitle_f'])."',
-loginintro_d='".mysql_real_escape_string($_POST['loginintro_d'])."',
-loginintro_e='".mysql_real_escape_string($_POST['loginintro_e'])."',
-loginintro_f='".mysql_real_escape_string($_POST['loginintro_f'])."',
-username_d='".mysql_real_escape_string($_POST['username_d'])."',
-username_e='".mysql_real_escape_string($_POST['username_e'])."',
-username_f='".mysql_real_escape_string($_POST['username_f'])."',
-password_d='".mysql_real_escape_string($_POST['password_d'])."',
-password_e='".mysql_real_escape_string($_POST['password_e'])."',
-password_f='".mysql_real_escape_string($_POST['password_f'])."',
-loginbutton_d='".mysql_real_escape_string($_POST['loginbutton_d'])."',
-loginbutton_e='".mysql_real_escape_string($_POST['loginbutton_e'])."',
-loginbutton_f='".mysql_real_escape_string($_POST['loginbutton_f'])."',
-loginoutro_d='".mysql_real_escape_string($_POST['loginoutro_d'])."',
-loginoutro_e='".mysql_real_escape_string($_POST['loginoutro_e'])."',
-loginoutro_f='".mysql_real_escape_string($_POST['loginoutro_f'])."',
-logout_d='".mysql_real_escape_string($_POST['logout_d'])."',
-logout_e='".mysql_real_escape_string($_POST['logout_e'])."',
-logout_f='".mysql_real_escape_string($_POST['logout_f'])."',
-wait_d='".mysql_real_escape_string($_POST['wait_d'])."',
-wait_e='".mysql_real_escape_string($_POST['wait_e'])."',
-wait_f='".mysql_real_escape_string($_POST['wait_f'])."'
+logintitle_1='".mysql_real_escape_string($_POST['logintitle_1'])."',
+logintitle_2='".mysql_real_escape_string($_POST['logintitle_2'])."',
+logintitle_3='".mysql_real_escape_string($_POST['logintitle_3'])."',
+logintitle_4='".mysql_real_escape_string($_POST['logintitle_4'])."',
+logintitle_5='".mysql_real_escape_string($_POST['logintitle_5'])."',
+loginintro_1='".mysql_real_escape_string($_POST['loginintro_1'])."',
+loginintro_2='".mysql_real_escape_string($_POST['loginintro_2'])."',
+loginintro_3='".mysql_real_escape_string($_POST['loginintro_3'])."',
+loginintro_4='".mysql_real_escape_string($_POST['loginintro_4'])."',
+loginintro_5='".mysql_real_escape_string($_POST['loginintro_5'])."',
+username_1='".mysql_real_escape_string($_POST['username_1'])."',
+username_2='".mysql_real_escape_string($_POST['username_2'])."',
+username_3='".mysql_real_escape_string($_POST['username_3'])."',
+username_4='".mysql_real_escape_string($_POST['username_4'])."',
+username_5='".mysql_real_escape_string($_POST['username_5'])."',
+password_1='".mysql_real_escape_string($_POST['password_1'])."',
+password_2='".mysql_real_escape_string($_POST['password_2'])."',
+password_3='".mysql_real_escape_string($_POST['password_3'])."',
+password_4='".mysql_real_escape_string($_POST['password_4'])."',
+password_5='".mysql_real_escape_string($_POST['password_5'])."',
+loginbutton_1='".mysql_real_escape_string($_POST['loginbutton_1'])."',
+loginbutton_2='".mysql_real_escape_string($_POST['loginbutton_2'])."',
+loginbutton_3='".mysql_real_escape_string($_POST['loginbutton_3'])."',
+loginbutton_4='".mysql_real_escape_string($_POST['loginbutton_4'])."',
+loginbutton_5='".mysql_real_escape_string($_POST['loginbutton_5'])."',
+loginoutro_1='".mysql_real_escape_string($_POST['loginoutro_1'])."',
+loginoutro_2='".mysql_real_escape_string($_POST['loginoutro_2'])."',
+loginoutro_3='".mysql_real_escape_string($_POST['loginoutro_3'])."',
+loginoutro_4='".mysql_real_escape_string($_POST['loginoutro_4'])."',
+loginoutro_5='".mysql_real_escape_string($_POST['loginoutro_5'])."',
+logout_1='".mysql_real_escape_string($_POST['logout_1'])."',
+logout_2='".mysql_real_escape_string($_POST['logout_2'])."',
+logout_3='".mysql_real_escape_string($_POST['logout_3'])."',
+logout_4='".mysql_real_escape_string($_POST['logout_4'])."',
+logout_5='".mysql_real_escape_string($_POST['logout_5'])."',
+wait_1='".mysql_real_escape_string($_POST['wait_1'])."',
+wait_2='".mysql_real_escape_string($_POST['wait_2'])."',
+wait_3='".mysql_real_escape_string($_POST['wait_3'])."',
+wait_4='".mysql_real_escape_string($_POST['wait_4'])."',
+wait_5='".mysql_real_escape_string($_POST['wait_5'])."'
 ";
 
 $result_a=mysql_query($sql_a);
@@ -59,9 +75,9 @@ $sql_a="DELETE FROM resources WHERE name='::LOGINPAGE::'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-if(trim($_POST['loginintro_d']).trim($_POST['loginintro_e']).trim($_POST['loginintro_f']).trim($_POST['loginoutro_d']).trim($_POST['loginoutro_e']).trim($_POST['loginoutro_f'])!='') {
+if(trim($_POST['loginintro_1']).trim($_POST['loginintro_2']).trim($_POST['loginintro_3']).trim($_POST['loginintro_4']).trim($_POST['loginintro_5']).trim($_POST['loginoutro_1']).trim($_POST['loginoutro_2']).trim($_POST['loginoutro_3']).trim($_POST['loginoutro_4']).trim($_POST['loginoutro_5'])!='') {
 
-$sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,content_d,content_e,content_f) VALUES (
+$sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,content_1,content_2,content_3,content_4,content_5) VALUES (
 1,
 '::LOGINPAGE::',
 '".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
@@ -72,10 +88,10 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_d'])."
+".mysql_real_escape_string($_POST['loginintro_1'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_d'])."
+".mysql_real_escape_string($_POST['loginoutro_1'])."
 ',
 
 
@@ -83,10 +99,10 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_e'])."
+".mysql_real_escape_string($_POST['loginintro_2'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_e'])."
+".mysql_real_escape_string($_POST['loginoutro_2'])."
 ',
 
 
@@ -94,10 +110,32 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_f'])."
+".mysql_real_escape_string($_POST['loginintro_3'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_f'])."
+".mysql_real_escape_string($_POST['loginoutro_3'])."
+',
+
+
+'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+    The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
+	
+[v]LOGININTRO[/]
+".mysql_real_escape_string($_POST['loginintro_4'])."
+
+[v]LOGINOUTRO[/]
+".mysql_real_escape_string($_POST['loginoutro_4'])."
+',
+
+
+'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+    The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
+	
+[v]LOGININTRO[/]
+".mysql_real_escape_string($_POST['loginintro_5'])."
+
+[v]LOGINOUTRO[/]
+".mysql_real_escape_string($_POST['loginoutro_5'])."
 '
 
 
@@ -106,7 +144,7 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 ////////////////
-$sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,content_d,content_e,content_f) VALUES (
+$sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,content_1,content_2,content_3) VALUES (
 1,
 '::LOGINPAGE::',
 '".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
@@ -117,10 +155,10 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_d'])."
+".mysql_real_escape_string($_POST['loginintro_1'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_d'])."
+".mysql_real_escape_string($_POST['loginoutro_1'])."
 ',
 
 
@@ -128,10 +166,10 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_e'])."
+".mysql_real_escape_string($_POST['loginintro_2'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_e'])."
+".mysql_real_escape_string($_POST['loginoutro_2'])."
 ',
 
 
@@ -139,10 +177,32 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_f'])."
+".mysql_real_escape_string($_POST['loginintro_3'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_f'])."
+".mysql_real_escape_string($_POST['loginoutro_3'])."
+',
+
+
+'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+    The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
+	
+[v]LOGININTRO[/]
+".mysql_real_escape_string($_POST['loginintro_4'])."
+
+[v]LOGINOUTRO[/]
+".mysql_real_escape_string($_POST['loginoutro_4'])."
+',
+
+
+'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+    The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
+	
+[v]LOGININTRO[/]
+".mysql_real_escape_string($_POST['loginintro_5'])."
+
+[v]LOGINOUTRO[/]
+".mysql_real_escape_string($_POST['loginoutro_5'])."
 '
 
 

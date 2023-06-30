@@ -20,11 +20,11 @@ echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font
 <div id="story_main">
 
 <h1  id="story_title">
-<?php echo ehtml(def($row_a['title_d'],$row_a['title_e'],$row_a['title_f'])) ?></span>
+<?php echo ehtml(def($row_a['title_1'],$row_a['title_2'],$row_a['title_3'],$row_a['title_4'],$row_a['title_5'])) ?></span>
 </h1>
 
 <div  id="story_text">
-<?php echo ehtml(def($row_a['content_d'],$row_a['content_e'],$row_a['content_f'])) ?>
+<?php echo ehtml(def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5'])) ?>
 </div>
 
 <div id="story_image">

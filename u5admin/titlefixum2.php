@@ -10,7 +10,7 @@
 if($definetitelfixumRqHIADRI!='no')require_once('accadmin.inc.php'); 
 
 
-$sql_a="UPDATE titlefixum SET d='".mysql_real_escape_string($_POST['d'])."', e='".mysql_real_escape_string($_POST['e'])."', f='".mysql_real_escape_string($_POST['f'])."'";
+$sql_a="UPDATE titlefixum SET `1`='".mysql_real_escape_string($_POST['1'])."', `2`='".mysql_real_escape_string($_POST['2'])."', `3`='".mysql_real_escape_string($_POST['3'])."', `4`='".mysql_real_escape_string($_POST['4'])."', `5`='".mysql_real_escape_string($_POST['5'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

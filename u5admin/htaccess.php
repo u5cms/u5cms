@@ -20,53 +20,53 @@ for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-$existent="(".$replacestart."content_d".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."content_e".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."content_f".$replaceend." LIKE '%[".$row_a['name']."]%')
+$existent="(".$replacestart."content_1".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."content_2".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."content_3".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."content_4".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."content_5".$replaceend." LIKE '%[".$row_a['name']."]%')
 OR
-(".$replacestart."content_d".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."content_e".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."content_f".$replaceend." LIKE '%:".$row_a['name']."]%')
+(".$replacestart."content_1".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."content_2".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."content_3".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."content_4".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."content_5".$replaceend." LIKE '%:".$row_a['name']."]%')
 OR
-(".$replacestart."content_d".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."content_e".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."content_f".$replaceend." LIKE '%[".$row_a['name']."?%')
+(".$replacestart."content_1".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."content_2".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."content_3".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."content_4".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."content_5".$replaceend." LIKE '%[".$row_a['name']."?%')
 OR
-(".$replacestart."content_d".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."content_e".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."content_f".$replaceend." LIKE '%:".$row_a['name']."?%')
+(".$replacestart."content_1".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."content_2".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."content_3".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."content_4".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."content_5".$replaceend." LIKE '%:".$row_a['name']."?%')
 
  OR
 
-(".$replacestart."title_d".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."title_e".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."title_f".$replaceend." LIKE '%[".$row_a['name']."]%')
+(".$replacestart."title_1".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."title_2".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."title_3".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."title_4".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."title_5".$replaceend." LIKE '%[".$row_a['name']."]%')
 OR
-(".$replacestart."title_d".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."title_e".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."title_f".$replaceend." LIKE '%:".$row_a['name']."]%')
+(".$replacestart."title_1".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."title_2".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."title_3".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."title_4".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."title_5".$replaceend." LIKE '%:".$row_a['name']."]%')
 OR
-(".$replacestart."title_d".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."title_e".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."title_f".$replaceend." LIKE '%[".$row_a['name']."?%')
+(".$replacestart."title_1".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."title_2".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."title_3".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."title_4".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."title_5".$replaceend." LIKE '%[".$row_a['name']."?%')
 OR
-(".$replacestart."title_d".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."title_e".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."title_f".$replaceend." LIKE '%:".$row_a['name']."?%')
+(".$replacestart."title_1".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."title_2".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."title_3".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."title_4".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."title_5".$replaceend." LIKE '%:".$row_a['name']."?%')
 
  OR
  
-(".$replacestart."desc_d".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."desc_e".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."desc_f".$replaceend." LIKE '%[".$row_a['name']."]%')
+(".$replacestart."desc_1".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."desc_2".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."desc_3".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."desc_4".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."desc_5".$replaceend." LIKE '%[".$row_a['name']."]%')
 OR
-(".$replacestart."desc_d".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."desc_e".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."desc_f".$replaceend." LIKE '%:".$row_a['name']."]%')
+(".$replacestart."desc_1".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."desc_2".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."desc_3".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."desc_4".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."desc_5".$replaceend." LIKE '%:".$row_a['name']."]%')
 OR
-(".$replacestart."desc_d".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."desc_e".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."desc_f".$replaceend." LIKE '%[".$row_a['name']."?%')
+(".$replacestart."desc_1".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."desc_2".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."desc_3".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."desc_4".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."desc_5".$replaceend." LIKE '%[".$row_a['name']."?%')
 OR
-(".$replacestart."desc_d".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."desc_e".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."desc_f".$replaceend." LIKE '%:".$row_a['name']."?%')
+(".$replacestart."desc_1".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."desc_2".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."desc_3".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."desc_4".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."desc_5".$replaceend." LIKE '%:".$row_a['name']."?%')
 
  OR
 
-(".$replacestart."key_d".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."key_e".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."key_f".$replaceend." LIKE '%[".$row_a['name']."]%')
+(".$replacestart."key_1".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."key_2".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."key_3".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."key_4".$replaceend." LIKE '%[".$row_a['name']."]%' OR ".$replacestart."key_5".$replaceend." LIKE '%[".$row_a['name']."]%')
 OR
-(".$replacestart."key_d".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."key_e".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."key_f".$replaceend." LIKE '%:".$row_a['name']."]%')
+(".$replacestart."key_1".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."key_2".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."key_3".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."key_4".$replaceend." LIKE '%:".$row_a['name']."]%' OR ".$replacestart."key_5".$replaceend." LIKE '%:".$row_a['name']."]%')
 OR
-(".$replacestart."key_d".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."key_e".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."key_f".$replaceend." LIKE '%[".$row_a['name']."?%')
+(".$replacestart."key_1".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."key_2".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."key_3".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."key_4".$replaceend." LIKE '%[".$row_a['name']."?%' OR ".$replacestart."key_5".$replaceend." LIKE '%[".$row_a['name']."?%')
 OR
-(".$replacestart."key_d".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."key_e".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."key_f".$replaceend." LIKE '%:".$row_a['name']."?%')
+(".$replacestart."key_1".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."key_2".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."key_3".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."key_4".$replaceend." LIKE '%:".$row_a['name']."?%' OR ".$replacestart."key_5".$replaceend." LIKE '%:".$row_a['name']."?%')
 
  OR
 
-(".$replacestart."content_d".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."content_e".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."content_f".$replaceend." LIKE '%r/".$row_a['name']."/%')
+(".$replacestart."content_1".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."content_2".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."content_3".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."content_4".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."content_5".$replaceend." LIKE '%r/".$row_a['name']."/%')
 OR
-(".$replacestart."title_d".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."title_e".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."title_f".$replaceend." LIKE '%r/".$row_a['name']."/%')
+(".$replacestart."title_1".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."title_2".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."title_3".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."title_4".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."title_5".$replaceend." LIKE '%r/".$row_a['name']."/%')
 OR
-(".$replacestart."desc_d".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."desc_e".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."desc_f".$replaceend." LIKE '%r/".$row_a['name']."/%')
+(".$replacestart."desc_1".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."desc_2".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."desc_3".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."desc_4".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."desc_5".$replaceend." LIKE '%r/".$row_a['name']."/%')
 OR
-(".$replacestart."key_d".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."key_e".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."key_f".$replaceend." LIKE '%r/".$row_a['name']."/%')
+(".$replacestart."key_1".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."key_2".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."key_3".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."key_4".$replaceend." LIKE '%r/".$row_a['name']."/%' OR ".$replacestart."key_5".$replaceend." LIKE '%r/".$row_a['name']."/%')
 ";
 
 $sql_b="SELECT name,logins,hidden FROM resources WHERE deleted!=1 AND ($existent) ORDER BY lastmut DESC";

@@ -42,7 +42,7 @@ $row_a = mysql_fetch_array($result_a);
 include('ob.php');
 $pexcheck = $ob;
 
-if($pexcheck==false) $pexcheck=render(def($row_a['content_d'],$row_a['content_e'],$row_a['content_f']));
+if($pexcheck==false) $pexcheck=render(def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']));
 
 $pexerror=0;
 foreach ($_POST as $key=>$value) {

@@ -69,18 +69,18 @@ for ($i_a = 0; $i_a < $num_a; $i_a++) {
 if($row_a['typ']=='c') {
 echo '
 <table>
-<tr><td><textarea rows="2" id="t' . $i_a . 'a1">' . htmlXspecialchars($row_a['title_d']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a2">' . htmlXspecialchars($row_a['title_e']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a3">' . htmlXspecialchars($row_a['title_f']) . '</textarea></td></tr>
-<tr><td><textarea rows="2" id="t' . $i_a . 'a4">' . htmlXspecialchars($row_a['desc_d']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a5">' . htmlXspecialchars($row_a['desc_e']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a6">' . htmlXspecialchars($row_a['desc_f']) . '</textarea></td></tr>
-<tr><td><textarea rows="11" id="t' . $i_a . 'a7">' . htmlXspecialchars($row_a['content_d']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a8">' . htmlXspecialchars($row_a['content_e']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a9">' . htmlXspecialchars($row_a['content_f']) . '</textarea></td></tr>
+<tr><td><textarea rows="2" id="t' . $i_a . 'a1">' . htmlXspecialchars($row_a['title_1']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a2">' . htmlXspecialchars($row_a['title_2']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a3">' . htmlXspecialchars($row_a['title_3']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a41">' . htmlXspecialchars($row_a['title_4']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a51">' . htmlXspecialchars($row_a['title_5']) . '</textarea></td></tr>
+<tr><td><textarea rows="2" id="t' . $i_a . 'a4">' . htmlXspecialchars($row_a['desc_1']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a5">' . htmlXspecialchars($row_a['desc_2']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a6">' . htmlXspecialchars($row_a['desc_3']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a42">' . htmlXspecialchars($row_a['desc_4']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a52">' . htmlXspecialchars($row_a['desc_5']) . '</textarea></td></tr>
+<tr><td><textarea rows="11" id="t' . $i_a . 'a7">' . htmlXspecialchars($row_a['content_1']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a8">' . htmlXspecialchars($row_a['content_2']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a9">' . htmlXspecialchars($row_a['content_3']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a43">' . htmlXspecialchars($row_a['content_4']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a53">' . htmlXspecialchars($row_a['content_5']) . '</textarea></td></tr>
 </table>
 ';	
 }
 else {
 echo '
 <table>
-<tr><td><textarea rows="2" id="t' . $i_a . 'a1">' . ehtml($row_a['title_d']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a2">' . ehtml($row_a['title_e']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a3">' . ehtml($row_a['title_f']) . '</textarea></td></tr>
-<tr><td><textarea rows="2" id="t' . $i_a . 'a4">' . ehtml($row_a['desc_d']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a5">' . ehtml($row_a['desc_e']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a6">' . ehtml($row_a['desc_f']) . '</textarea></td></tr>
-<tr><td><textarea rows="11" id="t' . $i_a . 'a7">' . ehtml($row_a['content_d']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a8">' . ehtml($row_a['content_e']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a9">' . ehtml($row_a['content_f']) . '</textarea></td></tr>
+<tr><td><textarea rows="2" id="t' . $i_a . 'a1">' . ehtml($row_a['title_1']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a2">' . ehtml($row_a['title_2']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a3">' . ehtml($row_a['title_3']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a41">' . ehtml($row_a['title_4']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a51">' . ehtml($row_a['title_5']) . '</textarea></td></tr>
+<tr><td><textarea rows="2" id="t' . $i_a . 'a4">' . ehtml($row_a['desc_1']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a5">' . ehtml($row_a['desc_2']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a6">' . ehtml($row_a['desc_3']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a42">' . ehtml($row_a['desc_4']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a52">' . ehtml($row_a['desc_5']) . '</textarea></td></tr>
+<tr><td><textarea rows="11" id="t' . $i_a . 'a7">' . ehtml($row_a['content_1']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a8">' . ehtml($row_a['content_2']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a9">' . ehtml($row_a['content_3']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a43">' . ehtml($row_a['content_4']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a53">' . ehtml($row_a['content_5']) . '</textarea></td></tr>
 </table>
 ';
 }
@@ -99,6 +99,12 @@ echo '
             if (document.getElementById('t' + i + 'a7')) document.getElementById('t' + i + 'a7').style.width = document.documentElement.clientWidth / 3 - res + 'px';
             if (document.getElementById('t' + i + 'a8')) document.getElementById('t' + i + 'a8').style.width = document.documentElement.clientWidth / 3 - res + 'px';
             if (document.getElementById('t' + i + 'a9')) document.getElementById('t' + i + 'a9').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a41')) document.getElementById('t' + i + 'a41').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a51')) document.getElementById('t' + i + 'a51').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a42')) document.getElementById('t' + i + 'a42').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a52')) document.getElementById('t' + i + 'a52').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a43')) document.getElementById('t' + i + 'a43').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a53')) document.getElementById('t' + i + 'a53').style.width = document.documentElement.clientWidth / 3 - res + 'px';
         }
     }
 

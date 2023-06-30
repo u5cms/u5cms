@@ -10,15 +10,23 @@ function render($stringa) {
     global $lan1na;
     global $lan2na;
     global $lan3na;
-    global $czoom_d;
-    global $czoom_e;
-    global $czoom_f;
-    global $picsfound_d;
-    global $picsfound_e;
-    global $picsfound_f;
-    global $morepics_d;
-    global $morepics_e;
-    global $morepics_f;
+    global $lan4na;
+    global $lan5na;
+    global $czoom_1;
+    global $czoom_2;
+    global $czoom_3;
+    global $czoom_4;
+    global $czoom_5;
+    global $picsfound_1;
+    global $picsfound_2;
+    global $picsfound_3;
+    global $picsfound_4;
+    global $picsfound_5;
+    global $morepics_1;
+    global $morepics_2;
+    global $morepics_3;
+    global $morepics_4;
+    global $morepics_5;
 
     global $audioplayer_h;
     global $audioplayer_w;
@@ -181,12 +189,12 @@ function render($stringa) {
                 ///////////////////////////
                 if ($row_a['typ'] == 'p') {
                     if ($human=='' || $human=='linktext') {
-                        $human=ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']));
+                        $human=ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']));
                     }
                     if ($human=='' || $human=='linktext') $human='LINK';
 
                     if ($human=='$$$') {
-                        $stringa[$i] = render(def($row_a['content_d'],$row_a['content_e'],$row_a['content_f']));
+                        $stringa[$i] = render(def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']));
                     } elseif (str_replace('[:', '', $stringa[$i]) == $stringa[$i]) {
                         $stringa[$i] = '<a href="index.php?c=' . $row_a['name'] . '&amp;l=' . $_GET['l'] . $quer . '">' . $human .'</a>';
                     } else {
@@ -202,10 +210,10 @@ function render($stringa) {
                 if ($row_a['typ'] == 'i') {
 
                     $title = '';
-                    if (def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']) != '') $title = 'data-caption="' . rawurlencode(render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']))) . '"';
+                    if (def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']) != '') $title = 'data-caption="' . rawurlencode(render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']))) . '"';
 
                     $alt = '';
-                    if (def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']) != '') $alt = 'alt="' . ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f'])) . '"';
+                    if (def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']) != '') $alt = 'alt="' . ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5'])) . '"';
 
 
                     require('getfile.inc.php');
@@ -213,90 +221,90 @@ function render($stringa) {
                     if (str_replace('[:::::', '', $stringa[$i]) != $stringa[$i]) {
 
                         if($recalculateonpagejpgs!='yes') {
-                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f));
+                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5));
                         } else {
-                            $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'';
+                            $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'';
                         }
 
                         $stringa[$i] = '<dl style="width:'.$largeimg_w.'px" class="imgBoxCenter dlCenterLarge">
-                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'">
-                            <img title="'.def($czoom_d,$czoom_e,$czoom_f).'" width="'.$largeimg_w.'" src="'.$jpgsrc.'" '.$alt.' />
+                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'">
+                            <img title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'" width="'.$largeimg_w.'" src="'.$jpgsrc.'" '.$alt.' />
                             </dt>
-                            <dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd>
+                            <dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd>
                             </dl>
 ';
                     } elseif (str_replace('[::::', '', $stringa[$i]) != $stringa[$i]) {
 
                         if($recalculateonpagejpgs!='yes') {
-                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f));
+                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5));
                         } else {
-                            $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'';
+                            $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'';
                         }
 
                         $stringa[$i] = '<dl style="width:'.$largeimg_w.'px" class="imgBoxRight dlCenterLarge">
-                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'">
-                            <img title="'.def($czoom_d,$czoom_e,$czoom_f).'" width="'.$largeimg_w.'" src="'.$jpgsrc.'" '.$alt.' />
+                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'">
+                            <img title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'" width="'.$largeimg_w.'" src="'.$jpgsrc.'" '.$alt.' />
                             </dt>
-                            <dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd>
+                            <dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd>
                             </dl>
 ';
                     } elseif (str_replace('[:::', '', $stringa[$i]) != $stringa[$i]) {
 
                         if($recalculateonpagejpgs!='yes') {
-                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f));
+                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5));
                         } else {
-                            $jpgsrc='thumb.php?w='.($smallimgC_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'';
+                            $jpgsrc='thumb.php?w='.($smallimgC_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'';
                         }
 
                         $stringa[$i] = '<dl style="width:'.$smallimgC_w.'px" class="imgBoxCenter dlCenterSmall">
-                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'">
-                            <img title="'.def($czoom_d,$czoom_e,$czoom_f).'" width="'.$smallimgC_w.'" src="'.$jpgsrc.'" '.$alt.' />
+                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'">
+                            <img title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'" width="'.$smallimgC_w.'" src="'.$jpgsrc.'" '.$alt.' />
                             </dt>
-                            <dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd>
+                            <dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd>
                             </dl>
 ';
                     } elseif (str_replace('[::', '', $stringa[$i]) != $stringa[$i]) {
 
                         if($recalculateonpagejpgs!='yes') {
-                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f));
+                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5));
                         } else {
-                            $jpgsrc='thumb.php?w='.($smallimgR_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'';
+                            $jpgsrc='thumb.php?w='.($smallimgR_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'';
                         }
 
                         $stringa[$i] = '<dl style="width:'.$smallimgR_w.'px" class="imgBoxRight dlRightSmall">
-                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'">
-                            <img title="'.def($czoom_d,$czoom_e,$czoom_f).'" width="'.$smallimgR_w.'" src="'.$jpgsrc.'" '.$alt.' />
+                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'">
+                            <img title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'" width="'.$smallimgR_w.'" src="'.$jpgsrc.'" '.$alt.' />
                             </dt>
-                            <dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd>
+                            <dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd>
                             </dl>
 ';
                     } elseif (str_replace('[:', '', $stringa[$i]) != $stringa[$i]) {
 
                         if($recalculateonpagejpgs!='yes') {
-                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f));
+                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5));
                         } else {
-                            $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'';
+                            $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'';
                         }
 
                         $stringa[$i] = '<dl style="width:'.$largeimg_w.'px" class="imgBoxLeft dlCenterLarge">
-                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'">
-                            <img title="'.def($czoom_d,$czoom_e,$czoom_f).'" width="'.$largeimg_w.'" src="'.$jpgsrc.'" '.$alt.' />
+                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'">
+                            <img title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'" width="'.$largeimg_w.'" src="'.$jpgsrc.'" '.$alt.' />
                             </dt>
-                            <dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd>
+                            <dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd>
                             </dl>
 ';
                     } else {
                         if($recalculateonpagejpgs!='yes') {
-                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f));
+                            $jpgsrc='r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5));
                         } else {
-                            $jpgsrc='thumb.php?w='.($smallimgL_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'';
+                            $jpgsrc='thumb.php?w='.($smallimgL_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'';
                         }
 
                         $stringa[$i] = '<dl style="width:'.$smallimgL_w.'px" class="imgBoxLeft dlLeftSmall">
-                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'">
-                            <img title="'.def($czoom_d,$czoom_e,$czoom_f).'" width="'.$smallimgL_w.'" src="'.$jpgsrc.'" '.$alt.' />
+                            <dt '.$title.' data-fancybox href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'">
+                            <img title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'" width="'.$smallimgL_w.'" src="'.$jpgsrc.'" '.$alt.' />
                             </dt>
-                            <dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd>
+                            <dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd>
                             </dl>
 ';
                     }
@@ -307,26 +315,26 @@ function render($stringa) {
                 /////////////////////////////////
                 if ($row_a['typ'] == 'd') {
                     $title = '';
-                    if (def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f']) != '') {
-                        $title = 'title="' . ehtml(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) . '"';
+                    if (def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']) != '') {
+                        $title = 'title="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '"';
                     }
 
                     require('getfile.inc.php');
 
-                    if ($human=='' || $human=='linktext') $human=ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']));
+                    if ($human=='' || $human=='linktext') $human=ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']));
                     if ($human=='' || $human=='linktext') $human='LINK';
 
                     if (str_replace('[:', '', $stringa[$i]) == $stringa[$i]) {
                         if ($usesessioninsteadofbasicauth != 'no') {
-                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="f.php?f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'">' . $human . '</a>';
+                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="f.php?f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">' . $human . '</a>';
                         } else {
-                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'">' . $human . '</a>';
+                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">' . $human . '</a>';
                         }
 
                     } else {
                         $cutone=0;
                         if($human[0]==':')$cutone=1;
-                        $stringa[$i] = '<div class="buttonDiv" ' . $title . ' onclick="window.open(\'r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'\')">' . substr($human,$cutone) . '</div>';
+                        $stringa[$i] = '<div class="buttonDiv" ' . $title . ' onclick="window.open(\'r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'\')">' . substr($human,$cutone) . '</div>';
                     }
                 }
 
@@ -336,45 +344,45 @@ function render($stringa) {
                 if ($row_a['typ'] == 'f') {
 
                     $fowihi='';
-                    if(is_numeric($row_a['key_d'])) $fowihi.='width:'.$row_a['key_d'].'px;';
-                    if(is_numeric($row_a['key_e'])) $fowihi.='height:'.$row_a['key_e'].'px;';
+                    if(is_numeric($row_a['key_1'])) $fowihi.='width:'.$row_a['key_1'].'px;';
+                    if(is_numeric($row_a['key_2'])) $fowihi.='height:'.$row_a['key_2'].'px;';
 
                     $title = '';
-                    if (def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']) != '') $title = 'title="' . ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f'])) . '"';
+                    if (def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']) != '') $title = 'title="' . ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5'])) . '"';
 
                     $alt = '';
-                    if (def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']) != '') $alt = 'alt="' . ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f'])) . '"';
+                    if (def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']) != '') $alt = 'alt="' . ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5'])) . '"';
 
 
                     require('getfile.inc.php');
 
                     $fastart='';$faend='';
 
-                    if(def($row_a['content_d'],$row_a['content_e'],$row_a['content_f'])!='') {
+                    if(def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5'])!='') {
                         $faend='</a>';
 
-                        if(strpos('x'.def($row_a['content_d'],$row_a['content_e'],$row_a['content_f']),'/')>0) {
-                            $fastart='<a href="'. def($row_a['content_d'],$row_a['content_e'],$row_a['content_f']) . '" target="_blank">';
+                        if(strpos('x'.def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']),'/')>0) {
+                            $fastart='<a href="'. def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']) . '" target="_blank">';
                         }
 
                         else {
-                            $fastart='<a href="index.php?c=' . def($row_a['content_d'],$row_a['content_e'],$row_a['content_f']) . '&amp;l=' . $_GET['l'] . '">';
+                            $fastart='<a href="index.php?c=' . def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']) . '&amp;l=' . $_GET['l'] . '">';
                         }
 
                     }
 
 
                     if (str_replace('[::', '', $stringa[$i]) != $stringa[$i]) {
-                        $stringa[$i] = '<dl class="freeImgCenter" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) . '</dd></dl>';
+                        $stringa[$i] = '<dl class="freeImgCenter" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
 
                     }
 
                     else if (str_replace('[:', '', $stringa[$i]) != $stringa[$i]) {
-                        $stringa[$i] = '<dl class="freeImgRight" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) . '</dd></dl>';
+                        $stringa[$i] = '<dl class="freeImgRight" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
                     }
 
                     else {
-                        $stringa[$i] = '<dl class="freeImgLeft" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) . '</dd></dl>';
+                        $stringa[$i] = '<dl class="freeImgLeft" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
                     }
 
                 }
@@ -384,13 +392,13 @@ function render($stringa) {
                 //////////////////////////////
                 if ($row_a['typ'] == 'v') {
                     $title = '';
-                    if (def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f']) != '') {
-                        $title = 'title="' . ehtml(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) . '"';
+                    if (def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']) != '') {
+                        $title = 'title="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '"';
                     }
 
                     require('getfile.inc.php');
 
-                    if(substr(def($file_d,$file_e,$file_f),0,1)=='!') {
+                    if(substr(def($file_1,$file_2,$file_3,$file_4,$file_5),0,1)=='!') {
                         $html5autoplay='autoplay';
                         $flashautoplay='autostart=true';
                     }else {
@@ -400,15 +408,19 @@ function render($stringa) {
 
                     if (str_replace('[:', '', $stringa[$i]) == $stringa[$i] || str_replace('::', '', $stringa[$i]) != $stringa[$i]) {
 
-                        $vfile_d=explode('.',$file_d);
-                        $vfile_e=explode('.',$file_e);
-                        $vfile_f=explode('.',$file_f);
+                        $vfile_1=explode('.',$file_1);
+                        $vfile_2=explode('.',$file_2);
+                        $vfile_3=explode('.',$file_3);
+                        $vfile_4=explode('.',$file_4);
+                        $vfile_5=explode('.',$file_5);
 
-                        $vfile_d=$vfile_d[0];
-                        $vfile_e=$vfile_e[0];
-                        $vfile_f=$vfile_f[0];
+                        $vfile_1=$vfile_1[0];
+                        $vfile_2=$vfile_2[0];
+                        $vfile_3=$vfile_3[0];
+                        $vfile_4=$vfile_4[0];
+                        $vfile_5=$vfile_5[0];
 
-                        $ext=explode('.',def($file_d,$file_e,$file_f));
+                        $ext=explode('.',def($file_1,$file_2,$file_3,$file_4,$file_5));
                         $ext=$ext[tnuoc($ext)-1];
 
                         if ($ext=='mp3' || $ext=='ogg' ) {
@@ -471,54 +483,54 @@ function render($stringa) {
 
                         $stringa[$i] = '<dl '.$title.$imgboxleft.'><dt>';
 
-                        if (file_exists('r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg'))  {
+                        if (file_exists('r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg'))  {
                             if ($usesessioninsteadofbasicauth != 'no') {
-                                $poster='poster="f.php?f=r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg').'"';
-                                $flashimage='&image=f.php?f=r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg');
+                                $poster='poster="f.php?f=r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg').'"';
+                                $flashimage='&image=f.php?f=r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg');
                             } else {
-                                $poster='poster="r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg').'"';
-                                $flashimage='&image=./r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_d,$vfile_e,$vfile_f).'.jpg');
+                                $poster='poster="r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg').'"';
+                                $flashimage='&image=./r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg?t='.@filemtime('r/v'.$row_a['name'].'/v'.def($vfile_1,$vfile_2,$vfile_3,$vfile_4,$vfile_5).'.jpg');
                             }
                         } else {
                             $poster='';
                             $flashimage='';
                         }
 
-                        if (substr(def($file_d,$file_e,$file_f),strlen($row_a['name'])-1,1)!='!') {
+                        if (substr(def($file_1,$file_2,$file_3,$file_4,$file_5),strlen($row_a['name'])-1,1)!='!') {
                             $stringa[$i].= '<'.$audiovideo.' preload="'.$audiovideopreload.'" style="width:'.$plwi.'px;height:'.$plhe.'px" '.$poster.' controls '.$html5autoplay.'>';
 
-                            if (file_exists('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f))) {
-                                $stringa[$i].= '<source src="r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'" type="'.$audiovideompeg.'">';
+                            if (file_exists('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5))) {
+                                $stringa[$i].= '<source src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'" type="'.$audiovideompeg.'">';
                             }
 
-                            if (file_exists('r/'.$row_a['name'].'o/'.def(str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_d.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_e.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_f.'o')))))) {
-                                $stringa[$i].= '<source src="r/'.$row_a['name'].'o/'.def(str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_d.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_e.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_f.'o')))).'" type="'.$audiovideoogg.'">';
+                            if (file_exists('r/'.$row_a['name'].'o/'.def(str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_1.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_2.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_3.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_4.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_5.'o')))))) {
+                                $stringa[$i].= '<source src="r/'.$row_a['name'].'o/'.def(str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_1.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_2.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_3.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_4.'o'))),str_replace('_','o_',str_replace('.mp4o','.ogv',str_replace('.mp3o','.ogg',$file_5.'o')))).'" type="'.$audiovideoogg.'">';
                             }
 
                         }
 
                         if ($usesessioninsteadofbasicauth != 'no') {
-                            $stringa[$i].= '<embed src="m/mediaplayer.swf" width="'.$plwi.'" height="'.$plhe.'" allowscriptaccess="always" allowfullscreen="true" flashvars="width='.$plwi.'&height='.$plhe.'&'.$flashautoplay.'&file='.$bugfix.'/f.php?f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).$flashimage.'" />';
+                            $stringa[$i].= '<embed src="m/mediaplayer.swf" width="'.$plwi.'" height="'.$plhe.'" allowscriptaccess="always" allowfullscreen="true" flashvars="width='.$plwi.'&height='.$plhe.'&'.$flashautoplay.'&file='.$bugfix.'/f.php?f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).$flashimage.'" />';
                         } else {
-                            $stringa[$i].= '<embed src="m/mediaplayer.swf" width="'.$plwi.'" height="'.$plhe.'" allowscriptaccess="always" allowfullscreen="true" flashvars="width='.$plwi.'&height='.$plhe.'&'.$flashautoplay.'&file='.$bugfix.'r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).$flashimage.'" />';
+                            $stringa[$i].= '<embed src="m/mediaplayer.swf" width="'.$plwi.'" height="'.$plhe.'" allowscriptaccess="always" allowfullscreen="true" flashvars="width='.$plwi.'&height='.$plhe.'&'.$flashautoplay.'&file='.$bugfix.'r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).$flashimage.'" />';
                         }
 
-                        if (substr(def($file_d,$file_e,$file_f),strlen($row_a['name'])-1,1)!='!') {
+                        if (substr(def($file_1,$file_2,$file_3,$file_4,$file_5),strlen($row_a['name'])-1,1)!='!') {
                             $stringa[$i].= '</'.$audiovideo.'>';
                         }
 
-                        $stringa[$i].= '</dt><dd>' . render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f'])) .'</dd></dl>';
+                        $stringa[$i].= '</dt><dd>' . render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5'])) .'</dd></dl>';
 
                     ////////////////////
                     } else {
-                        if ($human=='' || $human=='linktext') $human=ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']));
+                        if ($human=='' || $human=='linktext') $human=ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']));
                         if ($human=='' || $human=='linktext') $human='LINK';
                         $cutone=0;
                         if($human[0]==':')$cutone=1;
                         if ($usesessioninsteadofbasicauth != 'no') {
-                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="f.php?f=r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'">' . substr($human,$cutone) . '</a>';
+                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="f.php?f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">' . substr($human,$cutone) . '</a>';
                         } else {
-                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'">' . substr($human,$cutone) . '</a>';
+                            $stringa[$i] = '<a target="_blank" ' . $title . ' href="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">' . substr($human,$cutone) . '</a>';
                         }
                     }
                 }
@@ -532,49 +544,49 @@ function render($stringa) {
                     ////////////////////
                     if (str_replace('[:::::', '', $stringa[$i]) != $stringa[$i]) {
                         $stringa[$i] = '<dl '.$title.' style="width:'.$smallimgC_w.'px" class="imgBoxCenter dlCenterSmall"><dt>
-                            <iframe title="YouTube video player" width="'.$smallimgC_w.'" height="'.(ceil($smallimgC_w*0.8)).'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_d'],$row_a['desc_e'],$row_a['desc_f']).'" frameborder="0" allowfullscreen></iframe>
+                            <iframe title="YouTube video player" width="'.$smallimgC_w.'" height="'.(ceil($smallimgC_w*0.8)).'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5']).'" frameborder="0" allowfullscreen></iframe>
                             </dt>
-                            <dd>' . render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f'])) .'</dd>
+                            <dd>' . render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5'])) .'</dd>
                             </dl>
 ';
                     ////////////////////
                     } elseif (str_replace('[::::', '', $stringa[$i]) != $stringa[$i]) {
                         $stringa[$i] = '<dl '.$title.' style="width:'.$smallimgR_w.'px" class="imgBoxRight dlRightSmall"><dt>
-                            <iframe title="YouTube video player" width="'.$smallimgR_w.'" height="'.(ceil($smallimgR_w*0.8)).'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_d'],$row_a['desc_e'],$row_a['desc_f']).'" frameborder="0" allowfullscreen></iframe>
+                            <iframe title="YouTube video player" width="'.$smallimgR_w.'" height="'.(ceil($smallimgR_w*0.8)).'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5']).'" frameborder="0" allowfullscreen></iframe>
                             </dt>
-                            <dd>' . render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f'])) .'</dd>
+                            <dd>' . render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5'])) .'</dd>
                             </dl>
 ';
                     ////////////////////
                     } elseif (str_replace('[:::', '', $stringa[$i]) != $stringa[$i]) {
                         $stringa[$i] = '<dl '.$title.' style="width:'.$smallimgL_w.'px" class="imgBoxLeft dlLeftSmall"><dt>
-                            <iframe title="YouTube video player" width="'.$smallimgL_w.'" height="'.(ceil($smallimgL_w*0.8)).'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_d'],$row_a['desc_e'],$row_a['desc_f']).'" frameborder="0" allowfullscreen></iframe>
+                            <iframe title="YouTube video player" width="'.$smallimgL_w.'" height="'.(ceil($smallimgL_w*0.8)).'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5']).'" frameborder="0" allowfullscreen></iframe>
                             </dt>
-                            <dd>' . render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f'])) .'</dd>
+                            <dd>' . render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5'])) .'</dd>
                             </dl>
 ';
                     ////////////////////
                     } elseif (str_replace('[::', '', $stringa[$i]) != $stringa[$i]) {
                         $stringa[$i] = '<dl '.$title.' style="width:'.$youtube_w.'px" class="imgBoxCenter dlYoutubeLarge"><dt>
-                            <iframe title="YouTube video player" width="'.$youtube_w.'" height="'.$youtube_h.'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_d'],$row_a['desc_e'],$row_a['desc_f']).'" frameborder="0" allowfullscreen></iframe>
+                            <iframe title="YouTube video player" width="'.$youtube_w.'" height="'.$youtube_h.'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5']).'" frameborder="0" allowfullscreen></iframe>
                             </dt>
-                            <dd>' . render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f'])) .'</dd>
+                            <dd>' . render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5'])) .'</dd>
                             </dl>
 ';
                     ////////////////////
                     } elseif (str_replace('[:', '', $stringa[$i]) != $stringa[$i]) {
                         $stringa[$i] = '<dl '.$title.' style="width:'.$youtube_w.'px" class="imgBoxRight dlYoutubeLarge"><dt>
-                            <iframe title="YouTube video player" width="'.$youtube_w.'" height="'.$youtube_h.'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_d'],$row_a['desc_e'],$row_a['desc_f']).'" frameborder="0" allowfullscreen></iframe>
+                            <iframe title="YouTube video player" width="'.$youtube_w.'" height="'.$youtube_h.'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5']).'" frameborder="0" allowfullscreen></iframe>
                             </dt>
-                            <dd>' . render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f'])) .'</dd>
+                            <dd>' . render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5'])) .'</dd>
                             </dl>
 ';
                     ////////////////////
                     } else {
                         $stringa[$i] = '<dl '.$title.' style="width:'.$youtube_w.'px" class="imgBoxLeft dlYoutubeLarge"><dt>
-                            <iframe title="YouTube video player" width="'.$youtube_w.'" height="'.$youtube_h.'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_d'],$row_a['desc_e'],$row_a['desc_f']).'" frameborder="0" allowfullscreen></iframe>
+                            <iframe title="YouTube video player" width="'.$youtube_w.'" height="'.$youtube_h.'" src="'.$videoportalegyoutubeembedurl.''.def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5']).'" frameborder="0" allowfullscreen></iframe>
                             </dt>
-                            <dd>' . render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f'])) .'</dd>
+                            <dd>' . render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5'])) .'</dd>
                             </dl>
 ';
                     }
@@ -586,8 +598,8 @@ function render($stringa) {
                 if ($row_a['typ'] == 'a') {
 
                     $alt = '';
-                    if (def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']) != '') {
-                        $alt = 'alt="' . ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f'])) . '"';
+                    if (def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']) != '') {
+                        $alt = 'alt="' . ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5'])) . '"';
                     }
 
                     require('getfile.inc.php');
@@ -618,9 +630,9 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?h='.($smallimgL_h*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'&sq='.$tosquare.'&ed='.$cropedge.'';
                             }
 
-                            $stringa[$i].= '<a href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img height="'.$smallimgL_h.'" title="'.def($czoom_d,$czoom_e,$czoom_f).'"  src="'.$jpgsrc.'" '.$alt.' /></a>';
+                            $stringa[$i].= '<a href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img height="'.$smallimgL_h.'" title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'"  src="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
-                        $stringa[$i].= '</dt><dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd></dl>';
+                        $stringa[$i].= '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[:::::::', '', $stringa[$i]) != $stringa[$i]) {
@@ -653,12 +665,12 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'';
                             }
 
-                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_d,$morepics_e,$morepics_f).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
+                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
 
                         }
 
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f)
-                            .'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f']))
+                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5)
+                            .'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']))
                             .'</div></dd></dl>';
 
                     ////////////////////
@@ -691,12 +703,12 @@ function render($stringa) {
                             if($recalculateonpagejpgs!='yes') {
                                 $jpgsrc='r/'.$row_a['name'].'/'.$album[$ia].'?t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'];
                             } else {
-                                $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'&f=r/'.$row_a['name'].'/'.$album[$ia].'';
+                                $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'&f=r/'.$row_a['name'].'/'.$album[$ia].'';
                             }
 
-                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_d,$morepics_e,$morepics_f).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
+                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[:::::', '', $stringa[$i]) != $stringa[$i]) {
@@ -723,9 +735,9 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?h='.($scrollingalbum_h*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia];
                             }
 
-                            $stringa[$i].= '<td><a href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img height="'.$scrollingalbum_h.'" title="'.def($czoom_d,$czoom_e,$czoom_f).'"  src="'.$jpgsrc.'" '.$alt.' /></a></td>';
+                            $stringa[$i].= '<td><a href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img height="'.$scrollingalbum_h.'" title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'"  src="'.$jpgsrc.'" '.$alt.' /></a></td>';
                         }
-                        $stringa[$i].= '</tr></table></div></dt><dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd></dl>';
+                        $stringa[$i].= '</tr></table></div></dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd></dl>';
 
                     ////////////////////
                     } else if (str_replace('[::::', '', $stringa[$i]) != $stringa[$i]) {
@@ -760,9 +772,9 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?w='.($smallimgC_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'';
                             }
 
-                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_d,$morepics_e,$morepics_f).'"  width="'.$smallimgC_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
+                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$smallimgC_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[:::', '', $stringa[$i]) != $stringa[$i]) {
@@ -798,10 +810,10 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?w='.($smallimgR_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'';
                             }
 
-                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_d,$morepics_e,$morepics_f).'"  width="'.$smallimgR_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
+                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$smallimgR_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
 
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[::', '', $stringa[$i]) != $stringa[$i]) {
@@ -829,10 +841,10 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?h='.($scrollingalbum_h*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia];
                             }
 
-                            $stringa[$i].= '<td><a href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img height="'.$scrollingalbum_h.'" title="'.def($czoom_d,$czoom_e,$czoom_f).'"  src="'.$jpgsrc.'" '.$alt.' /></a></td>';
+                            $stringa[$i].= '<td><a href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img height="'.$scrollingalbum_h.'" title="'.def($czoom_1,$czoom_2,$czoom_3,$czoom_4,$czoom_5).'"  src="'.$jpgsrc.'" '.$alt.' /></a></td>';
                         }
 
-                        $stringa[$i].= '</tr></table></div></dt><dd>' . render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</dd></dl>';
+                        $stringa[$i].= '</tr></table></div></dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[:', '', $stringa[$i]) != $stringa[$i]) {
@@ -867,10 +879,10 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?w='.($largeimg_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'';
                             }
 
-                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_d,$morepics_e,$morepics_f).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
+                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
 
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:7px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } else {
@@ -905,9 +917,9 @@ function render($stringa) {
                                 $jpgsrc='thumb.php?w='.($smallimgL_w*$sharptillnfoldmanualzoom).'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'';
                             }
 
-                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_d,$morepics_e,$morepics_f).'"  width="'.$smallimgL_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
+                            $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$smallimgL_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_d,$picsfound_e,$picsfound_f).'<div style="padding-top:5px">'. render(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
                     }
                 }
 
@@ -917,22 +929,22 @@ function render($stringa) {
                 if ($row_a['typ'] == 'e') {
 
                     $title = '';
-                    if (def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f']) != '') {
-                        $title = 'title="' . ehtml(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) . '"';
+                    if (def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']) != '') {
+                        $title = 'title="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '"';
                     }
 
-                    if ($human=='' || $human=='linktext') $human=ehtml(def($row_a['title_d'], $row_a['title_e'], $row_a['title_f']));
+                    if ($human=='' || $human=='linktext') $human=ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']));
                     if ($human=='' || $human=='linktext') $human='LINK';
 
                     $extern='';
                     $isblank='';
 
-                    if(str_replace('@','',def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f']))==def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f']) && str_replace('javascript:','',def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f']))==def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) {
+                    if(str_replace('@','',def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']))==def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']) && str_replace('javascript:','',def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']))==def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) {
                         $extern= '<span style="font-size:80%;text-decoration:none"><img src="images/extern.svg" style="height:0.9em;vertical-align:baseline;margin-left:3px" /></span>';
                         $isblank='target="_blank"';
                     }
 
-                    $stringa[$i] = '<a '.$isblank.' ' . $title . ' href="' . ehtml(def($row_a['desc_d'], $row_a['desc_e'], $row_a['desc_f'])) . '">' . $human . $extern . '</a>';
+                    $stringa[$i] = '<a '.$isblank.' ' . $title . ' href="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '">' . $human . $extern . '</a>';
                 }
             }
         }
@@ -1442,7 +1454,7 @@ function shorten($text) {
 function u5xcap($text,$album,$ia) {
 /*
          $title = '';
-   if (def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']) != '') $title = 'data-caption="' . rawurlencode(render(def($row_a['content_d'], $row_a['content_e'], $row_a['content_f']))) . '"';
+   if (def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']) != '') $title = 'data-caption="' . rawurlencode(render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']))) . '"';
 str_replace('title="','title="('.$ia.'/'.(tnuoc($album)-1).') ',$title).'
 }
  */

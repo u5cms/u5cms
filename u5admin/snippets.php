@@ -70,17 +70,23 @@ if ($num_a > 0) {
 }
 
 $sql_a = "SELECT * FROM resources WHERE name!='-' AND deleted!=1 AND typ!='s' AND (
-content_d LIKE '%$s%' OR
-content_e LIKE '%$s%' OR
-content_f LIKE '%$s%' OR
+content_1 LIKE '%$s%' OR
+content_2 LIKE '%$s%' OR
+content_3 LIKE '%$s%' OR
+content_4 LIKE '%$s%' OR
+content_5 LIKE '%$s%' OR
 
-desc_d LIKE '%$s%' OR
-desc_e LIKE '%$s%' OR
-desc_f LIKE '%$s%' OR
+desc_1 LIKE '%$s%' OR
+desc_2 LIKE '%$s%' OR
+desc_3 LIKE '%$s%' OR
+desc_4 LIKE '%$s%' OR
+desc_5 LIKE '%$s%' OR
 
-title_d LIKE '%$s%' OR
-title_e LIKE '%$s%' OR
-title_f LIKE '%$s%') ORDER BY lastmut DESC;
+title_1 LIKE '%$s%' OR
+title_2 LIKE '%$s%' OR
+title_3 LIKE '%$s%' OR
+title_4 LIKE '%$s%' OR
+title_5 LIKE '%$s%') ORDER BY lastmut DESC;
 ";
 
 $result_a = mysql_query($sql_a);
@@ -114,9 +120,9 @@ for ($i_a = 0; $i_a < $num_a; $i_a++) {
 
     echo '
 <table>
-<tr><td><textarea rows="2" id="t' . $i_a . 'a1">' . ehtml($row_a['title_d']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a2">' . ehtml($row_a['title_e']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a3">' . ehtml($row_a['title_f']) . '</textarea></td></tr>
-<tr><td><textarea rows="2" id="t' . $i_a . 'a4">' . ehtml($row_a['desc_d']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a5">' . ehtml($row_a['desc_e']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a6">' . ehtml($row_a['desc_f']) . '</textarea></td></tr>
-<tr><td><textarea rows="11" id="t' . $i_a . 'a7">' . ehtml($row_a['content_d']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a8">' . ehtml($row_a['content_e']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a9">' . ehtml($row_a['content_f']) . '</textarea></td></tr>
+<tr><td><textarea rows="2" id="t' . $i_a . 'a1">' . ehtml($row_a['title_1']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a2">' . ehtml($row_a['title_2']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a3">' . ehtml($row_a['title_3']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a41">' . ehtml($row_a['title_4']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a51">' . ehtml($row_a['title_5']) . '</textarea></td></tr>
+<tr><td><textarea rows="2" id="t' . $i_a . 'a4">' . ehtml($row_a['desc_1']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a5">' . ehtml($row_a['desc_2']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a6">' . ehtml($row_a['desc_3']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a42">' . ehtml($row_a['desc_4']) . '</textarea></td><td><textarea rows="2" id="t' . $i_a . 'a52">' . ehtml($row_a['desc_5']) . '</textarea></td></tr>
+<tr><td><textarea rows="11" id="t' . $i_a . 'a7">' . ehtml($row_a['content_1']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a8">' . ehtml($row_a['content_2']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a9">' . ehtml($row_a['content_3']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a43">' . ehtml($row_a['content_4']) . '</textarea></td><td><textarea rows="11" id="t' . $i_a . 'a53">' . ehtml($row_a['content_5']) . '</textarea></td></tr>
 </table>
 
 ';
@@ -135,6 +141,12 @@ for ($i_a = 0; $i_a < $num_a; $i_a++) {
             if (document.getElementById('t' + i + 'a7')) document.getElementById('t' + i + 'a7').style.width = document.documentElement.clientWidth / 3 - res + 'px';
             if (document.getElementById('t' + i + 'a8')) document.getElementById('t' + i + 'a8').style.width = document.documentElement.clientWidth / 3 - res + 'px';
             if (document.getElementById('t' + i + 'a9')) document.getElementById('t' + i + 'a9').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a41')) document.getElementById('t' + i + 'a41').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a51')) document.getElementById('t' + i + 'a51').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a42')) document.getElementById('t' + i + 'a42').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a52')) document.getElementById('t' + i + 'a52').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a43')) document.getElementById('t' + i + 'a43').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a53')) document.getElementById('t' + i + 'a53').style.width = document.documentElement.clientWidth / 3 - res + 'px';
         }
     }
 

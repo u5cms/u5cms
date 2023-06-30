@@ -19,7 +19,7 @@ echo 'SQL_b-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_b .
 }
 $num_b = mysql_num_rows($result_b);
 
-$echo=render(def($row_a['content_d'],$row_a['content_e'],$row_a['content_f']));
+$echo=render(def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']));
 
 if ($executephp=='onallpages' || ($executephp=='inarchiveonly' && $row_a['deleted']==2)) echo eval('?>'.$echo);
 else echo $echo;

@@ -66,23 +66,31 @@ return str_replace($search,$replace,htmlXentities($superstring));
 
 require_once('../globals.inc.php');
 
-function def($d, $e, $f) {
-    $d = $d ?? '';
-    $f = $f ?? '';
-    $e = $e ?? '';
+function def($l1, $l2, $l3, $l4, $l5) {
+    $l1 = $l1 ?? '';
+    $l3 = $l3 ?? '';
+    $l2 = $l2 ?? '';
+    $l4 = $l4 ?? '';
+    $l5 = $l5 ?? '';
 
     global $lan1na;
     global $lan2na;
     global $lan3na;
+    global $lan4na;
+    global $lan5na;
 
-       if ($_GET['l'] == $lan1na && trim($d) != '') return $d;
-  else if ($_GET['l'] == $lan2na && trim($e) != '') return $e;
-  else if ($_GET['l'] == $lan3na && trim($f) != '') return $f;
+       if ($_GET['l'] == $lan1na && trim($l1) != '') return $l1;
+  else if ($_GET['l'] == $lan2na && trim($l2) != '') return $l2;
+  else if ($_GET['l'] == $lan3na && trim($l3) != '') return $l3;
+  else if ($_GET['l'] == $lan4na && trim($l4) != '') return $l4;
+  else if ($_GET['l'] == $lan5na && trim($l5) != '') return $l5;
   else {
-  if (trim($d) != '') return $d;
-  else if (trim($e) != '') return $e;
-  else if (trim($f) != '') return $f;
-  else return $d;
+  if (trim($l1) != '') return $l1;
+  else if (trim($l2) != '') return $l2;
+  else if (trim($l3) != '') return $l3;
+  else if (trim($l4) != '') return $l4;
+  else if (trim($l5) != '') return $l5;
+  else return $l1;
   }
 }
 

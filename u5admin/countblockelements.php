@@ -18,10 +18,14 @@ $row_a = mysql_fetch_array($result_a);
 $l1=basename(htmlentities($_GET['l1']));
 $l2=basename(htmlentities($_GET['l2']));
 $l3=basename(htmlentities($_GET['l3']));
+$l4=basename(htmlentities($_GET['l4']));
+$l5=basename(htmlentities($_GET['l5']));
 
-$xdata[$l1]=render($row_a['content_d']);
-$xdata[$l2]=render($row_a['content_e']);
-$xdata[$l3]=render($row_a['content_f']);
+$xdata[$l1]=render($row_a['content_1']);
+$xdata[$l2]=render($row_a['content_2']);
+$xdata[$l3]=render($row_a['content_3']);
+$xdata[$l4]=render($row_a['content_4']);
+$xdata[$l5]=render($row_a['content_5']);
 
 function cb($tag,$l) {
 	global $xdata;

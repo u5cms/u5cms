@@ -29,7 +29,7 @@ $delstatgetc=$row_a['deleted'];
 
 $row_a['name']='logo';
 include('getfile.inc.php');
-$template=str_replace('[_logo_]','r/logo/'.def($file_d,$file_e,$file_f).'?t='.filemtime('r/logo/'.def($file_d,$file_e,$file_f)),file_get_contents('r/htmltemplate.css'));
+$template=str_replace('[_logo_]','r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.filemtime('r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5)),file_get_contents('r/htmltemplate.css'));
 
 if (key_exists('p', $_GET) && $_GET['p']=='1') {
     echo'<script>u5prvldd=0;setTimeout("if(u5prvldd==0&&location.href.indexOf(\'u5prvldd=1\')<0&&parent.window.name==\'i1\')parent.parent.i2.phperror();if(u5prvldd==0&&location.href.indexOf(\'u5prvldd=1\')<0&&parent.window.name==\'i2\')parent.parent.i1.phperror();if(u5prvldd==0){location.href=location.href.replace(/\\\?u5prvldd=1&/,\'?\').replace(/\\\?/,\'?u5prvldd=1&\')}",1111)</script>';

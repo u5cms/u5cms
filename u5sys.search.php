@@ -8,12 +8,12 @@ if (isset($_GET['c']) && (substr($_GET['c'],0,1)=='!' || $_GET['c']=='_searchsi'
   <input type="hidden" name="c" value="_search" />
 
   <input onfocus="if (this.value=='Site + Intranet') this.value=this.value.replace(/Site \+ Intranet/g,'');document.getElementById('search_Input').style.color='black';document.getElementById('search_Input').style.fontStyle='normal';" id="search_Input" type="text" name="q" value="" />
-  <input onclick="document.getElementById('search_Input').value=document.getElementById('search_Input').value.replace(/Site \+ Intranet/g,'')" id="search_Submit" title="<?php echo def($recherche_d,$recherche_e,$recherche_f) ?>" type="submit" class="btnSubmit" alt="search" value="" />
+  <input onclick="document.getElementById('search_Input').value=document.getElementById('search_Input').value.replace(/Site \+ Intranet/g,'')" id="search_Submit" title="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5) ?>" type="submit" class="btnSubmit" alt="search" value="" />
 </form>
 <script type="text/javascript">
 function isterm() {
 if (document.fsearch.q.value.replace(/ /g,'')=='') {
-valert=jQuery('<textarea />').html("<?php echo def($term_d,$term_e,$term_f)?>").text();
+valert=jQuery('<textarea />').html("<?php echo def($term_1,$term_2,$term_3,$term_4,$term_5)?>").text();
 alert(valert);
 document.fsearch.q.focus();
 return false;

@@ -20,9 +20,11 @@ if ($_GET['c']=='') {
 
 
 if (!isset($_GET['l'])) $_GET['l'] = '';
-     if ($_GET['l']==$lan3na) $_GET['l']='f';
-else if ($_GET['l']==$lan2na) $_GET['l']='e';
-else  $_GET['l']='d';
+     if ($_GET['l']==$lan5na) $_GET['l']='5';
+else if ($_GET['l']==$lan4na) $_GET['l']='4';
+else if ($_GET['l']==$lan3na) $_GET['l']='3';
+else if ($_GET['l']==$lan2na) $_GET['l']='2';
+else  $_GET['l']='1';
 
 setcookie('i2_l', $_GET['l'], time()+3600*24*365*10,'/');
 if(!isset($_COOKIE['i1_l']) || $_COOKIE['i1_l'] == '') setcookie('i1_l', 'P', time()+3600*24*365*10,'/');
