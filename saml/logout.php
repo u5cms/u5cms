@@ -2,8 +2,6 @@
 
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 
-$debug = (isset($_COOKIE['u5debug']) && $_COOKIE['u5debug']) == 'yes' ? true : false;
-$debug = (isset($_GET['u5debug'])) ? true : false;
 require('../config.php');
 
 /*
@@ -19,17 +17,4 @@ require ('../simplesaml/_include.php');
 // resource as set in the authnsources.php in the SimpleSAMLphp
 // configuration.
 $simpleSaml = new \SimpleSAML\Auth\Simple($u5samlsspauthsourcekey);
-
-if ($debug) {
-    if ($simpleSaml->isAuthenticated()) {
-        echo "<h3>You are currently logged in as " . $_COOKIE['u5samlusername'] . "</h3>";
-    } else {
-        echo "<h3>You are currently not logged in";
-    }
-
-    echo "</br><button onClick=\"window.location.href='?dologout=1';\">Logout</button>";
-}
-
-if (!$debug || isset($_GET['dologout'])) {
-    $simpleSaml->logout($u5samllogoutresultpage);
-}
+$simpleSaml->logout($u5samllogoutresultpage);
