@@ -21,7 +21,7 @@ if(function_exists('INTRANETORDERPWexec'))INTRANETORDERPWexec();
 $lastintrapworder = file_exists('fileversions/lastintrapworder.txt') ? file_get_contents('fileversions/lastintrapworder.txt') : 0;
 if(time()-$lastintrapworder < $waitsecondsbetweenintranetpworders){
   require_once('globalslogin.inc.php');
-  echo('<b>'.def($wait_1,$wait_2,$wait_3).' '.($lastintrapworder-time()+$waitsecondsbetweenintranetpworders).'&#8243;</b><script>document.getElementById("spinner").style.display="none";document.getElementById("form").style.display="block";setTimeout("location.href=location.href",1000)</script>');
+  echo('<b>'.def($wait_1,$wait_2,$wait_3,$wait_4,$wait_5).' '.($lastintrapworder-time()+$waitsecondsbetweenintranetpworders).'&#8243;</b><script>document.getElementById("spinner").style.display="none";document.getElementById("form").style.display="block";setTimeout("location.href=location.href",1000)</script>');
   exit;
 }
 

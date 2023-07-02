@@ -82,13 +82,13 @@ $sfor=explode(' ',trim($sfor));
 
 for ($i=0;$i<tnuoc($sfor);$i++) {
 
-if (str_replace(' ','',$sfor[$i])!='') $where.=" AND ".def('search_d','search_e','search_f')." LIKE '".mysql_real_escape_string('%'.$sfor[$i].'%')."'";
+if (str_replace(' ','',$sfor[$i])!='') $where.=" AND ".def('search_1','search_2','search_3','search_4','search_')." LIKE '".mysql_real_escape_string('%'.$sfor[$i].'%')."'";
 
 }
 
 //search abfragen mit and antwortstring abfüllen
-if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE name!='-' AND typ='p' AND deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_d','search_e','search_f')." NOT LIKE '' $where) ORDER BY ".def('title_d','title_e','title_f')." ASC";
-else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_d','search_e','search_f')." NOT LIKE '' $where) ORDER BY ".def('title_d','title_e','title_f')." ASC";
+if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE name!='-' AND typ='p' AND deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY ".def('title_1','title_2','title_3','title_4','title_5')." ASC";
+else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY ".def('title_1','title_2','title_3','title_4','title_5')." ASC";
 $result_a=mysql_query($sql_a);
 
 //echo '<hr>AND '.$sql_a;
@@ -104,28 +104,42 @@ global $doesshowpreviewofsuchcontent;
 global $term_1;
 global $term_2;
 global $term_3;
+global $term_4;
+global $term_5;
 global $andhit_1;
 global $andhit_2;
 global $andhit_3;
+global $andhit_4;
+global $andhit_5;
 global $andhits_1;
 global $andhits_2;
 global $andhits_3;
+global $andhits_4;
+global $andhits_5;
 global $orhit_1;
 global $orhit_2;
 global $orhit_3;
+global $orhit_4;
+global $orhit_5;
 global $orhits_1;
 global $orhits_2;
 global $orhits_3;
+global $orhits_4;
+global $orhits_5;
 global $nohit_1;
 global $nohit_2;
 global $nohit_3;
+global $nohit_4;
+global $nohit_5;
 
 
 if ($num_a>1) {$hits='<p><strong>' . $num_a . '</strong> ' . 
 def(
 $andhits_1.' <strong>'.$terms.'</strong>',
 $andhits_2.' <strong>'.$terms.'</strong>.',
-$andhits_3.' <strong>'.$terms.'</strong>.'
+$andhits_3.' <strong>'.$terms.'</strong>.',
+$andhits_4.' <strong>'.$terms.'</strong>.',
+$andhits_5.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
@@ -133,7 +147,9 @@ else { $hits='<p><strong>' . $num_a . '</strong> ' .
 def(
 $andhit_1.' <strong>'.$terms.'</strong>',
 $andhit_2.' <strong>'.$terms.'</strong>.',
-$andhit_3.' <strong>'.$terms.'</strong>.'
+$andhit_3.' <strong>'.$terms.'</strong>.',
+$andhit_4.' <strong>'.$terms.'</strong>.',
+$andhit_5.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
@@ -146,8 +162,8 @@ if ($turn>0) $eins=1;
 if ($num_a<$eins) {
 
 	
-if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_d','search_e','search_f')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
-else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_d','search_e','search_f')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
+if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
+else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
 
 $result_a=mysql_query($sql_a);
 //echo '<hr>OR '.$sql_a;
@@ -162,7 +178,9 @@ if ($num_a>1) {$hits='<p><strong>' . $num_a . '</strong> ' .
 def(
 $orhits_1.' <strong>'.$terms.'</strong>',
 $orhits_2.' <strong>'.$terms.'</strong>.',
-$orhits_3.' <strong>'.$terms.'</strong>.'
+$orhits_3.' <strong>'.$terms.'</strong>.',
+$orhits_4.' <strong>'.$terms.'</strong>.',
+$orhits_5.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
@@ -170,7 +188,9 @@ else { $hits='<p><strong>' . $num_a . '</strong> ' .
 def(
 $orhit_1.' <strong>'.$terms.'</strong>',
 $orhit_2.' <strong>'.$terms.'</strong>.',
-$orhit_3.' <strong>'.$terms.'</strong>.'
+$orhit_3.' <strong>'.$terms.'</strong>.',
+$orhit_4.' <strong>'.$terms.'</strong>.',
+$orhit_5.' <strong>'.$terms.'</strong>.'
 )
 .'</p>';}
 
@@ -191,24 +211,37 @@ global $turn;
 global $term_1;
 global $term_2;
 global $term_3;
+global $term_4;
+global $term_5;
 global $andhit_1;
 global $andhit_2;
 global $andhit_3;
+global $andhit_4;
+global $andhit_5;
 global $andhits_1;
 global $andhits_2;
 global $andhits_3;
+global $andhits_4;
+global $andhits_5;
 global $orhit_1;
 global $orhit_2;
 global $orhit_3;
+global $orhit_4;
+global $orhit_5;
 global $orhits_1;
 global $orhits_2;
 global $orhits_3;
+global $orhits_4;
+global $orhits_5;
 global $nohit_1;
 global $nohit_2;
 global $nohit_3;
+global $nohit_4;
+global $nohit_5;
 
 
-$leven=def($nohit_1,$nohit_2,$nohit_3).'<br />';
+
+$leven=def($nohit_1,$nohit_2,$nohit_3,$nohit_4,$nohit_5).'<br />';
 for ($liii=0; $liii<tnuoc($sfor); $liii++) {
 
 if ($doesfindpasswordprotectedcontent == 'yes') $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c'";
@@ -226,7 +259,7 @@ $all="";
 for ($li_a=0; $li_a<$num_la; $li_a++) {
    $row_la = mysql_fetch_array($result_la);
 
-$that=def('search_d','search_e','search_f');
+$that=def('search_1','search_2','search_3','search_4','search_5');
 $all.=($row_la[$that]);      
 	     }
 		 
@@ -334,32 +367,38 @@ echo '<h1>Sitemap</h1><br>';
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-if (str_replace(' ','',$row_a['title_e'])=='') $row_a['title_e']=$row_a['title_d'];
-if (str_replace(' ','',$row_a['title_f'])=='') $row_a['title_f']=$row_a['title_d'];
+if (str_replace(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
+if (str_replace(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
+if (str_replace(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];
+if (str_replace(' ','',$row_a['title_5'])=='') $row_a['title_5']=$row_a['title_1'];
 
-$that=def('title_d','title_e','title_f');
+$that=def('title_1','title_2','title_3','title_4','title_5');
 $row_a[$that]=trim($row_a[$that]);
 if (str_replace(' ','',$row_a[$that])=='') $row_a[$that]='*** missing metadata for this item ***';
 
 $typ='';
 include('getfile.inc.php');
 
-$efile_d=explode('.',$file_d);
-$efile_d=$efile_d[1];
-$efile_e=explode('.',$file_e);
-$efile_e=$efile_e[1];
-$efile_f=explode('.',$file_f);
-$efile_f=$efile_f[1];
+$efile_1=explode('.',$file_1);
+$efile_1=$efile_1[1];
+$efile_2=explode('.',$file_2);
+$efile_2=$efile_2[1];
+$efile_3=explode('.',$file_3);
+$efile_3=$efile_3[1];
+$efile_4=explode('.',$file_4);
+$efile_4=$efile_4[1];
+$efile_5=explode('.',$file_5);
+$efile_5=$efile_5[1];
 
 $mustlogin='';
 if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='LOGIN! ';
 
 if ($row_a['typ']=='p' && strpos($row_a['logins'],':')>1) $typ='<span style="font-size:60%">['.$mustlogin.']</span> ';
 if ($row_a['typ']=='a') $typ='<span style="font-size:60%">['.$mustlogin.'jpgs]</span> ';
-if ($row_a['typ']=='i') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_d,$efile_e,$efile_f).']</span> ';
-if ($row_a['typ']=='f') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_d,$efile_e,$efile_f).']</span> ';
-if ($row_a['typ']=='d') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_d,$efile_e,$efile_f).']</span> ';
-if ($row_a['typ']=='v') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_d,$efile_e,$efile_f).']</span> ';
+if ($row_a['typ']=='i') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
+if ($row_a['typ']=='f') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
+if ($row_a['typ']=='d') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
+if ($row_a['typ']=='v') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
 if ($row_a['typ']=='y') $typ='<span style="font-size:60%">[youtube]</span> ';
 if ($row_a['typ']=='e') $typ='<span style="font-size:60%">[www]</span> ';
 if ($row_a['typ']=='e' && str_replace('@','',$row_a[$that])!=$row_a[$that]) $typ='<span style="font-size:60%">[e-mail]</span> ';
@@ -369,9 +408,9 @@ $shellip='';
 if ($row_a[$that]!=' . . .' && html_substr($row_a[$that],0,$resulttitlemaxlength)!=$row_a[$that]) $shellip=' . . .';
 
 if ($row_a['typ']!='d') echo '<h5><a style="text-decoration:underline" href="?c='.$row_a['name'].'&amp;l='.$_GET['l'].'&amp;q='.str_replace(' ',',',$getq).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
-else echo '<h5><a style="text-decoration:underline" href="r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_d,$file_e,$file_f)).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
+else echo '<h5><a style="text-decoration:underline" href="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
 
-$that=def('search_d','search_e','search_f');
+$that=def('search_1','search_2','search_3','search_4','search_5');
 /*
 if ($doesshowpreviewofsuchcontent == 'yes') echo '<p>'.alloc(($terms),($row_a[$that])).'</p>';
 else if (strpos($row_a['logins'],':')<1) echo '<p>'.alloc(($terms),($row_a[$that])).'</p>';
