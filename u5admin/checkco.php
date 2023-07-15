@@ -21,9 +21,9 @@ $conflict='(!)';
 msgconflict='Conflict with <?php echo htmlXspecialchars($row_a['operator']) ?> who has saved a new version of <?php echo $_GET['name']?> during your editing session (at <?php echo date('Y-m-d H:i:s',$row_a['lastmut'])?>).\n\nPlease save your page immediately. You automatically will receive instructions how to resolve the conflict afterwards.';
 </script>
 
-<?php 
+<?php
 if ($_GET['changes']<1) echo '<script>parent.location.href=parent.location.href;</script>';
-else echo '<script>alert(msgconflict)</script>';
+else echo '<script>top.document.title=msgconflict</script>';
 
 }
 ?>
