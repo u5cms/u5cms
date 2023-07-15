@@ -1,4 +1,4 @@
-<textarea style="display:none" id="xgram">&#19904;</textarea><?php 
+<textarea style="display:none" id="xgram">&#19904;</textarea><?php
 require('connect.inc.php');
 
 /////
@@ -14,10 +14,10 @@ if ($_POST['coco']<$row_a['mailsaved'] && (($checksaveversionconflictinbackend!=
 <div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',$row_a['mailsavedop'])) ?></div>
 <script>
 msgconflict='CONFLICT(!)\n\nYour data can not be saved.\n\nReason: '+document.getElementById('e').innerHTML+' has saved this data in a new version during your editing session (at <?php echo date('Y-m-d H:i:s',$row_a['mailsaved'])?>).\n\nPlease copy and paste your unsavable mail text e. g. to a word document. Afterwards click the edit link of this mail in the right column at hand to load the new version created by '+document.getElementById('e').innerHTML+'.';
-alert(msgconflict);
+top.document.title=msgconflict;
 location.href="mailinglist.php";
 </script>
-<?php 
+<?php
 exit;
 }
 /////
@@ -32,7 +32,7 @@ $mailsaved=time();
 $mailsavedop=mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR']);
 $maildeleted=0;
 
-$sql_a="UPDATE mailing SET 
+$sql_a="UPDATE mailing SET
 mailfrom='$mailfrom',
 mailto='$mailto',
 mailcc='$mailcc',
