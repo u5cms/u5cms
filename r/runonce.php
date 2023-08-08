@@ -394,7 +394,7 @@ $sql_a="UPDATE resources SET content_1=REPLACE(content_1,'<script>if(typeof u5mk
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE resources SET content_1=REPLACE(content_1,'u5mkmobile()','//uXXX5mkmobile()DUPLICATE LINE REMOVE THIS LINE!!!') WHERE name='htmltemplate';";
+$sql_a="UPDATE resources SET content_1=REPLACE(content_1,'u5mkmobile()','void(0) //uXXX5mkmobile()DUPLICATE LINE REMOVE THIS LINE!!!') WHERE name='htmltemplate';";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
