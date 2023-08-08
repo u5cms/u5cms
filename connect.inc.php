@@ -52,7 +52,7 @@ function ehtml($superstring) {
 return str_replace('&amp;#','&#',htmlXentities($superstring));
 }
 
-function def($l1, $l2, $l3, $l4, $l5) {
+function def($l1, $l2, $l3, $l4 = '', $l5 = '') {
     $l1 = $l1 ?? '';
     $l3 = $l3 ?? '';
     $l2 = $l2 ?? '';
