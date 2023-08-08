@@ -111,16 +111,26 @@ $migrate_tables = array(
     )
 );
 $datatype_definition = array(
-    'resources#content' => 'mediumtext',
-    'resources#desc' => 'text',
-    'resources#search' => 'mediumtext',
-    'resources_log#content' => 'mediumtext',
-    'resources_log#desc' => 'text',
+    'resources.content' => 'mediumtext',
+    'resources.title' => 'varchar(1000)',
+    'resources.desc' => 'text',
+    'resources.search' => 'mediumtext',
+    'resources_log.content' => 'mediumtext',
+    'resources_log.desc' => 'text',
+    'loginglobals.logintitle' => "varchar(255) NULL DEFAULT 'Login'",
+    'loginglobals.loginintro' => 'text',
+    'loginglobals.username' => "varchar(255) NULL DEFAULT 'Username'",
+    'loginglobals.password' => "varchar(255) NULL DEFAULT 'Password'",
+    'loginglobals.loginbutton' => "varchar(255) NULL DEFAULT 'OK'",
+    'loginglobals.loginoutro' => 'text',
+    'loginglobals.logout' => "varchar(255) NULL DEFAULT 'logout'",
+    'loginglobals.wait' => "varchar(255) NULL DEFAULT 'Too many login attempts. Try again in'"
 );
 
 function get_data_type($table_name, $table_field) {
-    if (isset($data_def[$table_name.'#'.$table_field])) {
-        return $data_def[$table_name.'#'.$table_field];
+    global $datatype_definition;
+    if (isset($datatype_definition[$table_name.'.'.$table_field])) {
+        return $datatype_definition[$table_name.'.'.$table_field];
     }
     return 'varchar(255)';
 }
@@ -128,16 +138,16 @@ function get_data_type($table_name, $table_field) {
 function adapt_table_to_5languages($table_name, $table_fields) {
     foreach ($table_fields as $table_field) {
         $datatype = get_data_type($table_name, $table_field);
-        $sql_a="ALTER TABLE $table_name RENAME COLUMN IF EXISTS {$table_field}_d TO {$table_field}_1";
+        $sql_a="ALTER TABLE $table_name CHANGE COLUMN IF EXISTS `{$table_field}_d` {$table_field}_1 $datatype";
         mysql_query($sql_a);
-        $sql_a="ALTER TABLE $table_name RENAME COLUMN IF EXISTS {$table_field}_e TO {$table_field}_2";
+        $sql_a="ALTER TABLE $table_name CHANGE COLUMN IF EXISTS `{$table_field}_e` {$table_field}_2 $datatype";
         mysql_query($sql_a);
-        $sql_a="ALTER TABLE $table_name RENAME COLUMN IF EXISTS {$table_field}_f TO {$table_field}_3";
+        $sql_a="ALTER TABLE $table_name CHANGE COLUMN IF EXISTS `{$table_field}_f` {$table_field}_3 $datatype";
         mysql_query($sql_a);
 
-        $sql_a="ALTER TABLE $table_name ADD IF NOT EXISTS {$table_field}_4 ".$datatype." DEFAULT NULL AFTER {$table_field}_3";
+        $sql_a="ALTER TABLE $table_name ADD IF NOT EXISTS {$table_field}_4 ".$datatype." AFTER {$table_field}_3";
         mysql_query($sql_a);
-        $sql_a="ALTER TABLE $table_name ADD IF NOT EXISTS {$table_field}_5 ".$datatype." DEFAULT NULL AFTER {$table_field}_4";
+        $sql_a="ALTER TABLE $table_name ADD IF NOT EXISTS {$table_field}_5 ".$datatype." AFTER {$table_field}_4";
         mysql_query($sql_a);
     }
 }
