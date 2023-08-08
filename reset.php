@@ -13,7 +13,7 @@ if(isset($u5samlsalt)&&$u5samlsalt!='')die('You caonnot reset your password here
 if(!isset($waitsecondsbetweenpasswordresets))$waitsecondsbetweenpasswordresets=(60*10);
 if(time()-file_get_contents('fileversions/lastreset.txt')<$waitsecondsbetweenpasswordresets){
 require_once('globalslogin.inc.php');
-echo('<h1>'.def($wait_1,$wait_2,$wait_3).' '.(file_get_contents('fileversions/lastreset.txt')-time()+$waitsecondsbetweenpasswordresets).'&#8243;</h1><script>setTimeout("location.href=location.href",1000)</script>');
+echo('<h1>'.def($wait_1,$wait_2,$wait_3,$wait_4,$wait_5).' '.(file_get_contents('fileversions/lastreset.txt')-time()+$waitsecondsbetweenpasswordresets).'&#8243;</h1><script>setTimeout("location.href=location.href",1000)</script>');
 exit;	
 }
 ?>
