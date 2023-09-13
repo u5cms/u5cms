@@ -36,7 +36,6 @@ if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font colo
 $row_a = mysql_fetch_array($result_a);
 $salt=$row_a['salt'];
 
-echo '<pre>', var_dump($_POST);
 $_POST['email']=trim($_POST['email']);
 
 if (strpos($_POST['email'],'@')>0 && strpos($_POST['email'],'.')>0) {

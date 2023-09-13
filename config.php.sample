@@ -1,17 +1,16 @@
 <?php
-
 require_once __DIR__ . '/myfunctions.inc.php';
 
 use Laminas\Mail\Transport\SmtpOptions;
 
 // E-mail address applied as standard FROM-address and system message recipient. Notice: Some picky providers demand a dedicated address here (MX with the respective domain or other prerequisites);
-   $mymail='enteryour@email.here.in.config.php';
+   $mymail='YOURADMINEMAILINCMSFILECONFIGPHPONLINESEVEN@YOURPROVIDER.TLD';
 
 // Database connection parameters;
    $host= 'localhost'; // If your DB server is not running on localhost, enter its address;
-   $username = 'enterusernamehere';
-   $password = 'enterpasswordhere';
-   $db = 'enterdatabasenamehere';
+   $username = 'ENTERDATABASEUSERNAMEHERE';
+   $password = 'ENTERDATABASEPASSWORDHERE';
+   $db = 'ENTERDATABASENAMEHERE';
 
 // Backup related settings
    $backup_compress = true;  // compress database dump files (only works if zlib extension is availalbe)
@@ -50,7 +49,7 @@ use Laminas\Mail\Transport\SmtpOptions;
    $fbappid=0; // If you don't have a Facebook Application ID, set $fbappid=0 (sharing with $fbappid=0 works, but it even works better if you get a FB App ID);
    $fbfallbackimg='r/logo/logo_en.jpg'; // The fallback image is used if the content to share does not contain an image. E. g: $fbfallbackimg='r/logo/logo_en.jpg'; (the path must start with r/)!
 
-// Automatically downsize large std jpgs during upload in the backend. E. g. $limitjpgsizetobytes=1000000; $resizedlongedgepx=1000; $resamplingquality=100;
+// Automatically downsize large std jpgs during upload in the backend. E. g. $limitjpgsizetobytes=1000000; $resizedlongedgepx=2000; $resamplingquality=70;
    $limitjpgsizetobytes=1000000; // Recommended: $limitjpgsizetobytes=1000000; to switch downsizing off set $limitjpgsizetobytes=0;
    $resizedlongedgepx=2000; // Recommended: $resizedlongedgepx=2000; if $resizedlongedgepx is very large and $limitjpgsizetobytes small you will observe a loop in the u5CMS-backend image-upload-dialogue;
    $resamplingquality=70; // 0-100; recommended: $resamplingquality=70;
@@ -167,6 +166,7 @@ use Laminas\Mail\Transport\SmtpOptions;
    $orderingintranetpasswordsisforbidden='no';
    $waitsecondsbetweenintranetpworders=600;
    $u5showlinkofactivelanguageinmetanavi='no';
+   $oneverysaveupdateindexandhtaccesscostly='no';
 
 ////// ****** SAML integration configuration ******
 // The u5CMS features SAML integration based on SimpleSAMLphp (https://simplesamlphp.org/).
@@ -177,12 +177,11 @@ use Laminas\Mail\Transport\SmtpOptions;
 
 /*
 $u5samlsalt='randomstring';
-$u5samlnonce = "randomstring" . date('Ymd');
-$u5samlnonce = hash('sha256', $u5samlnonce);
+$u5samlnonce = 'randomstring';
 $u5samlsspconfigdir = 'path/to/config';  // path to the directoy with the authsources.php and config.php file
 $u5samlsspauthsourcekey = 'default-sp';  // array key of SP in the authsources.php file
 $u5samllogoutresultpage = 'https://test.example.com/index.php?c=farewell';  // where to send the user after SAML logout
-$u5samlautointranetenrollment = 'yes';
+$u5samlautointranetenrollment = 'no';
 $u5samlmockauth = 'no';
 $u5samlmockauthusername = 'xavier.yalonden@example.com';
 */

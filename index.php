@@ -13,12 +13,6 @@ require_once('getinserts.inc.php');
 }
 else require_once('login.inc.php');
 
-if (key_exists('p', $_GET) && $_GET['p']=='1') {
-   ini_set('display_errors', 1);
-   ini_set('display_startup_errors', 1);
-   error_reporting(E_ERROR | E_PARSE | E_DEPRECATED);
-   }
-
 if (key_exists('p', $_GET) && $_GET['p']=='1' && $executephp=='inarchiveonly') {
 $sql_a="SELECT deleted FROM resources WHERE name='".mysql_real_escape_string($_GET['c'])."'";
 $result_a=mysql_query($sql_a);

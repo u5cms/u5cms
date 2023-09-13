@@ -1,0 +1,21 @@
+@import url(//fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic&subset=latin,cyrillic,latin-ext,vietnamese,greek,greek-ext,cyrillic-ext);
+
+.authuser_welcomemessage {
+font-size:90%;
+font-family:Arimo;
+}
+
+.authuser_username {
+font-size:90%;
+font-family:Arimo;
+}
+
+.authuser_logoutbutton {
+font-size:80%;
+background:red;
+color:white;
+border:0;
+padding:3px;
+}
+
+ 

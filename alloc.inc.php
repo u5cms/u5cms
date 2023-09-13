@@ -9,17 +9,23 @@ return $termstr;
 }
 
 function alloc($target,$text) {
+
+$target=str_replace('&#339;','œ',$target);
+$text=str_replace('&#339;','œ',$text);
+
 $target=str_replace('<','&lt;',$target);
 $target=str_replace('>','&gt;',$target);
-$target=str_replace('"',' ',$target);
+//$target=str_replace('"',' ',$target);
 $target=str_replace('  ',' ',$target);
 $target=str_replace('  ',' ',$target);
 $target=str_replace('  ',' ',$target);
 $output='&hellip;';
 
-$words=@explode(' ',trim($target));
+if($target!=str_replace('&quot;','',$target))$words=@explode('"',trim($target));
+else $words=@explode(' ',trim($target));
 
 for ($i=0;$i<tnuoc($words);$i++) {
+$words[$i]=str_replace('&quot;','',$words[$i]);
 //echo $words[$i].'<hr>';
 $text = highlight(preg_quote(str_replace('_',' ',$words[$i])),$text);
 }
@@ -60,8 +66,10 @@ $search = preg_replace('/[cçCÇ]/i', '[cçCÇ]', $search);
 }
 
 function highlight($searchtext, $text) {
-//echo $searchtext.'<hr>';
+
     $search = prepare_search_term($searchtext);
+    $search=str_replace(' ','.',$search);
+    $search=str_replace('\-','.',$search);	
     $text = str_replace('&#','&\\#',$text);
 	return str_replace('&\#','&#',preg_replace('#' . $search . '#i', '_._!_:_{[}$0{]}_._!_:_', $text));
 }

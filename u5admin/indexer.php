@@ -7,6 +7,7 @@ $k1=sha1($db.$username.$password.date('YmdHi'));
 $k2=sha1($db.$username.$password.date('YmdHi',time()-60));
 
 if($_GET['k']!=$k1&&$_GET['k']!=$k2)die('<script>top.document.title="!"+top.document.title</script>');
+file_put_contents('../fileversions/lastindex.txt',time());
 
 if(!isset($_GET['l'])) die("<script>location.href='indexer.php?l=$lan1na';</script>");
 function dblltgt($lg) {
@@ -309,6 +310,6 @@ function idef($l1, $l2, $l3, $l4, $l5, $l) {
   else return $l1;
   }
 }
-//if($_GET['l']==$lan1na&&$_GET['r']!='!') echo"<script>location.href='indexer.php?l=$lan2na';</script>";
-//if($_GET['l']==$lan2na&&$_GET['r']!='!') echo"<script>location.href='indexer.php?l=$lan3na';</script>";
+echo '<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay />';
 ?>
+<script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
