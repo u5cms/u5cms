@@ -19,7 +19,7 @@ document.fsearch.q.focus();
 return false;
 }
 }
-document.fsearch.q.value=unescape('<?php echo (str_replace('  ',' ',str_replace(',',' ',trim($_GET['q']))))?>');
+document.fsearch.q.value=unescape('<?php echo (str_replace('  ',' ',str_replace(',',' ',trim(addslashes($_GET['q'])))))?>').replace(/&quot;/g,'"');
 if (document.fsearch.q.value=='' && '<?php echo substr($_GET['c'],0,1) ?>'=='!') {
 document.getElementById('search_Input').style.color='#aaa';
 document.getElementById('search_Input').style.fontStyle='italic';

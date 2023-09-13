@@ -1,4 +1,4 @@
-pvileft=235;pvitop=255;
+pvileft=270;pvitop=180;
 
 scrollstopped=0;
 function stoppscroll() {
@@ -21,7 +21,7 @@ else setTimeout("stoppscroll()",333);
 setTimeout("stoppscroll()",333); 
 
 setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",1000);
-setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",2000);
-setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",3000);
-setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",4000);
-setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",5000);
+//setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",2000);
+//setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",3000);
+//setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",4000);
+//setTimeout("if (scrollstopped==0) window.scroll(pvileft,pvitop)",5000);

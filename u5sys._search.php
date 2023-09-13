@@ -17,7 +17,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   <input type="hidden" name="l" value="<?php echo $_GET['l']?>" />
   <input type="hidden" name="c" value="_search" />
 
-  <input  style="width:450px" name="q"  id="searchlarge" type="text" value="" />
+  <input  style="width:450px;max-width:98%;margin:2px 0 7px 0" name="q"  id="searchlarge" type="text" value="" />
   <input  type="submit" class="btnSubmit" alt="search" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
 <?php
   $prefill=$_GET['q'];
@@ -30,7 +30,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   );
 ?><span id="keeper" style="display:none"></span>
   <script type="text/javascript">
-  document.fsearch2.q.value=unescape('<?php echo str_replace("'","\'",(str_replace('  ',' ',str_replace(',',' ',trim($_GET['q'])))))?>');
+  document.fsearch2.q.value=unescape('<?php echo str_replace("'","\'",(str_replace('  ',' ',str_replace(',',' ',trim($_GET['q'])))))?>').replace(/&quot;/g,'"');
   setTimeout("if(document.fsearch2.q.value.replace(/\s/g,'')==''){document.getElementById('keeper').innerHTML=unescape('<?php echo rawurlencode(str_replace('  ',' ',str_replace(',',' ',trim($prefill))))?>');document.fsearch2.q.value=document.getElementById('keeper').innerHTML};document.fsearch2.q.select()",555);
   </script>
 </form>
@@ -78,7 +78,7 @@ $sfor=str_replace(',',' ',$sfor);
 $sfor=str_replace('.',' ',$sfor);
 $sfor=str_replace('"',' ',$sfor);
 $sfor=str_replace('+',' ',$sfor);
-$sfor=str_replace('-',' ',$sfor);
+//$sfor=str_replace('-',' ',$sfor);
 
 $sfor=str_replace('  ',' ',$sfor);
 $sfor=str_replace('  ',' ',$sfor);
@@ -110,6 +110,10 @@ if (str_replace(' ','',$sfor[$i])!='') $where.=" AND ".def('search_1','search_2'
 //search abfragen mit and antwortstring abfüllen
 if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY lastmut DESC";
 else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY lastmut DESC";
+
+$sql_a=str_replace('&quot;','',$sql_a);
+$sql_a=str_replace('&#339;','œ',$sql_a);
+
 $result_a=mysql_query($sql_a);
 
 //echo '<hr>'.$sql_a;
@@ -217,7 +221,7 @@ $orhit_5.' <strong id="terms">'.mkltgt($terms).'</strong>'
 
 }
 
-if ($num_a>0) ausgabe($hits,$result_a,$num_a,$terms,$alloc);
+if($num_a>0){if(str_replace(' ','',$terms)!='')ausgabe($hits,$result_a,$num_a,$terms,$alloc);}
 else {
 	if(strpos('x'.$_GET['q'],'"')>0)die('<script>location.href=location.href.split("&q=")[0]+"&q='.str_replace('"','',$_GET['q']).'"</script>');	
 	else leven($sfor);    
@@ -387,7 +391,7 @@ $efile_5=explode('.',$file_5);
 $efile_5=$efile_5[1];
 
 $mustlogin='';
-if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='LOGIN! ';
+if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='LOGIN!';
 
 if ($row_a['typ']=='p' && strpos($row_a['logins'],':')>1) $typ='<span style="font-size:60%">['.$mustlogin.']</span> ';
 if ($row_a['typ']=='a') $typ='<span style="font-size:60%">['.$mustlogin.'jpgs]</span> ';

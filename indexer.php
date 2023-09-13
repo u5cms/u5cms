@@ -309,8 +309,7 @@ function idef($l1, $l2, $l3, $l4, $l5, $l) {
   else return $l1;
   }
 }
-//if($_GET['l']==$lan1na&&$_GET['r']!='!') echo"<script>location.href='indexer.php?l=$lan2na';</script>";
-//if($_GET['l']==$lan2na&&$_GET['r']!='!') echo"<script>location.href='indexer.php?l=$lan3na';</script>";
-
 echo"<script>parent.u5indexer();</script>";
+echo '<audio id="doneaudio" src="u5admin/'.rand(1,6).'.mp3" autoplay />';
 ?>
+<script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>

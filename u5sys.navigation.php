@@ -160,5 +160,6 @@ foreach ($navitems as $navitem) {
 
 // Add finally close last list item and last unsorted list tag
 $naviecho .= "</li>\n</ul>\n";
-
+$naviecho=preg_replace('/<li>.*<a .*><\/a><\/li>/','',$naviecho);
+$naviecho=preg_replace('/<ul>[\n\r\s]+<\/ul>/','',$naviecho);
 echo $naviecho;

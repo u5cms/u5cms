@@ -38,7 +38,8 @@ jQuery.fn.highlight = function(searchString, lenient) {
       var index = 0;
       // If lenient then the pattern is expected to be a regexp.
       if (lenient) {
-        index = node.data.search(pattern);
+        index = node.data.replace(/\-/g,' ').search(pattern);
+		if(index<0)index=node.data.search(pattern);
       } else {
         index = node.data.toUpperCase().indexOf(pattern);
       }

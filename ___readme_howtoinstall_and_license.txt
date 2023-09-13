@@ -72,7 +72,7 @@ TROUBLE SHOOTING
 COPYRIGHT AND LICENSE
 
     u5CMS Content Management System & Conference Management
-    Copyright (C) 2010-2021 Stefan P. Minder
+    Copyright (C) 2010-2024 Stefan P. Minder
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,4 +85,4 @@ COPYRIGHT AND LICENSE
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program. If not, see <http://www.gnu.org/licenses/>.

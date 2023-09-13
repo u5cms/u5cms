@@ -227,4 +227,6 @@ parent.parent.parent.i3.location.reload();
 </script>
 <?php
 echo"<script>if(parent)if(parent.parent)if(parent.parent.document.getElementById('htaccess'))parent.parent.document.getElementById('htaccess').style.display='block'</script>";
+echo '<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay />';
 ?>
+<script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
