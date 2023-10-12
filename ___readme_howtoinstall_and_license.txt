@@ -1,4 +1,5 @@
 HOW TO INSTALL THE u5CMS (license see bottom of this page)
+              (How to update see bottom of page)
 
  1.
  You need a web server offering MySQL and PHP and further supporting .htaccess.
@@ -11,7 +12,7 @@ HOW TO INSTALL THE u5CMS (license see bottom of this page)
  a preconfigured conference system with review process, PayPal a.s.o.
  
  4.
- Copy the example configuration file config.php.sample to config.php and adjust the MySQL connection
+ In config.php, adjust the MySQL connection
  parameters in config.php to the ones needed in your environment (ask your provider). Also adjust
  your e-mail address in this file.
 
@@ -66,6 +67,26 @@ TROUBLE SHOOTING
   1. Set $autoresolvefastcgiproblems='yes' in config.php
   2. Activate the file fastcgi.htaccess in the cms's top directory by renaming it to .htaccess (the first character MUST be a period!)
   3. Check the variable $basicauthvarname in config.php
+
+
+
+
+HOW TO UPDATE AN EXISTING U5CMS INSTALLATION
+
+1. On your server, go to the files of your old (current) u5CMS installation and copy config.php to config.old.php
+2. Download the ZIP file https://yuba.ch/u5cmszip/u5cmszip_en.zip, extract it in a way that the folder structure will be recreated
+3. Delete favicon.ico in the extracted files
+4. Further, delete all contents in folder r EXCEPT runonce.php
+5. Transfer the remaining files and folders from the ZIP file over the existing installation (FTP upload)
+6. Now, on your server, copy the database connection parameters $host $username $password $db from config.old.php to config.php
+7. If there are other dedicated settings in config.old.php, set the same in config.php (compare parameter by parameter)
+8. You must now log in to the backend of your (now updated) u5CMS installation via https://urltoyouru5cmsfrontend/u5admin for that the database will be updated too
+
+TROUBLE SHOOTING
+A) If the layout does not look right after having done step 8, go to https://urltoyouru5cmsfrontend/u5admin and open a css-object (e. g. csslayout) in PIDVESA's S special function's code (htmltemplate & css) section and safe it!
+B) If after A) the layout still does not look richt, change the doctype <!DOCTYPE html> to the old one
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 
 

@@ -49,7 +49,7 @@ $result_a=mysql_query($sql_a);
 $sql_a="ALTER TABLE trxlog ENGINE = MyISAM, DEFAULT CHARSET=utf8;";
 $result_a=mysql_query($sql_a);
 
-// Fix language columns in PHP-code in content
+// START: Fix language columns in PHP-code in content
 $legacyLangCols = array('content_d', 'content_e', 'content_f');
 foreach ($legacyLangCols as $langCol) {
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'content_d', 'content_1');";
@@ -58,13 +58,106 @@ foreach ($legacyLangCols as $langCol) {
     $result_a=mysql_query($sql_a);
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'content_f', 'content_3');";
     $result_a=mysql_query($sql_a);
+
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'title_d', 'title_1');";
     $result_a=mysql_query($sql_a);
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'title_e', 'title_2');";
     $result_a=mysql_query($sql_a);
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'title_f', 'title_3');";
     $result_a=mysql_query($sql_a);
+
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'key_d', 'key_1');";
+    $result_a=mysql_query($sql_a);
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'key_e', 'key_2');";
+    $result_a=mysql_query($sql_a);
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'key_f', 'key_3');";
+    $result_a=mysql_query($sql_a);
+
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'desc_d', 'desc_1');";
+    $result_a=mysql_query($sql_a);
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'desc_e', 'desc_2');";
+    $result_a=mysql_query($sql_a);
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'desc_f', 'desc_3');";
+    $result_a=mysql_query($sql_a);
+
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'search_d', 'search_1');";
+    $result_a=mysql_query($sql_a);
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'search_e', 'search_2');";
+    $result_a=mysql_query($sql_a);
+    $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'search_f', 'search_3');";
+    $result_a=mysql_query($sql_a);
 }
+
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'content_d', 'content_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'content_e', 'content_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'content_f', 'content_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'title_d', 'title_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'title_e', 'title_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'title_f', 'title_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'key_d', 'key_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'key_e', 'key_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'key_f', 'key_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'desc_d', 'desc_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'desc_e', 'desc_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'desc_f', 'desc_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'search_d', 'search_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'search_e', 'search_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'search_f', 'search_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'content_d', 'content_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'content_e', 'content_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'content_f', 'content_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'title_d', 'title_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'title_e', 'title_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'title_f', 'title_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'key_d', 'key_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'key_e', 'key_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'key_f', 'key_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'desc_d', 'desc_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'desc_e', 'desc_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'desc_f', 'desc_3');";
+$result_a=mysql_query($sql_a);
+
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'search_d', 'search_1');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'search_e', 'search_2');";
+$result_a=mysql_query($sql_a);
+$sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'search_f', 'search_3');";
+$result_a=mysql_query($sql_a);
+// END: Fix language columns in PHP-code in content
 
 $sql_a="ALTER TABLE languages ADD IF NOT EXISTS lan4na varchar(255) DEFAULT NULL AFTER lan3na";
 mysql_query($sql_a);
