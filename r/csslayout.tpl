@@ -83,6 +83,7 @@ background: #fff;
 padding-left:22px;
 font-size:80%;
 line-height:25px;
+margin-top:-10px;
 }
 
 #footer {
