@@ -193,7 +193,10 @@ if($cron!='cron' || ($i_a>=$nextmail && $i_a<$calcnum_a)) {
 $adrerror='';
 if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
 	$mail = new Message();
+    // Set message encoding; this only affects headers!
     $mail->setEncoding('UTF-8');
+    // Set the message content type for the body
+    $mail->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=UTF-8');
 	//if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
 	$mail->addFrom($zendfrom, $zendname);
 	$mail->addTo($zendto);
