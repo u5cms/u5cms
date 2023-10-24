@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require('connect.inc.php');
 require_once('u5idn.inc.php');
@@ -50,12 +50,12 @@ else return false;
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <?php require('backendcss.php'); ?></head>
 <body>
-<?php 
-ignore_user_abort(true); 
+<?php
+ignore_user_abort(true);
 require('mailrenderfunctions.inc.php');
 $nextmail=0;
 if($cron=='cron'){
-$sql_d="SELECT * FROM mailingcron WHERE done=0";  
+$sql_d="SELECT * FROM mailingcron WHERE done=0";
 $result_d=mysql_query($sql_d);
 $num_d = mysql_num_rows($result_d);
 if($num_d==0)die('nothing to send');
@@ -73,7 +73,7 @@ if($row_d['lastcall']+$minimumwaitingbetweenserialmailcroncallinseconds>time())d
 <?php if($cron=='cron')echo'<script>document.getElementById("wait").innerHTML="SEND MAIL CRON<BR>"</script>';?>
 <div id="errors"></div>
 <div id="recipients"></div>
-<?php 
+<?php
 $countsentmails=0;
 $sql_b="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id'])."'";
 $result_b=mysql_query($sql_b);
@@ -90,18 +90,18 @@ if($row_b['mailsent']>0 && $cron!='cron')die('<br>Do not reload! <script>locatio
 if($_GET['t']!='' || $cron=='cron') {
 
 $h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
-if($h!=$_GET['h'] && $cron!='cron')die('<script>alert("forbidden")</script>');   
+if($h!=$_GET['h'] && $cron!='cron')die('<script>alert("forbidden")</script>');
 
 if($cron!='cron')$sql_a=base64_decode($_GET['t']);
 
-$sql_a='SELECT * FROM formdata WHERE'.str_replace('SELECT * FROM formdata WHERE','',$sql_a);  
+$sql_a='SELECT * FROM formdata WHERE'.str_replace('SELECT * FROM formdata WHERE','',$sql_a);
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 $num_a = mysql_num_rows($result_a);
 if(!$serialmailsmaxatoncealert>0)$serialmailsmaxatoncealert=99;
 if(!$serialmailmethod>0&&$num_a>$serialmailsmaxatoncealert) {
 echo 'ERROR: Nothing will be sent of mailjob &#19904;'.$_GET['id'].'. Reason: This mailjob contains '.$num_a.' mails. You may not send more than '.$serialmailsmaxatoncealert.' mails at once. To execute mailjob &#19904;'.$_GET['id'].', set <b>$serialmailmethod=1;</b> in config.php of your u5CMS installation; this will enable slower step-by-step mail sending.<br><br><br><button onclick="history.go(-1)">OK</button><script>document.getElementById("wait").innerHTML=""</script>';
-exit;	
+exit;
 };
 }
 
@@ -127,7 +127,7 @@ if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font colo
 $sql_a="UPDATE mailing SET mailtested=1 WHERE id='".$row_b['id']."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-exit;	
+exit;
 }
 
 
@@ -141,7 +141,7 @@ $row_a = mysql_fetch_array($result_a);
 
 $notespart=explode('|||',$row_a['notes']);
 $row_a['notes']=$notespart[0];
-   
+
 $headcsv=explode(';',$row_a['headcsv']);
 array_walk($headcsv,'subone');
 
@@ -150,7 +150,7 @@ array_walk($datacsv,'subone');
 
 
 if(strpos('x'.$row_b['mailfrom'],'<')>0) {
-$zendfrom=explode('<',$row_b['mailfrom']);	
+$zendfrom=explode('<',$row_b['mailfrom']);
 $zendname=$zendfrom[0];
 $zendfrom=$zendfrom[1];
 $zendfrom=explode('>',$zendfrom);
@@ -158,8 +158,8 @@ $zendfrom=$zendfrom[0];
 }
 
 else {
-$zendfrom=$row_b['mailfrom'];	
-$zendname=$zendfrom;	
+$zendfrom=$row_b['mailfrom'];
+$zendname=$zendfrom;
 }
 
 
@@ -179,9 +179,9 @@ $zendto=trim($zendto,".,;:!? \t\n\r\0\x0B");
 $zendname=trim($zendname,".,;:!? \t\n\r\0\x0B");
 $zendsubject=trim($zendsubject,".,;:!? \t\n\r\0\x0B");
 
-if (!(validateemailaddress($zendfrom))) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;missing/wrong&nbsp;<small>From</small>&nbsp;".u5fromidn($zendfrom)."</div>'</script>"; 
-else if (strlen($zendsubject)<5) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Subject</small>&nbsp;too&nbsp;short</div>'</script>"; 
-else if (strlen($zendmessage)<30) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Message</small>&nbsp;too&nbsp;short</div>'</script>"; 
+if (!(validateemailaddress($zendfrom))) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;missing/wrong&nbsp;<small>From</small>&nbsp;".u5fromidn($zendfrom)."</div>'</script>";
+else if (strlen($zendsubject)<5) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Subject</small>&nbsp;too&nbsp;short</div>'</script>";
+else if (strlen($zendmessage)<30) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Message</small>&nbsp;too&nbsp;short</div>'</script>";
 else {
 
 $countsentmails++;
@@ -192,34 +192,34 @@ if($cron!='cron' || ($i_a>=$nextmail && $i_a<$calcnum_a)) {
 
 $adrerror='';
 if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
-	$mail = new Message();
+    $mail = new Message();
     // Set message encoding; this only affects headers!
     $mail->setEncoding('UTF-8');
     // Set the message content type for the body
     $mail->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=UTF-8');
-	//if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
-	$mail->addFrom($zendfrom, $zendname);
-	$mail->addTo($zendto);
+    //if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
+    $mail->addFrom($zendfrom, $zendname);
+    $mail->addTo($zendto);
 
-	$zendcc=explode(',',$zendcc);
-	for ($zz=0;$zz<tnuoc($zendcc);$zz++) {
-		$zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
-		if ((validateemailaddress($zendcc[$zz]))) {
-			$mail->addCc($zendcc);
-		}
-	}
+    $zendcc=explode(',',$zendcc);
+    for ($zz=0;$zz<tnuoc($zendcc);$zz++) {
+        $zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
+        if ((validateemailaddress($zendcc[$zz]))) {
+            $mail->addCc($zendcc);
+        }
+    }
 
-	$zendbcc=explode(',',$zendbcc);
-	for ($zz=0;$zz<tnuoc($zendbcc);$zz++) {
-		$zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
-		if ((validateemailaddress($zendbcc[$zz]))) {
-			$mail->addBcc($zendbcc);
-		}
-	}
+    $zendbcc=explode(',',$zendbcc);
+    for ($zz=0;$zz<tnuoc($zendbcc);$zz++) {
+        $zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
+        if ((validateemailaddress($zendbcc[$zz]))) {
+            $mail->addBcc($zendbcc);
+        }
+    }
 
-	$mail->setSubject($zendsubject);
-	$mail->addReplyTo($zendfrom);
-	$mail->setBody(strip_tags($zendmessage));
+    $mail->setSubject($zendsubject);
+    $mail->addReplyTo($zendfrom);
+    $mail->setBody(strip_tags($zendmessage));
 
     MailTransport($usesmtp, $mysmtpoptions)->send($mail);
 }
@@ -244,30 +244,30 @@ if ($result_c==false) echo 'SQL_c-Query failed!<p>'.mysql_error().'<p><font colo
 }
 
 if($cron=='cron') {
-	if (!(validateemailaddress($zendto))) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;missing/wrong&nbsp;<small>To</small>&nbsp;".u5fromidn($zendto)."</div>'</script>";
-	else echo "<script>document.getElementById('recipients').innerHTML+='<div style=\"color:white;background:green\">&#9993;".($i_a+1).":&nbsp;'+'".u5fromidn($zendto)."'</script>";
+    if (!(validateemailaddress($zendto))) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;missing/wrong&nbsp;<small>To</small>&nbsp;".u5fromidn($zendto)."</div>'</script>";
+    else echo "<script>document.getElementById('recipients').innerHTML+='<div style=\"color:white;background:green\">&#9993;".($i_a+1).":&nbsp;'+'".u5fromidn($zendto)."'</script>";
 
 }
 }
 }
 ////////////////////////
 if($cron!='cron') {
-	if (!(validateemailaddress($zendto))) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;missing/wrong&nbsp;<small>To</small>&nbsp;".u5fromidn($zendto)."</div>'</script>";
-	else echo "<script>document.getElementById('recipients').innerHTML+='<div style=\"color:white;background:green\">&#9993;".($i_a+1).":&nbsp;'+'".u5fromidn($zendto)."'</script>";
+    if (!(validateemailaddress($zendto))) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;missing/wrong&nbsp;<small>To</small>&nbsp;".u5fromidn($zendto)."</div>'</script>";
+    else echo "<script>document.getElementById('recipients').innerHTML+='<div style=\"color:white;background:green\">&#9993;".($i_a+1).":&nbsp;'+'".u5fromidn($zendto)."'</script>";
 }
 
 if($cron=='cron') {
-if($i_a>=$nextmail && $i_a<$calcnum_a) {	
+if($i_a>=$nextmail && $i_a<$calcnum_a) {
 $nextmail=$nextmail+1;
 if($nextmail>=$num_a) $done=1;
 else $done=0;
-$sql_e="UPDATE mailingcron SET lastcall=".time().", nextmail=$nextmail, done=$done WHERE mailingid='".$_GET['id']."'";  
+$sql_e="UPDATE mailingcron SET lastcall=".time().", nextmail=$nextmail, done=$done WHERE mailingid='".$_GET['id']."'";
 $result_e=mysql_query($sql_e);
 if ($result_e==false) echo 'SQL_e-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_e.'</font><p>';
 }
 }
 }
-} 
+}
 
 if($countsentmails>0) {
 trxlog("testOK mj ".$_GET['id']);
@@ -277,20 +277,20 @@ if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font colo
 }
 else trxlog("testERR mj ".$_GET['id']);
 ?>
-<?php if($cron!='cron') { 
+<?php if($cron!='cron') {
 if($_GET['hot']!='hot') trxlog("test mj ".$_GET['id']);
 else trxlog("directsend mj ".$_GET['id']);
 ?>
 <script>
 document.getElementById('wait').innerHTML='<button onclick="location.replace(\'mailinglist.php?t=<?php echo $_GET['t']?>\')" >ok <?php if ($_GET['hot']!='hot') echo ', TESTED, NOTHING SENT' ?></button>';
 </script>
-<?php } 
+<?php }
 
 
 if($cron=='cron') {
 $nextmail=$nextmail+1;
 
-$sql_e="UPDATE mailingcron SET done=1 WHERE done=0 AND nextmail>=numa";  
+$sql_e="UPDATE mailingcron SET done=1 WHERE done=0 AND nextmail>=numa";
 $result_e=mysql_query($sql_e);
 if ($result_e==false) echo 'SQL_e-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_e.'</font><p>';
 }
