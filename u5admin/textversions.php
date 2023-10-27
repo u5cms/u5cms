@@ -90,25 +90,27 @@ echo '
 <script>
     function sizer() {
         for (i = 0; i < 1000; i++) {
-            if (document.getElementById('t' + i + 'a1')) document.getElementById('t' + i + 'a1').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a2')) document.getElementById('t' + i + 'a2').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a3')) document.getElementById('t' + i + 'a3').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a4')) document.getElementById('t' + i + 'a4').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a5')) document.getElementById('t' + i + 'a5').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a6')) document.getElementById('t' + i + 'a6').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a7')) document.getElementById('t' + i + 'a7').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a8')) document.getElementById('t' + i + 'a8').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a9')) document.getElementById('t' + i + 'a9').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a41')) document.getElementById('t' + i + 'a41').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a51')) document.getElementById('t' + i + 'a51').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a42')) document.getElementById('t' + i + 'a42').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a52')) document.getElementById('t' + i + 'a52').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a43')) document.getElementById('t' + i + 'a43').style.width = document.documentElement.clientWidth / 3 - res + 'px';
-            if (document.getElementById('t' + i + 'a53')) document.getElementById('t' + i + 'a53').style.width = document.documentElement.clientWidth / 3 - res + 'px';
+            if (document.getElementById('t' + i + 'a1')) document.getElementById('t' + i + 'a1').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a2')) document.getElementById('t' + i + 'a2').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a3')) document.getElementById('t' + i + 'a3').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a4')) document.getElementById('t' + i + 'a4').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a5')) document.getElementById('t' + i + 'a5').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a6')) document.getElementById('t' + i + 'a6').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a7')) document.getElementById('t' + i + 'a7').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a8')) document.getElementById('t' + i + 'a8').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a9')) document.getElementById('t' + i + 'a9').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a41')) document.getElementById('t' + i + 'a41').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a51')) document.getElementById('t' + i + 'a51').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a42')) document.getElementById('t' + i + 'a42').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a52')) document.getElementById('t' + i + 'a52').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a43')) document.getElementById('t' + i + 'a43').style.width = document.documentElement.clientWidth / divi - res + 'px';
+            if (document.getElementById('t' + i + 'a53')) document.getElementById('t' + i + 'a53').style.width = document.documentElement.clientWidth / divi - res + 'px';
         }
     }
 
     function resizer() {
+        if(window.innerWidth>1000)divi=5;
+		else divi=3;
         res = 30;
         if (document.getElementById('t0a1')) if (document.getElementById('t0a1').style.width != document.documentElement.clientWidth / 3 - res) sizer();
     }

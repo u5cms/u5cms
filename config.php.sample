@@ -184,6 +184,8 @@ $u5samllogoutresultpage = 'https://test.example.com/index.php?c=farewell';  // w
 $u5samlautointranetenrollment = 'no';
 $u5samlmockauth = 'no';
 $u5samlmockauthusername = 'xavier.yalonden@example.com';
+$u5samlinfrontend = 'yes';
+$u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain='thatstring';
 */
 
 // If your config.php is incomplete or messed up, get its initial structure and values at http://yuba.ch/cp
