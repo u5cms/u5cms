@@ -1,3 +1,7 @@
+<?php 
+include('connect.inc.php');
+if(trim($lan5name!='')) echo "window.resizeTo(800,screen.availHeight);"; 
+?>
 if (document.form1 && document.form1.content_1) {
 if (document.form1.content_1.value.split("\n").length>3 || document.form1.content_1.value.length>100 ) {
 window.moveTo(0,0);
@@ -23,10 +27,8 @@ document.form1.desc_5.style.height='200px';
 }
 }
 <?php 
-include('connect.inc.php');
 if(trim($lan2name=='')) echo "if (document.getElementById('lan2name')) document.getElementById('lan2name').style.display='none';";
 if(trim($lan3name=='')) echo "if (document.getElementById('lan3name')) document.getElementById('lan3name').style.display='none';";
 if(trim($lan4name=='')) echo "if (document.getElementById('lan4name')) document.getElementById('lan4name').style.display='none';";
 if(trim($lan5name=='')) echo "if (document.getElementById('lan5name')) document.getElementById('lan5name').style.display='none';";
-else echo "window.resizeTo(800,screen.availHeight);"
 ?>
