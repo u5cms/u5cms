@@ -28,4 +28,5 @@ if(trim($lan2name=='')) echo "if (document.getElementById('lan2name')) document.
 if(trim($lan3name=='')) echo "if (document.getElementById('lan3name')) document.getElementById('lan3name').style.display='none';";
 if(trim($lan4name=='')) echo "if (document.getElementById('lan4name')) document.getElementById('lan4name').style.display='none';";
 if(trim($lan5name=='')) echo "if (document.getElementById('lan5name')) document.getElementById('lan5name').style.display='none';";
+else echo "window.resizeTo(800,screen.availHeight);"
 ?>

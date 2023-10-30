@@ -38,21 +38,21 @@ $row_a = mysql_fetch_array($result_a);
   
   <b><a href="javascript:void(0)" onclick="alert('About the GET-parameters following the questionmark:\n\nrel=0 means do not show related videos at the end of my video.\nautoplay=1 means switch autoplay on.\nBrowsers may overrule autoplay always or heuristically.')">?</a></b>
   
-  : <b>vBfn2PifzC8 </b>or<b> vBfn2PifzC8<span style="color:red">?</span>rel=0 </b>or<b> vBfn2PifzC8<span style="color:red">?</span>rel=0<span style="color:red">&amp;</span>autoplay=1</div><br />
+  : <b>vBfn2PifzC8 </b>or<b> vBfn2PifzC8<span style="color:red">?</span>rel=0 </b>or<b> vBfn2PifzC8<span style="color:red">?</span>rel=0<span style="color:red">&amp;</span>autoplay=1</b></div><br />
   </h2>
   <table id="lan1name" bgcolor="#FFFF99" width="100%">
     <tr>
       <td>title<font color="#FF0000">*</font></td>
       <td width="99%"><input type="hidden" name="name" value="<?php echo $_GET['name']?>">
-      <input onchange="changes()" name="title_1" lang="<?php echo $lan1na ?>" type="text" id="t11" style="width:100%" value="<?php echo ehtml($row_a['title_1'])?>" /></td>
+      <input onchange="changes()" name="title_1" lang="<?php echo $lan1na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_1'])?>" /></td>
     </tr>
     <tr>
       <td>hash<font color="#FF0000">*</font></td>
-      <td><input onchange="changes()" name="desc_1" lang="<?php echo $lan1na ?>" type="text" id="t12" style="width:100%" value="<?php echo ehtml($row_a['desc_1'])?>" /></td>
+      <td><input onchange="changes()" name="desc_1" lang="<?php echo $lan1na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['desc_1'])?>" /></td>
     </tr>
     <tr>
       <td>caption</td>
-      <td><textarea onchange="changes()" name="content_1" lang="<?php echo $lan1na ?>" id="t13" style="width:100%" ><?php echo ehtml($row_a['content_1'])?></textarea></td>
+      <td><textarea onchange="changes()" name="content_1" lang="<?php echo $lan1na ?>"short&nbsp;caption style="width:98%" ><?php echo ehtml($row_a['content_1'])?></textarea></td>
     </tr>
   </table>
   <h2 style="margin-bottom:5px"><?php echo $lan2name ?><br />
@@ -60,15 +60,15 @@ $row_a = mysql_fetch_array($result_a);
   <table id="lan2name" bgcolor="#FFFF99" width="100%">
     <tr>
       <td>title<font color="#FF0000">*</font></td>
-      <td width="99%"><input onchange="changes()" name="title_2" lang="<?php echo $lan2na ?>" type="text" id="title_2" style="width:100%" value="<?php echo ehtml($row_a['title_2'])?>" /></td>
+      <td width="99%"><input onchange="changes()" name="title_2" lang="<?php echo $lan2na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_2'])?>" /></td>
     </tr>
     <tr>
       <td>hash<font color="#FF0000">*</font></td>
-      <td><input onchange="changes()" name="desc_2" lang="<?php echo $lan2na ?>" type="text" id="t2" style="width:100%" value="<?php echo ehtml($row_a['desc_2'])?>" /></td>
+      <td><input onchange="changes()" name="desc_2" lang="<?php echo $lan2na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['desc_2'])?>" /></td>
     </tr>
     <tr>
       <td>caption</td>
-      <td><textarea onchange="changes()" name="content_2" lang="<?php echo $lan2na ?>" id="t3" style="width:100%" ><?php echo ehtml($row_a['content_2'])?></textarea></td>
+      <td><textarea onchange="changes()" name="content_2" lang="<?php echo $lan2na ?>"short&nbsp;caption style="width:98%" ><?php echo ehtml($row_a['content_2'])?></textarea></td>
     </tr>
   </table>
   <h2 style="margin-bottom:5px"><?php echo $lan3name ?><br />
@@ -76,15 +76,15 @@ $row_a = mysql_fetch_array($result_a);
   <table id="lan3name" bgcolor="#FFFF99" width="100%">
     <tr>
       <td>title<font color="#FF0000">*</font></td>
-      <td width="99%"><input onchange="changes()" name="title_3" lang="<?php echo $lan3na ?>" type="text" id="t4" style="width:100%" value="<?php echo ehtml($row_a['title_3'])?>" /></td>
+      <td width="99%"><input onchange="changes()" name="title_3" lang="<?php echo $lan3na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_3'])?>" /></td>
     </tr>
     <tr>
       <td>hash<font color="#FF0000">*</font></td>
-      <td><input onchange="changes()" name="desc_3" lang="<?php echo $lan3na ?>" type="text" id="t5" style="width:100%" value="<?php echo ehtml($row_a['desc_3'])?>" /></td>
+      <td><input onchange="changes()" name="desc_3" lang="<?php echo $lan3na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['desc_3'])?>" /></td>
     </tr>
     <tr>
       <td>caption</td>
-      <td><textarea onchange="changes()" name="content_3" lang="<?php echo $lan3na ?>" id="t6" style="width:100%" ><?php echo ehtml($row_a['content_3'])?></textarea></td>
+      <td><textarea onchange="changes()" name="content_3" lang="<?php echo $lan3na ?>"short&nbsp;caption style="width:98%" ><?php echo ehtml($row_a['content_3'])?></textarea></td>
     </tr>
   </table>
     <h2 style="margin-bottom:5px"><?php echo $lan4name ?><br />
@@ -92,15 +92,15 @@ $row_a = mysql_fetch_array($result_a);
     <table id="lan4name" bgcolor="#FFFF99" width="100%">
         <tr>
             <td>title<font color="#FF0000">*</font></td>
-            <td width="99%"><input onchange="changes()" name="title_4" lang="<?php echo $lan4na ?>" type="text" id="t41" style="width:100%" value="<?php echo ehtml($row_a['title_4'])?>" /></td>
+            <td width="99%"><input onchange="changes()" name="title_4" lang="<?php echo $lan4na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_4'])?>" /></td>
         </tr>
         <tr>
             <td>hash<font color="#FF0000">*</font></td>
-            <td><input onchange="changes()" name="desc_4" lang="<?php echo $lan4na ?>" type="text" id="t42" style="width:100%" value="<?php echo ehtml($row_a['desc_4'])?>" /></td>
+            <td><input onchange="changes()" name="desc_4" lang="<?php echo $lan4na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['desc_4'])?>" /></td>
         </tr>
         <tr>
             <td>caption</td>
-            <td><textarea onchange="changes()" name="content_4" lang="<?php echo $lan4na ?>" id="t43" style="width:100%" ><?php echo ehtml($row_a['content_4'])?></textarea></td>
+            <td><textarea onchange="changes()" name="content_4" lang="<?php echo $lan4na ?>"short&nbsp;caption style="width:98%" ><?php echo ehtml($row_a['content_4'])?></textarea></td>
         </tr>
     </table>
     <h2 style="margin-bottom:5px"><?php echo $lan5name ?><br />
@@ -108,15 +108,15 @@ $row_a = mysql_fetch_array($result_a);
     <table id="lan5name" bgcolor="#FFFF99" width="100%">
         <tr>
             <td>title<font color="#FF0000">*</font></td>
-            <td width="99%"><input onchange="changes()" name="title_5" lang="<?php echo $lan5na ?>" type="text" id="t51" style="width:100%" value="<?php echo ehtml($row_a['title_5'])?>" /></td>
+            <td width="99%"><input onchange="changes()" name="title_5" lang="<?php echo $lan5na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_5'])?>" /></td>
         </tr>
         <tr>
             <td>hash<font color="#FF0000">*</font></td>
-            <td><input onchange="changes()" name="desc_5" lang="<?php echo $lan5na ?>" type="text" id="t52" style="width:100%" value="<?php echo ehtml($row_a['desc_5'])?>" /></td>
+            <td><input onchange="changes()" name="desc_5" lang="<?php echo $lan5na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['desc_5'])?>" /></td>
         </tr>
         <tr>
             <td>caption</td>
-            <td><textarea onchange="changes()" name="content_5" lang="<?php echo $lan5na ?>" id="t53" style="width:100%" ><?php echo ehtml($row_a['content_5'])?></textarea></td>
+            <td><textarea onchange="changes()" name="content_5" lang="<?php echo $lan5na ?>"short&nbsp;caption style="width:98%" ><?php echo ehtml($row_a['content_5'])?></textarea></td>
         </tr>
     </table>
   <p>
@@ -140,7 +140,7 @@ document.getElementById('ypreview').innerHTML='';
 
 function ypre() {
 
-if(document.form1.desc_1.value.trim()+document.form1.desc_2.value.trim()+document.form1.desc_3.value.trim()!=oldypre){
+if(document.form1.desc_1.value.trim()+document.form1.desc_2.value.trim()+document.form1.desc_3.value.trim()+document.form1.desc_4.value.trim()+document.form1.desc_5.value.trim()!=oldypre){
 document.getElementById('ypreview').innerHTML='';
 
 if(document.form1.desc_1.value.replace(/\s/g,'')!=''){
@@ -170,7 +170,25 @@ if(document.form1.desc_3.value.indexOf('&')>-1&&document.form1.desc_3.value.inde
 	document.getElementById('ypreview').innerHTML+='<iframe width="150" height="80" src="<?php echo ehtml($videoportalegyoutubeembedurl) ?>'+document.form1.desc_3.value.trim()+'" frameborder="0" allowfullscreen></iframe>';
 }
 
-oldypre=document.form1.desc_1.value.trim()+document.form1.desc_2.value.trim()+document.form1.desc_3.value.trim();
+if(document.form1.desc_4.value.replace(/\s/g,'')!=''){
+
+if(document.form1.desc_4.value.indexOf('v=')>-1)document.form1.desc_4.value=document.form1.desc_4.value.split('v=')[document.form1.desc_4.value.split('v=').length-1];
+if(document.form1.desc_4.value.indexOf('/')>-1)document.form1.desc_4.value=document.form1.desc_4.value.split('/')[document.form1.desc_4.value.split('/').length-1];
+if(document.form1.desc_4.value.indexOf('&')>-1&&document.form1.desc_4.value.indexOf('?')<0)document.form1.desc_4.value=document.form1.desc_4.value.split('&')[0];
+
+	document.getElementById('ypreview').innerHTML+='<iframe width="150" height="80" src="<?php echo ehtml($videoportalegyoutubeembedurl) ?>'+document.form1.desc_4.value.trim()+'" frameborder="0" allowfullscreen></iframe>';
+}
+
+if(document.form1.desc_5.value.replace(/\s/g,'')!=''){
+
+if(document.form1.desc_5.value.indexOf('v=')>-1)document.form1.desc_5.value=document.form1.desc_5.value.split('v=')[document.form1.desc_5.value.split('v=').length-1];
+if(document.form1.desc_5.value.indexOf('/')>-1)document.form1.desc_5.value=document.form1.desc_5.value.split('/')[document.form1.desc_5.value.split('/').length-1];
+if(document.form1.desc_5.value.indexOf('&')>-1&&document.form1.desc_5.value.indexOf('?')<0)document.form1.desc_5.value=document.form1.desc_5.value.split('&')[0];
+
+	document.getElementById('ypreview').innerHTML+='<iframe width="150" height="80" src="<?php echo ehtml($videoportalegyoutubeembedurl) ?>'+document.form1.desc_5.value.trim()+'" frameborder="0" allowfullscreen></iframe>';
+}
+
+oldypre=document.form1.desc_1.value.trim()+document.form1.desc_2.value.trim()+document.form1.desc_3.value.trim()+document.form1.desc_4.value.trim()+document.form1.desc_5.value.trim();
 }
 
 setTimeout("ypre()",777);

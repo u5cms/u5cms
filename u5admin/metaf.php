@@ -47,77 +47,81 @@ $row_a = mysql_fetch_array($result_a);
   </h2>
   <table id="lan1name" bgcolor="#FFFF99" width="100%">
     <tr>
-      <td>alt-text<font color="#FF0000">*</font></td>
+      <td>alt&nbsp;text<font color="#FF0000">*</font></td>
       <td width="99%"><input type="hidden" name="name" value="<?php echo $_GET['name']?>">
-      <input onchange="changes()" name="title_1" lang="<?php echo $lan1na ?>" type="text" id="t11" style="width:100%" value="<?php echo ehtml($row_a['title_1'])?>" /></td>
+      <input onchange="changes()" name="title_1" lang="<?php echo $lan1na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_1'])?>" /></td>
     </tr>
     <tr>
       <td>short&nbsp;caption<font color="#FF0000">*</font></td>
-      <td><textarea onchange="changes()" name="desc_1" lang="<?php echo $lan1na ?>" id="t12" style="width:100%"><?php echo ehtml($row_a['desc_1'])?></textarea></td>
+      <td><textarea onchange="changes()" name="desc_1" lang="<?php echo $lan1na ?>"short&nbsp;caption style="width:98%"><?php echo ehtml($row_a['desc_1'])?></textarea></td>
     </tr>
     <tr>
       <td>Link</td>
-      <td><input onchange="changes()" name="content_1" lang="<?php echo $lan1na ?>" type="text" id="t13" style="width:100%" value="<?php echo ehtml($row_a['content_1'])?>" /></td>
+      <td><input onchange="changes()" name="content_1" lang="<?php echo $lan1na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['content_1'])?>" /></td>
     </tr>
   </table>
   <h2 style="margin-bottom:5px"><?php echo $lan2name ?><br />
   </h2>
   <table id="lan2name" bgcolor="#FFFF99" width="100%">
     <tr>
-      <td>alt-text<font color="#FF0000">*</font></td>
-      <td width="99%"><input onchange="changes()" name="title_2" lang="<?php echo $lan2na ?>" type="text" id="title_2" style="width:100%" value="<?php echo ehtml($row_a['title_2'])?>" /></td>
+      <td>alt&nbsp;text<font color="#FF0000">*</font></td>
+      <td width="99%"><input onchange="changes()" name="title_2" lang="<?php echo $lan2na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_2'])?>" /></td>
     </tr>
     <tr>
       <td>short&nbsp;caption<font color="#FF0000">*</font></td>
-      <td><textarea onchange="changes()" name="desc_2" lang="<?php echo $lan2na ?>" id="t2" style="width:100%"><?php echo ehtml($row_a['desc_2'])?></textarea></td>
+      <td><textarea onchange="changes()" name="desc_2" lang="<?php echo $lan2na ?>"short&nbsp;caption style="width:98%"><?php echo ehtml($row_a['desc_2'])?></textarea></td>
     </tr>
     <tr>
       <td>Link</td>
-      <td><input onchange="changes()" name="content_2" lang="<?php echo $lan2na ?>" type="text" id="t3" style="width:100%" value="<?php echo ehtml($row_a['content_2'])?>" /></td>
+      <td><input onchange="changes()" name="content_2" lang="<?php echo $lan2na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['content_2'])?>" /></td>
     </tr>
   </table>
   <h2 style="margin-bottom:5px"><?php echo $lan3name ?><br />
   </h2>
   <table id="lan3name" bgcolor="#FFFF99" width="100%">
     <tr>
-      <td>alt-text<font color="#FF0000">*</font></td>
-      <td width="99%"><input onchange="changes()" name="title_3" lang="<?php echo $lan3na ?>" type="text" id="t4" style="width:100%" value="<?php echo ehtml($row_a['title_3'])?>" /></td>
+      <td>alt&nbsp;text<font color="#FF0000">*</font></td>
+      <td width="99%"><input onchange="changes()" name="title_3" lang="<?php echo $lan3na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_3'])?>" /></td>
     </tr>
     <tr>
       <td>short&nbsp;caption<font color="#FF0000">*</font></td>
-      <td><textarea onchange="changes()" name="desc_3" lang="<?php echo $lan3na ?>" id="t5" style="width:100%"><?php echo ehtml($row_a['desc_3'])?></textarea></td>
+      <td><textarea onchange="changes()" name="desc_3" lang="<?php echo $lan3na ?>"short&nbsp;caption style="width:98%"><?php echo ehtml($row_a['desc_3'])?></textarea></td>
     </tr>
     <tr>
       <td>long&nbsp;Link</td>
-      <td><input onchange="changes()" name="content_3" lang="<?php echo $lan3na ?>" type="text" id="t6" style="width:100%" value="<?php echo ehtml($row_a['content_3'])?>" /></td>
+      <td><input onchange="changes()" name="content_3" lang="<?php echo $lan3na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['content_3'])?>" /></td>
     </tr>
   </table>
-    <table id="lan4name" bgcolor="#FFFF99" width="100%">
+  <h2 style="margin-bottom:5px"><?php echo $lan4name ?><br />
+  </h2>
+  <table  id="lan4name" bgcolor="#FFFF99" width="100%">
         <tr>
-            <td>alt-text<font color="#FF0000">*</font></td>
-            <td width="99%"><input onchange="changes()" name="title_4" lang="<?php echo $lan4na ?>" type="text" id="t41" style="width:100%" value="<?php echo ehtml($row_a['title_4'])?>" /></td>
+            <td>alt&nbsp;text<font color="#FF0000">*</font></td>
+            <td width="99%"><input onchange="changes()" name="title_4" lang="<?php echo $lan4na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_4'])?>" /></td>
         </tr>
         <tr>
             <td>short&nbsp;caption<font color="#FF0000">*</font></td>
-            <td><textarea onchange="changes()" name="desc_4" lang="<?php echo $lan4na ?>" id="t42" style="width:100%"><?php echo ehtml($row_a['desc_4'])?></textarea></td>
+            <td><textarea onchange="changes()" name="desc_4" lang="<?php echo $lan4na ?>"short&nbsp;caption style="width:98%"><?php echo ehtml($row_a['desc_4'])?></textarea></td>
         </tr>
         <tr>
             <td>long&nbsp;Link</td>
-            <td><input onchange="changes()" name="content_4" lang="<?php echo $lan4na ?>" type="text" id="43" style="width:100%" value="<?php echo ehtml($row_a['content_4'])?>" /></td>
+            <td><input onchange="changes()" name="content_4" lang="<?php echo $lan4na ?>" type="text" id="43" style="width:98%" value="<?php echo ehtml($row_a['content_4'])?>" /></td>
         </tr>
-    </table>
-    <table id="lan5name" bgcolor="#FFFF99" width="100%">
+  </table>
+  <h2 style="margin-bottom:5px"><?php echo $lan5name ?><br />
+  </h2>
+  <table  id="lan5name" bgcolor="#FFFF99" width="100%">
         <tr>
-            <td>alt-text<font color="#FF0000">*</font></td>
-            <td width="99%"><input onchange="changes()" name="title_5" lang="<?php echo $lan5na ?>" type="text" id="t51" style="width:100%" value="<?php echo ehtml($row_a['title_5'])?>" /></td>
+            <td>alt&nbsp;text<font color="#FF0000">*</font></td>
+            <td width="99%"><input onchange="changes()" name="title_5" lang="<?php echo $lan5na ?>" type="text"short&nbsp;caption style="width:98%" value="<?php echo ehtml($row_a['title_5'])?>" /></td>
         </tr>
         <tr>
             <td>short&nbsp;caption<font color="#FF0000">*</font></td>
-            <td><textarea onchange="changes()" name="desc_5" lang="<?php echo $lan5na ?>" id="t52" style="width:100%"><?php echo ehtml($row_a['desc_5'])?></textarea></td>
+            <td><textarea onchange="changes()" name="desc_5" lang="<?php echo $lan5na ?>"short&nbsp;caption style="width:98%"><?php echo ehtml($row_a['desc_5'])?></textarea></td>
         </tr>
         <tr>
             <td>long&nbsp;Link</td>
-            <td><input onchange="changes()" name="content_5" lang="<?php echo $lan5na ?>" type="text" id="53" style="width:100%" value="<?php echo ehtml($row_a['content_5'])?>" /></td>
+            <td><input onchange="changes()" name="content_5" lang="<?php echo $lan5na ?>" type="text" id="53" style="width:98%" value="<?php echo ehtml($row_a['content_5'])?>" /></td>
         </tr>
     </table>
   <p>
