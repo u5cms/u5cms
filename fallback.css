@@ -1,172 +1,332 @@
 .skipLinks {
-    position: absolute;
-    top: -1000px;
-    left: -1000px;
-    display: inline;
-    width: 0;
-    height: 0;
+position: absolute;
+top: -1000px;
+left: -1000px;
+display: inline;
+width: 0;
+height: 0;
 }
+
+.buttonDiv {
+border: 1px solid #9F9F9F;
+cursor: pointer;
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 8px;
+font-size: 0.8em;
+padding: 3px 5px;
+display: inline;
+}
+
+.buttonDiv:hover {
+border-color: #4C83AF;
+}
+
+.buttonDiv:after {
+content: "\2192";
+color:red;
+font-size:150%;
+}
+
+dd {
+font-size: 0.8em;
+margin: -4px 0 0 0;
+padding: 10px 5px 5px 5px;
+line-height: 16px;
+}
+
 .imgBoxLeft {
-    float: left;
+cursor: pointer;
+float: left;
+border: 1px solid #AFAFAF; 
+background-color: #FFF;
+margin: 10px 32px 15px 0;
 }
+
+.imgBoxLeft dd {
+font-size: 0.8em;
+text-align: left;
+margin: -4px 0 0 0;
+padding: 10px 5px 5px 5px;
+background: #ddd;
+color: #000;
+line-height: 16px;
+cursor: default;
+}
+
 .imgBoxCenter {
-    margin: auto;
+cursor: pointer;
+border: 1px solid #AFAFAF; 
+background-color: #FFF;
+margin: 10px auto 15px auto;
 }
+
+.imgBoxCenter dd {
+font-size: 0.8em;
+text-align: left;
+margin: -4px 0 0 0;
+padding: 10px 5px 5px 5px;
+background: #ddd;
+color: #000;
+line-height: 16px;
+cursor: default;
+}
+
 .imgBoxRight {
-    float: right;
+cursor: pointer;
+float: right;
+border: 1px solid #AFAFAF; 
+background-color: #FFF;
+margin: 10px 0 15px 32px;
 }
+
+.imgBoxRight dd {
+font-size: 0.8em;
+text-align: left;
+margin: -4px 0 0 0;
+padding: 10px 5px 5px 5px;
+background: #ddd;
+color: #000;
+line-height: 16px;
+cursor: default;
+}
+
 .freeImgLeft {
-    float: left;
+float: left;
+padding-right: 32px;
+padding-bottom: 22px;
 }
+
 .freeImgCenter {
-    text-align:center;
+margin: 10px auto 15px auto;
 }
+
 .freeImgRight {
-    float: right;
+float: right;
+padding-left: 32px;
+padding-bottom: 22px;
 }
+
 .clearing {
-    clear: both;
+clear: both;
 }
+
+.noScript {
+font-style: italic;
+outline: 1px solid red;
+}
+
 .separator {
-    height: 1px;
-    width: 100%;
-    background: #ddd;
+height: 1px;
+width: 100%;
+background: #ddd;
 }
+
 .mono {
-    display: inline;
-    font-family: monospace;
+display: inline;
+font-family: "Courier New", Courier, monospace;
 }
+
 .stabiloboss {
-    display: inline;
-    background: gold;
+display: inline;
+background: gold;
 }
+
 .italic {
-    display: inline;
-    font-style: italic;
+display: inline;
+font-style: italic;
 }
+
 .bold {
-    display: inline;
-    font-weight: bold;
+display: inline;
+font-weight: bold;
 }
+
 .veil {
-    display: none;
+display: none;
 }
+
 .mark {
-    border-left: 1px solid red;
-    padding-left: 7px;
+border-left: 1px solid red;
+padding-left: 7px;
 }
+
 .justify {
-    text-align: justify;
-    hyphens: auto;
+text-align: justify;
+hyphens: auto;
 }
+
 .right {
-    text-align: right;
+text-align: right;
 }
+
 .center {
-    text-align: center;
+text-align: center;
 }
+
 .abbroracro {
-    border-bottom: 1px dotted;
-    cursor: help;
+cursor: help;
 }
+
 .hitshilite {
-    background-color: yellow;
+background-color: yellow;
 }
+
 .stayright {
-    margin-left: 234px;
+margin-left: 234px;
 }
+
+.underline {
+text-decoration:underline;
+}
+
+.crossout {
+text-decoration:line-through;
+}
+
+.note {
+padding:7px;
+background:gold;
+}
+
 .freecaption {
-    font-size: 0.8em;
-    line-height: 16px;
+font-size: 0.8em;
+line-height: 16px;
 }
+
 .superscript {
-    position: relative;
-    bottom: 0.5em;
-    font-size: 0.8em;
+position: relative;
+bottom: 0.5em;
+font-size: 0.8em;
 }
+
 .subscript {
-    position: relative;
-    top: 0.3em;
-    font-size: 0.8em;
+position: relative;
+top: 0.3em;
+font-size: 0.8em;
 }
+
+.largerblock {
+font-size: 130%;
+}
+
+.smallerblock {
+font-size: 70%;
+line-height: 130%;
+}
+
 .larger {
-    font-size: 130%;
+font-size: 130%;
 }
+
 .smaller {
-    font-size: 70%;
-    line-height: 130%;
+font-size: 70%;
+line-height: 130%;
 }
+
+fieldset {
+}
+
+table {
+}
+
 
 /*CSS-Elements for "show content block [?:][:?] on click"*/
 .showblockactivetab {
-    background: #eee;
-    padding: 4px;
-    opacity: 0.97;
-    margin-left: -2px;
+background: #eee;
+padding: 4px;
+border-top: 2px solid white;
+border-bottom: 2px solid #eee;
+border-left: 2px solid white;
+border-right: 2px solid white;
+opacity: 0.97;
+margin-left: -2px;
 }
+
 .showblockinactivetab {
-    background: #ddd;
-    padding: 4px;
-    opacity: 0.97;
-    margin-left: -2px;
+background: #ddd;
+padding: 4px;
+border-bottom: 2px solid white;
+border-left: 2px solid #eee;
+border-right: 2px solid #eee;
+opacity: 0.97;
+margin-left: -2px;
 }
+
 .showblockdivinner {
-    display: none;
-    width: 720px;
-    background: #f2f2f2;
-    padding: 4px;
-    position: absolute;
-    z-index: 999;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 0 15px 0 15px;
-    margin: 0 10px 1px 1px;
-    opacity: 0.97;
-    margin-left: -2px;
+display: none;
+width: 720px;
+background: #f2f2f2;
+padding: 4px;
+position: absolute;
+z-index: 999;
+overflow-y: auto;
+overflow-x: hidden;
+padding: 0 15px 0 15px;
+margin: 0 10px 1px 1px;
+opacity: 0.97;
+margin-left: -2px;
+border-left: 2px solid white;
+border-bottom: 2px solid white;
 }
+
 .showblockclose {
-    cursor: pointer;
-    float: right;
-    font-weight: bold;
-    margin-right: -14px;
-    margin-top: -9px;
-    color: #ddd;
-    height: 21px;
-    background: #666;
+cursor: pointer;
+float: right;
+font-weight: bold;
+margin-right: -14px;
+margin-top: -9px;
+color: #ddd;
+height: 21px;
+background: #666;
 }
+
 /*End of CSS-Elements for "show content block [?:][:?] on click"*/
 
 /*CSS-Elements for "show content block [??:][:??] on click"*/
 .showblock2activetab {
-    background: #eee;
-    padding: 4px;
-    opacity: 0.97;
-    margin-left: -2px;
+background: #eee;
+padding: 4px;
+border-top: 2px solid white;
+border-bottom: 2px solid #eee;
+border-left: 2px solid white;
+border-right: 2px solid white;
+opacity: 0.97;
+margin-left: -2px;
 }
+
 .showblock2inactivetab {
-    background: #ddd;
-    padding: 4px;
-    opacity: 0.97;
-    margin-left: -2px;
+background: #ddd;
+padding: 4px;
+border-bottom: 2px solid white;
+border-left: 2px solid #eee;
+border-right: 2px solid #eee;
+opacity: 0.97;
+margin-left: -2px;
 }
+
 .showblock2divinner {
-    display: none;
-    background: #f2f2f2;
-    padding: 4px;
-    padding: 0 15px 0 15px;
-    margin: 0 10px 1px 1px;
-    margin-left: -2px;
+display: none;
+background: #f2f2f2;
+padding: 4px;
+padding: 0 15px 0 15px;
+margin: 0 10px 1px 1px;
+margin-left: -2px;
+border-left: 2px solid white;
+border-bottom: 2px solid white;
 }
+
 .showblock2close {
-    cursor: pointer;
-    float: right;
-    font-weight: bold;
-    margin-right: -14px;
-    margin-top: -9px;
-    color: #ddd;
-    height: 21px;
-    background: #666;
+cursor: pointer;
+float: right;
+font-weight: bold;
+margin-right: -14px;
+margin-top: -9px;
+color: #ddd;
+height: 21px;
+background: #666;
 }
+
 /*End of CSS-Elements for "show content block [??:][:??] on click"*/
 
 div {
@@ -176,4 +336,3 @@ div {
 .hot {
     color: green;
 }
-
