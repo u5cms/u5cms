@@ -41,7 +41,15 @@ for ($i_b=0; $i_b<$num_b; $i_b++) {
 if ($i_b<$num){
 $row_b['cat']=$row_b['cat'].': ';
 if ($row_b['cat']=='X: ') $row_b['cat']='';
-if ($oldcat!=$row_b['cat'] && $row_b['cat']!=': ') echo '<br>'.$row_b['cat'];
+if ($oldcat!=$row_b['cat'] && $row_b['cat']!=': ') {
+if(strpos($row_b['cat'],'et')>0) echo '<br>'.str_replace(': ','',$row_b['cat']).': '
+.'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_mymail_]').'\')">'.'&#x1F1F2;&#x1F1FE;&#x1F1F2;'.'</a> <span style="color:white;font-weight:bold">|</span> '
+.'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_myurl_]').'\')">'.'&#x1F1F2;&#x1F1FE;&#x1F1FA;'.'</a> <span style="color:white;font-weight:bold">|</span> '
+.'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_language_]').'\')">'.'&#x1F1F1;&#x1F1E6;&#x1F1F3;'.'</a> <span style="color:white;font-weight:bold">|</span> '
+.'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_pagename_]').'\')">'.'&#x1F1F5;&#x1F1E6;&#x1F1EC;'.'</a> <span style="color:white;font-weight:bold">|</span> '
+.'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_pagename!_]').'\')">'.'&#x1F1F5;&#x1F1E6;<small>!</small>'.'</a> <span style="color:white;font-weight:bold">|</span> ';
+else echo '<br>'.$row_b['cat'];
+}
  echo '<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode($row_b['insstring']).'\')">'.$row_b['human'].'</a>';
  if ($row_b['human']!='') echo ' <span style="color:white;font-weight:bold">|</span> ';      
 }

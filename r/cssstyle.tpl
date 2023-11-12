@@ -266,6 +266,7 @@ text-align: center;
 }
 
 .abbroracro {
+border-bottom: 0px dotted;
 cursor: help;
 }
 
