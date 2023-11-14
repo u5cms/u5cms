@@ -48,21 +48,17 @@ function aaz(string) {
 <input name="lan4na" type="text" id="lan4na" onchange="if (this.value!=aaz(this.value)) this.value=aaz(this.value);if(this.value.length!=2 && this.value.length!=0){this.value='';alert('Must be 2 letters long!')}" onkeyup="if (this.value!=aaz(this.value)) this.value=aaz(this.value)" value="<?php echo ehtml($row_a['lan4na'])?>" size="2" maxlength="2" />
 / 5th :
 <input name="lan5na" type="text" id="lan5na" onchange="if (this.value!=aaz(this.value)) this.value=aaz(this.value);if(this.value.length!=2 && this.value.length!=0){this.value='';alert('Must be 2 letters long!')}" onkeyup="if (this.value!=aaz(this.value)) this.value=aaz(this.value)" value="<?php echo ehtml($row_a['lan5na'])?>" size="2" maxlength="2" />
-&nbsp;&nbsp;&nbsp;<span style="font-size:60%">swapping languages does not swap content!</span>
+<div style="font-size:60%;margin-left:222px">swapping languages does not swap content!</div>
 </p>
   <h3>Name of the language in the language itself (e. g. fran&ccedil;ais for french). <br />
    </h3>
      This string is echoed in the language selection menu offered to your site visitors.</p>
   <p>1st language:
-    <input name="lan1name" type="text" id="lan1name" value="<?php echo ehtml($row_a['lan1name'])?>" />
-/ 2nd :
-<input name="lan2name" type="text" id="lan2name" value="<?php echo ehtml($row_a['lan2name'])?>" />
-/ 3rd :
-<input name="lan3name" type="text" id="lan3name" value="<?php echo ehtml($row_a['lan3name'])?>" />
-/ 4th :
-<input name="lan4name" type="text" id="lan4name" value="<?php echo ehtml($row_a['lan4name'])?>" />
-/ 5th :
-<input name="lan5name" type="text" id="lan5name" value="<?php echo ehtml($row_a['lan5name'])?>" />
+       <input size="7" name="lan1name" type="text" id="lan1name" value="<?php echo ehtml($row_a['lan1name'])?>" />
+ / 2nd:<input size="7" name="lan2name" type="text" id="lan2name" value="<?php echo ehtml($row_a['lan2name'])?>" />
+ / 3rd:<input size="7" name="lan3name" type="text" id="lan3name" value="<?php echo ehtml($row_a['lan3name'])?>" />
+ / 4th:<input size="7" name="lan4name" type="text" id="lan4name" value="<?php echo ehtml($row_a['lan4name'])?>" />
+ / 5th:<input size="7" name="lan5name" type="text" id="lan5name" value="<?php echo ehtml($row_a['lan5name'])?>" />
 </p>
 <input title="[Ctrl+s]" type="submit" name="button" value="save &amp; close" /><span class="asterisk" style="display:none;color:red">*</span>
 
