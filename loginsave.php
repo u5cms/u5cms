@@ -21,15 +21,18 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
 			$thegc=explode('c=',$_GET['u']);
 			$thegc=explode('&',$thegc[1]);
 			$thegc=$thegc[0];
-            $sql_a="SELECT logins FROM resources WHERE name= '".mysql_real_escape_string($thegc)."'";
+            $sql_a="SELECT logins FROM resources WHERE name= '".mysql_real_escape_string($thegc)."' AND logins LIKE '%?".mysql_real_escape_string($_COOKIE['u5samlusername']).":%'";
             $result_a=mysql_query($sql_a);
             if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-            $row_a = mysql_fetch_array($result_a);
+            $num_a = mysql_num_rows($result_a);
+			if($num_a>0) {
+			$row_a = mysql_fetch_array($result_a);
 			$rowalogins=$row_a['logins'];
 			$rowalogins=explode('?'.$_COOKIE['u5samlusername'].':',$rowalogins);
 			$rowalogins=explode(';',$rowalogins[1]);
 			$rowalogins=$rowalogins[0];
-			$_POST['p']=$rowalogins;	
+			if($rowalogins!='')$_POST['p']=$rowalogins;	
+			}
 			}			
         }
     }
