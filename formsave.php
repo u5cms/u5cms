@@ -82,7 +82,7 @@ $head.='·'.str_replace(';',',.',$key).';';
 $data.='·'.str_replace(';',',.',$value).';';
 }
 
-if ($_POST['qv2bo']!='off') if (!in_array($key,$nt2cu)) $zendmessage.=str_replace('_mandatory','*',$key).': '.$value."\r\n";
+if ($_POST['qv2bo']!='off') if (!in_array($key,$nt2cu)) $zendmessage.=str_replace('_mandatory','*',$key).': '.str_replace('fileversions/useruploads/','ffff.php?f=',$value)."\r\n";
 }
 
 if ($efound==1 && strpos(trim($value),'@')>=1 && strpos($value,'.')>=1) {
