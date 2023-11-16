@@ -123,7 +123,7 @@ $data[$i]=str_replace(';',',.',$data[$i]);
 }
 $row_a['notes']=implode(';',$data);
 
-
+$row_a['datacsv']=str_replace('fileversions/useruploads/','ffff.php?c=',$row_a['datacsv']);
 
 echo $row_a['status'].';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['notes']))))).';'.str_replace(';',',.',$row_a['authuser']).';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['datacsv']))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip'].';'."\r\n";
 }
