@@ -63,3 +63,7 @@ return unescape(text);
 function resizeIframe(obj) {
 obj.style.height = (obj.contentWindow.document.body.scrollHeight-0+20) + 'px';
 }
+
+function abbroracro(that) {
+that.name=that.innerHTML.replace(/</g,'&lt;').replace(/>/g,'&gt;');that.innerHTML=that.title.replace(/</g,'&lt;').replace(/>/g,'&gt;');that.title=that.name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}

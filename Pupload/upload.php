@@ -33,7 +33,7 @@ $h=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date(
     <img height="16" valign="middle" src="spinner.gif" id="spinnergif" style="display:none"/><input
         onchange="document.getElementById('spinnergif').style.display='block';document.form1.submit()" name="userfile"
         type="file" size="50%"/>
-    <script>if(parent)if(parent.window)parent.window.focus();</script>
+    <script>if(top.location.href.indexOf('/u5admin/')<0)if(parent)if(parent.window)parent.window.focus();</script>
 </form>
 </body>
 

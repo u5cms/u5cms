@@ -266,7 +266,7 @@ text-align: center;
 }
 
 .abbroracro {
-border-bottom: 1px dotted;
+border-bottom: 0px dotted;
 cursor: help;
 }
 
@@ -278,10 +278,28 @@ background-color: yellow;
 margin-left: 234px;
 }
 
+.underline {
+text-decoration:underline;
+}
+
+.crossout {
+text-decoration:line-through;
+}
+
+.note {
+padding:7px;
+background:gold;
+}
+
+
 .freecaption {
 font-size: 0.8em;
 line-height: 16px;
 }
+
+
+
+
 
 #homeclick {
 position: absolute;
@@ -483,4 +501,4 @@ div {
 
 dt {
 margin-bottom:-10px
-} 
+}  

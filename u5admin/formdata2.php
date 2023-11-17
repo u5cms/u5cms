@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 setcookie('ffrm', $_SERVER['QUERY_STRING'], time()+3600*24*365*10,'/');
 $_GET['f']=htmlspecialchars(trim(strip_tags($_GET['f'])));
@@ -244,7 +243,7 @@ $notesformstart='<form method="post" name="nf'.$row_a['id'].'" target="ifr'.$row
 $notesformend='</form>';
 if($noteslines==1)$notes=$notesformstart.'<input id="no'.$row_a['id'].'" name="note" style="width:'.$noteswidth.'px" type="text" '.$noteslogic.' value="'.$notesvalue.'">'.$notesformend;
 else $notes=$notesformstart.'<textarea id="no'.$row_a['id'].'" name="note" rows="'.$noteslines.'" style="width:'.$noteswidth.'px" type="text" '.$noteslogic.'><!!!u5dl_mtr!!!'.$notesvalue.'!!!u5dl_mtr!!!></textarea>'.$notesformend;
-$csv.='<a title="edit: Click here or Alt+Click anywhere" id="i'.$row_a['id'].'" style="text-decoration:none" onclick="document.cookie=\'fd2y='.$row_a['id'].'\'" href="../formdataedit.php?'.$_SERVER['QUERY_STRING'].'&a=1&id='.$row_a['id'].'"><small>'.$lnnr++.'</small><br>'.$row_a['id'].'</a>;<iframe scrolling="no" width="100%" height="3" frameborder="0" name="ifr'.$row_a['id'].'"></iframe><select onchange="ifr'.$row_a['id'].'.location.href=\'statussave.php?status=\'+this.value+\'&id='.$row_a['id'].'\'" id="sel'.$row_a['id'].'"><option value="1">1) new</option><option value="2">2) pending</option><option value="3">3) problem</option><option value="4">4) done</option><option value="5">'.$delete.'</option><option value="6">former version</option><option value="7">imported</option></select><script src=sel.php?id='.$row_a['id'].'&status='.$row_a['status'].'></script>;'.$notes.$notesscript.';'.str_replace(';',',.',($row_a['authuser'])).';'.str_replace("<br />"," | ",str_replace("\n","",str_replace("\r","",nl2br(str_replace(':&lt,.:','<',str_replace(':&gt,.:','>',str_replace('<','&lt,.',str_replace('>','&gt,.',($row_a['datacsv']))))))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip']."<br />";
+$csv.='<a title="edit: Click here or Alt+Click anywhere" id="i'.$row_a['id'].'" style="text-decoration:none" onclick="document.cookie=\'fd2y='.$row_a['id'].'\'" href="../formdataedit.php?n='.$_GET['n'].'&a=1&id='.$row_a['id'].'"><small>'.$lnnr++.'</small><br>'.$row_a['id'].'</a>;<iframe scrolling="no" width="100%" height="3" frameborder="0" name="ifr'.$row_a['id'].'"></iframe><select onchange="ifr'.$row_a['id'].'.location.href=\'statussave.php?status=\'+this.value+\'&id='.$row_a['id'].'\'" id="sel'.$row_a['id'].'"><option value="1">1) new</option><option value="2">2) pending</option><option value="3">3) problem</option><option value="4">4) done</option><option value="5">'.$delete.'</option><option value="6">former version</option><option value="7">imported</option></select><script src=sel.php?id='.$row_a['id'].'&status='.$row_a['status'].'></script>;'.$notes.$notesscript.';'.str_replace(';',',.',($row_a['authuser'])).';'.str_replace("<br />"," | ",str_replace("\n","",str_replace("\r","",nl2br(str_replace(':&lt,.:','<',str_replace(':&gt,.:','>',str_replace('<','&lt,.',str_replace('>','&gt,.',($row_a['datacsv']))))))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip']."<br />";
 }
 $dnummer=date("YmdHis");
 $echo = str_replace(',.',';',str_replace('<tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)"><b>','<tr '.$trattribs.' style="font-weight:bold"><td ondblclick="dbl(this.innerHTML)"><b>','<table><tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)">'.str_replace(';','</td><td ondblclick="dbl(this.innerHTML)">',str_replace('<br />','</td></tr><tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)">',nl2br($csv))).'</tr></table>'));
@@ -342,8 +341,8 @@ $ext=explode('.',$phrase);
 $ext=$ext[tnuoc($ext)-1];
 $title=str_replace($scripturix,'',$phrase);
 $title=str_replace('fileversions/useruploads/','',$title);
-if (str_replace(' ','',trim($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.str_replace('·','',':<:a href="'.$phrase.'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
-else return '·'.str_replace('·','',':<:a href="'.$phrase.'" title="'.$title.'" target="_blank":>:'.$ext.':<:/a:>:');
+if (str_replace(' ','',trim($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.str_replace('·','',':<:a href="'.str_replace('/fileversions/useruploads/','ffff.php=f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
+else return '·'.str_replace('·','',':<:a href="'.str_replace('fileversions/useruploads/','ffff.php?f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$ext.':<:/a:>:');
 }
 else if ($_COOKIE['fdtrunc']=='off') return $phrase;
 

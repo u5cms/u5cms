@@ -941,7 +941,6 @@ function countblockels() {
 if(document.getElementById('idcoblel'))document.getElementById('idcoblel').src='countblockelements.php?c=<?php echo htmlentities($_GET['c'])?>&l1=<?php echo $lan1na ?>&l2=<?php echo $lan2na?>&l3=<?php echo $lan3na ?>&l4=<?php echo $lan4na ?>&l5=<?php echo $lan5na ?>';
 }
 setTimeout("countblockels()",777);
-readcookies();
 </script>
 </body>
 </html>

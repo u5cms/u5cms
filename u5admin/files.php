@@ -41,6 +41,6 @@
     ?>
 </table>
 <iframe name="totalsizes" width="1" height="1" frameborder="0"
-        src="totalsizes.php?name=<?php echo $_GET['name'] ?>&t=<?php echo $totalsizes ?>"></iframe>
+        src="totalsizes.oneparent.php?name=<?php echo $_GET['name'] ?>&t=<?php echo $totalsizes ?>"></iframe>
 </body>
 </html>
