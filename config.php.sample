@@ -3,7 +3,7 @@ require_once __DIR__ . '/myfunctions.inc.php';
 
 use Laminas\Mail\Transport\SmtpOptions;
 
-// E-mail address applied as standard FROM-address and system message recipient. Notice: Some picky providers demand a dedicated address here (MX with the respective domain or other prerequisites);
+// E-mail address applied as standard FROM-address and system message recipient. THIS E-MAIL ADDRESS MUST HAVE THE SAME DOMAIN AS THE WEBSITE AT HAND AND IT MUST EXIST! Recommendation: noreply@domainofwebsite
    $mymail='YOURADMINEMAILINCMSFILECONFIGPHPONLINESEVEN@YOURPROVIDER.TLD';
 
 // Database connection parameters;
