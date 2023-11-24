@@ -31,7 +31,7 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
 			$rowalogins=explode('?'.$_COOKIE['u5samlusername'].':',$rowalogins);
 			$rowalogins=explode(';',$rowalogins[1]);
 			$rowalogins=$rowalogins[0];
-			$_POST['p']=$rowalogins;	
+			if($rowalogins!='')$_POST['p']=$rowalogins;	
 			}
 			}			
         }

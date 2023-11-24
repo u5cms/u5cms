@@ -317,7 +317,7 @@ if ($num_a>0) {
 <option value="7">&hellip; to imported</option>
 </select>
 <input type="submit" value="go" />
-</form>
+<?php require('t1.php') ?></form>
 
 <script>
 function mvalidate(){

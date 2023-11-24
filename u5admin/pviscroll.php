@@ -37,7 +37,7 @@ $pvitop=str_replace('pvitop=','',$c[1]);
 <br />
 <input type="submit" value="save"><span class="asterisk" style="display:none;color:red">*</span>
   <?php include('metachg.inc.php') ?><script>initchanges()</script>
-</form>
+<?php require('t1.php') ?></form>
 <script>
 function validated(string) {
     for (var i=0, output='', valid="1234567890"; i<string.length; i++)

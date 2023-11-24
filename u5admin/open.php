@@ -29,7 +29,7 @@ Do you want to open
 
 
 <?php if ($_GET['typ']=='c') { ?>
-<a href="javascript:void(0)" onclick="f1=window.open('coding.php?name=<?php echo $_GET['name']?>','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=1200,height=900');">yes</a>
+<a href="javascript:void(0)" onclick="f1=window.open('coding.php?name=<?php echo $_GET['name']?>','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=1200,height=7777');">yes</a>
 <?php } ?>
 
 <?php if ($_GET['typ']=='x') { ?>

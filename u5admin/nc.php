@@ -14,7 +14,7 @@ shortcut.add("Ctrl+S",function() {
 <body>
 <form name="form1">
 <input name="ok" type="hidden" />
-</form>
+<?php require('t1.php') ?></form>
 <?php 
 if (strlen($_GET['name'])<4) echo ('name must be 4 characters or more (a-z, 0-9)<script>document.form1.ok.value=\'\'</script>');
 

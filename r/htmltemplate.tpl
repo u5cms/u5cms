@@ -4,7 +4,7 @@
 <link href="favicon.ico" rel="shortcut icon" />
 <link rel="stylesheet" href="r/cssbase.css?1694082138" type="text/css" />
 <link rel="stylesheet" href="js/jquery.fancybox.min.css?1694082138" />
-<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery.js"></script>
 <script src="js/jquery.fancybox.min.js"></script>
 <script src="js/u5_scripts.js" type="text/javascript"></script>
 <script src="r/jsmobilespecific.css?1694082138"></script>

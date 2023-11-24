@@ -80,7 +80,7 @@ produced by the syntax [::::::::albumname]</h4>
 </p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-</form>
+<?php require('t1.php') ?></form>
 
 <script>
 window.resizeTo(800, screen.availHeight);

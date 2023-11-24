@@ -25,7 +25,7 @@ shortcut.add("Ctrl+S",function() {
     <small>An archived item may be still surfable (depending on its publicity status) but it will be listed in PIDVESA's archive section <span style="font-size:80%;color:white;background:black">a</span> instead of PIDVESA's current section. Use archiving according to your needs. Suggestions: Move delicate items (which should not be edited accidentally) to the archive or keep PIDVESAs current lists  short by moving rarely touched items to the archive. </small><br><br><br><br><br><br>
     </p>
 <input id="submitbutton" type="submit" value="define (toggle) archive status">
-</form>
+<?php require('t1.php') ?></form>
 <script>
 <?php include('az90.php'); ?>
 document.form1.name.focus();

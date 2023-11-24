@@ -37,7 +37,7 @@ yes /
 no<br><br><br><br><br><br><br><br>
     </p>
 <input type="submit" value="delete" id="submitbutton">
-</form>
+<?php require('t1.php') ?></form>
 <script>
 <?php include('az90.php'); ?>
 document.form1.name.focus();

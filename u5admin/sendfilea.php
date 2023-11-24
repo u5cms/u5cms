@@ -25,7 +25,7 @@ parent.files.saca();
 <input onchange="parent.upstart();document.form1.submit();document.getElementById('spinner').style.display='inline'" name="userfile[]" type="file" size="80%" accept="image/jpeg" multiple />
 <input name="name" type="hidden" size="44" value="<?php echo $_GET['name']?>" />
 <!--<input type="submit" name="submit" value="upload "/>-->
-</form>
+<?php require('t1.php') ?></form>
 </body>
 
 </html>

@@ -487,7 +487,7 @@ ns
                 src="../index.php?i=1&p=1&c=<?php echo $_GET['c'] ?>&l=<?php echo $lansel ?>"></iframe>
     </div>
     <input type="hidden" name="coco" value="<?php echo time() ?>"/>
-</form>
+<?php require('t1.php') ?></form>
 
 
 <script>

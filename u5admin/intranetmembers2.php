@@ -1,5 +1,5 @@
 <?php 
-require_once('connect.inc.php'); 
+require_once('connect.inc.php');require_once('t2.php'); 
 require('autointranetcheck.php');
 require_once('u5idn.inc.php');
 ?>

@@ -44,7 +44,7 @@ if(('; '+document.cookie).split('; newgo=')[1].split(';')[0]=='no')document.getE
 }
 if('<?php echo $_GET['typ']?>'=='p')document.getElementById('go').style.display='inline';
 </script>
-</form>
+<?php require('t1.php') ?></form>
 <script>
 <?php include('az90.php'); ?>
 function check() {

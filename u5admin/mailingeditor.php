@@ -71,11 +71,11 @@ shortcut.add("Ctrl+S",function() {
 <input type="text" name="mbcc" style="width:100%" value="<?php echo ehtml($row_a['mailbcc']) ?>" />
 <input type="text" name="msubject" style="width:100%" maxlength="255" value="<?php echo ehtml($row_a['mailsubject']) ?>" />
 <textarea name="mmessage" style="width:100%;"><?php echo ehtml($row_a['mailtext']) ?></textarea>
-</form>
+<?php require('t1.php') ?></form>
 
 <form style="margin-top:47px" name="form" method="post" target="ml" action="mailsave.php?n=<?php echo $_GET['n'] ?>&id=<?php echo $_GET['id'] ?>&t=<?php echo $_GET['t'] ?>">
 <table style="width:100%">
-<tr><td width="1">From: <small><a href="javascript:void(0)" onclick="alert('Enter ONE valid e-mail address to which replies shall be sent. Example:\n\nj.smith@example.com\n\n\nIt is recommended to include your human readable name. You may do this like this:\n\nJohn Smith <j.smith@example.com>')">?</a></small></td><td><input onfocus="document.getElementById('afield').value=this.name" type="text" name="mfrom" style="width:100%" value="<?php echo ehtml($row_a['mailfrom']) ?>" /></td></tr>
+<tr><td width="1">From: <small><a href="javascript:void(0)" onclick="alert('Enter ONE valid e-mail address to which replies shall be sent. Example:\n\nj.smith@example.com\n\nUSUALLY IT MUST BE AN E-MAIL ADDRESS WITH THE SAME DOMAIN AS THE SITE AT HAND AND IT MUST BE EXISTING!\n\nIt is recommended to include your human readable name. You may do this like this:\n\nJohn Smith <j.smith@example.com>')" style="color:red">!?</a></small></td><td><input onfocus="document.getElementById('afield').value=this.name" type="text" name="mfrom" style="width:100%" value="<?php echo ehtml($row_a['mailfrom']) ?>" /></td></tr>
 <tr><td>To:</td><td><input onfocus="document.getElementById('afield').value=this.name"type="text" name="mto" style="width:100%" value="<?php echo ehtml($row_a['mailto']) ?>" /></td></tr>
 <tr><td>Cc:</td><td><input onfocus="document.getElementById('afield').value=this.name"type="text" name="mcc" style="width:100%" value="<?php echo ehtml($row_a['mailcc']) ?>" /></td></tr>
 <tr><td>Bcc:</td><td><input onfocus="document.getElementById('afield').value=this.name"type="text" name="mbcc" style="width:100%" value="<?php echo ehtml($row_a['mailbcc']) ?>" /></td></tr>
@@ -102,7 +102,7 @@ else echo 'sent ' . date('Y-m-d H:i:s',$row_a['mailsent']) . ' by ' . $row_a['ma
 <input type="hidden" name="oldsubject" value="<?php echo ehtml($row_a['mailsubject']) ?>" />
 <textarea style="display:none" name="oldmessage"><?php echo ehtml($row_a['mailtext']) ?></textarea>
 
-</form>
+<?php require('t1.php') ?></form>
 <textarea style="display:none" id="xgram">&#19904;</textarea>
 <script>
 window.onbeforeunload = function() {

@@ -32,7 +32,7 @@ if (isset($_POST['s'])) {
                 onclick="if(document.getElementById('id_snptrm').checked==true)document.getElementById('id_snptrm').checked=false;else document.getElementById('id_snptrm').checked=true">no trim</span><input
                 type="checkbox" value="off" name="snptrm" id="id_snptrm"/></small>
     </div>
-</form>
+<?php require('t1.php') ?></form>
 <script>
     document.getElementById('id_s').focus();
     <?php if($_POST['snptrm']=='off') echo "document.getElementById('id_snptrm').checked=true;"?>

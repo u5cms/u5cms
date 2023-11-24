@@ -120,7 +120,7 @@ $row_a = mysql_fetch_array($result_a);
   </p>
   <p></p>
 <input type="hidden" name="coco" value="<?php echo time() ?>" />
-</form>
+<?php require('t1.php') ?></form>
 <script>document.form1.title_1.focus()</script>
 <script src="emptylanhide.js.php"></script>
 <?php include('focuslinktitle.inc.php') ?>

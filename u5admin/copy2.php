@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php');require_once('t2.php'); ?>
 <?php if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');?>
 <?php if (strlen($_GET['name'])<4) die('<script>history.go(-1)</script>');?>
 <!DOCTYPE html>

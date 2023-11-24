@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php'); 
+<?php require_once('connect.inc.php');require_once('t2.php'); 
 $f9focusBis=basename(trim($_POST['page']));
 setcookie('f9focusBis', $f9focusBis, time() + 3600 * 24 * 365 * 10, '/');
 ?>

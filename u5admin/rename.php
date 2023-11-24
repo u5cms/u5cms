@@ -26,7 +26,7 @@ shortcut.add("Ctrl+S",function() {
     </p>
   <br><br><br><br><br><br><br><br><iframe name="nc" frameborder="0" scrolling="no" width="500" height="50" src="nc.php"></iframe><br>
 <input type="submit" value="rename" onclick="if ('<?php echo $_GET['name']?>'==document.form1.name.value) alert('ERROR: New name and old name must not be identical!')">
-</form>
+<?php require('t1.php') ?></form>
 <script>
 <?php include('az90.php'); ?>
 function check() {
