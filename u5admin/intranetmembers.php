@@ -41,7 +41,7 @@ $row_a = mysql_fetch_array($result_a);
   </p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
-</form>
+<?php require('t1.php') ?></form>
 <iframe src="htaccess.php" widht="1" height="1" frameborder="0"></iframe>
 <script>
 document.getElementById('membersdiv').innerHTML=document.getElementById('members').value;

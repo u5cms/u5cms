@@ -180,7 +180,7 @@ fix Authuser:<input type="text" name="fixauthuser" value="<?php echo $_SERVER['P
 <textarea id="csv" onkeydown="if(event.keyCode == 9){doins(this.id,'\t');return false};" id="csv" style="width:100%;font-size:8px;tab-size:77" wrap="off" name="csv"></textarea>
 </small>
 <button style="width:222px;background:lightgreen" type="button" onclick="if(document.form.h.value==0)alert('You have to select the headings wisely!');if(document.form.target.value.length<4)alert('Target name must be at least 4 characters long!');if(document.form.csv.value.length<31)alert('No data to import or data to short!');if(document.form.csv.value.length>30 && document.form.h.value>0 && document.form.target.value.length>3)document.form.submit()">start import now</button> <span style="font-size:9px">After pasting from Excel, it's not a problem if delimiting does not look nice.</span>
-</form>
+<?php require('t1.php') ?></form>
 <script>
 res=260;
 function sizer() {

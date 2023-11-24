@@ -84,7 +84,7 @@ format='Here you may use u5CMS-syntax.\n\nExamples:\n[b]my text[/]\n[h:]<b>my te
 <input title="[Ctrl+s]" type="submit" name="button" value="save &amp; close" /><span class="asterisk" style="display:none;color:red">*</span>
   <?php include('metachg.inc.php') ?><script>initchanges()</script>
         </p>
-</form>
+<?php require('t1.php') ?></form>
 <script>
 window.resizeTo(800, screen.availHeight);
 </script>

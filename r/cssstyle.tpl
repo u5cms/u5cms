@@ -139,8 +139,7 @@ line-height: 16px;
 .imgBoxLeft {
 cursor: pointer;
 float: left;
-border: 1px solid #AFAFAF; 
-background-color: #FFF;
+border: 1px solid #DDDDDD; background-color: #FFF;
 margin: 10px 32px 15px 0;
 }
 
@@ -157,8 +156,7 @@ cursor: default;
 
 .imgBoxCenter {
 cursor: pointer;
-border: 1px solid #AFAFAF; 
-background-color: #FFF;
+border: 1px solid #DDDDDD; background-color: #FFF;
 margin: 10px auto 15px auto;
 }
 
@@ -176,8 +174,7 @@ cursor: default;
 .imgBoxRight {
 cursor: pointer;
 float: right;
-border: 1px solid #AFAFAF; 
-background-color: #FFF;
+border: 1px solid #DDDDDD; background-color: #FFF;
 margin: 10px 0 15px 32px;
 }
 

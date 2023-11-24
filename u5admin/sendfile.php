@@ -25,7 +25,7 @@ shortcut.add("Ctrl+S",function() {
 <input onchange="parent.upstart();document.form1.submit();document.getElementById('spinner').style.display='inline'" name="userfile" type="file" size="80%" <?php if($_GET['typ']=='i') echo 'accept="image/jpeg"'?><?php if($_GET['typ']=='f') echo 'accept="image/*"'?><?php if($_GET['typ']=='v') echo 'accept="audio/*,video/*"'?>/>
 <input name="name" type="hidden" size="44" value="<?php echo $_GET['name']?>" />
 <!--<input type="submit" name="submit" value="upload "/>-->
-</form>
+<?php require('t1.php') ?></form>
 </body>
 
 </html>

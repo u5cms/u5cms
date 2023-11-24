@@ -23,7 +23,7 @@ shortcut.add("Ctrl+S",function() {
     </p>
 <input type="submit" value="kill"><span class="asterisk" style="display:none;color:red">*</span>
   <?php include('metachg.inc.php') ?><script>initchanges()</script>
-</form>
+<?php require('t1.php') ?></form>
 <script>
 <?php include('az90.php'); ?>
 document.form1.name.focus();

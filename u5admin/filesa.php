@@ -274,7 +274,7 @@ countlan1='';
 if('<?php echo trim($lan1name) ?>'!='') {
 e=document.getElementsByClassName('txlan1');	
 for(i=0;i<e.length;i++){
-if(e[i].value.trim().replace(/\s/g,''))countlan1+=e[i].id.replace(/d/,'');	
+if(e[i].value.trim().replace(/\s/g,''))countlan1+=e[i].id.replace(/1/,'');	
 }
 }
 
@@ -282,7 +282,7 @@ countlan2='';
 if('<?php echo trim($lan2name) ?>'!='') {
 e=document.getElementsByClassName('txlan2');	
 for(i=0;i<e.length;i++){
-if(e[i].value.trim().replace(/\s/g,''))countlan2+=e[i].id.replace(/e/,'');		
+if(e[i].value.trim().replace(/\s/g,''))countlan2+=e[i].id.replace(/2/,'');		
 }
 }
 
@@ -290,7 +290,23 @@ countlan3='';
 if('<?php echo trim($lan3name) ?>'!='') {
 e=document.getElementsByClassName('txlan3');	
 for(i=0;i<e.length;i++){
-if(e[i].value.trim().replace(/\s/g,''))countlan3+=e[i].id.replace(/f/,'');	
+if(e[i].value.trim().replace(/\s/g,''))countlan3+=e[i].id.replace(/3/,'');	
+}
+}
+
+countlan4='';
+if('<?php echo trim($lan4name) ?>'!='') {
+e=document.getElementsByClassName('txlan4');	
+for(i=0;i<e.length;i++){
+if(e[i].value.trim().replace(/\s/g,''))countlan4+=e[i].id.replace(/4/,'');	
+}
+}
+
+countlan5='';
+if('<?php echo trim($lan5name) ?>'!='') {
+e=document.getElementsByClassName('txlan5');	
+for(i=0;i<e.length;i++){
+if(e[i].value.trim().replace(/\s/g,''))countlan5+=e[i].id.replace(/5/,'');	
 }
 }
 
@@ -302,17 +318,29 @@ countA=countlan1;
 countB=countlan2;
 lansymrender(lanA,lanB,countA,countB);
 
+
 lanA='<?php echo strtoupper($lan1na) ?>';
-lanB='<?php echo strtoupper($lan2na) ?>';
+lanB='<?php echo strtoupper($lan3na) ?>';
 countA=countlan1;
 countB=countlan3;
 lansymrender(lanA,lanB,countA,countB);
 
-lanA='<?php echo strtoupper($lan2na) ?>';
-lanB='<?php echo strtoupper($lan1na) ?>';
-countA=countlan2;
-countB=countlan1;
+
+lanA='<?php echo strtoupper($lan1na) ?>';
+lanB='<?php echo strtoupper($lan4na) ?>';
+countA=countlan1;
+countB=countlan4;
 lansymrender(lanA,lanB,countA,countB);
+
+
+lanA='<?php echo strtoupper($lan1na) ?>';
+lanB='<?php echo strtoupper($lan5na) ?>';
+countA=countlan1;
+countB=countlan5;
+lansymrender(lanA,lanB,countA,countB);
+
+///
+
 
 lanA='<?php echo strtoupper($lan2na) ?>';
 lanB='<?php echo strtoupper($lan3na) ?>';
@@ -320,18 +348,46 @@ countA=countlan2;
 countB=countlan3;
 lansymrender(lanA,lanB,countA,countB);
 
-lanA='<?php echo strtoupper($lan3na) ?>';
-lanB='<?php echo strtoupper($lan1na) ?>';
-countA=countlan3;
-countB=countlan1;
+
+lanA='<?php echo strtoupper($lan2na) ?>';
+lanB='<?php echo strtoupper($lan4na) ?>';
+countA=countlan2;
+countB=countlan4;
 lansymrender(lanA,lanB,countA,countB);
 
-lanA='<?php echo strtoupper($lan3na) ?>';
-lanB='<?php echo strtoupper($lan2na) ?>';
-countA=countlan3;
-countB=countlan2;
+
+lanA='<?php echo strtoupper($lan2na) ?>';
+lanB='<?php echo strtoupper($lan5na) ?>';
+countA=countlan2;
+countB=countlan5;
 lansymrender(lanA,lanB,countA,countB);
+
+///
+
+
+lanA='<?php echo strtoupper($lan3na) ?>';
+lanB='<?php echo strtoupper($lan4na) ?>';
+countA=countlan3;
+countB=countlan4;
+lansymrender(lanA,lanB,countA,countB);
+
+
+lanA='<?php echo strtoupper($lan3na) ?>';
+lanB='<?php echo strtoupper($lan5na) ?>';
+countA=countlan3;
+countB=countlan5;
+lansymrender(lanA,lanB,countA,countB);
+
+///
+
+lanA='<?php echo strtoupper($lan4na) ?>';
+lanB='<?php echo strtoupper($lan5na) ?>';
+countA=countlan4;
+countB=countlan5;
+lansymrender(lanA,lanB,countA,countB);
+
 }
+
 
 function lansymrender(lanA,lanB,countA,countB) {
 if(countB!=''&&countA!=''&&countB!=countA) {

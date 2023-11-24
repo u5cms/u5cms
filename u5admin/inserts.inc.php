@@ -54,6 +54,7 @@ else echo '<br>'.$row_b['cat'];
  if ($row_b['human']!='') echo ' <span style="color:white;font-weight:bold">|</span> ';      
 }
 $oldcat=$row_b['cat'];
+if($i_b==46)echo'<a href="javascript:void(0)" onclick="u1=window.open(\'tools.php?w=\'+window.outerWidth+\'&h=\'+window.outerHeight,\'_blank\',\'toolbar=0,location=0,status=1,screenX=0,screenY=0,top=0,left=0,menubar=0,scrollbars=1,resizable=1,width=640,height=640\');" title="tools">&#128736;</a>';
 }
 include('more.inc.php');
 ?>

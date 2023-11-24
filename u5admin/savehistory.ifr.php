@@ -26,7 +26,7 @@ $isalbum='';
 if($row_a['typ']=='a')$isalbum='a';
 
 if($row_a['typ']=='p')$attr='href="javascript:void(0)" onclick="if(event.altKey)parent.i1.lgotopage(\'' . $row_a['name'] . '\');else parent.i2.gotopage(\'' . $row_a['name'] . '\')"';
-else if($row_a['typ']=='c')$attr='href="javascript:void(0)" onclick="f1=window.open(\'coding.php?name='.$row_a['name'].'\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=1200,height=900\')";';
+else if($row_a['typ']=='c')$attr='href="javascript:void(0)" onclick="f1=window.open(\'coding.php?name='.$row_a['name'].'\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=1200,height=7777\')";';
 else if($row_a['typ']=='y'||$row_a['typ']=='e')$attr='href="javascript:void(0)" onclick="f1=window.open(\'meta'.$row_a['typ'].$isalbum.'.php?typ='.$row_a['typ'].'&name='.$row_a['name'].'\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\')";';
 else $attr='href="javascript:void(0)" onclick="f1=window.open(\'upload'.$isalbum.'.php?typ='.$row_a['typ'].'&name='.$row_a['name'].'\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\')";';
 

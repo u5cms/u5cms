@@ -5,13 +5,13 @@ e2=document.getElementsByTagName('textarea');
 e3=document.getElementsByTagName('select');	
 checkstring='';
 for(i=0;i<e1.length;i++) {
-checkstring+=e1[i].value;	
+if(e1[i].name!='u5scrtytknfrfrms')checkstring+=e1[i].value;	
 }
 for(i=0;i<e2.length;i++) {
-checkstring+=e2[i].value;	
+if(e2[i].name!='u5scrtytknfrfrms')checkstring+=e2[i].value;	
 }
 for(i=0;i<e3.length;i++) {
-checkstring+=e3[i].value;	
+if(e3[i].name!='u5scrtytknfrfrms')checkstring+=e3[i].value;	
 }
 }
 

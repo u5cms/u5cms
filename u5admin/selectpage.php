@@ -69,7 +69,7 @@
 <input onclick="manlview=1;lview('4')" name="view" type="radio" value="4"/>
 <input onclick="manlview=1;lview('5')" name="view" type="radio" value="5"/>
 </span>
-</form>
+<?php require('t1.php') ?></form>
 </td>
 
 </tr></table>

@@ -51,7 +51,7 @@ echo '
 ';
 }
 ?>
-</form></span>
+<?php require('t1.php') ?></form></span>
 <script>
 <?php include('az90.php'); ?>
 function check() {

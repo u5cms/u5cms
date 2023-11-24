@@ -33,7 +33,7 @@ if(!isset($u5cmsbackendpasswordminimumlength))$u5cmsbackendpasswordminimumlength
   </p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
-</form>
+<?php require('t1.php') ?></form>
 <script>
 document.form1.old.focus();
 </script>

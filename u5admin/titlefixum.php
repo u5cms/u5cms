@@ -59,7 +59,7 @@ It's recommended that you start with a space, followed by a delimiter (<a href="
   <?php include('metachg.inc.php') ?><script>initchanges()</script>
   </p>
   <p></p>
-</form>
+<?php require('t1.php') ?></form>
 <script>document.form1.d.focus()</script>
 <script src="emptylanhide.js.php"></script>
 <?php include('selfclose.inc.php')?>

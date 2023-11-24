@@ -12,7 +12,7 @@
   <input type="hidden" name="typ" value="<?php echo $_GET['typ'] ?>">
 <br><br><br><br><br><br><br><br><iframe name="nc" frameborder="0" scrolling="no" width="500" height="50" src="nc.php"></iframe><br>
 <input type="submit" value="insert new item">
-</form>
+<?php require('t1.php') ?></form>
 <script>
 function validated(string) {
     for (var i=0, output='', valid="abcdefghijklmnopqrstuvwxyz1234567890!"; i<string.length; i++)
