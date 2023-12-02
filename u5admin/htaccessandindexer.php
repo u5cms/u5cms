@@ -1,6 +1,6 @@
 <?php
 ignore_user_abort(true);
-if($oneverysaveupdateindexandhtaccesscostly!='yes')if(file_get_contents('../fileversions/lastsave.txt')<=file_get_contents('../fileversions/lastindex.txt'))die('<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>');
+if(file_get_contents('../fileversions/lastsave.txt')<=file_get_contents('../fileversions/lastindex.txt'))die('<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>');
 require_once ('connect.inc.php');
 ?>
 <iframe name="htaccess0" src="htaccess.php"></iframe>
@@ -21,8 +21,3 @@ if(indexer>=5)location.reload();
 <iframe src="indexer.php?l=<?php echo $lan4na ?>&r=!&k=<?php echo $k ?>"></iframe>
 <iframe src="indexer.php?l=<?php echo $lan5na ?>&r=!&k=<?php echo $k ?>"></iframe>
 </div>
-<?php if($oneverysaveupdateindexandhtaccesscostly!='yes') {?>
-<script>
-parent.save.location.href='logoutreminder.php';
-</script>
-<?php } ?>

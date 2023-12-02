@@ -23,13 +23,4 @@ animation: blinker 1s linear infinite;
     opacity: 0;
   }
 }
-.sblink {
-background:yellow;
-animation: blinker 1s linear infinite;
-}
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
-}
 </style>

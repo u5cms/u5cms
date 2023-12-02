@@ -873,7 +873,6 @@ ns
     function resetchanges2() {
         changes = 0;
         document.getElementById('savebutton').innerHTML = 's&nbsp;';
-        document.getElementById('savebutton').classList.remove('sblink');		
     }
 
     function mansync() {
