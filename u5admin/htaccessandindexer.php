@@ -21,7 +21,7 @@ if(indexer>=5)location.reload();
 <iframe src="indexer.php?l=<?php echo $lan4na ?>&r=!&k=<?php echo $k ?>"></iframe>
 <iframe src="indexer.php?l=<?php echo $lan5na ?>&r=!&k=<?php echo $k ?>"></iframe>
 </div>
-<?php if($oneverysaveupdateindexandhtaccesscostly!='yes') {?>
+<?php if($oneverysaveupdateindexandhtaccesscostly!='yes')if(file_get_contents('../fileversions/lastsave.txt')<=time()-60*60*3) {?>
 <script>
 parent.save.location.href='logoutreminder.php';
 </script>
