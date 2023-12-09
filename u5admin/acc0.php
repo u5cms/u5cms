@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php'); require_once('u5idn.inc.php');?>
+<?php require_once('connect.inc.php'); require_once('h1.php');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +17,7 @@ shortcut.add("Ctrl+S",function() {
 if ($viewbackenduserlistRqHIADRI!='no') require_once('accadmin.inc.php'); 
 ?>
 <h2>Invite a backend user (send password)</h2>
-e-mail:<input onkeyup="if(this.value!=this.value.replace(/\s/g,''))this.value=this.value.replace(/\s/g,'')" onchange="this.value=this.value.replace(/\s/g,'')" type="email" required="required" size="40" id="invite">&nbsp;<a href="javascript:void(0)" onclick="parent.saver.location.href='invite.php?e='+escape(document.getElementById('invite').value)">send</a>
+e-mail:<input onkeyup="if(this.value!=this.value.replace(/\s/g,''))this.value=this.value.replace(/\s/g,'')" onchange="this.value=this.value.replace(/\s/g,'')" type="email" required size="40" id="invite">&nbsp;<a href="javascript:void(0)" onclick="parent.saver.location.href='invite.php?e='+escape(document.getElementById('invite').value)+'&h=<?php echo $u5cmsscrttkngt ?>'">send</a>
 <br /><br />
 <h2>Current backend users</h2>
 <?php 

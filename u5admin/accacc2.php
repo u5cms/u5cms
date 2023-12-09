@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php'); require_once('h2.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

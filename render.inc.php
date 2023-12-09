@@ -944,7 +944,7 @@ function render($stringa) {
                         $isblank='target="_blank"';
                     }
 
-                    $stringa[$i] = '<a '.$isblank.' ' . $title . ' href="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '">' . $human . $extern . '</a>';
+					$stringa[$i] = '<a '.$isblank.' ' . $title . ' href="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '">' . str_replace('<nobr>;',';<nobr>&#8288;',substr($human,0,-1).'<nobr>'.$human[strlen($human)-1]) . $extern . '</nobr></a>';
                 }
             }
         }

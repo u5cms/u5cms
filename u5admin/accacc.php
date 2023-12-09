@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php');  require_once('h1.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +12,7 @@ if ($_GET['a']=='0') {
 <script>
 if (confirm('Do you really want '+document.getElementById('e').innerHTML+' to have NO Higher Admin Rights?')) {
 parent.main.document.getElementById('iL<?php echo $_GET['id']?>').checked=true;
-location.href='accacc2.php?id=<?php echo $_GET['id']?>&a=<?php echo $_GET['a']?>&y=<?php echo $_GET['y']?>';
+location.href='accacc2.php?id=<?php echo $_GET['id']?>&a=<?php echo $_GET['a']?>&y=<?php echo $_GET['y']?>&h=<?php echo $u5cmsscrttkngt ?>';
 }
 else parent.main.document.getElementById('iR<?php echo $_GET['id']?>').checked=true;
 </script>
@@ -26,7 +26,7 @@ if ($_GET['a']=='1') {
 cf1=confirm('Do you really want '+document.getElementById('e').innerHTML+' to HAVE Higher Admin Rights?')
 if (cf1) {
 parent.main.document.getElementById('iR<?php echo $_GET['id']?>').checked=true;
-location.href='accacc2.php?id=<?php echo $_GET['id']?>&a=<?php echo $_GET['a']?>&y=<?php echo $_GET['y']?>';
+location.href='accacc2.php?id=<?php echo $_GET['id']?>&a=<?php echo $_GET['a']?>&h=<?php echo $u5cmsscrttkngt ?>';
 }
 else parent.main.document.getElementById('iL<?php echo $_GET['id']?>').checked=true;
 
@@ -45,7 +45,7 @@ cf2a=confirm('Do you really want do delete '+document.getElementById('e').innerH
 if (cf2a) cf2b=confirm('Are you sure?');
 if (cf2b) cf2=confirm('Are you really sure?');
 if (cf2) {
-location.href='accacc2.php?id=<?php echo $_GET['id']?>&a=<?php echo $_GET['a']?>&y=<?php echo $_GET['y']?>';
+location.href='accacc2.php?id=<?php echo $_GET['id']?>&a=<?php echo $_GET['a']?>&y=<?php echo $_GET['y']?>&h=<?php echo $u5cmsscrttkngt ?>';
 }
 </script>
 <?php 

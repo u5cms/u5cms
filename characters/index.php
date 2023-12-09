@@ -522,7 +522,7 @@ for ($xi=0;$xi<tnuoc($xc);$xi++) {
 if (strpos($xc[$xi],'!')==1) echo $xc[$xi];
 else {
 $xc[$xi]=rawurlencode($xc[$xi]);
-echo '<a style="cursor:pointer;color:blue" title="'.rawurldecode($xc[$xi]).' '.mymb_ord(rawurldecode($xc[$xi])).' ('.dechex(mymb_ord(rawurldecode($xc[$xi]))).')" onclick="senddoins(\''.$xc[$xi].'\')"><script>document.write(decodeURIComponent(\''.$xc[$xi].'\'))</script></a>';
+echo '<a style="cursor:pointer;color:blue" title="'.rawurldecode($xc[$xi]).' '.mymb_ord(str_replace('⌜','',rawurldecode($xc[$xi]))).' ('.dechex(mymb_ord(str_replace('⌜','',rawurldecode($xc[$xi])))).')" onclick="senddoins(\''.$xc[$xi].'\')"><script>document.write(decodeURIComponent(\''.$xc[$xi].'\'))</script></a>';
 echo '</span>';
 echo '<span style="font-size:90%"> </span><span style="color:white;font-weight:bold">|</span><span style="font-size:90%"> </span>'; 
 }}
