@@ -2,7 +2,7 @@ HOW TO INSTALL THE u5CMS (license see bottom of this page)
               (How to update see bottom of page)
 
  1.
- You need a web server offering MySQL and PHP and further supporting .htaccess.
+ You need a web server offering MariaDB/MySQL and PHP and further supporting .htaccess.
  
  2. 
  Extract the u5cms.zip in a way that the folder structure will be recreated.
