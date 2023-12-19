@@ -12,7 +12,7 @@ u5CMS achieves an optimized Google Ranking by means of automatically generated t
 Since u5CMS version 10.0.0 compatibility with PHP 8 is given. It supports Unicode and has a built-in search engine and intranet with user management.
 
 Build a web application with u5CMS without programming skills
-It is very easy to build a web application yourself with u5CMS. Let users log in, enter data, edit data again and publish data. Your web application interacts with the u5CMS database without you having to worry about it. To get started, run the Tutorial* and then the Scenario 2**.
+It is very easy to build a web application yourself with u5CMS. Let users log in, enter data, edit data again and publish data. Your web application interacts with the u5CMS database without you having to worry about it. To get started, run the Tutorial※ and then the Scenario 2※※.
 
- * https://yuba.ch/r/rendertutorial/rendertutorial_en.pdf
-** https://yuba.ch/?c=u5eformedit
+  ※ https://yuba.ch/r/rendertutorial/rendertutorial_en.pdf
+※※ https://yuba.ch/?c=u5eformedit
