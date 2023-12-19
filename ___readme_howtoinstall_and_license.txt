@@ -12,7 +12,7 @@ HOW TO INSTALL THE u5CMS (license see bottom of this page)
  a preconfigured conference system with review process, PayPal a.s.o.
  
  4.
- In config.php, adjust the MySQL connection
+ In config.php, adjust the MariaDB/MySQL connection
  parameters in config.php to the ones needed in your environment (ask your provider). Also adjust
  your e-mail address in this file.
 
