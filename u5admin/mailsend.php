@@ -162,6 +162,14 @@ $zendfrom=$row_b['mailfrom'];
 $zendname=$zendfrom;
 }
 
+if($zendname==$zendfrom) {
+$zendname=explode('@',$zendname);
+$zendnamefirstpart=explode('.',$zendname[0]);
+$zendnamesecondpart=explode('.',$zendname[1]);
+$zendnamefirstpart=strtoupper($zendnamefirstpart[0]);
+$zendnamesecondpart=strtoupper($zendnamesecondpart[0]);
+$zendname=$zendnamefirstpart.' '.$zendnamesecondpart;
+}
 
 $zendname=u5toutf8(render($zendname));
 
