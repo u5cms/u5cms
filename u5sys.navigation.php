@@ -85,6 +85,7 @@ $z1 = $z2 = $z3 = $z4 = 0;
 $oldlevel = 0;
 $oldz1 = $oldz2 = $oldz3  = 0;
 $context = '';
+$wasActive = true;
 
 // for ($i = 0; $i < tnuoc($string); $i++) {
 $naviecho = "";
@@ -100,7 +101,7 @@ foreach ($navitems as $navitem) {
     // visibility dependent on current list item context
     if ($currentLevel > $oldlevel) {
         for ($i=$currentLevel-$oldlevel; $i>0; $i--) {
-            $naviecho .= "\n<ul" . navGetVisibilityAttrib($context) . ">\n";
+            $naviecho .= "\n<ul" . navGetVisibilityAttrib($context, $wasActive) . ">\n";
         }
     } elseif ($currentLevel < $oldlevel) {
         // when we go up again, close last list item and close unordered list(s)
