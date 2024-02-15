@@ -4,6 +4,9 @@ require('connect.inc.php');
 require_once('u5idn.inc.php');
 
 use Laminas\Mail\Message;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
 
 function u5iso($str) {
     return html_entity_decode(u5allnument($str), ENT_COMPAT,'ISO-8859-1');
@@ -207,6 +210,7 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
     $mail->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=UTF-8');
     //if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
     $mail->addFrom($zendfrom, $zendname);
+    $mail->addReplyTo($zendfrom, $zendname);
     $mail->addTo($zendto);
 
     $zendcc=explode(',',$zendcc);
@@ -225,9 +229,24 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
         }
     }
 
+    $text = new MimePart(strip_tags($zendmessage));
+    $text->type = Mime::TYPE_TEXT;
+    $text->charset = 'utf-8';
+    $text->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+
+    $html = new MimePart($zendmessage);
+    $html->type = Mime::TYPE_HTML;
+    $html->charset = 'utf-8';
+    $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+
+    $body = new MimeMessage();
+    $body->setParts([$text, $html]);
+
     $mail->setSubject($zendsubject);
-    $mail->addReplyTo($zendfrom);
-    $mail->setBody(strip_tags($zendmessage));
+    $mail->setBody($body);
+
+    $contentTypeHeader = $mail->getHeaders()->get('Content-Type');
+    $contentTypeHeader->setType('multipart/alternative');
 
     MailTransport($usesmtp, $mysmtpoptions)->send($mail);
 }
