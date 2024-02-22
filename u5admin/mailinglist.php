@@ -50,7 +50,7 @@ else echo '<span style="display:inline;cursor:pointer" onclick="alert(\'The mail
 
 
 echo '<a target="_blank" href="mailinfo.php?id='.$row_a['id'].'">info</a>&nbsp;';
-echo '<a href="javascript:void(0)" onclick="if(confirm(\'Do you want to DELETE mailjob &#19904;'.$row_a['id'].'?\')) location.href=\'maildelete.php?id='.$row_a['id'].'&t='.$_GET['t'].'&hot=hot\'">del</a>&nbsp;';
+echo '<a href="javascript:void(0)" onclick="if(confirm(\'Do you want to DELETE mailjob &#19904;'.$row_a['id'].'?\\n\\nIMPORTANT: If you delete this serial mail and you have already started it by clicking on the corresponding send link and its mail queue is still being processed, the mail dispatch is not stopped but processed to the end.\')) location.href=\'maildelete.php?id='.$row_a['id'].'&t='.$_GET['t'].'&hot=hot\'">del</a>&nbsp;';
 echo '</small>';
 
 $saved=$row_a['mailsaved'];

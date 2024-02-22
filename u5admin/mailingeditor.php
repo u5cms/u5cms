@@ -65,7 +65,7 @@ shortcut.add("Ctrl+S",function() {
 <?php } ?>
 <?php $h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t'])?>
 <form style="display:none" target="mapr_calc" name="pform" method="post" target="ml" action="mapr_calc.php?t=<?php echo $_GET['t']?>&n=<?php echo $_GET['n'] ?>&h=<?php echo $h ?>">
-<input type="text" name="mfrom" style="width:100%" value="<?php echo ehtml($row_a['mailfrom']) ?>" />
+<input placeholder="The domain of this sender e-mail address MUST belong to this website AND be an EXISTING mailbox there!" type="text" name="mfrom" style="width:100%" value="<?php echo ehtml($row_a['mailfrom']) ?>" />
 <input type="text" name="mto" style="width:100%" value="<?php echo ehtml($row_a['mailto']) ?>" />
 <input type="text" name="mcc" style="width:100%" value="<?php echo ehtml($row_a['mailcc']) ?>" />
 <input type="text" name="mbcc" style="width:100%" value="<?php echo ehtml($row_a['mailbcc']) ?>" />
