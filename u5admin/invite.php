@@ -63,7 +63,11 @@ alert('Username '+document.getElementById('e').innerHTML+' and password <?php ec
 </script>
 <?php 
 }
-if($doublepasswordmailing!='no')mail($e,'Your u5CMS backend user login',"Username: $e Password: $p");
+if($doublepasswordmailing!='no') {
+    if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
+        mail($e,'Your u5CMS backend user login',"Username: $e Password: $p");
+    }
+}
 $zendfrom=$mymail;
 $zendname=$mymail;
 $zendto=$e;
