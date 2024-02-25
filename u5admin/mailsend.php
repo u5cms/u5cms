@@ -214,18 +214,28 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
     $mail->addTo($zendto);
 
     $zendcc=explode(',',$zendcc);
+    $zendcc=explode(';',$zendcc);
     for ($zz=0;$zz<tnuoc($zendcc);$zz++) {
         $zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
         if ((validateemailaddress($zendcc[$zz]))) {
-            $mail->addCc($zendcc);
+            try {
+                $mail->addCc($zendcc);
+            } catch (Laminas\Mail\Exception\InvalidArgumentException $e) {
+                error_log("mailsend.php: Invalid cc: ". $e->getMessage());
+            }
         }
     }
 
     $zendbcc=explode(',',$zendbcc);
+    $zendbcc=explode(';',$zendbcc);
     for ($zz=0;$zz<tnuoc($zendbcc);$zz++) {
         $zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
         if ((validateemailaddress($zendbcc[$zz]))) {
-            $mail->addBcc($zendbcc);
+            try {
+                $mail->addBcc($zendbcc);
+            } catch (Laminas\Mail\Exception\InvalidArgumentException $e) {
+                error_log("mailsend.php: Invalid bcc: ". $e->getMessage());
+            }
         }
     }
 
