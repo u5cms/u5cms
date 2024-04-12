@@ -39,7 +39,6 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
 }
 
 $_POST['u']=u5flatidn($_POST['u']);
-
 setcookie('u', trim($_POST['u']), 0, '/', '', $httpsisinuse, true);
 setcookie('p', pwdcookie(trim($_POST['p'])), 0, '/', '', $httpsisinuse, true);
 $u=explode('#',$_GET['u']);
