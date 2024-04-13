@@ -53,7 +53,7 @@ else echo $i_i_part[1];
 }
 
 ?>
-<div id="genericformdataeditorlinkdiv" style="display:none;position:absolute;top:0px;margin-left:40%;height:100px;width:200px;background:lightgreen;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:bold">
+<div id="genericformdataeditorlinkdiv" style="display:none;position:absolute;z-index:2147483647;top:0px;margin-left:40%;height:100px;width:200px;background:lightgreen;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:bold">
 <div style="float:right;color:white;background:black;cursor:pointer" onclick="this.parentNode.style.display='none'">×</div>
 <div style="padding:5px"><span style="color:red">Read carefully:</span> If this page does not display an appropriate form to edit your data (no form, missing fields, wrong fields), go to the <a style="color:blue;text-decoration:underline" href="formdataeditgen.php?<?php echo str_replace('c=','n=',$_SERVER['QUERY_STRING'])?>">generic formdata editor</a>.</div>
 </div>

@@ -64,7 +64,7 @@ document.u5form.action='delformsave.php?a=<?php echo $_GET['a']?>&id=<?php echo 
 </script>
 
 <iframe width="0" height="0" frameborder="0" src="formdataedit2.php?n=<?php echo $_GET['c']?>&id=<?php echo $_GET['id']?>"></iframe>
-<div id="genericformdataeditorlinkdiv" style="display:none;position:absolute;top:0px;margin-left:40%;height:100px;width:200px;background:lightgreen;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:bold">
+<div id="genericformdataeditorlinkdiv" style="display:none;position:absolute;z-index:2147483647;top:0px;margin-left:40%;height:100px;width:200px;background:lightgreen;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:bold">
 <div style="float:right;color:white;background:black;cursor:pointer" onclick="this.parentNode.style.display='none'">×</div>
 <div style="padding:5px"><span style="color:red">Read carefully:</span> If this page does not display an appropriate form to edit your data (no form, missing fields, wrong fields), go to the <a style="color:blue;text-decoration:underline" href="formdataeditgen.php?<?php echo $_SERVER['QUERY_STRING']?>">generic formdata editor</a>.</div>
 <script>if(location.href.indexOf('a=1')>0)document.getElementById('genericformdataeditorlinkdiv').style.display='block';</script>
