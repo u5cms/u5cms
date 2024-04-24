@@ -1,11 +1,8 @@
 <?php
-
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-$_GET['f']=htmlspecialchars(trim(strip_tags($_GET['f'])));
-
 require_once('connect.inc.php');
 require('../config.php');
-
+$_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
 if ($formdataRqHIADRI!='no') require('accadmin.inc.php');
 
 $sql_a="SET NAMES utf8";
