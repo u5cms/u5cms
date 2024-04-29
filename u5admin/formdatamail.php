@@ -57,7 +57,8 @@ Show
 
 &nbsp;&nbsp;<span style="color:orange;font-weight:bold;font-size:120%">&#8898;</span>&nbsp;
 
-Filter [<a href="javascript:alert('Enter one or several search terms seperated by spaces into the filter field and hit the enter key or click the set-button. Also doubleclicking an item in the table activates filtering. If you switch FilterBool to \'or\', all records containing at least one of your search terms will be displayed. Click the unset-button to clear the filter (or hit the backspace key then the enter key afterwards). The leading dot in the user data fields is automatically generated, so do not copy and paste it to the filter field.')">?</a>]
+<?php require('formdata.filterlabel.php') ?>
+
 <input onkeypress="handleKeyPress(event)" id="filt" type="text">
 
 <script type="text/javascript">
@@ -134,66 +135,7 @@ if($_GET['s']==7) echo '<p><button onclick="location.href=(\'import.php?n='.$_GE
 
 &nbsp;<?php
 require_once('connect.inc.php');
-
-if ($_GET['s']>0) $andstatus='AND status = '.mysql_real_escape_string($_GET['s']);
-else $andstatus='AND status < '.mysql_real_escape_string(5);
-$toolate=30;
-if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);
-
-  $_GET['f'] = preg_replace_callback(
-    '/%u(.{4})/',
-    function($match){
-		return "&#".hexdec("x".$match[1]).",.";
-    },
-    $_GET['f']
-  );
-
-if ($_GET['f']!='') {
-$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim($_GET['f'])))));
-$keywords=str_replace('"',' ',$keywords);
-$keywords=str_replace('"',' ',$keywords);
-$keywords=str_replace('"',' ',$keywords);
-$keywords=str_replace('  ',' ',$keywords);
-$keywords=str_replace('  ',' ',$keywords);
-$keywords=str_replace('  ',' ',$keywords);
-
-  $keywords = preg_replace_callback(
-    '/%u(.{4})/',
-    function($match){
-      return "&#".hexdec("x".$match[1]).";";
-    },
-    $keywords
-  );
-
-$keywords=explode(' ',trim($keywords));
-$andfilter="AnD ( (";
-$orand='oR';
-if ($_COOKIE['fdbool']=='and') $orand='anD';
-
-for ($k=0;$k<tnuoc($keywords);$k++) {
-$andfilter.="datacsv='' ";
-$andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-$andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-$andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-$andfilter.="OR notes LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-$andfilter.="OR humantime LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-if ($k==tnuoc($keywords)-1) $andfilter.=')';
-else $andfilter.=") $orand (";
-}
-$andfilter.=')';
-}
-
-$timeorid='time DESC, id DESC';
-     if ($_COOKIE['fdorder']=='no') $timeorid='notes ASC, time DESC, id DESC';
-else if ($_COOKIE['fdorder']=='au') $timeorid='authuser ASC, time DESC, id DESC';
-else if ($_COOKIE['fdorder']=='ff') $timeorid='datacsv ASC, time DESC, id DESC';
-
-$sql_a="SELECT * FROM formdata WHERE formname='".mysql_real_escape_string($_GET['n'])."' $andstatus $andfilter ORDER BY $timeorid";
-$result_a=mysql_query($sql_a);
-$tsql=base64_encode($sql_a);
-if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-}
+require_once('formdata.query.php');
 
 if ($_GET['s']==5) echo '<br><hr><center><small>Items are automatically removed from this recycle bin list '.$toolate.' days after their deletion was selected.</small></center><hr>';
 
