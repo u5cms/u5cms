@@ -1,10 +1,10 @@
 <?php 
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED); 
-$_GET['t']=htmlspecialchars(strip_tags($_GET['t']));
 require('login.inc.php'); 
 require_once ('render.inc.php');
 require_once('globalslogin.inc.php');
 if($_SERVER['PHP_AUTH_USER']=='')exit;
+$_GET['t']=htmlXspecialchars(strip_tags($_GET['t']));
 ?>
 <!DOCTYPE html>
 <html>
