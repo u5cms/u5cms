@@ -6,16 +6,18 @@
 <?php if(file_exists('r/csspworder.css')) echo'<link rel="stylesheet" href="r/csspworder.css" type="text/css" />';?>
 </head>
 <body leftmargin="0" id="body">
-<div id="spinner">
-<img src="upload/spinner.gif" />
-</div>
-<div id="form" style="display:none">
 <?php
 require_once('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
 if($orderingintranetpasswordsisforbidden=='yes') {
   die("MESSAGE TO THE ADMINISTRATOR: You have to set $orderingintranetpasswordsisforbidden=='no' in the file config.php of your u5CMS installation to allow that.");
 }
+?>
+<div id="spinner">
+<img src="upload/spinner.gif" />
+</div>
+<div id="form" style="display:none">
+<?php
 if(function_exists('INTRANETORDERPWexec'))INTRANETORDERPWexec();
 
 $lastintrapworder = file_exists('fileversions/lastintrapworder.txt') ? file_get_contents('fileversions/lastintrapworder.txt') : 0;
