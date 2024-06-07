@@ -20,7 +20,7 @@ $template=str_replace('[_logo_]','r/logo/'.def($file_1,$file_2,$file_3,$file_4,$
 
 if ($_GET['p']=='1') $template=str_replace('{{{content}}}',render($_POST['r']),$template);
 
-else $template = str_replace('</html>','',str_replace('</body>','<div style="width:30px;height:30px;position:absolute;top:0;left:0;z-index:999;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?' . ehtml($_SERVER['QUERY_STRING']) . '\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
+else $template = str_replace('</html>','',str_replace('</body>','<div style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:2147483647;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?' . ehtml($_SERVER['QUERY_STRING']) . '\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
 </html>';
 
 $i_i_item=explode('{{{',$template);
