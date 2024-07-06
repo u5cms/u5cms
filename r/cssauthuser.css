@@ -12,10 +12,9 @@ font-family:Arimo;
 
 .authuser_logoutbutton {
 font-size:80%;
-background:red;
-color:white;
-border:0;
-padding:3px;
+background:lightyellow;
+cursor:pointer;
 }
-
- 
+.authuser_logoutbutton:hover {
+background:yellow;
+}

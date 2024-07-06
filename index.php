@@ -42,7 +42,7 @@ if(parent.window.name==\'i2\')document.getElementById(\'fu5prvldd\').src=\'index
     $the_c = $_GET['c'] ?? '';
     // echo"<pre>", var_dump($_GET), "the_n: ", var_dump($the_n), "the_c: ", var_dump($the_c), "the_l: ", var_dump($the_l);
     $template = str_replace('</html>','',str_replace('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:999;cursor:pointer" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.htmlspecialchars($the_n).'&c='.htmlspecialchars($the_c).'&l='.htmlspecialchars($the_l).'\');clickycorner=0}"></div>',$template)).'</body>
-<!-- This site runs with u5CMS version 12.5.10 from https://yuba.ch/u5cms -->
+<!-- This site runs with u5CMS version 12.5.11 from https://yuba.ch/u5cms -->
 </html>';
 }
 
