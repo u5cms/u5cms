@@ -17,5 +17,9 @@ require ('../simplesaml/_include.php');
 // resource as set in the authnsources.php in the SimpleSAMLphp
 // configuration.
 $simpleSaml = new \SimpleSAML\Auth\Simple($u5samlsspauthsourcekey);
-$simpleSaml->logout($u5samllogoutresultpage);
+$simpleSaml->logout([
+    'ReturnTo' => 'https://' . $_SERVER['SERVER_NAME'] . '/saml/logged_out.php',
+    'ReturnStateParam' => 'LogoutState',
+    'ReturnStateStage' => 'MyLogoutState',
+]);
 \SimpleSAML\Session::getSessionFromRequest()->cleanup();
