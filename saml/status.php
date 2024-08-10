@@ -19,8 +19,9 @@ require ('../simplesaml/_include.php');
 $simpleSaml = new \SimpleSAML\Auth\Simple($u5samlsspauthsourcekey);
 
 if ($simpleSaml->isAuthenticated()) {
-    echo "You are currently logged in as user" . $_COOKIE['u5samlusername'] . "</h3>";
-    echo "<br/><button onClick=\"window.location.href='logout.php';\">Logout</button>";
+    echo "You are currently logged in as user " . $_COOKIE['u5samlusername'] . "</h3>";
+    echo "<br/><button onClick=\"window.location.href='logout.php';\">Logout (Standard)</button>";
+    echo " <button onClick=\"window.location.href='logout_debug.php';\">Logout (Debug)</button>";
     // We are authenticated, now fetch attributes from response and fill in
     $samlattributes = $simpleSaml->getAttributes();
     
@@ -57,5 +58,6 @@ if ($simpleSaml->isAuthenticated()) {
     echo "</pre>";
 } else {
     echo "No SAML-Session found. You are currently not logged in.";
+    echo "<br/><button onClick=\"window.location.href='login.php?u=" . rawurlencode('/saml/status.php') . "';\">Login</button>";
 }
 
