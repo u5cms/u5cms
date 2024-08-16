@@ -186,7 +186,7 @@ ns
 <input onclick="manlview=1;lview('5')" name="view" type="radio" value="5"/><span
                         id="sl05"><?php echo $onechar ? $lan5na[0] : $lan5na ?></span>
 <input
-    title="Click the radio for wysiwyg preview. Doubleclick the radio to highlight paragraphs. Click the letter P to go to the live web page"
+    title="Click the radio for wysiwyg preview. Doubleclick the radio to highlight and expand paragraphs. Click the letter P to go to the live web page"
     ondblclick="hilitp()" onclick="lview('P');preload()" name="view" type="radio" value="P" id="pvradio"/><script>if (parent.location.href.indexOf('?i') > 1)document.getElementById('pvradio').style.display = 'none'</script><a
                         title="[Ctrl+F12] open real website" href="javascript:void(0)"
                         onclick="if (lansel!='P') window.open('../?c='+document.form1.page.value+'&l='+lansel); else {if (window.name=='i2') window.open('../?c='+document.form1.page.value+'&l='+parent.i1.lansel); else  window.open('../?c='+document.form1.page.value+'&l='+parent.i2.lansel)}">P</a>
