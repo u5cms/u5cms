@@ -1,6 +1,8 @@
 <style>
 body p {
-background:yellow;
+    background: lightyellow;
 }
-
+div.showblock2divinner {
+    display: block;
+}
 </style>
