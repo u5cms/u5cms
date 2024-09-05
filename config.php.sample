@@ -73,11 +73,12 @@ use Laminas\Mail\Transport\SmtpOptions;
    $ignoremanualfullpaths='no';
 
 // Search engine parameters
-   $doesfindpasswordprotectedcontent = 'yes';
-   $doesshowpreviewofsuchcontent     = 'no';
-   $doeshideintranetcontenttopublic  = 'yes';
-   $resulttitlemaxlength             = 60;
-   $autotitlewholewordsonly          = 'yes';
+   $doesfindpasswordprotectedcontent   = 'yes';
+   $doesshowpreviewofsuchcontent       = 'no';
+   $doeshideintranetcontenttopublic    = 'yes';
+   $resulttitlemaxlength               = 60;
+   $autotitlewholewordsonly            = 'yes';
+   $excludedobjecttypesinsearchresults = 'afdvye'; // Exclude these PIDVESA object types from search results;
 
 // Allow user upload in forms, e. g. $allowuseruploads = 'yes' (the uploaded files are stored in fileversions/useruploads and are password protected);
    $allowuseruploads = 'yes';
