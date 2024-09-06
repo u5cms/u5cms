@@ -1,6 +1,9 @@
 <?php
-
 ignore_user_abort(true);
+
+if(file_exists('../fileversions/htarunning.txt') && file_get_contents('../fileversions/htarunning.txt')!=0 && file_get_contents('../fileversions/htarunning.txt')>time()-60*15)die('<script>top.document.title="."+top.document.title</script>');
+file_put_contents('../fileversions/htarunning.txt',time());
+
 require_once ('connect.inc.php');
 require_once ('updateintranet.php');
 require_once ('getadmins.inc.php');
@@ -228,5 +231,6 @@ parent.parent.parent.i3.location.reload();
 <?php
 echo"<script>if(parent)if(parent.parent)if(parent.parent.document.getElementById('htaccess'))parent.parent.document.getElementById('htaccess').style.display='block'</script>";
 echo '<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay />';
+file_put_contents('../fileversions/htarunning.txt',0);
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>

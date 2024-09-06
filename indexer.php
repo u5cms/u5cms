@@ -6,6 +6,9 @@ require_once ('render.inc.php');
 $k1=sha1($db.$username.$password.date('YmdHi'));
 $k2=sha1($db.$username.$password.date('YmdHi',time()-60));
 
+if(file_exists('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt') && file_get_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt')!=0 && file_get_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt')>time()-60*15)die('<script>top.document.title="."+top.document.title</script>');
+file_put_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt',time());
+
 if($_GET['k']!=$k1&&$_GET['k']!=$k2)die('<script>top.document.title="!"+top.document.title</script>');
 file_put_contents('fileversions/lastindex.txt',time());
 
@@ -311,5 +314,6 @@ function idef($l1, $l2, $l3, $l4, $l5, $l) {
 }
 echo"<script>parent.u5indexer();</script>";
 echo '<audio id="doneaudio" src="u5admin/'.rand(1,6).'.mp3" autoplay />';
+file_put_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt',0);
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
