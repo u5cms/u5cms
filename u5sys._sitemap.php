@@ -1,7 +1,6 @@
 <?php 
 require_once('connect.inc.php');
 require_once('alloc.inc.php');
-require_once('PIDVESAexcludes.inc.php');
 
 $_GET['q']='%';
 
@@ -88,8 +87,8 @@ if (str_replace(' ','',$sfor[$i])!='') $where.=" AND ".def('search_1','search_2'
 }
 
 //search abfragen mit and antwortstring abfüllen
-if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE name!='-' AND typ='p' AND deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes."  AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY ".def('title_1','title_2','title_3','title_4','title_5')." ASC";
-else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes."  AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY ".def('title_1','title_2','title_3','title_4','title_5')." ASC";
+if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE name!='-' AND typ='p' AND deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY ".def('title_1','title_2','title_3','title_4','title_5')." ASC";
+else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY ".def('title_1','title_2','title_3','title_4','title_5')." ASC";
 $result_a=mysql_query($sql_a);
 
 //echo '<hr>AND '.$sql_a;
@@ -163,8 +162,8 @@ if ($turn>0) $eins=1;
 if ($num_a<$eins) {
 
 	
-if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes."  AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
-else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes."  AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
+if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
+else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
 
 $result_a=mysql_query($sql_a);
 //echo '<hr>OR '.$sql_a;
@@ -246,7 +245,7 @@ $leven=def($nohit_1,$nohit_2,$nohit_3,$nohit_4,$nohit_5).'<br />';
 for ($liii=0; $liii<tnuoc($sfor); $liii++) {
 
 if ($doesfindpasswordprotectedcontent == 'yes') $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." ";
-else $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes."  AND logins NOT LIKE '%:%'";
+else $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%'";
 
 $result_la=mysql_query($sql_la);
 
