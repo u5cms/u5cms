@@ -36,5 +36,5 @@ document.cookie='hplus=off; expires=Thu, 31 Dec 2037 12:00:00 GMT'
 
 <div style="float:right;margin:2px 0 0 2px"><a href="s2.php">all users</a>&nbsp;</div>
 <div style="margin:2px 0 0 2px">
-<?php include('fileandtextversions.inc.php') ?>
+<?php include('fileandtextversions0.inc.php') ?>
 </div>

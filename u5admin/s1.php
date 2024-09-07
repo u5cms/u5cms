@@ -78,7 +78,7 @@ setcookie('subs', 's1', time() + 3600 * 24 * 365 * 10, '/');
     <br/>
     Deleted items are recoverable. Kill makes them disappear physically.</p>
 <p>&nbsp;</p>
-
 <p>
+<?php include('fileandtextversions.inc.php') ?>
 </body>
 </html>
