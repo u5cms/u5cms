@@ -84,8 +84,7 @@ HOW TO UPDATE AN EXISTING U5CMS INSTALLATION
 
 TROUBLE SHOOTING
 A) If the layout does not look right after having done step 8, go to https://urltoyouru5cmsfrontend/u5admin and open a css-object (e. g. csslayout) in PIDVESA's S special function's code (htmltemplate & css) section and safe it!
-B) If after A) the layout still does not look richt, change the doctype <!DOCTYPE html> to the old one
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+B) If after A) the layout still does not look right, please consult https://yuba.ch/?c=u5cmsupdate
 
 
 
