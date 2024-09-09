@@ -8,7 +8,6 @@
 <script>
 setTimeout("document.getElementById('welcome').style.display='none'",3333);
 </script>
-<iframe style="display:none" src="cleanlog.php"></iframe>
 <?php
 error_reporting(E_ALL);
 $disabled_functions = ini_get('disable_functions');

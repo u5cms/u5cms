@@ -1,8 +1,12 @@
 <?php 
 ignore_user_abort(true); 
 require_once('connect.inc.php');
+
+if(file_get_contents('../fileversions/CLrunning.txt')<time()-60*60*24*10) {
+file_put_contents('../fileversions/CLrunning.txt',time())
 ?>
 <iframe src="cleanbackups.php"></iframe>
+<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
 <?php
 $sql_c="SELECT name FROM resources WHERE deleted!=1";
 $result_c=mysql_query($sql_c);
@@ -74,4 +78,5 @@ echo 'SQL_b-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_b.'</font
 
 }
 echo "<script>if(parent)if(parent.document.getElementById('cleanlog'))parent.document.getElementById('cleanlog').style.display='inline'</script>";
+}
 ?>
