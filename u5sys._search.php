@@ -392,7 +392,7 @@ $efile_5=explode('.',$file_5);
 $efile_5=$efile_5[1];
 
 $mustlogin='';
-if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='cug';
+if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='cug ';
 
 
 if ($row_a['typ']=='p' && strpos($row_a['logins'],':')>1) $typ='<span style="font-size:60%">'.$mustlogin.'</span> ';
