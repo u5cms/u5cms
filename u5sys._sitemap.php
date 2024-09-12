@@ -391,17 +391,18 @@ $efile_5=explode('.',$file_5);
 $efile_5=$efile_5[1];
 
 $mustlogin='';
-if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='LOGIN! ';
+if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='cug';
 
-if ($row_a['typ']=='p' && strpos($row_a['logins'],':')>1) $typ='<span style="font-size:60%">['.$mustlogin.']</span> ';
-if ($row_a['typ']=='a') $typ='<span style="font-size:60%">['.$mustlogin.'jpgs]</span> ';
-if ($row_a['typ']=='i') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
-if ($row_a['typ']=='f') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
-if ($row_a['typ']=='d') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
-if ($row_a['typ']=='v') $typ='<span style="font-size:60%">['.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).']</span> ';
-if ($row_a['typ']=='y') $typ='<span style="font-size:60%">[youtube]</span> ';
-if ($row_a['typ']=='e') $typ='<span style="font-size:60%">[www]</span> ';
-if ($row_a['typ']=='e' && str_replace('@','',$row_a[$that])!=$row_a[$that]) $typ='<span style="font-size:60%">[e-mail]</span> ';
+
+if ($row_a['typ']=='p' && strpos($row_a['logins'],':')>1) $typ='<span style="font-size:60%">'.$mustlogin.'</span> ';
+if ($row_a['typ']=='a') $typ='<span style="font-size:60%">'.$mustlogin.'jpgs</span> ';
+if ($row_a['typ']=='i') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';
+if ($row_a['typ']=='f') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';
+if ($row_a['typ']=='d') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';
+if ($row_a['typ']=='v') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';
+if ($row_a['typ']=='y') $typ='<span style="font-size:60%">youtube</span> ';
+if ($row_a['typ']=='e') $typ='<span style="font-size:60%">www</span> ';
+if ($row_a['typ']=='e' && str_replace('@','',$row_a[$that])!=$row_a[$that]) $typ='<span style="font-size:60%">email</span> ';
 
 $shellip='';
 
