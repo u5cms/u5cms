@@ -1,5 +1,5 @@
 <?php
-ignore_user_abort(true);
+ignore_user_abort(true);set_time_limit(3600);
 
 /*
 //no parallel runs, deprecated.

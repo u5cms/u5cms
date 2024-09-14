@@ -54,7 +54,7 @@ else return false;
 <?php require('backendcss.php'); ?></head>
 <body>
 <?php
-ignore_user_abort(true);
+ignore_user_abort(true);set_time_limit(3600);
 require('mailrenderfunctions.inc.php');
 $nextmail=0;
 if($cron=='cron'){

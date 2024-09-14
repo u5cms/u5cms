@@ -1,4 +1,4 @@
-<?php ignore_user_abort(true); ?>
+<?php ignore_user_abort(true);set_time_limit(3600); ?>
 <?php require_once('connect.inc.php'); ?>
 <?php if ($_POST['name'] == '' && $_GET['newname0'] != '') $_POST['name'] = $_GET['newname0']; ?>
 <?php if ($_POST['name'] == '' && $_GET['newname'] != '') $_POST['name'] = $_GET['newname']; ?>

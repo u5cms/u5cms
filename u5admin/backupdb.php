@@ -1,5 +1,5 @@
 <?php
-@set_time_limit(0);
+@set_time_limit(3600);;
 
 require('connect.inc.php');
 require_once('u5idn.inc.php');

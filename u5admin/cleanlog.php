@@ -1,5 +1,5 @@
 <?php 
-ignore_user_abort(true); 
+ignore_user_abort(true);set_time_limit(3600); 
 require_once('connect.inc.php');
 
 if(file_get_contents('../fileversions/CLrunning.txt')<time()-60*60*24*10) {

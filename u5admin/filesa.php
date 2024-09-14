@@ -1,4 +1,4 @@
-<?php ignore_user_abort(true); require_once('connect.inc.php'); ?>
+<?php ignore_user_abort(true);set_time_limit(3600); require_once('connect.inc.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

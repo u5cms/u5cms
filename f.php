@@ -1,5 +1,5 @@
 <?php
-set_time_limit(0);
+set_time_limit(3600);;
 require_once('connect.inc.php');
 $_GET['f']=str_replace('r/../r/','r/',$_GET['f']);
 

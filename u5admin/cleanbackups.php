@@ -1,5 +1,5 @@
 <?php 
-ignore_user_abort(true); 
+ignore_user_abort(true);set_time_limit(3600); 
 
 if(file_get_contents('../fileversions/CBrunning.txt')<time()-60*60*24*10) {
 file_put_contents('../fileversions/CBrunning.txt',time());

@@ -6,7 +6,7 @@ parent.document.getElementById('body').style.visibility='hidden';
 }
 </script>
 <?php 
-ignore_user_abort(true); 
+ignore_user_abort(true);set_time_limit(3600); 
 require_once('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
 
