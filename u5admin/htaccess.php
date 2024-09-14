@@ -1,8 +1,11 @@
 <?php
 ignore_user_abort(true);
 
+/*
+//no parallel runs, deprecated.
 if(file_exists('../fileversions/htarunning.txt') && file_get_contents('../fileversions/htarunning.txt')!=0 && file_get_contents('../fileversions/htarunning.txt')>time()-60*15)die('<script>top.document.title="."+top.document.title</script>');
 file_put_contents('../fileversions/htarunning.txt',time());
+*/
 
 require_once ('connect.inc.php');
 require_once ('updateintranet.php');
