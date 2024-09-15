@@ -1,4 +1,4 @@
-<iframe name="htaccess0" src="htaccess.php"></iframe><?php
+<?php
 require('connect.inc.php');
 if($oneverysaveupdateindexandhtaccesscostly=='yes')include('htaccessandindexer.php');
 ?>
