@@ -1,7 +1,7 @@
 <?php
 ignore_user_abort(true);set_time_limit(3600);
 
-if($_GET['once']=='once') {
+if ($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']) {
 if(file_exists('../fileversions/htarunning.txt') && file_get_contents('../fileversions/htarunning.txt')!=0 && file_get_contents('../fileversions/htarunning.txt')>time()-60*15)die('<script>top.document.title="."+top.document.title</script>');
 file_put_contents('../fileversions/htarunning.txt',time());
 }
@@ -233,6 +233,8 @@ parent.parent.parent.i3.location.reload();
 <?php
 echo"<script>if(parent)if(parent.parent)if(parent.parent.document.getElementById('htaccess'))parent.parent.document.getElementById('htaccess').style.display='block'</script>";
 echo '<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay />';
+if ($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']) {
 file_put_contents('../fileversions/htarunning.txt',0);
+}
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
