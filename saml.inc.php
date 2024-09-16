@@ -24,7 +24,7 @@ if($num_a>0) {
         $result_a=mysql_query($sql_a);
         if ($result_a==false) die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
 
-        file_get_contents($scriptFolder.'/u5admin/htaccess.php');
+        if(mysql_affected_rows()>0)file_get_contents($scriptFolder.'/u5admin/htaccess.php');
     }
 
     $_POST['u']=$founduserincookie;
