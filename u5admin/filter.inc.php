@@ -4,6 +4,6 @@
 <?php if(file_get_contents('../fileversions/EDITORrunning.txt')<time()-7) { ?>
 setTimeout("document.getElementById('filter2inc').src='filter2.inc.php?sql=<?php echo rawurlencode($sql_a) ?>&h=<?php echo $h ?>'",1);	
 <?php } else { ?>
-setTimeout("document.getElementById('filter2inc').src='filter2.inc.php?sql=<?php echo rawurlencode($sql_a) ?>&h=<?php echo $h ?>'",3333);	
+setTimeout("document.getElementById('filter2inc').src='filter2.inc.php?sql=<?php echo rawurlencode($sql_a) ?>&h=<?php echo $h ?>'",7777);	
 <?php } ?>
 </script>
