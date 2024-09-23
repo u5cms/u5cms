@@ -122,7 +122,7 @@ $str=str_replace('>',' >',$str);
 if(strpos('x'.$str,$otag)>0){
 		$ostr=explode($otag,$str);
 		for($i=1;$i<tnuoc($ostr);$i++) {
-				$opos+=strlen($ostr[$i-1])+strlen($otag);;
+				$opos+=strlen($ostr[$i-1])+strlen($otag);
 				$tagpos[$opos]=1;
 		}
 }

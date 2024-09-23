@@ -249,7 +249,7 @@ function nety(thatclass) {
 ecd='';
 e=document.getElementsByClassName(thatclass);
 for(i=0;i<e.length;i++) {
-ecd+=e[i].value.trim().replace(/\s/g,'');	;	
+ecd+=e[i].value.trim().replace(/\s/g,'');	
 }
 if(ecd.trim()=='') return false;
 else return true;

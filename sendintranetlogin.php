@@ -76,7 +76,7 @@ if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font colo
 $num_a = mysql_num_rows($result_a);
 
 if ($num_a>0) $p='The system does not send an intranet password to you because you already have a password for the u5CMS backend. Please use your u5CMS backend password also for the intranet. If you have forgotten it, recover it on '.str_replace(basename($scripturi),'',$scripturi).'reset.php';
-if(isset($u5samlsalt)&&$u5samlsalt!='')$p='The system does not send an intranet password to you because this u5CMS is SAML-integrated to an IAM-system. In other words, your credantials are managed in that IAM-system.';
+if(isset($u5samlsalt)&&$u5samlsalt!='')$p='The system does not send an intranet password to you because this u5CMS is SAML-integrated to an IAM-system. In other words, your credentials are managed in that IAM-system.';
 
 $zendmessage=$zendsubject."\n\n".strip_tags(str_replace("<p>","\n\n",str_replace("<br />","\n",rawurldecode($_SERVER['QUERY_STRING'])))).'
 

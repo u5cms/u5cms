@@ -27,7 +27,7 @@ if ($usesessioninsteadofbasicauth == 'no') {
 }
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
-$sql = "SELECT email, pw FROM accounts WHERE hash='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "' AND pw='" . mysql_real_escape_string(pwdhsh($_SERVER['PHP_AUTH_PW'])) . "'";
+$sql = "SELECT email, pw FROM accounts WHERE TRIM(email)!='' AND TRIM(pw)!='' AND email='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "' AND pw='" . mysql_real_escape_string(pwdhsh($_SERVER['PHP_AUTH_PW'])) . "'";
 $result = mysql_query($sql);
 
 $num = @mysql_num_rows($result);
@@ -36,7 +36,7 @@ if ($num > 0) {
     $unknown = 'ok';
 } else {
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
-        $sql = "SELECT email, pw FROM accounts";
+        $sql = "SELECT email, pw FROM accounts WHERE TRIM(email)!='' AND TRIM(pw)!=''";
         $result = mysql_query($sql);
 
         if ($result == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');

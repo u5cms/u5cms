@@ -2,7 +2,7 @@
 $pidvesa = 'v'; $pidvesascroll = 'v1';
 require_once('pidvesacookie.inc.php');
 setcookie('subv', 'v1', time() + 3600 * 24 * 365 * 10, '/');
-require_once('connect.inc.php');;
+require_once('connect.inc.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
