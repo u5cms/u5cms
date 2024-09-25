@@ -2,7 +2,7 @@
 // do not include myfunction.inc.php here
 if($_COOKIE['u5samlnonce']!=$u5samlnonce||!isset($_COOKIE['u5samlusername']))die('<script>location.href="saml/login.php?u='.rawurlencode($_GET['u']).'"</script>');
 $founduserincookie=$_COOKIE['u5samlusername'];
-$newautosamlpw=sha1($u5samlsalt.$founduserincookie.$db);
+$newautosamlpw=sha1($u5samlsalt.$founduserincookie.$password);
 
 $scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
 $scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
