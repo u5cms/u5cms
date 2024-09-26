@@ -2,6 +2,10 @@
 
 require_once __DIR__ . '/connect.inc.php';
 
+if (!isset($samlattribs['emailaddress'])) {
+    exit;
+}
+
 if (isset($_GET['truncate']) && $_GET['truncate'] == 'please') {
     $sql_a="UPDATE intranetmembers SET members = ''";
     echo 'Intranet members flushed';
@@ -9,10 +13,6 @@ if (isset($_GET['truncate']) && $_GET['truncate'] == 'please') {
     if ($result_a==false) {
         mysql_error();
     }
-    exit;
-}
-
-if (!isset($samlattribs['emailaddress'])) {
     exit;
 }
 
