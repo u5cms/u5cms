@@ -301,13 +301,22 @@ $c=$head.$c;
 $sql_a="UPDATE resources SET content_1='".mysql_real_escape_string($c)."' WHERE deleted!=1 AND name='htmltemplate' AND content_1 NOT LIKE '%js/jquery.fancybox.min.js%'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-file_put_contents('../fileversions/'.sha1($c).'.updatedone',file_get_contents('../r/runonce.php'));
+file_put_contents('../fileversions/'.hash('sha512',$c).'.updatedone',file_get_contents('../r/runonce.php'));
 
 $sql_a="UPDATE sizes SET smallimgL_h=50 WHERE smallimgL_h<1";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
 $sql_a="UPDATE sizes SET zoomedimg_w=1000, zoomedimg_h=1000";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$sql_a="CREATE TABLE IF NOT EXISTS `nonces` (
+  `nonce` varchar(255) NOT NULL,
+  `user` varchar(255) NOT NULL,
+  `time` int(11) NOT NULL,
+  `ip` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 

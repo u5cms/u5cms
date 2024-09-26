@@ -79,8 +79,8 @@ $ext=explode('.',$fpart[1]);
 $ext=$ext[tnuoc($ext)-1];
 if (file_exists('fileversions/'.$fpart[1])) echo '
 <script>
-if("'.$head[$i].'".indexOf("_mandatory")>0)  setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'upload_mandatory/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.sha1(date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
-else setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'upload/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.sha1(date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
+if("'.$head[$i].'".indexOf("_mandatory")>0)  setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'upload_mandatory/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.hash('sha512',date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
+else setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'upload/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.hash('sha512',date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
 </script>
 ';
 }
@@ -94,8 +94,8 @@ $ext=explode('.',$fpart[1]);
 $ext=$ext[tnuoc($ext)-1];
 if (file_exists('r/'.$fpart[1])) echo '
 <script>
-if("'.$head[$i].'".indexOf("_mandatory")>0)  setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'Pupload_mandatory/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.sha1(date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
-else setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'Pupload/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.sha1(date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
+if("'.$head[$i].'".indexOf("_mandatory")>0)  setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'Pupload_mandatory/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.hash('sha512',date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
+else setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'Pupload/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.hash('sha512',date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
 </script>
 ';
 }

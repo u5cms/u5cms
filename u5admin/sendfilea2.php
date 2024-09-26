@@ -4,8 +4,8 @@
 require('../config.php');
 if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'];
 else $serverremoteaddr='';
-$filehash1=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
-$filehash2=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd',time()-24*60*60));
+$filehash1=hash('sha512',$mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
+$filehash2=hash('sha512',$mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd',time()-24*60*60));
 if ($filehash1!=$_GET['h'] && $filehash2!=$_GET['h']) die('<script>alert("ERROR: Rejected, referer wrong. Perhaps your IP address changed. Please try again!");history.go(-1);</script>');
 
 function let_to_num($v){ //This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)

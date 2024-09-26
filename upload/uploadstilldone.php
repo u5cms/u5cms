@@ -4,7 +4,7 @@ $_GET['i']=htmlspecialchars(strip_tags($_GET['i']));
 require_once '../myfunctions.inc.php';
 require_once '../config.php';
 if(function_exists('UPLOADexec'))UPLOADexec();
-if($_GET['k']!=sha1(date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=sha1(date('Ymd',time()-24*60*60).$password.$sessioncookiehashsalt))die('ERROR: Authorization failed.');
+if($_GET['k']!=hash('sha512',date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=hash('sha512',date('Ymd',time()-24*60*60).$password.$sessioncookiehashsalt))die('ERROR: Authorization failed.');
 
 ?>
 <!DOCTYPE html>

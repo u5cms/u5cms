@@ -40,6 +40,13 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
 
 $_POST['u']=u5flatidn($_POST['u']);
 
+require('attempt.php');
+$sql_a="DELETE FROM nonces WHERE user='".mysql_real_escape_string($_POST['u'])."'";
+$result_a=mysql_query($sql_a);
+$sql_a="INSERT INTO nonces SET nonce='".mysql_real_escape_string(bin2hex(random_bytes(16)))."', user='".mysql_real_escape_string($_POST['u'])."', time=".time().", ip='".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."'";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
 setcookie('u', trim($_POST['u']), 0, '/', '', $httpsisinuse, true);
 setcookie('p', pwdcookie(trim($_POST['p'])), 0, '/', '', $httpsisinuse, true);
 $u=explode('#',$_GET['u']);

@@ -92,7 +92,7 @@ if($row_b['mailsent']>0 && $cron!='cron')die('<br>Do not reload! <script>locatio
 
 if($_GET['t']!='' || $cron=='cron') {
 
-$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
+$h=hash('sha512',$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
 if($h!=$_GET['h'] && $cron!='cron')die('<script>alert("forbidden")</script>');
 
 if($cron!='cron')$sql_a=base64_decode($_GET['t']);

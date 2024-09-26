@@ -11,8 +11,8 @@ if(strlen(str_replace('.','',$f))>0)$allfiles.=$f.',';
 $allfiles=explode(',',$allfiles);
 
 for($i=0;$i<tnuoc($allfiles)-1;$i++) {
-$fhash1=sha1($mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$allfiles[$i].date('Ymd'));
-$fhash2=sha1($mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$allfiles[$i].date('Ymd',time()-12*60*60));
+$fhash1=hash('sha512',$mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$allfiles[$i].date('Ymd'));
+$fhash2=hash('sha512',$mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$allfiles[$i].date('Ymd',time()-12*60*60));
 if ($fhash1==$_GET['f'] || $fhash2==$_GET['f']) $f=$allfiles[$i]; 
 }
 

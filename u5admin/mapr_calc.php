@@ -18,7 +18,7 @@ require('mailrenderfunctions.inc.php');
 
 if($_GET['t']!='') {
 
-$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
+$h=hash('sha512',$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
 if($h!=$_GET['h'])die('<script>alert("forbidden")</script>');
 
 $sql_a=base64_decode($_GET['t']);

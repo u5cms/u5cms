@@ -1,5 +1,5 @@
 <?php
-$k=sha1($db.$username.$password.date('YmdHi'));
+$k=hash('sha512',$db.$username.$password.date('YmdHi'));
 ?>
 <script>
 indexer=0;

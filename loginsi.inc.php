@@ -70,7 +70,6 @@ if($automaticallyskipintranetlogin!='yes') {
             header('HTTP/1.0 401 Unauthorized');
             echo '<script>location.href="u5sys._searchsi.php?"+location.href.split(\'?\')[1];</script>';
         } else {
-			require('attempt.php');
 			echo '<script>location.href="index.php?c=_login&u="+escape(location.href)</script>';
 		       }
         exit;

@@ -4,14 +4,14 @@ $_GET['i']=htmlspecialchars(strip_tags($_GET['i']));
 require_once '../myfunctions.inc.php';
 require_once '../config.php';
 if(function_exists('PUPLOADexec'))PUPLOADexec();
-if($_GET['k']!=sha1(date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=sha1(date('Ymd',time()-24*60*60).$password.$sessioncookiehashsalt))die('ERROR: Authorization failed.');
+if($_GET['k']!=hash('sha512',date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=hash('sha512',date('Ymd',time()-24*60*60).$password.$sessioncookiehashsalt))die('ERROR: Authorization failed.');
 
 require('../getauthuser.inc.php');
 if ($allowuserPuploads != 'yes') die('document.write("ERROR: Pupload not available. REASON: $allowuserPuploads is not set to yes in config.php");');
 if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'];
 else $serverremoteaddr='';
-$filehash1=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
-$filehash2=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd',time()-24*60*60));
+$filehash1=hash('sha512',$mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
+$filehash2=hash('sha512',$mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd',time()-24*60*60));
 if ($filehash1 != $_GET['h'] && $filehash2 != $_GET['h']) die('<script>alert("ERROR: Rejected, referer wrong. Perhaps your IP address changed. Please try again!");location.href="upload.php?i='.$_GET['i'].'&k='.$_GET['k'].'";</script>');
 ?>
 <!DOCTYPE html>

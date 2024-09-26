@@ -1,4 +1,4 @@
-<?php $h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$sql_a)?>
+<?php $h=hash('sha512',$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$sql_a)?>
 <iframe id="filter2inc" style="visibility:hidden" frameborder="0" width="0" height="0"></iframe>
 <script>
 <?php if(file_get_contents('../fileversions/EDITORrunning.txt')<time()-7) { ?>

@@ -4,7 +4,7 @@
 require('../config.php');
 if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'];
 else $serverremoteaddr='';
-$h=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
+$h=hash('sha512',$mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
 ?>
 <!DOCTYPE html>
 <html lang="en">

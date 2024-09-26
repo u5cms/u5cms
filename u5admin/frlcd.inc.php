@@ -52,7 +52,7 @@ tareatextfo();
 </script>
 <?php
 $sqlget='SELECT * FROM resources WHERE name=\''.$_GET['c'].'\'';
-$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$sqlget);
+$h=hash('sha512',$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$sqlget);
 if ($_GET['c']!='navigation') $Rrename='R';
 else $Rrename='';
 echo '&nbsp; <span id="rlcdspan" style="opacity:0.05" onmouseover="document.getElementById(\'oo_'.$_GET['c'].'\').style.color=\'blue\';document.getElementById(\'idlocalize\').src=\'filter2.inc.php?sql='.rawurlencode($sqlget).'&h='.$h.'\';this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'0.05\'">

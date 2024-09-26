@@ -33,7 +33,7 @@ echo '<small>';
 if ($row_a['mailsent']==0) echo '<a target="me" href="mailingeditor.php?n='.$_GET['n'].'&id='.$row_a['id'].'&t='.$_GET['t'].'">edit</a>&nbsp;';
 else echo '<a target="me" href="mailingeditor.php?n='.$_GET['n'].'&id='.$row_a['id'].'&t='.$_GET['t'].'">view</a>&nbsp;';
 
-$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
+$h=hash('sha512',$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
 
 
 if ($row_a['mailsent']==0) echo '<span style="display:inline;cursor:pointer" onclick="alert(\'The mailjob you want to test must be open (click edit) and all changes must be saved (click the save button).\')" id="notest'.$row_a['id'].'"><i>test</i></span><span style="display:none" id="test'.$row_a['id'].'"><a href="javascript:void(0)" onclick="location.href=\'mailsend.php?id='.$row_a['id'].'&t='.$_GET['t'].'&h='.$h.'\'">test</a></span>&nbsp;';

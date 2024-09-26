@@ -187,7 +187,7 @@ echo 'NOWHERE';
 <?php include('focuslinktitle.inc.php') ?>
 <?php 
 $sqlget="SELECT * FROM resources WHERE deleted!=1";
-$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$sqlget)
+$h=hash('sha512',$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$sqlget)
 ?>
 <iframe style="display:none" src="filter2.inc.php?sql=<?php echo rawurlencode($sqlget)?>&h=<?php echo $h ?>"></iframe>
 </body>

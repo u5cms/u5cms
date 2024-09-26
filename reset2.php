@@ -39,7 +39,7 @@ function genRandomString() {
     return $string;
 }
 $p=genRandomString();
-$hash=rand(1000000000,9999999999).rand(1000000000,9999999999);
+$hash=bin2hex(random_bytes(16));
 if($doublepasswordmailing!='no')mail($row_a['email'],"Your new u5CMS backend user password","Your new u5CMS backend user password is $p");
 $zendfrom=$mymail;
 $zendname=$mymail;

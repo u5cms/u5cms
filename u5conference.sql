@@ -40,7 +40,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'Temp','{SHA}46+pIegvnoV+cj0bOfO9DHvqqIg=','1699732813','27674046997335391875',1);
+INSERT INTO `accounts` VALUES (1,'Temp','{SHA}vSv4qp78JE0ICX37K/9YA4wHaKMd+msMvNp+D95DfdtEK8mkGnVv2PvotW0YhNSA2KCNlvYM5WzkHCA7ACU1ag==','1699732813','27674046997335391875',1);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -620,6 +620,24 @@ LOCK TABLES `trxlog` WRITE;
 /*!40000 ALTER TABLE `trxlog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `trxlog` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Tabellenstruktur fürr Tabelle `nonces`
+--
+
+CREATE TABLE `nonces` (
+  `nonce` varchar(255) NOT NULL,
+  `user` varchar(255) NOT NULL,
+  `time` int(11) NOT NULL,
+  `ip` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+--
+-- Indizes für die Tabelle `nonces`
+--
+ALTER TABLE `nonces`
+  ADD PRIMARY KEY (`user`) USING BTREE;
+COMMIT;
 
 --
 -- Dumping routines for database 'u'

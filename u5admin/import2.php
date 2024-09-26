@@ -13,7 +13,7 @@ unlink('../fileversions/x');
 }
 else echo '<script>alert("PROBLEM: The server does not have the right to write into the folder named \'fileversions\'.\n\nEFFECTS: Data import not possible.\n\nSOLUTION: CHMOD this folder RECURSIVELY (incl. all its files, subfolders a.s.o.) e. g. to 777 e. g. with FileZilla.");</script>';
 
-$filename=sha1($csv).'.csv';
+$filename=hash('sha512',$csv).'.csv';
 $csv=str_replace(';',',.',$_POST['csv']);
 file_put_contents('../fileversions/'.$filename,$csv);
 

@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
 ini_set('default_charset','iso-8859-1');
@@ -51,6 +50,10 @@ echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font
 
 }
 connect_to_db();
+
+if(file_exists('../r/runonce.php')){file_put_contents('connect.inc.php',str_replace('if(file_exists(\'../r/runonce.php\'))','//if(file_exists(\'../r/runonce.php\'))',file_get_contents('connect.inc.php')));echo'<div style="display:none">';include('../r/runonce.php');echo'</div>';}
+
+
 if (basename($_SERVER['PHP_SELF'])!='htaccess.php') {
 require_once('trxlog.inc.php');
 require_once('usercheck.inc.php');
@@ -110,21 +113,38 @@ function htmlX_entity_decode($that) {
 }
 
 function pwdhsh($p) {
-$p = base64_encode(sha1(u5toutf8($p), true));
+$p = base64_encode(hash('sha512',u5toutf8($p), true));
 return('{SHA}' . $p);
 }
 
 function pwdcookie($p) {
+if($invalidatesessionafterminutesofinactivity<1)$invalidatesessionafterminutesofinactivity=600;
+$sql_a="DELETE FROM nonces WHERE time<".(time()-60*$invalidatesessionafterminutesofinactivity);
+$result_a=mysql_query($sql_a);
+$sql_a="SELECT * FROM nonces WHERE user='".mysql_real_escape_string(u5flatidn($_POST['u']))."'";
+$result_a=mysql_query($sql_a);
+$row_a = mysql_fetch_array($result_a);
+$sql_a="UPDATE nonces SET time=".time()." WHERE nonce='".mysql_real_escape_string($row_a['nonce'])."'";
+$result_a=mysql_query($sql_a);
+
     global $mymail, $host, $username, $password, $db, $sticksessiontoip, $sessioncookiehashsalt;
     $installationfingerprint = $mymail . $host . $username . $password . $db;
     if ($sticksessiontoip == 'yes') $installationfingerprint .= $_SERVER['REMOTE_ADDR'];
-    return sha1($sessioncookiehashsalt . $installationfingerprint . pwdhsh($p));
+    return hash('sha512',$row_a['nonce'].$sessioncookiehashsalt . $installationfingerprint . pwdhsh($p));
 }
 
 function pwdcookieget($p) {
+if($invalidatesessionafterminutesofinactivity<1)$invalidatesessionafterminutesofinactivity=600;
+$sql_a="DELETE FROM nonces WHERE time<".(time()-60*$invalidatesessionafterminutesofinactivity);
+$result_a=mysql_query($sql_a);
+$sql_a="SELECT * FROM nonces WHERE user='".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'])."'";
+$result_a=mysql_query($sql_a);
+$row_a = mysql_fetch_array($result_a);
+$sql_a="UPDATE nonces SET time=".time()." WHERE nonce='".mysql_real_escape_string($row_a['nonce'])."'";
+$result_a=mysql_query($sql_a);
+
     global $mymail, $host, $username, $password, $db, $sticksessiontoip, $sessioncookiehashsalt;
     $installationfingerprint = $mymail . $host . $username . $password . $db;
     if ($sticksessiontoip == 'yes') $installationfingerprint .= $_SERVER['REMOTE_ADDR'];
-    return sha1($sessioncookiehashsalt . $installationfingerprint . $p);
+    return hash('sha512',$row_a['nonce'].$sessioncookiehashsalt . $installationfingerprint . $p);
 }
-

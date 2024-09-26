@@ -1,5 +1,9 @@
 <?php
 require('connect.inc.php');
+
+$sql_a="DELETE FROM nonces WHERE user='".mysql_real_escape_string(u5flatidn($_COOKIE['u']))."' OR user='".mysql_real_escape_string($_COOKIE['u'])."'";
+$result_a=mysql_query($sql_a);
+
 setcookie('u', '', 0, '/', '', $httpsisinuse, true);
 setcookie('p', '', 0, '/', '', $httpsisinuse, true);
 if(isset($u5samlsalt)&&$u5samlsalt!='') {

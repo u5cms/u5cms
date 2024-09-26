@@ -2,7 +2,7 @@
 ignore_user_abort(true);set_time_limit(3600);
 if($oneverysaveupdateindexandhtaccesscostly!='yes')if(file_get_contents('../fileversions/lastsave.txt')<=file_get_contents('../fileversions/lastindex.txt'))die('<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>');
 require_once ('connect.inc.php');
-$k=sha1($db.$username.$password.date('YmdHi'));
+$k=hash('sha512',$db.$username.$password.date('YmdHi'));
 ?>
 <script>
 indexer=0;

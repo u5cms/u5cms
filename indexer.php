@@ -3,8 +3,8 @@ ignore_user_abort(true);set_time_limit(3600);
 require_once ('connect.inc.php');
 require_once ('render.inc.php');
 
-$k1=sha1($db.$username.$password.date('YmdHi'));
-$k2=sha1($db.$username.$password.date('YmdHi',time()-60));
+$k1=hash('sha512',$db.$username.$password.date('YmdHi'));
+$k2=hash('sha512',$db.$username.$password.date('YmdHi',time()-60));
 
 if(file_exists('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt') && file_get_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt')!=0 && file_get_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt')>time()-60*15)die('<script>top.document.title="."+top.document.title</script>');
 file_put_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt',time());

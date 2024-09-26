@@ -4,12 +4,12 @@ $_GET['i']=htmlspecialchars(strip_tags($_GET['i']));
 require_once '../myfunctions.inc.php';
 require_once '../config.php';
 if(function_exists('UPLOADexec'))UPLOADexec();
-if($_GET['k']!=sha1(date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=sha1(date('Ymd',time()-24*60*60).$password.$sessioncookiehashsalt))die('ERROR: Authorization failed.');
+if($_GET['k']!=hash('sha512',date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=hash('sha512',date('Ymd',time()-24*60*60).$password.$sessioncookiehashsalt))die('ERROR: Authorization failed.');
 
 if ($allowuseruploads != 'yes') die('document.write("ERROR: Upload not available. REASON: $allowuseruploads is not set to yes in config.php");');
 if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'];
 else $serverremoteaddr='';
-$h=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
+$h=hash('sha512',$mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date('Ymd'));
 ?>
 <!DOCTYPE html>
 <html>

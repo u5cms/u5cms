@@ -3,7 +3,7 @@ require('../config.php');
 $squot1='"';
 $squot2="\\'";
 
-$h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].htmlspecialchars_decode($_GET['sql']));
+$h=hash('sha512',$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].htmlspecialchars_decode($_GET['sql']));
 
 if($h!=$_GET['h'])die('<script>alert("forbidden6")</script>');
 

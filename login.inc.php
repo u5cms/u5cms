@@ -75,8 +75,7 @@ if($automaticallyskipintranetlogin!='yes' || $thatpage[0]!='!') {
             header('HTTP/1.0 401 Unauthorized');
             echo '<script>history.go(-1)</script>';
         } else {
-     		require('attempt.php');
-			echo '<script>location.href="index.php?c=_login&u="+escape(location.href)</script>';
+     		echo '<script>location.href="index.php?c=_login&u="+escape(location.href)</script>';
 		}
         exit;
     }

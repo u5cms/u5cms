@@ -30,7 +30,7 @@ $num_a = mysql_num_rows($result_a);
 
 if ($num_a>0) die('<script>alert(document.getElementById("e").innerHTML+" already is user. If he or she has forgotten the password it can be recovered on '.str_replace(basename($_SERVER['SCRIPT_URI']),'',$_SERVER['SCRIPT_URI']).'reset.php")</script>');
 
-$hash=rand(1000000000,9999999999).rand(1000000000,9999999999);
+$hash=bin2hex(random_bytes(16));
 function genRandomString() {
     $length = 10;
     $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -63,11 +63,7 @@ alert('Username '+document.getElementById('e').innerHTML+' and password <?php ec
 </script>
 <?php 
 }
-if($doublepasswordmailing!='no') {
-    if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
-        mail($e,'Your u5CMS backend user login',"Username: $e Password: $p");
-    }
-}
+if($doublepasswordmailing!='no')if(!(isset($u5samlsalt)&&$u5samlsalt!=''))mail($e,'Your u5CMS backend user login',"Username: $e Password: $p");
 $zendfrom=$mymail;
 $zendname=$mymail;
 $zendto=$e;
