@@ -23,7 +23,7 @@ include('../config.php');
 if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';
 $htpasswd="AuthName \"".$u5cmsrealm."\"
 AuthType Basic
-AuthUserFile \"".str_replace('/u5admin/htaccess.php','',str_replace('\\','/',$_SERVER['SCRIPT_FILENAME']))."/fileversions/.htpasswd\"
+AuthUserFile \"".str_replace('/htaccess.php','',str_replace('\\','/',$_SERVER['SCRIPT_FILENAME']))."/fileversions/.htpasswd\"
 Require valid-user
 ";
 

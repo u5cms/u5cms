@@ -41,7 +41,7 @@ echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font
 }
 $scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
 $scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
-file_get_contents($scriptFolder.'/u5admin/htaccess.php');
+file_get_contents($scriptFolder.'/htaccess.php');
 }
 ?>
 <script>
