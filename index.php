@@ -11,7 +11,10 @@ $donotloadu5adminconfig=1;
 require_once('u5admin/usercheck.inc.php');
 require_once('getinserts.inc.php');
 }
-else require_once('login.inc.php');
+else {
+require_once('login.inc.php');
+if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lastindex.txt'))require_once('indexerstart.php');
+}
 
 if (key_exists('p', $_GET) && $_GET['p']=='1' && $executephp=='inarchiveonly') {
 $sql_a="SELECT deleted FROM resources WHERE name='".mysql_real_escape_string($_GET['c'])."'";

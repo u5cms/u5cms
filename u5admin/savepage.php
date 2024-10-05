@@ -132,7 +132,7 @@ window.open('textversions.php?c=".$_POST['name']."','_blank','toolbar=0,location
 }
 </script>";
 ?>
-<iframe width="1" height="1" scrolling="no" frameborder="0" src="htaccess0.php"></iframe>
+<iframe width="1" height="1" scrolling="no" frameborder="0" src="lastsave.php"></iframe>
 <?php require('countblockrefresh.inc.php'); ?>
 <script><?php echo 'if(parent)if(parent.'.$_GET['i'].')parent.'.$_GET['i'].'.postsubmitfunction();' ?></script>
 </body>

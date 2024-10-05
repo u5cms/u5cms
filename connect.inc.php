@@ -52,7 +52,7 @@ function ehtml($superstring) {
 return str_replace('&amp;#','&#',htmlXentities($superstring));
 }
 
-function def($l1, $l2, $l3, $l4 = '', $l5 = '') {
+function def($l1, $l2, $l3, $l4, $l5) {
     $l1 = $l1 ?? '';
     $l3 = $l3 ?? '';
     $l2 = $l2 ?? '';
@@ -71,7 +71,7 @@ function def($l1, $l2, $l3, $l4 = '', $l5 = '') {
   else if ($_GET['l'] == $lan4na && trim($l4) != '') return $l4;
   else if ($_GET['l'] == $lan5na && trim($l5) != '') return $l5;
   else {
-  if (trim($l1) != '') return $l1;
+       if (trim($l1) != '') return $l1;
   else if (trim($l2) != '') return $l2;
   else if (trim($l3) != '') return $l3;
   else if (trim($l4) != '') return $l4;

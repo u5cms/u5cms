@@ -3,8 +3,6 @@ require_once('connect.inc.php');
 require_once('alloc.inc.php');
 require_once('PIDVESAexcludes.inc.php');
 
-if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lastindex.txt'))require_once('indexerstart.php');
-
 if ($resulttitlemaxlength<1) $resulttitlemaxlength=60;
 
 require_once('loginsi.inc.php');
