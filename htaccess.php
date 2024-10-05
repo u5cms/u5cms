@@ -8,8 +8,41 @@ file_put_contents('fileversions/htarunning.txt',time());
 
 require_once ('connect.inc.php');
 require_once ('u5admin/updateintranet.php');
-require_once ('u5admin/getadmins.inc.php');
 require_once('u5idn.inc.php');
+
+/////////////////////////////////////////////////////////////////////////
+
+$sql_a="SELECT email,pw FROM accounts";
+$result_a=mysql_query($sql_a);
+
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+
+$num_a = mysql_num_rows($result_a);
+
+$alladmins='';
+for ($i_a=0; $i_a<$num_a; $i_a++) {
+$row_a = mysql_fetch_array($result_a);
+$alladmins.=($row_a['email']).':'.$row_a['pw']."\r\n";
+}
+//$alladmins=html_entity_decode(utf8_encode(trim($alladmins)), ENT_COMPAT, 'UTF-8');
+$alladmins=u5toutf8($alladmins);
+file_put_contents("fileversions/.htpasswd",$alladmins);
+include('../config.php');
+if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';
+if($u5allowbasicauthtoprotectedfilesindirr=='yes') {
+$htpasswd="AuthName \"".$u5cmsrealm."\"
+AuthType Basic
+AuthUserFile \"".str_replace('/htaccess.php','',str_replace('\\','/',$_SERVER['SCRIPT_FILENAME']))."/fileversions/.htpasswd\"
+Require valid-user
+";}
+else {
+$htpasswd="Deny from all";
+}
+
+file_put_contents("fileversions/.htaccess",$htpasswd);
+
+//////////////////////////////////////////////////////////////////////
+
 $sql_a="SELECT name,typ FROM resources WHERE deleted!=1 AND typ!='p' AND typ!='c' AND typ!='s' ORDER BY lastmut DESC";
 $result_a=mysql_query($sql_a);
 
