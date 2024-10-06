@@ -228,7 +228,7 @@ function idef($l1, $l2, $l3, $l4, $l5, $l) {
   }
 }
 
-echo '<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay />';
+echo '<audio id="doneaudio" src="u5admin/'.rand(1,6).'.mp3" autoplay />';
 file_put_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.txt',0);
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
