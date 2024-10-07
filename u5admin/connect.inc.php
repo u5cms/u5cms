@@ -66,7 +66,7 @@ return str_replace($search,$replace,htmlXentities($superstring));
 
 require_once('../globals.inc.php');
 
-function def($l1, $l2, $l3, $l4 = '', $l5 = '') {
+function def($l1='',$l2='',$l3='',$l4='',$l5='') {
     $l1 = $l1 ?? '';
     $l3 = $l3 ?? '';
     $l2 = $l2 ?? '';

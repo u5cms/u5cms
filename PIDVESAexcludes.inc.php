@@ -8,5 +8,5 @@ if(strpos('x'.$excludedobjecttypesinsearchresults,'d')>0) $PIDVESAexcludes.="AND
 if(strpos('x'.$excludedobjecttypesinsearchresults,'v')>0) $PIDVESAexcludes.="AND typ!='v'";
 if(strpos('x'.$excludedobjecttypesinsearchresults,'y')>0) $PIDVESAexcludes.="AND typ!='y'";
 if(strpos('x'.$excludedobjecttypesinsearchresults,'e')>0) $PIDVESAexcludes.="AND typ!='e'";
-define(PIDVESAexcludes,$PIDVESAexcludes);
+define('PIDVESAexcludes',$PIDVESAexcludes);
 ?>

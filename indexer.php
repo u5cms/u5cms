@@ -206,7 +206,7 @@ if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><fo
 }
 }
 
-function idef($l1, $l2, $l3, $l4, $l5, $l) {
+function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l) {
 	 $l1 = $l1 ?? '';
     $l3 = $l3 ?? '';
     $l2 = $l2 ?? '';
