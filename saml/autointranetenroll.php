@@ -28,4 +28,4 @@ if ($result_a==false) {
 // recalculate login field of intranet resources
 $scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
 $scriptFolder .= $_SERVER['HTTP_HOST'] . dirname(dirname($_SERVER['REQUEST_URI']));
-if(mysql_affected_rows()>0)file_get_contents($scriptFolder . 'htaccess.php');
+if(mysql_affected_rows()>0)file_get_contents($scriptFolder . '/htaccess.php');
