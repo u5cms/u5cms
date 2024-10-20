@@ -16,7 +16,7 @@ require_once('login.inc.php');
 if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lastindex.txt')) {
 	require_once('indexerstart.php');
 	$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
-	$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']));
+	$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
 	file_get_contents($scriptFolder . 'htaccess.php');
 }
 }
