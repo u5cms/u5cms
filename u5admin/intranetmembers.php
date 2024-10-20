@@ -42,7 +42,7 @@ $row_a = mysql_fetch_array($result_a);
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 <?php require('t1.php') ?></form>
-<iframe src="intranetmembershtaccess.php" widht="1" height="1" frameborder="0"></iframe>
+<iframe src="intranetmembershtaccess.php" width="1" height="1" frameborder="0"></iframe>
 <script>
 document.getElementById('membersdiv').innerHTML=document.getElementById('members').value;
 document.getElementById('members').value=document.getElementById('membersdiv').innerHTML;

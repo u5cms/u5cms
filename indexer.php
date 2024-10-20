@@ -233,4 +233,3 @@ file_put_contents('fileversions/indexerrunning'.htmlspecialchars($_GET['l']).'.t
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
 <script>top.document.title='] '+top.document.title</script>
-<iframe style="display:none" src="htaccess.php"></iframe>

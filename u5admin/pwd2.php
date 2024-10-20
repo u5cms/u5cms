@@ -39,7 +39,7 @@ die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font>
 trxlog('chgpwd');
 ?>
 <img src="../upload/spinner.gif" />
-<iframe width="1" height="1" frameborder="0" src="htaccess.php"></iframe>
+<iframe width="1" height="1" frameborder="0" src="intranetmembershtaccess.php"></iframe>
 <script>
 if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href='done.php?n=password changed';
 if(opener)opener.top.location.href=opener.top.location.href;
