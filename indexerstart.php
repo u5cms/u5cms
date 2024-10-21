@@ -1,1 +1,1 @@
-<iframe style="display:none" src="indexer.php"></iframe>
+Obsolete

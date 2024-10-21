@@ -13,12 +13,8 @@ require_once('getinserts.inc.php');
 }
 else {
 require_once('login.inc.php');
-if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lastindex.txt')) {
-	require_once('indexerstart.php');
-	$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
-	$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
-	file_get_contents($scriptFolder . '/htaccess.php');
-}
+if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lastindex.txt'))echo'<iframe style="display:none" src="indexer.php"></iframe>'; 
+if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lasthtaccess.txt'))echo'<iframe style="display:none" src="htaccess.php"></iframe>'; 
 }
 
 if (key_exists('p', $_GET) && $_GET['p']=='1' && $executephp=='inarchiveonly') {
