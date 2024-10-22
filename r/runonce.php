@@ -50,6 +50,15 @@ $sql_a="ALTER TABLE trxlog ENGINE = MyISAM, DEFAULT CHARSET=utf8;";
 $result_a=mysql_query($sql_a);
 
 // START: Fix language columns in PHP-code in content
+
+$sql_a="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'resources' AND COLUMN_NAME = 'content_d'";
+$result_a=mysql_query($sql_a);
+$row_a = mysql_fetch_array($result_a);
+
+
+
+if($row_a['COLUMN_NAME']=='content_d') {
+
 $legacyLangCols = array('content_d', 'content_e', 'content_f');
 foreach ($legacyLangCols as $langCol) {
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'content_d', 'content_1');";
@@ -86,6 +95,7 @@ foreach ($legacyLangCols as $langCol) {
     $result_a=mysql_query($sql_a);
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'search_f', 'search_3');";
     $result_a=mysql_query($sql_a);
+}
 }
 
 $sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'content_d', 'content_1');";

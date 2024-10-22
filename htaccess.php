@@ -270,4 +270,4 @@ file_put_contents('fileversions/htarunning.txt',0);
 }
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
-<script>top.document.title='['+top.document.title</script>
+<script>top.document.title=':'+top.document.title</script>
