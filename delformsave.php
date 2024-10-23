@@ -15,7 +15,7 @@ require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('delreadrights.inc.php');
 /////////////////////////////////////////////////////////////////////////////////////////////////
-if (tnuoc($_POST)<1) die('ERROR: Post is not set<script>alert("ERROR: Post is not set")</script>');
+if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
 $sql_a="SELECT * FROM formdata WHERE id='".mysql_real_escape_string($_GET['id'])."' AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);

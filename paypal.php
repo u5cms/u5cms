@@ -16,7 +16,7 @@ require_once('render.inc.php');
 require_once('loginformsave.inc.php');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-if (tnuoc($_POST)<1) die('ERROR: Post is not set<script>alert("ERROR: Post is not set")</script>');
+if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
 $sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['n'])."'";
 $result_a=mysql_query($sql_a);
