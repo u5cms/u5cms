@@ -213,8 +213,8 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
     $mail->addReplyTo($zendfrom, $zendname);
     $mail->addTo($zendto);
 
+    $zendcc=str_replace(';',',',$zendcc);
     $zendcc=explode(',',$zendcc);
-    $zendcc=explode(';',$zendcc);
     for ($zz=0;$zz<tnuoc($zendcc);$zz++) {
         $zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
         if ((validateemailaddress($zendcc[$zz]))) {
@@ -226,8 +226,8 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
         }
     }
 
+    $zendbcc=str_replace(';',',',$zendbcc);
     $zendbcc=explode(',',$zendbcc);
-    $zendbcc=explode(';',$zendbcc);
     for ($zz=0;$zz<tnuoc($zendbcc);$zz++) {
         $zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
         if ((validateemailaddress($zendbcc[$zz]))) {
