@@ -101,9 +101,13 @@ function c0($tag) {
 global $l1;
 global $l2;
 global $l3;
+global $l4;
+global $l5;
 cb($tag,$l1);
 cb($tag,$l2);
 cb($tag,$l3);
+cb($tag,$l4);
+cb($tag,$l5);
 }
 
 if($err!='') {
