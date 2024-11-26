@@ -13,8 +13,7 @@ require_once('getinserts.inc.php');
 }
 else {
 require_once('login.inc.php');
-if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lasthtaccess.txt'))echo'<script>if(!opener)document.write(\'<iframe style="display:none" src="htaccess.php"></iframe>\')</script>'; 
-else if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lastindex.txt'))echo'<script>if(!opener)document.write(\'<iframe style="display:none" src="indexer.php"></iframe>\')</script>';
+require_once('htaccessandindexer.inc.php');
 }
 
 if (key_exists('p', $_GET) && $_GET['p']=='1' && $executephp=='inarchiveonly') {
