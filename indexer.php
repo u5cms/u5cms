@@ -1,5 +1,5 @@
 <?php
-ignore_user_abort(true);set_time_limit(3600); 
+ignore_user_abort(true);set_time_limit(36000); 
 require_once ('connect.inc.php');
 require_once ('render.inc.php');
 require_once('getinserts.inc.php');
@@ -83,6 +83,7 @@ if ($result_ii == false) echo 'SQL_ii-Query failed!<p>' . mysql_error() . '<p><f
 $num_ii = mysql_num_rows($result_ii);
 
 for ($i_ii = 0;$i_ii < $num_ii;$i_ii++) {
+usleep(100000);
 $row_ii = mysql_fetch_array($result_ii);
 
 $autotitle_1=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_1'])))) )))),0,$resulttitlemaxlength));
