@@ -2,7 +2,7 @@
 require_once('connect.inc.php');
 require_once('alloc.inc.php');
 require_once('PIDVESAexcludes.inc.php');
-
+require_once('indexupdate.inc.php');
 if ($resulttitlemaxlength<1) $resulttitlemaxlength=60;
 
 $nointranet='';

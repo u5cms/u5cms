@@ -1,6 +1,7 @@
 <?php 
 require_once('connect.inc.php');
 require_once('alloc.inc.php');
+require_once('indexupdate.inc.php');
 
 $_GET['q']='%';
 
