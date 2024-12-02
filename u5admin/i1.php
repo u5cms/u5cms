@@ -65,17 +65,17 @@ require_once('connect.inc.php');
         if (str_replace(' ', '', $row_a['hidden']) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
         if (str_replace(' ', '', $row_a['hidden']) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
 
-        if (str_replace(' ', '', $row_a['desc_1']) == '') $pend .= ' <span title="' . $lngpnd_1 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
-        if (str_replace(' ', '', $row_a['desc_2']) == '') $pend .= ' <span title="' . $lngpnd_2 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
-        if (str_replace(' ', '', $row_a['desc_3']) == '') $pend .= ' <span title="' . $lngpnd_3 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
-        if (str_replace(' ', '', $row_a['desc_4']) == '') $pend .= ' <span title="' . $lngpnd_4 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
-        if (str_replace(' ', '', $row_a['desc_5']) == '') $pend .= ' <span title="' . $lngpnd_5 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
+        if (str_replace(' ', '', $row_a['desc_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
+        if (str_replace(' ', '', $row_a['desc_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
+        if (str_replace(' ', '', $row_a['desc_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
+        if (str_replace(' ', '', $row_a['desc_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
+        if (str_replace(' ', '', $row_a['desc_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' alt-text missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
 
-        if (str_replace(' ', '', $row_a['title_1']) == '') $pend .= ' <span title="' . $lngpnd_1 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
-        if (str_replace(' ', '', $row_a['title_2']) == '') $pend .= ' <span title="' . $lngpnd_2 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
-        if (str_replace(' ', '', $row_a['title_3']) == '') $pend .= ' <span title="' . $lngpnd_3 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
-        if (str_replace(' ', '', $row_a['title_4']) == '') $pend .= ' <span title="' . $lngpnd_4 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
-        if (str_replace(' ', '', $row_a['title_5']) == '') $pend .= ' <span title="' . $lngpnd_5 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
+        if (str_replace(' ', '', $row_a['title_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
+        if (str_replace(' ', '', $row_a['title_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
+        if (str_replace(' ', '', $row_a['title_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
+        if (str_replace(' ', '', $row_a['title_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
+        if (str_replace(' ', '', $row_a['title_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' short caption missing in metadata" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
 
 
         $lspan1 = '<span id="o_' . $row_a['name'] . '">';
