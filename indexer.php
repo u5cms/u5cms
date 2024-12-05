@@ -86,10 +86,15 @@ for ($i_ii = 0;$i_ii < $num_ii;$i_ii++) {
 usleep(100000);
 $row_ii = mysql_fetch_array($result_ii);
 
+$_GET['l']=$lan1na;
 $autotitle_1=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_1'])))) )))),0,$resulttitlemaxlength));
+$_GET['l']=$lan2na;
 $autotitle_2=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_2'])))) )))),0,$resulttitlemaxlength));
+$_GET['l']=$lan3na;
 $autotitle_3=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_3'])))) )))),0,$resulttitlemaxlength));
+$_GET['l']=$lan4na;
 $autotitle_4=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_4'])))) )))),0,$resulttitlemaxlength));
+$_GET['l']=$lan5na;
 $autotitle_5=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_5'])))) )))),0,$resulttitlemaxlength));
 
 if($autotitlewholewordsonly!='no') {
@@ -194,21 +199,53 @@ $content_3=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$
 $content_4=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'4');
 $content_5=idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'5');
 
+$_GET['l']=$lan1na;
 $sql_i = "UPDATE resources
 SET 
-search_1='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_1)))))))) . "',
-search_2='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_2)))))))) . "',
-search_3='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_3)))))))) . "',
-search_4='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_4)))))))) . "',
+search_1='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_1)))))))) . "'
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+$result_i = mysql_query($sql_i);
+if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+
+$_GET['l']=$lan2na;
+$sql_i = "UPDATE resources
+SET 
+search_2='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_2)))))))) . "'
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+$result_i = mysql_query($sql_i);
+if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+
+$_GET['l']=$lan3na;
+$sql_i = "UPDATE resources
+SET 
+search_3='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_3)))))))) . "'
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+$result_i = mysql_query($sql_i);
+if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+
+$_GET['l']=$lan4na;
+$sql_i = "UPDATE resources
+SET 
+search_4='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_4)))))))) . "'
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+$result_i = mysql_query($sql_i);
+if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+
+$_GET['l']=$lan5na;
+$sql_i = "UPDATE resources
+SET 
 search_5='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($content_5)))))))) . "'
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
 if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+
+
+
 }
 }
 
-function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l) {
-	 $l1 = $l1 ?? '';
+function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l='') {
+    $l1 = $l1 ?? '';
     $l3 = $l3 ?? '';
     $l2 = $l2 ?? '';
     $l4 = $l4 ?? '';
