@@ -193,19 +193,28 @@ if ($result_i == false) echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><fon
 if(!isset($donotautoindexifthisstringisfoundinfinalpagecontent))$donotautoindexifthisstringisfoundinfinalpagecontent='DoNotAutoIndexIfThisStringIsFoundInFinalPageContentLiterally';
 if(strpos('x'.render($row_ii['content_1'].$row_ii['content_2'].$row_ii['content_3'].$row_ii['content_4'].$row_ii['content_5']),$donotautoindexifthisstringisfoundinfinalpagecontent)<1) {
 
+
+$_GET['c']=$row_ii['name'];
+
 $_GET['l']=$lan1na;$content_1=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'1'));
 $_GET['l']=$lan2na;$content_2=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'2'));
 $_GET['l']=$lan3na;$content_3=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'3'));
 $_GET['l']=$lan4na;$content_4=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'4'));
 $_GET['l']=$lan5na;$content_5=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'5'));
 
+$content_1 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_1)))));
+$content_2 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_2)))));
+$content_3 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_3)))));
+$content_4 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_4)))));
+$content_5 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_5)))));
+
 $sql_i = "UPDATE resources
 SET 
-search_1='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", ($content_1)))))))) . "',
-search_2='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", ($content_2)))))))) . "',
-search_3='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", ($content_3)))))))) . "',
-search_4='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", ($content_4)))))))) . "',
-search_5='" . mysql_real_escape_string(strip_tags(htmlY_entity_decode(str_replace($suchen,$ersetzen,preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", ($content_5)))))))) . "'
+search_1='" . mysql_real_escape_string($content_1) . "',
+search_2='" . mysql_real_escape_string($content_2) . "',
+search_3='" . mysql_real_escape_string($content_3) . "',
+search_4='" . mysql_real_escape_string($content_4) . "',
+search_5='" . mysql_real_escape_string($content_5) . "' 
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
 if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
