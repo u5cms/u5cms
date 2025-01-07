@@ -77,7 +77,7 @@ use Laminas\Mail\Transport\SmtpOptions;
    $doesshowpreviewofsuchcontent     = 'no';
    $doeshideintranetcontenttopublic  = 'yes';
    $resulttitlemaxlength             = 60;
-   $autotitlewholewordsonly          = 'yes';
+   $maxwordsindocumenttitle          = 'yes';
    $excludedobjecttypesinsearchresults = 'ifavye'; // Exclude these PIDVESA object types from search results; p=pages, i=std images, f=free images, a=albums, d=documents (for download, anything from docx, pdf to zip), v=video & audio, y=youtube, e=external links
 
 // Allow user upload in forms, e. g. $allowuseruploads = 'yes' (the uploaded files are stored in fileversions/useruploads and are password protected);
