@@ -76,7 +76,8 @@ parent.i1.pframe.pviewit();
 parent.i2.pframe.pviewit();
 </script>
 <div style="width:2px;height:19px;background:white;position:absolute;display:none;top:0px" id="htaccess"></div>
-<iframe width="1" height="1" frameborder="0" src="lastsave.php"></iframe>
+<iframe style="display:none" src="lastsave.php"></iframe>
+<iframe style="display:none" src="../indexer.php?n=<?php echo trim($_GET['n']) ? end(explode(' ', trim($_GET['n']))) : '';?>"></iframe>
 <?php require('countblockrefresh.inc.php'); ?>
 </body>
 </html>

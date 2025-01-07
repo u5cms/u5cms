@@ -114,6 +114,7 @@ $echo='<a title="focus in repository" href="javascript:void(0)" style="text-deco
 ?> 
 <div style="width:2px;height:19px;background:white;position:absolute;display:none;top:0px" id="htaccess"></div>
 <div style="margin:-2px 0 0 2px;white-space: nowrap;"><?php echo $echo ?><span onmouseover="this.title=this.innerHTML" onclick="alert(this.innerHTML)"><?php echo $conflict ?>saved <?php echo $_POST['name']?></span></div>
+<iframe style="display:none" src="../indexer.php?n=<?php echo htmlspecialchars($_POST['name']) ?>"></iframe>
 <script>
 if (parent && parent.i2 && parent.i2.form1.coco) parent.i2.form1.coco.value='<?php echo time() ?>';
 if (parent && parent.i1 && parent.i1.form1.coco) parent.i1.form1.coco.value='<?php echo time() ?>';

@@ -4,10 +4,36 @@ require_once ('connect.inc.php');
 require_once ('render.inc.php');
 require_once('getinserts.inc.php');
 
+if(!isset($_GET['n'])) {
 if(file_exists('fileversions/indexerrunning.txt') && file_get_contents('fileversions/indexerrunning.txt')!=0 && file_get_contents('fileversions/indexerrunning.txt')>time()-60*15)die('<script>top.document.title="_"+top.document.title</script>');
 file_put_contents('fileversions/indexerrunning.txt',time());
-
 file_put_contents('fileversions/lastindex.txt',time());
+}
+
+function sanitize_content($content) {
+	$content=htmlX_entity_decode($content);
+    $content = str_replace(['<nobr>', '</nobr>'], '', $content);
+    $content = str_replace('&nbsp;', ' ', $content);
+    $content = preg_replace('/>(\S)/', '> $1', $content);
+    $content = preg_replace('/(\S)</', '$1 <', $content);
+    $content = preg_replace([
+        '/<script\b[^>]*>[\s\S]*?<\/script>/is',
+        '/<\?(php)?[\s\S]*?\?>/is',
+        '/<!--[\s\S]*?-->/',
+        '/<style\b[^>]*>[\s\S]*?<\/style>/is'
+    ], '', $content);
+    $content = strip_tags($content);
+    $content = preg_replace('/\s+/', ' ', $content);
+    return trim($content);
+}
+
+function takeSomeWords(string $input): string {
+	global $maxwordsindocumenttitle;
+	if($maxwordsindocumenttitle<1)$maxwordsindocumenttitle=7;
+    $words = explode(' ', $input);
+    $firstSevenWords = array_slice($words, 0, $maxwordsindocumenttitle);
+    return implode(' ', $firstSevenWords);
+}
 
 function dblltgt($lg) {
 $lg=str_replace('&lt;','&amp;lt;',$lg);
@@ -15,69 +41,12 @@ $lg=str_replace('&gt;','&amp;gt;',$lg);
 return $lg;
 }
 
-function htmlY_entity_decode($that) {
-return html_entity_decode(dblltgt($that), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
-}
+if(isset($_GET['n'])) {
+	$oneitemonly=" name='".htmlspecialchars($_GET['n'])."' AND";
+}	
+else $oneitemonly='';
 
-function html_strlen($str) {
-  $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-  return tnuoc($chars);
-}
-
-function html_substr($str, $start, $length = NULL) {
-  if ($length === 0) return ""; //stop wasting our time ;)
-
-  //check if we can simply use the built-in functions
-  if (strpos($str, '&') === false) { //No entities. Use built-in functions
-    if ($length === NULL)
-      return substr($str, $start);
-    else
-      return substr($str, $start, $length);
-  }
-
-  // create our array of characters and html entities
-  $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
-  $html_length = tnuoc($chars);
-
-  // check if we can predict the return value and save some processing time
-  if (
-       ($html_length === 0) /* input string was empty */ or
-       ($start >= $html_length) /* $start is longer than the input string */ or
-       (isset($length) and ($length <= -$html_length)) /* all characters would be omitted */
-     )
-    return "";
-
-  //calculate start position
-  if ($start >= 0) {
-    $real_start = $chars[$start][1];
-  } else { //start'th character from the end of string
-    $start = max($start,-$html_length);
-    $real_start = $chars[$html_length+$start][1];
-  }
-
-  if (!isset($length)) // no $length argument passed, return all remaining characters
-    return substr($str, $real_start);
-  else if ($length > 0) { // copy $length chars
-    if ($start+$length >= $html_length) { // return all remaining characters
-      return substr($str, $real_start);
-    } else { //return $length characters
-      return substr($str, $real_start, $chars[max($start,0)+$length][1] - $real_start);
-    }
-  } else { //negative $length. Omit $length characters from end
-      return substr($str, $real_start, $chars[$html_length+$length][1] - $real_start);
-  }
-
-}
-
-$suchen=array(">"    ,"<br />" ,"&nbsp;" ,"&shy;","<!--u5p-->" ,"-->", "<!--","[h:]","[:h]","s='';");
-$ersetzen=array("> " ," "      ," "      ,""     ,""           ,"",    ""    ,""    ,""    ,"");
-
-$suchen2  =array("\n","\r","\t","   ","   ","   ","  ","  ","  ");
-$ersetzen2=array(" " ," " ," " ," "  ," "  ," "  ," " ," " ," ");
-
-if ($resulttitlemaxlength<1) $resulttitlemaxlength=60;
-
-$sql_ii = "SELECT * FROM resources WHERE deleted!=1 ORDER BY lastmut DESC";
+$sql_ii = "SELECT * FROM resources WHERE $oneitemonly deleted!=1 ORDER BY lastmut DESC";
 $result_ii = mysql_query($sql_ii);
 if ($result_ii == false) echo 'SQL_ii-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_ii . '</font><p>';
 $num_ii = mysql_num_rows($result_ii);
@@ -86,64 +55,25 @@ for ($i_ii = 0;$i_ii < $num_ii;$i_ii++) {
 usleep(100000);
 $row_ii = mysql_fetch_array($result_ii);
 
-$_GET['l']=$lan1na;
-$autotitle_1=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_1'])))) )))),0,$resulttitlemaxlength));
-$_GET['l']=$lan2na;
-$autotitle_2=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_2'])))) )))),0,$resulttitlemaxlength));
-$_GET['l']=$lan3na;
-$autotitle_3=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_3'])))) )))),0,$resulttitlemaxlength));
-$_GET['l']=$lan4na;
-$autotitle_4=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_4'])))) )))),0,$resulttitlemaxlength));
-$_GET['l']=$lan5na;
-$autotitle_5=trim(html_substr(str_replace($suchen2,$ersetzen2,strip_tags(htmlX_entity_decode(str_replace($suchen,$ersetzen, preg_replace("/<!--.*?-->/ms","",preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "",preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", render($row_ii['content_5'])))) )))),0,$resulttitlemaxlength));
+$_GET['c']=$row_ii['name'];
 
-if($autotitlewholewordsonly!='no') {
+$_GET['l']=$lan1na;$content_1=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'1'));
+$_GET['l']=$lan2na;$content_2=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'2'));
+$_GET['l']=$lan3na;$content_3=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'3'));
+$_GET['l']=$lan4na;$content_4=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'4'));
+$_GET['l']=$lan5na;$content_5=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'5'));
 
-    $temp = explode(' ', $autotitle_1);
-    if (tnuoc($temp) >= 3) {
-        $autotitle_1 = '';
-        for ($i = 0; $i < tnuoc($temp) - 1; $i++) {
-            $autotitle_1 .= $temp[$i];
-            if ($i < tnuoc($temp) - 2) $autotitle_1 .= ' ';
-        }
-    }
+$content_1 = sanitize_content($content_1);
+$content_2 = sanitize_content($content_2);
+$content_3 = sanitize_content($content_3);
+$content_4 = sanitize_content($content_4);
+$content_5 = sanitize_content($content_5);
 
-    $temp = explode(' ', $autotitle_2);
-    if (tnuoc($temp) >= 3) {
-        $autotitle_2 = '';
-        for ($i = 0; $i < tnuoc($temp) - 1; $i++) {
-            $autotitle_2 .= $temp[$i];
-            if ($i < tnuoc($temp) - 2) $autotitle_2 .= ' ';
-        }
-    }
-
-    $temp = explode(' ', $autotitle_3);
-    if (tnuoc($temp) >= 3) {
-        $autotitle_3 = '';
-        for ($i = 0; $i < tnuoc($temp) - 1; $i++) {
-            $autotitle_3 .= $temp[$i];
-            if ($i < tnuoc($temp) - 2) $autotitle_3 .= ' ';
-        }
-    }
-
-    $temp=explode(' ',$autotitle_4);
-    if(tnuoc($temp)>=3) {
-        $autotitle_4='';
-        for($i=0;$i<tnuoc($temp)-1;$i++) {
-            $autotitle_4.=$temp[$i];
-            if($i<tnuoc($temp)-2)$autotitle_4.=' ';
-        }
-    }
-
-    $temp=explode(' ',$autotitle_5);
-    if(tnuoc($temp)>=3) {
-        $autotitle_5='';
-        for($i=0;$i<tnuoc($temp)-1;$i++) {
-            $autotitle_5.=$temp[$i];
-            if($i<tnuoc($temp)-2)$autotitle_5.=' ';
-        }
-    }
-}
+$autotitle_1=takeSomeWords($content_1);
+$autotitle_2=takeSomeWords($content_2);
+$autotitle_3=takeSomeWords($content_3);
+$autotitle_4=takeSomeWords($content_4);
+$autotitle_5=takeSomeWords($content_5);
 
 if (trim($row_ii['title_1'])=='' || str_replace(' . . .','',$row_ii['title_1'])!=$row_ii['title_1']) {
 $title_1=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'1').' . . .';
@@ -180,36 +110,16 @@ else {
 $title_5=$row_ii['title_5'];
 }
 
-$sql_i = "UPDATE resources SET 
+if(!isset($donotautoindexifthisstringisfoundinfinalpagecontent))$donotautoindexifthisstringisfoundinfinalpagecontent='DoNotAutoIndexIfThisStringIsFoundInFinalPageContentLiterally';
+if(strpos('x'.render($row_ii['content_1'].$row_ii['content_2'].$row_ii['content_3'].$row_ii['content_4'].$row_ii['content_5']),$donotautoindexifthisstringisfoundinfinalpagecontent)<1) {
+
+$sql_i = "UPDATE resources
+SET 
 title_1='" . mysql_real_escape_string($title_1) ."',
 title_2='" . mysql_real_escape_string($title_2) ."',
 title_3='" . mysql_real_escape_string($title_3) ."',
 title_4='" . mysql_real_escape_string($title_4) ."',
-title_5='" . mysql_real_escape_string($title_5) ."'
-WHERE typ='p' AND deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
-$result_i = mysql_query($sql_i);
-if ($result_i == false) echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
-
-if(!isset($donotautoindexifthisstringisfoundinfinalpagecontent))$donotautoindexifthisstringisfoundinfinalpagecontent='DoNotAutoIndexIfThisStringIsFoundInFinalPageContentLiterally';
-if(strpos('x'.render($row_ii['content_1'].$row_ii['content_2'].$row_ii['content_3'].$row_ii['content_4'].$row_ii['content_5']),$donotautoindexifthisstringisfoundinfinalpagecontent)<1) {
-
-
-$_GET['c']=$row_ii['name'];
-
-$_GET['l']=$lan1na;$content_1=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'1'));
-$_GET['l']=$lan2na;$content_2=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'2'));
-$_GET['l']=$lan3na;$content_3=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'3'));
-$_GET['l']=$lan4na;$content_4=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'4'));
-$_GET['l']=$lan5na;$content_5=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'5'));
-
-$content_1 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_1)))));
-$content_2 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_2)))));
-$content_3 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_3)))));
-$content_4 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_4)))));
-$content_5 = trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace(['/<script\b[^>]*>[\s\S]*?<\/script>/is', '/<\?(php)?[\s\S]*?\?>/is', '/<!--[\s\S]*?-->/', '/<style\b[^>]*>[\s\S]*?<\/style>/is'], '', str_replace('&nbsp;', ' ', $content_5)))));
-
-$sql_i = "UPDATE resources
-SET 
+title_5='" . mysql_real_escape_string($title_5) ."',
 search_1='" . mysql_real_escape_string($content_1) . "',
 search_2='" . mysql_real_escape_string($content_2) . "',
 search_3='" . mysql_real_escape_string($content_3) . "',
@@ -219,6 +129,19 @@ WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'"
 $result_i = mysql_query($sql_i);
 if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
 }
+else {
+$sql_i = "UPDATE resources
+SET 
+title_1='" . mysql_real_escape_string($title_1) ."',
+title_2='" . mysql_real_escape_string($title_2) ."',
+title_3='" . mysql_real_escape_string($title_3) ."',
+title_4='" . mysql_real_escape_string($title_4) ."',
+title_5='" . mysql_real_escape_string($title_5) ."'
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+$result_i = mysql_query($sql_i);
+if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+	
+	}
 }
 
 function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l='') {
@@ -242,9 +165,10 @@ function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l='') {
   else return $l1;
   }
 }
-
+if(!isset($_GET['n'])) {
 echo '<audio id="doneaudio" src="u5admin/'.rand(1,6).'.mp3" autoplay />';
 file_put_contents('fileversions/indexerrunning.txt',0);
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
 <script>top.document.title=';'+top.document.title</script>
+<?php }?>
