@@ -5,7 +5,7 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 $num_a = mysql_num_rows($result_a);
 if($num_a<1) {
-if ($_GET['a']!=1) die('<script>alert("forbidden2");parent.history.go(-1)</script>');
+if ($_GET['a']!=1) die('<script>alert("forbidden deletion (you do not own this record)");parent.history.go(-1)</script>');
 else {
 require_once('u5admin/usercheck.inc.php');
 if ($formdataRqHIADRI!='no') require('u5admin/accadmin.inc.php');	
