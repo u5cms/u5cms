@@ -415,7 +415,7 @@ $shellip='';
 if ($row_a[$that]!=' . . .' && html_substr($row_a[$that],0,$resulttitlemaxlength)!=$row_a[$that]) $shellip=' . . .';
 
 if ($row_a['typ']!='d') echo '<h5><a style="text-decoration:underline" onclick="if(document.getElementById(\'search_Input\'))this.href+=(\'&amp;q=\'+escape(document.getElementById(\'search_Input\').value.replace(/ /g,\',\').replace(/\+/g,\',\')))" href="?c='.$row_a['name'].'&amp;l='.$_GET['l'].'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
-else echo '<h5><a style="text-decoration:underline" href="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
+else echo '<h5><a style="text-decoration:underline" href="f.php?f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
 
 $that=def('search_1','search_2','search_3','search_4','search_5');
 if ($doesshowpreviewofsuchcontent == 'yes') echo '<p>'.alloc(($alloc),($row_a[$that])).'</p>';
