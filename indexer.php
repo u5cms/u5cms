@@ -113,6 +113,7 @@ $title_5=$row_ii['title_5'];
 if(!isset($donotautoindexifthisstringisfoundinfinalpagecontent))$donotautoindexifthisstringisfoundinfinalpagecontent='DoNotAutoIndexIfThisStringIsFoundInFinalPageContentLiterally';
 if(strpos('x'.render($row_ii['content_1'].$row_ii['content_2'].$row_ii['content_3'].$row_ii['content_4'].$row_ii['content_5']),$donotautoindexifthisstringisfoundinfinalpagecontent)<1) {
 
+if($row_ii['typ']=='p') {
 $sql_i = "UPDATE resources
 SET 
 title_1='" . mysql_real_escape_string($title_1) ."',
@@ -129,7 +130,9 @@ WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'"
 $result_i = mysql_query($sql_i);
 if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
 }
+}
 else {
+if($row_ii['typ']=='p') {
 $sql_i = "UPDATE resources
 SET 
 title_1='" . mysql_real_escape_string($title_1) ."',
@@ -140,8 +143,20 @@ title_5='" . mysql_real_escape_string($title_5) ."'
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
 if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
-	
-	}
+}
+}
+if($row_ii['typ']!='p') {
+$sql_i = "UPDATE resources
+SET 
+search_1='" . mysql_real_escape_string($content_1) . "',
+search_2='" . mysql_real_escape_string($content_2) . "',
+search_3='" . mysql_real_escape_string($content_3) . "',
+search_4='" . mysql_real_escape_string($content_4) . "',
+search_5='" . mysql_real_escape_string($content_5) . "' 
+WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
+$result_i = mysql_query($sql_i);
+if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+}
 }
 
 function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l='') {
