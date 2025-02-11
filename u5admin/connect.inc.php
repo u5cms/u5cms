@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
 ini_set('default_charset','iso-8859-1');
@@ -127,4 +126,3 @@ function pwdcookieget($p) {
     if ($sticksessiontoip == 'yes') $installationfingerprint .= $_SERVER['REMOTE_ADDR'];
     return sha1($sessioncookiehashsalt . $installationfingerprint . $p);
 }
-
