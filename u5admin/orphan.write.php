@@ -168,7 +168,7 @@ if (parent.parent.document.getElementById('oo_".$row_a['name']."')) parent.paren
 if (parent.parent.document.getElementById('oo_".$row_a['name']."')) parent.parent.document.getElementById('oo_".$row_a['name']."').innerHTML='L<!--_orphan_-->';
 ";
 }
-file_put_contents('orphan.js.php','<?php require("connect.inc.php"); ?><script>
+file_put_contents('../fileversions/orphan.js.php','<script>
 '.$echo.'
 </script>');
 file_put_contents('../fileversions/orphanrunning.txt',0);
