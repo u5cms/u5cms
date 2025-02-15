@@ -3,7 +3,7 @@ ignore_user_abort(true);set_time_limit(36000);
 require('connect.inc.php');
 require('../config.php');
 
-if(file_exists('../fileversions/orphanrunning.txt') && file_get_contents('../fileversions/orphanrunning.txt')!=0 && file_get_contents('../fileversions/orphanrunning.txt')>time()-60*15)die('<script>setTimeout("location.href=location.href",7777)</script>');
+if(file_exists('../fileversions/orphanrunning.txt') && file_get_contents('../fileversions/orphanrunning.txt')!=0 && file_get_contents('../fileversions/orphanrunning.txt')>time()-60*15)die('<script>setTimeout("location.href=location.href",10000)</script>');
 file_put_contents('../fileversions/orphanrunning.txt',time());
 file_put_contents('../fileversions/lastorphan.txt',time());
 

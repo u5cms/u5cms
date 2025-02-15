@@ -5,8 +5,8 @@ setTimeout("document.getElementById('owrite').src='blank.php'",777);
 function orphan() {
 if(top.location.href.indexOf('/snippets')>0)document.getElementById('ojs').src='orphan.js.php';
 else if(parent.document.getElementsByName('pvs_f')[1].checked)document.getElementById('ojs').src='orphan.js.php';
-
-setTimeout("orphan()",1111);
+setTimeout("orphan()",3333);
 }
 setTimeout("orphan()",333);
+setTimeout("document.getElementById('ojs').src='orphan.js.php';",3333);
 </script>
