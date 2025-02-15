@@ -283,7 +283,7 @@ $ext=explode('.',$phrase);
 $ext=$ext[tnuoc($ext)-1];
 $title=str_replace($scripturix,'',$phrase);
 $title=str_replace('fileversions/useruploads/','',$title);
-if (str_replace(' ','',trim($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.str_replace('·','',':<:a href="'.str_replace('/fileversions/useruploads/','ffff.php=f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
+if (str_replace(' ','',trim($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.str_replace('·','',':<:a href="'.str_replace('fileversions/useruploads/','ffff.php=f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
 else return '·'.str_replace('·','',':<:a href="'.str_replace('fileversions/useruploads/','ffff.php?f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$ext.':<:/a:>:');
 }
 else if ($_COOKIE['fdtrunc']=='off') return $phrase;
