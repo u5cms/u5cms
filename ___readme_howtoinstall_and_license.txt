@@ -92,7 +92,7 @@ B) If after A) the layout still does not look right, please consult https://yuba
 COPYRIGHT AND LICENSE
 
     u5CMS Content Management System & Conference Management
-    Copyright (C) 2010-2024 Stefan P. Minder
+    Copyright (C) 2010-2026 Stefan P. Minder
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
