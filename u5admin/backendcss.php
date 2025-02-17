@@ -33,4 +33,5 @@ animation: blinker 1s linear infinite;
     opacity: 0;
   }
 }
+#selfclose{position:fixed !important}
 </style>

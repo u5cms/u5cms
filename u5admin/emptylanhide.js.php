@@ -26,6 +26,10 @@ document.form1.desc_5.style.height='200px';
 }
 }
 }
+if(document.querySelector('input[type="submit"]')) { 
+document.querySelector('input[type="submit"]').style.position='fixed';
+document.querySelector('input[type="submit"]').style.top='1px';
+}
 <?php 
 if(trim($lan2name=='')) echo "if (document.getElementById('lan2name')) document.getElementById('lan2name').style.display='none';";
 if(trim($lan3name=='')) echo "if (document.getElementById('lan3name')) document.getElementById('lan3name').style.display='none';";
