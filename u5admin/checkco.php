@@ -22,8 +22,8 @@ msgconflict='Conflict with <?php echo htmlXspecialchars($row_a['operator']) ?> w
 </script>
 
 <?php
-if ($_GET['changes']<1) echo '<script>parent.location.href=parent.location.href;</script>';
-else echo '<script>top.document.title=msgconflict</script>';
+if ($_GET['changes']<1) echo '<script>parent.location.href=parent.location.href</script>';
+else echo '<script>top.document.title=msgconflict;parent.document.getElementsByTagName("body")[0].style.background="red"</script>';
 
 }
 ?>

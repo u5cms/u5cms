@@ -24,6 +24,7 @@ animation: blinker 1s linear infinite;
   }
 }
 .sblink {
+color:black;
 background:yellow;
 animation: blinker 1s linear infinite;
 }
