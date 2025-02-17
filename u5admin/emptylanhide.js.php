@@ -26,8 +26,7 @@ document.form1.desc_5.style.height='200px';
 }
 }
 }
-if(document.querySelector('input[type="submit"]')) { 
-document.querySelector('input[type="submit"]').style.position='fixed';
+if(document.querySelector('input[type="submit"]')&&location.href.indexOf('titlefixum.php')<0) { document.querySelector('input[type="submit"]').style.position='fixed';
 document.querySelector('input[type="submit"]').style.top='1px';
 }
 <?php 
