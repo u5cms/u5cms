@@ -42,24 +42,24 @@ if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><fon
 
 if ($_POST['ulinks'] == 'yes') {
     $fields = 'content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_5,desc_5,key_1,key_2,key_3,key_4,key_5';
-    sere13($fields, '[' . $_GET['name'] . ']', '[' . $_POST['name'] . ']');
-    sere13($fields, ':' . $_GET['name'] . ']', ':' . $_POST['name'] . ']');
-	sere13($fields, '[' . $_GET['name'] . '?', '[' . $_POST['name'] . '?');
-    sere13($fields, ':' . $_GET['name'] . '?', ':' . $_POST['name'] . '?');
-	sere13($fields, '[go:]' . $_GET['name'] . '[:go]', '[go:]' . $_POST['name'] . '[:go]');
-    sere13($fields, '[lo:]' . $_GET['name'] . '[:lo]', '[lo:]' . $_POST['name'] . '[:lo]');
-    sere13($fields, 'name="thanks" value="' . $_GET['name'] . '"', 'name="thanks" value="' . $_POST['name'] . '"');
-    sere13($fields, 'name="thanks" value="' . $_GET['name'] . '&', 'name="thanks" value="' . $_POST['name'] . '&');
+    sere13b($fields, '[' . $_GET['name'] . ']', '[' . $_POST['name'] . ']');
+    sere13b($fields, ':' . $_GET['name'] . ']', ':' . $_POST['name'] . ']');
+	sere13b($fields, '[' . $_GET['name'] . '?', '[' . $_POST['name'] . '?');
+    sere13b($fields, ':' . $_GET['name'] . '?', ':' . $_POST['name'] . '?');
+	sere13b($fields, '[go:]' . $_GET['name'] . '[:go]', '[go:]' . $_POST['name'] . '[:go]');
+    sere13b($fields, '[lo:]' . $_GET['name'] . '[:lo]', '[lo:]' . $_POST['name'] . '[:lo]');
+    sere13b($fields, 'name="thanks" value="' . $_GET['name'] . '"', 'name="thanks" value="' . $_POST['name'] . '"');
+    sere13b($fields, 'name="thanks" value="' . $_GET['name'] . '&', 'name="thanks" value="' . $_POST['name'] . '&');
 
-    sere13($fields, '|' . $_GET['name'] . '|', '|' . $_POST['name'] . '|');
+    sere13b($fields, '|' . $_GET['name'] . '|', '|' . $_POST['name'] . '|');
 
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'r/' . $_GET['name'] . '/' . $_GET['name'] . '_', 'r/' . $_POST['name'] . '/' . $_POST['name'] . '_');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'c=' . $_GET['name'] . '"', 'c=' . $_POST['name'] . '"');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'c=' . $_GET['name'] . '\'', 'c=' . $_POST['name'] . '\'');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'c=' . $_GET['name'] . '&', 'c=' . $_POST['name'] . '&');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'n=' . $_GET['name'] . '"', 'n=' . $_POST['name'] . '"');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'n=' . $_GET['name'] . '\'', 'n=' . $_POST['name'] . '\'');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'n=' . $_GET['name'] . '&', 'n=' . $_POST['name'] . '&');
+    if ($ignoremanualfullpaths != 'yes') sere13b($fields, 'r/' . $_GET['name'] . '/' . $_GET['name'] . '_', 'r/' . $_POST['name'] . '/' . $_POST['name'] . '_');
+    if ($ignoremanualfullpaths != 'yes') sere13b($fields, 'c=' . $_GET['name'] . '"', 'c=' . $_POST['name'] . '"');
+    if ($ignoremanualfullpaths != 'yes') sere13b($fields, 'c=' . $_GET['name'] . '\'', 'c=' . $_POST['name'] . '\'');
+    if ($ignoremanualfullpaths != 'yes') sere13b($fields, 'c=' . $_GET['name'] . '&', 'c=' . $_POST['name'] . '&');
+    if ($ignoremanualfullpaths != 'yes') sere13b($fields, 'n=' . $_GET['name'] . '"', 'n=' . $_POST['name'] . '"');
+    if ($ignoremanualfullpaths != 'yes') sere13b($fields, 'n=' . $_GET['name'] . '\'', 'n=' . $_POST['name'] . '\'');
+    if ($ignoremanualfullpaths != 'yes') sere13b($fields, 'n=' . $_GET['name'] . '&', 'n=' . $_POST['name'] . '&');
 
     $fields = 'content_1';
 
@@ -190,7 +190,7 @@ $sql_a = "UPDATE resources_log SET name='" . mysql_real_escape_string($_POST['na
 $result_a = mysql_query($sql_a);
 if ($result_a == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
 
-function sere13($fields, $search, $replace)
+function sere13b($fields, $search, $replace)
 {
     global $lan1na;
     global $lan2na;

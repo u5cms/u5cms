@@ -278,11 +278,6 @@ if ($_GET['name'][0] == '!' && $_POST['name'] != '!') {
 
 ?>
 <script>
-    window.resizeTo(1, 1);
-    window.moveTo(10000, 10000);
-</script>
-
-<script>
 if(opener) {
     if ('<?php echo $_GET['newname'] ?>' == '') opener.parent.save.location.href = 'done.php?n=renamed <?php echo $_GET['name']?> to <?php echo $_POST['name']?>';
 
@@ -296,8 +291,18 @@ if(opener) {
 </script>
 
 <?php
-if ($_GET['newname'] == '' && $row_a['typ'] == 'v') echo '<script>location.href="rename2.php?name=v' . $_GET['name'] . '&newname=v' . $_POST['name'] . '&typ=' . $row_a['typ'] . '&ulinks=' . $_POST['ulinks'] . '"</script>';
-else echo '<script>location.href="rename3.php?name=' . $_GET['name'] . '&newname0=' . $_POST['name'] . '&typ=' . $row_a['typ'] . '&fromv=' . $_GET['newname'] . '&ulinks=' . $_POST['ulinks'] . '"</script>';
+if ($_GET['newname'] == '' && $row_a['typ'] == 'v') {
+$_GET['newname']='v'.$_POST['name'];
+$_GET['typ']=$row_a['typ'];
+$_GET['ulinks']=$_POST['ulinks'];
+}
+else {
+$_GET['newname0']=$_POST['name'];
+$_GET['typ']=$row_a['typ'];
+$_GET['fromv']=$_GET['newname'];
+$_GET['ulinks']=$_POST['ulinks'];
+}
+require_once('rename3.php')
 ?>
 </body>
 </html>
