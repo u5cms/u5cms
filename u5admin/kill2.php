@@ -9,7 +9,7 @@
 <?php 
 require_once('accadmin.inc.php'); 
 
-$sql_a="SELECT * FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="SELECT * FROM resources WHERE deleted=1 AND name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -29,7 +29,7 @@ trxlog('not killed '.$_POST['name']);
 exit;
 }
 
-$sql_a="DELETE FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="DELETE FROM resources WHERE deleted=1 AND name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

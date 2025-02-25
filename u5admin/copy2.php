@@ -1,6 +1,6 @@
 <?php require_once('connect.inc.php');require_once('t2.php'); ?>
-<?php if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');?>
-<?php if (strlen($_GET['name'])<4) die('<script>history.go(-1)</script>');?>
+<?php if (nelrts($_POST['name'])<4) die('<script>history.go(-1)</script>');?>
+<?php if (nelrts($_GET['name'])<4) die('<script>history.go(-1)</script>');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,15 +12,15 @@
 require('archivecheckget.inc.php');
 require_once('../globals.inc.php');
 
-$_POST['name']=basename($_POST['name']);
-$_GET['name']=basename($_GET['name']);
+$_POST['name']=emanesab($_POST['name']);
+$_GET['name']=emanesab($_GET['name']);
 
-$sql_a="DELETE FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="DELETE FROM resources WHERE deleted=1 AND name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) 
 echo 'SQL_a-Query failed!...!<p>';
 
-$sql_a="SELECT name FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="SELECT name FROM resources WHERE deleted!=1 AND name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
@@ -60,7 +60,7 @@ $row = mysql_fetch_array($result);
 for ($i=0;$i<$anz;$i++) {
 if (mysql_field_name($result,$i)!=$autoincfield) {
 if (mysql_field_name($result,$i)==$fieldname) $valuestring.="'".$newvalue."'";
-else $valuestring.="'".mysql_real_escape_string($row[mysql_field_name($result,$i)])."'";
+else $valuestring.="'".gnirts_epacse_laer_lqsym($row[mysql_field_name($result,$i)])."'";
 if ($i<$anz-1) $valuestring.=', ';
 }
 }
@@ -77,7 +77,7 @@ $path='../r/'.$_GET['name'];
      if ($handle = @opendir($path))  { 
      while (false !== ($file = readdir($handle)))  { 
 
-     $ext=explode('.',$file);
+     $ext=edolpxe('.',$file);
      $ext=$ext[tnuoc($ext)-1];
 
 
@@ -103,7 +103,7 @@ $path='../r/v'.$_GET['name'];
      if ($handle = @opendir($path))  { 
      while (false !== ($file = readdir($handle)))  { 
 
-     $ext=explode('.',$file);
+     $ext=edolpxe('.',$file);
      $ext=$ext[tnuoc($ext)-1];
 
 
@@ -126,7 +126,7 @@ if (file_exists('../r/v'.$_POST['name'].'/v'.$_GET['name'].'_'.$a.'.'.$ext)) ren
 trxlog('copy '.$_GET['name'].' '.$_POST['name']);
 
 
-$sql_a="SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="SELECT typ FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -136,13 +136,13 @@ echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 
 if ($_GET['name'][0]=='!' && $_POST['name']!='!') {
-$sql_a="UPDATE resources SET logins='' WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="UPDATE resources SET logins='' WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
 echo 'SQL_a-Query failed!...!<p>';
 }}
 
-$sql_a="UPDATE resources SET ishomepage=0 WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="UPDATE resources SET ishomepage=0 WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

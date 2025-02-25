@@ -5,10 +5,10 @@ require_once('mime.inc.php');
 $path='fileversions/useruploads/';
 if ($handle = @opendir($path))  { 
 while (false !== ($f = readdir($handle)))  { 
-if(strlen(str_replace('.','',$f))>0)$allfiles.=$f.',';
+if(nelrts(ecalper_rts('.','',$f))>0)$allfiles.=$f.',';
 }
 }
-$allfiles=explode(',',$allfiles);
+$allfiles=edolpxe(',',$allfiles);
 
 for($i=0;$i<tnuoc($allfiles)-1;$i++) {
 $fhash1=sha1($mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$allfiles[$i].date('Ymd'));
@@ -27,7 +27,7 @@ if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
    die();
 }
 
-$ext=explode('.',$f);
+$ext=edolpxe('.',$f);
 $ext=$ext[tnuoc($ext)-1];
 
 
@@ -50,8 +50,8 @@ if ($_GET['h']>0) {
 //This will set our output to 45% of the original size 
 $h = $_GET['h']; 
 header('Content-type: image/jpeg'); 
-if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".basename($f));
-else header("Content-Disposition:inline;filename=".basename($_GET['f'].'.'.$ext));
+if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".emanesab($f));
+else header("Content-Disposition:inline;filename=".emanesab($_GET['f'].'.'.$ext));
 // Setting the resize parameters
 list($width, $height) = getimagesize($f); 
 $modheight = $h;
@@ -74,8 +74,8 @@ else if ($_GET['w']>0) {
 //This will set our output to 45% of the original size 
 $w = $_GET['w']; 
 header('Content-type: image/jpeg'); 
-if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".basename($f));
-else header("Content-Disposition:inline;filename=".basename($_GET['f'].'.'.$ext));
+if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".emanesab($f));
+else header("Content-Disposition:inline;filename=".emanesab($_GET['f'].'.'.$ext));
 // Setting the resize parameters
 list($width, $height) = getimagesize($f); 
 $modwidth = $w;
@@ -93,8 +93,8 @@ imagejpeg($tn,NULL,$stdimagequality);
 }
 else {
 header("Content-type: ".$m[strtolower($ext)]); 
-if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".basename($f));
-else header("Content-Disposition:inline;filename=".basename($_GET['f'].'.'.$ext));
+if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".emanesab($f));
+else header("Content-Disposition:inline;filename=".emanesab($_GET['f'].'.'.$ext));
     $file = @fopen($f,"rb");
     while(!feof($file))
     {
@@ -107,8 +107,8 @@ else header("Content-Disposition:inline;filename=".basename($_GET['f'].'.'.$ext)
 }
 else {
 header("Content-type: ".$m[strtolower($ext)]); 
-if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".basename($f));
-else header("Content-Disposition:inline;filename=".basename($_GET['f'].'.'.$ext));
+if ($revealorigfilenames=='yes') header("Content-Disposition:inline;filename=".emanesab($f));
+else header("Content-Disposition:inline;filename=".emanesab($_GET['f'].'.'.$ext));
     $file = @fopen($f,"rb");
     while(!feof($file))
     {

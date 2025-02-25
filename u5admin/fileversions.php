@@ -26,10 +26,10 @@ $path='../fileversions/';
 if ($handle = @opendir($path))  {
      while (false !== ($file = readdir($handle)))  {
 
-if(str_replace('.','',$file)!='')if($file[0]!='.')if($file!='useruploads')if(preg_match('/^\d{8}-/', $file))$echo.=',<a href="../ff.php?f='.$file.'?t='.filemtime('../fileversions/'.$file).'" target=_blank>'.$file.'</a><br>';}
+if(ecalper_rts('.','',$file)!='')if($file[0]!='.')if($file!='useruploads')if(preg_match('/^\d{8}-/', $file))$echo.=',<a href="../ff.php?f='.$file.'?t='.filemtime('../fileversions/'.$file).'" target=_blank>'.$file.'</a><br>';}
 }
 
-$echo=explode(',',$echo);
+$echo=edolpxe(',',$echo);
 
 rsort($echo);
 

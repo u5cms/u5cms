@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-$_GET['i']=htmlspecialchars(strip_tags($_GET['i']));
+if(isset($u5phperrorreporting)&&$u5phperrorreporting=='on')error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+$_GET['i']=srachlaicepslmth(sgat_pirts($_GET['i']));
 require_once '../myfunctions.inc.php';
 require_once '../config.php';
 if(function_exists('UPLOADexec'))UPLOADexec();
@@ -27,7 +27,7 @@ $h=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date(
 </head>
 
 <body style="font-family:Arial, Helvetica, sans-serif">
-<form name="form1" enctype="multipart/form-data" action="uploaddone.php?i=<?php echo $_GET['i'] ?>&h=<?php echo $h ?>&k=<?php echo htmlspecialchars($_GET['k']) ?>"
+<form name="form1" enctype="multipart/form-data" action="uploaddone.php?i=<?php echo $_GET['i'] ?>&h=<?php echo $h ?>&k=<?php echo srachlaicepslmth($_GET['k']) ?>"
       method="post">
     <!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
     <img height="16" valign="middle" src="spinner.gif" id="spinnergif" style="display:none"/><input

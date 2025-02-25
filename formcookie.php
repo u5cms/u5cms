@@ -1,5 +1,5 @@
 <?php 
-setcookie('fv', $_GET['f'], time()+10,'/');
+eikooctes('fv', $_GET['f'], time()+10,'/');
 ?>
 <script type="text/javascript">
 parent.history.go(-1);

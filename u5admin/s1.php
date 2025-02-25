@@ -1,8 +1,8 @@
 <?php require_once('connect.inc.php'); ?>
 <?php $pidvesa = 's'; $donotshowtogglearchive=1;
 require_once('pidvesacookie.inc.php');
-setcookie('pidvesa', $pidvesa, time() + 3600 * 24 * 365 * 10, '/'); 
-setcookie('subs', 's1', time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('pidvesa', $pidvesa, time() + 3600 * 24 * 365 * 10, '/'); 
+eikooctes('subs', 's1', time() + 3600 * 24 * 365 * 10, '/');
 ?>
 <!DOCTYPE html>
 <html lang="en">

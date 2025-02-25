@@ -1,5 +1,6 @@
 <?php
-setcookie($_GET['f'], $_GET['v'] , time()+3600*24*365*10,'/');
+require_once('../myfunctions.inc.php');
+eikooctes($_GET['f'], $_GET['v'] , time()+3600*24*365*10,'/');
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,4 +1,4 @@
-<?php setcookie('fodanh', 'n', time() + 3600 * 24 * 365 * 10, '/'); require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php'); eikooctes('fodanh', 'n', time() + 3600 * 24 * 365 * 10, '/'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

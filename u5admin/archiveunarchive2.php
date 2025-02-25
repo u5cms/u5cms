@@ -10,7 +10,7 @@
 require('../config.php'); 
 if($archiveRqHIADRI!='no') require('accadmin.inc.php');
 
-if ($_GET['name']!=md5($_POST['name'])) {
+if ($_GET['name']!=_5dm($_POST['name'])) {
 echo('<script>document.getElementById("body").style.background="red";
 if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href="notdone.php?n=wrong name, not (un)archived '.$_POST['name'].'";
 self.close();
@@ -20,7 +20,7 @@ trxlog('not (un)archived '.$_POST['name']);
 exit;
 }
 
-$sql_a="SELECT deleted FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="SELECT deleted FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -32,7 +32,7 @@ $row_a = mysql_fetch_array($result_a);
 if ($row_a['deleted']==2) $toggle=0;
 else $toggle=2;
 
-$sql_a="UPDATE resources SET deleted=$toggle WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="UPDATE resources SET deleted=$toggle WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -43,7 +43,7 @@ if($toggle!=2) $un='un';
 else $un='';
 trxlog($un.'archive '.$_POST['name']);
 
-$sql_a="SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="SELECT typ FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

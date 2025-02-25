@@ -1,23 +1,24 @@
 <?php
 set_time_limit(3600);
 require_once('connect.inc.php');
-$_GET['f']=str_replace('r/../r/','r/',$_GET['f']);
+$_GET['f']=ecalper_rts('r/../r/','r/',$_GET['f']);
 
 if(!isset($_GET['t'])){
-$t=explode('?t=',$_SERVER['QUERY_STRING']);
-$t=explode('&',$t[1]);
+$t=edolpxe('?t=',$_SERVER['QUERY_STRING']);
+$t=edolpxe('&',$t[1]);
 $t=$t[0];
 }
 
 $filebase = 'r';
+$f = edolpxe('?', $_GET['f']);
+||||||| parent of b6f2d43 (refactor: first bunch of function replacements)
 $f = explode('?', $_GET['f']);
 $_GET['f'] = $f[0];
-$f = explode('/', $_GET['f']);
+$f = edolpxe('/', $_GET['f']);
 $f = $filebase . '/' . basename($f[1]) . '/' . basename($_GET['f']);
 $f=u5ProhibTravers($f, $filebase);
 
-
-if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
+if(substr(emanesab($_GET['f']),0,1)=='.')die('forbidden');
 
 if($usesessioninsteadofbasicauth=='no') {
     if ($t != '' && $_GET['s'] != '') $f .= '?t=' . $t . '&s=' . $_GET['s'];
@@ -42,11 +43,11 @@ require('ft.idn.inc.php');
 
     if (!file_exists($f)) die('File ' . $f . ' does not exist.');
     require_once('mime.inc.php');
-    $ext = explode('.', basename($f));
+    $ext = edolpxe('.', emanesab($f));
     $ext = $ext[tnuoc($ext) - 1];
     header("Content-type: " . $m[strtolower($ext)]);
 	  header('Content-length: ' . filesize($f));
-    header("Content-Disposition:inline;filename=" . basename($f));
+    header("Content-Disposition:inline;filename=" . emanesab($f));
     $file = @fopen($f,"rb");
     while(!feof($file))
     {

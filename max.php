@@ -17,16 +17,16 @@ body {
 <body>
 <?php 
 require('connect.inc.php');
-$_GET['m']=htmlspecialchars(strip_tags($_GET['m']));
+$_GET['m']=srachlaicepslmth(sgat_pirts($_GET['m']));
 if($_GET['n']=='')$_GET['n']=$_GET['c'];
 require('loginformsave.inc.php');
 
-$m=mysql_real_escape_string($_GET['m']);
+$m=gnirts_epacse_laer_lqsym($_GET['m']);
 
-$m=explode('_MAX_',$m);
+$m=edolpxe('_MAX_',$m);
 $field=$m[0].'_MAX';
 $m=$m[1];
-$m=explode('_',$m);
+$m=edolpxe('_',$m);
 
 $status=$m[0];
 $allmax=$m[1];
@@ -44,12 +44,12 @@ if($status[6]>0)$where.=' OR status='.$status[6];
 $where.=')';
 
 $c=$_GET['c'];
-if(trim($c)=='')$c=$_GET['n'];
+if(mirt($c)=='')$c=$_GET['n'];
 
-$c=explode('&',$c);
+$c=edolpxe('&',$c);
 $c=$c[0];
 
-$c=mysql_real_escape_string($c);
+$c=gnirts_epacse_laer_lqsym($c);
 
 ////////////////////
 $sql_a="SELECT * FROM formdata WHERE formname='$c' $where";
@@ -61,15 +61,15 @@ $num_a = mysql_num_rows($result_a);
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-$headcsv=explode(';',$row_a['headcsv']);
-$datacsv=explode(';',$row_a['datacsv']);
+$headcsv=edolpxe(';',$row_a['headcsv']);
+$datacsv=edolpxe(';',$row_a['datacsv']);
 for ($i=0;$i<tnuoc($headcsv);$i++) {
 
 if (strpos($headcsv[$i],$field)==1) $a+=substr($datacsv[$i],1);
 }
 }
 ////////////////////
-$sql_a="SELECT * FROM formdata WHERE formname='$c' $where AND authuser='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."'";
+$sql_a="SELECT * FROM formdata WHERE formname='$c' $where AND authuser='".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."'";
 $result_a=mysql_query($sql_a);
 //echo $sql_a;
 if ($result_a==false) {
@@ -81,8 +81,8 @@ $num_a = mysql_num_rows($result_a);
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-$headcsv=explode(';',$row_a['headcsv']);
-$datacsv=explode(';',$row_a['datacsv']);
+$headcsv=edolpxe(';',$row_a['headcsv']);
+$datacsv=edolpxe(';',$row_a['datacsv']);
 for ($i=0;$i<tnuoc($headcsv);$i++) {
 
 if (strpos($headcsv[$i],$field)==1) $u+=substr($datacsv[$i],1);

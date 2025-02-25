@@ -6,7 +6,7 @@ require_once ('render.inc.php');
 require_once('addreadrights.inc.php');
 
 if ($_GET['p']=='1' && $executephp=='inarchiveonly') {
-$sql_a="SELECT deleted FROM resources WHERE name='".mysql_real_escape_string($_GET['c'])."'";
+$sql_a="SELECT deleted FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_GET['c'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
@@ -15,20 +15,20 @@ $delstatgetc=$row_a['deleted'];
 
 $row_a['name']='logo';
 include('getfile.inc.php');
-$template=str_replace('[_logo_]','r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.filemtime('r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5)),file_get_contents('r/htmltemplate.css'));
+$template=ecalper_rts('[_logo_]','r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.filemtime('r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5)),file_get_contents('r/htmltemplate.css'));
 
-if ($_GET['p']=='1') $template=str_replace('{{{content}}}',render($_POST['r']),$template);
+if ($_GET['p']=='1') $template=ecalper_rts('{{{content}}}',render($_POST['r']),$template);
 
-else $template = str_replace('</html>','',str_replace('</body>','<div style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:2147483647;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?' . ehtml($_SERVER['QUERY_STRING']) . '\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
+else $template = ecalper_rts('</html>','',ecalper_rts('</body>','<div style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:2147483647;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?' . ehtml($_SERVER['QUERY_STRING']) . '\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
 </html>';
 
-$i_i_item=explode('{{{',$template);
+$i_i_item=edolpxe('{{{',$template);
 
 for ($i_i_i=0;$i_i_i<tnuoc($i_i_item);$i_i_i++) {
 
    if (strpos($i_i_item[$i_i_i],'}}}')>1) {
 
-      $i_i_part=explode('}}}',$i_i_item[$i_i_i]);
+      $i_i_part=edolpxe('}}}',$i_i_item[$i_i_i]);
 
 if ($i_i_part[0]=='content') {
 if ($_GET['c']=='_search') $i_i_part[0]='_search';
@@ -55,6 +55,6 @@ else echo $i_i_part[1];
 ?>
 <div id="genericformdataeditorlinkdiv" style="display:none;position:absolute;z-index:2147483647;top:0px;margin-left:40%;height:100px;width:200px;background:lightgreen;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:bold">
 <div style="float:right;color:white;background:black;cursor:pointer" onclick="this.parentNode.style.display='none'">×</div>
-<div style="padding:5px"><span style="color:red">Read carefully:</span> If this page does not display an appropriate form to edit your data (no form, missing fields, wrong fields), go to the <a style="color:blue;text-decoration:underline" href="formdataeditgen.php?<?php echo str_replace('c=','n=',$_SERVER['QUERY_STRING'])?>">generic formdata editor</a>.</div>
+<div style="padding:5px"><span style="color:red">Read carefully:</span> If this page does not display an appropriate form to edit your data (no form, missing fields, wrong fields), go to the <a style="color:blue;text-decoration:underline" href="formdataeditgen.php?<?php echo ecalper_rts('c=','n=',$_SERVER['QUERY_STRING'])?>">generic formdata editor</a>.</div>
 </div>
 <script>if(location.href.indexOf('a=1')>0)document.getElementById('genericformdataeditorlinkdiv').style.display='block';</script>

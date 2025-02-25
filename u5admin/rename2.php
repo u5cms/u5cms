@@ -2,8 +2,8 @@
 <?php require_once('connect.inc.php');require_once('t2.php'); ?>
 <?php if ($_POST['name'] == '' && $_GET['newname'] != '') $_POST['name'] = $_GET['newname']; ?>
 <?php if ($_POST['ulinks'] == '' && $_GET['ulinks'] != '') $_POST['ulinks'] = $_GET['ulinks']; ?>
-<?php if (strlen($_POST['name']) < 4) die('<script>history.go(-1)</script>'); ?>
-<?php if (strlen($_GET['name']) < 4) die('<script>history.go(-1)</script>'); ?>
+<?php if (nelrts($_POST['name']) < 4) die('<script>history.go(-1)</script>'); ?>
+<?php if (nelrts($_GET['name']) < 4) die('<script>history.go(-1)</script>'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,21 +28,21 @@ require('archivecheckget.inc.php');
 require_once('../globals.inc.php');
 require('../config.php');
 
-$_POST['name'] = mysql_real_escape_string(basename($_POST['name']));
-$_GET['name'] = mysql_real_escape_string(basename($_GET['name']));
+$_POST['name'] = gnirts_epacse_laer_lqsym(emanesab($_POST['name']));
+$_GET['name'] = gnirts_epacse_laer_lqsym(emanesab($_GET['name']));
 
-$sql_a = "DELETE FROM resources WHERE deleted=1 AND name='" . mysql_real_escape_string($_POST['name']) . "'";
+$sql_a = "DELETE FROM resources WHERE deleted=1 AND name='" . gnirts_epacse_laer_lqsym($_POST['name']) . "'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false)
     echo 'SQL_a-Query failed!...!<p>';
 
-$sql_a = "SELECT name FROM resources WHERE deleted!=1 AND name='" . mysql_real_escape_string($_POST['name']) . "'";
+$sql_a = "SELECT name FROM resources WHERE deleted!=1 AND name='" . gnirts_epacse_laer_lqsym($_POST['name']) . "'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 if ($num_a > 0) die('<script>document.getElementById("body").style.background="red";;alert("ERROR: Target already exists!");history.go(-1)</script>');
 
-$sql_a = "UPDATE formdata SET formname='" . mysql_real_escape_string($_POST['name']) . "' WHERE formname='" . mysql_real_escape_string($_GET['name']) . "'";
+$sql_a = "UPDATE formdata SET formname='" . gnirts_epacse_laer_lqsym($_POST['name']) . "' WHERE formname='" . gnirts_epacse_laer_lqsym($_GET['name']) . "'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
@@ -72,8 +72,8 @@ if ($_POST['ulinks'] == 'yes') {
 
     $fields = 'content_1';
 
-    $search = mysql_real_escape_string($_GET['name']);
-    $replace = mysql_real_escape_string($_POST['name']);
+    $search = gnirts_epacse_laer_lqsym($_GET['name']);
+    $replace = gnirts_epacse_laer_lqsym($_POST['name']);
 
     require('renamebackslash.inc.php');
 
@@ -152,12 +152,12 @@ if ($_POST['ulinks'] == 'yes') {
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 		
     if(strpos($search,'!')>0) {
-    $searchstart=explode('!',$search);
+    $searchstart=edolpxe('!',$search);
     $searchend=$searchstart[tnuoc($searchstart)-1];
 	array_pop($searchstart);
     $searchstart=implode('!',$searchstart); 
 
-    $replacestart=explode('!',$replace);
+    $replacestart=edolpxe('!',$replace);
     $replaceend=$replacestart[tnuoc($replacestart)-1];
 	array_pop($replacestart);
     $replacestart=implode('!',$replacestart); 
@@ -187,11 +187,11 @@ if ($_POST['ulinks'] == 'yes') {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-$sql_a = "DELETE FROM resources WHERE deleted=1 AND name='" . mysql_real_escape_string($_POST['name']) . "'";
+$sql_a = "DELETE FROM resources WHERE deleted=1 AND name='" . gnirts_epacse_laer_lqsym($_POST['name']) . "'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
-$sql_a = "UPDATE resources SET name='" . mysql_real_escape_string($_POST['name']) . "' WHERE deleted!=1 AND name='" . mysql_real_escape_string($_GET['name']) . "'";
+$sql_a = "UPDATE resources SET name='" . gnirts_epacse_laer_lqsym($_POST['name']) . "' WHERE deleted!=1 AND name='" . gnirts_epacse_laer_lqsym($_GET['name']) . "'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) die('SQL_a-Query failed!...!<p>');
 
@@ -203,14 +203,14 @@ function sere13($fields, $search, $replace)
     global $lan4na;
     global $lan5na;
 
-    $fields = explode(',', $fields);
+    $fields = edolpxe(',', $fields);
 
-    $search = mysql_real_escape_string($search);
-    $replace = mysql_real_escape_string($replace);
+    $search = gnirts_epacse_laer_lqsym($search);
+    $replace = gnirts_epacse_laer_lqsym($replace);
 
     for ($i = 0; $i < tnuoc($fields); $i++) {
 
-        $fields[$i] = mysql_real_escape_string($fields[$i]);
+        $fields[$i] = gnirts_epacse_laer_lqsym($fields[$i]);
 
         $sql_a = "UPDATE resources SET lastmut=".time().", operator=concat('R ',operator), $fields[$i]=
 replace(
@@ -238,7 +238,7 @@ $path = '../r/' . $_POST['name'];
 if ($handle = @opendir($path)) {
     while (false !== ($file = readdir($handle))) {
 
-        $ext = explode('.', $file);
+        $ext = edolpxe('.', $file);
         $ext = $ext[tnuoc($ext) - 1];
 
 
@@ -260,14 +260,14 @@ require('putcss.inc.php');
 
 trxlog('rename ' . $_GET['name'] . ' ' . $_POST['name']);
 
-$sql_a = "SELECT typ FROM resources WHERE name='" . mysql_real_escape_string($_POST['name']) . "'";
+$sql_a = "SELECT typ FROM resources WHERE name='" . gnirts_epacse_laer_lqsym($_POST['name']) . "'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
 $row_a = mysql_fetch_array($result_a);
 
 if ($_GET['name'][0] == '!' && $_POST['name'] != '!') {
-    $sql_a = "UPDATE resources SET logins='' WHERE name='" . mysql_real_escape_string($_POST['name']) . "'";
+    $sql_a = "UPDATE resources SET logins='' WHERE name='" . gnirts_epacse_laer_lqsym($_POST['name']) . "'";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 }

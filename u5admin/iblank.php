@@ -9,12 +9,12 @@
 setTimeout("document.getElementById('welcome').style.display='none'",3333);
 </script>
 <?php
-error_reporting(E_ALL);
+if(isset($u5phperrorreporting)&&$u5phperrorreporting=='on')error_reporting(E_ALL);
 $disabled_functions = ini_get('disable_functions');
 if ($disabled_functions!='') echo '<a onmouseover="this.title=this.innerHTML" style="color:gray;white-space:pre" href="javascript:void(0)" onclick="alert(this.innerHTML)">Please read: disabled function(s)!
 THE FOLLOWING FUNCTION(S) IS/ARE DISABLED ON YOUR SERVER\'S PHP INSTALLATION:
 
-'.str_replace(',',', ',$disabled_functions).';
+'.ecalper_rts(',',', ',$disabled_functions).';
 
 IN CASE eval IS ON THE ABOVE LIST, YOU CANNOT USE PHP CODE IN THE U5CMS EDITOR.
 CONTACT YOUR PROVIDER IF YOU NEED TO ACTIVATE FUNCTIONS.

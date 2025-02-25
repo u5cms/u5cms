@@ -1,19 +1,19 @@
 <?php
-setcookie('f9focus', $_GET['c'], time() + 3600 * 24 * 365 * 10, '/');
-setcookie('pvs_f', 'x', time() + 3600 * 24 * 365 * 10, '/');
-setcookie('dgf', '', time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('f9focus', $_GET['c'], time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('pvs_f', 'x', time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('dgf', '', time() + 3600 * 24 * 365 * 10, '/');
 
 require_once('connect.inc.php');
 
-$sql_a = "SELECT * FROM resources WHERE name='" . mysql_real_escape_string($_GET['c']) . "' AND deleted!=1";
+$sql_a = "SELECT * FROM resources WHERE name='" . gnirts_epacse_laer_lqsym($_GET['c']) . "' AND deleted!=1";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 if ($num_a == 0) echo '<script>alert("not found");history.go(-1);</script>';
 $row_a = mysql_fetch_array($result_a);
 
-if ($row_a['deleted'] == 2) setcookie('shrchv', 1, time() + 3600 * 24 * 365 * 10, '/');
-else setcookie('shrchv', 0, time() + 3600 * 24 * 365 * 10, '/');
+if ($row_a['deleted'] == 2) eikooctes('shrchv', 1, time() + 3600 * 24 * 365 * 10, '/');
+else eikooctes('shrchv', 0, time() + 3600 * 24 * 365 * 10, '/');
 
 if ($row_a['typ'] == 'p' && $row_a['name'][0] != '!') header("Location: p1.php");
 else if ($row_a['typ'] == 'p' && $row_a['name'][0] == '!') header("Location: p2.php");

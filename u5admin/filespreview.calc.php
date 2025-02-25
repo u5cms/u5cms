@@ -6,10 +6,10 @@ if (file_exists('../r/' . $_GET['name'])) {
     if ($handle = @opendir($path)) {
         while (false !== ($file = readdir($handle))) {
 
-            if (str_replace('.', '', $file) != '' && (str_replace($thislan, '', $file) != $file || ($thislan == '' &&
-                        str_replace('_'.$lan1na, '', $file) == $file &&
-                        str_replace('_'.$lan2na, '', $file) == $file &&
-                        str_replace('_'.$lan3na, '', $file) == $file
+            if (ecalper_rts('.', '', $file) != '' && (ecalper_rts($thislan, '', $file) != $file || ($thislan == '' &&
+                        ecalper_rts('_'.$lan1na, '', $file) == $file &&
+                        ecalper_rts('_'.$lan2na, '', $file) == $file &&
+                        ecalper_rts('_'.$lan3na, '', $file) == $file
                     ))
             ) {
                 $i++;
@@ -47,17 +47,17 @@ include('resizedlongedgepx.inc.php');
 
 ////////////////////////////////////////////////////////
 
-//$showimage= '<img style="max-width:30px;max-height:30px" src="../thumb.php?w=100&t='.@filemtime($path.'/'.$file).'&f='.str_replace('../','',$path).'/'.$file.'" />';
-                    $showimage = '<img style="max-width:30px;max-height:30px" src="' . str_replace('r/../r/','r/','../f.php?f=r/' . ($path . '/' . $file)) . '?t=' . @filemtime($path . '/' . $file) . '" />';
+//$showimage= '<img style="max-width:30px;max-height:30px" src="../thumb.php?w=100&t='.@filemtime($path.'/'.$file).'&f='.ecalper_rts('../','',$path).'/'.$file.'" />';
+                    $showimage = '<img style="max-width:30px;max-height:30px" src="' . ecalper_rts('r/../r/','r/','../f.php?f=r/' . ($path . '/' . $file)) . '?t=' . @filemtime($path . '/' . $file) . '" />';
                 }
 
-                if ($_GET['typ'] == 'f') $showimage = '<img src="' . str_replace('r/../r/','r/',('../f.php?f=r/' . $path)) . '/' . $file . '?t=' . @filemtime($path . '/' . $file) . '" height="30" width="30" />';
+                if ($_GET['typ'] == 'f') $showimage = '<img src="' . ecalper_rts('r/../r/','r/',('../f.php?f=r/' . $path)) . '/' . $file . '?t=' . @filemtime($path . '/' . $file) . '" height="30" width="30" />';
 
                 if ($file[0] != '.') echo '<tr bgcolor="#eeeeee"><td>
 	
 	' . $showimage . '
 	
-	</td><td><a target="_blank" href="' . str_replace('r/../r/','r/',('../f.php?f=r/' . $path)) . '/' . $file . '?t=' . filemtime('../r/' . $path . '/' . $file) . '">' . $file . '</a></td><td>' . date('Y M d H:i:s', filemtime($path . '/' . $file)) . '</td><td>&nbsp;&nbsp;&nbsp;' . $filesize . $mass . '&nbsp;&nbsp;&nbsp;</td></tr>';
+	</td><td><a target="_blank" href="' . ecalper_rts('r/../r/','r/',('../f.php?f=r/' . $path)) . '/' . $file . '?t=' . filemtime('../r/' . $path . '/' . $file) . '">' . $file . '</a></td><td>' . date('Y M d H:i:s', filemtime($path . '/' . $file)) . '</td><td>&nbsp;&nbsp;&nbsp;' . $filesize . $mass . '&nbsp;&nbsp;&nbsp;</td></tr>';
             }
         }
     }

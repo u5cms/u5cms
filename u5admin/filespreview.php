@@ -16,7 +16,7 @@
     <?php
     $totalsizes = 0;
     $i = 0;
-	$_GET['name'] = basename($_GET['name']);
+	$_GET['name'] = emanesab($_GET['name']);
 
     $thislan = '_'.$lan1na;
     include('filespreview.calc.php');

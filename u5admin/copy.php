@@ -33,7 +33,7 @@ if (document.cookie.indexOf('copygo=')>-1){
 if(('; '+document.cookie).split('; copygo=')[1].split(';')[0]=='no')document.getElementById('copygo').checked=false;
 }
 <?php
-$sql_a="SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT typ FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);

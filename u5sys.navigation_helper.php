@@ -8,7 +8,7 @@ function navGetLevel(string $navitem) {
         die('Not a navitem: ' . $navitem);
     }
 
-    return strlen($matches[1]);
+    return nelrts($matches[1]);
 }
 
 function navGetPageId(string $navitem) { $matches = array();

@@ -6,7 +6,7 @@ $sql_a="DELETE FROM loginattempts WHERE timestamp<".(time()-60*60*24*365);
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 
-$sql_a="SELECT * FROM loginattempts WHERE timestamp>".(time()-$minutestowaitaftertoomanyloginattempts*60)." AND username='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND ip='".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."' ORDER BY timestamp ASC";
+$sql_a="SELECT * FROM loginattempts WHERE timestamp>".(time()-$minutestowaitaftertoomanyloginattempts*60)." AND username='".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND ip='".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."' ORDER BY timestamp ASC";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 
@@ -39,7 +39,7 @@ $zendfrom=$mymail;
 $zendto=$_SERVER['PHP_AUTH_USER'];
 if($mailalerttouser=='yes')include('zendmail.php');
 
-$sql_a="UPDATE loginattempts SET mailed=".time()." WHERE username='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND ip='".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."'";
+$sql_a="UPDATE loginattempts SET mailed=".time()." WHERE username='".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND ip='".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 
@@ -51,7 +51,7 @@ echo '-->';
 exit;
 }
 
-$sql_a="INSERT INTO loginattempts (username, timestamp, ip) VALUES  ('".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."', ".time().", '".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."')";
+$sql_a="INSERT INTO loginattempts (username, timestamp, ip) VALUES  ('".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."', ".time().", '".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."')";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 ?>

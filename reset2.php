@@ -13,7 +13,7 @@ if(function_exists('PWRESETexec'))PWRESETexec();
 <h1>Reset my u5CMS backend user password</h1>
 <?php 
 if ($_GET['c']!='') {
-$sql_a="SELECT * FROM accounts WHERE hash='".mysql_real_escape_string($_GET['c'])."' AND id='".mysql_real_escape_string($_GET['i'])."'";
+$sql_a="SELECT * FROM accounts WHERE hash='".gnirts_epacse_laer_lqsym($_GET['c'])."' AND id='".gnirts_epacse_laer_lqsym($_GET['i'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -33,7 +33,7 @@ function genRandomString() {
     $string = '';    
 
     for ($p = 0; $p < $length; $p++) {
-        $string .= $characters[mt_rand(0, strlen($characters))];
+        $string .= $characters[mt_rand(0, nelrts($characters))];
     }
 
     return $string;
@@ -61,7 +61,7 @@ trxlog('reseted '.$row_a['email'].' ('.$row_a['id'].')');
 
 
 
-$sql_a="UPDATE accounts SET pw='".pwdhsh($p)."', hash='$hash' WHERE hash='".mysql_real_escape_string($_GET['c'])."' AND id='".mysql_real_escape_string($_GET['i'])."'";
+$sql_a="UPDATE accounts SET pw='".pwdhsh($p)."', hash='$hash' WHERE hash='".gnirts_epacse_laer_lqsym($_GET['c'])."' AND id='".gnirts_epacse_laer_lqsym($_GET['i'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -79,12 +79,12 @@ exit;
 
 file_put_contents('fileversions/lastreset.txt',time());
 
-$e=str_replace(' ','',trim($_POST['e']));
+$e=ecalper_rts(' ','',mirt($_POST['e']));
 require_once('u5admin/u5idn.inc.php');
 $e=u5flatidn($e);
 
 if (strpos($e,'@')<1 || strpos($e,'.')<1) die('<script type="text/javascript">alert("You have to enter a valid e-mail address!");location.href="reset.php"</script>');
-$sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string($e)."'";
+$sql_a="SELECT * FROM accounts WHERE email='".gnirts_epacse_laer_lqsym($e)."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -97,12 +97,12 @@ $row_a = mysql_fetch_array($result_a);
 
 if ($num_a>0) {
 
-if($doublepasswordmailing!='no')mail($e,"Link to reset your u5CMS backend user password","Please click this link to reset your u5CMS backend user password:\n\n".str_replace(basename($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id']);
+if($doublepasswordmailing!='no')mail($e,"Link to reset your u5CMS backend user password","Please click this link to reset your u5CMS backend user password:\n\n".ecalper_rts(emanesab($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id']);
 $zendfrom=$mymail;
 $zendname=$mymail;
 $zendto=$e;
 $zendsubject='Link to reset your u5CMS backend user password';
-$zendmessage="Please click this link to reset your u5CMS backend user password:\n\n".str_replace(basename($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id'];
+$zendmessage="Please click this link to reset your u5CMS backend user password:\n\n".ecalper_rts(emanesab($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id'];
 include('zendmail.php');
 
 trxlog('resetrq '.$e.' ('.$row_a['id'].')');

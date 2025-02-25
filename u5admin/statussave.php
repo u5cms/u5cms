@@ -7,7 +7,7 @@
 <body id="cbody" bgcolor="red" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php 
 trxlog('status '.$_GET['status'].': '.$_GET['id']);
-$sql_a="UPDATE formdata SET lastmut='".time()."', status='".mysql_real_escape_string($_GET['status'])."' WHERE id='".mysql_real_escape_string($_GET['id'])."'";
+$sql_a="UPDATE formdata SET lastmut='".time()."', status='".gnirts_epacse_laer_lqsym($_GET['status'])."' WHERE id='".gnirts_epacse_laer_lqsym($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

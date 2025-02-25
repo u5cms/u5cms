@@ -11,7 +11,7 @@ if (file_exists('../r/'.$_GET['name'])) {
      if ($handle = @opendir($path))  {
      while (false !== ($file = readdir($handle)))  {
 
-    if (str_replace('.','',$file)!='') {
+    if (ecalper_rts('.','',$file)!='') {
 	$i++;
 $thefilesize=filesize($path.'/'.$file);
 $totalsizes+=$thefilesize;

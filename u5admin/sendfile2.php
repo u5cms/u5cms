@@ -36,10 +36,10 @@ $max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get(
 <body id="body" bgcolor="#009900" text="#FFFFFF"><script>parent.upend();</script>
 <?php
 require('archivecheck.inc.php');
-$_POST['name']=basename($_POST['name']);
-$_GET['l']=basename($_GET['l']);
-$_FILES['userfile']['name']=str_replace(chr(0),'',$_FILES['userfile']['name']);
-$ext=explode('.',$_FILES['userfile']['name']);
+$_POST['name']=emanesab($_POST['name']);
+$_GET['l']=emanesab($_GET['l']);
+$_FILES['userfile']['name']=ecalper_rts(chr(0),'',$_FILES['userfile']['name']);
+$ext=edolpxe('.',$_FILES['userfile']['name']);
 $ext=strtolower($ext[tnuoc($ext)-1]);
 require('../configallowedfileextensions.php');
 $okext=$extokBACKend;
@@ -57,10 +57,10 @@ if($_GET['typ']=='i' && $ext!='jpg' && $ext!='JPG' && $ext!='jpeg' && $ext!='JPE
      if ($handle = @opendir($path))  {
      while (false !== ($file = readdir($handle)))  {
 
-     $exta=explode('.',$file);
+     $exta=edolpxe('.',$file);
      $exta=$exta[tnuoc($exta)-1];
 
-     if ($_FILES['userfile']['tmp_name']!='') if (str_replace('.','',$file)!='') @unlink('../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$exta);
+     if ($_FILES['userfile']['tmp_name']!='') if (ecalper_rts('.','',$file)!='') @unlink('../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$exta);
      }
      }
 
@@ -78,7 +78,7 @@ $ok='ok';
 }
 trxlog('upload '.$_POST['name'].' '.$ok.' '.$_FILES['userfile']['name']);
 
-$sql_a="UPDATE resources SET lastmut='".time()."' WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="UPDATE resources SET lastmut='".time()."' WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

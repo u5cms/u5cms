@@ -16,11 +16,11 @@ shortcut.add("Ctrl+S",function() {
 <h1>Preview init scroll</h1>
 
 <?php 
-$c=explode(';',file_get_contents('../r/pviscroll.js'));
+$c=edolpxe(';',file_get_contents('../r/pviscroll.js'));
 
 
-$pvileft=str_replace('pvileft=','',$c[0]);
-$pvitop=str_replace('pvitop=','',$c[1]);
+$pvileft=ecalper_rts('pvileft=','',$c[0]);
+$pvitop=ecalper_rts('pvitop=','',$c[1]);
 
 ?>
 

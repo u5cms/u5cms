@@ -54,7 +54,7 @@ trxlog('def sizes');
 
 function prpstring($s) {
 if($s=='')$s=0;
-return mysql_real_escape_string($s);	
+return gnirts_epacse_laer_lqsym($s);	
 }
 ?>
 <script>

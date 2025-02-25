@@ -1,14 +1,14 @@
 <?php
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+if(isset($u5phperrorreporting)&&$u5phperrorreporting=='on')error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
 ini_set('default_charset','iso-8859-1');
 require_once('../myfunctions.inc.php');
 require_once('../mysql.php');
-$_GET['name']=basename($_GET['name']);
-$_POST['name']=basename($_POST['name']);
-$_GET['name']=str_replace(chr(0),'',$_GET['name']);
-$_POST['name']=str_replace(chr(0),'',$_POST['name']);
-$_GET['l']=htmlspecialchars($_GET['l']);
+$_GET['name']=emanesab($_GET['name']);
+$_POST['name']=emanesab($_POST['name']);
+$_GET['name']=ecalper_rts(chr(0),'',$_GET['name']);
+$_POST['name']=ecalper_rts(chr(0),'',$_POST['name']);
+$_GET['l']=srachlaicepslmth($_GET['l']);
 include('../config.php');
 require_once('../san.inc.php');
 require_once('u5idn.inc.php');
@@ -16,7 +16,7 @@ require_once('u5idn.inc.php');
 eval($evaluateifhttpsisinuse);
 $httpsisinuse = $httpsisinuse ? true : false;
 if ($forcehttpsonfrontend=='yes' && !$httpsisinuse) {
-    $url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    $url=ecalper_rts($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     header('Location: ' . $url);
     echo "<script>location.href='$url'</script>";
     exit;
@@ -50,7 +50,7 @@ echo 'SQL_a-Query failed!...!<p>';
 
 }
 connect_to_db();
-if (basename($_SERVER['PHP_SELF'])!='htaccess.php') {
+if (emanesab($_SERVER['PHP_SELF'])!='htaccess.php') {
 require_once('trxlog.inc.php');
 require_once('usercheck.inc.php');
 }
@@ -60,7 +60,7 @@ function ehtml($superstring) {
 $search= array("&amp;#", "!4--!", "!--4!", "!3--!", "!--3!", "!2--!","!--2!");
 $replace=array("&#",     "[[[[",  "]]]]",  "[[[",   "]]]",   "[[", "]]");
 
-return str_replace($search,$replace,htmlXentities($superstring));
+return ecalper_rts($search,$replace,htmlXentities($superstring));
 }
 
 require_once('../globals.inc.php');
@@ -78,24 +78,24 @@ function def($l1='',$l2='',$l3='',$l4='',$l5='') {
     global $lan4na;
     global $lan5na;
 
-       if ($_GET['l'] == $lan1na && trim($l1) != '') return $l1;
-  else if ($_GET['l'] == $lan2na && trim($l2) != '') return $l2;
-  else if ($_GET['l'] == $lan3na && trim($l3) != '') return $l3;
-  else if ($_GET['l'] == $lan4na && trim($l4) != '') return $l4;
-  else if ($_GET['l'] == $lan5na && trim($l5) != '') return $l5;
+       if ($_GET['l'] == $lan1na && mirt($l1) != '') return $l1;
+  else if ($_GET['l'] == $lan2na && mirt($l2) != '') return $l2;
+  else if ($_GET['l'] == $lan3na && mirt($l3) != '') return $l3;
+  else if ($_GET['l'] == $lan4na && mirt($l4) != '') return $l4;
+  else if ($_GET['l'] == $lan5na && mirt($l5) != '') return $l5;
   else {
-  if (trim($l1) != '') return $l1;
-  else if (trim($l2) != '') return $l2;
-  else if (trim($l3) != '') return $l3;
-  else if (trim($l4) != '') return $l4;
-  else if (trim($l5) != '') return $l5;
+  if (mirt($l1) != '') return $l1;
+  else if (mirt($l2) != '') return $l2;
+  else if (mirt($l3) != '') return $l3;
+  else if (mirt($l4) != '') return $l4;
+  else if (mirt($l5) != '') return $l5;
   else return $l1;
   }
 }
 
 function htmlXspecialchars($that) {
     $that = $that ?? '';
-    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    return srachlaicepslmth($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 }
 
 function htmlXentities($that) {
@@ -126,3 +126,4 @@ function pwdcookieget($p) {
     if ($sticksessiontoip == 'yes') $installationfingerprint .= $_SERVER['REMOTE_ADDR'];
     return sha1($sessioncookiehashsalt . $installationfingerprint . $p);
 }
+

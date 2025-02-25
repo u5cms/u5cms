@@ -4,8 +4,8 @@
      if ($handle = @opendir($path))  { 
      while (false !== ($file = readdir($handle)))  { 
     
-	 if ($file_d=='' && str_replace($row_a['name'],'',$file)!=$file) $file_1=$file; 
-     if (str_replace($row_a['name'],'',$file)!=$file && str_replace('_100','',$file)!=$file) $file_1=$file;
+	 if ($file_d=='' && ecalper_rts($row_a['name'],'',$file)!=$file) $file_1=$file; 
+     if (ecalper_rts($row_a['name'],'',$file)!=$file && ecalper_rts('_100','',$file)!=$file) $file_1=$file;
      
 	 }}
 ?>

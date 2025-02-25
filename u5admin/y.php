@@ -1,7 +1,7 @@
 <?php
 $pidvesa = 'y'; $pidvesascroll = 'y';
 require_once('pidvesacookie.inc.php');
-setcookie('subv', 'y', time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('subv', 'y', time() + 3600 * 24 * 365 * 10, '/');
 require_once('connect.inc.php');
 ?>
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ require_once('connect.inc.php');
     $orderby = 'name';
     if ($_GET['pvs_s'] == 'date') $orderby = 'lastmut DESC';
 
-    $sql_a = "SELECT * FROM resources WHERE typ='$pidvesa' AND name LIKE '" . mysql_real_escape_string(str_replace('*', '%', $_GET['f'])) . "' AND deleted=$delstatus ORDER by $orderby";
+    $sql_a = "SELECT * FROM resources WHERE typ='$pidvesa' AND name LIKE '" . gnirts_epacse_laer_lqsym(ecalper_rts('*', '%', $_GET['f'])) . "' AND deleted=$delstatus ORDER by $orderby";
     $result_a = mysql_query($sql_a);
 
     if ($result_a == false) {
@@ -56,23 +56,23 @@ require_once('connect.inc.php');
         if ($lngpnd_5 == '5' || $lngpnd_5 == '50') $lngpnd_5 = '';
 
 
-        if (str_replace(' ', '', $row_a['ishomepage']) == 1) $pend .= ' <span title="homepage (as defined in S of the PIDVESA-Navigation)" style="background:yellow">&nbsp;&larr;&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['logins']) != '') $pend .= ' <span title="closed user group (logins)" style="color:white;background:green">&nbsp;c&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == 1) $pend .= ' <span title="hidden (offline)" style="color:white;background:black">&nbsp;H&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['ishomepage']) == 1) $pend .= ' <span title="homepage (as defined in S of the PIDVESA-Navigation)" style="background:yellow">&nbsp;&larr;&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['logins']) != '') $pend .= ' <span title="closed user group (logins)" style="color:white;background:green">&nbsp;c&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['hidden']) == 1) $pend .= ' <span title="hidden (offline)" style="color:white;background:black">&nbsp;H&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['hidden']) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['hidden']) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
 
-        if (str_replace(' ', '', $row_a['title_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' title missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
-        if (str_replace(' ', '', $row_a['title_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' title missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
-        if (str_replace(' ', '', $row_a['title_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' title missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
-        if (str_replace(' ', '', $row_a['title_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' title missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
-        if (str_replace(' ', '', $row_a['title_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' title missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' title missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' title missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' title missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' title missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' title missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
 
-        if (str_replace(' ', '', $row_a['desc_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['desc_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['desc_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['desc_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['desc_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['desc_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' youtube hash missing in metadata" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
 
 
         $lspan1 = '<span id="o_' . $row_a['name'] . '">';
@@ -112,7 +112,7 @@ require_once('connect.inc.php');
 </td>
 
 <td>
-<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5($row_a['name']) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
+<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . _5dm($row_a['name']) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
 </td>
 
 <td>
@@ -125,7 +125,7 @@ require_once('connect.inc.php');
 
         if ($_GET['pvs_p'] == 'on') {
 if($videoportalegyoutubeembedurl=='')$videoportalegyoutubeembedurl='//www.youtube-nocookie.com/embed/';
-$row_a_desc_d0=explode('?',$row_a['desc_1']);
+$row_a_desc_d0=edolpxe('?',$row_a['desc_1']);
 			echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#FFFFCC"><td colspan="9" style="word-break:break-all">
 <iframe width="150" height="80" src="' . $videoportalegyoutubeembedurl . ehtml($row_a_desc_d0[0]) . '" frameborder="0" allowfullscreen></iframe>
 <a onmouseover="this.style.fontSize=\'100%\'" href="http://youtu.be/' . ehtml($row_a['desc_1'], 0, 180) . '" target="_blank">' . ehtml(substr($row_a['desc_1'], 0, 180)) . '</a><hr></td></tr>';

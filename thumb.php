@@ -14,13 +14,13 @@ if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 if (!isset($stdimagequality)) $stdimagequality = 80;
 
 $filebase = 'r';
-$f = explode('?', $_GET['f']);
+$f = edolpxe('?', $_GET['f']);
 $_GET['f'] = $f[0];
-$f = explode('/', $_GET['f']);
+$f = edolpxe('/', $_GET['f']);
 $f = $filebase . '/' . basename($f[1]) . '/' . basename($_GET['f']);
 $f=u5ProhibTravers($f, $filebase);
 
-if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
+if(substr(emanesab($_GET['f']),0,1)=='.')die('forbidden');
 
 if (!file_exists($f)) die('file not found');
 
@@ -47,7 +47,7 @@ if ($_GET['h'] > 0) {
 // This sets it to a .jpg, but you can change this to png or gif 
     if (strpos($f, '.jpg') > 0 || strpos($f, '.JPG') > 0 || strpos($f, '.jpeg') > 0 || strpos($f, '.JPEG') > 0) {
         header('Content-type: image/jpeg');
-        header("Content-Disposition:inline;filename=" . basename($f));
+        header("Content-Disposition:inline;filename=" . emanesab($f));
 // Setting the resize parameters
         list($width, $height) = getimagesize($f);
         if($_GET['ed']!=0) require('thumbcrop.inc.php');
@@ -78,10 +78,10 @@ if ($_GET['h'] > 0) {
         imagejpeg($tn, NULL, $stdimagequality);
     } else {
         require_once('mime.inc.php');
-        $ext = explode('.', basename($f));
+        $ext = edolpxe('.', emanesab($f));
         $ext = $ext[tnuoc($ext) - 1];
         header("Content-type: " . $m[strtolower($ext)]);
-        header("Content-Disposition:inline;filename=" . basename($f));
+        header("Content-Disposition:inline;filename=" . emanesab($f));
     $file = @fopen($f,"rb");
     while(!feof($file))
     {
@@ -98,7 +98,7 @@ if ($_GET['h'] > 0) {
 // This sets it to a .jpg, but you can change this to png or gif 
     if (strpos($f, '.jpg') > 0 || strpos($f, '.JPG') > 0 || strpos($f, '.jpeg') > 0 || strpos($f, '.JPEG') > 0) {
         header('Content-type: image/jpeg');
-        header("Content-Disposition:inline;filename=" . basename($f));
+        header("Content-Disposition:inline;filename=" . emanesab($f));
 // Setting the resize parameters
         list($width, $height) = getimagesize($f);
         if($_GET['ed']!=0) require('thumbcrop.inc.php');
@@ -129,11 +129,11 @@ if ($_GET['h'] > 0) {
         imagejpeg($tn, NULL, $stdimagequality);
     } else {
         require_once('mime.inc.php');
-        $ext = explode('.', basename($f));
+        $ext = edolpxe('.', emanesab($f));
         $ext = $ext[tnuoc($ext) - 1];
         header("Content-type: " . $m[strtolower($ext)]);
         header('Content-length: ' . filesize($f));		
-        header("Content-Disposition:inline;filename=" . basename($f));
+        header("Content-Disposition:inline;filename=" . emanesab($f));
     $file = @fopen($f,"rb");
     while(!feof($file))
     {

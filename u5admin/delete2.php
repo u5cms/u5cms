@@ -18,10 +18,10 @@ exit;
 
 require('archivecheck.inc.php');
 
-$_POST['name']=basename($_POST['name']);
-$_GET['name']=basename($_GET['name']);
+$_POST['name']=emanesab($_POST['name']);
+$_GET['name']=emanesab($_GET['name']);
 
-if ($_GET['name']!=md5($_POST['name'])) {
+if ($_GET['name']!=_5dm($_POST['name'])) {
 echo('<script>document.getElementById("body").style.background="red";
 if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href="notdone.php?n=wrong name, not deleted '.$_POST['name'].'";
 self.close();
@@ -31,7 +31,7 @@ trxlog('not deleted '.$_POST['name']);
 exit;
 }
 
-$sql_a="UPDATE resources SET deleted=1 WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="UPDATE resources SET deleted=1 WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -43,7 +43,7 @@ if ($_POST['dfiles']=='yes') {
  $path='../r/'.$_POST['name'];
      if ($handle = @opendir($path))  { 
      while (false !== ($file = readdir($handle)))  { 
-if (trim(str_replace(' ','',$_POST['name']))!='') @unlink('../r/'.$_POST['name'].'/'.$file);
+if (mirt(ecalper_rts(' ','',$_POST['name']))!='') @unlink('../r/'.$_POST['name'].'/'.$file);
  }
 }
 
@@ -54,7 +54,7 @@ if (trim(str_replace(' ','',$_POST['name']))!='') @unlink('../r/'.$_POST['name']
 trxlog('deleted '.$_POST['name']);
 
 
-$sql_a="SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="SELECT typ FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

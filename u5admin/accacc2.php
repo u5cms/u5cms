@@ -8,7 +8,7 @@
 <?php 
 if ($_GET['a']==2) {
 if ($deletebackendusersRqHIADRI!='no') require_once('accadmin.inc.php');
-$sql_a="DELETE FROM accounts WHERE  id='".mysql_real_escape_string($_GET['id'])."'";
+$sql_a="DELETE FROM accounts WHERE  id='".gnirts_epacse_laer_lqsym($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -25,7 +25,7 @@ parent.main.location.reload();
 
 else { 
 if ($upgradebackendusersRqHIADRI!='no') require_once('accadmin.inc.php');
-$sql_a="UPDATE accounts SET accadmin='".mysql_real_escape_string($_GET['a'])."' WHERE  id='".mysql_real_escape_string($_GET['id'])."'";
+$sql_a="UPDATE accounts SET accadmin='".gnirts_epacse_laer_lqsym($_GET['a'])."' WHERE  id='".gnirts_epacse_laer_lqsym($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

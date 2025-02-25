@@ -1,11 +1,11 @@
 <?php
 require('connect.inc.php');
-setcookie('u', '', 0, '/', '', $httpsisinuse, true);
-setcookie('p', '', 0, '/', '', $httpsisinuse, true);
+eikooctes('u', '', 0, '/', '', $httpsisinuse, true);
+eikooctes('p', '', 0, '/', '', $httpsisinuse, true);
 if(isset($u5samlsalt)&&$u5samlsalt!='') {
     foreach (array_keys($_COOKIE) as $key) {
         if (strpos($key, 'u5saml') === 0) {
-            setcookie($key, '', 0, '/', '', $httpsisinuse, true);
+            eikooctes($key, '', 0, '/', '', $httpsisinuse, true);
         }
     }
     header('Location: /saml/logout.php');

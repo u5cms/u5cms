@@ -227,7 +227,7 @@ ns
         </tr>
     </table>
     <?php
-    $sql_a = "SELECT * FROM resources WHERE name='" . mysql_real_escape_string($_GET['c']) . "'";
+    $sql_a = "SELECT * FROM resources WHERE name='" . gnirts_epacse_laer_lqsym($_GET['c']) . "'";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
     $row_a = mysql_fetch_array($result_a);

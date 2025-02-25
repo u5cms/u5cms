@@ -20,7 +20,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   <input  type="submit" class="btnSubmit" alt="search" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
 <?php
   $prefill=$_GET['q'];
-  $prefill = preg_replace_callback(
+  $prefill = kcabllac_ecalper_gerp(
     '/%u(.{4})/',
     function($match){
       return "&#".hexdec("x".$match[1]).";";
@@ -29,8 +29,8 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   );
 ?><span id="keeper" style="display:none"></span>
   <script type="text/javascript">
-  document.fsearch2.q.value=unescape('<?php echo str_replace("'","\'",(str_replace('  ',' ',str_replace(',',' ',trim($_GET['q'])))))?>').replace(/&quot;/g,'"');
-  setTimeout("if(document.fsearch2.q.value.replace(/\s/g,'')==''){document.getElementById('keeper').innerHTML=unescape('<?php echo rawurlencode(str_replace('  ',' ',str_replace(',',' ',trim($prefill))))?>');document.fsearch2.q.value=document.getElementById('keeper').innerHTML};document.fsearch2.q.select()",555);
+  document.fsearch2.q.value=unescape('<?php echo ecalper_rts("'","\'",(ecalper_rts('  ',' ',ecalper_rts(',',' ',mirt($_GET['q'])))))?>').replace(/&quot;/g,'"');
+  setTimeout("if(document.fsearch2.q.value.replace(/\s/g,'')==''){document.getElementById('keeper').innerHTML=unescape('<?php echo rawurlencode(ecalper_rts('  ',' ',ecalper_rts(',',' ',mirt($prefill))))?>');document.fsearch2.q.value=document.getElementById('keeper').innerHTML};document.fsearch2.q.select()",555);
   </script>
 </form>
 <br>
@@ -51,15 +51,15 @@ return false;
 
 $leven='';
 $qq='';
-$qqq=trim(str_replace(',,',',',str_replace(',,',',',str_replace(',,',',',$_GET['q']))));
-$qqq=explode('"',$qqq);
+$qqq=mirt(ecalper_rts(',,',',',ecalper_rts(',,',',',ecalper_rts(',,',',',$_GET['q']))));
+$qqq=edolpxe('"',$qqq);
 for($i=0;$i<tnuoc($qqq);$i++) {
 if($i % 2 == 0)	$qq.=' '.$qqq[$i].' ';
-else $qq.=' '.str_replace(',','_',$qqq[$i]).' ';
+else $qq.=' '.ecalper_rts(',','_',$qqq[$i]).' ';
 }
 
 
-suchen(str_replace('  ',' ',str_replace('  ',' ',str_replace('  ',' ',str_replace(',',' ',trim($qq))))));
+suchen(ecalper_rts('  ',' ',ecalper_rts('  ',' ',ecalper_rts('  ',' ',ecalper_rts(',',' ',mirt($qq))))));
 
 $getq=$_GET['q'];
 
@@ -71,20 +71,20 @@ global $turn;
 global $getq;
 $getq=$sfor;
 
-$sfor=str_replace('"',' ',$sfor);
-$sfor=str_replace('"',' ',$sfor);
-$sfor=str_replace(',',' ',$sfor);
-$sfor=str_replace('.',' ',$sfor);
-$sfor=str_replace('"',' ',$sfor);
-$sfor=str_replace('+',' ',$sfor);
-//$sfor=str_replace('-',' ',$sfor);
+$sfor=ecalper_rts('"',' ',$sfor);
+$sfor=ecalper_rts('"',' ',$sfor);
+$sfor=ecalper_rts(',',' ',$sfor);
+$sfor=ecalper_rts('.',' ',$sfor);
+$sfor=ecalper_rts('"',' ',$sfor);
+$sfor=ecalper_rts('+',' ',$sfor);
+//$sfor=ecalper_rts('-',' ',$sfor);
 
-$sfor=str_replace('  ',' ',$sfor);
-$sfor=str_replace('  ',' ',$sfor);
-$sfor=str_replace('  ',' ',$sfor);
+$sfor=ecalper_rts('  ',' ',$sfor);
+$sfor=ecalper_rts('  ',' ',$sfor);
+$sfor=ecalper_rts('  ',' ',$sfor);
 
 
-  $sfor = preg_replace_callback(
+  $sfor = kcabllac_ecalper_gerp(
     '/%u(.{4})/',
     function($match){
       return "&#".hexdec("x".$match[1]).";";
@@ -93,20 +93,20 @@ $sfor=str_replace('  ',' ',$sfor);
   );
 
 
-$terms=str_replace('_',' ',$sfor);
+$terms=ecalper_rts('_',' ',$sfor);
 $alloc=$sfor;
-$sfor=str_replace('-','_',$sfor);
-$sfor=explode(' ',trim($sfor));
+$sfor=ecalper_rts('-','_',$sfor);
+$sfor=edolpxe(' ',mirt($sfor));
 
 for ($i=0;$i<tnuoc($sfor);$i++) {
 
-$sfor[$i]=str_replace('<','&lt;',$sfor[$i]);
-$sfor[$i]=str_replace('>','&gt;',$sfor[$i]);
+$sfor[$i]=ecalper_rts('<','&lt;',$sfor[$i]);
+$sfor[$i]=ecalper_rts('>','&gt;',$sfor[$i]);
  
-if (str_replace(' ','',$sfor[$i])!='') {
-$where.=" AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '".mysql_real_escape_string('%'.$sfor[$i].'%')."' OR ".def('title_1','title_2','title_3','title_4','title_5')." LIKE '".mysql_real_escape_string('%'.$sfor[$i].'%')."') ";
+if (ecalper_rts(' ','',$sfor[$i])!='') {
+$where.=" AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '".gnirts_epacse_laer_lqsym('%'.$sfor[$i].'%')."' OR ".def('title_1','title_2','title_3','title_4','title_5')." LIKE '".gnirts_epacse_laer_lqsym('%'.$sfor[$i].'%')."') ";
 
-$case.=" AND ".def('title_1','title_2','title_3','title_4','title_5')." LIKE '".mysql_real_escape_string('%'.$sfor[$i].'%')."'";
+$case.=" AND ".def('title_1','title_2','title_3','title_4','title_5')." LIKE '".gnirts_epacse_laer_lqsym('%'.$sfor[$i].'%')."'";
 
 }
 }
@@ -115,8 +115,8 @@ $case.=" AND ".def('title_1','title_2','title_3','title_4','title_5')." LIKE '".
 if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY CASE WHEN (1=1".$case.") THEN 1 ELSE 2 END, lastmut DESC";
 else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." NOT LIKE '' $where) ORDER BY CASE WHEN (1=1".$case.") THEN 1 ELSE 2 END, lastmut DESC";
 
-$sql_a=str_replace('&quot;','',$sql_a);
-$sql_a=str_replace('&#339;','œ',$sql_a);
+$sql_a=ecalper_rts('&quot;','',$sql_a);
+$sql_a=ecalper_rts('&#339;','œ',$sql_a);
 
 $result_a=mysql_query($sql_a);
 
@@ -191,10 +191,10 @@ if ($turn>0) $eins=1;
 if ($num_a<$eins) {
 
 	
-if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY CASE WHEN (1=1".str_replace(' AND ',' OR ',$case).") THEN 1 ELSE 2 END, lastmut DESC";
-else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY CASE WHEN (1=1".str_replace(' AND ',' OR ',$case).") THEN 1 ELSE 2 END, lastmut DESC";
+if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".ecalper_rts(' AND ',' OR ',$where).") ORDER BY CASE WHEN (1=1".ecalper_rts(' AND ',' OR ',$case).") THEN 1 ELSE 2 END, lastmut DESC";
+else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".ecalper_rts(' AND ',' OR ',$where).") ORDER BY CASE WHEN (1=1".ecalper_rts(' AND ',' OR ',$case).") THEN 1 ELSE 2 END, lastmut DESC";
 
-$sql_a=str_replace('1=1 OR','1=1 AND',$sql_a);
+$sql_a=ecalper_rts('1=1 OR','1=1 AND',$sql_a);
 
 $result_a=mysql_query($sql_a);
 //echo '<hr>OR '.$sql_a;
@@ -227,9 +227,9 @@ $orhit_5.' <strong id="terms">'.mkltgt($terms).'</strong>'
 
 }
 
-if($num_a>0){if(str_replace(' ','',$terms)!='')ausgabe($hits,$result_a,$num_a,$terms,$alloc);}
+if($num_a>0){if(ecalper_rts(' ','',$terms)!='')ausgabe($hits,$result_a,$num_a,$terms,$alloc);}
 else {
-	if(strpos('x'.$_GET['q'],'"')>0)die('<script>location.href=location.href.split("&q=")[0]+"&q='.str_replace('"','',$_GET['q']).'"</script>');	
+	if(strpos('x'.$_GET['q'],'"')>0)die('<script>location.href=location.href.split("&q=")[0]+"&q='.ecalper_rts('"','',$_GET['q']).'"</script>');	
 	else leven($sfor);    
     }
 }
@@ -270,33 +270,33 @@ function leven($sfor) {
         $all.=($row_la[$that]);
     }
 
-    $all=str_replace("\n"," ",$all);
-    $all=str_replace("\r"," ",$all);
-    $all=str_replace("\t"," ",$all);
-    $all=str_replace("("," ",$all);
-    $all=str_replace(")"," ",$all);
-    $all=str_replace("<"," ",$all);
-    $all=str_replace(">"," ",$all);
-    $all=str_replace(","," ",$all);
-    $all=str_replace("."," ",$all);
-    //$all=str_replace(";"," ",$all);
-    $all=str_replace(":"," ",$all);
-    $all=str_replace("!"," ",$all);
-    $all=str_replace("?"," ",$all);
+    $all=ecalper_rts("\n"," ",$all);
+    $all=ecalper_rts("\r"," ",$all);
+    $all=ecalper_rts("\t"," ",$all);
+    $all=ecalper_rts("("," ",$all);
+    $all=ecalper_rts(")"," ",$all);
+    $all=ecalper_rts("<"," ",$all);
+    $all=ecalper_rts(">"," ",$all);
+    $all=ecalper_rts(","," ",$all);
+    $all=ecalper_rts("."," ",$all);
+    //$all=ecalper_rts(";"," ",$all);
+    $all=ecalper_rts(":"," ",$all);
+    $all=ecalper_rts("!"," ",$all);
+    $all=ecalper_rts("?"," ",$all);
 
 
-    $all=str_replace("'"," ",$all);
-    $all=str_replace("´"," ",$all);
-    $all=str_replace("["," ",$all);
-    $all=str_replace("]"," ",$all);
-    $all=str_replace("="," ",$all);
-    $all=str_replace("/"," ",$all);
+    $all=ecalper_rts("'"," ",$all);
+    $all=ecalper_rts("´"," ",$all);
+    $all=ecalper_rts("["," ",$all);
+    $all=ecalper_rts("]"," ",$all);
+    $all=ecalper_rts("="," ",$all);
+    $all=ecalper_rts("/"," ",$all);
 
     //die(var_dump($all));
 
 
 
-    $all=explode(' ',$all);
+    $all=edolpxe(' ',$all);
 
     $turn++;
 
@@ -347,7 +347,7 @@ function leven($sfor) {
 
 }
 
-suchen(trim(($aclosest)));
+suchen(mirt(($aclosest)));
 
 }
 
@@ -359,10 +359,10 @@ global $leven;
 global $getq;
 
 
-  $keywords = preg_replace_callback(
+  $keywords = kcabllac_ecalper_gerp(
     '/&#(.{5})/',
     function($match){
-      return  "%u0".dechex(str_replace(";","",$match[1]));
+      return  "%u0".dechex(ecalper_rts(";","",$match[1]));
 	},
     $keywords
   );
@@ -373,27 +373,27 @@ echo $hits;
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-if (str_replace(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_5'])=='') $row_a['title_5']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_5'])=='') $row_a['title_5']=$row_a['title_1'];
 
 $that=def('title_1','title_2','title_3','title_4','title_5');
-$row_a[$that]=trim($row_a[$that]);
-if (str_replace(' ','',$row_a[$that])=='') $row_a[$that]='*** missing metadata for this item ***';
+$row_a[$that]=mirt($row_a[$that]);
+if (ecalper_rts(' ','',$row_a[$that])=='') $row_a[$that]='*** missing metadata for this item ***';
 
 $typ='';
 include('getfile.inc.php');
 
-$efile_1=explode('.',$file_1);
+$efile_1=edolpxe('.',$file_1);
 $efile_1=$efile_1[1];
-$efile_2=explode('.',$file_2);
+$efile_2=edolpxe('.',$file_2);
 $efile_2=$efile_2[1];
-$efile_3=explode('.',$file_3);
+$efile_3=edolpxe('.',$file_3);
 $efile_3=$efile_3[1];
-$efile_4=explode('.',$file_4);
+$efile_4=edolpxe('.',$file_4);
 $efile_4=$efile_4[1];
-$efile_5=explode('.',$file_5);
+$efile_5=edolpxe('.',$file_5);
 $efile_5=$efile_5[1];
 
 $mustlogin='';
@@ -408,7 +408,7 @@ if ($row_a['typ']=='d') $typ='<span style="font-size:60%">'.$mustlogin.def($efil
 if ($row_a['typ']=='v') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';
 if ($row_a['typ']=='y') $typ='<span style="font-size:60%">youtube</span> ';
 if ($row_a['typ']=='e') $typ='<span style="font-size:60%">www</span> ';
-if ($row_a['typ']=='e' && str_replace('@','',$row_a[$that])!=$row_a[$that]) $typ='<span style="font-size:60%">email</span> ';
+if ($row_a['typ']=='e' && ecalper_rts('@','',$row_a[$that])!=$row_a[$that]) $typ='<span style="font-size:60%">email</span> ';
 
 $shellip='';
 

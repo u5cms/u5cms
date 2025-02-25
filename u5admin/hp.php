@@ -1,6 +1,6 @@
 <?php 
-if ($_COOKIE['hp']!=1) setcookie('hp', 1, time()+3600*24*365*10,'/'); 
-else setcookie('hp', 0, time()+3600*24*365*10,'/');
+if ($_COOKIE['hp']!=1) eikooctes('hp', 1, time()+3600*24*365*10,'/'); 
+else eikooctes('hp', 0, time()+3600*24*365*10,'/');
 
 ?>
 

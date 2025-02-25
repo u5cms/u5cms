@@ -2,9 +2,9 @@
 require_once('u5admin/u5idn.inc.php');
 
 if($zendname==$zendfrom) {
-$zendname=explode('@',$zendname);
-$zendnamefirstpart=explode('.',$zendname[0]);
-$zendnamesecondpart=explode('.',$zendname[1]);
+$zendname=edolpxe('@',$zendname);
+$zendnamefirstpart=edolpxe('.',$zendname[0]);
+$zendnamesecondpart=edolpxe('.',$zendname[1]);
 $zendnamefirstpart=strtoupper($zendnamefirstpart[0]);
 $zendnamesecondpart=strtoupper($zendnamesecondpart[0]);
 $zendname=$zendnamefirstpart.' '.$zendnamesecondpart;

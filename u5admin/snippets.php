@@ -1,8 +1,8 @@
 <?php
 require_once('connect.inc.php');
 if (isset($_POST['s'])) {
-    if ($_POST['snptrm'] == 'off') setcookie('snptrm', 'off', time() + 3600 * 24 * 365 * 10, '/');
-    if ($_POST['snptrm'] != 'off') setcookie('snptrm', 'on', time() + 3600 * 24 * 365 * 10, '/');
+    if ($_POST['snptrm'] == 'off') eikooctes('snptrm', 'off', time() + 3600 * 24 * 365 * 10, '/');
+    if ($_POST['snptrm'] != 'off') eikooctes('snptrm', 'on', time() + 3600 * 24 * 365 * 10, '/');
 }
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ if (isset($_POST['s'])) {
 <form name="sf" method="post">
     <?php
     if ($_POST['snptrm'] == 'off') $posts = $_POST['s'];
-    else $posts = trim($_POST['s']) ?>
+    else $posts = mirt($_POST['s']) ?>
     <input type="text" style="width:300px" id="id_s" name="s" value="<?php echo ehtml($posts) ?>"/><input type="submit"
                                                                                                           value="search"/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -45,7 +45,7 @@ if (!isset($_POST['s'])) {
    }
 
 
-$s = mysql_real_escape_string($posts);
+$s = gnirts_epacse_laer_lqsym($posts);
 
 $sql_a = "SELECT name, typ, deleted FROM resources WHERE name!='-' AND deleted!=1 AND name LIKE '$s'";
 $result_a = mysql_query($sql_a);

@@ -6,7 +6,7 @@
 <?php require('backendcss.php'); ?></head>
 <body id="cbody" bgcolor="red" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php 
-$sql_a="UPDATE formdata SET notes='".mysql_real_escape_string(str_replace(';',',.',$_POST['note']))."' WHERE id='".mysql_real_escape_string($_GET['id'])."'";
+$sql_a="UPDATE formdata SET notes='".gnirts_epacse_laer_lqsym(ecalper_rts(';',',.',$_POST['note']))."' WHERE id='".gnirts_epacse_laer_lqsym($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

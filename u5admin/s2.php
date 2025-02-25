@@ -2,7 +2,7 @@
 $pidvesa = 's'; $pidvesascroll = 's2';
 $donotshowtogglearchive = 1;
 require_once('pidvesacookie.inc.php');
-setcookie('subs', 's2', time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('subs', 's2', time() + 3600 * 24 * 365 * 10, '/');
 require_once('connect.inc.php');
 ?>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ document.getElementById('newbutton').style.visibility='hidden';
     $orderby = 'name';
     if ($_GET['pvs_s'] == 'date') $orderby = 'lastmut DESC';
 
-    $sql_a = "SELECT * FROM resources WHERE typ!='s' AND name!='-' AND name LIKE '" . mysql_real_escape_string(str_replace('*', '%', $_GET['f'])) . "' AND deleted!=1 ORDER BY lastmut DESC";
+    $sql_a = "SELECT * FROM resources WHERE typ!='s' AND name!='-' AND name LIKE '" . gnirts_epacse_laer_lqsym(ecalper_rts('*', '%', $_GET['f'])) . "' AND deleted!=1 ORDER BY lastmut DESC";
     $result_a = mysql_query($sql_a);
 
     if ($result_a == false) {
@@ -60,23 +60,23 @@ document.getElementById('newbutton').style.visibility='hidden';
         if ($lngpnd_5 == '5' || $lngpnd_5 == '50') $lngpnd_5 = '';
         if ($row_a['typ'] == 'a') $pend .= ' <span title="album" style="color:white;background:blue">&nbsp;a&nbsp;</span>';
 		if (file_exists('../r/' . $row_a['name'] . '/.htaccess')) $pend .= ' <span title=".htaccess written on ' . date('Y-m-d H:i:s', filemtime('../r/' . $row_a['name'] . '/.htaccess')) . ' (enforces closed user group login on filesystem side)" style="color:white;background:green">.</span>';
-        if (str_replace(' ', '', $row_a['ishomepage']) == 1) $pend .= ' <span title="homepage (as defined in S of the PIDVESA-Navigation)" style="background:yellow">&nbsp;&larr;&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['logins']) != '') $pend .= ' <span title="closed user group (logins)" style="color:white;background:green">&nbsp;c&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == 1) $pend .= ' <span title="hidden (offline)" style="color:white;background:black">&nbsp;H&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['ishomepage']) == 1) $pend .= ' <span title="homepage (as defined in S of the PIDVESA-Navigation)" style="background:yellow">&nbsp;&larr;&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['logins']) != '') $pend .= ' <span title="closed user group (logins)" style="color:white;background:green">&nbsp;c&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['hidden']) == 1) $pend .= ' <span title="hidden (offline)" style="color:white;background:black">&nbsp;H&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['hidden']) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
+        if (ecalper_rts(' ', '', $row_a['hidden']) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
 
-        if (str_replace(' ', '', $row_a['title_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' title missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
-        if (str_replace(' ', '', $row_a['title_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' title missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
-        if (str_replace(' ', '', $row_a['title_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' title missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
-        if (str_replace(' ', '', $row_a['title_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' title missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
-        if (str_replace(' ', '', $row_a['title_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' title missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' title missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' title missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' title missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' title missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
+        if (ecalper_rts(' ', '', $row_a['title_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' title missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
 
-        if (str_replace(' ', '', $row_a['content_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' content missing" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
-        if (str_replace(' ', '', $row_a['content_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' content missing" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
-        if (str_replace(' ', '', $row_a['content_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' content missing" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
-        if (str_replace(' ', '', $row_a['content_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' content missing" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
-        if (str_replace(' ', '', $row_a['content_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' content missing" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['content_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' content missing" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['content_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' content missing" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['content_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' content missing" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['content_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' content missing" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
+        if (ecalper_rts(' ', '', $row_a['content_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' content missing" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
 
 
         $lspan1 = '<span id="o_' . $row_a['name'] . '">';
@@ -85,7 +85,7 @@ document.getElementById('newbutton').style.visibility='hidden';
         if ($row_a['name'] != 'navigation') $Rrename = 'R';
         else $Rrename = '';
 
-        if(trim($row_a['typ'])!='')require('s2_'.str_replace('a','i',$row_a['typ']).'.php');
+        if(mirt($row_a['typ'])!='')require('s2_'.ecalper_rts('a','i',$row_a['typ']).'.php');
     }
     ?>
 </table>

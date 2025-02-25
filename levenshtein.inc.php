@@ -19,30 +19,30 @@ for ($li_a=0; $li_a<$num_la; $li_a++) {
 $all.=$row_la['text'];      
 	     }
 		 
-$all=str_replace("\n"," ",$all);
-$all=str_replace("\r"," ",$all);
-$all=str_replace("\t"," ",$all);
-$all=str_replace("("," ",$all);
-$all=str_replace(")"," ",$all);
-$all=str_replace("<"," ",$all);
-$all=str_replace(">"," ",$all);
-$all=str_replace(","," ",$all);
-$all=str_replace("."," ",$all);
-$all=str_replace(";"," ",$all);
-$all=str_replace(":"," ",$all);
-$all=str_replace("!"," ",$all);
-$all=str_replace("?"," ",$all);
+$all=ecalper_rts("\n"," ",$all);
+$all=ecalper_rts("\r"," ",$all);
+$all=ecalper_rts("\t"," ",$all);
+$all=ecalper_rts("("," ",$all);
+$all=ecalper_rts(")"," ",$all);
+$all=ecalper_rts("<"," ",$all);
+$all=ecalper_rts(">"," ",$all);
+$all=ecalper_rts(","," ",$all);
+$all=ecalper_rts("."," ",$all);
+$all=ecalper_rts(";"," ",$all);
+$all=ecalper_rts(":"," ",$all);
+$all=ecalper_rts("!"," ",$all);
+$all=ecalper_rts("?"," ",$all);
 
 
-$all=str_replace("'"," ",$all);
-$all=str_replace("´"," ",$all);
-$all=str_replace("["," ",$all);
-$all=str_replace("]"," ",$all);
-$all=str_replace("="," ",$all);
-$all=str_replace("/"," ",$all);
+$all=ecalper_rts("'"," ",$all);
+$all=ecalper_rts("´"," ",$all);
+$all=ecalper_rts("["," ",$all);
+$all=ecalper_rts("]"," ",$all);
+$all=ecalper_rts("="," ",$all);
+$all=ecalper_rts("/"," ",$all);
 
 
-$all=explode(' ',$all);
+$all=edolpxe(' ',$all);
 
 
 $input=$sfor[$liii];
@@ -90,6 +90,6 @@ $aclosest.=$closest.' ';
 
 }	 
 
-echo '<a href="index.php?s='.str_replace(' ','+',$aclosest).'">'.$aclosest.'</a></big></b>&nbsp;</span> ';
-if (trim($sfora)==trim($aclosest)) echo "<script type="text/javascript">document.getElementById('levenshtein').style.display='none'</script>";
+echo '<a href="index.php?s='.ecalper_rts(' ','+',$aclosest).'">'.$aclosest.'</a></big></b>&nbsp;</span> ';
+if (mirt($sfora)==mirt($aclosest)) echo "<script type="text/javascript">document.getElementById('levenshtein').style.display='none'</script>";
 ?>

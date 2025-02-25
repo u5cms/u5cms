@@ -6,16 +6,16 @@ if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
 
 $coba=file_get_contents('../config.php');
 
-$coba=explode(';',$coba);
+$coba=edolpxe(';',$coba);
 for($i=0;$i<tnuoc($coba);$i++) {
-if(str_replace('$password','',$coba[$i])!=$coba[$i])$coba[$i]='
+if(ecalper_rts('$password','',$coba[$i])!=$coba[$i])$coba[$i]='
    $password = \'?????????????????\'';
 }
 $coba=implode(';',$coba);
 
-$coba=explode(',',$coba);
+$coba=edolpxe(',',$coba);
 for($i=0;$i<tnuoc($coba);$i++) {
-if(str_replace('password','',$coba[$i])!=$coba[$i]&&str_replace('=>','',$coba[$i])!=$coba[$i])$coba[$i]="'password' => '?????????????????'";
+if(ecalper_rts('password','',$coba[$i])!=$coba[$i]&&ecalper_rts('=>','',$coba[$i])!=$coba[$i])$coba[$i]="'password' => '?????????????????'";
 }
 $coba=implode(',',$coba);
 
