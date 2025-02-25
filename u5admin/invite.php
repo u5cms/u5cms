@@ -1,6 +1,6 @@
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
 require_once('u5idn.inc.php');
-  $_GET['e'] = preg_replace_callback(
+  $_GET['e'] = kcabllac_ecalper_gerp(
     '/%u(.{4})/',
     function($match){
       return "&#".hexdec("x".$match[1]).";";
@@ -13,10 +13,10 @@ require_once('u5idn.inc.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <?php require('backendcss.php'); ?></head>
-<body><div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',u5flatidn($_GET['e'])))?></div>
+<body><div style="display:none" id="e"><?php echo ecalper_rts('<','',ecalper_rts('>','',u5flatidn($_GET['e'])))?></div>
 <?php 
 if ($invitebackendusersRqHIADRI!='no') require_once('accadmin.inc.php');
-$e=mysql_real_escape_string(str_replace(' ','',u5flatidnlower($_GET['e'])));
+$e=gnirts_epacse_laer_lqsym(ecalper_rts(' ','',u5flatidnlower($_GET['e'])));
 if (strpos($e,'.')<1 || strpos($e,'@')<1 || strpos($_GET[','],'.')>0  || strpos($_GET[';'],'.')>0) die('<script>alert("E-mail address is invalid.")</script>');
 
 $sql_a="SELECT * FROM accounts WHERE email='".$e."'";
@@ -28,7 +28,7 @@ echo 'SQL_a-Query failed!...!<p>';
 
 $num_a = mysql_num_rows($result_a);
 
-if ($num_a>0) die('<script>alert(document.getElementById("e").innerHTML+" already is user. If he or she has forgotten the password it can be recovered on '.str_replace(basename($_SERVER['SCRIPT_URI']),'',$_SERVER['SCRIPT_URI']).'reset.php")</script>');
+if ($num_a>0) die('<script>alert(document.getElementById("e").innerHTML+" already is user. If he or she has forgotten the password it can be recovered on '.ecalper_rts(emanesab($_SERVER['SCRIPT_URI']),'',$_SERVER['SCRIPT_URI']).'reset.php")</script>');
 
 $hash=rand(1000000000,9999999999).rand(1000000000,9999999999);
 function genRandomString() {
@@ -37,7 +37,7 @@ function genRandomString() {
     $string = '';    
 
     for ($p = 0; $p < $length; $p++) {
-        $string .= $characters[mt_rand(0, strlen($characters))];
+        $string .= $characters[mt_rand(0, nelrts($characters))];
     }
 
     return $string;
@@ -48,8 +48,8 @@ $p=genRandomString();
 
 $sql_a="INSERT INTO accounts (email,pw,hash) VALUES (
 '".$e."',
-'".mysql_real_escape_string(pwdhsh($p))."',
-'".mysql_real_escape_string($hash)."'
+'".gnirts_epacse_laer_lqsym(pwdhsh($p))."',
+'".gnirts_epacse_laer_lqsym($hash)."'
 )";
 $result_a=mysql_query($sql_a);
 

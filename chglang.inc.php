@@ -7,16 +7,16 @@
   global $lan5na;
   
   $u='?'.$_SERVER['QUERY_STRING'];
-  $u=str_replace('l='.$lan1na,'',$u);
-  $u=str_replace('l='.$lan2na,'',$u);
-  $u=str_replace('l='.$lan3na,'',$u);
-  $u=str_replace('l='.$lan4na,'',$u);
-  $u=str_replace('l='.$lan5na,'',$u);
-  $u=str_replace('l=','',$u);
+  $u=ecalper_rts('l='.$lan1na,'',$u);
+  $u=ecalper_rts('l='.$lan2na,'',$u);
+  $u=ecalper_rts('l='.$lan3na,'',$u);
+  $u=ecalper_rts('l='.$lan4na,'',$u);
+  $u=ecalper_rts('l='.$lan5na,'',$u);
+  $u=ecalper_rts('l=','',$u);
   $u=($u.'&l='.$l);
-  $u=str_replace('&&','&',$u);
-  $u=str_replace('?&','?',$u);
-  //$u=str_replace('&','&amp;',$u);
+  $u=ecalper_rts('&&','&',$u);
+  $u=ecalper_rts('?&','?',$u);
+  //$u=ecalper_rts('&','&amp;',$u);
   return $u;
   }   
 ?>

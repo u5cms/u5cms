@@ -5,18 +5,18 @@ if($donotloadu5adminconfig!=1)require_once('connect.inc.php');
 
 if ($autoresolvefastcgiproblems == 'yes') {
     if ($basicauthvarname == '') $basicauthvarname = 'HTTP_AUTHORIZATION';
-    list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = explode(':', base64_decode(substr($_SERVER[$basicauthvarname], 6)));
+    list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = edolpxe(':', base64_decode(substr($_SERVER[$basicauthvarname], 6)));
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
-    setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
-    setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
+    eikooctes('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
+    eikooctes('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
 }
 
-$_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
-$_SERVER['PHP_AUTH_PW'] = trim($_SERVER['PHP_AUTH_PW']);
+$_SERVER['PHP_AUTH_USER'] = mirt($_SERVER['PHP_AUTH_USER']);
+$_SERVER['PHP_AUTH_PW'] = mirt($_SERVER['PHP_AUTH_PW']);
 $unknown = 'unknown';
 
 if ($usesessioninsteadofbasicauth == 'no') {
@@ -27,7 +27,7 @@ if ($usesessioninsteadofbasicauth == 'no') {
 }
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
-$sql = "SELECT email, pw FROM accounts WHERE TRIM(email)!='' AND TRIM(pw)!='' AND email='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "' AND pw='" . mysql_real_escape_string(pwdhsh($_SERVER['PHP_AUTH_PW'])) . "'";
+$sql = "SELECT email, pw FROM accounts WHERE trim(email)!='' AND trim(pw)!='' AND email='" . gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "' AND pw='" . gnirts_epacse_laer_lqsym(pwdhsh($_SERVER['PHP_AUTH_PW'])) . "'";
 $result = mysql_query($sql);
 
 $num = @mysql_num_rows($result);
@@ -36,7 +36,7 @@ if ($num > 0) {
     $unknown = 'ok';
 } else {
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
-        $sql = "SELECT email, pw FROM accounts WHERE TRIM(email)!='' AND TRIM(pw)!=''";
+        $sql = "SELECT email, pw FROM accounts WHERE trim(email)!='' AND trim(pw)!=''";
         $result = mysql_query($sql);
 
         if ($result == false) die('SQL_a-Query failed!...!<p>');
@@ -89,5 +89,5 @@ if($automaticallyskipbackendlogin!='yes') {
         exit;
     }
 }
-$sql = "UPDATE accounts SET lastused=" . time() . " WHERE email='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "'";
+$sql = "UPDATE accounts SET lastused=" . time() . " WHERE email='" . gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "'";
 $result = mysql_query($sql);

@@ -51,7 +51,7 @@ require_once('connect.inc.php');
 
 <?php
 
-$sql_a = "SELECT * FROM resources_log WHERE name='" . mysql_real_escape_string($_GET['c']) . "' ORDER BY lastmut DESC";
+$sql_a = "SELECT * FROM resources_log WHERE name='" . gnirts_epacse_laer_lqsym($_GET['c']) . "' ORDER BY lastmut DESC";
 $result_a = mysql_query($sql_a);
 
 if ($result_a == false) {

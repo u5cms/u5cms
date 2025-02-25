@@ -9,16 +9,16 @@
 require('archivecheck.inc.php');
 require('delcheck.inc.php');
 
-$sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+$sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
 echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
-if ($_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER'])))) ) {
+if ($_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&mirt(u5flatidnlower($row_a['operator']))!=mirt(u5flatidnlower($_SERVER['PHP_AUTH_USER'])))) ) {
 $conflict='(!)';
 ?>
-<div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',$row_a['operator'])) ?></div>
+<div style="display:none" id="e"><?php echo ecalper_rts('<','',ecalper_rts('>','',$row_a['operator'])) ?></div>
 <script>
 msgconflict='CONFLICT(!)\n\nYour data has been saved only in the section «text versions» but it is not functional.\n\nReason: '+document.getElementById('e').innerHTML+' has saved this data in a new version during your editing session (at <?php echo date('Y-m-d H:i:s',$row_a['lastmut'])?>).\n\nPlease find your changes in the section «text versions» and merge it manually into '+document.getElementById('e').innerHTML+'\'s work.';
 if(window.name=='ametai'){
@@ -32,32 +32,32 @@ $conflict='';
 require('delold.php');
 $sql_a="INSERT INTO resources (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES 
 (
-'".mysql_real_escape_string(trim($_POST['name']))."',
-'".mysql_real_escape_string(trim($_POST['content_1']))."',
-'".mysql_real_escape_string(trim($_POST['content_2']))."',
-'".mysql_real_escape_string(trim($_POST['content_3']))."',
-'".mysql_real_escape_string(trim($_POST['content_4']))."',
-'".mysql_real_escape_string(trim($_POST['content_5']))."',
-'".mysql_real_escape_string(trim($_POST['title_1']))."',
-'".mysql_real_escape_string(trim($_POST['title_2']))."',
-'".mysql_real_escape_string(trim($_POST['title_3']))."',
-'".mysql_real_escape_string(trim($_POST['title_4']))."',
-'".mysql_real_escape_string(trim($_POST['title_5']))."',
-'".mysql_real_escape_string(trim($_POST['desc_1']))."',
-'".mysql_real_escape_string(trim($_POST['desc_2']))."',
-'".mysql_real_escape_string(trim($_POST['desc_3']))."',
-'".mysql_real_escape_string(trim($_POST['desc_4']))."',
-'".mysql_real_escape_string(trim($_POST['desc_5']))."',
-'".mysql_real_escape_string(trim($_POST['key_1']))."',
-'".mysql_real_escape_string(trim($_POST['key_2']))."',
-'".mysql_real_escape_string(trim($_POST['key_3']))."',
-'".mysql_real_escape_string(trim($_POST['key_4']))."',
-'".mysql_real_escape_string(trim($_POST['key_5']))."',
-'".mysql_real_escape_string(trim($_POST['logins']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['name']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['logins']))."',
 0,
-'".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
-'".time()."',$deleted,'".mysql_real_escape_string($_GET['typ'])."')";
+'".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
+'".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."',
+'".time()."',$deleted,'".gnirts_epacse_laer_lqsym($_GET['typ'])."')";
 
 
 $result_a=mysql_query($sql_a);
@@ -70,32 +70,32 @@ die('SQL_a-Query failed!...!<p>');
 
 $sql_a="INSERT INTO resources_log (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES 
 (
-'".mysql_real_escape_string(trim($_POST['name']))."',
-'".mysql_real_escape_string(trim($_POST['content_1']))."',
-'".mysql_real_escape_string(trim($_POST['content_2']))."',
-'".mysql_real_escape_string(trim($_POST['content_3']))."',
-'".mysql_real_escape_string(trim($_POST['content_4']))."',
-'".mysql_real_escape_string(trim($_POST['content_5']))."',
-'".mysql_real_escape_string(trim($_POST['title_1']))."',
-'".mysql_real_escape_string(trim($_POST['title_2']))."',
-'".mysql_real_escape_string(trim($_POST['title_3']))."',
-'".mysql_real_escape_string(trim($_POST['title_4']))."',
-'".mysql_real_escape_string(trim($_POST['title_5']))."',
-'".mysql_real_escape_string(trim($_POST['desc_1']))."',
-'".mysql_real_escape_string(trim($_POST['desc_2']))."',
-'".mysql_real_escape_string(trim($_POST['desc_3']))."',
-'".mysql_real_escape_string(trim($_POST['desc_4']))."',
-'".mysql_real_escape_string(trim($_POST['desc_5']))."',
-'".mysql_real_escape_string(trim($_POST['key_1']))."',
-'".mysql_real_escape_string(trim($_POST['key_2']))."',
-'".mysql_real_escape_string(trim($_POST['key_3']))."',
-'".mysql_real_escape_string(trim($_POST['key_4']))."',
-'".mysql_real_escape_string(trim($_POST['key_5']))."',
-'".mysql_real_escape_string(trim($_POST['logins']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['name']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['content_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['title_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['desc_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_1']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_2']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_3']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_4']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['key_5']))."',
+'".gnirts_epacse_laer_lqsym(mirt($_POST['logins']))."',
 0,
-'".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].$conflict)."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
-'".time()."','$deleted','".mysql_real_escape_string($_GET['typ'])."')";
+'".gnirts_epacse_laer_lqsym($_SERVER['PHP_AUTH_USER'].$conflict)."',
+'".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."',
+'".time()."','$deleted','".gnirts_epacse_laer_lqsym($_GET['typ'])."')";
 
 
 $result_a=mysql_query($sql_a);
@@ -114,7 +114,7 @@ setTimeout(\"foundconflict()\",1);
 function foundconflict() {
 alert(msgconflict);
 window.open('textversions.php?c=".$_POST['name']."','_blank','toolbar=0,location=0,status=1,screenX=1000,screenY=0,top=0,left=1000,menubar=0,scrollbars=1,resizable=1,width=640,height=500');
-location.href='".$_GET['uri']."?name=".mysql_real_escape_string($_POST['name'])."&typ=".$_GET['typ']."';
+location.href='".$_GET['uri']."?name=".gnirts_epacse_laer_lqsym($_POST['name'])."&typ=".$_GET['typ']."';
 if(window.name=='ametai'){parent.document.getElementById('sacabu').style.display='none';parent.location.href=parent.location.href};
 }
 </script>";

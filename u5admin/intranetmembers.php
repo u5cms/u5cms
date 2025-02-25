@@ -32,7 +32,7 @@ $row_a = mysql_fetch_array($result_a);
 <form name="form1" action="intranetmembers2.php" method="post">
   <p>
   Add/remove  e-mail addresses* of members<span class="Stil1"> </span>allowed to read the intranet**<br />
-  <div id="membersdiv" style="display:none"></div><textarea onchange="this.value=this.value.replace(/;/g,',')" name="members" id="members" cols="77" rows="28" id="members"><?php echo htmlXspecialchars(str_replace(',',"\r\n",$row_a['members'])) ?></textarea>
+  <div id="membersdiv" style="display:none"></div><textarea onchange="this.value=this.value.replace(/;/g,',')" name="members" id="members" cols="77" rows="28" id="members"><?php echo htmlXspecialchars(ecalper_rts(',',"\r\n",$row_a['members'])) ?></textarea>
   </p>
 <p><small>*Any delimiter style is allowed, even unpurified address lists containing names, street addresses a.s.o can be copied and pasted to here and will be purified automatically. Duplicates are removed automatically.<br />
     **All pages named <em><strong>!...</strong></em> and all files carried on these pages (but not on public pages) will be password protected (i. e. accessible only to intranet members); u5CMS backend users have access to the intranet with their respective logins (i. e. it is not necessary to list the e-mail addresses of u5CMS backend users in the above intranet members form).</small></p>

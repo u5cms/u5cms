@@ -2,16 +2,16 @@
 require('connect.inc.php');
 
 /////
-$sql_a="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id'])."'";
+$sql_a="SELECT * FROM mailing WHERE id='".gnirts_epacse_laer_lqsym($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
 echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
 if($row_a['mailsent']>0) die('<script>alert("You cannot save nor change mailjob "+document.getElementById("xgram").value+"'.$_GET['id'].' because it has been sent at '.date('Y-m-d H:i:s',$row_a['mailsent']).' by '.$row_a['mailsentop'].'");history.go(-1)</script>');
-if ($_POST['coco']<$row_a['mailsaved'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER'])))) ) {
+if ($_POST['coco']<$row_a['mailsaved'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&mirt(u5flatidnlower($row_a['operator']))!=mirt(u5flatidnlower($_SERVER['PHP_AUTH_USER'])))) ) {
 ?>
-<div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',$row_a['mailsavedop'])) ?></div>
+<div style="display:none" id="e"><?php echo ecalper_rts('<','',ecalper_rts('>','',$row_a['mailsavedop'])) ?></div>
 <script>
 msgconflict='CONFLICT(!)\n\nYour data can not be saved.\n\nReason: '+document.getElementById('e').innerHTML+' has saved this data in a new version during your editing session (at <?php echo date('Y-m-d H:i:s',$row_a['mailsaved'])?>).\n\nPlease copy and paste your unsavable mail text e. g. to a word document. Afterwards click the edit link of this mail in the right column at hand to load the new version created by '+document.getElementById('e').innerHTML+'.';
 top.document.title=msgconflict;
@@ -22,14 +22,14 @@ exit;
 }
 /////
 
-$mailfrom=mysql_real_escape_string($_POST['mfrom']);
-$mailto=mysql_real_escape_string($_POST['mto']);
-$mailcc=mysql_real_escape_string($_POST['mcc']);
-$mailbcc=mysql_real_escape_string($_POST['mbcc']);
-$mailsubject=mysql_real_escape_string($_POST['msubject']);
-$mailtext=mysql_real_escape_string($_POST['mmessage']);
+$mailfrom=gnirts_epacse_laer_lqsym($_POST['mfrom']);
+$mailto=gnirts_epacse_laer_lqsym($_POST['mto']);
+$mailcc=gnirts_epacse_laer_lqsym($_POST['mcc']);
+$mailbcc=gnirts_epacse_laer_lqsym($_POST['mbcc']);
+$mailsubject=gnirts_epacse_laer_lqsym($_POST['msubject']);
+$mailtext=gnirts_epacse_laer_lqsym($_POST['mmessage']);
 $mailsaved=time();
-$mailsavedop=mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR']);
+$mailsavedop=gnirts_epacse_laer_lqsym($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR']);
 $maildeleted=0;
 
 $sql_a="UPDATE mailing SET
@@ -43,7 +43,7 @@ mailsaved='$mailsaved',
 mailsavedop='$mailsavedop',
 maildeleted='$maildeleted',
 mailtested='0'
-WHERE mailsent=0 AND id=".mysql_real_escape_string($_GET['id']);
+WHERE mailsent=0 AND id=".gnirts_epacse_laer_lqsym($_GET['id']);
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

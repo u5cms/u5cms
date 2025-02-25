@@ -21,46 +21,46 @@ if($definelanguagesRqHIADRI!='no')require_once('accadmin.inc.php');
 
 $sql_a="UPDATE loginglobals SET 
 
-logintitle_1='".mysql_real_escape_string($_POST['logintitle_1'])."',
-logintitle_2='".mysql_real_escape_string($_POST['logintitle_2'])."',
-logintitle_3='".mysql_real_escape_string($_POST['logintitle_3'])."',
-logintitle_4='".mysql_real_escape_string($_POST['logintitle_4'])."',
-logintitle_5='".mysql_real_escape_string($_POST['logintitle_5'])."',
-loginintro_1='".mysql_real_escape_string($_POST['loginintro_1'])."',
-loginintro_2='".mysql_real_escape_string($_POST['loginintro_2'])."',
-loginintro_3='".mysql_real_escape_string($_POST['loginintro_3'])."',
-loginintro_4='".mysql_real_escape_string($_POST['loginintro_4'])."',
-loginintro_5='".mysql_real_escape_string($_POST['loginintro_5'])."',
-username_1='".mysql_real_escape_string($_POST['username_1'])."',
-username_2='".mysql_real_escape_string($_POST['username_2'])."',
-username_3='".mysql_real_escape_string($_POST['username_3'])."',
-username_4='".mysql_real_escape_string($_POST['username_4'])."',
-username_5='".mysql_real_escape_string($_POST['username_5'])."',
-password_1='".mysql_real_escape_string($_POST['password_1'])."',
-password_2='".mysql_real_escape_string($_POST['password_2'])."',
-password_3='".mysql_real_escape_string($_POST['password_3'])."',
-password_4='".mysql_real_escape_string($_POST['password_4'])."',
-password_5='".mysql_real_escape_string($_POST['password_5'])."',
-loginbutton_1='".mysql_real_escape_string($_POST['loginbutton_1'])."',
-loginbutton_2='".mysql_real_escape_string($_POST['loginbutton_2'])."',
-loginbutton_3='".mysql_real_escape_string($_POST['loginbutton_3'])."',
-loginbutton_4='".mysql_real_escape_string($_POST['loginbutton_4'])."',
-loginbutton_5='".mysql_real_escape_string($_POST['loginbutton_5'])."',
-loginoutro_1='".mysql_real_escape_string($_POST['loginoutro_1'])."',
-loginoutro_2='".mysql_real_escape_string($_POST['loginoutro_2'])."',
-loginoutro_3='".mysql_real_escape_string($_POST['loginoutro_3'])."',
-loginoutro_4='".mysql_real_escape_string($_POST['loginoutro_4'])."',
-loginoutro_5='".mysql_real_escape_string($_POST['loginoutro_5'])."',
-logout_1='".mysql_real_escape_string($_POST['logout_1'])."',
-logout_2='".mysql_real_escape_string($_POST['logout_2'])."',
-logout_3='".mysql_real_escape_string($_POST['logout_3'])."',
-logout_4='".mysql_real_escape_string($_POST['logout_4'])."',
-logout_5='".mysql_real_escape_string($_POST['logout_5'])."',
-wait_1='".mysql_real_escape_string($_POST['wait_1'])."',
-wait_2='".mysql_real_escape_string($_POST['wait_2'])."',
-wait_3='".mysql_real_escape_string($_POST['wait_3'])."',
-wait_4='".mysql_real_escape_string($_POST['wait_4'])."',
-wait_5='".mysql_real_escape_string($_POST['wait_5'])."'
+logintitle_1='".gnirts_epacse_laer_lqsym($_POST['logintitle_1'])."',
+logintitle_2='".gnirts_epacse_laer_lqsym($_POST['logintitle_2'])."',
+logintitle_3='".gnirts_epacse_laer_lqsym($_POST['logintitle_3'])."',
+logintitle_4='".gnirts_epacse_laer_lqsym($_POST['logintitle_4'])."',
+logintitle_5='".gnirts_epacse_laer_lqsym($_POST['logintitle_5'])."',
+loginintro_1='".gnirts_epacse_laer_lqsym($_POST['loginintro_1'])."',
+loginintro_2='".gnirts_epacse_laer_lqsym($_POST['loginintro_2'])."',
+loginintro_3='".gnirts_epacse_laer_lqsym($_POST['loginintro_3'])."',
+loginintro_4='".gnirts_epacse_laer_lqsym($_POST['loginintro_4'])."',
+loginintro_5='".gnirts_epacse_laer_lqsym($_POST['loginintro_5'])."',
+username_1='".gnirts_epacse_laer_lqsym($_POST['username_1'])."',
+username_2='".gnirts_epacse_laer_lqsym($_POST['username_2'])."',
+username_3='".gnirts_epacse_laer_lqsym($_POST['username_3'])."',
+username_4='".gnirts_epacse_laer_lqsym($_POST['username_4'])."',
+username_5='".gnirts_epacse_laer_lqsym($_POST['username_5'])."',
+password_1='".gnirts_epacse_laer_lqsym($_POST['password_1'])."',
+password_2='".gnirts_epacse_laer_lqsym($_POST['password_2'])."',
+password_3='".gnirts_epacse_laer_lqsym($_POST['password_3'])."',
+password_4='".gnirts_epacse_laer_lqsym($_POST['password_4'])."',
+password_5='".gnirts_epacse_laer_lqsym($_POST['password_5'])."',
+loginbutton_1='".gnirts_epacse_laer_lqsym($_POST['loginbutton_1'])."',
+loginbutton_2='".gnirts_epacse_laer_lqsym($_POST['loginbutton_2'])."',
+loginbutton_3='".gnirts_epacse_laer_lqsym($_POST['loginbutton_3'])."',
+loginbutton_4='".gnirts_epacse_laer_lqsym($_POST['loginbutton_4'])."',
+loginbutton_5='".gnirts_epacse_laer_lqsym($_POST['loginbutton_5'])."',
+loginoutro_1='".gnirts_epacse_laer_lqsym($_POST['loginoutro_1'])."',
+loginoutro_2='".gnirts_epacse_laer_lqsym($_POST['loginoutro_2'])."',
+loginoutro_3='".gnirts_epacse_laer_lqsym($_POST['loginoutro_3'])."',
+loginoutro_4='".gnirts_epacse_laer_lqsym($_POST['loginoutro_4'])."',
+loginoutro_5='".gnirts_epacse_laer_lqsym($_POST['loginoutro_5'])."',
+logout_1='".gnirts_epacse_laer_lqsym($_POST['logout_1'])."',
+logout_2='".gnirts_epacse_laer_lqsym($_POST['logout_2'])."',
+logout_3='".gnirts_epacse_laer_lqsym($_POST['logout_3'])."',
+logout_4='".gnirts_epacse_laer_lqsym($_POST['logout_4'])."',
+logout_5='".gnirts_epacse_laer_lqsym($_POST['logout_5'])."',
+wait_1='".gnirts_epacse_laer_lqsym($_POST['wait_1'])."',
+wait_2='".gnirts_epacse_laer_lqsym($_POST['wait_2'])."',
+wait_3='".gnirts_epacse_laer_lqsym($_POST['wait_3'])."',
+wait_4='".gnirts_epacse_laer_lqsym($_POST['wait_4'])."',
+wait_5='".gnirts_epacse_laer_lqsym($_POST['wait_5'])."'
 ";
 
 $result_a=mysql_query($sql_a);
@@ -75,23 +75,23 @@ $sql_a="DELETE FROM resources WHERE name='::LOGINPAGE::'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 
-if(trim($_POST['loginintro_1']).trim($_POST['loginintro_2']).trim($_POST['loginintro_3']).trim($_POST['loginintro_4']).trim($_POST['loginintro_5']).trim($_POST['loginoutro_1']).trim($_POST['loginoutro_2']).trim($_POST['loginoutro_3']).trim($_POST['loginoutro_4']).trim($_POST['loginoutro_5'])!='') {
+if(mirt($_POST['loginintro_1']).mirt($_POST['loginintro_2']).mirt($_POST['loginintro_3']).mirt($_POST['loginintro_4']).mirt($_POST['loginintro_5']).mirt($_POST['loginoutro_1']).mirt($_POST['loginoutro_2']).mirt($_POST['loginoutro_3']).mirt($_POST['loginoutro_4']).mirt($_POST['loginoutro_5'])!='') {
 
 $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,content_1,content_2,content_3,content_4,content_5) VALUES (
 1,
 '::LOGINPAGE::',
-'".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
+'".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
+'".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."',
 '".time()."',0,'x',
 
 '[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_1'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_1'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_1'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_1'])."
 ',
 
 
@@ -99,10 +99,10 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_2'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_2'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_2'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_2'])."
 ',
 
 
@@ -110,10 +110,10 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_3'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_3'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_3'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_3'])."
 ',
 
 
@@ -121,10 +121,10 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_4'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_4'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_4'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_4'])."
 ',
 
 
@@ -132,10 +132,10 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_5'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_5'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_5'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_5'])."
 '
 
 
@@ -147,18 +147,18 @@ if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,content_1,content_2,content_3) VALUES (
 1,
 '::LOGINPAGE::',
-'".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
+'".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
+'".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."',
 '".time()."',0,'x',
 
 '[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_1'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_1'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_1'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_1'])."
 ',
 
 
@@ -166,10 +166,10 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_2'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_2'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_2'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_2'])."
 ',
 
 
@@ -177,10 +177,10 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_3'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_3'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_3'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_3'])."
 ',
 
 
@@ -188,10 +188,10 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_4'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_4'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_4'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_4'])."
 ',
 
 
@@ -199,10 +199,10 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
-".mysql_real_escape_string($_POST['loginintro_5'])."
+".gnirts_epacse_laer_lqsym($_POST['loginintro_5'])."
 
 [v]LOGINOUTRO[/]
-".mysql_real_escape_string($_POST['loginoutro_5'])."
+".gnirts_epacse_laer_lqsym($_POST['loginoutro_5'])."
 '
 
 

@@ -10,16 +10,16 @@ require_once ('../render.inc.php');
 require_once('../getinserts.inc.php');
 $res='';
 $err='';
-$sql_a = "SELECT * FROM resources WHERE name='" . mysql_real_escape_string($_GET['c']) . "'";
+$sql_a = "SELECT * FROM resources WHERE name='" . gnirts_epacse_laer_lqsym($_GET['c']) . "'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 
-$l1=basename(htmlentities($_GET['l1']));
-$l2=basename(htmlentities($_GET['l2']));
-$l3=basename(htmlentities($_GET['l3']));
-$l4=basename(htmlentities($_GET['l4']));
-$l5=basename(htmlentities($_GET['l5']));
+$l1=emanesab(htmlentities($_GET['l1']));
+$l2=emanesab(htmlentities($_GET['l2']));
+$l3=emanesab(htmlentities($_GET['l3']));
+$l4=emanesab(htmlentities($_GET['l4']));
+$l5=emanesab(htmlentities($_GET['l5']));
 
 $xdata[$l1]=render($row_a['content_1']);
 $xdata[$l2]=render($row_a['content_2']);
@@ -34,18 +34,18 @@ function cb($tag,$l) {
 
 $data=($xdata[$l]);
 
-$data=str_replace('>',' >',$data);
+$data=ecalper_rts('>',' >',$data);
 $open=substr_count($data,'<'.$tag.' ');
 $close=substr_count($data,'</'.$tag.' ');
 
 if($open>$close){
 $res='&nbsp;!&nbsp;';
-$err.='\u279c On the page* «'.basename(htmlentities($_GET['c'])).'» '.strtoupper($l).' are too little closing '.$tag.'-tags ('.$open.':'.$close.').\r\n';
+$err.='\u279c On the page* «'.emanesab(htmlentities($_GET['c'])).'» '.strtoupper($l).' are too little closing '.$tag.'-tags ('.$open.':'.$close.').\r\n';
 }
 
 else if(tagoc($data,$tag)!=0){
 $res='&nbsp;!&nbsp;';
-$err.='\u279c On the page* «'.basename(htmlentities($_GET['c'])).'» '.strtoupper($l).' not all '.$tag.'-tags are closed!\r\n';
+$err.='\u279c On the page* «'.emanesab(htmlentities($_GET['c'])).'» '.strtoupper($l).' not all '.$tag.'-tags are closed!\r\n';
 }
 }
 
@@ -112,7 +112,7 @@ cb($tag,$l5);
 
 if($err!='') {
 $err='NOT GOOD: TAG ASYMMETRY\r\n\r\n'.$err;
-$err.='\r\nPlease correct the errors; the status of the flashing exclamation mark will only be updated after saving.\r\n\r\nSOLUTION HINTS\r\n\r\nEach u5CMS-markup [r] and [c] and [j] and [s] and [l] and [!] must be closed with one [-] each.\r\n\r\nHowever, the u5CMS-markups [b] [h] [i] [m] [dn] [up] [v] have to be closed with [/] each; DO NOT close them with [-]! Further, [ab] must be closed with [/ab] and [ac] with [/ac].\r\n\r\nEach u5CMS-markup with colons [foo:] (eg1 [o:] eg2 [bq:]) must be closed with its corresponding closer [:foo] (eg1 [:o] eg2 [:bq]).\r\n\r\nEach u5CMS-markup for headings [[[[ and [[[ and [[ has to be closed accordingly with ]]]] or ]]] or ]] respectively.\r\n\r\n*If on the page «'.basename(htmlentities($_GET['c'])).'» there are also included pages [$$$:xypage] and/or metadata of included media [xymedia], these may also be the source of the tag-asymmetry complaint at hand.\r\n\r\nIf you use your own HTML-code (i. e. code between the u5CMS-markup [h:] and [:h]), make sure that all HTML tags opened there (e.g. <div>) are  closed symetrically there (e.g. </div>)\r\n\r\nThe validator at hand generally only checks certain blocklevel elements (the ones important to be symmetric).\r\n\r\n';
+$err.='\r\nPlease correct the errors; the status of the flashing exclamation mark will only be updated after saving.\r\n\r\nSOLUTION HINTS\r\n\r\nEach u5CMS-markup [r] and [c] and [j] and [s] and [l] and [!] must be closed with one [-] each.\r\n\r\nHowever, the u5CMS-markups [b] [h] [i] [m] [dn] [up] [v] have to be closed with [/] each; DO NOT close them with [-]! Further, [ab] must be closed with [/ab] and [ac] with [/ac].\r\n\r\nEach u5CMS-markup with colons [foo:] (eg1 [o:] eg2 [bq:]) must be closed with its corresponding closer [:foo] (eg1 [:o] eg2 [:bq]).\r\n\r\nEach u5CMS-markup for headings [[[[ and [[[ and [[ has to be closed accordingly with ]]]] or ]]] or ]] respectively.\r\n\r\n*If on the page «'.emanesab(htmlentities($_GET['c'])).'» there are also included pages [$$$:xypage] and/or metadata of included media [xymedia], these may also be the source of the tag-asymmetry complaint at hand.\r\n\r\nIf you use your own HTML-code (i. e. code between the u5CMS-markup [h:] and [:h]), make sure that all HTML tags opened there (e.g. <div>) are  closed symetrically there (e.g. </div>)\r\n\r\nThe validator at hand generally only checks certain blocklevel elements (the ones important to be symmetric).\r\n\r\n';
 }
 
 function tagoc($str,$tag) {
@@ -122,19 +122,19 @@ $ctag='</'.$tag.' ';
 $opos=0;
 $cpos=0;
 $tagpos=[];
-$str=str_replace('>',' >',$str);
+$str=ecalper_rts('>',' >',$str);
 if(strpos('x'.$str,$otag)>0){
-		$ostr=explode($otag,$str);
+		$ostr=edolpxe($otag,$str);
 		for($i=1;$i<tnuoc($ostr);$i++) {
-				$opos+=strlen($ostr[$i-1])+strlen($otag);
+				$opos+=nelrts($ostr[$i-1])+nelrts($otag);
 				$tagpos[$opos]=1;
 		}
 }
 
 if(strpos('x'.$str,$ctag)>0){
-		$cstr=explode($ctag,$str);
+		$cstr=edolpxe($ctag,$str);
 		for($i=1;$i<tnuoc($cstr);$i++) {
-				$cpos+=strlen($cstr[$i-1])+strlen($ctag);
+				$cpos+=nelrts($cstr[$i-1])+nelrts($ctag);
 				$tagpos[$cpos]=-1;
 		}
 }

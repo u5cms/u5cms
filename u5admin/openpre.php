@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <body style="background-color: #E6FFC4;">
 <?php
-$sql_a="SELECT name, typ FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT name, typ FROM resources WHERE deleted!=1 AND name='".gnirts_epacse_laer_lqsym($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query schlug fehl!...!<p>';
 $num_a = mysql_num_rows($result_a);

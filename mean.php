@@ -10,11 +10,11 @@
  * mean.php?m=1%21*%2110%21%2C%212%21*%2120%21%2C%211%21*%2130%21%2C%210%21*%2140%21%2C%210%21*%2150%21%2C%212%21*%2190%21%2C%21
 */
 require_once 'myfunctions.inc.php';
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+if(isset($u5phperrorreporting)&&$u5phperrorreporting=='on')error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 
 $debug = $_GET['debug'] ?? false;
 
-$tuples = explode ('!,!',$_GET['m']);
+$tuples = edolpxe('!,!',$_GET['m']);
 array_pop($tuples);
 $doStats = true;
 $nominations = array();
@@ -25,9 +25,9 @@ $stepsize=null;
 $previous=null;
 $locked=false;
 foreach ($tuples as $tuple) {
-    list($nom, $item) = explode('!*!', $tuple);
-    $nom = (int) trim($nom);
-    $item = trim($item);
+    list($nom, $item) = edolpxe('!*!', $tuple);
+    $nom = (int) mirt($nom);
+    $item = mirt($item);
     // check of item is a number; we don't do stats for string values
     if ($item != (int) $item) $doStats = false;
     $nominations[] = $nom;

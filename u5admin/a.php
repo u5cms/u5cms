@@ -3,7 +3,7 @@
 require_once('connect.inc.php');
 
 $pidvesa = 'a'; $donotshowtogglearchive=1;
-setcookie('pidvesa', $pidvesa, time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('pidvesa', $pidvesa, time() + 3600 * 24 * 365 * 10, '/');
 
 ?>
 <!DOCTYPE html>

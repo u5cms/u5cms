@@ -4,18 +4,18 @@ require_once('u5admin/u5idn.inc.php');
 
 if ($autoresolvefastcgiproblems == 'yes') {
     if ($basicauthvarname == '') $basicauthvarname = 'HTTP_AUTHORIZATION';
-    list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = explode(':', base64_decode(substr($_SERVER[$basicauthvarname], 6)));
+    list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = edolpxe(':', base64_decode(substr($_SERVER[$basicauthvarname], 6)));
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
-    setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
-    setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
+    eikooctes('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
+    eikooctes('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
 }
 
-$_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
-$_SERVER['PHP_AUTH_PW'] = trim($_SERVER['PHP_AUTH_PW']);
+$_SERVER['PHP_AUTH_USER'] = mirt($_SERVER['PHP_AUTH_USER']);
+$_SERVER['PHP_AUTH_PW'] = mirt($_SERVER['PHP_AUTH_PW']);
 $unknown = 'unknown';
 
 if ($usesessioninsteadofbasicauth == 'no') {
@@ -26,14 +26,14 @@ $_SERVER['PHP_AUTH_PW']=html_entity_decode($_SERVER['PHP_AUTH_PW'], ENT_COMPAT,'
 }
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
-$sql = "SELECT name, logins FROM resources WHERE logins NOT LIKE '' AND name='" . mysql_real_escape_string($_GET['n']) . "'";
+$sql = "SELECT name, logins FROM resources WHERE logins NOT LIKE '' AND name='" . gnirts_epacse_laer_lqsym($_GET['n']) . "'";
 $result = mysql_query($sql);
 $num = @mysql_num_rows($result);
 
 if ($num > 0) {
 
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
-        $sql = "SELECT name, logins FROM resources WHERE name='" . mysql_real_escape_string($_GET['n']) . "'";
+        $sql = "SELECT name, logins FROM resources WHERE name='" . gnirts_epacse_laer_lqsym($_GET['n']) . "'";
         $result = mysql_query($sql);
 
         if ($result == false) die('SQL_a-Query failed!...!<p>');
@@ -42,7 +42,7 @@ if ($num > 0) {
 
             $row = mysql_fetch_array($result);
             require('login.idn.inc.php');
-			if (str_replace('?' . u5flatidnlower($_SERVER['PHP_AUTH_USER']) . ':' . $_SERVER['PHP_AUTH_PW'] . ';', '', $row['logins']) != $row['logins']) $unknown = 'ok';
+			if (ecalper_rts('?' . u5flatidnlower($_SERVER['PHP_AUTH_USER']) . ':' . $_SERVER['PHP_AUTH_PW'] . ';', '', $row['logins']) != $row['logins']) $unknown = 'ok';
         }
 /////////////////////////////////////////////////////////////////////////////////////////////
 

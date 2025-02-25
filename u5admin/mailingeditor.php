@@ -42,7 +42,7 @@ myField.scrollTop=keepscrolltop;
 </script>
 <?php
 
-$sql_a="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id'])."'";
+$sql_a="SELECT * FROM mailing WHERE id='".gnirts_epacse_laer_lqsym($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';

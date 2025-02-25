@@ -1,6 +1,6 @@
 <?php
 if (strpos($cmdstring,'SELF_TODELETEITEMS_LOGINS_SAME_AS_[')>1) {
-$sql_a="SELECT id FROM formdata WHERE authuser='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND id='".mysql_real_escape_string($_GET['id'])."' AND formname='".mysql_real_escape_string($_GET['n'])."'";
+$sql_a="SELECT id FROM formdata WHERE authuser='".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND id='".gnirts_epacse_laer_lqsym($_GET['id'])."' AND formname='".gnirts_epacse_laer_lqsym($_GET['n'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 $num_a = mysql_num_rows($result_a);

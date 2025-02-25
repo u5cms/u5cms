@@ -14,7 +14,7 @@
 <body>
 <table style="margin-bottom:-30px">
     <?php
-    $_GET['name'] = basename($_GET['name']);
+    $_GET['name'] = emanesab($_GET['name']);
     $totalsizes = 0;
     $i = 0;
 

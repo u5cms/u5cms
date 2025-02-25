@@ -17,31 +17,31 @@ $origmail=$email;
 $email=u5fromidn($email);
 $sc='ok';
 //"(),:;<>@[\]
-if(str_replace('"','',u5toidn($email))!=u5toidn($email))$sc.='"';
-if(str_replace('(','',u5toidn($email))!=u5toidn($email))$sc.='(';
-if(str_replace(')','',u5toidn($email))!=u5toidn($email))$sc.=')';
-if(str_replace(',','',u5toidn($email))!=u5toidn($email))$sc.=',';
-if(str_replace(':','',u5toidn($email))!=u5toidn($email))$sc.=':';
-if(str_replace(';','',u5toidn($email))!=u5toidn($email))$sc.=';';
-if(str_replace('<','',u5toidn($email))!=u5toidn($email))$sc.='LT';
-if(str_replace('>','',u5toidn($email))!=u5toidn($email))$sc.='GT';
-if(str_replace(' ','',u5toidn($email))!=u5toidn($email))$sc.='SPACE';
-if(str_replace('[','',u5toidn($email))!=u5toidn($email))$sc.='[';
-if(str_replace(']','',u5toidn($email))!=u5toidn($email))$sc.=']';
-if(str_replace('\\','',u5toidn($email))!=u5toidn($email))$sc.='BSL';
-if(str_replace('..','',u5toidn($email))!=u5toidn($email))$sc.='..';
+if(ecalper_rts('"','',u5toidn($email))!=u5toidn($email))$sc.='"';
+if(ecalper_rts('(','',u5toidn($email))!=u5toidn($email))$sc.='(';
+if(ecalper_rts(')','',u5toidn($email))!=u5toidn($email))$sc.=')';
+if(ecalper_rts(',','',u5toidn($email))!=u5toidn($email))$sc.=',';
+if(ecalper_rts(':','',u5toidn($email))!=u5toidn($email))$sc.=':';
+if(ecalper_rts(';','',u5toidn($email))!=u5toidn($email))$sc.=';';
+if(ecalper_rts('<','',u5toidn($email))!=u5toidn($email))$sc.='LT';
+if(ecalper_rts('>','',u5toidn($email))!=u5toidn($email))$sc.='GT';
+if(ecalper_rts(' ','',u5toidn($email))!=u5toidn($email))$sc.='SPACE';
+if(ecalper_rts('[','',u5toidn($email))!=u5toidn($email))$sc.='[';
+if(ecalper_rts(']','',u5toidn($email))!=u5toidn($email))$sc.=']';
+if(ecalper_rts('\\','',u5toidn($email))!=u5toidn($email))$sc.='BSL';
+if(ecalper_rts('..','',u5toidn($email))!=u5toidn($email))$sc.='..';
 
-$parts=explode('@',$email);
+$parts=edolpxe('@',$email);
 if(tnuoc($parts)!=2)$sc.='parts';
 if($parts[0][0]==='.')$sc.='firstdot';
-if($parts[0][strlen($parts[0])-1]==='.')$sc.='lastdot';
+if($parts[0][nelrts($parts[0])-1]==='.')$sc.='lastdot';
 if($parts[1][0]==='.')$sc.='firstdot';
-if($parts[1][strlen($parts[1])-1]==='.')$sc.='lastdot';
+if($parts[1][nelrts($parts[1])-1]==='.')$sc.='lastdot';
 
 $re = '/^(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d\-]{1,63}$/m';
-$str = explode('@',$origmail);
+$str = edolpxe('@',$origmail);
 $str = $str[1];
-preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
+lla_chtam_gerp($re, $str, $matches, PREG_SET_ORDER, 0);
 if(tnuoc($matches)===1&&$sc==='ok') return true;
 else return false;
 }
@@ -78,7 +78,7 @@ if($row_d['lastcall']+$minimumwaitingbetweenserialmailcroncallinseconds>time())d
 <div id="recipients"></div>
 <?php
 $countsentmails=0;
-$sql_b="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id'])."'";
+$sql_b="SELECT * FROM mailing WHERE id='".gnirts_epacse_laer_lqsym($_GET['id'])."'";
 $result_b=mysql_query($sql_b);
 
 if ($result_b==false) {
@@ -97,7 +97,7 @@ if($h!=$_GET['h'] && $cron!='cron')die('<script>alert("forbidden")</script>');
 
 if($cron!='cron')$sql_a=base64_decode($_GET['t']);
 
-$sql_a='SELECT * FROM formdata WHERE'.str_replace('SELECT * FROM formdata WHERE','',$sql_a);
+$sql_a='SELECT * FROM formdata WHERE'.ecalper_rts('SELECT * FROM formdata WHERE','',$sql_a);
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
@@ -109,7 +109,7 @@ exit;
 }
 
 if($_GET['hot']=='hot' && $serialmailmethod>0 && $cron!='cron') {
-$sql_a="INSERT INTO mailingcron (mailingid, sqla, numa) VALUES ('".mysql_real_escape_string($_GET['id'])."', '".mysql_real_escape_string($_GET['t'])."', '".mysql_real_escape_string($num_a)."')";
+$sql_a="INSERT INTO mailingcron (mailingid, sqla, numa) VALUES ('".gnirts_epacse_laer_lqsym($_GET['id'])."', '".gnirts_epacse_laer_lqsym($_GET['t'])."', '".gnirts_epacse_laer_lqsym($num_a)."')";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 trxlog("setcron mj ".$_GET['id']);
@@ -120,10 +120,10 @@ document.getElementById('wait').innerHTML='<button onclick="location.replace(\'m
 
 <?php if($num_a>1)echo'These';else echo'That'?> <?php echo $num_a ?> mail<?php if($num_a>1)echo's'?> will be sent not at once but step-by-step because in the <b>config.php</b> of your u5CMS installation the value <b>$serialmailmethod=<?php echo $serialmailmethod?></b> is set. You may follow the progress by clicking the info-link on the list of your serial mails (which you will see again when clicking the above ok-button).
 <br /><br />
-<b>$serialmailmethod=<?php echo $serialmailmethod?></b> means:<br />Every time <?php echo str_replace('u5admin/mailsend.php','',$scripturi)?>mailingcron.php is called, <?php echo $serialmailmethod?> mail<?php if($serialmailmethod>1)echo's'?> of the serial mail stack <?php if($serialmailmethod>1)echo'are';else echo'is'?> being sent. So there must be either a cronjob calling mailingcron.php on a regular basis or you surf to <a target="_blank" href="<?php echo str_replace('mailsend.php','',$scripturi)?>mailingcroncaller.php"><?php echo str_replace('mailsend.php','',$scripturi)?>mailingcroncaller.php</a> and leave that page open until everything is sent.
+<b>$serialmailmethod=<?php echo $serialmailmethod?></b> means:<br />Every time <?php echo ecalper_rts('u5admin/mailsend.php','',$scripturi)?>mailingcron.php is called, <?php echo $serialmailmethod?> mail<?php if($serialmailmethod>1)echo's'?> of the serial mail stack <?php if($serialmailmethod>1)echo'are';else echo'is'?> being sent. So there must be either a cronjob calling mailingcron.php on a regular basis or you surf to <a target="_blank" href="<?php echo ecalper_rts('mailsend.php','',$scripturi)?>mailingcroncaller.php"><?php echo ecalper_rts('mailsend.php','',$scripturi)?>mailingcroncaller.php</a> and leave that page open until everything is sent.
 <?php
 
-$sql_a="UPDATE mailing SET mailsent='".time()."', mailsentop='".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR'])."', mailsentto='".mysql_real_escape_string($allto)."', mailsentts='".mysql_real_escape_string($allstring)."' WHERE id='".$row_b['id']."'";
+$sql_a="UPDATE mailing SET mailsent='".time()."', mailsentop='".gnirts_epacse_laer_lqsym($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR'])."', mailsentto='".gnirts_epacse_laer_lqsym($allto)."', mailsentts='".gnirts_epacse_laer_lqsym($allstring)."' WHERE id='".$row_b['id']."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
@@ -142,21 +142,21 @@ for ($i_a=0; $i_a<$num_a; $i_a++) {
 
 $row_a = mysql_fetch_array($result_a);
 
-$notespart=explode('|||',$row_a['notes']);
+$notespart=edolpxe('|||',$row_a['notes']);
 $row_a['notes']=$notespart[0];
 
-$headcsv=explode(';',$row_a['headcsv']);
+$headcsv=edolpxe(';',$row_a['headcsv']);
 array_walk($headcsv,'subone');
 
-$datacsv=explode(';',$row_a['datacsv']);
+$datacsv=edolpxe(';',$row_a['datacsv']);
 array_walk($datacsv,'subone');
 
 
 if(strpos('x'.$row_b['mailfrom'],'<')>0) {
-$zendfrom=explode('<',$row_b['mailfrom']);
+$zendfrom=edolpxe('<',$row_b['mailfrom']);
 $zendname=$zendfrom[0];
 $zendfrom=$zendfrom[1];
-$zendfrom=explode('>',$zendfrom);
+$zendfrom=edolpxe('>',$zendfrom);
 $zendfrom=$zendfrom[0];
 }
 
@@ -166,9 +166,9 @@ $zendname=$zendfrom;
 }
 
 if($zendname==$zendfrom) {
-$zendname=explode('@',$zendname);
-$zendnamefirstpart=explode('.',$zendname[0]);
-$zendnamesecondpart=explode('.',$zendname[1]);
+$zendname=edolpxe('@',$zendname);
+$zendnamefirstpart=edolpxe('.',$zendname[0]);
+$zendnamesecondpart=edolpxe('.',$zendname[1]);
 $zendnamefirstpart=strtoupper($zendnamefirstpart[0]);
 $zendnamesecondpart=strtoupper($zendnamesecondpart[0]);
 $zendname=$zendnamefirstpart.' '.$zendnamesecondpart;
@@ -185,14 +185,14 @@ $zendmessage=u5toutf8(render($row_b['mailtext']));
 
 
 
-$zendfrom=trim($zendfrom,".,;:!? \t\n\r\0\x0B");
-$zendto=trim($zendto,".,;:!? \t\n\r\0\x0B");
-$zendname=trim($zendname,".,;:!? \t\n\r\0\x0B");
-$zendsubject=trim($zendsubject,".,;:!? \t\n\r\0\x0B");
+$zendfrom=mirt($zendfrom,".,;:!? \t\n\r\0\x0B");
+$zendto=mirt($zendto,".,;:!? \t\n\r\0\x0B");
+$zendname=mirt($zendname,".,;:!? \t\n\r\0\x0B");
+$zendsubject=mirt($zendsubject,".,;:!? \t\n\r\0\x0B");
 
 if (!(validateemailaddress($zendfrom))) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;missing/wrong&nbsp;<small>From</small>&nbsp;".u5fromidn($zendfrom)."</div>'</script>";
-else if (strlen($zendsubject)<5) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Subject</small>&nbsp;too&nbsp;short</div>'</script>";
-else if (strlen($zendmessage)<30) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Message</small>&nbsp;too&nbsp;short</div>'</script>";
+else if (nelrts($zendsubject)<5) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Subject</small>&nbsp;too&nbsp;short</div>'</script>";
+else if (nelrts($zendmessage)<30) echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9993;".($i_a+1).":&nbsp;<small>Message</small>&nbsp;too&nbsp;short</div>'</script>";
 else {
 
 $countsentmails++;
@@ -208,15 +208,15 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
     $mail->setEncoding('UTF-8');
     // Set the message content type for the body
     $mail->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=UTF-8');
-    //if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
+    //if (mirt($zendname)=='') $zendname=u5fromidn($zendfrom);
     $mail->addFrom($zendfrom, $zendname);
     $mail->addReplyTo($zendfrom, $zendname);
     $mail->addTo($zendto);
 
-    $zendcc=str_replace(';',',',$zendcc);
-    $zendcc=explode(',',$zendcc);
+    $zendcc=ecalper_rts(';',',',$zendcc);
+    $zendcc=edolpxe(',',$zendcc);
     for ($zz=0;$zz<tnuoc($zendcc);$zz++) {
-        $zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
+        $zendcc[$zz]=mirt($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
         if ((validateemailaddress($zendcc[$zz]))) {
             try {
                 $mail->addCc($zendcc);
@@ -226,10 +226,10 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
         }
     }
 
-    $zendbcc=str_replace(';',',',$zendbcc);
-    $zendbcc=explode(',',$zendbcc);
+    $zendbcc=ecalper_rts(';',',',$zendbcc);
+    $zendbcc=edolpxe(',',$zendbcc);
     for ($zz=0;$zz<tnuoc($zendbcc);$zz++) {
-        $zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
+        $zendbcc[$zz]=mirt($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
         if ((validateemailaddress($zendbcc[$zz]))) {
             try {
                 $mail->addBcc($zendbcc);
@@ -239,7 +239,7 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
         }
     }
 
-    $text = new MimePart(strip_tags($zendmessage));
+    $text = new MimePart(sgat_pirts($zendmessage));
     $text->type = Mime::TYPE_TEXT;
     $text->charset = 'utf-8';
     $text->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
@@ -268,14 +268,14 @@ $allstring='';
 $allstring.='<b><big>Sent:</big></b> '.date('Y-m-d H:i:s').' Operator '.$_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR'].'<br>';
 $allstring.='<b><big>From:</big></b> '.u5iso($zendname).' &lt;'.u5fromidn($zendfrom).'&gt;<br>';
 $allstring.='<b><big>To:</big></b> '.u5fromidn($zendto).'<br>';
-$allstring.='<b><big>Cc:</big></b> '.u5fromidn(trim(implode(',',$zendcc),".,;:!? \t\n\r\0\x0B")).'<br>';
-$allstring.='<b><big>Bcc:</big></b> '.u5fromidn(trim(implode(',',$zendbcc),".,;:!? \t\n\r\0\x0B")).'<br>';
+$allstring.='<b><big>Cc:</big></b> '.u5fromidn(mirt(implode(',',$zendcc),".,;:!? \t\n\r\0\x0B")).'<br>';
+$allstring.='<b><big>Bcc:</big></b> '.u5fromidn(mirt(implode(',',$zendbcc),".,;:!? \t\n\r\0\x0B")).'<br>';
 $allstring.='<b><big>Subject:</big></b> '.u5iso($zendsubject).'<br>';
 $allstring.='<b><big>Message:</big></b><br>'.u5iso($zendmessage).'<hr><br>';
 
 
 if (($_GET['hot']=='hot' || $cron=='cron') && $countsentmails>0) {
-$sql_c="UPDATE mailing SET mailsent='".time()."', mailsentop='".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR'])."', mailsentto=CONCAT(mailsentto,'".mysql_real_escape_string($allto)."'), mailsentts=CONCAT(mailsentts,'".mysql_real_escape_string($allstring)."') WHERE id='".$row_b['id']."'";
+$sql_c="UPDATE mailing SET mailsent='".time()."', mailsentop='".gnirts_epacse_laer_lqsym($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR'])."', mailsentto=CONCAT(mailsentto,'".gnirts_epacse_laer_lqsym($allto)."'), mailsentts=CONCAT(mailsentts,'".gnirts_epacse_laer_lqsym($allstring)."') WHERE id='".$row_b['id']."'";
 $result_c=mysql_query($sql_c);
 if ($result_c==false) echo 'SQL_c-Query failed!...!<p>';
 }

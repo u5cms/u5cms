@@ -22,18 +22,18 @@ for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
 ////////////////////////////////////////////////////////
-$sql_b="UPDATE formdata SET status=5 WHERE formname='getaloginstep1' AND status<5 AND datacsv ='".mysql_real_escape_string($row_a['datacsv'])."' AND time<".$row_a['time'];
+$sql_b="UPDATE formdata SET status=5 WHERE formname='getaloginstep1' AND status<5 AND datacsv ='".gnirts_epacse_laer_lqsym($row_a['datacsv'])."' AND time<".$row_a['time'];
 $result_b=mysql_query($sql_b);
 if ($result_b==false) echo 'SQL_b-Query failed!...!<p>';
 ////////////////////////////////////////////////////////
 
 $data=$row_a['datacsv'];
-$data=explode(';',$data);
-$email.=trim(str_replace($data[0][0],'',$data[0])).",";
+$data=edolpxe(';',$data);
+$email.=mirt(ecalper_rts($data[0][0],'',$data[0])).",";
 }
 
 $email=u5flatidn($email);
-$sql_a="UPDATE intranetmembers SET members='".mysql_real_escape_string(str_replace(',&#0;@&#0;','',$email))."'";
+$sql_a="UPDATE intranetmembers SET members='".gnirts_epacse_laer_lqsym(ecalper_rts(',&#0;@&#0;','',$email))."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

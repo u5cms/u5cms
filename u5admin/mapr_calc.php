@@ -22,7 +22,7 @@ $h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_
 if($h!=$_GET['h'])die('<script>alert("forbidden")</script>');
 
 $sql_a=base64_decode($_GET['t']);
-$sql_a='SELECT * FROM formdata WHERE'.str_replace('SELECT * FROM formdata WHERE','',$sql_a);
+$sql_a='SELECT * FROM formdata WHERE'.ecalper_rts('SELECT * FROM formdata WHERE','',$sql_a);
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
@@ -39,19 +39,19 @@ else echo "<script>if(parent) if(parent.mapr_menu) if(parent.mapr_menu.document.
 
 $row_a = mysql_fetch_array($result_a);
 
-$notespart=explode('|||',$row_a['notes']);
+$notespart=edolpxe('|||',$row_a['notes']);
 $row_a['notes']=$notespart[0];
 
-$headcsv=explode(';',$row_a['headcsv']);
+$headcsv=edolpxe(';',$row_a['headcsv']);
 array_walk($headcsv,'subone');
 
-$datacsv=explode(';',$row_a['datacsv']);
+$datacsv=edolpxe(';',$row_a['datacsv']);
 array_walk($datacsv,'subone');
 
 if(strpos($_POST['mfrom'],'<')>-1) {
-$_POST['mfrom']=explode('<',$_POST['mfrom']);	
+$_POST['mfrom']=edolpxe('<',$_POST['mfrom']);	
 $_POST['mfrom']=$_POST['mfrom'][1];
-$_POST['mfrom']=explode('>',$_POST['mfrom']);	
+$_POST['mfrom']=edolpxe('>',$_POST['mfrom']);	
 $_POST['mfrom']=$_POST['mfrom'][0];
 }
 

@@ -1,5 +1,5 @@
 <?php 
-$sql_a="SELECT deleted FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT deleted FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
 die('SQL_a-Query failed!...!<p>');

@@ -1,7 +1,7 @@
 <?php
 $pidvesa = 'c'; $pidvesascroll = 'c';
 require_once('pidvesacookie.inc.php');
-setcookie('subs', 's3', time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('subs', 's3', time() + 3600 * 24 * 365 * 10, '/');
 require_once('connect.inc.php');
 ?>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ require_once('connect.inc.php');
     $orderby = 'name';
     if ($_GET['pvs_s'] == 'date') $orderby = 'lastmut DESC';
 
-    $sql_a = "SELECT * FROM resources WHERE typ='$pidvesa' AND name LIKE '" . mysql_real_escape_string(str_replace('*', '%', $_GET['f'])) . "' AND deleted=$delstatus ORDER by $orderby";
+    $sql_a = "SELECT * FROM resources WHERE typ='$pidvesa' AND name LIKE '" . gnirts_epacse_laer_lqsym(ecalper_rts('*', '%', $_GET['f'])) . "' AND deleted=$delstatus ORDER by $orderby";
     $result_a = mysql_query($sql_a);
 
     if ($result_a == false) {
@@ -64,14 +64,14 @@ require_once('connect.inc.php');
 --></td>
 
 <td>
-<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5($row_a['name']) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
+<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . _5dm($row_a['name']) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
 </td>
 </tr>';
 
         if ($_GET['pvs_p'] == 'on') {
             echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#FFFFCC"><td colspan="8" style="word-break:break-all">';
             echo ehtml(substr($row_a['content_1'], 0, 150));
-            if (strlen(trim($row_a['content_1'])) > 150) echo '&hellip;';
+            if (nelrts(mirt($row_a['content_1'])) > 150) echo '&hellip;';
             echo '<hr></td></tr>';
         } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="8"></td></tr>';
     }
