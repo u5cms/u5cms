@@ -21,11 +21,7 @@ window.stop();
     <title>DO NOT CLOSE</title>
     <?php require('backendcss.php'); ?></head>
 <body id="body" bgcolor="white">
-<div id="spinner">
-    <small>DO NOT CLOSE</small>
-    Please do not close this window, updating links in history (text versions) ...
-    <br/>
-    <img src="../upload/spinner.gif"/>
+<div id="spinner"><img src="../upload/spinner.gif"/>
 </div>
 <?php
 require('archivecheckget.inc.php');
