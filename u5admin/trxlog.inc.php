@@ -2,10 +2,10 @@
 function trxlog($trx) {
 $sql_t="INSERT INTO trxlog (operator,trx,ts,ip) VALUES 
 (
-'".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
-'".mysql_real_escape_string($trx)."',
+'".gnirts_epacse_laer_lqsym(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
+'".gnirts_epacse_laer_lqsym($trx)."',
 '".time()."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."')";
+'".gnirts_epacse_laer_lqsym($_SERVER['REMOTE_ADDR'])."')";
 
 
 $result_t=mysql_query($sql_t);

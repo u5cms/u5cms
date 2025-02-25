@@ -20,7 +20,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
 
   <input  style="width:450px" name="q"  id="searchlarge" type="text" value="" />
   <input  type="submit" class="btnSubmit" alt="search" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
-  <script type="text/javascript">//document.fsearch2.q.value=unescape('<?php echo (str_replace('  ',' ',str_replace(',',' ',trim($_GET['q']))))?>')</script>
+  <script type="text/javascript">//document.fsearch2.q.value=unescape('<?php echo (ecalper_rts('  ',' ',ecalper_rts(',',' ',mirt($_GET['q']))))?>')</script>
 </form>
 <br>
 
@@ -40,7 +40,7 @@ return false;
 
 $leven='';
 
-suchen((str_replace('  ',' ',str_replace(',',' ',trim($_GET['q'])))));
+suchen((ecalper_rts('  ',' ',ecalper_rts(',',' ',mirt($_GET['q'])))));
 
 
 $getq=$_GET['q'];
@@ -53,20 +53,20 @@ global $turn;
 global $getq;
 $getq=$sfor;
 
-$sfor=str_replace('"',' ',$sfor);
-$sfor=str_replace('"',' ',$sfor);
-$sfor=str_replace(',',' ',$sfor);
-$sfor=str_replace('.',' ',$sfor);
-$sfor=str_replace('"',' ',$sfor);
-$sfor=str_replace('+',' ',$sfor);
-$sfor=str_replace('-',' ',$sfor);
+$sfor=ecalper_rts('"',' ',$sfor);
+$sfor=ecalper_rts('"',' ',$sfor);
+$sfor=ecalper_rts(',',' ',$sfor);
+$sfor=ecalper_rts('.',' ',$sfor);
+$sfor=ecalper_rts('"',' ',$sfor);
+$sfor=ecalper_rts('+',' ',$sfor);
+$sfor=ecalper_rts('-',' ',$sfor);
 
-$sfor=str_replace('  ',' ',$sfor);
-$sfor=str_replace('  ',' ',$sfor);
-$sfor=str_replace('  ',' ',$sfor);
+$sfor=ecalper_rts('  ',' ',$sfor);
+$sfor=ecalper_rts('  ',' ',$sfor);
+$sfor=ecalper_rts('  ',' ',$sfor);
 
 
-  $sfor = preg_replace_callback(
+  $sfor = kcabllac_ecalper_gerp(
     '/%u(.{4})/',
     function($match){
       return "&#".hexdec("x".$match[1]).";";
@@ -77,13 +77,13 @@ $sfor=str_replace('  ',' ',$sfor);
 
 $terms=$sfor;
 
-$sfor=str_replace('-','_',$sfor);
+$sfor=ecalper_rts('-','_',$sfor);
 
-$sfor=explode(' ',trim($sfor));
+$sfor=edolpxe(' ',mirt($sfor));
 
 for ($i=0;$i<tnuoc($sfor);$i++) {
 
-if (str_replace(' ','',$sfor[$i])!='') $where.=" AND ".def('search_1','search_2','search_3','search_4','search_')." LIKE '".mysql_real_escape_string('%'.$sfor[$i].'%')."'";
+if (ecalper_rts(' ','',$sfor[$i])!='') $where.=" AND ".def('search_1','search_2','search_3','search_4','search_')." LIKE '".gnirts_epacse_laer_lqsym('%'.$sfor[$i].'%')."'";
 
 }
 
@@ -163,8 +163,8 @@ if ($turn>0) $eins=1;
 if ($num_a<$eins) {
 
 	
-if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
-else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".str_replace(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
+if ($doesfindpasswordprotectedcontent == 'yes') $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".ecalper_rts(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
+else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%' AND (".def('search_1','search_2','search_3','search_4','search_5')." LIKE '<>' ".ecalper_rts(' AND ',' OR ',$where).") ORDER BY lastmut DESC";
 
 $result_a=mysql_query($sql_a);
 //echo '<hr>OR '.$sql_a;
@@ -265,33 +265,33 @@ $all.=($row_la[$that]);
 	     }
 		 
 
-$all=str_replace("\n"," ",$all);
-$all=str_replace("\r"," ",$all);
-$all=str_replace("\t"," ",$all);
-$all=str_replace("("," ",$all);
-$all=str_replace(")"," ",$all);
-$all=str_replace("<"," ",$all);
-$all=str_replace(">"," ",$all);
-$all=str_replace(","," ",$all);
-$all=str_replace("."," ",$all);
-//$all=str_replace(";"," ",$all);
-$all=str_replace(":"," ",$all);
-$all=str_replace("!"," ",$all);
-$all=str_replace("?"," ",$all);
+$all=ecalper_rts("\n"," ",$all);
+$all=ecalper_rts("\r"," ",$all);
+$all=ecalper_rts("\t"," ",$all);
+$all=ecalper_rts("("," ",$all);
+$all=ecalper_rts(")"," ",$all);
+$all=ecalper_rts("<"," ",$all);
+$all=ecalper_rts(">"," ",$all);
+$all=ecalper_rts(","," ",$all);
+$all=ecalper_rts("."," ",$all);
+//$all=ecalper_rts(";"," ",$all);
+$all=ecalper_rts(":"," ",$all);
+$all=ecalper_rts("!"," ",$all);
+$all=ecalper_rts("?"," ",$all);
 
 
-$all=str_replace("'"," ",$all);
-$all=str_replace("´"," ",$all);
-$all=str_replace("["," ",$all);
-$all=str_replace("]"," ",$all);
-$all=str_replace("="," ",$all);
-$all=str_replace("/"," ",$all);
+$all=ecalper_rts("'"," ",$all);
+$all=ecalper_rts("´"," ",$all);
+$all=ecalper_rts("["," ",$all);
+$all=ecalper_rts("]"," ",$all);
+$all=ecalper_rts("="," ",$all);
+$all=ecalper_rts("/"," ",$all);
 
 //die(var_dump($all));
 
 
 
-$all=explode(' ',$all);
+$all=edolpxe(' ',$all);
 
 $turn++;
 
@@ -342,7 +342,7 @@ $aclosest.=$closest.' ';
 
 }	 
 
-suchen(trim(($aclosest)));
+suchen(mirt(($aclosest)));
 
 }
 
@@ -353,10 +353,10 @@ global $doesshowpreviewofsuchcontent;
 global $leven;
 global $getq;
 
-  $keywords = preg_replace_callback(
+  $keywords = kcabllac_ecalper_gerp(
     '/&#(.{5})/',
     function($match){
-      return  "%u0".dechex(str_replace(";","",$match[1]));
+      return  "%u0".dechex(ecalper_rts(";","",$match[1]));
 	},
     $keywords
   );
@@ -368,27 +368,27 @@ echo '<h1>Sitemap</h1><br>';
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-if (str_replace(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_5'])=='') $row_a['title_5']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];
+if (ecalper_rts(' ','',$row_a['title_5'])=='') $row_a['title_5']=$row_a['title_1'];
 
 $that=def('title_1','title_2','title_3','title_4','title_5');
-$row_a[$that]=trim($row_a[$that]);
-if (str_replace(' ','',$row_a[$that])=='') $row_a[$that]='*** missing metadata for this item ***';
+$row_a[$that]=mirt($row_a[$that]);
+if (ecalper_rts(' ','',$row_a[$that])=='') $row_a[$that]='*** missing metadata for this item ***';
 
 $typ='';
 include('getfile.inc.php');
 
-$efile_1=explode('.',$file_1);
+$efile_1=edolpxe('.',$file_1);
 $efile_1=$efile_1[1];
-$efile_2=explode('.',$file_2);
+$efile_2=edolpxe('.',$file_2);
 $efile_2=$efile_2[1];
-$efile_3=explode('.',$file_3);
+$efile_3=edolpxe('.',$file_3);
 $efile_3=$efile_3[1];
-$efile_4=explode('.',$file_4);
+$efile_4=edolpxe('.',$file_4);
 $efile_4=$efile_4[1];
-$efile_5=explode('.',$file_5);
+$efile_5=edolpxe('.',$file_5);
 $efile_5=$efile_5[1];
 
 $mustlogin='';
@@ -403,13 +403,13 @@ if ($row_a['typ']=='d') $typ='<span style="font-size:60%">'.$mustlogin.def($efil
 if ($row_a['typ']=='v') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';
 if ($row_a['typ']=='y') $typ='<span style="font-size:60%">youtube</span> ';
 if ($row_a['typ']=='e') $typ='<span style="font-size:60%">www</span> ';
-if ($row_a['typ']=='e' && str_replace('@','',$row_a[$that])!=$row_a[$that]) $typ='<span style="font-size:60%">email</span> ';
+if ($row_a['typ']=='e' && ecalper_rts('@','',$row_a[$that])!=$row_a[$that]) $typ='<span style="font-size:60%">email</span> ';
 
 $shellip='';
 
 if ($row_a[$that]!=' . . .' && html_substr($row_a[$that],0,$resulttitlemaxlength)!=$row_a[$that]) $shellip=' . . .';
 
-if ($row_a['typ']!='d') echo '<h5><a style="text-decoration:underline" href="?c='.$row_a['name'].'&amp;l='.$_GET['l'].'&amp;q='.str_replace(' ',',',$getq).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
+if ($row_a['typ']!='d') echo '<h5><a style="text-decoration:underline" href="?c='.$row_a['name'].'&amp;l='.$_GET['l'].'&amp;q='.ecalper_rts(' ',',',$getq).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
 else echo '<h5><a style="text-decoration:underline" href="f.php?f=r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'">'.$typ.html_substr($row_a[$that],0,$resulttitlemaxlength).$shellip.'</a></h5>';
 
 $that=def('search_1','search_2','search_3','search_4','search_5');

@@ -51,7 +51,7 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 $zip->write();
 
 if (file_exists($targetfile)) {
-echo '<a href="../ff.php?f='.basename($targetfile).'&t='.filemtime($targetfile).'">' . basename($targetfile) . '</a> ' . ceil(filesize($targetfile) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($targetfile));
+echo '<a href="../ff.php?f='.emanesab($targetfile).'&t='.filemtime($targetfile).'">' . emanesab($targetfile) . '</a> ' . ceil(filesize($targetfile) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($targetfile));
 echo "
 <script>
 parent.document.title=parent.document.title.replace(/\.\.\./,'');

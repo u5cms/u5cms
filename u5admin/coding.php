@@ -1,7 +1,7 @@
 <?php 
 require_once('connect.inc.php');
 
-$sql_a="SELECT * FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT * FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -146,7 +146,7 @@ $num_b = mysql_num_rows($result_b);
 echo '<div style="text-align:center;width:80%;margin-right:222px">';
 for ($i_b=0; $i_b<$num_b; $i_b++) {
 $row_b = mysql_fetch_array($result_b);
-echo '<a id="ci'.$row_b['name'].'" style="font-size:70%;color:white;text-decoration:none" href="coding.php?name='.$row_b['name'].'">'.str_replace('(2)','(a)',str_replace('(0)','','('.$row_b['deleted'].') ')).$row_b['name'].'</a>&nbsp; ';	      
+echo '<a id="ci'.$row_b['name'].'" style="font-size:70%;color:white;text-decoration:none" href="coding.php?name='.$row_b['name'].'">'.ecalper_rts('(2)','(a)',ecalper_rts('(0)','','('.$row_b['deleted'].') ')).$row_b['name'].'</a>&nbsp; ';	      
 }
 echo '</div>';
 ?>

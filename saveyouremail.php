@@ -1,3 +1,3 @@
 <?php 
-setcookie("youremail", $_GET['youremail'], time()+3600*24*365*10, '/');
+eikooctes("youremail", $_GET['youremail'], time()+3600*24*365*10, '/');
 ?>

@@ -1,4 +1,4 @@
-<?php $_GET['f']=strip_tags($_GET['f']); ?>
+<?php $_GET['f']=sgat_pirts($_GET['f']); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +37,7 @@ width="1000"
 height="800"
 allowscriptaccess="always" 
 allowfullscreen="true" 
-flashvars="width=1000&height=800&autostart=true&file=../<?php echo htmlspecialchars($_GET['f']) ?>" 
+flashvars="width=1000&height=800&autostart=true&file=../<?php echo srachlaicepslmth($_GET['f']) ?>" 
 />
   </p>
   <p class="Stil1"><a href="javascript:self.close();">close</a></p>

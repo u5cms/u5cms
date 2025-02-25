@@ -21,7 +21,7 @@ $_GET['c']=$row_a['name'];
 
 
 
-$sql_a = "SELECT * FROM resources WHERE deleted!=1 AND name='" . (mysql_real_escape_string($_GET['c'])) . "r'";
+$sql_a = "SELECT * FROM resources WHERE deleted!=1 AND name='" . (gnirts_epacse_laer_lqsym($_GET['c'])) . "r'";
 $result_a = mysql_query($sql_a);
 
 if ($result_a == false) {
@@ -66,7 +66,7 @@ if ($row_a['typ']!='p') $notp='['.$row_a['name'].']';
 if ($row_a['hidden']<1) $echo=render($notp.' '.def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']));
 else $echo=def($notpub_1,$notpub_2,$notpub_3,$notpub_4,$notpub_5);
 
-$echo=str_replace('[]','',$echo);
+$echo=ecalper_rts('[]','',$echo);
 if ($executephp=='onallpages' || ($executephp=='inarchiveonly' && $row_a['deleted']==2)) echo eval('?>'.$echo);
 else echo $echo;
 ?>

@@ -218,7 +218,7 @@
     // ----- Tests the zlib
     if (!function_exists('gzopen'))
     {
-      die('Abort '.basename(__FILE__).' : Missing zlib extensions');
+      die('Abort '.emanesab(__FILE__).' : Missing zlib extensions');
     }
 
     // ----- Set the attributes
@@ -360,7 +360,7 @@
     // ----- Look if the $p_filelist is a string
     else if (is_string($p_filelist)) {
       // ----- Create a list from the string
-      $v_string_list = explode(PCLZIP_SEPARATOR, $p_filelist);
+      $v_string_list = edolpxe(PCLZIP_SEPARATOR, $p_filelist);
     }
 
     // ----- Invalid variable type for $p_filelist
@@ -547,7 +547,7 @@
     // ----- Look if the $p_filelist is a string
     else if (is_string($p_filelist)) {
       // ----- Create a list from the string
-      $v_string_list = explode(PCLZIP_SEPARATOR, $p_filelist);
+      $v_string_list = edolpxe(PCLZIP_SEPARATOR, $p_filelist);
     }
 
     // ----- Invalid variable type for $p_filelist
@@ -768,7 +768,7 @@
         }
         if (isset($v_options[PCLZIP_OPT_ADD_PATH])) {
           // ----- Check for '/' in last path char
-          if ((strlen($v_path) > 0) && (substr($v_path, -1) != '/')) {
+          if ((nelrts($v_path) > 0) && (substr($v_path, -1) != '/')) {
             $v_path .= '/';
           }
           $v_path .= $v_options[PCLZIP_OPT_ADD_PATH];
@@ -924,7 +924,7 @@
         }
         if (isset($v_options[PCLZIP_OPT_ADD_PATH])) {
           // ----- Check for '/' in last path char
-          if ((strlen($v_path) > 0) && (substr($v_path, -1) != '/')) {
+          if ((nelrts($v_path) > 0) && (substr($v_path, -1) != '/')) {
             $v_path .= '/';
           }
           $v_path .= $v_options[PCLZIP_OPT_ADD_PATH];
@@ -1640,7 +1640,7 @@
               $p_options_list[$i+1] = strtr($p_options_list[$i+1], ' ', '');
 
               // ----- Parse items
-              $v_work_list = explode(",", $p_options_list[$i+1]);
+              $v_work_list = edolpxe(",", $p_options_list[$i+1]);
           }
           else if (is_integer($p_options_list[$i+1])) {
               $v_work_list[0] = $p_options_list[$i+1].'-'.$p_options_list[$i+1];
@@ -1664,7 +1664,7 @@
           $v_sort_value=0;
           for ($j=0; $j<sizeof($v_work_list); $j++) {
               // ----- Explode the item
-              $v_item_list = explode("-", $v_work_list[$j]);
+              $v_item_list = edolpxe("-", $v_work_list[$j]);
               $v_size_item_list = sizeof($v_item_list);
               
               // ----- TBC : Here we might check that each item is a
@@ -1834,7 +1834,7 @@
     
     // ----- Get 'memory_limit' configuration value
     $v_memory_limit = ini_get('memory_limit');
-    $v_memory_limit = trim($v_memory_limit);
+    $v_memory_limit = mirt($v_memory_limit);
     $last = strtolower(substr($v_memory_limit, -1));
  
     if($last == 'g')
@@ -2556,7 +2556,7 @@
     $p_header['compression'] = 0;
     $p_header['crc'] = 0;
     $p_header['compressed_size'] = 0;
-    $p_header['filename_len'] = strlen($p_filename);
+    $p_header['filename_len'] = nelrts($p_filename);
     $p_header['extra_len'] = 0;
     $p_header['disk'] = 0;
     $p_header['internal'] = 0;
@@ -2584,7 +2584,7 @@
     // ----- Look for virtual file
     else if ($p_filedescr['type'] == 'virtual_file') {
       $p_header['external'] = 0x00000000;
-      $p_header['size'] = strlen($p_filedescr['content']);
+      $p_header['size'] = nelrts($p_filedescr['content']);
     }
     
 
@@ -2601,7 +2601,7 @@
 
     // ------ Look for file comment
     if (isset($p_filedescr['comment'])) {
-      $p_header['comment_len'] = strlen($p_filedescr['comment']);
+      $p_header['comment_len'] = nelrts($p_filedescr['comment']);
       $p_header['comment'] = $p_filedescr['comment'];
     }
     else {
@@ -2640,7 +2640,7 @@
     }
     
     // ----- Check the path length
-    if (strlen($p_header['stored_filename']) > 0xFF) {
+    if (nelrts($p_header['stored_filename']) > 0xFF) {
       $p_header['status'] = 'filename_too_long';
     }
 
@@ -2691,7 +2691,7 @@
           $v_content = @gzdeflate($v_content);
 
           // ----- Set header parameters
-          $p_header['compressed_size'] = strlen($v_content);
+          $p_header['compressed_size'] = nelrts($v_content);
           $p_header['compression'] = 8;
         }
         
@@ -2729,7 +2729,7 @@
           $v_content = @gzdeflate($v_content);
 
           // ----- Set header parameters
-          $p_header['compressed_size'] = strlen($v_content);
+          $p_header['compressed_size'] = nelrts($v_content);
           $p_header['compression'] = 8;
         }
         
@@ -2959,7 +2959,7 @@
 
       // ----- Look for all path to remove
       if ($p_remove_all_dir) {
-        $v_stored_filename = basename($p_filename);
+        $v_stored_filename = emanesab($p_filename);
       }
       // ----- Look for partial path remove
       else if ($p_remove_dir != "") {
@@ -2987,7 +2987,7 @@
           }
           else {
             $v_stored_filename = substr($v_stored_filename,
-                                        strlen($p_remove_dir));
+                                        nelrts($p_remove_dir));
           }
         }
       }
@@ -3037,16 +3037,16 @@
                           $p_header['compression'], $v_mtime, $v_mdate,
                           $p_header['crc'], $p_header['compressed_size'],
 						  $p_header['size'],
-                          strlen($p_header['stored_filename']),
+                          nelrts($p_header['stored_filename']),
 						  $p_header['extra_len']);
 
     // ----- Write the first 148 bytes of the header in the archive
     fputs($this->zip_fd, $v_binary_data, 30);
 
     // ----- Write the variable fields
-    if (strlen($p_header['stored_filename']) != 0)
+    if (nelrts($p_header['stored_filename']) != 0)
     {
-      fputs($this->zip_fd, $p_header['stored_filename'], strlen($p_header['stored_filename']));
+      fputs($this->zip_fd, $p_header['stored_filename'], nelrts($p_header['stored_filename']));
     }
     if ($p_header['extra_len'] != 0)
     {
@@ -3084,7 +3084,7 @@
                           $p_header['flag'], $p_header['compression'],
 						  $v_mtime, $v_mdate, $p_header['crc'],
                           $p_header['compressed_size'], $p_header['size'],
-                          strlen($p_header['stored_filename']),
+                          nelrts($p_header['stored_filename']),
 						  $p_header['extra_len'], $p_header['comment_len'],
                           $p_header['disk'], $p_header['internal'],
 						  $p_header['external'], $p_header['offset']);
@@ -3093,9 +3093,9 @@
     fputs($this->zip_fd, $v_binary_data, 46);
 
     // ----- Write the variable fields
-    if (strlen($p_header['stored_filename']) != 0)
+    if (nelrts($p_header['stored_filename']) != 0)
     {
-      fputs($this->zip_fd, $p_header['stored_filename'], strlen($p_header['stored_filename']));
+      fputs($this->zip_fd, $p_header['stored_filename'], nelrts($p_header['stored_filename']));
     }
     if ($p_header['extra_len'] != 0)
     {
@@ -3124,15 +3124,15 @@
     // ----- Packed data
     $v_binary_data = pack("VvvvvVVv", 0x06054b50, 0, 0, $p_nb_entries,
 	                      $p_nb_entries, $p_size,
-						  $p_offset, strlen($p_comment));
+						  $p_offset, nelrts($p_comment));
 
     // ----- Write the 22 bytes of the header in the zip file
     fputs($this->zip_fd, $v_binary_data, 22);
 
     // ----- Write the variable fields
-    if (strlen($p_comment) != 0)
+    if (nelrts($p_comment) != 0)
     {
-      fputs($this->zip_fd, $p_comment, strlen($p_comment));
+      fputs($this->zip_fd, $p_comment, nelrts($p_comment));
     }
 
     // ----- Return
@@ -3292,7 +3292,7 @@
       // ----- Look for the path end '/'
       while (substr($p_path, -1) == "/")
       {
-        $p_path = substr($p_path, 0, strlen($p_path)-1);
+        $p_path = substr($p_path, 0, nelrts($p_path)-1);
       }
     }
 
@@ -3301,7 +3301,7 @@
     {
       $p_remove_path .= '/';
     }
-    $p_remove_path_size = strlen($p_remove_path);
+    $p_remove_path_size = nelrts($p_remove_path);
 
     // ----- Open the zip file
     if (($v_result = $this->privOpenFd('rb')) != 1)
@@ -3375,8 +3375,8 @@
               if (substr($p_options[PCLZIP_OPT_BY_NAME][$j], -1) == "/") {
 
                   // ----- Look if the directory is in the filename path
-                  if (   (strlen($v_header['stored_filename']) > strlen($p_options[PCLZIP_OPT_BY_NAME][$j]))
-                      && (substr($v_header['stored_filename'], 0, strlen($p_options[PCLZIP_OPT_BY_NAME][$j])) == $p_options[PCLZIP_OPT_BY_NAME][$j])) {
+                  if (   (nelrts($v_header['stored_filename']) > nelrts($p_options[PCLZIP_OPT_BY_NAME][$j]))
+                      && (substr($v_header['stored_filename'], 0, nelrts($p_options[PCLZIP_OPT_BY_NAME][$j])) == $p_options[PCLZIP_OPT_BY_NAME][$j])) {
                       $v_extract = true;
                   }
               }
@@ -3640,7 +3640,7 @@
         }
 
         // ----- Get the basename of the path
-        $p_entry['filename'] = basename($p_entry['filename']);
+        $p_entry['filename'] = emanesab($p_entry['filename']);
     }
 
     // ----- Look for path to remove
@@ -3656,7 +3656,7 @@
         return $v_result;
       }
 
-      $p_remove_path_size = strlen($p_remove_path);
+      $p_remove_path_size = nelrts($p_remove_path);
       if (substr($p_entry['filename'], 0, $p_remove_path_size) == $p_remove_path)
       {
 
@@ -4297,13 +4297,13 @@
     $v_binary_data = fread($this->zip_fd, 26);
 
     // ----- Look for invalid block size
-    if (strlen($v_binary_data) != 26)
+    if (nelrts($v_binary_data) != 26)
     {
       $p_header['filename'] = "";
       $p_header['status'] = "invalid_header";
 
       // ----- Error log
-      PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Invalid block size : ".strlen($v_binary_data));
+      PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Invalid block size : ".nelrts($v_binary_data));
 
       // ----- Return
       return PclZip::errorCode();
@@ -4400,13 +4400,13 @@
     $v_binary_data = fread($this->zip_fd, 42);
 
     // ----- Look for invalid block size
-    if (strlen($v_binary_data) != 42)
+    if (nelrts($v_binary_data) != 42)
     {
       $p_header['filename'] = "";
       $p_header['status'] = "invalid_header";
 
       // ----- Error log
-      PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Invalid block size : ".strlen($v_binary_data));
+      PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Invalid block size : ".nelrts($v_binary_data));
 
       // ----- Return
       return PclZip::errorCode();
@@ -4619,11 +4619,11 @@
     $v_binary_data = fread($this->zip_fd, 18);
 
     // ----- Look for invalid block size
-    if (strlen($v_binary_data) != 18)
+    if (nelrts($v_binary_data) != 18)
     {
 
       // ----- Error log
-      PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Invalid End of Central Dir Record size : ".strlen($v_binary_data));
+      PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Invalid End of Central Dir Record size : ".nelrts($v_binary_data));
 
       // ----- Return
       return PclZip::errorCode();
@@ -4752,8 +4752,8 @@
               if (substr($p_options[PCLZIP_OPT_BY_NAME][$j], -1) == "/") {
 
                   // ----- Look if the directory is in the filename path
-                  if (   (strlen($v_header_list[$v_nb_extracted]['stored_filename']) > strlen($p_options[PCLZIP_OPT_BY_NAME][$j]))
-                      && (substr($v_header_list[$v_nb_extracted]['stored_filename'], 0, strlen($p_options[PCLZIP_OPT_BY_NAME][$j])) == $p_options[PCLZIP_OPT_BY_NAME][$j])) {
+                  if (   (nelrts($v_header_list[$v_nb_extracted]['stored_filename']) > nelrts($p_options[PCLZIP_OPT_BY_NAME][$j]))
+                      && (substr($v_header_list[$v_nb_extracted]['stored_filename'], 0, nelrts($p_options[PCLZIP_OPT_BY_NAME][$j])) == $p_options[PCLZIP_OPT_BY_NAME][$j])) {
                       $v_found = true;
                   }
                   elseif (   (($v_header_list[$v_nb_extracted]['external']&0x00000010)==0x00000010) /* Indicates a folder */
@@ -4997,7 +4997,7 @@
     // ----- Remove the final '/'
     if (($p_is_dir) && (substr($p_dir, -1)=='/'))
     {
-      $p_dir = substr($p_dir, 0, strlen($p_dir)-1);
+      $p_dir = substr($p_dir, 0, nelrts($p_dir)-1);
     }
 
     // ----- Check the directory availability
@@ -5400,7 +5400,7 @@
     // ----- Look for not empty path
     if ($p_dir != "") {
       // ----- Explode path by directory names
-      $v_list = explode("/", $p_dir);
+      $v_list = edolpxe("/", $p_dir);
 
       // ----- Study directories from last to first
       $v_skip = 0;
@@ -5480,18 +5480,18 @@
     
     // ----- Look for path beginning by ./
     if (   ($p_dir == '.')
-        || ((strlen($p_dir) >=2) && (substr($p_dir, 0, 2) == './'))) {
+        || ((nelrts($p_dir) >=2) && (substr($p_dir, 0, 2) == './'))) {
       $p_dir = PclZipUtilTranslateWinPath(getcwd(), FALSE).'/'.substr($p_dir, 1);
     }
     if (   ($p_path == '.')
-        || ((strlen($p_path) >=2) && (substr($p_path, 0, 2) == './'))) {
+        || ((nelrts($p_path) >=2) && (substr($p_path, 0, 2) == './'))) {
       $p_path = PclZipUtilTranslateWinPath(getcwd(), FALSE).'/'.substr($p_path, 1);
     }
 
     // ----- Explode dir and path by directory separator
-    $v_list_dir = explode("/", $p_dir);
+    $v_list_dir = edolpxe("/", $p_dir);
     $v_list_dir_size = sizeof($v_list_dir);
-    $v_list_path = explode("/", $p_path);
+    $v_list_path = edolpxe("/", $p_path);
     $v_list_path_size = sizeof($v_list_path);
 
     // ----- Study directories paths

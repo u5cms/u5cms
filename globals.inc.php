@@ -79,11 +79,11 @@ $lan4name=ehtml($row_a['lan4name']);
 $lan5name=ehtml($row_a['lan5name']);
 
 
-if (str_replace(' ','',$lan1na)=='') $lan1na='10';
-if (str_replace(' ','',$lan2na)=='') $lan2na='20';
-if (str_replace(' ','',$lan3na)=='') $lan3na='30';
-if (str_replace(' ','',$lan4na)=='') $lan4na='40';
-if (str_replace(' ','',$lan5na)=='') $lan5na='50';
+if (ecalper_rts(' ','',$lan1na)=='') $lan1na='10';
+if (ecalper_rts(' ','',$lan2na)=='') $lan2na='20';
+if (ecalper_rts(' ','',$lan3na)=='') $lan3na='30';
+if (ecalper_rts(' ','',$lan4na)=='') $lan4na='40';
+if (ecalper_rts(' ','',$lan5na)=='') $lan5na='50';
 
 
 $sql_a="SELECT * FROM sizes";

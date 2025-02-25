@@ -48,7 +48,7 @@ else {
   $aclan = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
   $aclan = strtolower($aclan[0].$aclan[1]);
 }
-if (!isset($_COOKIE['aclan']) || $_COOKIE['aclan']!=$aclan) setcookie('aclan', $aclan, time()+3600*24*365*10,'/');
+if (!isset($_COOKIE['aclan']) || $_COOKIE['aclan']!=$aclan) eikooctes('aclan', $aclan, time()+3600*24*365*10,'/');
 
 if ($_GET['l']!=$lan1na && $_GET['l']!=$lan2na && $_GET['l']!=$lan3na && $_GET['l']!=$lan4na && $_GET['l']!=$lan5na) {
   if ($aclan==$lan5na) header("Location: ".chglang($lan5na));

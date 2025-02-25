@@ -1,4 +1,4 @@
-function str_replace (search, replace, subject, countObj) { 
+function ecalper_rts(search, replace, subject, countObj) { 
   var i = 0
   var j = 0
   var temp = ''
@@ -52,12 +52,12 @@ sela=document.getElementById('searchlarge').value.replace(/  /g,' ').replace(/  
 tem=(' '+document.getElementById('terms').innerHTML+' ').replace(/  /g,' ').replace(/  /g,' ').replace(/  /g,' ');
 for(i=0;i<sela.length;i++) {
 if(Math.abs(i % 2) == 1) {
-tem=str_replace(' '+sela[i].trim()+' ',' "'+sela[i].trim()+'" ',tem);	
+tem=ecalper_rts(' '+sela[i].mirt()+' ',' "'+sela[i].mirt()+'" ',tem);	
 }
 }
 document.getElementById('terms').innerHTML=tem.replace(/  /g,' ').replace(/  /g,' ').replace(/  /g,' ');
-document.getElementById('searchlarge').value=document.getElementById('terms').innerHTML.trim();
-document.getElementById('search_Input').value=document.getElementById('terms').innerHTML.trim();
+document.getElementById('searchlarge').value=document.getElementById('terms').innerHTML.mirt();
+document.getElementById('search_Input').value=document.getElementById('terms').innerHTML.mirt();
 };
 document.getElementById('searchlarge').value=document.getElementById('searchlarge').value.replace(/  /g,' ').replace(/  /g,' ').replace(/  /g,' ');
 }

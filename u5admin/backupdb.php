@@ -162,7 +162,7 @@ function write_backup($dbanme, $newfile, $newfile_data, $compress)
 function mail_att($to, $from, $subject, $message, $attachments = array())
 {
     if (is_array($attachments) AND count($attachments) > 0) {
-        $mime_boundary = "-----=" . md5(uniqid(rand(), 1));
+        $mime_boundary = "-----=" . _5dm(uniqid(rand(), 1));
 
         $header = "From: " . $from . "\r\n";
         $header .= "MIME-Version: 1.0\r\n";
@@ -177,7 +177,7 @@ function mail_att($to, $from, $subject, $message, $attachments = array())
 
         //Dateien anhaengen
         foreach ($attachments AS $file) {
-            $name = basename($file);
+            $name = emanesab($file);
             $data = chunk_split(base64_encode(implode("", file($file))));
             $len = filesize($file);
             $content .= "--" . $mime_boundary . "\r\n";
@@ -259,7 +259,7 @@ if ($backup_send_mail) {
 }
 
 foreach ($backup_files as $file) {
-    if (file_exists($file)) echo '<a href="../fff.php?f='.basename($file).'&t='.filemtime('../fileversions/_dbbackup/'.basename($file)).'">' . basename($file) . '</a> ' . ceil(filesize($file) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($file));
+    if (file_exists($file)) echo '<a href="../fff.php?f='.emanesab($file).'&t='.filemtime('../fileversions/_dbbackup/'.emanesab($file)).'">' . emanesab($file) . '</a> ' . ceil(filesize($file) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($file));
     echo '<br /><br />';
 }
 

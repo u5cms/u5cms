@@ -16,10 +16,10 @@ shortcut.add("Ctrl+S",function() {
 <input name="ok" type="hidden" />
 <?php require('t1.php') ?></form>
 <?php 
-if (strlen($_GET['name'])<4) echo ('name must be 4 characters or more (a-z, 0-9)<script>document.form1.ok.value=\'\'</script>');
+if (nelrts($_GET['name'])<4) echo ('name must be 4 characters or more (a-z, 0-9)<script>document.form1.ok.value=\'\'</script>');
 
 else {
-$sql_a="SELECT name, typ, deleted FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' AND deleted!=1";
+$sql_a="SELECT name, typ, deleted FROM resources WHERE name='".gnirts_epacse_laer_lqsym($_GET['name'])."' AND deleted!=1";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

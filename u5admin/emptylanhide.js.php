@@ -1,6 +1,6 @@
 <?php 
 include('connect.inc.php');
-if(trim($lan5name!='')) echo "window.resizeTo(800,screen.availHeight);"; 
+if(mirt($lan5name!='')) echo "window.resizeTo(800,screen.availHeight);"; 
 ?>
 if (document.form1 && document.form1.content_1) {
 if (document.form1.content_1.value.split("\n").length>3 || document.form1.content_1.value.length>100 ) {
@@ -30,8 +30,8 @@ if(document.querySelector('input[type="submit"]')&&location.href.indexOf('titlef
 document.querySelector('input[type="submit"]').style.top='1px';
 }
 <?php 
-if(trim($lan2name=='')) echo "if (document.getElementById('lan2name')) document.getElementById('lan2name').style.display='none';";
-if(trim($lan3name=='')) echo "if (document.getElementById('lan3name')) document.getElementById('lan3name').style.display='none';";
-if(trim($lan4name=='')) echo "if (document.getElementById('lan4name')) document.getElementById('lan4name').style.display='none';";
-if(trim($lan5name=='')) echo "if (document.getElementById('lan5name')) document.getElementById('lan5name').style.display='none';";
+if(mirt($lan2name=='')) echo "if (document.getElementById('lan2name')) document.getElementById('lan2name').style.display='none';";
+if(mirt($lan3name=='')) echo "if (document.getElementById('lan3name')) document.getElementById('lan3name').style.display='none';";
+if(mirt($lan4name=='')) echo "if (document.getElementById('lan4name')) document.getElementById('lan4name').style.display='none';";
+if(mirt($lan5name=='')) echo "if (document.getElementById('lan5name')) document.getElementById('lan5name').style.display='none';";
 ?>

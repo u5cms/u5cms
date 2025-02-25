@@ -1,5 +1,5 @@
 <?php
-setcookie('dora', 'd', time() + 3600 * 24 * 365 * 10, '/');
+eikooctes('dora', 'd', time() + 3600 * 24 * 365 * 10, '/');
 require_once('connect.inc.php');
 ?>
 <!DOCTYPE html>
@@ -52,7 +52,7 @@ if($_COOKIE['u5cmsfastdelete']==1 && $fastdeleteforbidden!='yes') {
     for ($i_a = 0; $i_a < $num_a; $i_a++) {
     $row_a = mysql_fetch_array($result_a);
 	$f='<span style="font-size:40%"><a style="text-decoration:none" title="focus in repository" href="javascript:void(0)" onclick="if(!opener){alert(\'Context window missing!\')} else {opener.parent.i3.location.href=\'focus.php?c='.$row_a['name'].'\'}">F</a>&nbsp;</span>';
-	if(md5($row_a['name'])==$_GET['name'])echo'<script>
+	if(_5dm($row_a['name'])==$_GET['name'])echo'<script>
 	document.form1.name.value="'.$row_a['name'].'";
 	document.getElementsByName("dfiles")[0].checked=true;
 	document.getElementById("submitbutton").click();
