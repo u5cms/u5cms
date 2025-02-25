@@ -12,7 +12,21 @@ $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
 $num_a = mysql_num_rows($result_a);
 if ($num_a > 0) echo('<script>setTimeout("location.href=location.href",999);</script>');
-else echo('<script>if(opener)opener.top.location.href=opener.top.location.href;self.close()</script>');
+else {
+?>
+<script>
+if(opener) {
+    if ('<?php echo $_GET['newname'] ?>' == '') opener.parent.save.location.href = 'done.php?n=renamed <?php echo $_GET['name']?> to <?php echo $_GET['nn']?>';
+
+    if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i1.document.form1.page.value) opener.parent.i1.gotopage('<?php echo $_GET['nn'] ?>');
+    else opener.parent.i1.gotopage(opener.parent.i1.document.form1.page.value);
+    if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i2.document.form1.page.value) opener.parent.i2.gotopage('<?php echo $_GET['nn'] ?>');
+    else opener.parent.i2.gotopage(opener.parent.i2.document.form1.page.value);
+    opener.focus();self.close();
+}
+</script>
+<?php	
+}
 ?>
 <br><br><br><br>
 <center>

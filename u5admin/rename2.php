@@ -285,23 +285,15 @@ if(opener) {
     else opener.parent.i1.gotopage(opener.parent.i1.document.form1.page.value);
     if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i2.document.form1.page.value) opener.parent.i2.gotopage('<?php echo $_POST['name'] ?>');
     else opener.parent.i2.gotopage(opener.parent.i2.document.form1.page.value);
-
-    opener.focus();
+    opener.focus();self.close();
 }
 </script>
 
 <?php
-if ($_GET['newname'] == '' && $row_a['typ'] == 'v') {
-$_GET['newname']='v'.$_POST['name'];
-$_GET['typ']=$row_a['typ'];
-$_GET['ulinks']=$_POST['ulinks'];
-}
-else {
 $_GET['newname0']=$_POST['name'];
 $_GET['typ']=$row_a['typ'];
 $_GET['fromv']=$_GET['newname'];
 $_GET['ulinks']=$_POST['ulinks'];
-}
 require_once('rename3.php')
 ?>
 </body>

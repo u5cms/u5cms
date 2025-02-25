@@ -266,10 +266,6 @@ replace(   replace(replace(replace($thatfield,']]]]','|4br*,.-;:_+/ts|'),']]]','
         if ($result_a == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
 }
 ?>
-
-<?php
-if ($_GET['newname'] == '' && $_GET['fromv'] != '') echo '<script>location.href="rename3.php?name=v' . $_GET['name'] . '&newname=v' . $_POST['name'] . '&typ=' . $row_a['typ'] . '&ulinks=' . $_POST['ulinks'] . '"</script>';
-else echo '<script>document.getElementById(\'spinner\').style.display=\'none\';document.getElementById(\'body\').style.background=\'#009900\';setTimeout("self.close()",111);</script>';
-?>
+<script>self.close()</script>
 </body>
 </html>
