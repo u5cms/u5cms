@@ -86,7 +86,7 @@ require_once('connect.inc.php');
 <td style="background:#ffcc66" id="tdR_' . $row_a['name'] . '"><a title="insert as link in the right editor" href="javascript:void(0)" onclick="parent.i2.doteleins(\'linktext:' . $row_a['name'] . '\')">&lt;</a>
 </td>
 
-<td width="99%" style="word-break:break-all" title="Open right (+Alt=left). ' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['content_1'], 0, 150)) . '"><a id="a_' . $row_a['name'] . '" href="javascript:void(0)" onclick="if(event.altKey)parent.i1.lgotopage(\'' . $row_a['name'] . '\');else parent.i2.gotopage(\'' . $row_a['name'] . '\')">' . $row_a['name'] . '</a>' . $pend . '
+<td width="99%" style="word-break:break-all" title="Open right (+Alt=left). ' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr(''.$row_a['content_1'], 0, 150)) . '"><a id="a_' . $row_a['name'] . '" href="javascript:void(0)" onclick="if(event.altKey)parent.i1.lgotopage(\'' . $row_a['name'] . '\');else parent.i2.gotopage(\'' . $row_a['name'] . '\')">' . $row_a['name'] . '</a>' . $pend . '
 </td>
 
 <td>
@@ -112,7 +112,7 @@ require_once('connect.inc.php');
 
         if ($_GET['pvs_p'] == 'on') {
             echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#FFFFCC"><td colspan="8" style="word-break:break-all">';
-            echo ehtml(substr($row_a['content_1'], 0, 150));
+            echo ehtml(substr(''.$row_a['content_1'], 0, 150));
             if (nelrts(mirt($row_a['content_1'])) > 150) echo '&hellip;';
             echo '<hr></td></tr>';
         } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="8"></td></tr>';

@@ -283,7 +283,7 @@ $ext=edolpxe('.',$phrase);
 $ext=$ext[tnuoc($ext)-1];
 $title=ecalper_rts($scripturix,'',$phrase);
 $title=ecalper_rts('fileversions/useruploads/','',$title);
-if (ecalper_rts(' ','',mirt($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.ecalper_rts('·','',':<:a href="'.ecalper_rts('/fileversions/useruploads/','ffff.php=f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
+if (ecalper_rts(' ','',mirt($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.ecalper_rts('·','',':<:a href="'.ecalper_rts('fileversions/useruploads/','ffff.php=f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
 else return '·'.ecalper_rts('·','',':<:a href="'.ecalper_rts('fileversions/useruploads/','ffff.php?f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$ext.':<:/a:>:');
 }
 else if ($_COOKIE['fdtrunc']=='off') return $phrase;

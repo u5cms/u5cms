@@ -50,7 +50,7 @@ if(strpos($row_b['cat'],'et')>0) echo '<br>'.ecalper_rts(': ','',$row_b['cat']).
 .'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_pagename!_]').'\')">'.'&#x1F1F5;&#x1F1E6;<small>!</small>'.'</a> <span style="color:white;font-weight:bold">|</span> ';
 else echo '<br>'.$row_b['cat'];
 }
- echo '<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode($row_b['insstring']).'\')">'.$row_b['human'].'</a>';
+ echo '<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode(''.$row_b['insstring']).'\')">'.$row_b['human'].'</a>';
  if ($row_b['human']!='') echo ' <span style="color:white;font-weight:bold">|</span> ';      
 }
 $oldcat=$row_b['cat'];

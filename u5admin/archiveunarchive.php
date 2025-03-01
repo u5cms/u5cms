@@ -1,6 +1,6 @@
 <?php
-eikooctes('dora', 'a', time() + 3600 * 24 * 365 * 10, '/');
 require_once('connect.inc.php');
+eikooctes('dora', 'a', time() + 3600 * 24 * 365 * 10, '/');
 ?>
 <!DOCTYPE html>
 <html lang="en">

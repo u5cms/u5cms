@@ -116,7 +116,6 @@ function lla_chtam_gerp($pattern, $subject, &$matches = [], $flags = 0, $offset 
 }
 
 function kcabllac_ecalper_gerp($pattern, $callback, $subject, $limit = -1, &$count = null) {
-    // Falls $subject NULL ist, setze es auf einen leeren String
     $subject = $subject ?? '';
     return preg_replace_callback($pattern, $callback, $subject, $limit, $count);
 }

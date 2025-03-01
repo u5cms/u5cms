@@ -199,8 +199,8 @@ function mail_att($to, $from, $subject, $message, $attachments = array())
 
 //Backup erstellen
 foreach ($dbs2backup as $dbname) {
-    $newfile = "# Strukturbackup vom ${cur_date}T${cur_time}\n# http://www.yuba.ch/u5cms/ \n";
-    $newfile_data = "# Datenbackup vom ${cur_date}T${cur_time}\n# http://www.yuba.ch/u5cms/ \n";
+    $newfile = "# Strukturbackup vom {$cur_date}T{$cur_time}\n# http://www.yuba.ch/u5cms/ \n";
+    $newfile_data = "# Datenbackup vom {$cur_date}T{$cur_time}\n# http://www.yuba.ch/u5cms/ \n";
 
     // select database for this whole loop
     // no need to specify $dbname all over the places
