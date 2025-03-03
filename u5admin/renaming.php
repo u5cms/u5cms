@@ -30,7 +30,7 @@ if(opener) {
 ?>
 <br><br><br><br>
 <center>
-<?php echo date('Y-m-d H:i:s') ?><br><br>Renaming of <i><?php echo $_GET['n'] ?></i> in progress.<br><br>This takes a few minutes for large pages.<br><br>It is recommended to wait and not to continue working in the backend for so long.<br><br>PLEASE WAIT AND DO NOT CLOSE THIS WINDOW!
+<?php echo date('Y-m-d H:i:s') ?><br><br>Renaming of <i><?php echo $_GET['n'] ?></i> in progress.<br><br>This takes a few minutes for large sites.<br><br>It is recommended to wait and not to continue working in the backend for so long.<br><br>PLEASE WAIT AND DO NOT CLOSE THIS WINDOW!
 </center>
 </body>
 </html>
