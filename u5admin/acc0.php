@@ -16,7 +16,7 @@ shortcut.add("Ctrl+S",function() {
 <?php 
 if ($viewbackenduserlistRqHIADRI!='no') require_once('accadmin.inc.php'); 
 ?>
-<h2>Invite a backend user (<?php if(!(isset($u5samlsalt)&&$u5samlsalt!='')){echo'send password';}else{echo'<small><a href="javasript:void(0)" onclick="alert(\'The u5CMS installation at hand is federated via SAML with an external IAM system. Therefore, your target user must log in using an account from that IAM system that has exactly the email address you entered below as its email attribute.\')">does NOT send a password. Read!</small></a>';} ?>)</h2>
+<h2>Invite a backend user (<?php if(!(isset($u5samlsalt)&&$u5samlsalt!='')){echo'send password';}else{echo'<small><a href="javasript:void(0)" onclick="alert(\'The u5CMS installation at hand is federated via SAML with an external IAM system. Therefore, your target user must log in using an account from that IAM system that has exactly the email address you entered below as its email attribute. The invited user does not receive any automatic invitation email at all and must be informed manually if necessary.\')">does NOT send a password. Read!</small></a>';} ?>)</h2>
 e-mail:<input onkeyup="if(this.value!=this.value.replace(/\s/g,''))this.value=this.value.replace(/\s/g,'')" onchange="this.value=this.value.replace(/\s/g,'')" type="email" required size="40" id="invite">&nbsp;<a href="javascript:void(0)" onclick="parent.saver.location.href='invite.php?e='+escape(document.getElementById('invite').value)+'&h=<?php echo $u5cmsscrttkngt ?>'">send</a>
 <br /><br />
 <h2>Current backend users</h2>
