@@ -573,6 +573,49 @@ $result_a=mysql_query($sql_a);
 $sql_a="ALTER TABLE `sizes` ADD IF NOT EXISTS `cropedge` INT NULL DEFAULT '0' AFTER `tosquare`;";
 $result_a=mysql_query($sql_a);
 
+//////////////////////////////////////////////////////////////////////////////
+
+$tables = ["languages", "loginglobals", "mailing"]; // List of tables to update
+$excluded_columns = ["lan1na", "lan2na", "lan3na", "lan4na", "lan5na", "lan1name", "lan2name", "lan3name", "lan4name", "lan5name", "mailsavedop", "mailsentop"]; // List of columns that should NOT be changed
+
+foreach ($tables as $table) {
+    echo "\nProcessing table: $table\n";
+
+    // Analyze table structure
+    $query = "DESCRIBE `$table`";
+    $result = mysql_query($query, $link);
+
+    if (!$result) {
+        echo "Error retrieving table structure for `$table`: " . mysql_error() . "\n";
+        continue;
+    }
+
+    $alter_statements = [];
+    while ($row = mysql_fetch_assoc($result)) {
+        if (preg_match('/^varchar\(255\)$/i', $row['Type']) && !in_array($row['Field'], $excluded_columns)) {
+            $column = $row['Field'];
+            $alter_statements[] = "CHANGE COLUMN `$column` `$column` TEXT";
+        }
+    }
+
+    // Execute ALTER TABLE if `VARCHAR(255)` columns exist
+    if (!empty($alter_statements)) {
+        $alter_sql = "ALTER TABLE `$table` " . implode(", ", $alter_statements);
+        echo "Executing: $alter_sql\n";
+        $alter_result = mysql_query($alter_sql, $link);
+
+        if ($alter_result) {
+            echo "Successfully updated `$table`!\n";
+        } else {
+            echo "Error updating `$table`: " . mysql_error() . "\n";
+        }
+    } else {
+        echo "No `VARCHAR(255)` columns found in `$table`.\n";
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
 ?><!--
 // 2022-05-27: update navigation CSS for navigaton fix
 $sql_a=" UPDATE `resources` SET
