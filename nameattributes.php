@@ -29,8 +29,10 @@ while ($row = mysql_fetch_assoc($result)) {
         $nameLists = [];
         
         foreach ($validContents as $col => $content) {
-            preg_match_all('/name\s*=\s*"([^"]+)"/i', $content, $matches);
-            $nameLists[$col] = $matches[1];
+            preg_match_all('/name\s*=\s*(["\'])(.*?)\1|name\s*=\s*([^\s>]+)/i', $content, $matches);
+            
+            // Korrektur: Beide Matches zusammenführen
+            $nameLists[$col] = array_merge($matches[2], $matches[3]);
         }
         
         // Compare all combinations
