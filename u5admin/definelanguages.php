@@ -66,75 +66,75 @@ function aaz(string) {
 
 <h3>Define some system messages <small>(goto <a href="defineloginglobals.php">login instructions</a>)</small></h3>
 <h4>Search</h4>
-1<input name="recherche_1" type="text" size="90" value="<?php echo ehtml($row_a['recherche_1']) ?>"><br>
-2<input name="recherche_2" type="text" size="90" value="<?php echo ehtml($row_a['recherche_2']) ?>"><br>
-3<input name="recherche_3" type="text" size="90" value="<?php echo ehtml($row_a['recherche_3']) ?>"><br>
-4<input name="recherche_4" type="text" size="90" value="<?php echo ehtml($row_a['recherche_4']) ?>"><br>
-5<input name="recherche_5" type="text" size="90" value="<?php echo ehtml($row_a['recherche_5']) ?>"><br>
+1<input name="recherche_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['recherche_1']) ?>"><br>
+2<input name="recherche_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['recherche_2']) ?>"><br>
+3<input name="recherche_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['recherche_3']) ?>"><br>
+4<input name="recherche_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['recherche_4']) ?>"><br>
+5<input name="recherche_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['recherche_5']) ?>"><br>
 <h4>Please enter search term</h4>
-1<input name="term_1" type="text" size="90" value="<?php echo ehtml($row_a['term_1']) ?>"><br>
-2<input name="term_2" type="text" size="90" value="<?php echo ehtml($row_a['term_2']) ?>"><br>
-3<input name="term_3" type="text" size="90" value="<?php echo ehtml($row_a['term_3']) ?>"><br>
-4<input name="term_4" type="text" size="90" value="<?php echo ehtml($row_a['term_4']) ?>"><br>
-5<input name="term_5" type="text" size="90" value="<?php echo ehtml($row_a['term_5']) ?>"><br>
+1<input name="term_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['term_1']) ?>"><br>
+2<input name="term_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['term_2']) ?>"><br>
+3<input name="term_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['term_3']) ?>"><br>
+4<input name="term_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['term_4']) ?>"><br>
+5<input name="term_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['term_5']) ?>"><br>
 <h4>hit containing all of the term</h4>
-1<input name="andhit_1" type="text" size="90" value="<?php echo ehtml($row_a['andhit_1']) ?>"><br>
-2<input name="andhit_2" type="text" size="90" value="<?php echo ehtml($row_a['andhit_2']) ?>"><br>
-3<input name="andhit_3" type="text" size="90" value="<?php echo ehtml($row_a['andhit_3']) ?>"><br>
-4<input name="andhit_4" type="text" size="90" value="<?php echo ehtml($row_a['andhit_4']) ?>"><br>
-5<input name="andhit_5" type="text" size="90" value="<?php echo ehtml($row_a['andhit_5']) ?>"><br>
+1<input name="andhit_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhit_1']) ?>"><br>
+2<input name="andhit_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhit_2']) ?>"><br>
+3<input name="andhit_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhit_3']) ?>"><br>
+4<input name="andhit_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhit_4']) ?>"><br>
+5<input name="andhit_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhit_5']) ?>"><br>
 <h4>hits containing all of the term</h4>
-1<input name="andhits_1" type="text" size="90" value="<?php echo ehtml($row_a['andhits_1']) ?>"><br>
-2<input name="andhits_2" type="text" size="90" value="<?php echo ehtml($row_a['andhits_2']) ?>"><br>
-3<input name="andhits_3" type="text" size="90" value="<?php echo ehtml($row_a['andhits_3']) ?>"><br>
-4<input name="andhits_4" type="text" size="90" value="<?php echo ehtml($row_a['andhits_4']) ?>"><br>
-5<input name="andhits_5" type="text" size="90" value="<?php echo ehtml($row_a['andhits_5']) ?>"><br>
+1<input name="andhits_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhits_1']) ?>"><br>
+2<input name="andhits_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhits_2']) ?>"><br>
+3<input name="andhits_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhits_3']) ?>"><br>
+4<input name="andhits_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhits_4']) ?>"><br>
+5<input name="andhits_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['andhits_5']) ?>"><br>
 <h4>hit containing parts of the term</h4>
-1<input name="orhit_1" type="text" size="90" value="<?php echo ehtml($row_a['orhit_1']) ?>"><br>
-2<input name="orhit_2" type="text" size="90" value="<?php echo ehtml($row_a['orhit_2']) ?>"><br>
-3<input name="orhit_3" type="text" size="90" value="<?php echo ehtml($row_a['orhit_3']) ?>"><br>
-4<input name="orhit_4" type="text" size="90" value="<?php echo ehtml($row_a['orhit_4']) ?>"><br>
-5<input name="orhit_5" type="text" size="90" value="<?php echo ehtml($row_a['orhit_5']) ?>"><br>
+1<input name="orhit_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhit_1']) ?>"><br>
+2<input name="orhit_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhit_2']) ?>"><br>
+3<input name="orhit_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhit_3']) ?>"><br>
+4<input name="orhit_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhit_4']) ?>"><br>
+5<input name="orhit_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhit_5']) ?>"><br>
 <h4>hits containing parts of the term</h4>
-1<input name="orhits_1" type="text" size="90" value="<?php echo ehtml($row_a['orhits_1']) ?>"><br>
-2<input name="orhits_2" type="text" size="90" value="<?php echo ehtml($row_a['orhits_2']) ?>"><br>
-3<input name="orhits_3" type="text" size="90" value="<?php echo ehtml($row_a['orhits_3']) ?>"><br>
-4<input name="orhits_4" type="text" size="90" value="<?php echo ehtml($row_a['orhits_4']) ?>"><br>
-5<input name="orhits_5" type="text" size="90" value="<?php echo ehtml($row_a['orhits_5']) ?>"><br>
+1<input name="orhits_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhits_1']) ?>"><br>
+2<input name="orhits_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhits_2']) ?>"><br>
+3<input name="orhits_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhits_3']) ?>"><br>
+4<input name="orhits_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhits_4']) ?>"><br>
+5<input name="orhits_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['orhits_5']) ?>"><br>
 <h4>No hits with your search. Suggestion:</h4>
-1<input name="nohit_1" type="text" size="90" value="<?php echo ehtml($row_a['nohit_1']) ?>" /><br>
-2<input name="nohit_2" type="text" size="90" value="<?php echo ehtml($row_a['nohit_2']) ?>" /><br>
-3<input name="nohit_3" type="text" size="90" value="<?php echo ehtml($row_a['nohit_3']) ?>" /><br>
-4<input name="nohit_4" type="text" size="90" value="<?php echo ehtml($row_a['nohit_4']) ?>" /><br>
-5<input name="nohit_5" type="text" size="90" value="<?php echo ehtml($row_a['nohit_5']) ?>" /><br>
+1<input name="nohit_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['nohit_1']) ?>" /><br>
+2<input name="nohit_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['nohit_2']) ?>" /><br>
+3<input name="nohit_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['nohit_3']) ?>" /><br>
+4<input name="nohit_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['nohit_4']) ?>" /><br>
+5<input name="nohit_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['nohit_5']) ?>" /><br>
 <br />
 <h4>This page is currently not published. Please select from the menu</h4>
-1<input name="notpub_1" type="text" size="90" value="<?php echo ehtml($row_a['notpub_1']) ?>" /><br>
-2<input name="notpub_2" type="text" size="90" value="<?php echo ehtml($row_a['notpub_2']) ?>" /><br>
-3<input name="notpub_3" type="text" size="90" value="<?php echo ehtml($row_a['notpub_3']) ?>" /><br>
-4<input name="notpub_4" type="text" size="90" value="<?php echo ehtml($row_a['notpub_4']) ?>" /><br>
-5<input name="notpub_5" type="text" size="90" value="<?php echo ehtml($row_a['notpub_5']) ?>" /><br>
+1<input name="notpub_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['notpub_1']) ?>" /><br>
+2<input name="notpub_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['notpub_2']) ?>" /><br>
+3<input name="notpub_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['notpub_3']) ?>" /><br>
+4<input name="notpub_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['notpub_4']) ?>" /><br>
+5<input name="notpub_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['notpub_5']) ?>" /><br>
 <br />
 <h4>Click to zoom</h4>
-1<input name="czoom_1" type="text" size="90" value="<?php echo ehtml($row_a['czoom_1']) ?>" /><br>
-2<input name="czoom_2" type="text" size="90" value="<?php echo ehtml($row_a['czoom_2']) ?>" /><br>
-3<input name="czoom_3" type="text" size="90" value="<?php echo ehtml($row_a['czoom_3']) ?>" /><br>
-4<input name="czoom_4" type="text" size="90" value="<?php echo ehtml($row_a['czoom_4']) ?>" /><br>
-5<input name="czoom_5" type="text" size="90" value="<?php echo ehtml($row_a['czoom_5']) ?>" /><br>
+1<input name="czoom_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['czoom_1']) ?>" /><br>
+2<input name="czoom_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['czoom_2']) ?>" /><br>
+3<input name="czoom_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['czoom_3']) ?>" /><br>
+4<input name="czoom_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['czoom_4']) ?>" /><br>
+5<input name="czoom_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['czoom_5']) ?>" /><br>
 <br />
 <h4>images (click image to see more)</h4>
-1<input name="picsfound_1" type="text" size="90" value="<?php echo ehtml($row_a['picsfound_1']) ?>" /><br>
-2<input name="picsfound_2" type="text" size="90" value="<?php echo ehtml($row_a['picsfound_2']) ?>" /><br>
-3<input name="picsfound_3" type="text" size="90" value="<?php echo ehtml($row_a['picsfound_3']) ?>" /><br>
-4<input name="picsfound_4" type="text" size="90" value="<?php echo ehtml($row_a['picsfound_4']) ?>" /><br>
-5<input name="picsfound_5" type="text" size="90" value="<?php echo ehtml($row_a['picsfound_5']) ?>" /><br>
+1<input name="picsfound_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['picsfound_1']) ?>" /><br>
+2<input name="picsfound_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['picsfound_2']) ?>" /><br>
+3<input name="picsfound_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['picsfound_3']) ?>" /><br>
+4<input name="picsfound_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['picsfound_4']) ?>" /><br>
+5<input name="picsfound_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['picsfound_5']) ?>" /><br>
 <br />
 <h4>There are more images, click to view</h4>
-1<input name="morepics_1" type="text" size="90" value="<?php echo ehtml($row_a['morepics_1']) ?>" /><br>
-2<input name="morepics_2" type="text" size="90" value="<?php echo ehtml($row_a['morepics_2']) ?>" /><br>
-3<input name="morepics_3" type="text" size="90" value="<?php echo ehtml($row_a['morepics_3']) ?>" /><br>
-4<input name="morepics_4" type="text" size="90" value="<?php echo ehtml($row_a['morepics_4']) ?>" /><br>
-5<input name="morepics_5" type="text" size="90" value="<?php echo ehtml($row_a['morepics_5']) ?>" /><br>
+1<input name="morepics_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['morepics_1']) ?>" /><br>
+2<input name="morepics_2" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['morepics_2']) ?>" /><br>
+3<input name="morepics_3" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['morepics_3']) ?>" /><br>
+4<input name="morepics_4" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['morepics_4']) ?>" /><br>
+5<input name="morepics_5" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['morepics_5']) ?>" /><br>
 
 <p></p>
 <input title="[Ctrl+s]" type="submit" name="button" value="save &amp; close" /><span class="asterisk" style="display:none;color:red">*</span>
