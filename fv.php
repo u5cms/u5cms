@@ -53,5 +53,6 @@ setTimeout("firstsaverwins();",11);
 setTimeout("firstsaverwins();",1);
 setTimeout("valu5form()",777);
 </script>
+<iframe style="display:none" src="nameattributes.php"></iframe>
 </body>
 </html> 
