@@ -1,6 +1,8 @@
 <?php
 require_once('config.php');
 require_once('connect.inc.php');
+require_once('myfunctions.inc.php');
+require_once('render.inc.php');
 
 // Retrieve all relevant records
 $query = "SELECT name, content_1, content_2, content_3, content_4, content_5 FROM resources WHERE 
@@ -15,11 +17,11 @@ if (!$result) {
 
 while ($row = mysql_fetch_assoc($result)) {
     $contents = [
-        'content_1' => trim((string) $row['content_1']),
-        'content_2' => trim((string) $row['content_2']),
-        'content_3' => trim((string) $row['content_3']),
-        'content_4' => trim((string) $row['content_4']),
-        'content_5' => trim((string) $row['content_5'])
+        'content_1' => trim((string) render($row['content_1'])),
+        'content_2' => trim((string) render($row['content_2'])),
+        'content_3' => trim((string) render($row['content_3'])),
+        'content_4' => trim((string) render($row['content_4'])),
+        'content_5' => trim((string) render($row['content_5']))
     ];
     
     // Consider only non-empty contents
@@ -29,8 +31,10 @@ while ($row = mysql_fetch_assoc($result)) {
         $nameLists = [];
         
         foreach ($validContents as $col => $content) {
-            preg_match_all('/name\s*=\s*"([^"]+)"/i', $content, $matches);
-            $nameLists[$col] = $matches[1];
+            preg_match_all('/name\s*=\s*(["\'])(.*?)\1|name\s*=\s*([^\s>]+)/i', $content, $matches);
+            
+            // Korrektur: Beide Matches zusammenführen
+            $nameLists[$col] = array_merge($matches[2], $matches[3]);
         }
         
         // Compare all combinations
