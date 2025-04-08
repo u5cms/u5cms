@@ -22,8 +22,9 @@ if(opener) {
     else opener.parent.i1.gotopage(opener.parent.i1.document.form1.page.value);
     if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i2.document.form1.page.value) opener.parent.i2.gotopage('<?php echo $_GET['nn'] ?>');
     else opener.parent.i2.gotopage(opener.parent.i2.document.form1.page.value);
-    opener.focus();self.close();
+    opener.focus();
 }
+self.close();
 </script>
 <?php	
 }
