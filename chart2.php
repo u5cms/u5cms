@@ -3,7 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
-
 <body leftmargin="0" marginwidth="0" style="font-family:Arial, Helvetica, sans-serif;font-size:12px">
 <script>mcalc='';</script>
 <?php 
@@ -26,22 +25,13 @@ if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);
   );
 
 
-
-//xxxxxxxxxxxxxxxxx
 if ($_GET['f']!='') {
-
 
 $keywords=((str_replace('  ',' ',str_replace(' ',' ',trim($_GET['f'])))));
 
-
-
 $keywords=str_replace('"',' ',$keywords);
 $keywords=str_replace('"',' ',$keywords);
-//$keywords=str_replace(',',' ',$keywords);
-//$keywords=str_replace('.',' ',$keywords);
 $keywords=str_replace('"',' ',$keywords);
-//$keywords=str_replace('+',' ',$keywords);
-
 $keywords=str_replace('  ',' ',$keywords);
 $keywords=str_replace('  ',' ',$keywords);
 $keywords=str_replace('  ',' ',$keywords);
@@ -77,7 +67,7 @@ $andfilter.=')';
 
 }
 
-//if (trim($_GET['f'])!='') $andfilter='AND datacsv LIKE \'%'.mysql_real_escape_string(str_replace(';',',.',str_replace(' ','%',$_GET['f']))).'%\'';
+
 
 $timeorid='time DESC';
      if ($_COOKIE['fdorder']=='no') $timeorid='notes ASC, time DESC';
@@ -99,41 +89,14 @@ $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
 $oldhead=$row_a['headcsv'];      
 $head=explode(';',$row_a['headcsv']);
-
-
-
-
-
-
-
-
-
-$x=rawurldecode(base64_decode($_GET['x']));
-
-
-
-/*
-Benötigte Variabelen
-- Formularname
-- Variablenname
-
-- Alle möglichen Werte
-- Alle möglichen Texte
-
-*/
-
+$x=rawurldecode(base64_decode($_POST['x'.$_GET['y']]));
 $formularname=$_GET['n'];
-
-/*
-$variablenname=explode('">',$x);
-$variablenname=str_replace('name="','',$variablenname[0]);
-*/
 
 $variablenname=str_replace('id="','">',$x);
 $variablenname=explode('">',$variablenname);
 $variablenname=str_replace('name="','',$variablenname[0]);
 $variablenname=str_replace('"','',$variablenname);
-//echo '<hr>'.$variablenname.'<hr>';
+
 
 
 $wertearr=explode('value="',$x);
@@ -143,7 +106,6 @@ $wertearr=explode('value="',$x);
    $werte.=$w[0].'_-_';
    }
  }
-//echo htmlXentities($werte);
 
 
 $textearr=explode('</option>',$x);
@@ -151,7 +113,7 @@ $textearr=explode('</option>',$x);
    $t=explode('">',$textearr[$i]);
    $texte.=$t[tnuoc($t)-1].'_-_';
 }
-//echo htmlXentities($texte);
+
 
 echo '<table cellspacing="0" cellpadding="0" border="0"><tr><td align="left"><iframe scrolling="no" name="imean" frameborder="0" height="88" width="77"></iframe></td><td><table>';
 
@@ -176,13 +138,6 @@ global $head;
 global $oldhead;
 global $cmdstring;
 if (strpos($cmdstring,'ANONYMIZE_'.trim($variable).'_VALUES')>0) return('anonymized');
-
-/*
-- select machen wie bei formdata2 (ausserhalb der fn, hier denn array zurücksetzen!)
-
-- Im neusten Header auszählen, an welcher Stelle die Variable ist
-- An der gleichen Stelle den Wert suchen. Wenn da, found++;
-*/
 
 mysql_data_seek ($result_a , 0 );
 
@@ -209,7 +164,7 @@ $pipes=round(200*($found/$num_a));
 $pipgraph='';
 
 
-}//if
+}
 
 }
       
