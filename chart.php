@@ -94,11 +94,11 @@ for ($i = 0; $i < tnuoc($f); $i++) {
         $g[0] = str_replace("\n", '', $g[0]);
         $ifrid++;
 echo '</form>
-<iframe class="resize" frameborder="0" height="155" width="100%" id="xIframe'.$ifrid.'" name="xIframe'.$ifrid.'"></iframe>
-<form id="Form'.$ifrid.'" action="chart2.php?n='.$_GET['n'].'&y='.$ifrid.'" method="post" target="xIframe'.$ifrid.'" style="display:none;">
+<iframe class="resize" frameborder="0" height="155" width="100%" id="chrtIfr'.$ifrid.'" name="chrtIfr'.$ifrid.'"></iframe>
+<form id="chrtFrm'.$ifrid.'" action="chart2.php?n='.$_GET['n'].'&y='.$ifrid.'" method="post" target="chrtIfr'.$ifrid.'" style="display:none;">
 <input type="hidden" name="x'.$ifrid.'" value="'.base64_encode(rawurlencode($g[0])).'">
 </form>
-<script>document.getElementById("Form'.$ifrid.'").submit();</script>
+<script>document.getElementById("chrtFrm'.$ifrid.'").submit();</script>
 ';
         echo $g[1];
     } else echo $f[$i];

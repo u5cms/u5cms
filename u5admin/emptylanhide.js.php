@@ -28,6 +28,9 @@ document.form1.desc_5.style.height='200px';
 }
 if(document.querySelector('input[type="submit"]')&&location.href.indexOf('titlefixum.php')<0) { document.querySelector('input[type="submit"]').style.position='fixed';
 document.querySelector('input[type="submit"]').style.top='1px';
+document.getElementsByClassName('asterisk')[0].style.position='fixed';
+document.getElementsByClassName('asterisk')[0].style.top='-2px';
+document.getElementsByClassName('asterisk')[0].style.left='100px';
 }
 <?php 
 if(trim($lan2name=='')) echo "if (document.getElementById('lan2name')) document.getElementById('lan2name').style.display='none';";
