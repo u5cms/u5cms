@@ -19,7 +19,6 @@ function splitLines($text) {
 }
 
 function encodeToken($token) {
-    // HTML-Entitäten durchlassen, sonst escapen
     if (preg_match('/^&[#a-zA-Z0-9]+;$/', $token)) {
         return $token;
     }
@@ -27,7 +26,6 @@ function encodeToken($token) {
 }
 
 function tokenizeForHtml($str) {
-    // Trennt in vollständige HTML-Entitäten und sonst einzelne Zeichen
     preg_match_all('/(&[a-zA-Z#0-9]+;|.)/', $str, $matches);
     return $matches[0];
 }
@@ -40,28 +38,73 @@ function diffTokens($old, $new) {
     $oldTokens = tokenizeForHtml($old);
     $newTokens = tokenizeForHtml($new);
 
-    $outOld = '';
-    $outNew = '';
-    $max = max(count($oldTokens), count($newTokens));
+    $m = count($oldTokens);
+    $n = count($newTokens);
 
-    for ($i = 0; $i < $max; $i++) {
-        $o = $oldTokens[$i] ?? null;
-        $n = $newTokens[$i] ?? null;
+    // LCS-Tabelle
+    $lcs = array_fill(0, $m + 1, array_fill(0, $n + 1, 0));
 
-        if ($o === $n) {
-            $outOld .= encodeToken($o);
-            $outNew .= encodeToken($n);
-        } else {
-            if ($o !== null) {
-                $outOld .= '<span style="background:#99dd99;">' . encodeToken($o) . '</span>';
-            }
-            if ($n !== null) {
-                $outNew .= '<span style="background:#dd9999;">' . encodeToken($n) . '</span>';
+    for ($i = $m - 1; $i >= 0; $i--) {
+        for ($j = $n - 1; $j >= 0; $j--) {
+            if ($oldTokens[$i] === $newTokens[$j]) {
+                $lcs[$i][$j] = $lcs[$i + 1][$j + 1] + 1;
+            } else {
+                $lcs[$i][$j] = max($lcs[$i + 1][$j], $lcs[$i][$j + 1]);
             }
         }
     }
 
+    $outOld = '';
+    $outNew = '';
+    $i = $j = 0;
+
+    while ($i < $m && $j < $n) {
+        if ($oldTokens[$i] === $newTokens[$j]) {
+            $enc = encodeToken($oldTokens[$i]);
+            $outOld .= $enc;
+            $outNew .= $enc;
+            $i++; $j++;
+        } elseif ($lcs[$i + 1][$j] >= $lcs[$i][$j + 1]) {
+            $outOld .= '<span style="background:#99dd99;">' . encodeToken($oldTokens[$i]) . '</span>';
+            $i++;
+        } else {
+            $outNew .= '<span style="background:#dd9999;">' . encodeToken($newTokens[$j]) . '</span>';
+            $j++;
+        }
+    }
+
+    // Reste
+    while ($i < $m) {
+        $outOld .= '<span style="background:#99dd99;">' . encodeToken($oldTokens[$i]) . '</span>';
+        $i++;
+    }
+    while ($j < $n) {
+        $outNew .= '<span style="background:#dd9999;">' . encodeToken($newTokens[$j]) . '</span>';
+        $j++;
+    }
+
     return [$outOld, $outNew];
+}
+
+function findMovedLines($beforeLines, $afterLines) {
+    $beforeCount = array_count_values($beforeLines);
+    $afterCount = array_count_values($afterLines);
+
+    $moved = [];
+
+    foreach ($beforeLines as $i => $line) {
+        if (!isset($afterCount[$line]) || $afterCount[$line] === 0) continue;
+
+        foreach ($afterLines as $j => $line2) {
+            if ($line === $line2 && $i !== $j && !isset($moved[$i]) && !isset($moved["after_$j"])) {
+                $moved[$i] = $j;
+                $moved["after_$j"] = $i;
+                break;
+            }
+        }
+    }
+
+    return $moved;
 }
 
 function diffText($before, $after) {
@@ -70,6 +113,8 @@ function diffText($before, $after) {
 
     $beforeLines = splitLines($before);
     $afterLines = splitLines($after);
+
+    $movedLines = findMovedLines($beforeLines, $afterLines);
 
     $maxLines = max(count($beforeLines), count($afterLines));
     $html = '<table style="width:100%; font-family:monospace;">';
@@ -89,20 +134,44 @@ function diffText($before, $after) {
         $bgRight = '';
 
         if ($leftRaw === $rightRaw) {
-            $content = $leftRaw === '' ? '<span style="color:#bbb;">&#8629;</span>' : encodeToken($leftRaw);
+            $content = formatLine($leftRaw);
             $leftHtml = $rightHtml = $content;
+        } elseif (
+            isset($movedLines[$i]) && $leftRaw === $afterLines[$movedLines[$i]] &&
+            isset($movedLines["after_$i"]) && $rightRaw === $beforeLines[$movedLines["after_$i"]]
+        ) {
+            // Beide Zeilen wurden verschoben, gleich
+            $leftHtml = formatLine($leftRaw);
+            $rightHtml = formatLine($rightRaw);
+            $bgLeft = $bgRight = '#f9f9e5';
+        } elseif (
+            isset($movedLines[$i]) && $leftRaw === $afterLines[$movedLines[$i]]
+        ) {
+            // Nur linke Zeile wurde verschoben
+            $leftHtml = formatLine($leftRaw);
+            $rightHtml = formatLine($rightRaw ?? '');
+            $bgLeft = '#f9f9e5';
+            $bgRight = $rightRaw !== null ? '#ffecec' : '#f5f5f5';
+        } elseif (
+            isset($movedLines["after_$i"]) && $rightRaw === $beforeLines[$movedLines["after_$i"]]
+        ) {
+            // Nur rechte Zeile wurde verschoben
+            $leftHtml = formatLine($leftRaw ?? '');
+            $rightHtml = formatLine($rightRaw);
+            $bgRight = '#f9f9e5';
+            $bgLeft = $leftRaw !== null ? '#eaffea' : '#f5f5f5';
         } else {
             if ($leftRaw !== null && $rightRaw !== null) {
                 [$leftHtml, $rightHtml] = diffTokens($leftRaw, $rightRaw);
-                $bgLeft = $leftRaw === '' ? '#f5f5f5' : '#eaffea';
-                $bgRight = $rightRaw === '' ? '#f5f5f5' : '#ffecec';
+                $bgLeft = '#eaffea';
+                $bgRight = '#ffecec';
             } elseif ($leftRaw !== null) {
-                $leftHtml = $leftRaw === '' ? '<span style="color:#bbb;">&#8629;</span>' : encodeToken($leftRaw);
+                $leftHtml = formatLine($leftRaw);
                 $bgLeft = '#eaffea';
                 $bgRight = '#f5f5f5';
                 $rightHtml = '';
             } elseif ($rightRaw !== null) {
-                $rightHtml = $rightRaw === '' ? '<span style="color:#bbb;">&#8629;</span>' : encodeToken($rightRaw);
+                $rightHtml = formatLine($rightRaw);
                 $bgRight = '#ffecec';
                 $bgLeft = '#f5f5f5';
                 $leftHtml = '';
@@ -117,18 +186,12 @@ function diffText($before, $after) {
         </tr>";
     }
 
-
-
     $html .= '</table>';
     return $html;
 }
 
 echo diffText($_POST['TL'], $_POST['TR']);
-
-
-
 ?>
-
 
 </body>
 </html>
