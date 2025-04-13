@@ -19,14 +19,16 @@ function splitLines($text) {
 }
 
 function encodeToken($token) {
-    if (preg_match('/^&[#a-zA-Z0-9]+;$/', $token)) {
+    // Unterstützt benannte, dezimale und hexadezimale HTML-Entitäten
+    if (preg_match('/^&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z0-9]+);$/', $token)) {
         return $token;
     }
     return htmlspecialchars($token, ENT_NOQUOTES, 'ISO-8859-1');
 }
 
 function tokenizeForHtml($str) {
-    preg_match_all('/(&[a-zA-Z#0-9]+;|.)/', $str, $matches);
+    // Erfasst auch hexadezimale HTML-Entitäten
+    preg_match_all('/(&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z0-9]+);|.)/', $str, $matches);
     return $matches[0];
 }
 
@@ -41,7 +43,6 @@ function diffTokens($old, $new) {
     $m = count($oldTokens);
     $n = count($newTokens);
 
-    // LCS-Tabelle
     $lcs = array_fill(0, $m + 1, array_fill(0, $n + 1, 0));
 
     for ($i = $m - 1; $i >= 0; $i--) {
@@ -73,7 +74,6 @@ function diffTokens($old, $new) {
         }
     }
 
-    // Reste
     while ($i < $m) {
         $outOld .= '<span style="background:#99dd99;">' . encodeToken($oldTokens[$i]) . '</span>';
         $i++;
@@ -140,14 +140,12 @@ function diffText($before, $after) {
             isset($movedLines[$i]) && $leftRaw === $afterLines[$movedLines[$i]] &&
             isset($movedLines["after_$i"]) && $rightRaw === $beforeLines[$movedLines["after_$i"]]
         ) {
-            // Beide Zeilen wurden verschoben, gleich
             $leftHtml = formatLine($leftRaw);
             $rightHtml = formatLine($rightRaw);
             $bgLeft = $bgRight = '#f9f9e5';
         } elseif (
             isset($movedLines[$i]) && $leftRaw === $afterLines[$movedLines[$i]]
         ) {
-            // Nur linke Zeile wurde verschoben
             $leftHtml = formatLine($leftRaw);
             $rightHtml = formatLine($rightRaw ?? '');
             $bgLeft = '#f9f9e5';
@@ -155,7 +153,6 @@ function diffText($before, $after) {
         } elseif (
             isset($movedLines["after_$i"]) && $rightRaw === $beforeLines[$movedLines["after_$i"]]
         ) {
-            // Nur rechte Zeile wurde verschoben
             $leftHtml = formatLine($leftRaw ?? '');
             $rightHtml = formatLine($rightRaw);
             $bgRight = '#f9f9e5';
@@ -180,9 +177,9 @@ function diffText($before, $after) {
 
         $html .= "<tr>
             <td style='text-align:right; color:#888; vertical-align:top;'>$lineNumber</td>
-            <td style='width:50%; padding:2px; background:$bgLeft;'>$leftHtml</td>
+            <td style='width:50%; padding:2px; background:$bgLeft;'>".decodeAmpBeforeHtmlEntities($leftHtml)."</td>
             <td style='text-align:right; color:#888; vertical-align:top;'>$lineNumber</td>
-            <td style='width:50%; padding:2px; background:$bgRight;'>$rightHtml</td>
+            <td style='width:50%; padding:2px; background:$bgRight;'>".decodeAmpBeforeHtmlEntities($rightHtml)."</td>
         </tr>";
     }
 
@@ -191,6 +188,22 @@ function diffText($before, $after) {
 }
 
 echo diffText($_POST['TL'], $_POST['TR']);
+
+function decodeAmpBeforeHtmlEntities($text) {
+    return preg_replace_callback(
+        '/&amp;(?=(#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);)/',
+        function ($match) {
+            // Nur gültige Entitäten umwandeln
+            $entity = '&' . $match[1] . ';';
+            // html_entity_decode erkennt nur gültige Entitäten
+            if (html_entity_decode($entity, ENT_QUOTES | ENT_HTML5, 'UTF-8') !== $entity) {
+                return '&';
+            }
+            return $match[0]; // keine Änderung
+        },
+        $text
+    );
+}
 ?>
 
 </body>
