@@ -19,7 +19,6 @@ function splitLines($text) {
 }
 
 function encodeToken($token) {
-    // Unterstützt benannte, dezimale und hexadezimale HTML-Entitäten
     if (preg_match('/^&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z0-9]+);$/', $token)) {
         return $token;
     }
@@ -27,7 +26,6 @@ function encodeToken($token) {
 }
 
 function tokenizeForHtml($str) {
-    // Erfasst auch hexadezimale HTML-Entitäten
     preg_match_all('/(&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z0-9]+);|.)/', $str, $matches);
     return $matches[0];
 }
@@ -193,13 +191,11 @@ function decodeAmpBeforeHtmlEntities($text) {
     return preg_replace_callback(
         '/&amp;(?=(#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);)/',
         function ($match) {
-            // Nur gültige Entitäten umwandeln
             $entity = '&' . $match[1] . ';';
-            // html_entity_decode erkennt nur gültige Entitäten
             if (html_entity_decode($entity, ENT_QUOTES | ENT_HTML5, 'UTF-8') !== $entity) {
                 return '&';
             }
-            return $match[0]; // keine Änderung
+            return $match[0];
         },
         $text
     );
