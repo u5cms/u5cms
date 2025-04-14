@@ -64,20 +64,20 @@ function diffTokens($old, $new) {
             $outNew .= $enc;
             $i++; $j++;
         } elseif ($lcs[$i + 1][$j] >= $lcs[$i][$j + 1]) {
-            $outOld .= '<span style="background:#99dd99;">' . encodeToken($oldTokens[$i]) . '</span>';
+            $outOld .= '<span style="background:#dd9999;">' . encodeToken($oldTokens[$i]) . '</span>';
             $i++;
         } else {
-            $outNew .= '<span style="background:#dd9999;">' . encodeToken($newTokens[$j]) . '</span>';
+            $outNew .= '<span style="background:#99dd99;">' . encodeToken($newTokens[$j]) . '</span>';
             $j++;
         }
     }
 
     while ($i < $m) {
-        $outOld .= '<span style="background:#99dd99;">' . encodeToken($oldTokens[$i]) . '</span>';
+        $outOld .= '<span style="background:#dd9999;">' . encodeToken($oldTokens[$i]) . '</span>';
         $i++;
     }
     while ($j < $n) {
-        $outNew .= '<span style="background:#dd9999;">' . encodeToken($newTokens[$j]) . '</span>';
+        $outNew .= '<span style="background:#99dd99;">' . encodeToken($newTokens[$j]) . '</span>';
         $j++;
     }
 
@@ -147,27 +147,27 @@ function diffText($before, $after) {
             $leftHtml = formatLine($leftRaw);
             $rightHtml = formatLine($rightRaw ?? '');
             $bgLeft = '#f9f9e5';
-            $bgRight = $rightRaw !== null ? '#ffecec' : '#f5f5f5';
+            $bgRight = $rightRaw !== null ? '#eaffea' : '#f5f5f5';
         } elseif (
             isset($movedLines["after_$i"]) && $rightRaw === $beforeLines[$movedLines["after_$i"]]
         ) {
             $leftHtml = formatLine($leftRaw ?? '');
             $rightHtml = formatLine($rightRaw);
             $bgRight = '#f9f9e5';
-            $bgLeft = $leftRaw !== null ? '#eaffea' : '#f5f5f5';
+            $bgLeft = $leftRaw !== null ? '#ffecec' : '#f5f5f5';
         } else {
             if ($leftRaw !== null && $rightRaw !== null) {
                 [$leftHtml, $rightHtml] = diffTokens($leftRaw, $rightRaw);
-                $bgLeft = '#eaffea';
-                $bgRight = '#ffecec';
+                $bgLeft = '#ffecec';
+                $bgRight = '#eaffea';
             } elseif ($leftRaw !== null) {
                 $leftHtml = formatLine($leftRaw);
-                $bgLeft = '#eaffea';
+                $bgLeft = '#ffecec';
                 $bgRight = '#f5f5f5';
                 $rightHtml = '';
             } elseif ($rightRaw !== null) {
                 $rightHtml = formatLine($rightRaw);
-                $bgRight = '#ffecec';
+                $bgRight = '#eaffea';
                 $bgLeft = '#f5f5f5';
                 $leftHtml = '';
             }
