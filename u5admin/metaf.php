@@ -45,7 +45,7 @@ $row_a = mysql_fetch_array($result_a);
   </p>
   <h2 style="margin-bottom:5px"><?php echo $lan1name ?><br />
   </h2>
-  <table id="lan1name" bgcolor="#FFFF99" width="100%">
+  <table id="lan1name" bgcolor="#FFFF99" width="100%"><?php require('checktyp.inc.php'); ?>
     <tr>
       <td>alt&nbsp;text<font color="#FF0000">*</font></td>
       <td width="99%"><input type="hidden" name="name" value="<?php echo $_GET['name']?>">
