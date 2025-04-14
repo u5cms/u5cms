@@ -40,7 +40,7 @@ $row_a = mysql_fetch_array($result_a);
   
   : <b>vBfn2PifzC8 </b>or<b> vBfn2PifzC8<span style="color:red">?</span>rel=0 </b>or<b> vBfn2PifzC8<span style="color:red">?</span>rel=0<span style="color:red">&amp;</span>autoplay=1</b></div><br />
   </h2>
-  <table id="lan1name" bgcolor="#FFFF99" width="100%">
+  <table id="lan1name" bgcolor="#FFFF99" width="100%"><?php require('checktyp.inc.php'); ?>
     <tr>
       <td>title<font color="#FF0000">*</font></td>
       <td width="99%"><input type="hidden" name="name" value="<?php echo $_GET['name']?>">
