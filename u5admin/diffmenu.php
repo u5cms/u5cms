@@ -52,7 +52,7 @@ document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');
 
 <br>
 
-<select id="LL" onchange="vpick()">
+<select id="LL" onchange="vpick();document.cookie='LL='+escape(this.value)+'; expires=Thu, 31 Dec 2037 12:00:00 GMT';">
 <option value="1"><?php echo str_replace('0','',$lan1na); ?></option>
 <option value="2"><?php echo str_replace('0','',$lan2na); ?></option>
 <option value="3"><?php echo str_replace('0','',$lan3na); ?></option>
@@ -62,7 +62,7 @@ document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-<select id="LR" onchange="vpick()">
+<select id="LR" onchange="vpick();document.cookie='LR='+escape(this.value)+'; expires=Thu, 31 Dec 2037 12:00:00 GMT';">
 <option value="1"><?php echo str_replace('0','',$lan1na); ?></option>
 <option value="2"><?php echo str_replace('0','',$lan2na); ?></option>
 <option value="3"><?php echo str_replace('0','',$lan3na); ?></option>
@@ -83,8 +83,17 @@ document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');
 
 </form>
 <script>
-document.getElementById('VR').selectedIndex=1;
+document.getElementById('VL').selectedIndex=1;
 vpick();
+if (document.cookie.indexOf('LL=')>-1){ 
+document.getElementById('LL').value=('; '+document.cookie).split('; LL=')[1].split(';')[0];
+vpick();
+}
+if (document.cookie.indexOf('LR=')>-1){ 
+document.getElementById('LR').value=('; '+document.cookie).split('; LR=')[1].split(';')[0];
+document.getElementById('LR').onchange;
+vpick();
+}
 </script>
 </body>
 </html>
