@@ -83,7 +83,6 @@ document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');
 
 </form>
 <script>
-document.getElementById('VL').selectedIndex=1;
 vpick();
 if (document.cookie.indexOf('LL=')>-1){ 
 document.getElementById('LL').value=('; '+document.cookie).split('; LL=')[1].split(';')[0];
@@ -94,6 +93,92 @@ document.getElementById('LR').value=('; '+document.cookie).split('; LR=')[1].spl
 document.getElementById('LR').onchange;
 vpick();
 }
+</script>
+
+<script>
+let isWaitingForResult = false;
+
+(function checkLoop() {
+    setTimeout(() => {
+        if (isWaitingForResult) {
+            // Don't do anything until the result frame finishes loading
+            return checkLoop();
+        }
+
+        try {
+            const resultFrame = parent.frames['result'];
+            let resultDoc;
+
+            try {
+                resultDoc = resultFrame.document;
+            } catch (err) {
+                console.warn("Unable to access result frame document. Retrying...");
+                return checkLoop();
+            }
+
+            if (resultDoc.readyState !== "complete") {
+                console.log("Result frame still loading...");
+                return checkLoop();
+            }
+
+            const tds = resultDoc.getElementsByTagName("td");
+            let hasErrorHighlight = false;
+
+            for (let i = 0; i < tds.length; i++) {
+                const bg = resultFrame.getComputedStyle(tds[i]).backgroundColor;
+                if (bg === "rgb(255, 236, 236)") {
+                    hasErrorHighlight = true;
+                    break;
+                }
+            }
+
+            if (hasErrorHighlight) {
+                console.log("Detected #ffecec cell. Stopping.");
+                return;
+            }
+
+            const select = document.getElementById('VL');
+            if (!select) {
+                console.warn("Select menu with ID 'VL' not found.");
+                return;
+            }
+
+            if (select.selectedIndex < select.options.length - 1) {
+                // Set the waiting flag *immediately*, before doing anything else
+                isWaitingForResult = true;
+
+                select.selectedIndex++;
+                console.log("No #ffecec cell found. Advancing to next option...");
+                vpick();
+
+                // Now we poll until the new page is ready
+                (function waitForResult() {
+                    setTimeout(() => {
+                        try {
+                            const doc = resultFrame.document;
+                            if (doc.readyState === "complete") {
+                                console.log("Result frame finished loading.");
+                                isWaitingForResult = false;
+                            } else {
+                                waitForResult();
+                            }
+                        } catch (e) {
+                            waitForResult();
+                        }
+                    }, 100); // Retry loading check every 100ms
+                })();
+            } else {
+                console.log("Reached end of select menu. No #ffecec cell found.");
+            }
+
+            checkLoop(); // Continue looping regardless
+
+        } catch (e) {
+            console.error("Unexpected error:", e);
+            checkLoop();
+        }
+    }, 111); // Now safe even at very small intervals
+})();
 </script>
 </body>
 </html>
