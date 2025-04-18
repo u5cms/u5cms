@@ -1,6 +1,6 @@
 <?php
-
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+ignore_user_abort(true);set_time_limit(36000);
 
 $debug = (isset($_COOKIE['u5debug']) && $_COOKIE['u5debug']) == 'yes' ? true : false;
 $debug = (isset($_GET['u5debug'])) ? true : false;
@@ -66,7 +66,8 @@ foreach ($samlattribs as $attrib => $value) {
 // on CMS instance www.flyssi.ch we want an autoenrollment
 // of user as intranet members
 if ($u5samlautointranetenrollment == 'yes') {
-  require_once 'autointranetenroll.php';
+$urlhash=sha1(date('Ymd').$password.$sessioncookiehashsalt.base64_encode($samlattribs['emailaddress']));
+echo'<iframe frameborder="0" src="autointranetenroll.php?k='.$urlhash.'&e='.base64_encode($samlattribs['emailaddress']).'"></iframe>';
 }
 
 if ($debug) {
@@ -88,4 +89,11 @@ if ($debug) {
 }
 
 // Finally redirect back to the CMS
-echo '<script>location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"</script>';
+if ($u5samlautointranetenrollment == 'yes') echo '<script>
+function loginsave() {
+location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"
+}
+setTimeout("laoginsave()",11111);
+</script>';
+
+else echo '<script>location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"</script>';
