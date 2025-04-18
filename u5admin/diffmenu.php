@@ -21,6 +21,23 @@ BR=document.getElementById('LR').value-1;
 that=11 + 15 * AR - 1 + BR;
 document.getElementById('TR').value=parent.opener.document.getElementsByTagName('textarea')[that].value;	
 
+for(i=1;i<=5;i++) {
+document.querySelectorAll('.cL'+i).forEach(function(el) {
+  el.style.display = 'block';
+});
+document.querySelectorAll('.cR'+i).forEach(function(el) {
+  el.style.display = 'block';
+});
+}
+
+document.querySelectorAll('.cL'+BL).forEach(function(el) {
+  el.style.display = 'none';
+});
+
+document.querySelectorAll('.cR'+BR).forEach(function(el) {
+  el.style.display = 'none';
+});
+
 document.getElementById('diff').submit();
 }
 
@@ -34,7 +51,7 @@ document.getElementById('diff').submit();
 <script>
 e=parent.opener.document.getElementsByTagName('h2');
 for(i=0;i<e.length;i++) {
-document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');	
+document.write('<option value="'+i+'" id="L'+i+'">'+i+': '+e[i].innerHTML+'</option>');	
 }
 </script>
 </select>
@@ -45,7 +62,7 @@ document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');
 <script>
 e=parent.opener.document.getElementsByTagName('h2');
 for(i=0;i<e.length;i++) {
-document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');	
+document.write('<option value="'+i+'" id="R'+i+'">'+i+': '+e[i].innerHTML+'</option>');	
 }
 </script>
 </select>
@@ -70,8 +87,6 @@ document.write('<option value="'+i+'">'+i+': '+e[i].innerHTML+'</option>');
 <option value="5"><?php echo str_replace('0','',$lan5na); ?></option>
 </select>
 
-
-
 </center>
 
 <center style="display:none">
@@ -95,7 +110,7 @@ vpick();
 }
 </script>
 
-<script>
+<script> 
 let isWaitingForResult = false;
 
 (function checkLoop() {
@@ -126,14 +141,14 @@ let isWaitingForResult = false;
 
             for (let i = 0; i < tds.length; i++) {
                 const bg = resultFrame.getComputedStyle(tds[i]).backgroundColor;
-                if (bg === "rgb(255, 236, 236)") {
+                if (bg === "rgb(255, 236, 236)" || bg === "rgb(234, 255, 234)") {
                     hasErrorHighlight = true;
                     break;
                 }
             }
 
             if (hasErrorHighlight) {
-                console.log("Detected #ffecec cell. Stopping.");
+                console.log("Detected changed cell. Stopping.");
                 return;
             }
 
@@ -148,7 +163,7 @@ let isWaitingForResult = false;
                 isWaitingForResult = true;
 
                 select.selectedIndex++;
-                console.log("No #ffecec cell found. Advancing to next option...");
+                console.log("No changed cell found. Advancing to next option...");
                 vpick();
 
                 // Now we poll until the new page is ready
@@ -177,8 +192,21 @@ let isWaitingForResult = false;
             console.error("Unexpected error:", e);
             checkLoop();
         }
-    }, 111); // Now safe even at very small intervals
+    }, 111); 
 })();
+</script>
+
+<script>
+e=parent.opener.document.getElementsByTagName('h2');
+for(ii=0;ii<5;ii++) {
+oldtextarea='';
+for(i=0;i<e.length;i++) {
+that=11 + 15 * i - 1 + ii;
+textarea=parent.opener.document.getElementsByTagName('textarea')[that].value;
+if(textarea==oldtextarea){document.getElementById('L'+i).classList.add('cL'+ii);document.getElementById('R'+i).classList.add('cR'+ii);}
+oldtextarea=textarea;
+}
+}
 </script>
 </body>
 </html>
