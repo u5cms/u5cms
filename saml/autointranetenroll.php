@@ -9,8 +9,6 @@ if (!isset($_GET['e'])) {
 die('ERROR: not enough data.');
 }
 
-echo '<img src="../upload/spinner.gif" />';
-
 $safe_mail = strtolower(mysql_real_escape_string(str_replace(',&#0;@&#0;','',base64_decode($_GET['e']))));
 
 $sql_a="UPDATE intranetmembers SET members = CONCAT(members, '$safe_mail', ',') WHERE CONCAT(',', members) NOT LIKE CONCAT('%,', '$safe_mail', ',%')";

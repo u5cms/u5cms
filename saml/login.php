@@ -67,7 +67,7 @@ foreach ($samlattribs as $attrib => $value) {
 // of user as intranet members
 if ($u5samlautointranetenrollment == 'yes') {
 $urlhash=sha1(date('Ymd').$password.$sessioncookiehashsalt.base64_encode($samlattribs['emailaddress']));
-echo'<iframe frameborder="0" src="autointranetenroll.php?k='.$urlhash.'&e='.base64_encode($samlattribs['emailaddress']).'"></iframe>';
+echo'<center style="margin-top:111px"><img src="../upload/spinner.gif" /><iframe frameborder="0" src="autointranetenroll.php?k='.$urlhash.'&e='.base64_encode($samlattribs['emailaddress']).'"></iframe></center>';
 }
 
 if ($debug) {
