@@ -93,7 +93,7 @@ if ($u5samlautointranetenrollment == 'yes') echo '<script>
 function loginsave() {
 location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"
 }
-setTimeout("laoginsave()",11111);
+setTimeout("loginsave()",11111);
 </script>';
 
 else echo '<script>location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"</script>';
