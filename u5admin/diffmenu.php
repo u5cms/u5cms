@@ -23,19 +23,19 @@ document.getElementById('TR').value=parent.opener.document.getElementsByTagName(
 
 for(i=1;i<=5;i++) {
 document.querySelectorAll('.cL'+i).forEach(function(el) {
-  el.style.display = 'block';
+  el.hidden=false;
 });
 document.querySelectorAll('.cR'+i).forEach(function(el) {
-  el.style.display = 'block';
+  el.hidden=false;
 });
 }
 
 document.querySelectorAll('.cL'+BL).forEach(function(el) {
-  el.style.display = 'none';
+  el.hidden=true;
 });
 
 document.querySelectorAll('.cR'+BR).forEach(function(el) {
-  el.style.display = 'none';
+  el.hidden=true;
 });
 
 document.getElementById('diff').submit();
