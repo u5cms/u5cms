@@ -143,6 +143,12 @@ let isWaitingForResult = false;
                 const bg = resultFrame.getComputedStyle(tds[i]).backgroundColor;
                 if (bg === "rgb(255, 236, 236)" || bg === "rgb(234, 255, 234)") {
                     hasErrorHighlight = true;
+                    for (let i = 0; i < document.getElementById('VR').options.length; i++) {
+                    if (!document.getElementById('VR').options[i].hidden) {
+                    document.getElementById('VR').selectedIndex = i;
+                    break;
+                    }
+                    }
                     break;
                 }
             }
