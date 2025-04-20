@@ -1,6 +1,6 @@
 <?php
-
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+ignore_user_abort(true);set_time_limit(36000);
 
 $debug = (isset($_COOKIE['u5debug']) && $_COOKIE['u5debug']) == 'yes' ? true : false;
 $debug = (isset($_GET['u5debug'])) ? true : false;
@@ -47,7 +47,6 @@ if ($u5samlmockauth != 'yes') {
         $samlattribs[$key] = $xval[0];
     }
 } else {
-    $samlattribs['emailaddress'] = $u5samlmockauthusername;
     $samlattribs = array(
         'adminEmployeeNumber' => '1234567',
         'adminOrganizationName' => 'Mock',
@@ -60,13 +59,14 @@ if ($u5samlmockauth != 'yes') {
 setcookie('u5samlusername', strtolower(trim($samlattribs['emailaddress'])), 0, '/', '', $httpsisinuse, true);
 setcookie('u5samlnonce', $u5samlnonce, 0, '/', '', $httpsisinuse, true);
 foreach ($samlattribs as $attrib => $value) {
-    setcookie('u5saml' . $attrib, $value, 0, '/', $httpsisinuse, true);
+    setcookie('u5saml' . $attrib, $value, 0, '/', '', $httpsisinuse, true);
 }
 
 // on CMS instance www.flyssi.ch we want an autoenrollment
 // of user as intranet members
 if ($u5samlautointranetenrollment == 'yes') {
-  require_once 'autointranetenroll.php';
+$urlhash=sha1(date('Ymd').$password.$sessioncookiehashsalt.base64_encode($samlattribs['emailaddress']));
+echo'<html><body><center style="margin-top:111px"><img src="../upload/spinner.gif" /><iframe frameborder="0" src="autointranetenroll.php?k='.$urlhash.'&e='.rawurlencode(base64_encode($samlattribs['emailaddress'])).'"></iframe></center></body></html>';
 }
 
 if ($debug) {
@@ -88,4 +88,12 @@ if ($debug) {
 }
 
 // Finally redirect back to the CMS
-echo '<script>location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"</script>';
+if ($u5samlautointranetenrollment == 'yes') echo '<script>
+function loginsave() {
+location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"
+}
+setTimeout("loginsave()",11111);
+</script>';
+
+else echo '<script>location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"</script>';
+?>
