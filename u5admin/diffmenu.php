@@ -200,7 +200,7 @@ let isWaitingForResult = false;
 e=parent.opener.document.getElementsByTagName('h2');
 for(ii=0;ii<5;ii++) {
 oldtextarea='';
-for(i=0;i<e.length;i++) {
+for(i=e.length-1;i>=0;i--) {
 that=11 + 15 * i - 1 + ii;
 textarea=parent.opener.document.getElementsByTagName('textarea')[that].value;
 if(textarea==oldtextarea){document.getElementById('L'+i).classList.add('cL'+ii);document.getElementById('R'+i).classList.add('cR'+ii);}
@@ -208,5 +208,15 @@ oldtextarea=textarea;
 }
 }
 </script>
+<?php
+$sql_a="SELECT name FROM resources WHERE name='modify!diff!php' AND deleted!=1";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+$num_a = mysql_num_rows($result_a);
+if ($num_a>0) {
+$_GET['c']='modify!diff!php';
+include('../u5sys.content.php');
+}
+?>
 </body>
 </html>
