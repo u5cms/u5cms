@@ -42,7 +42,7 @@ return $lg;
 }
 
 if(isset($_GET['n'])) {
-	$oneitemonly=" name='".htmlspecialchars($_GET['n'])."' AND";
+	$oneitemonly=" name='".mysql_real_escape_string(htmlspecialchars($_GET['n']))."' AND";
 }	
 else $oneitemonly='';
 

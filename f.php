@@ -1,7 +1,7 @@
 <?php
 set_time_limit(3600);
 require_once('connect.inc.php');
-$_GET['f']=str_replace('r/../r/','r/',$_GET['f']);
+$_GET['f']=u5ProhibTravers(str_replace('r/../r/','r/',$_GET['f']));
 
 if(!isset($_GET['t'])){
 $t=explode('?t=',$_SERVER['QUERY_STRING']);
