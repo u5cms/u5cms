@@ -1,6 +1,7 @@
 <?php 
 if ($_COOKIE['i1_l']!='P') $lansel=$_COOKIE['i1_l'];
 else $lansel=$_COOKIE['i2_l'];
+require_once('san.inc.php');
 ?>
 <form style="display:none" name="formp" action="index.php?c=<?php echo $_GET['c']?>&l=<?php echo $lansel?>&p=<?php echo $_GET['p']?>" method="post">
 <textarea name="r"></textarea>

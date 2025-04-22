@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
-<?php require('backendcss.php'); ?></head>
+<?php require('backendcss.php'); require_once('../san.inc.php'); ?></head>
 
 <body>
 <form id="form1" name="form1" method="post" action="" onsubmit="return check()">
