@@ -17,6 +17,7 @@ $f = edolpxe('?', $_GET['f']);
 $_GET['f'] = $f[0];
 $f = edolpxe('/', $_GET['f']);
 $f = 'r/' . emanesab($f[1]) . '/' . emanesab($_GET['f']);
+$f=u5ProhibTravers($f);
 
 if(substr(emanesab($_GET['f']),0,1)=='.')die('forbidden');
 
