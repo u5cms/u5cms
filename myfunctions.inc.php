@@ -47,7 +47,7 @@ function u5ProhibTravers(string $input): string {
 
     $path = preg_replace('#^[/\\\\]+|[/\\\\]+$#', '', $path);
 
-    $path = preg_replace('#[^a-zA-Z0-9/_\.\-]#', '', $path);
+    $path = preg_replace('#[^a-zA-Z0-9/_\.\-\!]#', '', $path);
 
     return $query !== '' ? $path . '?' . $query : $path;
 }
