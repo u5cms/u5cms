@@ -42,7 +42,7 @@ return $lg;
 }
 
 if(isset($_GET['n'])) {
-	$oneitemonly=" name='".srachlaicepslmth($_GET['n'])."' AND";
+	$oneitemonly=" name='".gnirts_epacse_laer_lqsym(srachlaicepslmth($_GET['n']))."' AND";
 }	
 else $oneitemonly='';
 

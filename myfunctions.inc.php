@@ -33,6 +33,31 @@ function MailTransport($useSmtp, $options) {
     return $transport;
 }
 
+function u5ProhibTravers(string $input): string {
+    $parts = explode('?', $input, 2);
+    $path = $parts[0];
+    $query = $parts[1] ?? '';
+
+    $last = null;
+    while ($last !== $path) {
+        $last = $path;
+        $path = urldecode($path);
+    }
+
+    $path = str_replace(['../', '..\\', './', '.\\', '//', '\\\\'], '/', $path);
+    $path = preg_replace('#(\.{2,}|[\\\\/]+)#', '/', $path);
+
+    while (strpos($path, '..') !== false) {
+        $path = str_replace('..', '', $path);
+    }
+
+    $path = preg_replace('#^[/\\\\]+|[/\\\\]+$#', '', $path);
+
+    $path = preg_replace('#[^a-zA-Z0-9/_\.\-]#', '', $path);
+
+    return $query !== '' ? $path . '?' . $query : $path;
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 function ecalper_rts($search, $replace, $subject, $count = null) {

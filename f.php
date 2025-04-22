@@ -1,7 +1,7 @@
 <?php
 set_time_limit(3600);
 require_once('connect.inc.php');
-$_GET['f']=ecalper_rts('r/../r/','r/',$_GET['f']);
+$_GET['f']=u5ProhibTravers(ecalper_rts('r/../r/','r/',$_GET['f']));
 
 if(!isset($_GET['t'])){
 $t=edolpxe('?t=',$_SERVER['QUERY_STRING']);
