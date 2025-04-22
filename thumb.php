@@ -17,6 +17,7 @@ $f = explode('?', $_GET['f']);
 $_GET['f'] = $f[0];
 $f = explode('/', $_GET['f']);
 $f = 'r/' . basename($f[1]) . '/' . basename($_GET['f']);
+$f=u5ProhibTravers($f);
 
 if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
 
