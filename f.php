@@ -1,7 +1,7 @@
 <?php
 set_time_limit(3600);
 require_once('connect.inc.php');
-$_GET['f']=u5ProhibTravers(str_replace('r/../r/','r/',$_GET['f']));
+$_GET['f']=str_replace('r/../r/','r/',$_GET['f']);
 
 if(!isset($_GET['t'])){
 $t=explode('?t=',$_SERVER['QUERY_STRING']);
@@ -9,17 +9,20 @@ $t=explode('&',$t[1]);
 $t=$t[0];
 }
 
+$filebase = 'r';
 $f = explode('?', $_GET['f']);
 $_GET['f'] = $f[0];
 $f = explode('/', $_GET['f']);
-$f = 'r/' . basename($f[1]) . '/' . basename($_GET['f']);
+$f = $filebase . '/' . basename($f[1]) . '/' . basename($_GET['f']);
+$f=u5ProhibTravers($f, $filebase);
+
 
 if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
 
 if($usesessioninsteadofbasicauth=='no') {
     if ($t != '' && $_GET['s'] != '') $f .= '?t=' . $t . '&s=' . $_GET['s'];
     else if ($t != '') $f .= '?t=' . $t;
-	header("Location: $f");
+    header("Location: " . str_replace($_SERVER['DOCUMENT_ROOT'], '', $f));
 	exit;
 }
 
@@ -55,6 +58,6 @@ require('ft.idn.inc.php');
     $s = $_GET['s'] ?? '';
     if ($t != '' && $s != '') $f .= '?t=' . $t . '&s=' . $s;
     else if ($t != '') $f .= '?t=' . $t;
-    header("Location: $f");
+    header("Location: " . str_replace($_SERVER['DOCUMENT_ROOT'], '', $f));
 }
 ?>

@@ -13,13 +13,16 @@ if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 // The file you are resizing 
 if (!isset($stdimagequality)) $stdimagequality = 80;
 
+$filebase = 'r';
 $f = explode('?', $_GET['f']);
 $_GET['f'] = $f[0];
 $f = explode('/', $_GET['f']);
-$f = 'r/' . basename($f[1]) . '/' . basename($_GET['f']);
-$f=u5ProhibTravers($f);
+$f = $filebase . '/' . basename($f[1]) . '/' . basename($_GET['f']);
+$f=u5ProhibTravers($f, $filebase);
 
 if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
+
+if (!file_exists($f)) die('file not found');
 
 if (!isset($_GET['h'])) $_GET['h'] = '';
 if (!isset($_GET['w'])) $_GET['w'] = '';

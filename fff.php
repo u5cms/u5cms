@@ -7,17 +7,19 @@ $t=explode('&',$t[1]);
 $t=$t[0];
 }
 
+$filebase = 'fileversions/_dbbackup';
 $f = explode('?', $_GET['f']);
 $_GET['f'] = $f[0];
 $f = explode('/', $_GET['f']);
-$f = 'fileversions/_dbbackup/' . basename($_GET['f']);
+$f = $filebase . '/' . basename($_GET['f']);
+$f=u5ProhibTravers($f, $filebase);
 
 if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
 
 if($usesessioninsteadofbasicauth=='no') {
     if ($t != '' && $_GET['s'] != '') $f .= '?t=' . $t . '&s=' . $_GET['s'];
     else if ($t != '') $f .= '?t=' . $t;
-	header("Location: $f");
+    header("Location: " . str_replace($_SERVER['DOCUMENT_ROOT'], '', $f));
 	exit;
 }
 
@@ -53,6 +55,6 @@ require('ffft.idn.inc.php');
     $s = $_GET['s'] ?? '';
     if ($t != '' && $s != '') $f .= '?t=' . $t . '&s=' . $s;
     else if ($t != '') $f .= '?t=' . $t;
-    header("Location: $f");
+    header("Location: " . str_replace($_SERVER['DOCUMENT_ROOT'], '', $f));
 }
 ?>
