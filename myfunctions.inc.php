@@ -27,28 +27,17 @@ function MailTransport($useSmtp, $options) {
     return $transport;
 }
 
-function u5ProhibTravers(string $input): string {
+function u5ProhibTravers(string $input, string $base): string {
     $parts = explode('?', $input, 2);
     $path = $parts[0];
     $query = $parts[1] ?? '';
 
-    do {
-        $last = $path;
-        $path = urldecode($path);
-    } while ($last !== $path);
+    $base = realpath($base);
+    $real = realpath($path);
 
-    $path = preg_replace('/\s+/', '', $path);
-
-    $dotCount = substr_count($path, '.');
-    if ($dotCount > 1) {
-        $lastDot = strrpos($path, '.');
-        $path = str_replace('.', '', $path);
-        $path = substr_replace($path, '.', $lastDot, 0);
+    if ($real === false || strpos($real, $base) !== 0) {
+        return '';
     }
 
-    $path = str_replace(['\\', '//'], '/', $path);
-    $path = preg_replace('#^/+|/+$#', '', $path);
-    $path = preg_replace('#[^a-zA-Z0-9/_\-\!\.]#', '', $path);
-
-    return $query !== '' ? $path . '?' . $query : $path;
+    return $query !== '' ? $real . '?' . $query : $real;
 }
