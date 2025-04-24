@@ -28,27 +28,34 @@ function MailTransport($useSmtp, $options) {
 }
 
 function u5ProhibTravers(string $input): string {
+    $allowedRoots = ['r'];
+
+    $input = urldecode($input);
     $parts = explode('?', $input, 2);
     $path = $parts[0];
     $query = $parts[1] ?? '';
 
-    do {
-        $last = $path;
-        $path = urldecode($path);
-    } while ($last !== $path);
+    $path = preg_replace('/[^A-Za-z0-9.\-_\/!\\\\]/', '', $path);
+    $path = str_replace('\\', '/', $path);
+    $path = preg_replace('#/+#', '/', $path);
 
-    $path = preg_replace('/\s+/', '', $path);
-
-    $dotCount = substr_count($path, '.');
-    if ($dotCount > 1) {
-        $lastDot = strrpos($path, '.');
-        $path = str_replace('.', '', $path);
-        $path = substr_replace($path, '.', $lastDot, 0);
+    $segments = [];
+    foreach (explode('/', $path) as $seg) {
+        if ($seg === '' || $seg === '.') continue;
+        if ($seg === '..') {
+            if ($segments) array_pop($segments);
+            else return '.';
+        } else {
+            $segments[] = $seg;
+        }
     }
 
-    $path = str_replace(['\\', '//'], '/', $path);
-    $path = preg_replace('#^/+|/+$#', '', $path);
-    $path = preg_replace('#[^a-zA-Z0-9/_\-\!\.]#', '', $path);
+    if (!$segments) return '.';
+    if (!in_array($segments[0], $allowedRoots, true)) return '.';
 
-    return $query !== '' ? $path . '?' . $query : $path;
+    $path = implode('/', $segments);
+    $t = null;
+    if (preg_match('/^t=(\d+)$/', $query, $m)) $t = $m[1];
+
+    return $t !== null ? "$path?t=$t" : $path;
 }
