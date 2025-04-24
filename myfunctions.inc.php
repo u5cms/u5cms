@@ -32,22 +32,23 @@ function u5ProhibTravers(string $input): string {
     $path = $parts[0];
     $query = $parts[1] ?? '';
 
-    $last = null;
-    while ($last !== $path) {
+    do {
         $last = $path;
         $path = urldecode($path);
+    } while ($last !== $path);
+
+    $path = preg_replace('/\s+/', '', $path);
+
+    $dotCount = substr_count($path, '.');
+    if ($dotCount > 1) {
+        $lastDot = strrpos($path, '.');
+        $path = str_replace('.', '', $path);
+        $path = substr_replace($path, '.', $lastDot, 0);
     }
 
-    $path = str_replace(['../', '..\\', './', '.\\', '//', '\\\\'], '/', $path);
-    $path = preg_replace('#(\.{2,}|[\\\\/]+)#', '/', $path);
-
-    while (strpos($path, '..') !== false) {
-        $path = str_replace('..', '', $path);
-    }
-
-    $path = preg_replace('#^[/\\\\]+|[/\\\\]+$#', '', $path);
-
-    $path = preg_replace('#[^a-zA-Z0-9/_\.\-\!]#', '', $path);
+    $path = str_replace(['\\', '//'], '/', $path);
+    $path = preg_replace('#^/+|/+$#', '', $path);
+    $path = preg_replace('#[^a-zA-Z0-9/_\-\!\.]#', '', $path);
 
     return $query !== '' ? $path . '?' . $query : $path;
 }
