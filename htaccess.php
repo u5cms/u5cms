@@ -16,7 +16,7 @@ require_once('u5idn.inc.php');
 $sql_a="SELECT email,pw FROM accounts";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
 $num_a = mysql_num_rows($result_a);
 
@@ -47,7 +47,7 @@ file_put_contents("fileversions/.htaccess",$htpasswd);
 $sql_a="SELECT name,typ FROM resources WHERE deleted!=1 AND typ!='p' AND typ!='c' AND typ!='s' ORDER BY lastmut DESC";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
 $num_a = mysql_num_rows($result_a);
 
@@ -111,7 +111,7 @@ OR
 $sql_b="SELECT name,logins,hidden FROM resources WHERE deleted!=1 AND ($existent) ORDER BY lastmut DESC";
 $result_b=mysql_query($sql_b);
 
-if ($result_b==false) echo 'SQL_b-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_b.'</font><p>';
+if ($result_b==false) echo 'SQL_b-Query failed!...!<p>';
 
 $num_b = mysql_num_rows($result_b);
 
@@ -158,7 +158,7 @@ if($onforcerpages==0 && $onfreepages>0) {
 
 $sql_a="UPDATE resources SET logins='' WHERE name='$name' AND typ!='p'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';  
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';  
 
 @unlink("r/$name/.htaccess");
 @unlink("r/$name/.htpasswd");
@@ -166,7 +166,7 @@ if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><f
 if($typ=='v') {
 $sql_a="UPDATE resources SET logins='' WHERE name='v".$name."' AND typ!='p'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';  
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';  
 
 @unlink("r/v".$name."/.htaccess");
 @unlink("r/v".$name."/.htpasswd");	
@@ -177,12 +177,12 @@ if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><f
 else {
 $sql_a="UPDATE resources SET logins='".mysql_real_escape_string($collectedlogins)."' WHERE name='$name' AND typ!='p'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';  
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';  
 
 if($typ=='v') {
 $sql_a="UPDATE resources SET logins='".mysql_real_escape_string($collectedlogins)."' WHERE name='v".$name."' AND (typ='i' OR typ='f')";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';  
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';  
 }
 
 $hts='';
@@ -225,34 +225,34 @@ if($typ=='v') file_put_contents("r/v".$name."/.htaccess",$htpasswd);
 if($onindexedpages>0) {
 $sql_a="UPDATE resources SET hidden=0 WHERE name='$name' AND typ!='p' AND typ!='c'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';    
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';    
 }
 else if($onnonindexedpages>0) {
 $sql_a="UPDATE resources SET hidden=-1 WHERE name='$name' AND typ!='p' AND typ!='c'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';    
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';    
 }
 else if($onofflinepages>0) {
 $sql_a="UPDATE resources SET hidden=1 WHERE name='$name' AND typ!='p' AND typ!='c'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';    
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';    
 }
 
 if($typ=='v') {
 if($onindexedpages>0) {
 $sql_a="UPDATE resources SET hidden=0 WHERE name='v".$name."' AND typ!='p' AND typ!='c'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';    
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';    
 }
 else if($onnonindexedpages>0) {
 $sql_a="UPDATE resources SET hidden=-1 WHERE name='v".$name."' AND typ!='p' AND typ!='c'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';    
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';    
 }
 else if($onofflinepages>0) {
 $sql_a="UPDATE resources SET hidden=1 WHERE name='v".$name."' AND typ!='p' AND typ!='c'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) 	echo 'SQL_a-Query schlug failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';    
+if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';    
 }
 }
 }

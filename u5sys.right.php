@@ -9,7 +9,7 @@ $result_a = mysql_query($sql_a);
 
 if ($result_a == false) {
 
-  echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+  echo 'SQL_a-Query failed!...!<p>';
 }
 
 
@@ -26,7 +26,7 @@ $result_a = mysql_query($sql_a);
 
 if ($result_a == false) {
 
-  echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+  echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -42,7 +42,7 @@ $result_a = mysql_query($sql_a);
 
 if ($result_a == false) {
 
-  echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+  echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -57,7 +57,7 @@ $result_b = mysql_query($sql_b);
 
 if ($result_b == false) {
 
-  echo 'SQL_b-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_b . '</font><p>';
+  echo 'SQL_b-Query failed!...!<p>';
 }
 $num_b = mysql_num_rows($result_b);
 

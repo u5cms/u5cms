@@ -123,7 +123,7 @@ $result_a=mysql_query($sql_a);
 //echo '<hr>'.$sql_a;
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -199,7 +199,7 @@ $sql_a=str_replace('1=1 OR','1=1 AND',$sql_a);
 $result_a=mysql_query($sql_a);
 //echo '<hr>OR '.$sql_a;
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -257,7 +257,7 @@ function leven($sfor) {
     $result_la=mysql_query($sql_la);
 
     if ($result_la==false) {
-    echo 'SQL_la-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_la.'</font><p>';
+    echo 'SQL_la-Query failed!...!<p>';
     }
 
     $num_la = mysql_num_rows($result_la);

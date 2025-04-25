@@ -30,11 +30,11 @@ if(time()-$lastintrapworder < $waitsecondsbetweenintranetpworders){
 $sql_a="UPDATE intranetsalt SET salt=".rand(1000000,9999999)." WHERE salt<1000";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $sql_a="SELECT * FROM intranetsalt";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 $salt=$row_a['salt'];
 
@@ -51,14 +51,14 @@ echo '<span style="font-size:130%;font-family:Arial, Helvetica, sans-serif;color
 
 $sql_a="SELECT email FROM accounts WHERE email='".mysql_real_escape_string($_POST['email'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $isadmin = mysql_num_rows($result_a);
 
 
 $sql_a="SELECT * FROM intranetmembers";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 
 $members=','.$row_a['members'].',';
@@ -72,7 +72,7 @@ $p=floor(crc32(u5flatidnlower($_POST['email']).$salt));
 $sql_a="SELECT email FROM accounts WHERE email='".mysql_real_escape_string(u5flatidn($_POST['email']))."'";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 
 if ($num_a>0) $p='The system does not send an intranet password to you because you already have a password for the u5CMS backend. Please use your u5CMS backend password also for the intranet. If you have forgotten it, recover it on '.str_replace(basename($scripturi),'',$scripturi).'reset.php';

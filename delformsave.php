@@ -20,7 +20,7 @@ if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/po
 $sql_a="SELECT * FROM formdata WHERE id='".mysql_real_escape_string($_GET['id'])."' AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
+if ($result_a==false) die('SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
 $row_a = mysql_fetch_array($result_a);
 $authuser=$row_a['authuser'];
 $notes=$row_a['notes'];
@@ -32,7 +32,7 @@ require('saveversionconflict.inc.php');
 $sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['n'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>';
+echo 'SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>';
 }
 $num_a = mysql_num_rows($result_a);
 if ($num_a==0) die('ERROR: Source form does not exist<script>alert("ERROR: Source form does not exist")</script>');
@@ -144,7 +144,7 @@ if (str_replace(trim('living_mandatory'),'',$pexcheck)!=$pexcheck) $isliving=1;
 $sql_a="SELECT id FROM formdata ORDER BY id DESC LIMIT 0,1";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
 $newid=$row_a['id']+1;
@@ -153,7 +153,7 @@ $sql_a="UPDATE formdata SET id=$newid, status=6 WHERE formname='".mysql_real_esc
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
+die('SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
 }
 
 
@@ -176,7 +176,7 @@ id,formname,headcsv,datacsv,time,ip,authuser,humantime,status,notes
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p><script>parent.u5form.submit();</script>');
+die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];

@@ -36,7 +36,7 @@ if ($num > 0) {
         $sql = "SELECT name, logins FROM resources WHERE name='" . mysql_real_escape_string($_GET['n']) . "'";
         $result = mysql_query($sql);
 
-        if ($result == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
+        if ($result == false) die('SQL_a-Query failed!...!<p>');
 
         $num = @mysql_num_rows($result);
 
@@ -48,7 +48,7 @@ if ($num > 0) {
 
     $sql_a = "SELECT email, pw FROM accounts";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $num_a = mysql_num_rows($result_a);
 

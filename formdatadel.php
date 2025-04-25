@@ -9,7 +9,7 @@ require_once('delreadrights.inc.php');
 if ($_GET['p']=='1' && $executephp=='inarchiveonly') {
 $sql_a="SELECT deleted FROM resources WHERE name='".mysql_real_escape_string($_GET['c'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 $delstatgetc=$row_a['deleted'];
 }
@@ -56,7 +56,7 @@ else echo $i_i_part[1];
 $sql_a="SELECT * FROM formdata WHERE formname='".mysql_real_escape_string($_GET['n'])."' AND id='".mysql_real_escape_string($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 ?>
 <script>
