@@ -18,7 +18,7 @@ $sql_a="SELECT * FROM languages";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $row_a = mysql_fetch_array($result_a);

@@ -9,7 +9,7 @@
 <?php 
 $sql_a="SELECT name FROM resources WHERE deleted!=1 AND typ='p'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query schlug fehl!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query schlug fehl!...!<p>';
 $num_a = mysql_num_rows($result_a);
 $names=',';
 for ($i_a=0; $i_a<$num_a; $i_a++) {
@@ -20,7 +20,7 @@ echo "<script>pnames='$names'</script>";
 
 $sql_a="SELECT name FROM resources WHERE deleted!=1 AND typ!='p'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query schlug fehl!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query schlug fehl!...!<p>';
 $num_a = mysql_num_rows($result_a);
 $names=',';
 for ($i_a=0; $i_a<$num_a; $i_a++) {

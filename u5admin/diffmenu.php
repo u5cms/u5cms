@@ -217,7 +217,7 @@ oldtextarea=textarea;
 <?php
 $sql_a="SELECT name FROM resources WHERE name='modify!diff!php' AND deleted!=1";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 if ($num_a>0) {
 $_GET['c']='modify!diff!php';

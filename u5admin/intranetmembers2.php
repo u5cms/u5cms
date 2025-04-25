@@ -82,7 +82,7 @@ $sql_a="INSERT INTO intranetmembers_log SET members='".gnirts_epacse_laer_lqsym(
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 
@@ -91,7 +91,7 @@ $sql_a="UPDATE intranetmembers SET members='".gnirts_epacse_laer_lqsym($_POST['m
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 trxlog('intranetmembers');

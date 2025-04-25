@@ -9,7 +9,7 @@ $sql_a="SELECT * FROM accounts WHERE email!='Temp' AND lastused>0 AND email LIKE
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-	echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+	echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -20,7 +20,7 @@ $sql_a="SELECT * FROM accounts WHERE email='Temp'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-	echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+	echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -31,14 +31,14 @@ $sql_a="UPDATE accounts SET accadmin=1";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-	echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+	echo 'SQL_a-Query failed!...!<p>';
 }
 
 $sql_a="DELETE FROM accounts WHERE email='Temp'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-	echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+	echo 'SQL_a-Query failed!...!<p>';
 }
 }
 }
@@ -46,7 +46,7 @@ if ($result_a==false) {
 
 $sql_a="SELECT name, logins FROM resources WHERE deleted!=1 AND ishomepage=1";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 $name=$row_a['name'];
 if($row_a['name'][0]=='!')echo '<script>setTimeout("alert(\'You have defined the page '.$name.' as your homepage (mainpage). This page is protected with logins because it is an intranet page (indication: first character of its name is an exclamation mark). However, because it is defined as homepage it is also the fallback page and therefore accessible without login. It is better not do define an intranet page as homepage.\')",11111);</script>';

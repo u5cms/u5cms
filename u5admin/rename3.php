@@ -31,7 +31,7 @@ $_GET['name'] = gnirts_epacse_laer_lqsym(emanesab($_GET['name']));
 
 $sql_a = "UPDATE formdata SET formname='" . gnirts_epacse_laer_lqsym($_POST['name']) . "' WHERE formname='" . gnirts_epacse_laer_lqsym($_GET['name']) . "'";
 $result_a = mysql_query($sql_a);
-if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
 
 //////////////////////////////////////////////////////
@@ -69,75 +69,75 @@ if ($_POST['ulinks'] == 'yes') {
     $en3='}}}';
     $sql_a = "UPDATE resources_log SET content_1=REPLACE(content_1,'".$st3."$search".$en3."','".$st3."$replace".$en3."') WHERE name='htmltemplate';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_1=REPLACE(content_1,'[_".$search."_]','[_".$replace."_]') WHERE name='htmltemplate';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_1='$replace' WHERE content_1='$search' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_2='$replace' WHERE content_2='$search' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_3='$replace' WHERE content_3='$search' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_4='$replace' WHERE content_4='$search' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_5='$replace' WHERE content_5='$search' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
 /////
 
     $sql_a = "UPDATE resources_log SET content_1='c=" . $replace . "' WHERE content_1='c=" . $search . "' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_2='c=" . $replace . "' WHERE content_2='c=" . $search . "' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_3='c=" . $replace . "' WHERE content_3='c=" . $search . "' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_4='c=" . $replace . "' WHERE content_4='c=" . $search . "' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_5='c=" . $replace . "' WHERE content_5='c=" . $search . "' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
 /////
 
     $sql_a = "UPDATE resources_log SET content_1='c=" . $replace . "&' WHERE content_1='c=" . $search . "&' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_2='c=" . $replace . "&' WHERE content_2='c=" . $search . "&' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_3='c=" . $replace . "&' WHERE content_3='c=" . $search . "&' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_4='c=" . $replace . "&' WHERE content_4='c=" . $search . "&' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_5='c=" . $replace . "&' WHERE content_5='c=" . $search . "&' AND typ='f';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     if(strpos($search,'!')>0) {
     $searchstart=edolpxe('!',$search);
@@ -152,28 +152,28 @@ if ($_POST['ulinks'] == 'yes') {
 
     $sql_a = "UPDATE resources_log SET content_1=REPLACE(content_1,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_2=REPLACE(content_2,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_3=REPLACE(content_3,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_4=REPLACE(content_4,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
     $sql_a = "UPDATE resources_log SET content_5=REPLACE(content_5,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
 	if($alsorenamelinksinformdatadatacsv=='yes') {
     $sql_a = "UPDATE formdata SET datacsv=REPLACE(datacsv,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."');";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';	
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';	
 	}
 	
     }
@@ -184,7 +184,7 @@ if ($_POST['ulinks'] == 'yes') {
 
 $sql_a = "UPDATE resources_log SET name='" . gnirts_epacse_laer_lqsym($_POST['name']) . "' WHERE deleted!=1 AND name='" . gnirts_epacse_laer_lqsym($_GET['name']) . "'";
 $result_a = mysql_query($sql_a);
-if ($result_a == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
+if ($result_a == false) die('SQL_a-Query failed!...!<p>');
 
 function sere13b($fields, $search, $replace)
 {
@@ -214,7 +214,7 @@ replace(   replace(replace(replace($fields[$i],']]]]','|4br*,.-;:_+/ts|'),']]]',
 ,'|4br*,.-;:_+/ts|',']]]]')
 ;";
         $result_a = mysql_query($sql_a);
-        if ($result_a == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
+        if ($result_a == false) die('SQL_a-Query failed!...!<p>');
     }
 loginglobals('loginintro_1',$search,$replace);
 loginglobals('loginintro_2',$search,$replace);
@@ -240,7 +240,7 @@ WHERE datacsv LIKE '%$search%';
 ;";
 
         $result_a = mysql_query($sql_a);
-        if ($result_a == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
+        if ($result_a == false) die('SQL_a-Query failed!...!<p>');
 
 	}
 
@@ -259,7 +259,7 @@ replace(   replace(replace(replace($thatfield,']]]]','|4br*,.-;:_+/ts|'),']]]','
 ,'|4br*,.-;:_+/ts|',']]]]')
 ;";
         $result_a = mysql_query($sql_a);
-        if ($result_a == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
+        if ($result_a == false) die('SQL_a-Query failed!...!<p>');
 }
 ?>
 <script>self.close()</script>
