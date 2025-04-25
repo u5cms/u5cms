@@ -10,14 +10,14 @@ require_once('u5sys.navigation_helper.php');
 $sql_b    = "SELECT * FROM inserts WHERE source1 NOT like '[' AND source1 NOT like '[h:]' ORDER BY length(source1) DESC";
 $result_b = mysql_query($sql_b);
 if ($result_b == false) {
-    $naviecho .= 'SQL_b-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_b . '</font><p>';
+    $naviecho .= 'SQL_b-Query failed!...!<p>';
 }
 $num_b = mysql_num_rows($result_b);
 if (!isset($_GET['c']) || $_GET['c'] == '') {
     $sql_a    = "SELECT * FROM resources WHERE deleted!=1 AND ishomepage=1";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) {
-        $naviecho .= 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+        $naviecho .= 'SQL_a-Query failed!...!<p>';
     }
     $row_a     = mysql_fetch_array($result_a);
     $_GET['c'] = $row_a['name'];
@@ -25,7 +25,7 @@ if (!isset($_GET['c']) || $_GET['c'] == '') {
 $sql_a    = "SELECT * FROM resources WHERE deleted!=1 AND name='navigation'";
 $result_a = mysql_query($sql_a);
 if ($result_a == false) {
-    $naviecho .= 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    $naviecho .= 'SQL_a-Query failed!...!<p>';
 }
 $row_a  = mysql_fetch_array($result_a);
 

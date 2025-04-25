@@ -17,7 +17,7 @@ $sql_a="SELECT * FROM accounts WHERE hash='".gnirts_epacse_laer_lqsym($_GET['c']
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -65,7 +65,7 @@ $sql_a="UPDATE accounts SET pw='".pwdhsh($p)."', hash='$hash' WHERE hash='".gnir
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 }
@@ -88,7 +88,7 @@ $sql_a="SELECT * FROM accounts WHERE email='".gnirts_epacse_laer_lqsym($e)."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);

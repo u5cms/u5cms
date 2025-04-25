@@ -5,7 +5,7 @@ $sql_b = "SELECT * FROM inserts WHERE source1 NOT like '[' AND source1 NOT like 
 $result_b = mysql_query($sql_b);
 
 if ($result_b == false) {
-echo 'SQL_b-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_b . '</font><p>';
+echo 'SQL_b-Query failed!...!<p>';
 }
 $num_b = mysql_num_rows($result_b);
 

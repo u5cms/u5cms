@@ -33,37 +33,19 @@ function MailTransport($useSmtp, $options) {
     return $transport;
 }
 
-function u5ProhibTravers(string $input): string {
-    $allowedRoots = ['r'];
-
-    $input = urldecode($input);
+function u5ProhibTravers(string $input, string $base): string {
     $parts = explode('?', $input, 2);
     $path = $parts[0];
     $query = $parts[1] ?? '';
 
-    $path = preg_replace('/[^A-Za-z0-9.\-_\/!\\\\]/', '', $path);
-    $path = str_replace('\\', '/', $path);
-    $path = preg_replace('#/+#', '/', $path);
+    $base = realpath($base);
+    $real = realpath($path);
 
-    $segments = [];
-    foreach (explode('/', $path) as $seg) {
-        if ($seg === '' || $seg === '.') continue;
-        if ($seg === '..') {
-            if ($segments) array_pop($segments);
-            else return '.';
-        } else {
-            $segments[] = $seg;
-        }
+    if ($real === false || strpos($real, $base) !== 0) {
+        return '';
     }
 
-    if (!$segments) return '.';
-    if (!in_array($segments[0], $allowedRoots, true)) return '.';
-
-    $path = implode('/', $segments);
-    $t = null;
-    if (preg_match('/^t=(\d+)$/', $query, $m)) $t = $m[1];
-
-    return $t !== null ? "$path?t=$t" : $path;
+    return $query !== '' ? $real . '?' . $query : $real;
 }
 
 //////////////////////////////////////////////////////////////////////////////
