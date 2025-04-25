@@ -12,7 +12,7 @@
 $sql_a="SELECT humantime FROM formdata WHERE status!=5 AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY humantime DESC";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
@@ -24,7 +24,7 @@ else echo '<font color="#666666">last: '.str_replace('-','',$row_a['humantime'])
 $sql_a="SELECT humantime FROM formdata WHERE status=1 AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $num_a = mysql_num_rows($result_a);
 echo ' &nbsp; new: '.$num_a;      
@@ -33,7 +33,7 @@ echo ' &nbsp; new: '.$num_a;
 $sql_a="SELECT humantime FROM formdata WHERE status=2 AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $num_a = mysql_num_rows($result_a);
 echo ' &nbsp; pending: '.$num_a;      
@@ -41,7 +41,7 @@ echo ' &nbsp; pending: '.$num_a;
 $sql_a="SELECT humantime FROM formdata WHERE status=3 AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $num_a = mysql_num_rows($result_a);
 echo ' &nbsp; problem: '.$num_a;      
@@ -49,7 +49,7 @@ echo ' &nbsp; problem: '.$num_a;
 $sql_a="SELECT humantime FROM formdata WHERE status=4 AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $num_a = mysql_num_rows($result_a);
 echo ' &nbsp; done: '.$num_a;      
@@ -57,7 +57,7 @@ echo ' &nbsp; done: '.$num_a;
 $sql_a="SELECT humantime FROM formdata WHERE status=7 AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $num_a = mysql_num_rows($result_a);
 echo ' &nbsp; import: '.$num_a;      

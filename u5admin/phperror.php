@@ -46,7 +46,7 @@ $sql_a="INSERT INTO resources (name,ishomepage,content_1,content_2,content_3,con
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 $echo='<a title="focus in repository" href="javascript:void(0)" style="text-decoration:none;background:white" onmouseover="this.click();this.style.background=\'gold\'" onmouseout="this.style.background=\'white\'" onclick="parent.parent.i3.location.href=\'focus.php?c='.basename(trim($_POST['name'])).'\'">F</a>&nbsp;';

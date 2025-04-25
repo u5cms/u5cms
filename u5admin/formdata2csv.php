@@ -7,7 +7,7 @@ if ($formdataRqHIADRI!='no') require('accadmin.inc.php');
 
 $sql_a="SET NAMES utf8";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
 $dnummer=date("YmdHis");
 header('Content-Type: text/x-csv; charset=UTF-8');
@@ -83,7 +83,7 @@ $sql_a="SELECT * FROM formdata WHERE formname='".mysql_real_escape_string($_GET[
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);

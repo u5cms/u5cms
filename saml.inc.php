@@ -14,7 +14,7 @@ $scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
 //Set Logincookie
 $sql_a="SELECT pw FROM accounts WHERE email='".mysql_real_escape_string(u5flatidnlower($founduserincookie))."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 $num_a = mysql_num_rows($result_a);
 
 if($num_a>0) {
@@ -22,7 +22,7 @@ if($num_a>0) {
     if($row_a['pw']!=pwdhsh($newautosamlpw)) {
         $sql_a="UPDATE accounts SET pw='".mysql_real_escape_string(pwdhsh($newautosamlpw))."' WHERE email='".mysql_real_escape_string(u5flatidnlower($founduserincookie))."'";
         $result_a=mysql_query($sql_a);
-        if ($result_a==false) die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+        if ($result_a==false) die('SQL_a-Query failed!...!<p>');
 
         if(mysql_affected_rows()>0)file_get_contents($scriptFolder.'/htaccess.php');
     }

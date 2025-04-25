@@ -14,7 +14,7 @@ else $plural2='is';
 
 $sql_a="SELECT * FROM mailingcron WHERE mailingid='".mysql_real_escape_string($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 if($row_a['numa']>$row_a['nextmail']) echo '<hr>
 Still sending. <b>'.$row_a['nextmail'].'&#9993;</b> sent until now (see list below). <b>'.($row_a['numa']-$row_a['nextmail']).'&#9993;</b> pending. Sending is timed according to <b>config.php</b> of your u5CMS installation where the value <b>$serialmailmethod='. $serialmailmethod.'</b> is set.
@@ -25,7 +25,7 @@ Still sending. <b>'.$row_a['nextmail'].'&#9993;</b> sent until now (see list bel
 $sql_a="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 
 $num_a = mysql_num_rows($result_a);

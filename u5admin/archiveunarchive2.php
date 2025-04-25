@@ -24,7 +24,7 @@ $sql_a="SELECT deleted FROM resources WHERE name='".mysql_real_escape_string($_P
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 $row_a = mysql_fetch_array($result_a);
@@ -36,7 +36,7 @@ $sql_a="UPDATE resources SET deleted=$toggle WHERE name='".mysql_real_escape_str
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 if($toggle!=2) $un='un';
@@ -47,7 +47,7 @@ $sql_a="SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_POST[
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $row_a = mysql_fetch_array($result_a);

@@ -63,7 +63,7 @@ $string=str_replace($badascii,$goodascii,$string);
 $sql_a="SELECT headcsv FROM formdata WHERE formname='".mysql_real_escape_string($_POST['target'])."' AND status!=5 AND status!=7 ORDER BY status DESC, id DESC LIMIT 0,1";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
 $row_a = mysql_fetch_array($result_a);
 
@@ -230,7 +230,7 @@ $humantime=mysql_real_escape_string(str_replace('THS!S!M!HL!PRVT!LNBRK'," ",$sen
 $sql_a="INSERT INTO formdata (formname,headcsv,datacsv,time,ip,status,notes,lastmut,authuser,humantime) VALUES ('$formname','$myheadcsv','$datacsv','$time','$ip','$status','$notes','$lastmut','$authuser','$humantime')";
 $result_a=mysql_query($sql_a);
 
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
 ///
 

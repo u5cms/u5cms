@@ -39,7 +39,7 @@ if ($num > 0) {
         $sql = "SELECT email, pw FROM accounts WHERE TRIM(email)!='' AND TRIM(pw)!=''";
         $result = mysql_query($sql);
 
-        if ($result == false) die('SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>');
+        if ($result == false) die('SQL_a-Query failed!...!<p>');
 
         $num = @mysql_num_rows($result);
 

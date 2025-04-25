@@ -11,7 +11,7 @@ $sql_t="INSERT INTO trxlog (operator,trx,ts,ip) VALUES
 $result_t=mysql_query($sql_t);
 
 if ($result_t==false) {
-echo 'SQL_t-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_t.'</font><p>';
+echo 'SQL_t-Query failed!...!<p>';
 }
 }
 

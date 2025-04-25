@@ -50,7 +50,7 @@ $s = mysql_real_escape_string($posts);
 $sql_a = "SELECT name, typ, deleted FROM resources WHERE name!='-' AND deleted!=1 AND name LIKE '$s'";
 $result_a = mysql_query($sql_a);
 
-if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
@@ -92,7 +92,7 @@ title_5 LIKE '%$s%') ORDER BY lastmut DESC;
 $result_a = mysql_query($sql_a);
 
 if ($result_a == false) {
-    echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);

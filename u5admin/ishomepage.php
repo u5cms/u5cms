@@ -22,7 +22,7 @@ $sql_a="SELECT * FROM resources WHERE typ='p' AND deleted!=1 AND hidden=0 AND na
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);

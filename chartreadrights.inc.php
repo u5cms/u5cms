@@ -2,7 +2,7 @@
 $sql_a="SELECT content_1, content_2, content_3, content_4, content_5 FROM resources WHERE name='".mysql_real_escape_string($_GET['n'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
 $cmdstring=$row_a['content_1'].$row_a['content_2'].$row_a['content_3'].$row_a['content_4'].$row_a['content_5'];

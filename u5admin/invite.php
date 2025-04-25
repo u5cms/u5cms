@@ -23,7 +23,7 @@ $sql_a="SELECT * FROM accounts WHERE email='".$e."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -54,7 +54,7 @@ $sql_a="INSERT INTO accounts (email,pw,hash) VALUES (
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
 ?>

@@ -319,7 +319,7 @@ You are in the view "mail" which shows only the first 10 records. Serial mail wi
 <?php
 $sql_a="SELECT name FROM resources WHERE name='modify!formdata2!php' AND deleted!=1";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 if ($num_a>0) {
 $_GET['c']='modify!formdata2!php';
@@ -359,7 +359,7 @@ el[i].style.background='lightgreen';
 <?php if($_COOKIE['fd2y']==-1) {
 $sql_a="SELECT id FROM formdata WHERE formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY id DESC LIMIT 0,1";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 
 echo "<script>

@@ -12,7 +12,7 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
 
             $sql_a="SELECT * FROM intranetsalt";
             $result_a=mysql_query($sql_a);
-            if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+            if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
             $row_a = mysql_fetch_array($result_a);
             $salt=$row_a['salt'];
             $_POST['p']=floor(crc32(u5flatidnlower($_COOKIE['u5samlusername']).$salt));
@@ -23,7 +23,7 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
 			$thegc=$thegc[0];
             $sql_a="SELECT logins FROM resources WHERE name= '".mysql_real_escape_string($thegc)."' AND logins LIKE '%?".mysql_real_escape_string($_COOKIE['u5samlusername']).":%'";
             $result_a=mysql_query($sql_a);
-            if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+            if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
             $num_a = mysql_num_rows($result_a);
 			if($num_a>0) {
 			$row_a = mysql_fetch_array($result_a);

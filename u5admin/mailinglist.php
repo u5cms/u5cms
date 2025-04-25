@@ -14,7 +14,7 @@ $sql_a="SELECT * FROM mailing WHERE maildeleted=0 ORDER BY id DESC";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);

@@ -14,7 +14,7 @@ if($_COOKIE['hplus']=='on')$limit='';
 else $limit='LIMIT 0,7';
 $sql_a="SELECT * FROM resources WHERE deleted!=1 AND typ!='s' AND name!='-' AND name LIKE '" . mysql_real_escape_string(str_replace('*', '%', $_GET['f'])) . "' AND operator='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' ORDER BY lastmut DESC $limit";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query schlug fehl!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query schlug fehl!...!<p>';
 
 $num_a = mysql_num_rows($result_a);
 

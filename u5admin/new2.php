@@ -13,7 +13,7 @@ if ($_POST['name']=='meta' || $_POST['name']=='search' || $_POST['name']=='langu
 <?php 
 $sql_a="SELECT name FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 
 if ($num_a>0) {
@@ -22,7 +22,7 @@ $sql_a="UPDATE resources SET deleted=0, typ='".mysql_real_escape_string($_GET['t
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 
@@ -31,7 +31,7 @@ echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font
 else {
 $sql_a="SELECT name FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 if($num_a>0) die('<script>document.getElementById("body").style.background="red";;alert("ERROR: Target already exists!");history.go(-1)</script>');
 
@@ -44,7 +44,7 @@ $sql_a="INSERT INTO resources (name,operator,ip,lastmut,deleted,typ) VALUES (
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 $sql_a="INSERT INTO resources_log (name,operator,ip,lastmut,deleted,typ) VALUES (
 '".mysql_real_escape_string($_POST['name'])."',
@@ -55,7 +55,7 @@ $sql_a="INSERT INTO resources_log (name,operator,ip,lastmut,deleted,typ) VALUES 
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 }
 trxlog('new '.$_POST['name']);

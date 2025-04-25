@@ -15,7 +15,7 @@ $sql_b="UPDATE mailing SET maildeleted=1 WHERE id=".mysql_real_escape_string($_G
 $result_b=mysql_query($sql_b);
 
 if ($result_b==false) {
-echo 'SQL_b-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_b.'</font><p>';
+echo 'SQL_b-Query failed!...!<p>';
 }
 
 echo '<script>

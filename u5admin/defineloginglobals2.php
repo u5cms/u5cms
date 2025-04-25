@@ -66,14 +66,14 @@ wait_5='".mysql_real_escape_string($_POST['wait_5'])."'
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 trxlog('def login instr');
 
 $sql_a="DELETE FROM resources WHERE name='::LOGINPAGE::'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 
 if(trim($_POST['loginintro_1']).trim($_POST['loginintro_2']).trim($_POST['loginintro_3']).trim($_POST['loginintro_4']).trim($_POST['loginintro_5']).trim($_POST['loginoutro_1']).trim($_POST['loginoutro_2']).trim($_POST['loginoutro_3']).trim($_POST['loginoutro_4']).trim($_POST['loginoutro_5'])!='') {
 
@@ -141,7 +141,7 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
 
 )";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 
 ////////////////
 $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,content_1,content_2,content_3) VALUES (
@@ -208,7 +208,7 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
 
 )";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 
 
 

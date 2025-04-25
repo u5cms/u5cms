@@ -93,7 +93,7 @@ morepics_5='".mysql_real_escape_string($_POST['morepics_5'])."'
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 trxlog('def lang '.$_POST['lan1na'].' '.$_POST['lan2na'].' '.$_POST['lan3na'].' '.$_POST['lan4na'].' '.$_POST['lan5na']);

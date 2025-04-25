@@ -18,11 +18,11 @@ $_GET['name']=basename($_GET['name']);
 $sql_a="DELETE FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) 
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 
 $sql_a="SELECT name FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 if($num_a>0) die('<script>document.getElementById("body").style.background="red";;alert("ERROR: Target already exists!");history.go(-1)</script>');
 
@@ -66,7 +66,7 @@ if ($i<$anz-1) $valuestring.=', ';
 }
 $sqlb="INSERT INTO $tablename ($fieldstring) VALUES ($valuestring)";
 $resultb=@mysql_query($sqlb);
-if ($resultb==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sqlb.'</font><p>';
+if ($resultb==false) echo 'SQL_a-Query failed!...!<p>';
 else echo "<!--ok -->";
 }
 }
@@ -130,7 +130,7 @@ $sql_a="SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_POST[
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $row_a = mysql_fetch_array($result_a);
@@ -139,14 +139,14 @@ if ($_GET['name'][0]=='!' && $_POST['name']!='!') {
 $sql_a="UPDATE resources SET logins='' WHERE name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }}
 
 $sql_a="UPDATE resources SET ishomepage=0 WHERE name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 ?>
 <script>
