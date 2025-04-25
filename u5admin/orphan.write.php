@@ -18,7 +18,7 @@ $sql_a='SELECT * FROM resources WHERE deleted!=1';
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-	echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+	echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -147,7 +147,7 @@ $manfph
 $result_o=mysql_query($sql_o);
 
 if ($result_o==false) {
-echo 'SQL_o-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_o.'</font><p>';
+echo 'SQL_o-Query failed!...!<p>';
 }
 
 $num_o = mysql_num_rows($result_o);

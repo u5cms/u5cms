@@ -26,7 +26,7 @@ if (strpos(strtolower('xxx'.$teststr),'<body id="body"')<1) die('<script>alert("
 $sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
 
@@ -76,7 +76,7 @@ $sql_a="INSERT INTO resources (name,content_1,content_2,content_3,content_4,cont
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 else echo "<script>parent.document.getElementById('changes').value=0;parent.document.getElementById('savebutton').style.background='lightgreen';parent.document.getElementById('bodyid').style.background='#335C33'</script>";
@@ -116,7 +116,7 @@ $sql_a="INSERT INTO resources_log (name,content_1,content_2,content_3,content_4,
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 require('putcss.inc.php');

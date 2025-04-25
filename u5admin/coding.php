@@ -5,7 +5,7 @@ $sql_a="SELECT * FROM resources WHERE name='".mysql_real_escape_string($_GET['na
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $row_a = mysql_fetch_array($result_a);
@@ -139,7 +139,7 @@ $sql_b="SELECT name, deleted FROM resources WHERE ".$deletedvalue." AND typ='c' 
 $result_b=mysql_query($sql_b);
 
 if ($result_b==false) {
-	echo 'SQL_b-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_b.'</font><p>';
+	echo 'SQL_b-Query failed!...!<p>';
 }
 
 $num_b = mysql_num_rows($result_b);

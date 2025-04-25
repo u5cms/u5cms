@@ -48,7 +48,7 @@ else $oneitemonly='';
 
 $sql_ii = "SELECT * FROM resources WHERE $oneitemonly deleted!=1 ORDER BY lastmut DESC";
 $result_ii = mysql_query($sql_ii);
-if ($result_ii == false) echo 'SQL_ii-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_ii . '</font><p>';
+if ($result_ii == false) echo 'SQL_ii-Query failed!...!<p>';
 $num_ii = mysql_num_rows($result_ii);
 
 for ($i_ii = 0;$i_ii < $num_ii;$i_ii++) {
@@ -128,7 +128,7 @@ search_4='" . mysql_real_escape_string($content_4) . "',
 search_5='" . mysql_real_escape_string($content_5) . "' 
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
-if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+if ($result_i == false)  echo 'SQL_i-Query failed!...!<p>';
 }
 }
 else {
@@ -142,7 +142,7 @@ title_4='" . mysql_real_escape_string($title_4) ."',
 title_5='" . mysql_real_escape_string($title_5) ."'
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
-if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+if ($result_i == false)  echo 'SQL_i-Query failed!...!<p>';
 }
 }
 if($row_ii['typ']!='p') {
@@ -155,7 +155,7 @@ search_4='" . mysql_real_escape_string($content_4) . "',
 search_5='" . mysql_real_escape_string($content_5) . "' 
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
-if ($result_i == false)  echo 'SQL_i-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_i . '</font><p>';
+if ($result_i == false)  echo 'SQL_i-Query failed!...!<p>';
 }
 }
 

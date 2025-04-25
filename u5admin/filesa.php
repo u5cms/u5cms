@@ -33,7 +33,7 @@ $remend='';
 
 $sql_a="SELECT lastmut FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 $lastmut=$row_a['lastmut'];
 

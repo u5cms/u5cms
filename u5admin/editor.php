@@ -145,7 +145,7 @@ ns
       $result_a = mysql_query($sql_a);
 
       if ($result_a == false) {
-          echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+          echo 'SQL_a-Query failed!...!<p>';
       }
 
       $num_a = mysql_num_rows($result_a);
@@ -229,7 +229,7 @@ ns
     <?php
     $sql_a = "SELECT * FROM resources WHERE name='" . mysql_real_escape_string($_GET['c']) . "'";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
     $row_a = mysql_fetch_array($result_a);
     ?>
     <input type="hidden" name="ishomepage" value="<?php echo $row_a['ishomepage'] ?>">

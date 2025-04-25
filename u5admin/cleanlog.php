@@ -12,7 +12,7 @@ $sql_c="SELECT name FROM resources WHERE deleted!=1";
 $result_c=mysql_query($sql_c);
 
 if ($result_c==false) {
-echo 'SQL_c-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_c.'</font><p>';
+echo 'SQL_c-Query failed!...!<p>';
 }
 
 $num_c = mysql_num_rows($result_c);
@@ -26,7 +26,7 @@ $sql_a="SELECT lastmut FROM resources_log WHERE name='".$row_c['name']."' AND op
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -41,7 +41,7 @@ $sql_b="DELETE FROM resources_log WHERE name='".$row_c['name']."' AND operator N
 $result_b=mysql_query($sql_b);
 
 if ($result_b==false) {
-echo 'SQL_b-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_b.'</font><p>';
+echo 'SQL_b-Query failed!...!<p>';
 }
 /////////////////////////////////////////////////    
 }
@@ -53,7 +53,7 @@ $sql_a="SELECT lastmut FROM resources_log WHERE name='".$row_c['name']."' AND op
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -68,7 +68,7 @@ $sql_b="DELETE FROM resources_log WHERE name='".$row_c['name']."' AND operator L
 $result_b=mysql_query($sql_b);
 
 if ($result_b==false) {
-echo 'SQL_b-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_b.'</font><p>';
+echo 'SQL_b-Query failed!...!<p>';
 }
 /////////////////////////////////////////////////    
 }

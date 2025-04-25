@@ -5,7 +5,7 @@ require('connect.inc.php');
 $sql_a="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
 if($row_a['mailsent']>0) die('<script>alert("You cannot save nor change mailjob "+document.getElementById("xgram").value+"'.$_GET['id'].' because it has been sent at '.date('Y-m-d H:i:s',$row_a['mailsent']).' by '.$row_a['mailsentop'].'");history.go(-1)</script>');
@@ -47,7 +47,7 @@ WHERE mailsent=0 AND id=".mysql_real_escape_string($_GET['id']);
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 trxlog("save mj ".$_GET['id']);

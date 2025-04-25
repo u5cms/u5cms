@@ -7,7 +7,7 @@
 <?php
 $sql_a="SELECT name, typ FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query schlug fehl!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query schlug fehl!...!<p>';
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
 if ($num_a == 0) echo '<script>alert("not found");history.go(-1);</script>';

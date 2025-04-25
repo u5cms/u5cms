@@ -62,7 +62,7 @@ $sql_d="SELECT * FROM mailingcron WHERE done=0";
 $result_d=mysql_query($sql_d);
 $num_d = mysql_num_rows($result_d);
 if($num_d==0)die('nothing to send');
-if ($result_d==false) echo 'SQL_d-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_d.'</font><p>';
+if ($result_d==false) echo 'SQL_d-Query failed!...!<p>';
 $row_d = mysql_fetch_array($result_d);
 $_GET['id']=$row_d['mailingid'];
 echo 'Mailjob &#19904;'.$_GET['id'];
@@ -82,7 +82,7 @@ $sql_b="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id']).
 $result_b=mysql_query($sql_b);
 
 if ($result_b==false) {
-echo 'SQL_b-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_b.'</font><p>';
+echo 'SQL_b-Query failed!...!<p>';
 }
 
 $num_b = mysql_num_rows($result_b);
@@ -99,7 +99,7 @@ if($cron!='cron')$sql_a=base64_decode($_GET['t']);
 
 $sql_a='SELECT * FROM formdata WHERE'.str_replace('SELECT * FROM formdata WHERE','',$sql_a);
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 if(!$serialmailsmaxatoncealert>0)$serialmailsmaxatoncealert=99;
 if(!$serialmailmethod>0&&$num_a>$serialmailsmaxatoncealert) {
@@ -111,7 +111,7 @@ exit;
 if($_GET['hot']=='hot' && $serialmailmethod>0 && $cron!='cron') {
 $sql_a="INSERT INTO mailingcron (mailingid, sqla, numa) VALUES ('".mysql_real_escape_string($_GET['id'])."', '".mysql_real_escape_string($_GET['t'])."', '".mysql_real_escape_string($num_a)."')";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 trxlog("setcron mj ".$_GET['id']);
 ?>
 <script>
@@ -125,11 +125,11 @@ document.getElementById('wait').innerHTML='<button onclick="location.replace(\'m
 
 $sql_a="UPDATE mailing SET mailsent='".time()."', mailsentop='".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR'])."', mailsentto='".mysql_real_escape_string($allto)."', mailsentts='".mysql_real_escape_string($allstring)."' WHERE id='".$row_b['id']."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
 $sql_a="UPDATE mailing SET mailtested=1 WHERE id='".$row_b['id']."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 exit;
 }
 
@@ -277,7 +277,7 @@ $allstring.='<b><big>Message:</big></b><br>'.u5iso($zendmessage).'<hr><br>';
 if (($_GET['hot']=='hot' || $cron=='cron') && $countsentmails>0) {
 $sql_c="UPDATE mailing SET mailsent='".time()."', mailsentop='".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR'])."', mailsentto=CONCAT(mailsentto,'".mysql_real_escape_string($allto)."'), mailsentts=CONCAT(mailsentts,'".mysql_real_escape_string($allstring)."') WHERE id='".$row_b['id']."'";
 $result_c=mysql_query($sql_c);
-if ($result_c==false) echo 'SQL_c-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_c.'</font><p>';
+if ($result_c==false) echo 'SQL_c-Query failed!...!<p>';
 }
 
 if($cron=='cron') {
@@ -300,7 +300,7 @@ if($nextmail>=$num_a) $done=1;
 else $done=0;
 $sql_e="UPDATE mailingcron SET lastcall=".time().", nextmail=$nextmail, done=$done WHERE mailingid='".$_GET['id']."'";
 $result_e=mysql_query($sql_e);
-if ($result_e==false) echo 'SQL_e-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_e.'</font><p>';
+if ($result_e==false) echo 'SQL_e-Query failed!...!<p>';
 }
 }
 }
@@ -310,7 +310,7 @@ if($countsentmails>0) {
 trxlog("testOK mj ".$_GET['id']);
 $sql_a="UPDATE mailing SET mailtested=1 WHERE id='".$row_b['id']."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 }
 else trxlog("testERR mj ".$_GET['id']);
 ?>
@@ -329,7 +329,7 @@ $nextmail=$nextmail+1;
 
 $sql_e="UPDATE mailingcron SET done=1 WHERE done=0 AND nextmail>=numa";
 $result_e=mysql_query($sql_e);
-if ($result_e==false) echo 'SQL_e-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_e.'</font><p>';
+if ($result_e==false) echo 'SQL_e-Query failed!...!<p>';
 }
 ?>
 

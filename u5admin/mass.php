@@ -5,7 +5,7 @@ $sql_a="UPDATE formdata SET lastmut='".time()."', status=".mysql_real_escape_str
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 header("Location: formdata2.php?".$_SERVER['QUERY_STRING']."&".time());
 ?>

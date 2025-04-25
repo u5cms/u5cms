@@ -8,7 +8,7 @@ $sql_la="SELECT text FROM search_1";
 $result_la=mysql_query($sql_la);
 
 if ($result_la==false) {
-echo 'SQL_la-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_la.'</font><p>';
+echo 'SQL_la-Query failed!...!<p>';
 }
 
 $num_la = mysql_num_rows($result_la);

@@ -6,7 +6,7 @@ $sql_a="SELECT email FROM accounts";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -21,14 +21,14 @@ $sql_a="UPDATE intranetsalt SET salt=".rand(1000000,9999999)." WHERE salt<1000";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $sql_a="SELECT * FROM intranetsalt";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
 $salt=$row_a['salt'];
@@ -37,7 +37,7 @@ $sql_a="SELECT * FROM intranetmembers";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 $row_a = mysql_fetch_array($result_a);
 
@@ -52,7 +52,7 @@ $sql_a="UPDATE resources SET logins='".mysql_real_escape_string($htaccess)."' WH
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-	echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+	echo 'SQL_a-Query failed!...!<p>';
 }
 
 

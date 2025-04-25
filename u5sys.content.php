@@ -5,14 +5,14 @@ require_once ('render.inc.php');
 $sql_a = "SELECT * FROM resources WHERE deleted!=1 AND name='" . (mysql_real_escape_string($_GET['c'])) . "'";
 $result_a = mysql_query($sql_a);
 
-if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
 
 if ($num_a==0 || str_replace(' ','',$row_a['name']=='')) {
 $sql_a = "SELECT * FROM resources WHERE deleted!=1 AND ishomepage=1";
 $result_a = mysql_query($sql_a);
-if ($result_a == false)  echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+if ($result_a == false)  echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 $_GET['c']=$row_a['name'];
 }
@@ -20,7 +20,7 @@ $_GET['c']=$row_a['name'];
 $sql_b = "SELECT * FROM inserts WHERE source1 NOT like '[' AND source1 NOT like '[h:]' ORDER BY length(source1) DESC";
 $result_b = mysql_query($sql_b);
 
-if ($result_b == false) echo 'SQL_b-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_b . '</font><p>';
+if ($result_b == false) echo 'SQL_b-Query failed!...!<p>';
 $num_b = mysql_num_rows($result_b);
 
 if ($row_a['hidden']<1) {

@@ -29,7 +29,7 @@ $link = mysql_connect($host, $username, $password) or die("Username/Passwort fal
 // enforce connection encoding
 $sql_a='SET NAMES utf8';
 if (false ===mysql_query($sql_a, $link)) {
-    echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    echo 'SQL_a-Query failed!...!<p>';
 }
 
 // MySQL Datenbanken

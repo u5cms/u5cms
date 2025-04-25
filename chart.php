@@ -70,7 +70,7 @@ else if ($_GET['fdo'] == 'ff') $timeorid = 'datacsv ASC, time DESC';
 $sql_ach = "SELECT * FROM formdata WHERE formname='" . mysql_real_escape_string($_GET['n']) . "' $andstatus $andfilter ORDER BY $timeorid";
 $result_ach = mysql_query($sql_ach);
 
-if ($result_ach == false) echo 'SQL_ach-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_ach . '</font><p>';
+if ($result_ach == false) echo 'SQL_ach-Query failed!...!<p>';
 
 if ($_GET['s'] == 5) echo '<br><hr><center><small>Items are automatically removed from this recycle bin list ' . $toolate . ' days after their deletion was selected.</small></center><hr>';
 

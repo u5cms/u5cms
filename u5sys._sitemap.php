@@ -95,7 +95,7 @@ $result_a=mysql_query($sql_a);
 //echo '<hr>AND '.$sql_a;
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -169,7 +169,7 @@ else $sql_a="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 A
 $result_a=mysql_query($sql_a);
 //echo '<hr>OR '.$sql_a;
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 
 $num_a = mysql_num_rows($result_a);
@@ -251,7 +251,7 @@ else $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 
 $result_la=mysql_query($sql_la);
 
 if ($result_la==false) {
-echo 'SQL_la-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_la.'</font><p>';
+echo 'SQL_la-Query failed!...!<p>';
 }
 
 $num_la = mysql_num_rows($result_la);

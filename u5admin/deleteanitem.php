@@ -47,7 +47,7 @@ document.form1.name.focus();
 if($_COOKIE['u5cmsfastdelete']==1 && $fastdeleteforbidden!='yes') {
     $sql_a = "SELECT name,deleted FROM resources WHERE deleted!=1";
     $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!<p>' . mysql_error() . '<p><font color=red>' . $sql_a . '</font><p>';
+    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
     $num_a = mysql_num_rows($result_a);
     for ($i_a = 0; $i_a < $num_a; $i_a++) {
     $row_a = mysql_fetch_array($result_a);

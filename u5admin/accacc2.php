@@ -12,7 +12,7 @@ $sql_a="DELETE FROM accounts WHERE  id='".mysql_real_escape_string($_GET['id']).
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 trxlog('delete '.$_GET['y']. ' ('.$_GET['id'].')');		 
 ?>
@@ -29,7 +29,7 @@ $sql_a="UPDATE accounts SET accadmin='".mysql_real_escape_string($_GET['a'])."' 
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+echo 'SQL_a-Query failed!...!<p>';
 }
 trxlog('accadm to '.$_GET['a'].' '.$_GET['y']. ' ('.$_GET['id'].')');		 
 }

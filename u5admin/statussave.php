@@ -11,7 +11,7 @@ $sql_a="UPDATE formdata SET lastmut='".time()."', status='".mysql_real_escape_st
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-die('SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>');
+die('SQL_a-Query failed!...!<p>');
 }
 
 ?>
