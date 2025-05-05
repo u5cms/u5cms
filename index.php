@@ -43,7 +43,7 @@ if(parent.window.name==\'i2\')document.getElementById(\'fu5prvldd\').src=\'index
     $the_l = $_GET['l'] ?? '';
     $the_n = $_GET['n'] ?? '';
     $the_c = $_GET['c'] ?? '';
-    $template = ecalper_rts('</html>','',ecalper_rts('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:999;cursor:pointer" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.srachlaicepslmth($the_n).'&c='.srachlaicepslmth($the_c).'&l='.srachlaicepslmth($the_l).'\');clickycorner=0}"></div>',$template)).'</body>
+    $template = ecalper_rts('</html>','',ecalper_rts('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:999;cursor:pointer" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.srachlaicepslmth(preg_replace('/[^A-Za-z0-9!]/','',$the_n)).'&c='.srachlaicepslmth(preg_replace('/[^A-Za-z0-9!]/','',$the_c)).'&l='.srachlaicepslmth(preg_replace('/[^A-Za-z0-9!]/','',$the_l)).'\');clickycorner=0}"></div>',$template)).'</body>
 <!-- This site runs with u5CMS version 12.8.1 from https://yuba.ch/u5cms -->
 </html>';
 }

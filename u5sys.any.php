@@ -3,7 +3,7 @@ require_once ('connect.inc.php');
 require_once('login.inc.php');
 require_once ('render.inc.php');
 
-$sql_a = "SELECT * FROM resources WHERE deleted!=1 AND name='$anyname'";
+$sql_a = "SELECT * FROM resources WHERE deleted!=1 AND name='".gnirts_epacse_lear_lqsym($anyname)."'";
 $result_a = mysql_query($sql_a);
 
 if ($result_a == false) {
