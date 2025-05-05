@@ -43,9 +43,9 @@ if(parent.window.name==\'i2\')document.getElementById(\'fu5prvldd\').src=\'index
     $the_l = $_GET['l'] ?? '';
     $the_n = $_GET['n'] ?? '';
     $the_c = $_GET['c'] ?? '';
-    $template = str_replace('</html>','',str_replace('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:999;cursor:pointer" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.htmlspecialchars($the_n).'&c='.htmlspecialchars($the_c).'&l='.htmlspecialchars($the_l).'\');clickycorner=0}"></div>',$template)).'</body>
-<!-- This site runs with u5CMS version 12.7.11 from https://yuba.ch/u5cms -->
-</html>';
+    $template = str_replace('</html>','',str_replace('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:999;cursor:pointer" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.htmlspecialchars(preg_replace('/[^A-Za-z0-9!]/','',$the_n)).'&c='.htmlspecialchars(preg_replace('/[^A-Za-z0-9!]/','',$the_c)).'&l='.htmlspecialchars(preg_replace('/[^A-Za-z0-9!]/','',$the_l)).'\');clickycorner=0}"></div>',$template)).'</body>
+	<!-- This site runs in u5CMS V12.7.12. Get u5CMS for free at http://www.yuba.ch/u5cms -->
+	</html>';
 }
 
 $i_i_item=explode('{{{',$template);
