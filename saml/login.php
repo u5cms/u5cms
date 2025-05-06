@@ -57,7 +57,7 @@ if ($u5samlmockauth != 'yes') {
 // Save email attribute as username and also store all attributes in
 // cookie for later use anywhere in the CMS
 setcookie('u5samlusername', strtolower(trim($samlattribs['emailaddress'])), 0, '/', '', $httpsisinuse, true);
-setcookie('u5samlnonce', $u5samlnonce, 0, '/', '', $httpsisinuse, true);
+setcookie('u5samlnonce', sha1($samlsalt.$u5samlnonce.strtolower(trim($samlattribs['emailaddress']))), 0, '/', '', $httpsisinuse, true);
 foreach ($samlattribs as $attrib => $value) {
     setcookie('u5saml' . $attrib, $value, 0, '/', '', $httpsisinuse, true);
 }
