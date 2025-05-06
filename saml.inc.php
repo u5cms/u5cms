@@ -1,6 +1,6 @@
 <?php 
 // do not include myfunction.inc.php here
-if($_COOKIE['u5samlnonce']!=$u5samlnonce||!isset($_COOKIE['u5samlusername']))die('<script>location.href="saml/login.php?u='.rawurlencode($_GET['u']).'"</script>');
+if($_COOKIE['u5samlnonce']!=sha1($samlsalt.$u5samlnonce.$_COOKIE['u5samlusername'])||!isset($_COOKIE['u5samlusername']))die('<script>location.href="saml/login.php?u='.rawurlencode($_GET['u']).'"</script>');
 $founduserincookie=$_COOKIE['u5samlusername'];
 $newautosamlpw=sha1($u5samlsalt.$founduserincookie.$password);
 
