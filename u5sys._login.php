@@ -1,6 +1,15 @@
 <?php
 require_once('connect.inc.php');
 require_once('globalslogin.inc.php');
+
+if (isset($_GET['u'])) {
+    $target = $_GET['u'];
+    $parsed = parse_url($target);
+    if (!empty($parsed['host']) && strcasecmp($parsed['host'], $_SERVER['HTTP_HOST']) !== 0) {
+        die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+    }
+}
+
 if(isset($u5samlsalt)&&$u5samlsalt!='') {
     if ($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain!='' && str_replace($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain,'',$_GET['u'])==$_GET['u']) $u5samlinfrontend='yes';
    if ($u5samlinfrontend != 'no') die('<center>'.ehtml($_COOKIE['u5samlusername']).'<br><br><button id="samllogin" onclick="top.location.href=\'loginsave.php?u='.rawurlencode($_GET['u']).'\'">LOGIN</button><br><br>'.$u5samllogininfo.'</center><script>document.getElementById("samllogin").focus();if(isNaN(location.href.split("%26")[location.href.split("%26").length-1])&&location.href.split("%3Bamp").length<7)document.getElementById("samllogin").click();else document.write("<br<br><br><center style=color:red>Is the user '.ehtml($_COOKIE['u5samlusername']).' registered in this u5CMS backend as a backend user or inranet user or closed user group member of the target page?</center>")</script>');
