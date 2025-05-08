@@ -17,7 +17,7 @@ $thefilesize=filesize($path.'/'.$file);
 $totalsizes+=$thefilesize;
 }
 }}}
-echo '<script>totalsizes1='.$_GET['t'].';totalsizes=0;totalsizes='.$totalsizes.'</script>';
+echo '<script>totalsizes1='.intval($_GET['t']).';totalsizes=0;totalsizes='.$totalsizes.'</script>';
 ?>
 
 <script>
