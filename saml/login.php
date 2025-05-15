@@ -2,6 +2,14 @@
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 ignore_user_abort(true);set_time_limit(36000);
 
+if (isset($_GET['u'])) {
+    $target = $_GET['u'];
+    $parsed = parse_url($target);
+    if (!empty($parsed['host']) && strcasecmp($parsed['host'], $_SERVER['HTTP_HOST']) !== 0) {
+        die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+    }
+}
+
 $debug = (isset($_COOKIE['u5debug']) && $_COOKIE['u5debug']) == 'yes' ? true : false;
 $debug = (isset($_GET['u5debug'])) ? true : false;
 require('../config.php');

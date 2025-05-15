@@ -2,6 +2,14 @@
 require('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
 
+if (isset($_GET['u'])) {
+    $target = $_GET['u'];
+    $parsed = parse_url($target);
+    if (!empty($parsed['host']) && strcasecmp($parsed['host'], $_SERVER['HTTP_HOST']) !== 0) {
+        die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+    }
+}
+
 if (isset($u5samlsalt)&&$u5samlsalt!='') {
     if ($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain!='' && str_replace($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain,'',$_GET['u'])==$_GET['u']) $u5samlinfrontend='yes';
     if ($u5samlinfrontend != 'no' || strpos($_GET['u'],'/u5admin/')>0) {
