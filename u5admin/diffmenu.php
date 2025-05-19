@@ -198,7 +198,7 @@ let isWaitingForResult = false;
             console.error("Unexpected error:", e);
             checkLoop();
         }
-    }, 111); 
+    }, 333); 
 })();
 </script>
 
