@@ -10,7 +10,6 @@ parent.document.title='Diff of '+parent.opener.document.getElementsByTagName('se
 document.write('<h1>Diff of <i>'+parent.opener.document.getElementsByTagName('select')[0].value+'</i></h1>');
 
 function vpick() {
-
 AL=document.getElementById('VL').value-0;
 BL=document.getElementById('LL').value-1;
 that=11 + 15 * AL - 1 + BL;
@@ -40,7 +39,6 @@ document.querySelectorAll('.cR'+BR).forEach(function(el) {
 
 document.getElementById('diff').submit();
 }
-
 </script>
 
 <form id="diff" method="post" action="diffresult.php" target="result">
@@ -116,7 +114,6 @@ let isWaitingForResult = false;
 (function checkLoop() {
     setTimeout(() => {
         if (isWaitingForResult) {
-            // Don't do anything until the result frame finishes loading
             return checkLoop();
         }
 
@@ -143,11 +140,12 @@ let isWaitingForResult = false;
                 const bg = resultFrame.getComputedStyle(tds[i]).backgroundColor;
                 if (bg === "rgb(255, 236, 236)" || bg === "rgb(234, 255, 234)") {
                     hasErrorHighlight = true;
+                    tds[i].scrollIntoView({ behavior: "smooth", block: "start" });
                     for (let i = 0; i < document.getElementById('VR').options.length; i++) {
-                    if (!document.getElementById('VR').options[i].hidden) {
-                    document.getElementById('VR').selectedIndex = i;
-                    break;
-                    }
+                        if (!document.getElementById('VR').options[i].hidden) {
+                            document.getElementById('VR').selectedIndex = i;
+                            break;
+                        }
                     }
                     break;
                 }
@@ -165,14 +163,11 @@ let isWaitingForResult = false;
             }
 
             if (select.selectedIndex < select.options.length - 1) {
-                // Set the waiting flag *immediately*, before doing anything else
                 isWaitingForResult = true;
-
                 select.selectedIndex++;
                 console.log("No changed cell found. Advancing to next option...");
                 vpick();
 
-                // Now we poll until the new page is ready
                 (function waitForResult() {
                     setTimeout(() => {
                         try {
@@ -186,13 +181,13 @@ let isWaitingForResult = false;
                         } catch (e) {
                             waitForResult();
                         }
-                    }, 100); // Retry loading check every 100ms
+                    }, 100);
                 })();
             } else {
                 console.log("Reached end of select menu. No #ffecec cell found.");
             }
 
-            checkLoop(); // Continue looping regardless
+            checkLoop();
 
         } catch (e) {
             console.error("Unexpected error:", e);
