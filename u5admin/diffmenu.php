@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>...</title>
 <?php require('backendcss.php'); ?></head>
-<body>
+<body><a style="text-decoration:none;position:absolute;top:0;right:0;font-size:60%" href="javascript:location.reload()">Click here to auto-select the nearest difference (e.g. after changing languages)</a>
 <script>
 parent.document.title='Diff of '+parent.opener.document.getElementsByTagName('select')[0].value;
 document.write('<h1>Diff of <i>'+parent.opener.document.getElementsByTagName('select')[0].value+'</i></h1>');
