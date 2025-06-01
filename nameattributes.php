@@ -24,16 +24,16 @@ while ($row = mysql_fetch_assoc($result)) {
         'content_5' => trim((string) render($row['content_5']))
     ];
     
-    // Consider only non-empty contents
-    $validContents = array_filter($contents, function($c) { return $c !== ''; });
+    // Only when [fo:]
+    $validContents = array_filter($contents, function($c) {
+        return strpos($c, '[fo:]') !== false;
+    });
     
     if (count($validContents) > 1) {
         $nameLists = [];
         
         foreach ($validContents as $col => $content) {
             preg_match_all('/name\s*=\s*(["\'])(.*?)\1|name\s*=\s*([^\s>]+)/i', $content, $matches);
-            
-            // Korrektur: Beide Matches zusammenführen
             $nameLists[$col] = array_merge($matches[2], $matches[3]);
         }
         
@@ -45,7 +45,7 @@ while ($row = mysql_fetch_assoc($result)) {
                 $list2 = $nameLists[$keys[$j]];
                 
                 if (count($list1) !== count($list2) || $list1 !== $list2) {
-                    echo '<script>if(parent.parent.location.href.indexOf("c='.$row['name'].'")>0)parent.werror("FORM ERROR: In the page object '.$row['name'].', the form tag [fo:] exists, meaning that the name attributes of all HTML elements must be fully identical across language versions (same count and naming order).")</script>';
+                    echo '<script>if(parent.parent.location.href.indexOf("c=' . $row['name'] . '") > 0) parent.werror("FORM ERROR: In the page object ' . $row['name'] . ', the form tag [fo:] exists, meaning that the name attributes of all HTML elements must be fully identical across language versions (same count and naming order).")</script>';
                 }
             }
         }
