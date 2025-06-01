@@ -19,8 +19,7 @@ setTimeout("parent.window.scrollTo(0,0)",777);
 
 function valu5form() {
 firstsaverwins();
-Vbody=parent.document.getElementsByTagName('body')[0].innerHTML;
-Vu5form = (Vbody.match(/name="u5form"/g) || []).length;
+Vu5form = parent.document.querySelectorAll('[name="u5form"]').length;
 if(Vu5form>1) werror('FATAL FORM ERROR: You must use <b>[fo:] ... [:fo]</b> only once per page!');
 
 Vu5felems = parent.document.u5form.getElementsByTagName("*");
