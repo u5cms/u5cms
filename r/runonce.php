@@ -573,6 +573,9 @@ $result_a=mysql_query($sql_a);
 $sql_a="ALTER TABLE `sizes` ADD IF NOT EXISTS `cropedge` INT NULL DEFAULT '0' AFTER `tosquare`;";
 $result_a=mysql_query($sql_a);
 
+$sql_a="UPDATE resources SET content_1 = REGEXP_REPLACE(content_1, '\\\\?[0-9]+', '') WHERE typ = 'c' AND content_1 REGEXP '\\\\?[0-9]+';";
+$result_a=mysql_query($sql_a);
+
 //////////////////////////////////////////////////////////////////////////////
 
 $tables = ["languages", "loginglobals", "mailing"]; // List of tables to update

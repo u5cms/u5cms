@@ -340,7 +340,7 @@ left: 822px;
 }
 
 #search_Submit {
-background: url(../images/lupe.svg?1694082138) 0 0 no-repeat transparent;
+background: url(../images/lupe.svg) 0 0 no-repeat transparent;
 border: none;
 cursor: pointer;
 width: 21px;
