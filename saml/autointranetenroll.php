@@ -1,5 +1,9 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+
+if(file_exists('../fileversions/htarunning.txt') && file_get_contents('../fileversions/htarunning.txt')!=0 && file_get_contents('../fileversions/htarunning.txt')>time()-60*5)die('<center><img src="../upload/spinner.gif"><br><br>Provisioning is running...<br><br>This may take a few minutes.<br>Please do not close or exit this window!<center><script>setTimeout("location.href=location.href",2222)</script>');
+
+
 ignore_user_abort(true);set_time_limit(36000);
 require_once __DIR__ . '/connect.inc.php';
 
@@ -21,5 +25,7 @@ if ($result_a==false) {
 // recalculate login field of intranet resources
 $scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
 $scriptFolder .= $_SERVER['HTTP_HOST'] . dirname(dirname($_SERVER['REQUEST_URI']));
-if(mysql_affected_rows()>0)file_get_contents($scriptFolder . '/htaccess.php');
-echo '<script>parent.loginsave();</script>';
+if(mysql_affected_rows()>0)die('<center><img src="../upload/spinner.gif"><br><br>Privistioning is starting...<center><iframe src="../htaccess.php" style="display:none"></iframe><script>setTimeout("location.href=location.href",2222)</script>');
+
+if(file_exists('../fileversions/htarunning.txt') && file_get_contents('../fileversions/htarunning.txt')!=0 && file_get_contents('../fileversions/htarunning.txt')>time()-60*5)die('<center><img src="../upload/spinner.gif"><br><br>Provisioning is running...<br><br>This may take a few minutes.<br>Please do not close or exit this window!<center><script>setTimeout("location.href=location.href",2222)</script>');
+else echo '<script>parent.loginsave();</script>';
