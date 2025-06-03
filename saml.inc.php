@@ -1,5 +1,6 @@
 <?php 
 // do not include myfunction.inc.php here
+if(file_exists('fileversions/htarunning.txt') && file_get_contents('fileversions/htarunning.txt')!=0 && file_get_contents('fileversions/htarunning.txt')>time()-60*5)die('<center><img src="upload/spinner.gif"><br><br>Provisioning in progress...<br><br>This may take a few minutes.<br>Please do not close or exit this window!<center><script>setTimeout("location.href=location.href",2222)</script>');
 if($_COOKIE['u5samlnonce']!=sha1($samlsalt.$u5samlnonce.$_COOKIE['u5samlusername'])||!isset($_COOKIE['u5samlusername']))die('<script>location.href="saml/login.php?u='.rawurlencode($_GET['u']).'"</script>');
 $founduserincookie=$_COOKIE['u5samlusername'];
 $newautosamlpw=sha1($u5samlsalt.$founduserincookie.$password);
@@ -24,7 +25,8 @@ if($num_a>0) {
         $result_a=mysql_query($sql_a);
         if ($result_a==false) die('SQL_a-Query failed!...!<p>');
 
-        if(mysql_affected_rows()>0)file_get_contents($scriptFolder.'/htaccess.php');
+        if(mysql_affected_rows()>0)die('<center><img src="upload/spinner.gif"><br><br>Starting provisioning...<center><iframe src="htaccess.php" style="display:none"></iframe><script>setTimeout("location.href=location.href",2222)</script>');
+		
     }
 
     $_POST['u']=$founduserincookie;
