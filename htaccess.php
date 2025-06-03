@@ -2,7 +2,7 @@
 ignore_user_abort(true);set_time_limit(36000);
 
 if ($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']) {
-if(file_exists('fileversions/htarunning.txt') && file_get_contents('fileversions/htarunning.txt')!=0 && file_get_contents('fileversions/htarunning.txt')>time()-60*15)die('<script>top.document.title="-"+top.document.title</script>');
+if(file_exists('fileversions/htarunning.txt') && file_get_contents('fileversions/htarunning.txt')!=0 && file_get_contents('fileversions/htarunning.txt')>time()-60*5)die('<script>top.document.title="-"+top.document.title</script>');
 file_put_contents('fileversions/htarunning.txt',time());
 file_put_contents('fileversions/lasthtaccess.txt',time());
 }
