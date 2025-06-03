@@ -74,7 +74,7 @@ foreach ($samlattribs as $attrib => $value) {
 // of user as intranet members
 if ($u5samlautointranetenrollment == 'yes') {
 $urlhash=sha1(date('Ymd').$password.$sessioncookiehashsalt.base64_encode($samlattribs['emailaddress']));
-echo'<html><body><center style="margin-top:111px"><img src="../upload/spinner.gif" /><iframe frameborder="0" src="autointranetenroll.php?k='.$urlhash.'&e='.rawurlencode(base64_encode($samlattribs['emailaddress'])).'"></iframe></center></body></html>';
+echo'<html><body><center><iframe width="333" height="333" frameborder="0" src="autointranetenroll.php?k='.$urlhash.'&e='.rawurlencode(base64_encode($samlattribs['emailaddress'])).'"></iframe></center></body></html>';
 }
 
 if ($debug) {
@@ -100,7 +100,7 @@ if ($u5samlautointranetenrollment == 'yes') echo '<script>
 function loginsave() {
 location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"
 }
-setTimeout("loginsave()",11111);
+setTimeout("loginsave()",5*60*1000);
 </script>';
 
 else echo '<script>location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"</script>';
