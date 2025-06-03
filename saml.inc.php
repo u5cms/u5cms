@@ -25,7 +25,7 @@ if($num_a>0) {
         $result_a=mysql_query($sql_a);
         if ($result_a==false) die('SQL_a-Query failed!...!<p>');
 
-        if(mysql_affected_rows()>0)die('<center><img src="upload/spinner.gif"><br><br>Starting provisioning...<center><iframe src="htaccess.php" style="display:none"></iframe><script>setTimeout("location.href=location.href",2222)</script>');
+        if(mysql_affected_rows()>0)die('<center><img src="upload/spinner.gif"><center><iframe src="htaccess.php" style="display:none"></iframe><script>setTimeout("location.href=location.href",3333)</script>');
 		
     }
 
