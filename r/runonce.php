@@ -317,7 +317,7 @@ $sql_a="UPDATE sizes SET smallimgL_h=50 WHERE smallimgL_h<1";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="UPDATE sizes SET zoomedimg_w=1000, zoomedimg_h=1000";
+$sql_a="UPDATE sizes SET zoomedimg_w=2000, zoomedimg_h=2000";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
