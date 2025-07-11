@@ -67,7 +67,6 @@ $nt2cu=array_map('trim',$nt2cu);
 $zendsubject=$_POST['thankssubject'];
 if (trim($zendsubject)=='') $zendsubject='Quittung/Receipt/Acquit: '.$_SERVER['HTTP_HOST'];
 $zendmessage=$_POST['thankstext']."\r\n\r\n";
-$efound=0;
 $errors=0;
 $foundliving=0;
 
@@ -83,17 +82,6 @@ $data.='·'.str_replace(';',',.',$value).';';
 }
 
 if ($_POST['qv2bo']!='off') if (!in_array($key,$nt2cu)) $zendmessage.=str_replace('_mandatory','*',$key).': '.str_replace(str_replace(basename($scripturi),'',$scripturi).'fileversions/useruploads/',str_replace(basename($scripturi),'',$scripturi).'ffff.php?f=',$value)."\r\n";
-}
-
-if ($efound==1 && strpos(trim($value),'@')>=1 && strpos($value,'.')>=1) {
-$email2=trim(str_replace(' ','',$value));
-$efound=2;
-}
-
-
-if ($efound==0 && strpos(trim($value),'@')>=1 && strpos($value,'.')>=1) {
-$email1=trim(str_replace(' ','',$value));
-$efound=1;
 }
 
 
