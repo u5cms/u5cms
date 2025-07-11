@@ -244,12 +244,12 @@ if (strpos(trim($_POST['youremail_mandatory']),'@')>=1) $email2=trim($_POST['you
 $zendfrom=$email1;
 $zendname=$email1;
 $zendto=$email2;
-if ($_POST['em2cu']!='off') if ($email1!='' && $email2!='') include('zendmail.php');
+if ($_POST['em2cu']!='off') if ($email1!='' || $email2!='') include('zendmail.php');
 
 $zendfrom=$email1;
 $zendname=$email1;
 $zendto=$email1;
-if ($_POST['em2me']!='off') if ($email1!='' && $email2!='') include('zendmail.php');
+if ($_POST['em2me']!='off') if ($email1!='' || $email2!='') include('zendmail.php');
 
 ?>
 <script type="text/javascript">
