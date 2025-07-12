@@ -1,6 +1,6 @@
 <?php 
 // do not include myfunction.inc.php here
-if(file_exists('fileversions/htarunning.txt') && file_get_contents('fileversions/htarunning.txt')!=0 && file_get_contents('fileversions/htarunning.txt')>time()-60*5)die('<center><img src="upload/spinner.gif"><br><br>Provisioning in progress...<br><br>This may take a few minutes.<br>Please do not close or exit this window!<center><script>setTimeout("location.href=location.href",2222)</script>');
+if($_COOKIE['skipayor']!='yes' && file_exists('fileversions/htarunning.txt') && file_get_contents('fileversions/htarunning.txt')!=0 && file_get_contents('fileversions/htarunning.txt')>time()-60*5)die('<center><img src="upload/spinner.gif"><br><br>Provisioning in progress...<br><br>This may take a few minutes.<br><br><a href="javascript:void(0)" onclick="document.cookie=\'skipayor=yes;max-age=10;path=/\';location.href=location.href">I’m in a hurry and take the risk of skipping the provisioning.</a><br><small>As a result, individual items, e.g. images, may not be available for you or may appear defective.</small><script>setTimeout("location.href=location.href",2222)</script>');
 if($_COOKIE['u5samlnonce']!=sha1($samlsalt.$u5samlnonce.$_COOKIE['u5samlusername'])||!isset($_COOKIE['u5samlusername']))die('<script>location.href="saml/login.php?u='.rawurlencode($_GET['u']).'"</script>');
 $founduserincookie=$_COOKIE['u5samlusername'];
 $newautosamlpw=sha1($u5samlsalt.$founduserincookie.$password);
