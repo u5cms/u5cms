@@ -87,5 +87,6 @@ unlink('../fileversions/x');
 }
 else echo '<script>alert("PROBLEM: The server does not have the right to write into the folder named \'fileversions\'.\n\nEFFECTS: Your customers cannot upload files in your forms where the script \'upload\' is used, and there is no versioning of your files uploaded in the backend.\n\nSOLUTION: CHMOD the folder \'fileversions\' RECURSIVELY (incl. all its files, subfolders a.s.o.) e. g. to 777 e. g. with FileZilla.");</script>';
 ?>
+<script src="patches.js"></script>
 </body>
 </html>
