@@ -7,6 +7,7 @@ use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
+use Laminas\Mail\Transport\Exception\ExceptionInterface;
 
 function u5iso($str) {
     return html_entity_decode(u5allnument($str), ENT_COMPAT,'ISO-8859-1');
@@ -252,13 +253,19 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
     $body = new MimeMessage();
     $body->setParts([$text, $html]);
 
-    $mail->setSubject($zendsubject);
-    $mail->setBody($body);
+$mail->setSubject($zendsubject);
+$mail->setBody($body);
 
-    $contentTypeHeader = $mail->getHeaders()->get('Content-Type');
-    $contentTypeHeader->setType('multipart/alternative');
+$contentTypeHeader = $mail->getHeaders()->get('Content-Type');
+$contentTypeHeader->setType('multipart/alternative');
 
+try {
     MailTransport($usesmtp, $mysmtpoptions)->send($mail);
+} catch (ExceptionInterface $e) {
+    error_log("mailsend.php: Invalid to $zendto: " . $e->getMessage());
+    echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9888; ".($i_a+1).":&nbsp;<small>SEND</small>&nbsp;".u5fromidn($zendto)."</div>'</script>";
+    continue;
+}
 }
 else $adrerror='ERROR!!!';
 
