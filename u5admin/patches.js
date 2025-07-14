@@ -38,10 +38,9 @@
       function fixLinks() {
         const links = container.querySelectorAll('a');
         links.forEach(a => {
-          if (a.textContent.trim() === 'a') {
-            if (!a.textContent.endsWith('\u00A0\u00A0\u00A0')) {
-              a.textContent = 'a\u00A0\u00A0\u00A0';
-            }
+          const txt = a.textContent.trim();
+          if ((txt === 'a' || txt === 'x') && !a.textContent.endsWith('\u00A0\u00A0\u00A0')) {
+            a.textContent = txt + '\u00A0\u00A0\u00A0';
           }
         });
       }
