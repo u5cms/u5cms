@@ -1,3 +1,5 @@
+<?php ignore_user_abort(true);set_time_limit(36000); ?>
+<script>setTimeout("parent.main.location.reload()",777)</script>
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
 require_once('u5idn.inc.php');
   $_GET['e'] = preg_replace_callback(
@@ -77,8 +79,6 @@ if(!(isset($u5samlsalt)&&$u5samlsalt!=''))include('../zendmail.php');
 
 trxlog('invite '.$e);
 ?>
-<script>
-parent.main.location.reload();
-</script>
+<script>parent.main.location.reload();</script>
 </body>
 </html>
