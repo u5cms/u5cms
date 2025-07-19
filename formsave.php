@@ -1,8 +1,3 @@
-<?php
-//ini_set('error_reporting', E_ALL);
-//ini_set('display_errors', 'On');
-//ini_set('display_startup_errors', 'On');
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -252,6 +247,7 @@ firstsaverwins();
 parent.u5form.submit();
 }
 <?php if(strpos($thanks,'(')>1) echo 'else {firstsaverwins();parent.'.htmlspecialchars($thanks).'};'?>;
+<?php file_put_contents('fileversions/lastsave.txt',time()); ?>
 </script>
 </body>
 </html>

@@ -19,5 +19,6 @@ die('SQL_a-Query failed!...!<p>');
 document.getElementById('cbody').style.background="lightgreen";
 setTimeout("document.getElementById('cbody').style.background='#ffffff'",1111);
 </script>
+<?php file_put_contents('../fileversions/lastsave.txt',time()); ?>
 </body>
 </html>
