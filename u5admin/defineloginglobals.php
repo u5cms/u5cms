@@ -30,7 +30,7 @@ format='Here you may use u5CMS-syntax.\n\nExamples:\n[b]my text[/]\n[h:]<b>my te
 </script>
 
 <h3>Define login instructions <small>(goto <a href="definelanguages.php">languages</a>)</small></h3>
-<form onsubmit="cchanges=0" name="form1" method="post" action="defineloginglobals2.php">
+<form onsubmit="cchanges=0;document.querySelectorAll('.asterisk').forEach(e=>e.classList.add('blink_me'));" name="form1" method="post" action="defineloginglobals2.php">
 
 <h4>Title</h4>
 1<input name="logintitle_1" type="text" size="90" maxlength="255" value="<?php echo ehtml($row_a['logintitle_1']) ?>"><br>

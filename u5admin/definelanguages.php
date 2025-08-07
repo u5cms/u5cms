@@ -25,7 +25,7 @@ $row_a = mysql_fetch_array($result_a);
 
 ?>
 <h1>Define languages</h1>
-<form onsubmit="cchanges=0" name="form1" method="post" action="definelanguages2.php">
+<form onsubmit="cchanges=0;document.querySelectorAll('.asterisk').forEach(e=>e.classList.add('blink_me'));" name="form1" method="post" action="definelanguages2.php">
 <script>
 function aaz(string) {
     for (var i=0, output='', valid="abcdefghijklmnopqrstuvwxyz"; i<string.length; i++)

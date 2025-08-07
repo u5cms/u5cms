@@ -13,7 +13,7 @@ shortcut.add("Ctrl+S",function() {
 <?php require('backendcss.php'); ?></head>
 
 <body>
-<form onsubmit="cchanges=0" action="titlefixum2.php" method="post" name="form1" id="form1">
+<form onsubmit="cchanges=0;document.querySelectorAll('.asterisk').forEach(e=>e.classList.add('blink_me'));" action="titlefixum2.php" method="post" name="form1" id="form1">
   <p>
     <?php 
 

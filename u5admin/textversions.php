@@ -47,7 +47,7 @@ require_once('connect.inc.php');
 
 </h1>
 
-<a title="compare versions" style="position:absolute;left:95%;text-decoration:none;font-size:80%;color:white;background:gray" href="javascript:void(0)" onclick="f1=window.open('diff.php','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999');">&nbsp;diff&nbsp;</a>
+<a title="compare versions" style="position:absolute;left:95%;text-decoration:none;font-size:80%;color:white;background:gray" href="javascript:void(0)" onclick="f1=window.open('diff.php','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=2222,height=2222');">&nbsp;diff&nbsp;</a>
 
 <?php
 
