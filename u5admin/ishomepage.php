@@ -14,7 +14,7 @@ shortcut.add("Ctrl+S",function() {
 
 <body>
 <h1>Define homepage</h1>
-<form onsubmit="cchanges=0" name="form1" method="post" action="ishomepage2.php">
+<form onsubmit="cchanges=0;document.querySelectorAll('.asterisk').forEach(e=>e.classList.add('blink_me'));" name="form1" method="post" action="ishomepage2.php">
 <p>Define which page shall be displayed as your homepage (mainpage).</p>
 
 <?php 

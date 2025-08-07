@@ -8,7 +8,9 @@
 <script>
 parent.document.title='Diff of '+parent.opener.document.getElementsByTagName('select')[0].value;
 document.write('<h1>Diff of <i>'+parent.opener.document.getElementsByTagName('select')[0].value+'</i></h1>');
+</script>
 
+<script>
 function vpick() {
 AL=document.getElementById('VL').value-0;
 BL=document.getElementById('LL').value-1;
@@ -42,7 +44,6 @@ document.getElementById('diff').submit();
 </script>
 
 <form id="diff" method="post" action="diffresult.php" target="result">
-
 <center style="margin-top:-55px">
 
 <select id="VL" onchange="vpick()">
@@ -88,13 +89,11 @@ document.write('<option value="'+i+'" id="R'+i+'">'+i+': '+e[i].innerHTML+'</opt
 </center>
 
 <center style="display:none">
-
 <textarea name="TL" id="TL" style="height:333px;width:555px"></textarea>
 <textarea name="TR" id="TR" style="height:333px;width:555px"></textarea>
-
 </center>
-
 </form>
+
 <script>
 vpick();
 if (document.cookie.indexOf('LL=')>-1){ 
@@ -103,35 +102,25 @@ vpick();
 }
 if (document.cookie.indexOf('LR=')>-1){ 
 document.getElementById('LR').value=('; '+document.cookie).split('; LR=')[1].split(';')[0];
-document.getElementById('LR').onchange;
 vpick();
 }
 </script>
 
-<script> 
+<script>
 let isWaitingForResult = false;
+
+function diffDone() {
+    console.log("Diff rendering completed (called from result frame).");
+    isWaitingForResult = false;
+}
 
 (function checkLoop() {
     setTimeout(() => {
-        if (isWaitingForResult) {
-            return checkLoop();
-        }
+        if (isWaitingForResult) return checkLoop();
 
         try {
             const resultFrame = parent.frames['result'];
-            let resultDoc;
-
-            try {
-                resultDoc = resultFrame.document;
-            } catch (err) {
-                console.warn("Unable to access result frame document. Retrying...");
-                return checkLoop();
-            }
-
-            if (resultDoc.readyState !== "complete") {
-                console.log("Result frame still loading...");
-                return checkLoop();
-            }
+            const resultDoc = resultFrame.document;
 
             const tds = resultDoc.getElementsByTagName("td");
             let hasErrorHighlight = false;
@@ -141,6 +130,7 @@ let isWaitingForResult = false;
                 if (bg === "rgb(255, 236, 236)" || bg === "rgb(234, 255, 234)") {
                     hasErrorHighlight = true;
                     tds[i].scrollIntoView({ behavior: "smooth", block: "start" });
+
                     for (let i = 0; i < document.getElementById('VR').options.length; i++) {
                         if (!document.getElementById('VR').options[i].hidden) {
                             document.getElementById('VR').selectedIndex = i;
@@ -157,38 +147,18 @@ let isWaitingForResult = false;
             }
 
             const select = document.getElementById('VL');
-            if (!select) {
-                console.warn("Select menu with ID 'VL' not found.");
-                return;
-            }
+            if (!select) return;
 
             if (select.selectedIndex < select.options.length - 1) {
                 isWaitingForResult = true;
                 select.selectedIndex++;
                 console.log("No changed cell found. Advancing to next option...");
                 vpick();
-
-                (function waitForResult() {
-                    setTimeout(() => {
-                        try {
-                            const doc = resultFrame.document;
-                            if (doc.readyState === "complete") {
-                                console.log("Result frame finished loading.");
-                                isWaitingForResult = false;
-                            } else {
-                                waitForResult();
-                            }
-                        } catch (e) {
-                            waitForResult();
-                        }
-                    }, 100);
-                })();
             } else {
                 console.log("Reached end of select menu. No #ffecec cell found.");
             }
 
             checkLoop();
-
         } catch (e) {
             console.error("Unexpected error:", e);
             checkLoop();
@@ -209,6 +179,7 @@ oldtextarea=textarea;
 }
 }
 </script>
+
 <?php
 $sql_a="SELECT name FROM resources WHERE name='modify!diff!php' AND deleted!=1";
 $result_a=mysql_query($sql_a);

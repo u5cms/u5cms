@@ -2,12 +2,40 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<style>
-tr{background:#f8faf8}
-</style>
 <title>diff</title>
-<?php require('backendcss.php'); ?></head>
+<?php require('backendcss.php'); ?>
+<style>
+tr { background: #f8faf8; }
+
+#toggleUnchanged {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999;
+  width: 28px;
+  height: 28px;
+  line-height: 26px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  font-family: sans-serif;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  user-select: none;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+#toggleUnchanged:hover {
+  background: #222;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+</style>
+</head>
 <body>
+
+<div id="toggleUnchanged" title="differing lines only (toggle)">&#x2263;</div>
 
 <?php
 function normalizeNewlines($text) {
@@ -105,6 +133,20 @@ function findMovedLines($beforeLines, $afterLines) {
     return $moved;
 }
 
+function decodeAmpBeforeHtmlEntities($text) {
+    return preg_replace_callback(
+        '/&amp;(?=(#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);)/',
+        function ($match) {
+            $entity = '&' . $match[1] . ';';
+            if (html_entity_decode($entity, ENT_QUOTES | ENT_HTML5, 'UTF-8') !== $entity) {
+                return '&';
+            }
+            return $match[0];
+        },
+        $text
+    );
+}
+
 function diffText($before, $after) {
     $before = normalizeNewlines($before);
     $after = normalizeNewlines($after);
@@ -186,21 +228,67 @@ function diffText($before, $after) {
 }
 
 echo diffText($_POST['TL'], $_POST['TR']);
-
-function decodeAmpBeforeHtmlEntities($text) {
-    return preg_replace_callback(
-        '/&amp;(?=(#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);)/',
-        function ($match) {
-            $entity = '&' . $match[1] . ';';
-            if (html_entity_decode($entity, ENT_QUOTES | ENT_HTML5, 'UTF-8') !== $entity) {
-                return '&';
-            }
-            return $match[0];
-        },
-        $text
-    );
-}
 ?>
+
+<script>
+try {
+    parent.menu.diffDone();
+} catch(e) {
+    console.warn("Could not notify parent frame about diff completion.", e);
+}
+</script>
+
+<script>
+(function(){
+  const toggleBtn = document.getElementById('toggleUnchanged');
+  let hidden = false;
+  let previousScrollY = 0;
+
+  toggleBtn.addEventListener('click', () => {
+    const rows = document.querySelectorAll('table tr');
+    hidden = !hidden;
+
+    if (hidden) {
+      previousScrollY = window.scrollY;
+    }
+
+    rows.forEach(row => {
+      const tds = row.querySelectorAll('td');
+      if (tds.length === 4) {
+        const bgLeft = window.getComputedStyle(tds[1]).backgroundColor;
+        const bgRight = window.getComputedStyle(tds[3]).backgroundColor;
+
+        const isRed = bgLeft === 'rgb(255, 236, 236)' || bgRight === 'rgb(255, 236, 236)';
+        const isGreen = bgLeft === 'rgb(234, 255, 234)' || bgRight === 'rgb(234, 255, 234)';
+
+        if (!isRed && !isGreen) {
+          row.style.display = hidden ? 'none' : '';
+        }
+      }
+    });
+
+    toggleBtn.classList.toggle('active', hidden);
+    toggleBtn.innerHTML = hidden ? '\u2261' : '\u2263';
+
+    if (!hidden) {
+      window.scrollTo({ top: previousScrollY, behavior: 'smooth' });
+    }
+  });
+})();
+</script>
+
+<script>
+(function scrollToFirstColoredCell(){
+  const cells = document.querySelectorAll('td');
+  for (let i = 0; i < cells.length; i++) {
+    const bg = window.getComputedStyle(cells[i]).backgroundColor;
+    if (bg === 'rgb(255, 236, 236)' || bg === 'rgb(234, 255, 234)') {
+      cells[i].scrollIntoView({ behavior: "smooth", block: "start" });
+      break;
+    }
+  }
+})();
+</script>
 
 </body>
 </html>

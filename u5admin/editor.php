@@ -110,6 +110,7 @@ document.form1.action='savepage.php';
 }
 function onsubmitfunction() {
 document.form1.action=document.form1.action.split('?')[0]+'?i='+window.name;
+if(document.getElementById('star'))document.getElementById('star').classList.add('blink_me');
 }
 function postsubmitfunction() {
 if(isphperror!=1){changes=0;resetchanges();skipone();checkother()}	

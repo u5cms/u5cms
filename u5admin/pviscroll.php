@@ -25,7 +25,7 @@ $pvitop=str_replace('pvitop=','',$c[1]);
 ?>
 
 
-<p>Define the initial scroll position in the preview frame. To properly calibrate,  open a very long page in the editor in one frame and as preview in the other frame.<form onsubmit="cchanges=0" action="pviscrollsave.php" target="save" name="form1">
+<p>Define the initial scroll position in the preview frame. To properly calibrate,  open a very long page in the editor in one frame and as preview in the other frame.<form onsubmit="cchanges=0;document.querySelectorAll('.asterisk').forEach(e=>e.classList.add('blink_me'));" action="pviscrollsave.php" target="save" name="form1">
 
 &nbsp;left:<br />
 <input value="<?php echo $pvileft ?>" onchange="if (this.value!=validated(this.value)) this.value=validated(this.value)" onkeyup="if (this.value!=validated(this.value)) this.value=validated(this.value)" type="text" id="pvileft" name="pvileft">
