@@ -63,7 +63,7 @@ $num_a = mysql_num_rows($result_a);
 for ($i_a = 0; $i_a < $num_a; $i_a++) {
     $row_a = mysql_fetch_array($result_a);
 	
-	    echo '<br><a style="text-decoration:none" title="localize (where linked in)" href="localize.php?name=' . $row_a['name'] . '">L</a>&nbsp;';
+	    echo '<br>'.$i_a.': <a style="text-decoration:none" title="localize (where linked in)" href="localize.php?name=' . $row_a['name'] . '">L</a>&nbsp;';
     echo '<a style="text-decoration:none" title="focus in repository" href="javascript:void(0)" onclick="if(!opener){alert(\'Context window missing!\')} else {opener.parent.i3.location.href=\'focus.php?c=' . $row_a['name'] . '\'}">F</a>&nbsp;';
 
     echo '<h2 style="display:inline;line-height:42px">' . date('Y-m-d H:i:s', $row_a['lastmut']) . ' ' . $row_a['operator'] . '</h2>';
