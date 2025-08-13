@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-require_once('connect.inc.php');
+require_once('connect.inc.php'); require_once('../san.inc.php');
 require('../config.php');
 $_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
 if ($formdataRqHIADRI!='no') require('accadmin.inc.php');

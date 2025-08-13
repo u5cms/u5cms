@@ -8,7 +8,7 @@ setcookie('fdbool', $_GET['fdb'], time() + 3600 * 24 * 365 * 10, '/');
 setcookie('fdorder', $_GET['fdo'], time() + 3600 * 24 * 365 * 10, '/');
 require('chartreadrights.inc.php');
 
-if ($_GET['s'] > 0) $andstatus = 'AND status = ' . mysql_real_escape_string($_GET['s']);
+if ($_GET['s'] > 0) $andstatus = 'AND status = ' . mysql_real_escape_string(intval($_GET['s']));
 else $andstatus = 'AND status < ' . mysql_real_escape_string(5);
 $toolate = 30;
 if ($_GET['s'] == 5) $andstatus .= ' AND lastmut>' . (time() - $toolate * 24 * 60 * 60);

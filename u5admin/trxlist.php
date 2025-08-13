@@ -40,7 +40,7 @@ echo '
 <a '.$more.'></a>'.$row_a['id'].'
 </td>
 <td>
-'.$row_a['operator'].'
+'.htmlspecialchars($row_a['operator']).'
 </td>
 <td>
 '.$row_a['ip'].'
@@ -49,7 +49,7 @@ echo '
 '.date('Y.m.d H:i:s',$row_a['ts']).'
 </td>
 <td>
-'.$row_a['trx'].'
+'.htmlspecialchars($row_a['trx']).'
 </td>
 </tr>
 ';

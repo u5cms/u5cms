@@ -28,9 +28,9 @@ setTimeout("noopener()",1111);
 self.focus();
 <?php 
 if(!isset($_GET['s'])) {
-	if ($_GET['w']<100) $_GET['w']=640;
-	if ($_GET['h']<100) $_GET['h']=640;
-	echo 'window.resizeTo('.floor($_GET['w']*0.42).','.$_GET['h'].');';
+	if (intval($_GET['w'])<100) $_GET['w']=640;
+	if (intval($_GET['h'])<100) $_GET['h']=640;
+	echo 'window.resizeTo('.floor(intval($_GET['w'])*0.42).','.intval($_GET['h']).');';
     echo 'window.moveTo(0,0);';
 }
 if (!isset($_GET['s']) && $_COOKIE['mochr']>0) echo "location.href='characters.php?s=".$_COOKIE['mochr']."';";

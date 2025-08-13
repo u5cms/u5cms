@@ -34,6 +34,11 @@ require_once('login.inc.php');
 if($_GET['id']>0) $isid="AND datacsv LIKE '·". mysql_real_escape_string($_GET['id']).";%'";
 else $isid='';
 
+$sql_a="SELECT name FROM resources WHERE deleted!=1 AND (content_1 LIKE '%[mf]%' OR content_2 LIKE '%[mf]%' OR content_3 LIKE '%[mf]%' OR content_4 LIKE '%[mf]%' OR content_5 LIKE '%[mf]%')";
+$num_a = mysql_num_rows($result_a);
+if($num_a<1)die('<script>alert("ERROR: [mf] not set in source form!")</script>');
+
+
 $sql_a="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' AND authuser!='' AND authuser='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' $isid ORDER BY id DESC";
 $result_a=mysql_query($sql_a);
 

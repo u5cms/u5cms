@@ -1,3 +1,4 @@
+<?php require_once('../san.inc.php') ?>
 <iframe id="idlocalize" style="display:none"></iframe><iframe id="idcoblel" style="display:none"></iframe>
 <script>
 function isNumeric(n) {

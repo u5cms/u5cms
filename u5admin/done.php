@@ -1,4 +1,4 @@
-<?php require('connect.inc.php'); 
+<?php require('connect.inc.php'); require_once('../san.inc.php');
 
 if(strpos($_GET['n'],'inserted ')===0) {
 $f=explode('inserted ',$_GET['n']);

@@ -34,7 +34,7 @@ require('chartreadrights.inc.php');
 $_GET['s']=$_COOKIE['dgets'];
 $_GET['f']=$_COOKIE['dgetf'];
 
-if ($_GET['s']>0) $andstatus='AND status = '.mysql_real_escape_string($_GET['s']);
+if ($_GET['s']>0) $andstatus='AND status = '.mysql_real_escape_string(intval($_GET['s']));
 else $andstatus='AND status < '.mysql_real_escape_string(5);
 $toolate=30;
 if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);

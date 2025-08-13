@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <?php
-$url0=st($_GET['link']);
+$url0 = (isset($_GET['link']) && preg_match('/^https?:\/\//', $_GET['link'])) ? st($_GET['link']) : '';
 $url=$scripturi.'?'.$_SERVER['QUERY_STRING'];
 $title=st($_GET['name']);
 $description=st($_GET['description']);
