@@ -685,6 +685,9 @@ rrmdir('../fancybox');
 rrmdir('../lib');
 unlink('../v.js');
 unlink('../c.js');
+unlink('../getcode.php');
+unlink('../story.php');
+unlink('../cookies.php');
 unlink('../js/jquery-3.3.1.min.js');
 include('../u5admin/putcss.inc.php');
 ?>
