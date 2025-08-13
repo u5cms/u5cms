@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 setcookie('ffrm', $_SERVER['QUERY_STRING'], time()+3600*24*365*10,'/');
-require_once('connect.inc.php');
+require_once('connect.inc.php'); require_once('../san.inc.php');
 include('../config.php');
 $_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
 $lnnr=1;

@@ -31,7 +31,7 @@ $mailtext=mysql_real_escape_string($_POST['mmessage']);
 $mailsaved=time();
 $mailsavedop=mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].' '.$_SERVER['REMOTE_ADDR']);
 $maildeleted=0;
-
+$_GET['id']=intval($_GET['id']);
 $sql_a="UPDATE mailing SET
 mailfrom='$mailfrom',
 mailto='$mailto',

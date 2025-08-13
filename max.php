@@ -33,13 +33,13 @@ $allmax=$m[1];
 $userthismax=$m[2];
 $userallmax=$m[3];
 
-$where=' AND (status='.$status[0];
-if($status[1]>0)$where.=' OR status='.$status[1];
-if($status[2]>0)$where.=' OR status='.$status[2];
-if($status[3]>0)$where.=' OR status='.$status[3];
-if($status[4]>0)$where.=' OR status='.$status[4];
-if($status[5]>0)$where.=' OR status='.$status[5];
-if($status[6]>0)$where.=' OR status='.$status[6];
+$where=' AND (status='.intval($status[0]);
+if($status[1]>0)$where.=' OR status='.intval($status[1]);
+if($status[2]>0)$where.=' OR status='.intval($status[2]);
+if($status[3]>0)$where.=' OR status='.intval($status[3]);
+if($status[4]>0)$where.=' OR status='.intval($status[4]);
+if($status[5]>0)$where.=' OR status='.intval($status[5]);
+if($status[6]>0)$where.=' OR status='.intval($status[6]);
 
 $where.=')';
 

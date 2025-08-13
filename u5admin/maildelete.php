@@ -10,7 +10,7 @@
 <?php 
 require('connect.inc.php');
 
-
+$_GET['id']=intval($_GET['id']);
 $sql_b="UPDATE mailing SET maildeleted=1 WHERE id=".mysql_real_escape_string($_GET['id']);
 $result_b=mysql_query($sql_b);
 

@@ -19,7 +19,7 @@ if ($result_a==false) {
 	   echo 'SQL_a-Query failed!...!<p>';
 }
 
-echo '<script>if (parent && parent.opener && parent.opener.parent && parent.opener.parent.save) parent.opener.parent.save.location.href=\'done.php?n=deleted '.$_GET['f'].'\'</script>';
+echo '<script>if (parent && parent.opener && parent.opener.parent && parent.opener.parent.save) parent.opener.parent.save.location.href=\'done.php?n=deleted '.htmlspecialchars($_GET['f']).'\'</script>';
 
 ?>
 <script>location.replace('files.php?typ=<?php echo $_GET['typ'] ?>&=&name=<?php echo $_GET['name']?>')</script>';
