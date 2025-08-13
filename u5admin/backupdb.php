@@ -3,7 +3,8 @@
 
 require('connect.inc.php');
 require_once('u5idn.inc.php');
-//if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
+if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
+
 // Pfad zum Backup
 $backup_dir=U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . '_dbbackup';
 @mkdir($backup_dir);
@@ -48,7 +49,7 @@ $cur_time=date("d.m.Y H:i");
 $cur_date=date("Y-m-d");
 
 // Pfade zu den neuen Backup-Dateien (fur den Mailversand)
-//__Nicht ver‰ndern___
+//__Nicht ver√§ndern___
 $backup_files = array();
 
 //Erstelle Struktur von Datenbank
@@ -100,7 +101,7 @@ function get_def($table, $link)
     return (stripslashes($def));
 }
 
-//Erstelle Eintr‰ge von Tabelle
+//Erstelle Eintr√§ge von Tabelle
 function get_content($table, $link)
 {
     $content = "";
