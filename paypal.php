@@ -1,8 +1,3 @@
-<?php 
-//ini_set('error_reporting', E_ALL);
-//ini_set('display_errors', 'On');
-//ini_set('display_startup_errors', 'On');
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +5,7 @@
 <title>saving...</title>
 </head>
 <body>
-<?php 
+<?php
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('loginformsave.inc.php');
@@ -24,7 +19,7 @@ if ($result_a==false) {
 echo 'SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>';
 }
 $num_a = mysql_num_rows($result_a);
-if ($num_a==0) die('ERROR: Source form does not exist<script>alert("ERROR: Source form does not exist")</script>');
+if ($disableformsourcenamecheck!='yes'&&$num_a==0) die('ERROR: Source form does not exist<script>alert("ERROR: Source form does not exist")</script>');
 
 $row_a = mysql_fetch_array($result_a);
 
@@ -33,14 +28,22 @@ $pexcheck = $ob;
 
 if($pexcheck==false) $pexcheck=render(def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']));
 
+if(strpos($pexcheck,'ifrmonofillshared')>0)$isauthuser='';
+else $isauthuser="AND authuser='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."'";
+if(strpos($pexcheck,'ifrmonofill')>0&&strpos($pexcheck,'ifrmonofillshared')<1) {
+$ismformfs='1';
+if($_GET['o']!=pwdhsh($_SERVER['PHP_AUTH_USER']))die('<script>alert("Login Error.\nDo not use multiple logins in multiple tabs or windows in the same browser.");parent.document.getElementById("body").style.opacity=0.1;</script>');
+}
+else $ismformfs='';
+
 $pexerror=0;
 foreach ($_POST as $key=>$value) {
 
 if(strpos($key,'_MAX_')>1) require('maxcalc.php');
 
-if (str_replace(trim($key),'',$pexcheck)==$pexcheck && $key!='ed2cu' && strpos('x'.trim($key),'userupload')<1) $pexerror++;
+if (str_replace(trim($key),'',$pexcheck)==$pexcheck && $key!='ed2cu' && $key!='frstsvrwnspgldtmstp' && strpos('x'.trim($key),'userupload')<1) $pexerror++;
 }
-if ($pexerror>0) die('ERROR: Data cannot be saved. Possible reasons: There are forbidden characters in the form field name attributes (e.g. space) or the form is not hosted on the site (in the CMS) receiving the POST data.<script>alert("ERROR: Data cannot be saved. Possible reasons: There are forbidden characters in the form field name attributes (e.g. space) or the form is not hosted on the site (in the CMS) receiving the POST data.")</script>');
+if ($pexerror>0 && $disableformfieldchecker!='yes') die('ERROR: Data cannot be saved. Possible reasons: There are forbidden characters in the form field name attributes (e.g. space) or the form is not hosted on the site (in the CMS) receiving the POST data. Try setting $disableformfieldchecker=\'yes\'; in your u5CMS\'s config.php.<script>alert("ERROR: Data cannot be saved. Possible reasons: There are forbidden characters in the form field name attributes (e.g. space) or the form is not hosted on the site (in the CMS) receiving the POST data. Try setting $disableformfieldchecker=\'yes\'; in your u5CMS\'s config.php.")</script>');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,7 +62,6 @@ $nt2cu=array_map('trim',$nt2cu);
 $zendsubject=$_POST['thankssubject'];
 if (trim($zendsubject)=='') $zendsubject='Quittung/Receipt/Acquit: '.$_SERVER['HTTP_HOST'];
 $zendmessage=$_POST['thankstext']."\r\n\r\n";
-$efound=0;
 $errors=0;
 $foundliving=0;
 
@@ -69,22 +71,12 @@ if (strpos($key,'living')==1) $foundliving=1;
 if ($key!='ouremail' && $key!='thanks' && $key!='thankssubject' &&  $key!='thankstext'  &&  $key!='thanksgreetings' && strpos($key,'living')!=1) {
 
 if (!in_array($key,$nt2me)) {
+if($key=='firstsaverwins')$key='frstsvrwnspgldtmstp';
 $head.='·'.str_replace(';',',.',$key).';';
 $data.='·'.str_replace(';',',.',$value).';';
 }
 
-if ($_POST['qv2bo']!='off') if (!in_array($key,$nt2cu)) $zendmessage.=str_replace('_mandatory','*',$key).': '.$value."\r\n";
-}
-
-if ($efound==1 && strpos(trim($value),'@')>=1 && strpos($value,'.')>=1) {
-$email2=trim(str_replace(' ','',$value));
-$efound=2;
-}
-
-
-if ($efound==0 && strpos(trim($value),'@')>=1 && strpos($value,'.')>=1) {
-$email1=trim(str_replace(' ','',$value));
-$efound=1;
+if ($_POST['qv2bo']!='off') if (!in_array($key,$nt2cu)) $zendmessage.=str_replace('_mandatory','*',$key).': '.str_replace(str_replace(basename($scripturi),'',$scripturi).'fileversions/useruploads/',str_replace(basename($scripturi),'',$scripturi).'ffff.php?f=',$value)."\r\n";
 }
 
 
@@ -158,17 +150,20 @@ formname,headcsv,datacsv,time,ip,authuser,humantime,lastmut
 
 //////////
 
-if ($_POST['ed2cu']=='on') {
+if ($_POST['ed2cu']=='on'||$ismformfs==1) {
 if ($_POST['id_mandatory']>0) $isid="AND datacsv LIKE '_". mysql_real_escape_string($_POST['id_mandatory']).";%'";
 else $isid='';
-
-$sql_b="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' AND authuser='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' $isid ORDER BY id DESC";
+$sql_b="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' $isauthuser $isid ORDER BY id DESC LIMIT 0,1";
 $result_b=mysql_query($sql_b);
 if ($result_b==false) echo 'SQL_b-Query failed!...!<p>';
 $num_b = mysql_num_rows($result_b);
 $row_b = mysql_fetch_array($result_b);
 
-if ($num_b>0) {
+$foundthisformerauthuser=$row_b['authuser'];
+$foundthisformerlastmut=$row_b['lastmut'];
+require('saveversionconflict.inc.php');
+
+if ($num_b>0&&$_POST['ed2cu']=='on') {
 
 $sql_c="SELECT id FROM formdata ORDER BY id DESC LIMIT 0,1";
 $result_c=mysql_query($sql_c);
@@ -205,7 +200,6 @@ id,formname,headcsv,datacsv,time,ip,authuser,humantime,status,notes,lastmut
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
-//die('SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
 die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
 
@@ -226,7 +220,6 @@ $zendsubject=$hzendsubject;
 $zendmessage=$hzendmessage;
 }
 
-if (strpos(trim($_POST['business']),'@')>=1) $email1=trim($_POST['business']);
 if (strpos(trim($_POST['ouremail']),'@')>=1) $email1=trim($_POST['ouremail']);
 if (strpos(trim($_POST['youremail']),'@')>=1) $email2=trim($_POST['youremail']);
 if (strpos(trim($_POST['youremail_mandatory']),'@')>=1) $email2=trim($_POST['youremail_mandatory']);
@@ -236,20 +229,23 @@ $zendname=$email1;
 $zendto=$email2;
 if ($_POST['em2cu']!='off') if ($email1!='' && $email2!='') include('zendmail.php');
 
-$zendfrom=$email2;
-$zendname=$email2;
+$zendfrom=$email1;
+$zendname=$email1;
 $zendto=$email1;
 if ($_POST['em2me']!='off') if ($email1!='' && $email2!='') include('zendmail.php');
 
 ?>
 <script type="text/javascript">
-if('<?php echo $thanks?>'.indexOf('(')<1){
+function firstsaverwins() {
+if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';
+}
+if('<?php echo htmlspecialchars($thanks) ?>'.indexOf('(')<1){
 //ziel='index.php?c=<?php echo $thanks ?>&l=<?php echo $_GET['l']?>&f=<?php echo $_GET['n']?>';
 //parent.u5form.action=ziel;
 //parent.u5form.target='_self';
 //parent.u5form.submit();
 }
-<?php if(strpos($thanks,'(')>1) echo 'else parent.'.$thanks.';'?>;
+<?php if(strpos($thanks,'(')>1) echo 'else {firstsaverwins();parent.'.htmlspecialchars($thanks).'};'?>;
 </script>
 
 <form name="form1" target="_top" action="https://www.paypal.com/ch/cgi-bin/webscr" method="post">
