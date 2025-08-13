@@ -5,6 +5,7 @@ require_once('san.inc.php');
 ?>
 <form style="display:none" name="formp" action="index.php?c=<?php echo $_GET['c']?>&l=<?php echo $lansel?>&p=<?php echo $_GET['p']?>" method="post">
 <textarea name="r"></textarea>
+<?php require('u5admin/t1.php'); ?>
 </form>
 <script type="text/javascript">
 u5prvldd=1;
