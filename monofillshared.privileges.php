@@ -15,5 +15,5 @@ $pexcheck = $ob;
 
 if($pexcheck==false) $pexcheck=render(def($row_a['content_1'],$row_a['content_2'],$row_a['content_3'],$row_a['content_4'],$row_a['content_5']));
 
-if(strpos($pexcheck,'ifrmonofillshared')<1)die('<script>if(top===self)alert("ERROR: [mfs] not set in source form!")</script>');
+if(strpos($pexcheck,'ifrmonofill')<1)die('<script>if(top.location.href.indexOf("/u5admin")<0)alert("ERROR: [mfs] not set in source form!")</script>');
 ?>
