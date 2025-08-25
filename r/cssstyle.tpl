@@ -99,13 +99,21 @@ img {
 border: 0;
 }
 
-.skipLinks {
-position: absolute;
-top: -1000px;
-left: -1000px;
-display: inline;
-width: 0;
-height: 0;
+.skipLinks a{
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translateY(-120%);
+  padding: 8px 16px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  z-index: 2147483647; /* über allen Layern */
+}
+.skipLinks a:focus,
+.skipLinks a:focus-visible{
+  transform: translateY(0);
+  outline: 2px solid #fff; /* Fokus klar sichtbar */
 }
 
 .buttonDiv {
@@ -139,7 +147,8 @@ line-height: 16px;
 .imgBoxLeft {
 cursor: pointer;
 float: left;
-border: 1px solid #DDDDDD; background-color: #FFF;
+border: 1px solid #DDDDDD; 
+background-color: #FFF;
 margin: 10px 32px 15px 0;
 }
 
@@ -156,7 +165,8 @@ cursor: default;
 
 .imgBoxCenter {
 cursor: pointer;
-border: 1px solid #DDDDDD; background-color: #FFF;
+border: 1px solid #DDDDDD; 
+background-color: #FFF;
 margin: 10px auto 15px auto;
 }
 
@@ -174,7 +184,8 @@ cursor: default;
 .imgBoxRight {
 cursor: pointer;
 float: right;
-border: 1px solid #DDDDDD; background-color: #FFF;
+border: 1px solid #DDDDDD; 
+background-color: #FFF;
 margin: 10px 0 15px 32px;
 }
 
@@ -275,28 +286,10 @@ background-color: yellow;
 margin-left: 234px;
 }
 
-.underline {
-text-decoration:underline;
-}
-
-.crossout {
-text-decoration:line-through;
-}
-
-.note {
-padding:7px;
-background:gold;
-}
-
-
 .freecaption {
 font-size: 0.8em;
 line-height: 16px;
 }
-
-
-
-
 
 #homeclick {
 position: absolute;
@@ -340,7 +333,7 @@ left: 822px;
 }
 
 #search_Submit {
-background: url(../images/lupe.svg) 0 0 no-repeat transparent;
+background: url(../images/lupe.svg?1756071642) 0 0 no-repeat transparent;
 border: none;
 cursor: pointer;
 width: 21px;
@@ -498,4 +491,15 @@ div {
 
 dt {
 margin-bottom:-10px
-}  
+} 
+.underline {
+text-decoration:underline;
+}
+.crossout {
+text-decoration:line-through;
+}
+.note {
+padding:7px;
+background:gold;
+}
+ 
