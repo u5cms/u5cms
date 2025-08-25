@@ -659,6 +659,21 @@ echo '<!--w ../r/ ok -->';
 else echo '<script>alert("PROBLEM: The server can store your data but not write the consequent output file '.$row_a['name'].'.\n\nEFFECTS: The data you typed is stored but you won\'t see any effects in the layout.\n\nSOLUTION: CHMOD the folder named \'r\' RECURSIVELY (incl. all its files, subfolders a.s.o.) e. g. to 777 e. g. with FileZilla.");</script>';
 }
 
+$r=mysql_query("SELECT COUNT(*) c FROM resources_log");$n=mysql_fetch_assoc($r);
+if(!$n['c'])mysql_query("INSERT INTO resources_log(
+name,content_1,content_2,content_3,content_4,content_5,
+title_1,title_2,title_3,title_4,title_5,
+desc_1,desc_2,desc_3,desc_4,desc_5,
+key_1,key_2,key_3,key_4,key_5,
+logins,hidden,operator,ip,lastmut,deleted,typ,ishomepage
+) SELECT
+name,content_1,content_2,content_3,content_4,content_5,
+title_1,title_2,title_3,title_4,title_5,
+desc_1,desc_2,desc_3,desc_4,desc_5,
+key_1,key_2,key_3,key_4,key_5,
+logins,hidden,operator,ip,lastmut,deleted,typ,ishomepage
+FROM resources");
+
 $configphp=file_get_contents('../config.php');
 if(strpos($configphp,'$resamplingquality=100;')>0&&(strpos($configphp,'$resizedlongedgepx=1000;')>0||strpos($configphp,'$resizedwidth=1000;')>0)){
 $configphp=str_replace('$resizedwidth=;','$resizedlongedgepx=;',$configphp);
