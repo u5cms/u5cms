@@ -3,10 +3,28 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED)
 ignore_user_abort(true);set_time_limit(36000);
 
 if (isset($_GET['u'])) {
-    $target = $_GET['u'];
+    $target = trim($_GET['u']);
+    for ($i = 0; $i < 3; $i++) {
+        $d = rawurldecode($target);
+        if ($d === $target) break;
+        $target = $d;
+    }
+    if (preg_match('/[\\\\@]/', $target) ||
+        preg_match('/[\x00-\x1F\x7F]/', $target) ||
+        preg_match('#^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|//)#', $target) ||
+        preg_match('#/(?:\.\.?)(?:/|$)#', $target)) {
+        die('<center style="color:red">Error: Invalid redirect target.</center>');
+    }
     $parsed = parse_url($target);
-    if (!empty($parsed['host']) && strcasecmp($parsed['host'], $_SERVER['HTTP_HOST']) !== 0) {
-        die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+    if ($parsed === false) {
+        die('<center style="color:red">Error: Invalid redirect target.</center>');
+    }
+    if (!empty($parsed['host'])) {
+        $reqHost = strtolower($_SERVER['HTTP_HOST'] ?? '');
+        $reqHost = preg_replace('/:\d+$/', '', $reqHost);
+        if (strcasecmp($parsed['host'], $reqHost) !== 0) {
+            die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+        }
     }
 }
 
