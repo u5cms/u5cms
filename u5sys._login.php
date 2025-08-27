@@ -3,10 +3,28 @@ require_once('connect.inc.php');
 require_once('globalslogin.inc.php');
 
 if (isset($_GET['u'])) {
-    $target = $_GET['u'];
+    $target = trim($_GET['u']);
+    for ($i = 0; $i < 3; $i++) {
+        $d = rawurldecode($target);
+        if ($d === $target) break;
+        $target = $d;
+    }
+    if (preg_match('/[\\\\@]/', $target) ||
+        preg_match('/[\x00-\x1F\x7F]/', $target) ||
+        preg_match('#^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|//)#', $target) ||
+        preg_match('#/(?:\.\.?)(?:/|$)#', $target)) {
+        die('<center style="color:red">Error: Invalid redirect target.</center>');
+    }
     $parsed = parse_url($target);
-    if (!empty($parsed['host']) && strcasecmp($parsed['host'], $_SERVER['HTTP_HOST']) !== 0) {
-        die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+    if ($parsed === false) {
+        die('<center style="color:red">Error: Invalid redirect target.</center>');
+    }
+    if (!empty($parsed['host'])) {
+        $reqHost = strtolower($_SERVER['HTTP_HOST'] ?? '');
+        $reqHost = preg_replace('/:\d+$/', '', $reqHost);
+        if (strcasecmp($parsed['host'], $reqHost) !== 0) {
+            die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+        }
     }
 }
 
