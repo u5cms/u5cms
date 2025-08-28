@@ -1,20 +1,15 @@
 <?php
+if(preg_match('/\.php\/+/',$_SERVER['REQUEST_URI'])){header('Location: '.(($_SERVER['HTTPS']??'')==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].preg_replace('/(\.php)\/+.*/i','$1',parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH)).(($_SERVER['QUERY_STRING']??'')?('?'.$_SERVER['QUERY_STRING']):''),true,301);exit;}
 
 define('U5ROOT_PATH', __DIR__);
 define('U5ADMIN_PATH', U5ROOT_PATH . DIRECTORY_SEPARATOR . 'u5admin');
 
-// Composer autoloading
 include __DIR__ . '/vendor/autoload.php';
 
 use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
-/* Mimics the behaviour of the old count() function adn
-   avoids the warning introduced in PHP-7.2.
-
-   Works for PHP >= 7.3.0 as is_countable is used
-*/
 function tnuoc($array_or_countable, $mode = \COUNT_NORMAL) {
   if (\is_countable($array_or_countable)) {
     return \count($array_or_countable, $mode);
