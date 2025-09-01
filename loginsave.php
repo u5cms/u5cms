@@ -3,27 +3,34 @@ require('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
 
 if (isset($_GET['u'])) {
-    $target = trim($_GET['u']);
-    for ($i = 0; $i < 3; $i++) {
-        $d = rawurldecode($target);
-        if ($d === $target) break;
-        $target = $d;
-    }
-    if (preg_match('/[\\\\@]/', $target) ||
-        preg_match('/[\x00-\x1F\x7F]/', $target) ||
-        preg_match('#^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|//)#', $target) ||
-        preg_match('#/(?:\.\.?)(?:/|$)#', $target)) {
+    $u = $_GET['u'];
+    if (!is_string($u)) die('<center style="color:red">Error: Invalid redirect target.</center>');
+    if (class_exists('Normalizer')) $u = Normalizer::normalize($u, Normalizer::FORM_KC);
+    $target = trim($u);
+    if (strlen($target) > 2000) die('<center style="color:red">Error: Invalid redirect target.</center>');
+    for ($i=0;$i<3;$i++){ $d=rawurldecode($target); if ($d===$target) break; $target=$d; }
+    if ($target==='' ||
+        preg_match('/[\p{C}\p{Z}]/u',$target) ||
+        preg_match('/[\\\\@]/',$target) ||
+        preg_match('#/(?:\.\.?)(?:/|$)#',$target) ||
+        preg_match('#^//#',$target)) {
         die('<center style="color:red">Error: Invalid redirect target.</center>');
     }
-    $parsed = parse_url($target);
-    if ($parsed === false) {
+    $p = parse_url($target);
+    if ($p===false) die('<center style="color:red">Error: Invalid redirect target.</center>');
+    if (!empty($p['scheme']) && !in_array(strtolower($p['scheme']),['http','https'],true)) {
         die('<center style="color:red">Error: Invalid redirect target.</center>');
     }
-    if (!empty($parsed['host'])) {
+    if (!empty($p['host'])) {
         $reqHost = strtolower($_SERVER['HTTP_HOST'] ?? '');
-        $reqHost = preg_replace('/:\d+$/', '', $reqHost);
-        if (strcasecmp($parsed['host'], $reqHost) !== 0) {
+        $reqHost = preg_replace('/:\d+$/','',$reqHost);
+        $cmpA = function($h){ $h=strtolower($h); $idn=function_exists('idn_to_ascii')?idn_to_ascii($h,IDNA_DEFAULT,INTL_IDNA_VARIANT_UTS46):$h; return $idn?:$h; };
+        if (strcasecmp($cmpA($p['host']), $cmpA($reqHost))!==0) {
             die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
+        }
+        $reqPort = (int)($_SERVER['SERVER_PORT'] ?? 80);
+        if (!empty($p['port']) && (int)$p['port']!==$reqPort) {
+            die('<center style="color:red">Error: Redirect to a different port is not allowed.</center>');
         }
     }
 }
