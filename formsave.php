@@ -9,7 +9,7 @@
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('loginformsave.inc.php');
-
+if($requiregooglerecaptchaonfrontendformsave=='yes')require('grc2.php');
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
@@ -32,7 +32,7 @@ if(strpos($pexcheck,'ifrmonofillshared')>0)$isauthuser='';
 else $isauthuser="AND authuser='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."'";
 if(strpos($pexcheck,'ifrmonofill')>0&&strpos($pexcheck,'ifrmonofillshared')<1) {
 $ismformfs='1';
-if($_GET['o']!=pwdhsh($_SERVER['PHP_AUTH_USER']))die('<script>alert("Login Error.\nDo not use multiple logins in multiple tabs or windows in the same browser.");parent.document.getElementById("body").style.opacity=0.1;</script>');
+if($allowmultiu5formloginsonfrontendpages!='yes')if($_GET['o']!=pwdhsh($_SERVER['PHP_AUTH_USER']))die('<script>alert("Login Error.\nDo not use multiple logins in multiple tabs or windows in the same browser.");parent.document.getElementById("body").style.opacity=0.1;</script>');
 }
 else $ismformfs='';
 

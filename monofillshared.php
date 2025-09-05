@@ -36,7 +36,7 @@ else $isid='';
 
 require('monofillshared.privileges.php');
 
-$sql_a="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' AND authuser!='' $isid ORDER BY id DESC";
+$sql_a="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' $isid ORDER BY id DESC";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
