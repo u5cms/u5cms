@@ -2,11 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><script>
-if (<?php echo preg_match('/^[A-Za-z0-9_-!]+$/', $_COOKIE['pidvesa'] ?? ''); ?>) location.href=<?php echo json_encode(($_COOKIE['pidvesa'] ?? '') . '.php'); ?>;
-</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script><?php echo "location.href='" . preg_replace('/[^A-Za-z0-9_!-]/', '', $_COOKIE['pidvesa'] ?? '') . ".php';"; ?></script>
 <?php require('backendcss.php'); ?></head>
-
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php include('pidvesanavi.inc.php');?>
 <h1>Welcome!</h1>
