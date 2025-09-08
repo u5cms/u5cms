@@ -37,8 +37,7 @@ if(Vnames.indexOf(Vu5felems[i].name.toLowerCase())>-1 && Vu5felems[i].type.toLow
 Vnames.push(Vu5felems[i].name.toLowerCase());
 
 //Check valid characters in names
-Vcheckname=Vu5felems[i].name.replace(/[^A-Za-z_0-9]/, '');
-if(Vcheckname!=Vu5felems[i].name) werror('FORM ERROR: The form element name <b>'+Vu5felems[i].name+'</b> contains forbidden characters! Only use latin alphabetic letters (without any diacritics), numeric characters and the underscore.');
+var el=Vu5felems[i];if(!(el.name==="g-recaptcha-response"||(el.tagName==="IFRAME"&&el.src&&el.src.indexOf("google.com")!==-1)||(el.ownerDocument&&el.ownerDocument.defaultView&&el.ownerDocument.defaultView.frameElement&&el.ownerDocument.defaultView.frameElement.tagName==="IFRAME"&&el.ownerDocument.defaultView.frameElement.src&&el.ownerDocument.defaultView.frameElement.src.indexOf("google.com")!==-1))){var Vcheckname=el.name.replace(/[^A-Za-z_0-9]/,'');if(Vcheckname!==el.name)werror('FORM ERROR: The form element name <b>'+el.name+'</b> contains forbidden characters! Only use latin alphabetic letters (without any diacritics), numeric characters and the underscore.');}
 
 Vcheckname=Vu5felems[i].name[0].replace(/[^A-Za-z]/, '');
 if(Vcheckname!=Vu5felems[i].name[0]) werror('FORM ERROR: The first character of the form element name <b>'+Vu5felems[i].name+'</b> must be a latin alphabetic letter (without diacritics, no numerics)!');
