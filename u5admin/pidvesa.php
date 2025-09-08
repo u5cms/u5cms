@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><script>
-if (preg_match('/^[A-Za-z0-9\-_!]+$/', $_COOKIE['pidvesa'] ?? '')) location.href='<?php echo $_COOKIE['pidvesa']?>.php';
+if (<?php echo preg_match('/^[A-Za-z0-9_-!]+$/', $_COOKIE['pidvesa'] ?? ''); ?>) location.href=<?php echo json_encode(($_COOKIE['pidvesa'] ?? '') . '.php'); ?>;
 </script>
 <?php require('backendcss.php'); ?></head>
 
