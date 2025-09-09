@@ -3,10 +3,10 @@ $_GET['l']=$_COOKIE['aclan'];
 $sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['n'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
-echo 'SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>';
+echo 'SQL_a-Query failed!...!<p><script>alert("SQL ERROR")</script>';
 }
 $num_a = mysql_num_rows($result_a);
-if ($disableformsourcenamecheck!='yes'&&$num_a==0) die('ERROR: Source form does not exist<script>alert("ERROR: Source form does not exist")</script>');
+if ($disableformsourcenamecheck!='yes'&&$num_a==0) die('ERROR: Source form does not exist');
 
 $row_a = mysql_fetch_array($result_a);
 
