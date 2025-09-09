@@ -144,8 +144,8 @@ use Laminas\Mail\Transport\SmtpOptions;
    $usesessioninsteadofbasicauth = 'yes'; // $usesessioninsteadofbasicauth = 'yes'; is recommended. However, basic auth may be necessary if you offer very large files behind the login (intranet).
    $sessioncookiehashsalt = '1234'; // Any string. Changing this string cancels all open sessions and forces all users to log-in again; (obsolete if $usesessioninsteadofbasicauth = 'no';)
    $sticksessiontoip = 'no'; // $sticksessiontoip='yes' forces re-login if ip changes (obsolete if $usesessioninsteadofbasicauth = 'no';)
-   $minutestowaitaftertoomanyloginattempts=7; // Works only if $usesessioninsteadofbasicauth = 'yes';
-   $allowedloginattemptsbeforepausing=7; // Works only if $usesessioninsteadofbasicauth = 'yes';
+   $minutestowaitaftertoomanyloginattempts=1; // Works only if $usesessioninsteadofbasicauth = 'yes';
+   $allowedloginattemptsbeforepausing=77; // Works only if $usesessioninsteadofbasicauth = 'yes';
 
 ////// ****** ONLY IF YOU SET $usesessioninsteadofbasicauth = 'no', THE BELOW PARAGRAPH IS OF INTEREST  ******
 // If php is installed as cgi and not as module, http basic auth (i. e. the logins) won't work. Solution: switch this option to 'yes' and activate the file fastcgi.htaccess in the cms's top directory by renaming it to .htaccess (the first character MUST be a period!);
