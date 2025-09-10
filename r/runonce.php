@@ -51,11 +51,9 @@ $result_a=mysql_query($sql_a);
 
 // START: Fix language columns in PHP-code in content
 
-$sql_a="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'resources' AND COLUMN_NAME = 'content_d'";
+$sql_a="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'resources' AND COLUMN_NAME = 'content_d'";
 $result_a=mysql_query($sql_a);
 $row_a = mysql_fetch_array($result_a);
-
-
 
 if($row_a['COLUMN_NAME']=='content_d') {
 
