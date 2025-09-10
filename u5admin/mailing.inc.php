@@ -1,7 +1,7 @@
 <?php require_once('connect.inc.php'); ?>
 <div id="u5srmaya" style="background:lightyellow;margin:0px 8px 0px 15px">
 
-<a href="javascript:void(0)" onclick="if(document.getElementById('mailing').style.display=='none'){document.getElementById('mailing').style.display='block';document.getElementById('fcdiv').style.display='block';document.getElementById('fc').focus();document.getElementById('fcdiv').style.display='none'}else document.getElementById('mailing').style.display='none'">Send serial mails to the above data selection</a>
+<a href="javascript:void(0)" onclick="if(document.getElementById('mailing').style.display=='none'){document.getElementById('mailing').style.display='block';document.getElementById('fcdiv').style.display='block';document.getElementById('fc').focus();document.getElementById('fcdiv').style.display='none';document.getElementById('ainst').focus()}else document.getElementById('mailing').style.display='none'">Send serial mails to the above data selection</a>
 <div id="mailing" style="display:none;padding:11px">
 <div style="font-size:12px;color:#555">
 <script>
@@ -16,7 +16,7 @@ teleinsert(putstr);
 }
 </script>
 
-Available variables (<a href="javascript:alert(instructions)">Instructions</a>): <b>
+Available variables (<a id="ainst" href="javascript:alert(instructions)">Instructions</a>): <b>
 <?php 
 $lasthead = str_replace('<small>N°</small><br>','',$lasthead);
 $lasthead = explode(';',$lasthead);
