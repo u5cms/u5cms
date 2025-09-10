@@ -3,7 +3,12 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<script><?php echo "location.href='" . preg_replace('/[^A-Za-z0-9_!-]/', '', $_COOKIE['pidvesa'] ?? '') . ".php';"; ?></script>
+<?php
+$clean_pidvesa=preg_replace('/[^A-Za-z0-9_!-]/', '', $_COOKIE['pidvesa'] ?? '');
+if (!empty($clean_pidvesa)) {
+    echo "<script>location.href='" . $clean_pidvesa . ".php';</script>";
+}
+?>
 <?php require('backendcss.php'); ?></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php include('pidvesanavi.inc.php');?>
