@@ -44,8 +44,8 @@ if(isset($u5samlsalt)&&$u5samlsalt!='') {
 <span class="loginintro"><?php echo def($loginintro_1, $loginintro_2, $loginintro_3, $logintitle_4, $logintitle_5) ?></span>
 <form name="loginform" class="loginform" action="loginsave.php?u=<?php echo rawurlencode($_GET['u']) ?>" method="post">
     <fieldset class="loginfieldset">
-        <label class="loginlabel" style="display:block"><?php echo def($username_1, $username_2, $username_3, $username_4, $username_5) ?></label><input type="text" name="u"/><br/>
-        <label class="loginlabel" style="display:block"><?php echo def($password_1, $password_2, $password_3, $password_4, $password_5) ?></label><input type="password" name="p"/><br/>
+        <label class="loginlabel" style="display:block"><?php echo def($username_1, $username_2, $username_3, $username_4, $username_5) ?></label><input type="text" name="u" aria-label="<?php echo def($username_1, $username_2, $username_3, $username_4, $username_5) ?>" /><br/>
+        <label class="loginlabel" style="display:block"><?php echo def($password_1, $password_2, $password_3, $password_4, $password_5) ?></label><input type="password" name="p" aria-label="<?php echo def($password_1, $password_2, $password_3, $password_4, $password_5) ?>" /><br/>
         <label class="loginlabellast" style="display:block">&nbsp;</label><input type="submit" value="<?php echo def($loginbutton_1, $loginbutton_2, $loginbutton_3, $loginbutton_4, $loginbutton_5) ?>"/>
     </fieldset>
 </form>
