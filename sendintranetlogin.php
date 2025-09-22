@@ -111,7 +111,7 @@ if($dontmailyouarenotintranetmemberalerttoadmin!='yes')include('zendmail.php');
 }
 
 else {
-echo '<form name="form" method="post"><input type="text" name="email" style="width:99%" id="email" /><input type="submit" value="OK" /></form><script>if(parent==top)document.getElementById(\'email\').focus();</script>';
+echo '<form name="form" method="post"><input type="text" name="email" style="width:99%" id="email" aria-label="&#128231;" /><input type="submit" value="OK" /></form><script>if(parent==top)document.getElementById(\'email\').focus();</script>';
 }
 ?>
 <script>

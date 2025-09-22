@@ -7,8 +7,8 @@ if (isset($_GET['c']) && (substr($_GET['c'],0,1)=='!' || $_GET['c']=='_searchsi'
   <input type="hidden" name="l" value="<?php echo $_GET['l']?>" />
   <input type="hidden" name="c" value="_search" />
 
-  <input onfocus="if (this.value=='Site + Intranet') this.value=this.value.replace(/Site \+ Intranet/g,'');document.getElementById('search_Input').style.color='black';document.getElementById('search_Input').style.fontStyle='normal';" id="search_Input" type="text" name="q" value="" />
-  <input onclick="document.getElementById('search_Input').value=document.getElementById('search_Input').value.replace(/Site \+ Intranet/g,'')" id="search_Submit" title="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5) ?>" type="submit" class="btnSubmit" alt="search" value="" />
+  <input id="search_Input" type="text" name="q" value="" aria-label="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5) ?>" />
+  <input onclick="document.getElementById('search_Input').value=document.getElementById('search_Input').value.replace(/Site \+ Intranet/g,'')" id="search_Submit" aria-label="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5) ?>" type="submit" class="btnSubmit" value="" />
 </form>
 <script type="text/javascript">
 function isterm() {
@@ -20,9 +20,4 @@ return false;
 }
 }
 document.fsearch.q.value=unescape('<?php echo (str_replace('  ',' ',str_replace(',',' ',trim(addslashes($_GET['q'])))))?>').replace(/&quot;/g,'"');
-if (document.fsearch.q.value=='' && '<?php echo substr($_GET['c'],0,1) ?>'=='!') {
-document.getElementById('search_Input').style.color='#aaa';
-document.getElementById('search_Input').style.fontStyle='italic';
-document.fsearch.q.value='Site + Intranet';
-}
 </script>
