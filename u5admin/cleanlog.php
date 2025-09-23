@@ -5,8 +5,8 @@ require_once('connect.inc.php');
 if(file_get_contents('../fileversions/CLrunning.txt')<time()-60*60*24*10) {
 file_put_contents('../fileversions/CLrunning.txt',time())
 ?>
-<iframe src="cleanbackups.php"></iframe>
-<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
+<iframe src="cleanlogsdone.php"></iframe>
+<audio id="doneaudio" src="cleanlogdone.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
 <?php
 $sql_c="SELECT name FROM resources WHERE deleted!=1";
 $result_c=mysql_query($sql_c);

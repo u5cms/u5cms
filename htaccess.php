@@ -264,7 +264,7 @@ parent.parent.parent.i3.location.reload();
 </script>
 <?php
 echo"<script>if(parent)if(parent.parent)if(parent.parent.document.getElementById('htaccess'))parent.parent.document.getElementById('htaccess').style.display='block'</script>";
-echo '<audio id="doneaudio" src="u5admin/'.rand(1,6).'.mp3" autoplay />';
+echo '<audio id="doneaudio" src="u5admin/provisioningdone.mp3" autoplay />';
 if ($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR']) {
 file_put_contents('fileversions/htarunning.txt',0);
 }
