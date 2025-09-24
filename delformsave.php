@@ -106,7 +106,7 @@ parent.document.u5form.'. $key .'.style.background=\'yellow\';
 require('keyfocus.inc.php');
 $errors++;}
 
-else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value)=='')) {echo('
+else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value))=='') {echo('
 <script type="text/javascript">
 if (parent.document.u5form && parent.document.u5form.'. $key .') {
 parent.document.u5form.'. $key .'.style.borderColor=\'red\';
@@ -117,7 +117,7 @@ parent.document.u5form.'. $key .'.style.background=\'yellow\';
 require('keyfocus.inc.php');
 $errors++;}
 
-else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value)!='')) echo('
+else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value))!='') echo('
 <script type="text/javascript">
 if (parent.document.u5form && parent.document.u5form.'. $key .') {
 parent.document.u5form.'. $key .'.style.borderColor=\'black\';

@@ -14,7 +14,7 @@ if (strpos('x'.$file,'pclzip-')==1) unlink($file);
 }
 echo "<script>if(parent)if(parent.parent)if(parent.parent.document.getElementById('cleanbackups'))parent.parent.document.getElementById('cleanbackups').style.display='inline'</script>";
 ?>
-<audio id="doneaudio" src="'.rand(1,6).'.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
+<audio id="doneaudio" src="cleanbackupsdone.mp3" autoplay /><script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
 <?php 
 }
 ?>

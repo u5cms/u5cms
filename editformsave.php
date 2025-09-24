@@ -10,7 +10,7 @@ require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('editreadrights.inc.php');
 /////////////////////////////////////////////////////////////////////////////////////////////////
-if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
+if (tnuoc($_POST)<1 && stripos($_SERVER['HTTP_REFERER']??'', 'formdataeditgen.php')===false) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
 $sql_a="SELECT * FROM formdata WHERE id='".mysql_real_escape_string($_GET['id'])."' AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);
@@ -107,7 +107,7 @@ parent.document.u5form.'. $key .'.style.background=\'yellow\';
 require('keyfocus.inc.php');
 $errors++;}
 
-else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value)=='')) {echo('
+else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value))=='') {echo('
 <script type="text/javascript">
 if (parent.document.u5form && parent.document.u5form.'. $key .') {
 parent.document.u5form.'. $key .'.style.borderColor=\'red\';
@@ -118,7 +118,7 @@ parent.document.u5form.'. $key .'.style.background=\'yellow\';
 require('keyfocus.inc.php');
 $errors++;}
 
-else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value)!='')) echo('
+else if($key!=str_replace('_mandatory','',$key) && str_replace(' ','',trim($value))!='') echo('
 <script type="text/javascript">
 if (parent.document.u5form && parent.document.u5form.'. $key .') {
 parent.document.u5form.'. $key .'.style.borderColor=\'black\';
