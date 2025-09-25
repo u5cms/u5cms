@@ -1,4 +1,4 @@
-<?php ignore_user_abort(true);set_time_limit(36000); ?>
+<?php ignore_user_abort(true);set_time_limit(36000);file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); ?>
 <script>setTimeout("parent.main.location.reload()",777)</script>
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
 require_once('u5idn.inc.php');
