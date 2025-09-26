@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php');require_once('t2.php'); ?>
+<?php require_once('connect.inc.php');require_once('t2.php');file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

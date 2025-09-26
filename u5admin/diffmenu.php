@@ -8,6 +8,7 @@
 <script>
 parent.document.title='Diff of '+parent.opener.document.getElementsByTagName('select')[0].value;
 document.write('<h1>Diff of <i>'+parent.opener.document.getElementsByTagName('select')[0].value+'</i></h1>');
+let nolang = parent.opener.document.getElementsByTagName('select')[0].options[parent.opener.document.getElementsByTagName('select')[0].selectedIndex].text.includes("c:") ? 1 : 0;
 </script>
 
 <script>
@@ -96,6 +97,7 @@ document.write('<option value="'+i+'" id="R'+i+'">'+i+': '+e[i].innerHTML+'</opt
 
 <script>
 vpick();
+if(nolang==0) {
 if (document.cookie.indexOf('LL=')>-1){ 
 document.getElementById('LL').value=('; '+document.cookie).split('; LL=')[1].split(';')[0];
 vpick();
@@ -103,6 +105,11 @@ vpick();
 if (document.cookie.indexOf('LR=')>-1){ 
 document.getElementById('LR').value=('; '+document.cookie).split('; LR=')[1].split(';')[0];
 vpick();
+}
+}
+else {
+document.getElementById('LL').style.display='none';	
+document.getElementById('LR').style.display='none';	
 }
 </script>
 

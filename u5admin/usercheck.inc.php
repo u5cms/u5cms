@@ -65,7 +65,7 @@ if($automaticallyskipbackendlogin!='yes') {
             require_once('backendcss.php');
             echo '<h1>Username and or password wrong</h1> Please <a href="index.php" target="_top">try again</a> or <a href="../reset.php" target="_top">reset password</a>.</p>';
         } else {
-            require('../attempt.php');
+            require(__DIR__ . '/../attempt.php');
             require_once('backendcss.php');
 
             echo '<h1>u5CMS backend login</h1><script src="gotopage.js"></script>

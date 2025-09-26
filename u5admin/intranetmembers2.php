@@ -1,5 +1,5 @@
 <?php 
-require_once('connect.inc.php');require_once('t2.php'); 
+require_once('connect.inc.php');require_once('t2.php');file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); 
 require('autointranetcheck.php');
 require_once('u5idn.inc.php');
 ?>
@@ -35,7 +35,7 @@ $emails=str_replace("!\t",",",$emails);
 $emails=str_replace("\0",",",$emails);
 
 
-$emails=str_replace("·",",",$emails);
+$emails=str_replace("Â·",",",$emails);
 $emails=str_replace(" ",",",$emails);
 //$emails=str_replace(";",",",$emails);
 $emails=str_replace(":",",",$emails);
@@ -47,7 +47,7 @@ $emails=str_replace("\\",",",$emails);
 $emails=str_replace(">",",",$emails);
 $emails=str_replace("<",",",$emails);
 $emails=str_replace("|",",",$emails);
-$emails=str_replace("¦",",",$emails);
+$emails=str_replace("Â¦",",",$emails);
 //$emails=str_replace("#",",",$emails);
 $emails=str_replace("(",",",$emails);
 $emails=str_replace("[",",",$emails);
