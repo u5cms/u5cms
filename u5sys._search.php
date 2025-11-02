@@ -19,7 +19,6 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   <input  style="width:450px;max-width:98%;margin:2px 0 7px 0" name="q"  id="searchlarge" type="text" value="" aria-label="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
   <input  type="submit" class="btnSubmit" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
 <?php
-  $_GET['q'] = isset($_GET['q']) ? implode('', array_map(fn($ch)=>($cp=unpack('N', mb_convert_encoding($ch,'UCS-4BE','UTF-8'))[1])<=0xFF ? chr($cp) : sprintf('%%u%04X',$cp), preg_split('//u', mb_check_encoding($_GET['q'],'UTF-8')?$_GET['q']:mb_convert_encoding($_GET['q'],'UTF-8','ISO-8859-1'), -1, PREG_SPLIT_NO_EMPTY))) : '';
   $prefill=$_GET['q'];
   $prefill = preg_replace_callback(
     '/%u(.{4})/',
