@@ -47,14 +47,6 @@ if(tnuoc($matches)===1&&$sc==='ok') return true;
 else return false;
 }
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<?php require('backendcss.php'); ?></head>
-<body>
-<?php
 ignore_user_abort(true);set_time_limit(3600);
 require('mailrenderfunctions.inc.php');
 $nextmail=0;
@@ -71,7 +63,14 @@ $sql_a=base64_decode($row_d['sqla']);
 $nextmail=$row_d['nextmail'];
 if($row_d['lastcall']+$minimumwaitingbetweenserialmailcroncallinseconds>time())die(' next sending possible in '.(-1*(time()-($row_d['lastcall']+$minimumwaitingbetweenserialmailcroncallinseconds))).' seconds');
 }
+
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<?php require('backendcss.php'); ?></head>
+<body>
 <h1>Mailjob &#19904;<?php echo $_GET['id'] ?></h1>
 <span id="wait"><img height="15" src="../upload/spinner.gif" /><?php if ($_GET['hot']=='hot') echo '&nbsp;sending'; else echo 'testing';?>, please wait...</span><br /><br />
 <?php if($cron=='cron')echo'<script>document.getElementById("wait").innerHTML="SEND MAIL CRON<BR>"</script>';?>
