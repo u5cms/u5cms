@@ -882,7 +882,7 @@ ns
         optdst2 = parent.i2.pframe2.location.href.split('?')[1].replace(/n=/,'c=');
         optdst = '';
         if (('x' + optdst1).indexOf('c=') > 0) optdst = optdst1;
-        if (('x' + optdst2).indexOf('c=') > 0) optdst = optdst2;
+        else if (('x' + optdst2).indexOf('c=') > 0) optdst = optdst2;
         if (optdst != '') top.location.href = '../edit.php?' + optdst;
         else top.location.href = '../edit.php?c=' + document.form1.page.value;
     }
