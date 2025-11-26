@@ -10,8 +10,8 @@ if (isset($_GET['u'])) {
     if (strlen($target) > 2000) die('<center style="color:red">Error: Invalid redirect target.</center>');
     for ($i=0;$i<3;$i++){ $d=rawurldecode($target); if ($d===$target) break; $target=$d; }
     if ($target==='' ||
-        preg_match('/[\p{C}\p{Z}]/u',$target) ||
-        preg_match('/[\\\\@]/',$target) ||
+        preg_match('/\p{C}/u',$target) ||
+        preg_match('/\\\\/',$target) ||
         preg_match('#/(?:\.\.?)(?:/|$)#',$target) ||
         preg_match('#^//#',$target)) {
         die('<center style="color:red">Error: Invalid redirect target.</center>');
@@ -19,6 +19,9 @@ if (isset($_GET['u'])) {
     $p = parse_url($target);
     if ($p===false) die('<center style="color:red">Error: Invalid redirect target.</center>');
     if (!empty($p['scheme']) && !in_array(strtolower($p['scheme']),['http','https'],true)) {
+        die('<center style="color:red">Error: Invalid redirect target.</center>');
+    }
+    if (!empty($p['user']) || !empty($p['pass'])) {
         die('<center style="color:red">Error: Invalid redirect target.</center>');
     }
     if (!empty($p['host'])) {
