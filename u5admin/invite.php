@@ -1,6 +1,7 @@
 <?php ignore_user_abort(true);set_time_limit(36000);file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); ?>
 <script>setTimeout("parent.main.location.reload()",777)</script>
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
+<?php
 require_once('u5idn.inc.php');
   $_GET['e'] = preg_replace_callback(
     '/%u(.{4})/',
@@ -15,7 +16,7 @@ require_once('u5idn.inc.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <?php require('backendcss.php'); ?></head>
-<body><div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',u5flatidn($_GET['e'])))?></div>
+<body><div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',str_replace('&amp;#','&#',htmlentities($_GET['e']))))?></div>
 <?php 
 if ($invitebackendusersRqHIADRI!='no') require_once('accadmin.inc.php');
 $e=mysql_real_escape_string(str_replace(' ','',u5flatidnlower($_GET['e'])));
