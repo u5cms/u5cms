@@ -61,7 +61,7 @@ for ($i_a=0; $i_a<$num_a; $i_a++) {
 
     $email_js = str_replace("'", "\\'", u5flatidnlower($row_a['email']));
 
-    echo '<tr bgcolor="#eeeeee">'
+    echo '<tr style="background:#eeeeee" onmouseover="this.style.background=\'lightyellow\'"  onmouseout="this.style.background=\'#eeeeee\'">'
         . '<td style="word-break:break-all">'.$row_a['email'].'</td>'
         . '<td nowrap>'
         . 'n<input onmousedown="if (\''.$self_js.'\'==\''.$email_js.'\') alert(\'You cannot downgrade yourself.\');'

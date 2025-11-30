@@ -35,7 +35,7 @@ $row_a = mysql_fetch_array($result_a);
 if($i_a==2000)$more='name="more"';
 else $more='';
 echo '
-<tr bgcolor="#eeeeee">
+<tr style="background:#eeeeee" onmouseover="this.style.background=\'lightyellow\'"  onmouseout="this.style.background=\'#eeeeee\'">
 <td>
 <a '.$more.'></a>'.$row_a['id'].'
 </td>
