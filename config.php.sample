@@ -133,7 +133,7 @@ use Laminas\Mail\Transport\SmtpOptions;
    $hidearchivedpagesindropdown='yes';
 
 // Protocol and address to your site, usually you should not change this line! Change to https:// if your site is https-only or if you force https ($forcehttpsonfrontend='yes'; and $forcehttpsonbackend='yes';)!
-   $scripturi='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+   $scripturi = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
    $forcehttpsonfrontend='no';
    $forcehttpsonbackend='no';
    $evaluateifhttpsisinuse='if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"]!=="off") $httpsisinuse=true;'; // For some providers/servers, the condition (the $_SERVER-variables/their values) have to be different, please consult https://urltoyouru5cmsinstallation/server.php. However, the then-part $httpsnotyetinuse=true; must not be changed!
