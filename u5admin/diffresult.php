@@ -31,6 +31,11 @@ tr { background: #f8faf8; }
   background: #222;
   box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
 }
+.wrap {
+  white-space: normal;
+  overflow-wrap: anywhere;   
+  word-break: break-word; 
+}
 </style>
 </head>
 <body>
@@ -217,9 +222,9 @@ function diffText($before, $after) {
 
         $html .= "<tr>
             <td style='text-align:right; color:#888; vertical-align:top;'>$lineNumber</td>
-            <td style='width:50%; padding:2px; background:$bgLeft;'>".decodeAmpBeforeHtmlEntities($leftHtml)."</td>
+            <td class='wrap' style='width:50%; padding:2px; background:$bgLeft;'>".decodeAmpBeforeHtmlEntities($leftHtml)."</td>
             <td style='text-align:right; color:#888; vertical-align:top;'>$lineNumber</td>
-            <td style='width:50%; padding:2px; background:$bgRight;'>".decodeAmpBeforeHtmlEntities($rightHtml)."</td>
+            <td class='wrap' style='width:50%; padding:2px; background:$bgRight;'>".decodeAmpBeforeHtmlEntities($rightHtml)."</td>
         </tr>";
     }
 
