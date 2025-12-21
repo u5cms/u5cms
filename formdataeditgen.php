@@ -118,3 +118,13 @@ $field=substr($field,1);
 echo'<label>'.str_replace('_mandatory','*',$field).'</label><br><textarea rows="3" style="width:98%" type="text" name="'.$field.'"></textarea><p>';
 }
 ?>
+<?php
+$sql_a="SELECT name FROM resources WHERE name='modify!editgen!php' AND deleted!=1";
+$result_a=mysql_query($sql_a);
+if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
+$num_a = mysql_num_rows($result_a);
+if ($num_a>0) {
+$_GET['c']='modify!editgen!php';
+include('u5sys.content.php');
+}
+?>
