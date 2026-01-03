@@ -180,7 +180,7 @@ CREATE TABLE `intranetsalt` (
 
 LOCK TABLES `intranetsalt` WRITE;
 /*!40000 ALTER TABLE `intranetsalt` DISABLE KEYS */;
-INSERT INTO `intranetsalt` VALUES (5250186);
+INSERT INTO `intranetsalt` VALUES (123);
 /*!40000 ALTER TABLE `intranetsalt` ENABLE KEYS */;
 UNLOCK TABLES;
 
