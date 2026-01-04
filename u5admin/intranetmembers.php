@@ -13,7 +13,7 @@ shortcut.add("Ctrl+S",function() {
 <style type="text/css">
 <!--
 .Stil1 {color: red}
-
+#members { height: calc(100vh - 222px); width:99%; min-height: 123px }
 -->
 </style><?php require('backendcss.php'); ?></head>
 <body>
@@ -30,17 +30,11 @@ $row_a = mysql_fetch_array($result_a);
 ?>
 
 <form name="form1" action="intranetmembers2.php" method="post">
-  <p>
-  Add/remove  e-mail addresses* of members<span class="Stil1"> </span>allowed to read the intranet**<br />
+
+  Add/remove e-mail addresses of members allowed to read the intranet:<a style="float:right;" href="javascript:void(0)" onclick="alert('You can paste any amount of text into the field (initially or appended), email addresses are extracted automatically, and stored addresses can access intranet content via password; intranet pages are u5CMS page objects whose names start with an exclamation mark.')">read me!</a><br><br>
   <div id="membersdiv" style="display:none"></div><textarea onchange="this.value=this.value.replace(/;/g,',')" name="members" id="members" cols="77" rows="28" id="members"><?php echo htmlXspecialchars(str_replace(',',"\r\n",$row_a['members'])) ?></textarea>
-  </p>
-<p><small>*Any delimiter style is allowed, even unpurified address lists containing names, street addresses a.s.o can be copied and pasted to here and will be purified automatically. Duplicates are removed automatically.<br />
-    **All pages named <em><strong>!...</strong></em> and all files carried on these pages (but not on public pages) will be password protected (i. e. accessible only to intranet members); u5CMS backend users have access to the intranet with their respective logins (i. e. it is not necessary to list the e-mail addresses of u5CMS backend users in the above intranet members form).</small></p>
-  <p>
-    <input type="submit" name="button" value="save" />
-  </p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
+
+<input style="width:99%" type="submit" name="button" value="save" />
 <?php require('t1.php') ?></form>
 <iframe src="intranetmembershtaccess.php" width="1" height="1" frameborder="0"></iframe>
 <script>
