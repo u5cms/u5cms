@@ -16,7 +16,7 @@ shortcut.add("Ctrl+S",function() {
 <?php  
 if ($viewbackenduserlistRqHIADRI!='no') require_once('accadmin.inc.php'); 
 ?>
-<iframe name="main" src="acc0.php" width="100%" height="1000" frameborder="0"></iframe>
+<iframe name="main" src="acc0.php" width="100%" height="1000" frameborder="0" style="width:100%; height:calc(100vh - 123px); border:0;"></iframe>
 <iframe name="saver" src="blank.php" frameborder="0" width="1" height="1"></iframe>
 
 <script>
