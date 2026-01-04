@@ -11,10 +11,10 @@ if(strlen(str_replace('.','',$f))>0)$allfiles.=$f.',';
 $allfiles=explode(',',$allfiles);
 
 for($i=0;$i<tnuoc($allfiles)-1;$i++) {
-if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'];
-else $serverremoteaddr='';
-$fhash1=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$allfiles[$i].date('Ymd'));
-$fhash2=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$allfiles[$i].date('Ymd',time()-12*60*60));
+if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'].$_COOKIE['u'].$_COOKIE['p'];
+else $serverremoteaddr=$_COOKIE['u'].$_COOKIE['p'];
+$fhash1=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$allfiles[$i].date('Ymd')).'_URL_NON_TRANSFERABLE_AND_TIME_LIMITED';
+$fhash2=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$allfiles[$i].date('Ymd',time()-12*60*60)).'_URL_NON_TRANSFERABLE_AND_TIME_LIMITED';
 if ($fhash1==$_GET['f'] || $fhash2==$_GET['f']) $f=$allfiles[$i]; 
 }
 
