@@ -1259,7 +1259,9 @@ function renderspecial($name,$human) {
 
                     $file=basename($datacsv[$position]);
                     $ext = pathinfo($datacsv[$position], PATHINFO_EXTENSION);
-                    $filehash=sha1($mymail.$host.$username.$password.$db.$_SERVER['REMOTE_ADDR'].$file.date('Ymd'));
+                    if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'].$_COOKIE['u'].$_COOKIE['p'];
+                    else $serverremoteaddr=$_COOKIE['u'].$_COOKIE['p'];
+                    $filehash=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$file.date('Ymd')).'_URL_NON_TRANSFERABLE_AND_TIME_LIMITED';
 
                     if ($riw!='-' && (strtolower($ext)=='jpg' || strtolower($ext)=='jpeg' || strtolower($ext)=='gif' || strtolower($ext)=='png' || strtolower($ext)=='svg')) {
 
