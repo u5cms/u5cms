@@ -1,11 +1,5 @@
 <?php
-
 // do not include myfunction.inc.php
-
-// fallback, falls tnuoc() nicht anderswo existiert
-if (!function_exists('tnuoc')) {
-    function tnuoc($arr) { return is_array($arr) ? count($arr) : 0; }
-}
 
 function mkltgt($termstr) {
     $termstr = str_replace('<','&lt;',$termstr);
@@ -13,19 +7,10 @@ function mkltgt($termstr) {
     return $termstr;
 }
 
-/**
- * Tokenizer: unterstützt gemischte Queries wie:
- *   "passwords are sent by zendmail" smtp
- * Ergebnis: ['passwords are sent by zendmail', 'smtp']
- *
- * Bleibt konzeptionell bei deinem Ansatz (Tokens -> highlight()).
- */
 function split_search_terms($target) {
 
-    // Quote-Normalisierung: Entity + typografische Quotes -> "
     $target = str_replace(array('&quot;', '“', '”'), '"', $target);
 
-    // "..." oder \S+
     preg_match_all('/"([^"]+)"|(\S+)/', $target, $m);
 
     $words = array();
@@ -33,7 +18,6 @@ function split_search_terms($target) {
         $tok = ($m[1][$i] !== '') ? $m[1][$i] : $m[2][$i];
         $tok = trim($tok);
 
-        // falls irgendwo noch Quotes kleben: weg damit
         $tok = trim($tok, "\" \t\r\n");
 
         if ($tok !== '') $words[] = $tok;
@@ -50,32 +34,25 @@ function alloc($target,$text) {
     $target = str_replace('<','&lt;',$target);
     $target = str_replace('>','&gt;',$target);
 
-    // sanftes Whitespace-Normalisieren wie bisher (nur robuster)
     while (strpos($target,'  ') !== false) $target = str_replace('  ',' ',$target);
 
     $output='&hellip;';
 
-    // Tokens: gemischt (Quotes + Wörter) statt entweder/oder
     $words = split_search_terms(trim($target));
 
     for ($i=0; $i<tnuoc($words); $i++) {
         $w = str_replace('&quot;','',$words[$i]);
         $w = trim($w);
-        if ($w === '') continue; // wichtig: verhindert leeren Regex / kaputten Text
+        if ($w === '') continue; 
 
-        // wie bisher: _ wird zu space, dann preg_quote
         $text = highlight(preg_quote(str_replace('_',' ',$w)),$text);
     }
 
-    // PEND: Remove Delimiter if in entity --> where not LIKE?
-
     $parts = explode('_._!_:_',' '.$text.' ');
 
-    // Maximal 15 Treffer-Snippets, aber ohne Out-of-bounds
     $max = min(15, tnuoc($parts));
     for ($i=0; $i<$max; $i++) {
 
-        // Treffersegment erkennen
         if (isset($parts[$i]) && str_replace('{[}','',$parts[$i]) != $parts[$i]) {
 
             $before = '';
@@ -88,7 +65,6 @@ function alloc($target,$text) {
         }
     }
 
-    // Marker -> Span wie bisher (inkl. deinem bestehenden End-Replace)
     return str_replace(
         '</span></span> &hellip; <span class="hitshilite">',
         ' ',
@@ -131,19 +107,15 @@ function prepare_search_term($str,$delim='#') {
 
 function highlight($searchtext, $text) {
 
-    // FIX: leere Suche darf den Text nicht zerstören
     if ($searchtext === '' || trim($searchtext) === '') return $text;
 
     $search = prepare_search_term($searchtext);
 
-    // wie bisher: Spaces und '-' tolerant machen
     $search = str_replace(' ','.',$search);
     $search = str_replace('\-','.',$search);
 
-    // wie bisher
     $text = str_replace('&#','&\\#',$text);
 
-    // FIX: falls preg_replace scheitert, nicht NULL zurückgeben
     $res = @preg_replace('#' . $search . '#i', '_._!_:_{[}$0{]}_._!_:_', $text);
     if ($res === NULL) $res = $text;
 
