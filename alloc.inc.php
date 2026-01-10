@@ -2,126 +2,196 @@
 
 // do not include myfunction.inc.php
 
-function mkltgt($termstr) {
-$termstr=str_replace('<','&lt;',$termstr);
-$termstr=str_replace('>','&gt;',$termstr);
-return $termstr;
+// fallback, falls tnuoc() nicht anderswo existiert
+if (!function_exists('tnuoc')) {
+    function tnuoc($arr) { return is_array($arr) ? count($arr) : 0; }
 }
+
+function mkltgt($termstr) {
+    $termstr = str_replace('<','&lt;',$termstr);
+    $termstr = str_replace('>','&gt;',$termstr);
+    return $termstr;
+}
+
+/**
+ * Tokenizer: unterstützt gemischte Queries wie:
+ *   "passwords are sent by zendmail" smtp
+ * Ergebnis: ['passwords are sent by zendmail', 'smtp']
+ *
+ * Bleibt konzeptionell bei deinem Ansatz (Tokens -> highlight()).
+ */
+function split_search_terms($target) {
+
+    // Quote-Normalisierung: Entity + typografische Quotes -> "
+    $target = str_replace(array('&quot;', '“', '”'), '"', $target);
+
+    // "..." oder \S+
+    preg_match_all('/"([^"]+)"|(\S+)/', $target, $m);
+
+    $words = array();
+    for ($i=0; $i<tnuoc($m[0]); $i++) {
+        $tok = ($m[1][$i] !== '') ? $m[1][$i] : $m[2][$i];
+        $tok = trim($tok);
+
+        // falls irgendwo noch Quotes kleben: weg damit
+        $tok = trim($tok, "\" \t\r\n");
+
+        if ($tok !== '') $words[] = $tok;
+    }
+    return $words;
+}
+
 
 function alloc($target,$text) {
 
-$target=str_replace('&#339;','œ',$target);
-$text=str_replace('&#339;','œ',$text);
+    $target = str_replace('&#339;','œ',$target);
+    $text   = str_replace('&#339;','œ',$text);
 
-$target=str_replace('<','&lt;',$target);
-$target=str_replace('>','&gt;',$target);
-//$target=str_replace('"',' ',$target);
-$target=str_replace('  ',' ',$target);
-$target=str_replace('  ',' ',$target);
-$target=str_replace('  ',' ',$target);
-$output='&hellip;';
+    $target = str_replace('<','&lt;',$target);
+    $target = str_replace('>','&gt;',$target);
 
-if($target!=str_replace('&quot;','',$target))$words=@explode('"',trim($target));
-else $words=@explode(' ',trim($target));
+    // sanftes Whitespace-Normalisieren wie bisher (nur robuster)
+    while (strpos($target,'  ') !== false) $target = str_replace('  ',' ',$target);
 
-for ($i=0;$i<tnuoc($words);$i++) {
-$words[$i]=str_replace('&quot;','',$words[$i]);
-//echo $words[$i].'<hr>';
-$text = highlight(preg_quote(str_replace('_',' ',$words[$i])),$text);
+    $output='&hellip;';
+
+    // Tokens: gemischt (Quotes + Wörter) statt entweder/oder
+    $words = split_search_terms(trim($target));
+
+    for ($i=0; $i<tnuoc($words); $i++) {
+        $w = str_replace('&quot;','',$words[$i]);
+        $w = trim($w);
+        if ($w === '') continue; // wichtig: verhindert leeren Regex / kaputten Text
+
+        // wie bisher: _ wird zu space, dann preg_quote
+        $text = highlight(preg_quote(str_replace('_',' ',$w)),$text);
+    }
+
+    // PEND: Remove Delimiter if in entity --> where not LIKE?
+
+    $parts = explode('_._!_:_',' '.$text.' ');
+
+    // Maximal 15 Treffer-Snippets, aber ohne Out-of-bounds
+    $max = min(15, tnuoc($parts));
+    for ($i=0; $i<$max; $i++) {
+
+        // Treffersegment erkennen
+        if (isset($parts[$i]) && str_replace('{[}','',$parts[$i]) != $parts[$i]) {
+
+            $before = '';
+            $after  = '';
+
+            if ($i > 0 && isset($parts[$i-1])) $before = html_substr($parts[$i-1], -55);
+            if (isset($parts[$i+1]))          $after  = html_substr($parts[$i+1], 0, 55);
+
+            $output .= $before . $parts[$i] . $after . '&hellip;';
+        }
+    }
+
+    // Marker -> Span wie bisher (inkl. deinem bestehenden End-Replace)
+    return str_replace(
+        '</span></span> &hellip; <span class="hitshilite">',
+        ' ',
+        str_replace(
+            '-&hellip;-','-',
+            str_replace(
+                '{[}','<span class="hitshilite">',
+                str_replace('{]}','</span></span>',$output)
+            )
+        )
+    );
 }
-
-//echo $text.'<hr>';
-
-// PEND: Remove Delimiter if in entity --> where not LIKE?
-
-$text=explode('_._!_:_',' '.$text.' ');
-
-//die('<pre>'.var_dump($text).'</pre>');
-
-$ii=0;
-
-for ($i=0;$i<15;$i++){
-$ii++;
-if (str_replace('{[}','',$text[$i])!=$text[$i]) $output.= html_substr($text[$i-1],-55).$text[$i].html_substr($text[$i+1],0,55).'&hellip;';
-
-}
-
-return str_replace('</span></span> &hellip; <span class="hitshilite">',' ',str_replace('-&hellip;-','-',str_replace('{[}','<span class="hitshilite">',str_replace('{]}','</span></span>',$output))));
-//return $output;
-} 
 
 function prepare_search_term($str,$delim='#') {
-$search = preg_quote($str,$delim);
-$search = preg_replace('/[aàáâãåäæAÀÁÂÃÄÅÆ]/i', '[aàáâãåäæAÀÁÂÃÄÅÆ]', $search);
-$search = preg_replace('/[eèéêëEÈÉÊË]/i', '[eèéêëEÈÉÊË]', $search);
-$search = preg_replace('/[iìíîïIÌÍÎÏ]/i', '[iìíîïIÌÍÎÏ]', $search);
-$search = preg_replace('/[oòóôõöøœOÒÓÔÕÖØŒ]/i', '[oòóôõöøœOÒÓÔÕÖØŒ]', $search);
-$search = preg_replace('/[uùúûüUÙÚÛÜ]/i', '[uùúûüUÙÚÛÜ]', $search); 
-$search = preg_replace('/[nñNÑ]/i', '[nñNÑ]', $search);
-$search = preg_replace('/[cçCÇ]/i', '[cçCÇ]', $search);
+    $search = preg_quote($str,$delim);
+    $search = str_replace('&#7838;', 'ß', $search);
+    $search = str_replace('&#x1E9E;', 'ß', $search);
+    $search = str_replace("\xE1\xBA\x9E", 'ß', $search);
 
+    $search = preg_replace('/[aàáâãåäæAÀÁÂÃÄÅÆ]/', '[aàáâãåäæAÀÁÂÃÄÅÆ]', $search);
+    $search = preg_replace('/[eèéêëEÈÉÊË]/', '[eèéêëEÈÉÊË]', $search);
+    $search = preg_replace('/[iìíîïIÌÍÎÏ]/', '[iìíîïIÌÍÎÏ]', $search);
+    $search = preg_replace('/[oòóôõöøOÒÓÔÕÖØ]/', '[oòóôõöøOÒÓÔÕÖØ]', $search);
+    $search = preg_replace('/[uùúûüUÙÚÛÜ]/', '[uùúûüUÙÚÛÜ]', $search);
+    $search = preg_replace('/[yýÿYÝŸ]/', '[yýÿYÝŸ]', $search);
+
+    $search = preg_replace('/[nñNÑ]/', '[nñNÑ]', $search);
+    $search = preg_replace('/[cçCÇ]/', '[cçCÇ]', $search);
+    $search = preg_replace('/[dðÐD]/', '[dðÐD]', $search);
+    $search = preg_replace('/[þÞ]/', '[þÞ]', $search);
+
+    $search = preg_replace('/ß/', '(?:ß|ss)', $search);
+    $search = preg_replace('/ss/i', '(?:ss|ß)', $search);
+
+    $search = preg_replace('/[œŒ]/', '[œŒ]', $search);
     // add more characters...
-    
+
     return $search;
 }
 
 function highlight($searchtext, $text) {
 
+    // FIX: leere Suche darf den Text nicht zerstören
+    if ($searchtext === '' || trim($searchtext) === '') return $text;
+
     $search = prepare_search_term($searchtext);
-    $search=str_replace(' ','.',$search);
-    $search=str_replace('\-','.',$search);	
+
+    // wie bisher: Spaces und '-' tolerant machen
+    $search = str_replace(' ','.',$search);
+    $search = str_replace('\-','.',$search);
+
+    // wie bisher
     $text = str_replace('&#','&\\#',$text);
-	return str_replace('&\#','&#',preg_replace('#' . $search . '#i', '_._!_:_{[}$0{]}_._!_:_', $text));
+
+    // FIX: falls preg_replace scheitert, nicht NULL zurückgeben
+    $res = @preg_replace('#' . $search . '#i', '_._!_:_{[}$0{]}_._!_:_', $text);
+    if ($res === NULL) $res = $text;
+
+    return str_replace('&\#','&#',$res);
 }
 
 function html_strlen($str) {
-  $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-  return tnuoc($chars);
+    $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+    return tnuoc($chars);
 }
 
 function html_substr($str, $start, $length = NULL) {
-  if ($length === 0) return ""; //stop wasting our time ;)
+    if ($length === 0) return "";
 
-  //check if we can simply use the built-in functions
-  if (strpos($str, '&') === false) { //No entities. Use built-in functions
-    if ($length === NULL)
-      return substr($str, $start);
-    else
-      return substr($str, $start, $length);
-  }
-
-  // create our array of characters and html entities
-  $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
-  $html_length = tnuoc($chars);
-
-  // check if we can predict the return value and save some processing time
-  if (
-       ($html_length === 0) /* input string was empty */ or
-       ($start >= $html_length) /* $start is longer than the input string */ or
-       (isset($length) and ($length <= -$html_length)) /* all characters would be omitted */
-     )
-    return "";
-
-  //calculate start position
-  if ($start >= 0) {
-    $real_start = $chars[$start][1];
-  } else { //start'th character from the end of string
-    $start = max($start,-$html_length);
-    $real_start = $chars[$html_length+$start][1];
-  }
-
-  if (!isset($length)) // no $length argument passed, return all remaining characters
-    return substr($str, $real_start);
-  else if ($length > 0) { // copy $length chars
-    if ($start+$length >= $html_length) { // return all remaining characters
-      return substr($str, $real_start);
-    } else { //return $length characters
-      return substr($str, $real_start, $chars[max($start,0)+$length][1] - $real_start);
+    if (strpos($str, '&') === false) {
+        if ($length === NULL) return substr($str, $start);
+        else return substr($str, $start, $length);
     }
-  } else { //negative $length. Omit $length characters from end
-      return substr($str, $real_start, $chars[$html_length+$length][1] - $real_start);
-  }
 
+    $chars = preg_split('/(&[^;\s]+;)|/', $str, -1,
+        PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE
+    );
+    $html_length = tnuoc($chars);
+
+    if (
+        ($html_length === 0) ||
+        ($start >= $html_length) ||
+        (isset($length) && ($length <= -$html_length))
+    ) return "";
+
+    if ($start >= 0) {
+        $real_start = $chars[$start][1];
+    } else {
+        $start = max($start,-$html_length);
+        $real_start = $chars[$html_length+$start][1];
+    }
+
+    if (!isset($length)) {
+        return substr($str, $real_start);
+    } else if ($length > 0) {
+        if ($start+$length >= $html_length) {
+            return substr($str, $real_start);
+        } else {
+            return substr($str, $real_start, $chars[max($start,0)+$length][1] - $real_start);
+        }
+    } else {
+        return substr($str, $real_start, $chars[$html_length+$length][1] - $real_start);
+    }
 }
 
 ?>

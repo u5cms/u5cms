@@ -11,7 +11,6 @@ file_put_contents('fileversions/lastindex.txt',time());
 }
 
 function sanitize_content($content) {
-	$content=htmlX_entity_decode($content);
     $content = str_replace(['<nobr>', '</nobr>'], '', $content);
     $content = str_replace('&nbsp;', ' ', $content);
     $content = preg_replace('/>(\S)/', '> $1', $content);
@@ -23,6 +22,7 @@ function sanitize_content($content) {
         '/<style\b[^>]*>[\s\S]*?<\/style>/is'
     ], '', $content);
     $content = strip_tags($content);
+	$content=htmlX_entity_decode($content);
     $content = preg_replace('/\s+/', ' ', $content);
     return trim($content);
 }
