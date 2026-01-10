@@ -24,8 +24,8 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   <input type="hidden" name="l" value="<?php echo $_GET['l']?>" />
   <input type="hidden" name="c" value="_search" />
 
-  <input  style="width:450px;max-width:98%;margin:2px 0 7px 0" name="q"  id="searchlarge" type="text" value="" aria-label="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
-  <input  type="submit" class="btnSubmit" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
+  <input <?php include('search.onchange.inc.php') ?> style="width:450px;max-width:98%;margin:2px 0 7px 0" name="q"  id="searchlarge" type="text" value="" aria-label="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
+  <input type="submit" class="btnSubmit" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
 <?php
   $prefill=$_GET['q'];
   $prefill = preg_replace_callback(
