@@ -379,6 +379,11 @@ echo $hits;
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
+$row_a = array_map(
+    fn($v) => str_replace(['<', '>'], ['&lt;', '&gt;'], $v),
+    $row_a
+);
+
 if (str_replace(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
 if (str_replace(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
 if (str_replace(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];

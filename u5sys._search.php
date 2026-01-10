@@ -373,10 +373,10 @@ echo $hits;
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-if (str_replace(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_5'])=='') $row_a['title_5']=$row_a['title_1'];
+$row_a = array_map(
+    fn($v) => str_replace(['<', '>'], ['&lt;', '&gt;'], $v),
+    $row_a
+);
 
 $that=def('title_1','title_2','title_3','title_4','title_5');
 $row_a[$that]=trim($row_a[$that]);
