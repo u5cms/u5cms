@@ -69,7 +69,7 @@ $data[$i]=str_replace("\r",'\r',$data[$i]);
 $data[$i]=str_replace("\n",'\n',$data[$i]);
 $data[$i]=str_replace("\t",'\t',$data[$i]);
 
-if (trim(substr($head[$i],1,strlen($head[$i])-1))!='') echo '<script>if (parent) if (parent.document.u5form) if (parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).') parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).'.value=decodeCharacterReferences("'.(str_replace(',.',';',str_replace('"','\"',substr($data[$i],1)))).'")</script>';
+if (trim(substr($head[$i],1,strlen($head[$i])-1))!='') echo '<script>if (parent) if (parent.document.u5form) if (parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).') {parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).'.value=escape(decodeCharacterReferences("'.(str_replace(',.',';',str_replace('"','\"',substr($data[$i],1)))).'")); parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).'.value=unescape(parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).'.value)}</script>';
 
 if(  strpos(substr($data[$i],1),'/fileversions/')>0 &&  strpos('x'.substr($head[$i],1,strlen($head[$i])-1),'userupload')==1 ) {
 $fpart=explode('/fileversions/',$data[$i]);

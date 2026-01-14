@@ -52,7 +52,8 @@ $self_js = str_replace("'", "\\'", u5flatidnlower($_SERVER['PHP_AUTH_USER']));
 
 for ($i_a=0; $i_a<$num_a; $i_a++) {
     $row_a = mysql_fetch_array($result_a);
-
+    $row_a['email'] = htmlspecialchars($row_a['email'], ENT_NOQUOTES, 'UTF-8');
+    $row_a['email'] = str_replace('&amp;', '&', $row_a['email']);
     $Lchecked='';
     $Rchecked='';
 
