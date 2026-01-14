@@ -109,7 +109,8 @@ senden();
 function unset() {
 if (document.getElementById('filt').value=='') document.getElementById('filt').value='<?php echo ($_GET['o'])?>';location.href='formdata2.php?f=&n=<?php echo $_GET['n']?>&o='+escape(document.getElementById('filt').value)+'&s=<?php echo $_GET['s']?>';
 }
-document.getElementById('filt').value=unescape('<?php echo ($_GET['f']) ?>');
+document.getElementById('filt').value='<?php echo ($_GET['f']) ?>';
+document.getElementById('filt').value=unescape(document.getElementById('filt').value);
 </script>
 &nbsp;
 
@@ -167,7 +168,7 @@ $oldhead=$row_a['headcsv'];
 $datacsv=explode(';',$row_a['datacsv']);
 
 for ($dwi=0;$dwi<tnuoc($datacsv);$dwi++) {
-$datacsv[$dwi]=dowords($datacsv[$dwi]);
+$datacsv[$dwi]=dowords(htmlspecialchars($datacsv[$dwi]));
 
 if (strpos($datacsv[$dwi],'@')>0) {
 if ($datacsv[$dwi]!='') if (strpos('xx'.$emails,'.,!,.'.$datacsv[$dwi].'.,!,.')>1) $datacsv[$dwi]=':<:span style="background:pink" title="duplicate?":>:'.$datacsv[$dwi].' ÷:<:span>';

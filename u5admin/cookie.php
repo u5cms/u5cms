@@ -1,4 +1,5 @@
 <?php 
+require_once('connect.inc.php');
 $_GET['a']=htmlspecialchars($_GET['a']);
 $_GET['b']=htmlspecialchars($_GET['b']);
 if ($_GET['a']!='ns') {
