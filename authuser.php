@@ -5,6 +5,9 @@ require_once ('render.inc.php');
 require_once('globalslogin.inc.php');
 if($_SERVER['PHP_AUTH_USER']=='')exit;
 $_GET['t']=htmlXspecialchars(strip_tags($_GET['t']));
+
+$_SERVER['PHP_AUTH_USER'] = htmlspecialchars($_SERVER['PHP_AUTH_USER'], ENT_NOQUOTES, 'UTF-8');
+$_SERVER['PHP_AUTH_USER'] = str_replace('&amp;', '&', $_SERVER['PHP_AUTH_USER']);
 ?>
 <!DOCTYPE html>
 <html>
