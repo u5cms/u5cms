@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 if($_GET['more']==1) header("Location: characters/punctuation.php");
 require_once('../myfunctions.inc.php');
@@ -17,7 +16,7 @@ require('../config.php');
 <script>
 function senddoins(sendthis) {
 mychar.location.href=('mychar.php?c='+escape(decodeURIComponent(sendthis)));
-parent.putdoins<?php echo $_GET['l']?>(decodeURIComponent(sendthis));
+parent.putdoins<?php echo htmlspecialchars($_GET['l']) ?>(decodeURIComponent(sendthis));
 }
 </script>
 <?php 
