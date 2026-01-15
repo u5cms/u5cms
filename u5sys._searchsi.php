@@ -24,8 +24,8 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   <input type="hidden" name="l" value="<?php echo $_GET['l']?>" />
   <input type="hidden" name="c" value="_search" />
 
-  <input  style="width:450px;max-width:98%;margin:2px 0 7px 0" name="q"  id="searchlarge" type="text" value="" aria-label="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
-  <input  type="submit" class="btnSubmit" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
+  <input <?php include('search.onchange.inc.php') ?> style="width:450px;max-width:98%;margin:2px 0 7px 0" name="q"  id="searchlarge" type="text" value="" aria-label="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
+  <input type="submit" class="btnSubmit" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
 <?php
   $prefill=$_GET['q'];
   $prefill = preg_replace_callback(
@@ -378,6 +378,11 @@ echo $hits;
 
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
+
+$row_a = array_map(
+    fn($v) => str_replace(['<', '>'], ['&lt;', '&gt;'], $v),
+    $row_a
+);
 
 if (str_replace(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
 if (str_replace(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
