@@ -167,7 +167,6 @@ use Laminas\Mail\Transport\SmtpOptions;
    $orderingintranetpasswordsisforbidden='no';
    $waitsecondsbetweenintranetpworders=600;
    $u5showlinkofactivelanguageinmetanavi='no';
-   $oneverysaveupdateindexandhtaccesscostly='no';
 
 ////// ****** SAML integration configuration ******
 // The u5CMS features SAML integration based on SimpleSAMLphp (https://simplesamlphp.org/).
