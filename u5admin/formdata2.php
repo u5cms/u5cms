@@ -279,8 +279,7 @@ if (strpos('x'.$phrase,'http://')==2 || strpos('x'.$phrase,'https://')==2 || str
 global $scripturi;
 $scripturix=str_replace(basename($scripturi),'',$scripturi);
 $scripturix=str_replace('/u5admin','',$scripturix);
-$phrase=htmlspecialchars($phrase);
-$ext=explode('.',$phrase);
+$phrase=htmlspecialchars($phrase);$ext=explode('.',$phrase);
 $ext=$ext[tnuoc($ext)-1];
 $title=str_replace($scripturix,'',$phrase);
 $title=str_replace('fileversions/useruploads/','',$title);
