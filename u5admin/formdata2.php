@@ -5,6 +5,122 @@ require_once('connect.inc.php'); require_once('../san.inc.php');
 include('../config.php');
 $_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
 $lnnr=1;
+
+function u5_transport_text_escaped($s) {
+$s=str_replace('</div>','&lt;/div&gt;',$s);
+$s=str_replace("\r",'&#13;',$s);
+$s=str_replace("\n",'&#10;',$s);
+$s=str_replace("\t",'&#9;',$s);
+return $s;
+}
+
+function u5_transport_text_raw($s) {
+$s=htmlspecialchars($s, ENT_QUOTES, 'ISO-8859-1');
+$s=str_replace('</div>','&lt;/div&gt;',$s);
+$s=str_replace("\r",'&#13;',$s);
+$s=str_replace("\n",'&#10;',$s);
+$s=str_replace("\t",'&#9;',$s);
+return $s;
+}
+
+function mkltgt($termstr) {
+$termstr = str_replace('<','&lt;',$termstr);
+$termstr = str_replace('>','&gt;',$termstr);
+return $termstr;
+}
+
+function split_search_terms($target) {
+$target = str_replace(array('&quot;', '“', '”'), '"', $target);
+
+preg_match_all('/"([^"]+)"|(\S+)/', $target, $m);
+
+$words = array();
+for ($i=0; $i<tnuoc($m[0]); $i++) {
+$tok = ($m[1][$i] !== '') ? $m[1][$i] : $m[2][$i];
+$tok = trim($tok);
+$tok = trim($tok, "\" \t\r\n");
+if ($tok !== '') $words[] = $tok;
+}
+return $words;
+}
+
+function prepare_search_term($str,$delim='#') {
+$search = preg_quote($str,$delim);
+$search = str_replace('&#7838;', 'ß', $search);
+$search = str_replace('&#x1E9E;', 'ß', $search);
+$search = str_replace("\xE1\xBA\x9E", 'ß', $search);
+
+$search = preg_replace('/[aàáâãåäæAÀÁÂÃÄÅÆ]/', '[aàáâãåäæAÀÁÂÃÄÅÆ]', $search);
+$search = preg_replace('/[eèéêëEÈÉÊË]/', '[eèéêëEÈÉÊË]', $search);
+$search = preg_replace('/[iìíîïIÌÍÎÏ]/', '[iìíîïIÌÍÎÏ]', $search);
+$search = preg_replace('/[oòóôõöøOÒÓÔÕÖØ]/', '[oòóôõöøOÒÓÔÕÖØ]', $search);
+$search = preg_replace('/[uùúûüUÙÚÛÜ]/', '[uùúûüUÙÚÛÜ]', $search);
+$search = preg_replace('/[yıÿYİŸ]/', '[yıÿYİŸ]', $search);
+
+$search = preg_replace('/[nñNÑ]/', '[nñNÑ]', $search);
+$search = preg_replace('/[cçCÇ]/', '[cçCÇ]', $search);
+$search = preg_replace('/[dğĞD]/', '[dğĞD]', $search);
+$search = preg_replace('/[şŞ]/', '[şŞ]', $search);
+
+$search = preg_replace('/ß/', '(?:ß|ss)', $search);
+$search = preg_replace('/ss/i', '(?:ss|ß)', $search);
+
+$search = preg_replace('/[œŒ]/', '[œŒ]', $search);
+
+$search = str_replace('\ ', '(?:[[:space:]]|&nbsp;)+', $search);
+$search = str_replace('\-', '(?:-|&#45;|&minus;)', $search);
+
+return $search;
+}
+
+function highlight_text_chunk($searchtext, $text) {
+if ($searchtext === '' || trim($searchtext) === '') return $text;
+
+$words = split_search_terms(trim($searchtext));
+
+for ($i=0; $i<tnuoc($words); $i++) {
+$w = trim($words[$i]);
+if ($w==='') continue;
+
+$visible = htmlspecialchars($w, ENT_QUOTES, 'ISO-8859-1');
+
+if ($visible === $w) $search = prepare_search_term($w);
+else $search = '(?:' . prepare_search_term($visible) . '|' . prepare_search_term($w) . ')';
+
+$res = @preg_replace('#' . $search . '#i', '<mark>$0</mark>', $text);
+if ($res !== NULL) $text = $res;
+}
+
+return $text;
+}
+
+function highlight_visible_text($searchtext, $html) {
+if ($searchtext === '' || trim($searchtext) === '') return $html;
+
+$parts = preg_split('~(<[^>]*>)~', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+for ($i=0; $i<tnuoc($parts); $i++) {
+if ($parts[$i]==='') continue;
+if (substr($parts[$i],0,1)==='<') continue;
+$parts[$i] = highlight_text_chunk($searchtext, $parts[$i]);
+}
+
+return implode('', $parts);
+}
+
+function highlight_all_visible_text($target, $html) {
+$words = split_search_terms(trim($target));
+
+for ($i=0; $i<tnuoc($words); $i++) {
+$w = trim($words[$i]);
+if ($w === '') continue;
+$w = str_replace(',.',';',$w);
+$w = str_replace('_',' ',$w);
+$html = highlight_visible_text($w, $html);
+}
+
+return $html;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +151,14 @@ location.href='../formdataedit.php?<?php echo $_SERVER['QUERY_STRING'] ?>&a=1&id
 }
 }
 }
+
+function getTransportText(id) {
+var el=document.getElementById(id);
+if(!el) return '';
+if(el.firstChild) return el.firstChild.nodeValue;
+if(typeof el.textContent!='undefined') return el.textContent;
+return '';
+}
 </script>
 <?php
 require('../config.php');
@@ -43,7 +167,7 @@ if ($formdataRqHIADRI!='no') require('accadmin.inc.php');
 <h3 style="display:inline"><?php echo '<a onclick="mkreload=1" target="_blank" href="../formdatainsert.php?a=1&c='.htmlXspecialchars($_GET['n']).'" title="open form (e. g. to enter new data)"><span style="background:blue;color:white">&nbsp;+&nbsp;</span>'.htmlXspecialchars($_GET['n']).'</a>' ?></h3>
 
 Show
-<select onchange="location.href='formdata2.php?n=<?php echo $_GET['n']?>&s='+this.value+'&f=<?php echo $_GET['f']?>&o=<?php echo $_GET['o']?>'">
+<select onchange="location.href='formdata2.php?n=<?php echo $_GET['n']?>&s='+this.value+'&f='+escape(document.getElementById('filt').value)+'&o='+escape(getTransportText('u5_filt_o'))">
 <option value="0">all with any status 1) &ndash; 4)</option>
 <option <?php if ($_GET['s']==1) echo 'selected="selected"' ?> value="1">all with status 1) new</option>
 <option <?php if ($_GET['s']==2) echo 'selected="selected"' ?> value="2">all with status 2) pending</option>
@@ -58,6 +182,9 @@ Show
 &nbsp;&nbsp;<span style="color:orange;font-weight:bold;font-size:120%">&#8898;</span>&nbsp;
 
 <?php require('formdata.filterlabel.php') ?>
+
+<div id="u5_filt_f" style="display:none"><?php echo u5_transport_text_escaped($_GET['f']) ?></div>
+<div id="u5_filt_o" style="display:none"><?php echo u5_transport_text_raw($_GET['o']) ?></div>
 
 <input onkeypress="handleKeyPress(event)" id="filt" type="text">
 
@@ -87,17 +214,22 @@ return newstr;
 function handleKeyPress(e){
 var key=e.keyCode || e.which;
 if (key==13){
-if (document.getElementById('filt').value=='') document.getElementById('filt').value='<?php echo ($_GET['o'])?>';location.href='formdata2.php?n=<?php echo $_GET['n']?>&f='+escape(replace(replace(document.getElementById('filt').value,'"',''),'·',''))+'&s=<?php echo $_GET['s']?>';
+if (document.getElementById('filt').value=='') document.getElementById('filt').value=getTransportText('u5_filt_o');location.href='formdata2.php?n=<?php echo $_GET['n']?>&f='+escape(replace(replace(document.getElementById('filt').value,'"',''),'·',''))+'&s=<?php echo $_GET['s']?>';
 }
 }
 
 function senden() {
-if (document.getElementById('filt').value=='') document.getElementById('filt').value='<?php echo ($_GET['o'])?>';location.href='formdata2.php?n=<?php echo $_GET['n']?>&f='+escape(replace(replace(replace(document.getElementById('filt').value,'"',''),'·',''),'÷',''))+'&s=<?php echo $_GET['s']?>';
+if (document.getElementById('filt').value=='') document.getElementById('filt').value=getTransportText('u5_filt_o');location.href='formdata2.php?n=<?php echo $_GET['n']?>&f='+escape(replace(replace(replace(document.getElementById('filt').value,'"',''),'·',''),'÷',''))+'&s=<?php echo $_GET['s']?>';
 }
 
 function dbl(that) {
-if (('x'+that).indexOf('<iframe')<1 && ('x'+that).indexOf('<IFRAME')<1 && ('x'+that).indexOf('<input')<1 && ('x'+that).indexOf('<INPUT')<1 && ('x'+that).indexOf('<textarea')<1 && ('x'+that).indexOf('<TEXTAREA')<1) {
-document.getElementById('filt').value=that;
+var html, txt;
+
+html = that.innerHTML;
+
+if (('x'+html).indexOf('<iframe')<1 && ('x'+html).indexOf('<IFRAME')<1 && ('x'+html).indexOf('<input')<1 && ('x'+html).indexOf('<INPUT')<1 && ('x'+html).indexOf('<textarea')<1 && ('x'+html).indexOf('<TEXTAREA')<1) {
+txt = that.innerText || that.textContent || '';
+document.getElementById('filt').value = txt;
 senden();
 }
 }
@@ -107,9 +239,9 @@ senden();
 <button onclick="unset()">unset</button>
 <script>
 function unset() {
-if (document.getElementById('filt').value=='') document.getElementById('filt').value='<?php echo ($_GET['o'])?>';location.href='formdata2.php?f=&n=<?php echo $_GET['n']?>&o='+escape(document.getElementById('filt').value)+'&s=<?php echo $_GET['s']?>';
+if (document.getElementById('filt').value=='') document.getElementById('filt').value=getTransportText('u5_filt_o');location.href='formdata2.php?f=&n=<?php echo $_GET['n']?>&o='+escape(document.getElementById('filt').value)+'&s=<?php echo $_GET['s']?>';
 }
-document.getElementById('filt').value=unescape('<?php echo ($_GET['f']) ?>');
+document.getElementById('filt').value=unescape(getTransportText('u5_filt_f'));
 </script>
 &nbsp;
 
@@ -188,35 +320,16 @@ else $notes=$notesformstart.'<textarea id="no'.$row_a['id'].'" name="note" rows=
 $csv.='<a title="edit: Click here or Alt+Click anywhere" id="i'.$row_a['id'].'" style="text-decoration:none" onclick="document.cookie=\'fd2y='.$row_a['id'].'\'" href="../formdataedit.php?n='.$_GET['n'].'&a=1&id='.$row_a['id'].'"><small>'.$lnnr++.'</small><br>'.$row_a['id'].'</a>;<iframe scrolling="no" width="100%" height="3" frameborder="0" name="ifr'.$row_a['id'].'"></iframe><select onchange="ifr'.$row_a['id'].'.location.href=\'statussave.php?status=\'+this.value+\'&id='.$row_a['id'].'\'" id="sel'.$row_a['id'].'"><option value="1">1) new</option><option value="2">2) pending</option><option value="3">3) problem</option><option value="4">4) done</option><option value="5">'.$delete.'</option><option value="6">former version</option><option value="7">imported</option></select><script src=sel.php?id='.$row_a['id'].'&status='.$row_a['status'].'></script>;'.$notes.$notesscript.';'.str_replace(';',',.',($row_a['authuser'])).';'.str_replace("<br />"," | ",str_replace("\n","",str_replace("\r","",nl2br(str_replace(':&lt,.:','<',str_replace(':&gt,.:','>',str_replace('<','&lt,.',str_replace('>','&gt,.',($row_a['datacsv']))))))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip']."<br />";
 }
 $dnummer=date("YmdHis");
-$echo = str_replace(',.',';',str_replace('<tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)"><b>','<tr '.$trattribs.' style="font-weight:bold"><td ondblclick="dbl(this.innerHTML)"><b>','<table><tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)">'.str_replace(';','</td><td ondblclick="dbl(this.innerHTML)">',str_replace('<br />','</td></tr><tr '.$trattribs.'><td ondblclick="dbl(this.innerHTML)">',nl2br($csv))).'</tr></table>'));
+$echo = str_replace(',.',';',str_replace('<tr '.$trattribs.'><td ondblclick="dbl(this)"><b>','<tr '.$trattribs.' style="font-weight:bold"><td ondblclick="dbl(this)"><b>','<table><tr '.$trattribs.'><td ondblclick="dbl(this)">'.str_replace(';','</td><td ondblclick="dbl(this)">',str_replace('<br />','</td></tr><tr '.$trattribs.'><td ondblclick="dbl(this)">',nl2br($csv))).'</tr></table>'));
 
 for ($k=0;$k<tnuoc($keywords);$k++) {
-$echo =  highlight(str_replace('<','&lt;',$keywords[$k]), $echo);
+$keyword = trim($keywords[$k]);
+if ($keyword!='') $echo = highlight_all_visible_text($keyword, $echo);
 }
+
 $echo = str_replace('<!!!u5dl_mtr!!!','',$echo);
 $echo = str_replace('!!!u5dl_mtr!!!>','',$echo);
 echo str_replace('</span>;',';</span>',$echo);
-
-function prepare_search_term($str,$delim='#') {
-$search = preg_quote($str,$delim);
-
-$search = preg_replace('/[aàáâãåäæAÀÁÂÃÄÅÆ]/i', '[aàáâãåäæAÀÁÂÃÄÅÆ]', $search);
-$search = preg_replace('/[eèéêëEÈÉÊË]/i', '[eèéêëEÈÉÊË]', $search);
-$search = preg_replace('/[iìíîïIÌÍÎÏ]/i', '[iìíîïIÌÍÎÏ]', $search);
-$search = preg_replace('/[oòóôõöøoOÒÓÔÕÖØO]/i', '[oòóôõöøoOÒÓÔÕÖØO]', $search);
-$search = preg_replace('/[uùúûüUÙÚÛÜ]/i', '[uùúûüUÙÚÛÜ]', $search);
-$search = preg_replace('/[nñNÑ]/i', '[nñNÑ]', $search);
-$search = preg_replace('/[cçCÇ]/i', '[cçCÇ]', $search);
-    // add more characters...
-    return $search;
-}
-
-function highlight($searchtext, $text) {
-    $searchtext=str_replace(',.',';',$searchtext);
-    $search = prepare_search_term($searchtext);
-    $search;
-	return preg_replace('#(?![^&;]*;)(?![^<>]*>)' . $search . '#i', '<mark>$0</mark>', $text);
-}
 ?>
 <script>
 function replace(string,text,by) {
