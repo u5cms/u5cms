@@ -1,8 +1,10 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 require_once('../myfunctions.inc.php');
-if($_GET['more']==1) header("Location: characters/punctuation.php");
+require_once('../san.inc.php');
 $ucrs='';
+if (isset($_GET['s']))$_GET['s']=intval($_GET['s']);
+if (isset($_GET['e']))$_GET['e']=intval($_GET['e']);
 if (isset($_GET['s'])) setcookie('mochr', htmlspecialchars($_GET['s']) , time()+3600*24*365*10,'/');
 require('../config.php');
 ?>
