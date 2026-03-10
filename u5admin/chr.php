@@ -1,8 +1,10 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-if($_GET['more']==1) header("Location: characters/punctuation.php");
 require_once('../myfunctions.inc.php');
 require('../config.php');
+require_once('../san.inc.php');
+if (isset($_GET['s']))$_GET['s']=intval($_GET['s']);
+if (isset($_GET['e']))$_GET['e']=intval($_GET['e']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
