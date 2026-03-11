@@ -26,9 +26,14 @@ var pviScrolling = false;
 var pviDone = false;
 var pviStartedAt = new Date().getTime();
 var pviInterval = null;
+
+var pviDoneX = false;
+var pviDoneY = false;
+
 var pviLastMaxX = -1;
 var pviLastMaxY = -1;
-var pviUnchangedMaxCount = 0;
+var pviUnchangedMaxCountX = 0;
+var pviUnchangedMaxCountY = 0;
 
 function pviStopWatching() {
     if (pviInterval !== null) {
@@ -102,59 +107,79 @@ function pviWatchScroll() {
     }
 
     var pos = pviGetScrollPos();
-    var dx = Math.abs(pos.x - pvileft);
-    var dy = Math.abs(pos.y - pvitop);
-
-    if (dx <= 1 && dy <= 1) {
-        pviStopWatching();
-        return;
-    }
-
     var max = pviGetMaxScrollPos();
 
-    if (max.x === pviLastMaxX && max.y === pviLastMaxY) {
-        pviUnchangedMaxCount++;
-    } else {
-        pviUnchangedMaxCount = 0;
-        pviLastMaxX = max.x;
-        pviLastMaxY = max.y;
+    if (!pviDoneX) {
+        if (Math.abs(pos.x - pvileft) <= 1) {
+            pviDoneX = true;
+        } else {
+            if (max.x === pviLastMaxX) pviUnchangedMaxCountX++;
+            else {
+                pviUnchangedMaxCountX = 0;
+                pviLastMaxX = max.x;
+            }
+
+            if (pviUnchangedMaxCountX >= 9 && pvileft > max.x) {
+                pviDoneX = true;
+            }
+        }
     }
 
-    if (pviUnchangedMaxCount >= 9 && (pvileft > max.x || pvitop > max.y)) {
+    if (!pviDoneY) {
+        if (Math.abs(pos.y - pvitop) <= 1) {
+            pviDoneY = true;
+        } else {
+            if (max.y === pviLastMaxY) pviUnchangedMaxCountY++;
+            else {
+                pviUnchangedMaxCountY = 0;
+                pviLastMaxY = max.y;
+            }
+
+            if (pviUnchangedMaxCountY >= 9 && pvitop > max.y) {
+                pviDoneY = true;
+            }
+        }
+    }
+
+    if (pviDoneX && pviDoneY) {
         pviStopWatching();
         return;
     }
 
     if (!pviScrolling) {
-        pviScrolling = true;
+        var targetX = pos.x;
+        var targetY = pos.y;
+        var mustScroll = false;
 
-        var targetX = pvileft;
-        var targetY = pvitop;
-
-        if (targetX > max.x) targetX = max.x;
-        if (targetY > max.y) targetY = max.y;
-
-        try {
-            window.scrollTo({
-                left: targetX,
-                top: targetY,
-                behavior: "smooth"
-            });
-        } catch (e) {
-            window.scrollTo(targetX, targetY);
+        if (!pviDoneX) {
+            targetX = pvileft;
+            if (targetX > max.x) targetX = max.x;
+            mustScroll = true;
         }
 
-        setTimeout(function () {
-            pviScrolling = false;
+        if (!pviDoneY) {
+            targetY = pvitop;
+            if (targetY > max.y) targetY = max.y;
+            mustScroll = true;
+        }
 
-            var pos2 = pviGetScrollPos();
-            var dx2 = Math.abs(pos2.x - pvileft);
-            var dy2 = Math.abs(pos2.y - pvitop);
+        if (mustScroll) {
+            pviScrolling = true;
 
-            if (dx2 <= 1 && dy2 <= 1) {
-                pviStopWatching();
+            try {
+                window.scrollTo({
+                    left: targetX,
+                    top: targetY,
+                    behavior: "smooth"
+                });
+            } catch (e) {
+                window.scrollTo(targetX, targetY);
             }
-        }, 700);
+
+            setTimeout(function () {
+                pviScrolling = false;
+            }, 700);
+        }
     }
 }
 
