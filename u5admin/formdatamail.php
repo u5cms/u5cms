@@ -493,5 +493,21 @@ setTimeout(\"greennew()\",777);
 </script>";
 }
 ?>
+<script>
+(function(){
+var el = document.getElementById('filt');
+if(!el) return;
+var v = el.value;
+if (/%u[0-9a-fA-F]{4}/.test(v)) {
+v = v.replace(/%u([0-9a-fA-F]{4})/g, function(_,h){
+return String.fromCharCode(parseInt(h,16));
+});
+try {
+v = decodeURIComponent(v);
+} catch(e){}
+el.value = v;
+}
+})();
+</script>     
 </body>
 </html>
