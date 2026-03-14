@@ -1,4 +1,5 @@
 <?php
+die('TO RESET CSS TO THE ORIGINAL TEMPLATES, REMOVE THE die() IN youru5cmsinstallation/u5admin/reactivateinitialu5cmslayout.php');
 if($_GET['iswear']!='iknowthatthisoverwritesthecurrentlayout')die('TO OVERWRITE THE CURRENT LAYOUT WITH THE INIITIAL U5CMS LAYOUT, ADD ON THE PAGE AT HAND THE GET PARAMETER iswear TO THE URL WITH THE VALUE iknowthatthisoverwritesthecurrentlayout');
 require_once ('connect.inc.php');
 

@@ -241,7 +241,7 @@ senden();
 function unset() {
 if (document.getElementById('filt').value=='') document.getElementById('filt').value=getTransportText('u5_filt_o');location.href='formdata2.php?f=&n=<?php echo $_GET['n']?>&o='+escape(document.getElementById('filt').value)+'&s=<?php echo $_GET['s']?>';
 }
-document.getElementById('filt').value=unescape(getTransportText('u5_filt_f'));
+document.getElementById('filt').value=(getTransportText('u5_filt_f'));
 </script>
 &nbsp;
 

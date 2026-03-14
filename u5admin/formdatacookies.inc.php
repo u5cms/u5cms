@@ -1,5 +1,5 @@
 FilterBool: 
-<?php 
+<?php
 if ($_COOKIE['fdbool']=='and') echo 'and<font color=green>&#10003;</font>/<a target="fdc" style="font-size:80%" href="formdataset.php?f=fdbool&v=or">or</a>';
                           else echo '<a target="fdc" style="font-size:80%" href="formdataset.php?f=fdbool&v=and">and</a>/or<font color=green>&#10003;</font>';
 ?>
@@ -31,10 +31,4 @@ if ($_COOKIE['fdtrunc']=='off') echo 'off<font color=green>&#10003;</font>/<a ta
                            else echo '<a target="fdc" style="font-size:80%" href="formdataset.php?f=fdtrunc&v=off">off</a>/on<font color=green>&#10003;</font>';
 ?>
 
-
-
 <iframe name="fdc" frameborder="0" width="0" height="0"></iframe>
-
-
-
-

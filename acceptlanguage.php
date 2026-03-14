@@ -1,5 +1,1 @@
-<?php
-echo $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-echo '<hr>';
-echo htmlspecialchars($_COOKIE['aclan']) ?? 'Cookie "aclan" is not set';
-
+This file is obsolete an may be deleted.

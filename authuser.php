@@ -34,7 +34,7 @@ if ($usesessioninsteadofbasicauth != 'no') {
 ?>
 <script>
     function automailfill() {
-        if (parent.document.u5form) if (parent.document.u5form.youremail) parent.document.u5form.youremail.value = "<?php echo $_SERVER['PHP_AUTH_USER']?>";
+        if (parent.document.u5form) if (parent.document.u5form.youremail) parent.document.u5form.youremail.value = "<?php echo htmlspecialchars($_SERVER['PHP_AUTH_USER'], ENT_QUOTES, 'Windows-1252') ?>";
     }
     setTimeout("automailfill()", 1111);
 <?php if ($usesessioninsteadofbasicauth != 'no') { ?>

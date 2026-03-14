@@ -1,4 +1,4 @@
-<?php require('connect.inc.php');?>
+<?php require('connect.inc.php'); require_once('../san.inc.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
