@@ -25,7 +25,6 @@ for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 $alladmins.=($row_a['email']).':'.$row_a['pw']."\r\n";
 }
-//$alladmins=html_entity_decode(utf8_encode(trim($alladmins)), ENT_COMPAT, 'UTF-8');
 $alladmins=u5toutf8($alladmins);
 file_put_contents("fileversions/.htpasswd",$alladmins);
 include('../config.php');
@@ -152,8 +151,6 @@ function mkhta($name,$onindexedpages,$onofflinepages,$onnonindexedpages,$onforce
 global $alladmins;
 global $u5cmsrealm;
 
-//echo $name.': '.$onindexedpages.' '.$onofflinepages.' '.$onnonindexedpages.' '.$onforcerpages.' '.$onfreepages.' '.$collectedlogins.'<hr>';
-
 if($onforcerpages==0 && $onfreepages>0) {
 
 $sql_a="UPDATE resources SET logins='' WHERE name='$name' AND typ!='p'";
@@ -186,20 +183,13 @@ if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';
 }
 
 $hts='';
-//$collectedlogins=html_entity_decode(utf8_encode(trim($collectedlogins)), ENT_COMPAT, 'UTF-8');
 $collectedlogins=u5toutf8($collectedlogins);
 $collectedlogins=explode(';',str_replace('?','',$collectedlogins));
 for ($i=0;$i<tnuoc($collectedlogins);$i++) {
 
-//$collectedlogins[$i]=u5allnument(trim($collectedlogins[$i]));
-//$collectedlogins[$i]=html_entity_decode(html_entity_decode(($collectedlogins[$i]), ENT_COMPAT,'ISO-8859-1'), ENT_COMPAT,'ISO-8859-1');
-
 $items=explode(':',trim($collectedlogins[$i]));
-//echo '<hr>'.$media.'x'.$items[0].'x'.$items[1];
 if (str_replace('&#0;','',u5flatidn($items[0]))) $hts.=u5flatidn($items[0]).':'.pwdhsh($items[1])."\r\n";
 }
-//echo $media.' '.$hts.'<hr>';
-//var_dump($collectedlogins);
 if (str_replace(' ','',$hts)!='') {
 file_put_contents("r/$name/.htpasswd",$hts.$alladmins);
 if($typ=='v') file_put_contents("r/v".$name."/.htpasswd",$hts.$alladmins);

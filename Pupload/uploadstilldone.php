@@ -1,6 +1,6 @@
 <?php 
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-$_GET['i']=htmlspecialchars(strip_tags($_GET['i']));
+$_GET['i']=htmlspecialchars($_GET['i'], ENT_QUOTES);$_GET['e']=htmlspecialchars($_GET['e'], ENT_QUOTES);
 require_once '../myfunctions.inc.php';
 require_once '../config.php';
 if(function_exists('PUPLOADexec'))PUPLOADexec();
