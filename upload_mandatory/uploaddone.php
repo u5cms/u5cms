@@ -17,7 +17,7 @@ if ($filehash1 != $_GET['h'] && $filehash2 != $_GET['h']) die('<script>alert("ER
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
     <?php if (file_exists('../r/cssupload.css')) echo '<link rel="stylesheet" href="r/cssupload.css?' . filemtime('../r/cssupload.css') . '" type="text/css" title="base"/>' ?>
     <style type="text/css">
         body {

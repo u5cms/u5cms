@@ -45,7 +45,7 @@ chr(0x9E) => '&#x17E;',
 chr(0x9F) => '&Yuml;',
 );
 if($ISOINSTEADOFUTF8)return strtr($text, $map);
-else return html_entity_decode(mb_convert_encoding(strtr($text ?? '', $map), 'UTF-8', 'ISO-8859-1'), ENT_QUOTES, 'UTF-8');
+else return html_entity_decode(mb_convert_encoding(strtr($text ?? '', $map), 'UTF-8', 'WINDOWS-1252'), ENT_QUOTES, 'UTF-8');
 }
 
 function u5TOidnREMOTEPART($e){
@@ -66,13 +66,13 @@ return $e;
 function u5FROMidnREMOTEPART($e){
 $e=idn_to_utf8($e);
 $e=u5allnument($e);
-$e = html_entity_decode($e, ENT_COMPAT, 'ISO-8859-1');
+$e = html_entity_decode($e, ENT_COMPAT, 'WINDOWS-1252');
 return $e;
 }
 
 function u5FROMidnLOCALPART($e){
 $e=u5allnument($e);
-$e = html_entity_decode($e, ENT_COMPAT, 'ISO-8859-1');
+$e = html_entity_decode($e, ENT_COMPAT, 'WINDOWS-1252');
 return $e;
 }
 
@@ -106,7 +106,7 @@ for($i=0;$i<tnuoc($e);$i++){
 $e[$i]=explode('@',$e[$i]);
 
 $e[$i][0]=u5allnument(trim($e[$i][0]));
-$e[$i][0]=html_entity_decode(html_entity_decode(($e[$i][0]), ENT_COMPAT,'ISO-8859-1'), ENT_COMPAT,'ISO-8859-1');
+$e[$i][0]=html_entity_decode(html_entity_decode(($e[$i][0]), ENT_COMPAT,'WINDOWS-1252'), ENT_COMPAT,'WINDOWS-1252');
 
 $e[$i][1]=explode('.',$e[$i][1]);
 for($ii=0;$ii<tnuoc($e[$i][1]);$ii++) {
@@ -114,7 +114,7 @@ for($ii=0;$ii<tnuoc($e[$i][1]);$ii++) {
 $e[$i][1][$ii]=idn_to_utf8($e[$i][1][$ii],IDNA_NONTRANSITIONAL_TO_ASCII,INTL_IDNA_VARIANT_UTS46);
 
 $e[$i][1][$ii]=u5allnument($e[$i][1][$ii]);
-$e[$i][1][$ii]=html_entity_decode(html_entity_decode((($e[$i][1][$ii])), ENT_COMPAT,'ISO-8859-1'), ENT_COMPAT,'ISO-8859-1');
+$e[$i][1][$ii]=html_entity_decode(html_entity_decode((($e[$i][1][$ii])), ENT_COMPAT,'WINDOWS-1252'), ENT_COMPAT,'WINDOWS-1252');
 
 }
 $e[$i]=$e[$i][0].'@'.implode('.',$e[$i][1]);

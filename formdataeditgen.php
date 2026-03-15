@@ -88,7 +88,7 @@ $row_a['status']=1;
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title><?php echo $_GET['n'].' '.$_GET['id']?> generic formdata editor</title>
 <script src="u5admin/shortcut.js"></script>
 <script>

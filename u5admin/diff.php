@@ -1,8 +1,8 @@
-<?php header('Content-Type: text/html; charset=ISO-8859-1'); ?><?php require_once('connect.inc.php'); ?>
+<?php header('Content-Type: text/html; charset=WINDOWS-1252'); ?><?php require_once('connect.inc.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>...</title>
 <?php require('backendcss.php'); ?>
 <script>

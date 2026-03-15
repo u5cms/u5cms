@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="text-align:center">
 <?php 

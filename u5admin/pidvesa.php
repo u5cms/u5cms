@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php
 $clean_pidvesa=preg_replace('/[^A-Za-z0-9_!-]/', '', $_COOKIE['pidvesa'] ?? '');
 if (!empty($clean_pidvesa)) {

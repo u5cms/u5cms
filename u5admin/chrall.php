@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>Copy &amp; Paste Characters</title>
 <?php require('backendcss.php'); ?></head>
 <body onmousedown="md=1" onmouseup="md=0" style="font-size:25px">

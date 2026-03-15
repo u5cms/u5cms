@@ -1,8 +1,8 @@
 <?php
-$_GET['q'] = isset($_GET['q']) ? implode('', array_map(fn($ch)=>($cp=unpack('N', mb_convert_encoding($ch,'UCS-4BE','UTF-8'))[1])<=0xFF ? chr($cp) : sprintf('%%u%04X',$cp), preg_split('//u', mb_check_encoding($_GET['q'],'UTF-8')?$_GET['q']:mb_convert_encoding($_GET['q'],'UTF-8','ISO-8859-1'), -1, PREG_SPLIT_NO_EMPTY))) : '';
+$_GET['q'] = isset($_GET['q']) ? implode('', array_map(fn($ch)=>($cp=unpack('N', mb_convert_encoding($ch,'UCS-4BE','UTF-8'))[1])<=0xFF ? chr($cp) : sprintf('%%u%04X',$cp), preg_split('//u', mb_check_encoding($_GET['q'],'UTF-8')?$_GET['q']:mb_convert_encoding($_GET['q'],'UTF-8','WINDOWS-1252'), -1, PREG_SPLIT_NO_EMPTY))) : '';
 
 function u5stz($that) {
-    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'WINDOWS-1252');
 }
 function u5map($v) {
     return is_string($v) ? u5stz($v) : $v;

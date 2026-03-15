@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>saving...</title>
 <?php if(file_exists('r/csspworder.css')) echo'<link rel="stylesheet" href="r/csspworder.css" type="text/css" />';?>
 </head>

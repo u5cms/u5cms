@@ -12,7 +12,7 @@ history.go(-1);
 window.stop();
 }
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
 <body bgcolor="#339900" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php

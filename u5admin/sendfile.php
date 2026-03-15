@@ -9,7 +9,7 @@ $h=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date(
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <script src="shortcut.js"></script>
 <script>
 shortcut.add("Ctrl+S",function() {

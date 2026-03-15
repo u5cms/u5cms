@@ -12,7 +12,7 @@ $_SERVER['PHP_AUTH_USER'] = str_replace('&amp;', '&', $_SERVER['PHP_AUTH_USER'])
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
     <?php if (file_exists('r/cssauthuser.css')) echo '<link rel="stylesheet" href="r/cssauthuser.css?' . filemtime('r/cssauthuser.css') . '" type="text/css" title="base"/>' ?>
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"

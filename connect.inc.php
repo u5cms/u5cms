@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 header('X-XSS-Protection: 0');
-ini_set('default_charset','iso-8859-1');
+ini_set('default_charset','WINDOWS-1252');
 ini_set('magic_quotes_gpc', 'Off');
 require_once('myfunctions.inc.php');
 require_once('mysql.php');
@@ -82,17 +82,17 @@ function def($l1='',$l2='',$l3='',$l4='',$l5='') {
 
 function htmlXspecialchars($that) {
     $that = $that ?? '';
-    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'WINDOWS-1252');
 }
 
 function htmlXentities($that) {
     $that = $that ?? '';
-    return htmlentities($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    return htmlentities($that, ENT_COMPAT | ENT_HTML401, 'WINDOWS-1252');
 }
 
 function htmlX_entity_decode($that) {
     $that = $that ?? '';
-    return html_entity_decode($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+    return html_entity_decode($that, ENT_COMPAT | ENT_HTML401, 'WINDOWS-1252');
 }
 
 function pwdhsh($p) {

@@ -5,7 +5,7 @@ require_once('connect.inc.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>upload <?php echo $_GET['name']?></title>
 <script>if('<?php echo $_GET['name']?>'=='::LOGINPAGE::'||'<?php echo $_GET['name']?>'=='LOGINPAGE::')location.href='defineloginglobals.php';</script>
 <script src="shortcut.js"></script>

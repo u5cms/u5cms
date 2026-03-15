@@ -1,7 +1,7 @@
 <?php require_once('connect.inc.php') ?><!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
 <body style="background:black;color:white;margin:0;padding:0">
 <div id="welcome" style="width:100%;height:77px">Welcome to u5CMS.<span id="cleanlog" style="display:none">.</span><span id="cleanbackups" style="display:none">.</span></div>

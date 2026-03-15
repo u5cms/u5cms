@@ -8,7 +8,7 @@ if (isset($_POST['s'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
     <title>code snippets search</title>
     <script src="shortcut.js"></script>
     <script>

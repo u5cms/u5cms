@@ -10,7 +10,7 @@ use Laminas\Mime\Part as MimePart;
 use Laminas\Mail\Transport\Exception\ExceptionInterface;
 
 function u5iso($str) {
-    return html_entity_decode(u5allnument($str), ENT_COMPAT,'ISO-8859-1');
+    return html_entity_decode(u5allnument($str), ENT_COMPAT,'WINDOWS-1252');
 }
 
 function validateemailaddress($email) {
@@ -68,7 +68,7 @@ if($row_d['lastcall']+$minimumwaitingbetweenserialmailcroncallinseconds>time())d
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
 <body>
 <h1>Mailjob &#19904;<?php echo $_GET['id'] ?></h1>

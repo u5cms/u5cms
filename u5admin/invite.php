@@ -14,7 +14,7 @@ require_once('u5idn.inc.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
 <body><div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',str_replace('&amp;#','&#',htmlentities($_GET['e']))))?></div>
 <?php 
