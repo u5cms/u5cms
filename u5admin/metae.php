@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>metadata <?php echo $_GET['name']?></title>
 <?php require('metachg.inc.php'); ?>
 <script src="shortcut.js"></script>

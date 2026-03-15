@@ -61,7 +61,7 @@ setcookie('f9focusBis', $f9focusBis, time() + 3600 * 24 * 365 * 10, '/');
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
 <body bgcolor="#339900" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <div style="margin:-2px 0 0 2px;white-space: nowrap;">

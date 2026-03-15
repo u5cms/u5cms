@@ -1,7 +1,7 @@
-<?php header('Content-Type: text/html; charset=ISO-8859-1'); ?><?php require_once('connect.inc.php'); ?><!DOCTYPE html>
+<?php header('Content-Type: text/html; charset=WINDOWS-1252'); ?><?php require_once('connect.inc.php'); ?><!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>diff</title>
 <?php require('backendcss.php'); ?>
 <style>
@@ -55,7 +55,7 @@ function encodeToken($token) {
     if (preg_match('/^&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z0-9]+);$/', $token)) {
         return $token;
     }
-    return htmlspecialchars($token, ENT_NOQUOTES, 'ISO-8859-1');
+    return htmlspecialchars($token, ENT_NOQUOTES, 'WINDOWS-1252');
 }
 
 function tokenizeForHtml($str) {

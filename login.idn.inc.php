@@ -8,7 +8,7 @@
 
                 for ($ii = 0; $ii < tnuoc($logins1); $ii++) {
 					$logins1[$ii]=u5allnument(trim($logins1[$ii]));
-                    $logins1[$ii]=html_entity_decode(html_entity_decode(($logins1[$ii]), ENT_COMPAT,'ISO-8859-1'), ENT_COMPAT,'ISO-8859-1');
+                    $logins1[$ii]=html_entity_decode(html_entity_decode(($logins1[$ii]), ENT_COMPAT,'WINDOWS-1252'), ENT_COMPAT,'WINDOWS-1252');
 					$logins2 = explode(':', $logins1[$ii]);
 					$pwhashed = pwdcookie($logins2[1]);
 					if(trim(u5flatidnlower($logins2[0]))!='')$concatlogins .= u5flatidnlower($logins2[0]) . ':' . $pwhashed . ';';

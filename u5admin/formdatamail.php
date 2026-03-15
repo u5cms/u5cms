@@ -15,7 +15,7 @@ return $s;
 }
 
 function u5_transport_text_raw($s) {
-$s=htmlspecialchars($s, ENT_QUOTES, 'ISO-8859-1');
+$s=htmlspecialchars($s, ENT_QUOTES, 'WINDOWS-1252');
 $s=str_replace('</div>','&lt;/div&gt;',$s);
 $s=str_replace("\r",'&#13;',$s);
 $s=str_replace("\n",'&#10;',$s);
@@ -82,7 +82,7 @@ for ($i=0; $i<tnuoc($words); $i++) {
 $w = trim($words[$i]);
 if ($w==='') continue;
 
-$visible = htmlspecialchars($w, ENT_QUOTES, 'ISO-8859-1');
+$visible = htmlspecialchars($w, ENT_QUOTES, 'WINDOWS-1252');
 
 if ($visible === $w) $search = prepare_search_term($w);
 else $search = '(?:' . prepare_search_term($visible) . '|' . prepare_search_term($w) . ')';
@@ -125,7 +125,7 @@ return $html;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title><?php echo htmlXspecialchars($_GET['n']) ?></title>
 <?php require('backendcss.php'); ?>
 <script>

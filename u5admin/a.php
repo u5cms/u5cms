@@ -9,7 +9,7 @@ setcookie('pidvesa', $pidvesa, time() + 3600 * 24 * 365 * 10, '/');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
     <script src="shortcut.js"></script>
     <?php include('repoctrls.inc.php'); ?>
     <?php require('backendcss.php'); ?></head>

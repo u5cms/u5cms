@@ -30,7 +30,7 @@ else $lancode=$lan1na;
 ?>
 <html lang="<?php echo $lancode ?>">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <meta http-equiv="content-language" content="<?php echo $lancode ?>" />
 <?php
 if (str_replace(' ','',ehtml(def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5'])))!='') echo '<meta name="description" content="'.ehtml(def($row_a['desc_1'],$row_a['desc_2'],$row_a['desc_3'],$row_a['desc_4'],$row_a['desc_5'])).'" />';

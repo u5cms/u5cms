@@ -8,7 +8,7 @@ if($_SERVER['QUERY_STRING']=='i') setcookie('i2_1', '1', time()+3600*24*365*10,'
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>u5CMS - Welcome <?php echo ehtml($_SERVER['PHP_AUTH_USER'])?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" /><title>u5CMS - Welcome <?php echo ehtml($_SERVER['PHP_AUTH_USER'])?></title>
 <script src="shortcut.js"></script>
 <script>
 shortcut.add("Ctrl+S",function() {
