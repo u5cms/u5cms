@@ -1,172 +1,4 @@
-<?php
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-setcookie('ffrm', $_SERVER['QUERY_STRING'], time()+3600*24*365*10,'/');
-require_once('connect.inc.php'); require_once('../san.inc.php');
-include('../config.php');
-$_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
-$lnnr=1;
-
-function u5_transport_text_escaped($s) {
-$s=str_replace('</div>','&lt;/div&gt;',$s);
-$s=str_replace("\r",'&#13;',$s);
-$s=str_replace("\n",'&#10;',$s);
-$s=str_replace("\t",'&#9;',$s);
-return $s;
-}
-
-function u5_transport_text_raw($s) {
-$s=htmlspecialchars($s, ENT_QUOTES, 'WINDOWS-1252');
-$s=str_replace('</div>','&lt;/div&gt;',$s);
-$s=str_replace("\r",'&#13;',$s);
-$s=str_replace("\n",'&#10;',$s);
-$s=str_replace("\t",'&#9;',$s);
-return $s;
-}
-
-function mkltgt($termstr) {
-$termstr = str_replace('<','&lt;',$termstr);
-$termstr = str_replace('>','&gt;',$termstr);
-return $termstr;
-}
-
-function split_search_terms($target) {
-$target = str_replace(array('&quot;', '“', '”'), '"', $target);
-
-preg_match_all('/"([^"]+)"|(\S+)/', $target, $m);
-
-$words = array();
-for ($i=0; $i<tnuoc($m[0]); $i++) {
-$tok = ($m[1][$i] !== '') ? $m[1][$i] : $m[2][$i];
-$tok = trim($tok);
-$tok = trim($tok, "\" \t\r\n");
-if ($tok !== '') $words[] = $tok;
-}
-return $words;
-}
-
-function prepare_search_term($str,$delim='#') {
-$search = preg_quote($str,$delim);
-$search = str_replace('&#7838;', 'ß', $search);
-$search = str_replace('&#x1E9E;', 'ß', $search);
-$search = str_replace("\xE1\xBA\x9E", 'ß', $search);
-
-$search = preg_replace('/[aàáâãåäæAÀÁÂÃÄÅÆ]/', '[aàáâãåäæAÀÁÂÃÄÅÆ]', $search);
-$search = preg_replace('/[eèéêëEÈÉÊË]/', '[eèéêëEÈÉÊË]', $search);
-$search = preg_replace('/[iìíîïIÌÍÎÏ]/', '[iìíîïIÌÍÎÏ]', $search);
-$search = preg_replace('/[oòóôõöøOÒÓÔÕÖØ]/', '[oòóôõöøOÒÓÔÕÖØ]', $search);
-$search = preg_replace('/[uùúûüUÙÚÛÜ]/', '[uùúûüUÙÚÛÜ]', $search);
-$search = preg_replace('/[yýÿYÝŸ]/', '[yýÿYÝŸ]', $search);
-
-$search = preg_replace('/[nñNÑ]/', '[nñNÑ]', $search);
-$search = preg_replace('/[cçCÇ]/', '[cçCÇ]', $search);
-$search = preg_replace('/[dðÐD]/', '[dðÐD]', $search);
-$search = preg_replace('/[þÞ]/', '[þÞ]', $search);
-
-$search = preg_replace('/ß/', '(?:ß|ss)', $search);
-$search = preg_replace('/ss/i', '(?:ss|ß)', $search);
-
-$search = preg_replace('/[œŒ]/', '[œŒ]', $search);
-
-$search = str_replace('\ ', '(?:[[:space:]]|&nbsp;)+', $search);
-$search = str_replace('\-', '(?:-|&#45;|&minus;)', $search);
-
-return $search;
-}
-
-function highlight_text_chunk($searchtext, $text) {
-if ($searchtext === '' || trim($searchtext) === '') return $text;
-
-$words = split_search_terms(trim($searchtext));
-
-for ($i=0; $i<tnuoc($words); $i++) {
-$w = trim($words[$i]);
-if ($w==='') continue;
-
-$visible = htmlspecialchars($w, ENT_QUOTES, 'WINDOWS-1252');
-
-if ($visible === $w) $search = prepare_search_term($w);
-else $search = '(?:' . prepare_search_term($visible) . '|' . prepare_search_term($w) . ')';
-
-$res = @preg_replace('#' . $search . '#i', '<mark>$0</mark>', $text);
-if ($res !== NULL) $text = $res;
-}
-
-return $text;
-}
-
-function highlight_visible_text($searchtext, $html) {
-if ($searchtext === '' || trim($searchtext) === '') return $html;
-
-$parts = preg_split('~(<[^>]*>)~', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
-
-for ($i=0; $i<tnuoc($parts); $i++) {
-if ($parts[$i]==='') continue;
-if (substr($parts[$i],0,1)==='<') continue;
-$parts[$i] = highlight_text_chunk($searchtext, $parts[$i]);
-}
-
-return implode('', $parts);
-}
-
-function highlight_all_visible_text($target, $html) {
-$words = split_search_terms(trim($target));
-
-for ($i=0; $i<tnuoc($words); $i++) {
-$w = trim($words[$i]);
-if ($w === '') continue;
-$w = str_replace(',.',';',$w);
-$w = str_replace('_',' ',$w);
-$html = highlight_visible_text($w, $html);
-}
-
-return $html;
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
-<title><?php echo htmlXspecialchars($_GET['n']) ?></title>
-<?php require('backendcss.php'); ?>
-<script>
-function fnmkreload() {
-document.cookie='fd2y=-1';
-location.href=location.href;
-}
-</script>
-</head>
-<style>
-mark{background:yellow};
-</style>
-<body id="body" style="font-size:80%" onfocus="if (mkreload==1) fnmkreload()">
-<script>
-mkreload=0;
-
-function cedit(ida,event) {
-el=ida.getElementsByTagName('a');
-for(i=0;i<el.length;i++) {
-if (event.altKey) {
-document.cookie='fd2y='+el[i].id.replace(/i/,'');
-location.href='../formdataedit.php?<?php echo $_SERVER['QUERY_STRING'] ?>&a=1&id='+el[i].id.replace(/i/,'');
-}
-}
-}
-
-function getTransportText(id) {
-var el=document.getElementById(id);
-if(!el) return '';
-if(el.firstChild) return el.firstChild.nodeValue;
-if(typeof el.textContent!='undefined') return el.textContent;
-return '';
-}
-</script>
-<?php
-require('../config.php');
-if ($formdataRqHIADRI!='no') require('accadmin.inc.php');
-?>
-<h3 style="display:inline"><?php echo '<a onclick="mkreload=1" target="_blank" href="../formdatainsert.php?a=1&c='.htmlXspecialchars($_GET['n']).'" title="open form (e. g. to enter new data)"><span style="background:blue;color:white">&nbsp;+&nbsp;</span>'.htmlXspecialchars($_GET['n']).'</a>' ?></h3>
-
-Show
+<?php require('formdata.intro.php') ?> 
 <select onchange="location.href='formdata2.php?n=<?php echo $_GET['n']?>&s='+this.value+'&f='+escape(document.getElementById('filt').value)+'&o='+escape(getTransportText('u5_filt_o'))">
 <option value="0">all with any status 1) &ndash; 4)</option>
 <option <?php if ($_GET['s']==1) echo 'selected="selected"' ?> value="1">all with status 1) new</option>
@@ -260,6 +92,23 @@ document.getElementById('filt').value=(getTransportText('u5_filt_f'));
 &nbsp;
 
 <a href="../chart.php?<?php echo $_SERVER['QUERY_STRING'] ?>&fdb=<?php echo $_COOKIE['fdbool']?>&fdo=<?php echo $_COOKIE['fdorder']?>" target="_blank"> Chart</a>
+
+<script>
+(function(){
+var el = document.getElementById('filt');
+if(!el) return;
+var v = el.value;
+if (/%u[0-9a-fA-F]{4}/.test(v)) {
+v = v.replace(/%u([0-9a-fA-F]{4})/g, function(_,h){
+return String.fromCharCode(parseInt(h,16));
+});
+try {
+v = decodeURIComponent(v);
+} catch(e){}
+el.value = v;
+}
+})();
+</script>
 
 <?php
 if($_GET['s']==7) echo '<p><button onclick="location.href=(\'import.php?n='.$_GET['n'].'\')">import data from Excel by copying and pasting it into the textarea form field appearing when clicking this button</button> <small>You see/will see the imported records on the page at hand. To activate them, change their status. Bulk status changer see bottom of this page.</small></p>';
@@ -483,22 +332,6 @@ el[i].style.background='lightgreen';
 setTimeout(\"greennew()\",777);
 </script>";
 }
-?>
-<script>
-(function(){
-var el = document.getElementById('filt');
-if(!el) return;
-var v = el.value;
-if (/%u[0-9a-fA-F]{4}/.test(v)) {
-v = v.replace(/%u([0-9a-fA-F]{4})/g, function(_,h){
-return String.fromCharCode(parseInt(h,16));
-});
-try {
-v = decodeURIComponent(v);
-} catch(e){}
-el.value = v;
-}
-})();
-</script>     
+?>  
 </body>
 </html>
