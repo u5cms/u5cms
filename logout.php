@@ -15,7 +15,7 @@ if(isset($u5samlsalt)&&$u5samlsalt!='') {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
 </head>
 <body>
 <script>

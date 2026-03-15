@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>saving...</title>
 <?php require('backendcss.php'); ?></head>
 <body><div style="display:none" id="e"><?php echo htmlspecialchars(str_replace('<','',str_replace('>','',u5flatidn($_GET['y']))))?></div>

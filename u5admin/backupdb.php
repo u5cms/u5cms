@@ -12,7 +12,7 @@ $backup_dir=U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPAR
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
     <title>backup</title>
     <script src="shortcut.js"></script>
     <script>
@@ -172,7 +172,7 @@ function mail_att($to, $from, $subject, $message, $attachments = array())
 
         $content = "This is a multi-part message in MIME format.\r\n\r\n";
         $content .= "--" . $mime_boundary . "\r\n";
-        $content .= "Content-Type: text/plain charset=\"iso-8859-1\"\r\n";
+        $content .= "Content-Type: text/plain charset=\"WINDOWS-1252\"\r\n";
         $content .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
         $content .= $message . "\r\n\r\n\r\n";
 

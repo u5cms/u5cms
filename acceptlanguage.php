@@ -1,1 +1,1 @@
-This file is obsolete an may be deleted.
+This file is obsolete and may be deleted.

@@ -15,7 +15,7 @@ if ($_GET['fromv'] != '') {
 <html lang="en">
 <head>
     <script>window.blur();</script>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
     <title>DO NOT CLOSE</title>
     <?php require('backendcss.php'); ?></head>
 <body id="body" bgcolor="white">

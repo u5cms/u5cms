@@ -1,7 +1,7 @@
 <?php require('connect.inc.php') ?><!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 </head>
 <body leftmargin="0" marginwidth="0" style="font-family:Arial, Helvetica, sans-serif;font-size:12px">
 <script>mcalc='';</script>

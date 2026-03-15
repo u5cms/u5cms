@@ -4,7 +4,7 @@ if(isset($u5samlsalt)&&$u5samlsalt!='')die('You caonnot reset your password here
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>u5CMS password reset for backend users</title>
 <?php require('u5admin/backendcss.php') ?>
 </head>

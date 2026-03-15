@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php
 if($viewtrxlistRqHIADRI!='no')require_once('accadmin.inc.php');
 if($_GET['more']==1)$limit=100000;

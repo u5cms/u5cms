@@ -33,7 +33,7 @@ function getTransportText(id) {
 
 <?php
 function u5_transport_text($s) {
-    $s = htmlspecialchars($s, ENT_QUOTES, 'ISO-8859-1');
+    $s = htmlspecialchars($s, ENT_QUOTES, 'WINDOWS-1252');
     $s = str_replace("\r", '&#13;', $s);
     $s = str_replace("\n", '&#10;', $s);
     $s = str_replace("\t", '&#9;',  $s);
@@ -41,7 +41,7 @@ function u5_transport_text($s) {
 }
 
 function u5_transport_attr($s) {
-    return htmlspecialchars($s, ENT_QUOTES, 'ISO-8859-1');
+    return htmlspecialchars($s, ENT_QUOTES, 'WINDOWS-1252');
 }
 
 if ($_GET['s']==5) echo '<br><hr><center><small>Items are automatically removed from this recycle bin list '.$toolate.' days after their deletion was selected.</small></center><hr>';
