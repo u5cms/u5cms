@@ -2,9 +2,18 @@
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 require_once('../myfunctions.inc.php');
 require('../config.php');
-require_once('../san.inc.php');
-if (isset($_GET['s']))$_GET['s']=intval($_GET['s']);
-if (isset($_GET['e']))$_GET['e']=intval($_GET['e']);
+
+if (isset($_GET['c']) && is_string($_GET['c'])) {
+    $_GET['c'] = str_replace(array("\0", "\r", "\n"), '', $_GET['c']);
+} else {
+    $_GET['c'] = '';
+}
+
+if (isset($_GET['l']) && is_string($_GET['l'])) {
+    $_GET['l'] = preg_replace('/\D/', '', $_GET['l']);
+} else {
+    $_GET['l'] = '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
