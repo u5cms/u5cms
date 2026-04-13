@@ -77,7 +77,7 @@ function mymb_html_entity_decode($string)
     {
     	mb_language('Neutral');
     	mb_internal_encoding('UTF-8');
-    	mb_detect_order(array('UTF-8', 'ISO 8859-15', 'ISO 8859-1', 'ASCII'));
+    	mb_detect_order(array('UTF-8', 'ISO-8859-15', 'ISO-8859-1', 'ASCII'));
 
     	return mb_convert_encoding($string, 'UTF-8', 'HTML-ENTITIES');
     }
@@ -91,7 +91,7 @@ function mymb_ord($string)
     {
     	mb_language('Neutral');
     	mb_internal_encoding('UTF-8');
-    	mb_detect_order(array('UTF-8', 'ISO 8859-15', 'ISO 8859-1', 'ASCII'));
+    	mb_detect_order(array('UTF-8', 'ISO-8859-15', 'ISO-8859-1', 'ASCII'));
 
     	$result = unpack('N', mb_convert_encoding($string, 'UCS-4BE', 'UTF-8'));
 
