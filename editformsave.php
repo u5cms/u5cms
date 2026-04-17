@@ -146,10 +146,10 @@ $row_a = mysql_fetch_array($result_a);
 $newid=$row_a['id']+1;
       
 $sql_a="UPDATE formdata SET id=$newid, status=6 WHERE formname='".mysql_real_escape_string($_GET['n'])."' AND id='".mysql_real_escape_string($_GET['id'])."'";
-$result_a=mysql_query($sql_a);
 
-if ($result_a==false) {
-die('SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
+if($head!=''||$data!='') {
+$result_a=mysql_query($sql_a);
+if ($result_a==false) die('SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
 }
 
 if($_GET['id']<1)$_GET['id']=$newid;
@@ -171,10 +171,10 @@ id,formname,headcsv,datacsv,time,ip,authuser,humantime,status,notes,lastmut
 '".mysql_real_escape_string($notes)."',
 '".mysql_real_escape_string(time())."'
 )";
-$result_a=mysql_query($sql_a);
 
-if ($result_a==false) {
-  die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
+if($head!=''||$data!='') {
+$result_a=mysql_query($sql_a);
+if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
