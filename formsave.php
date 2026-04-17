@@ -172,8 +172,11 @@ $row_c = mysql_fetch_array($result_c);
 $newid=$row_c['id']+1;
 
 $sql_c="UPDATE formdata SET id=$newid, status=6 WHERE formname='".mysql_real_escape_string($_GET['n'])."' AND id='".mysql_real_escape_string($row_b['id'])."' $isid";
+
+if($head!=''||$data!='') {
 $result_c=mysql_query($sql_c);
 if ($result_c==false) die('SQL_c-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
+}
 
 $sql_a="INSERT INTO formdata
 (
@@ -197,10 +200,9 @@ id,formname,headcsv,datacsv,time,ip,authuser,humantime,status,notes,lastmut
 
 //////////
 
+if($head!=''||$data!='') {
 $result_a=mysql_query($sql_a);
-
-if ($result_a==false) {
-die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
+if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
