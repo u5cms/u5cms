@@ -141,7 +141,7 @@ function pviForceScrollTo(x, y) {
 function pviWatchScroll() {
     if (pviDone) return;
 
-    if ((new Date().getTime() - pviStartedAt) > 11111) {
+    if ((new Date().getTime() - pviStartedAt) > 5555) {
         pviStopWatching();
         return;
     }
