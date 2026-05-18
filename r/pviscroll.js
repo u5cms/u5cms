@@ -73,7 +73,7 @@ function pviGetMaxScrollPos() {
 function pviWatchScroll() {
     if (pviDone) return;
 
-    if ((new Date().getTime() - pviStartedAt) > 30000) {
+    if ((new Date().getTime() - pviStartedAt) > 5555) {
         pviStopWatching();
         return;
     }
