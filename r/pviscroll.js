@@ -1,4 +1,4 @@
-pvileft=219;pvitop=155;
+pvileft=270;pvitop=180;
 var pviDone = false;
 var pviStartedAt = new Date().getTime();
 var pviInterval = null;
