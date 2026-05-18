@@ -52,12 +52,47 @@ function pviGetScrollPos() {
     return { x: x || 0, y: y || 0 };
 }
 
+function pviGetViewportWidth() {
+    var w = 0;
+    if (typeof window.innerWidth != "undefined" && window.innerWidth > 0) w = window.innerWidth;
+    if (document.documentElement && document.documentElement.clientWidth > 0 && (w == 0 || document.documentElement.clientWidth < w)) w = document.documentElement.clientWidth;
+    if (document.body && document.body.clientWidth > 0 && (w == 0 || document.body.clientWidth < w)) w = document.body.clientWidth;
+    return w || 0;
+}
+
 function pviGetViewportHeight() {
     var h = 0;
     if (typeof window.innerHeight != "undefined" && window.innerHeight > 0) h = window.innerHeight;
     if (document.documentElement && document.documentElement.clientHeight > 0 && (h == 0 || document.documentElement.clientHeight < h)) h = document.documentElement.clientHeight;
     if (document.body && document.body.clientHeight > 0 && (h == 0 || document.body.clientHeight < h)) h = document.body.clientHeight;
     return h || 0;
+}
+
+function pviGetDocWidth() {
+    var w = 0;
+    var de = document.documentElement;
+    var db = document.body;
+    var root = pviGetScrollRoot();
+
+    if (de) {
+        if (de.scrollWidth > w) w = de.scrollWidth;
+        if (de.offsetWidth > w) w = de.offsetWidth;
+        if (de.clientWidth > w) w = de.clientWidth;
+    }
+
+    if (db) {
+        if (db.scrollWidth > w) w = db.scrollWidth;
+        if (db.offsetWidth > w) w = db.offsetWidth;
+        if (db.clientWidth > w) w = db.clientWidth;
+    }
+
+    if (root) {
+        if (root.scrollWidth > w) w = root.scrollWidth;
+        if (root.offsetWidth > w) w = root.offsetWidth;
+        if (root.clientWidth > w) w = root.clientWidth;
+    }
+
+    return w || 0;
 }
 
 function pviGetDocHeight() {
@@ -85,6 +120,12 @@ function pviGetDocHeight() {
     }
 
     return h || 0;
+}
+
+function pviGetMaxScrollLeft() {
+    var maxX = pviGetDocWidth() - pviGetViewportWidth();
+    if (maxX < 0) maxX = 0;
+    return maxX;
 }
 
 function pviGetMaxScrollTop() {
@@ -118,7 +159,7 @@ function pviForceScrollTo(x, y) {
 function pviWatchScroll() {
     if (pviDone) return;
 
-    if ((new Date().getTime() - pviStartedAt) > 5555) {
+    if ((new Date().getTime() - pviStartedAt) > 7777) {
         pviStopWatching();
         return;
     }
@@ -132,8 +173,10 @@ function pviWatchScroll() {
 
     var targetX = pvileft;
     var targetY = pvitop;
+    var maxX = pviGetMaxScrollLeft();
     var maxY = pviGetMaxScrollTop();
 
+    if (targetX > maxX) targetX = maxX;
     if (targetY > maxY) targetY = maxY;
 
     pviForceScrollTo(targetX, targetY);
@@ -150,7 +193,7 @@ function pviWatchScroll() {
         return;
     }
 
-    if (pviStableDocCount >= 20 && targetY < pvitop && dy <= 1) {
+    if (pviStableDocCount >= 20 && (targetX < pvileft || targetY < pvitop) && dx <= 1 && dy <= 1) {
         pviStopWatching();
         return;
     }
