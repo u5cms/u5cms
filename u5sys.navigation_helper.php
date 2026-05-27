@@ -55,7 +55,7 @@ function navRenderLink($id, $title, $isActive = false) {
     // the later is a specialty of layer 1 of the navigation
     $class = ($_GET['c'] == $id || $isActive) ? ' class="activeItem"' : '';
     $wasActive = ($class == '') ? false : true;
-    $link = '<a' . $class . ' href="index.php?c=' . $id . '&amp;l=' . $_GET['l'] . '">';
+    $link = '<a' . $class . ' href="index.php?c=' . $id . '&l=' . $_GET['l'] . '">';
     $link.= render($title);
     $link.= '</a>';
 
