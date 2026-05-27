@@ -78,12 +78,19 @@ if (empty($children)) {
     return;
 }
 
-$subnaviecho .= "<div class=\"autoechosubitemslinklist\">\n<ul>\n";
+$listitems = '';
 foreach ($children as $child) {
-    $subnaviecho .= '<li>';
-    $subnaviecho .= navRenderLink($child['id'], $child['title']);
-    $subnaviecho .= "</li>\n";
+    if (!empty(trim($child['title']))) {
+        $listitems .= '<li>';
+        $listitems .= navRenderLink($child['id'], $child['title']);
+        $listitems .= "</li>\n";
+    }
 }
-$subnaviecho .= "</ul>\n</div>\n";
+
+if (!empty($listitems)) {
+    $subnaviecho .= "<div class=\"autoechosubitemslinklist\">\n<ul>\n";
+    $subnaviecho .= $listitems;
+    $subnaviecho .= "</ul>\n</div>\n";
+}
 
 echo $subnaviecho;
