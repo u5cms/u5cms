@@ -248,7 +248,7 @@ parent.u5form.target='_self';
 firstsaverwins();
 parent.u5form.submit();
 }
-<?php if(strpos($thanks,'(')>1) echo 'else {firstsaverwins();parent.'.htmlspecialchars($thanks).'};'?>;
+<?php if(preg_match('/^\s*([A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*)\s*\(\s*\)\s*$/',$thanks,$m)) echo 'else {firstsaverwins();if(parent&&typeof parent.'.$m[1].'==="function")parent.'.$m[1].'();};'?>;
 <?php file_put_contents('fileversions/lastsave.txt',time()); ?>
 </script>
 </body>
