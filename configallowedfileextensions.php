@@ -1,15 +1,22 @@
 <?php
 
 /*
- * Broad compatibility allowlist for uploaded files.
+ * Broad compatibility catalogue for uploaded files.
+ *
+ * $extokTOTAL contains all supported file extensions and is used as the basis
+ * for trusted back-end uploads. The public front-end list is derived from this
+ * catalogue and removes formats that can contain active browser content,
+ * executable code, installable software or security-sensitive profiles.
  *
  * Important:
  * A file extension is not a security boundary. Uploaded files must additionally
  * be checked by content, MIME detection, file signatures, size limits, storage
- * location, malware scanning and application-specific validation.
+ * location, malware scanning and application-specific validation. Files must be
+ * stored outside executable web paths, and download responses must use a safe
+ * MIME fallback, Content-Disposition and X-Content-Type-Options: nosniff.
  *
  * Executable server-side script extensions such as php, phtml, asp, aspx, jsp,
- * cgi and similar formats are deliberately not included.
+ * cgi and similar formats are deliberately not included in $extokTOTAL.
  */
 
 $extokTOTAL=array(
@@ -1307,14 +1314,89 @@ $extokTOTAL=array(
  */
 $extokTOTAL=array_values(
     array_unique(
-        array_map(
-            'strtolower',
-            $extokTOTAL
+        array_filter(
+            array_map(
+                'strtolower',
+                $extokTOTAL
+            ),
+            'strlen'
         )
     )
 );
 
-$extokFRONTend=$extokTOTAL;
+/*
+ * Formats blocked for public front-end uploads.
+ *
+ * This denylist is intentionally defensive and also contains extensions that
+ * are not currently present in $extokTOTAL. This prevents them from becoming
+ * public-upload formats accidentally if they are added to the catalogue later.
+ */
+$extokFRONTendBLOCKED=array(
+
+    // Server-side scripts and executable web handlers
+    'php','php3','php4','php5','php7','php8','phtml','phar','inc',
+    'asp','aspx','asa','ashx','asmx','axd',
+    'jsp','jspx','jspf','jsw','jsv',
+    'cgi','fcgi','pl','pm','py','pyc','pyo','rb',
+    'sh','bash','zsh','ksh',
+
+    // Web-server and runtime configuration files
+    'htaccess','htpasswd','user.ini',
+
+    // Active browser content and client-side code
+    'htm','html','xht','xhtml','shtm','shtml','hta',
+    'js','jse','mjs','cjs','jsx','tsx','css','wasm',
+    'svg','svgz',
+    'swf','dcr',
+    'mht','mhtml','webarchive',
+
+    // XML transformations and browser-renderable XML content
+    'xml','xsl','xslt','xslfo','fo',
+    'rss','atom','atomsvc','atomcat','opml',
+
+    // Legacy help, shell-command and MIME-collision formats
+    'chm','hlp','scf','stm','war',
+
+    // Native executables, scripts and operating-system shortcuts
+    'exe','com','scr','pif','cpl','dll','sys','drv','ocx',
+    'bat','cmd','ps1','psm1','psd1','vbs','vbe','wsf','wsh',
+    'reg','inf','ins','isp','url','website','lnk',
+    'application','appref-ms','library-ms','search-ms','settingcontent-ms',
+    'desktop','elf','dol','sea',
+
+    // Installable applications, packages, extensions and code containers
+    'msi','msp','mst','appx','appxbundle','msix','msixbundle',
+    'apk','aab','ipa','pkg','deb','rpm',
+    'jar','ear','sar','nar','class',
+    'xpi','crx','vsix','oxt',
+    'nuget','nupkg','whl','gem','crate',
+
+    // Security-sensitive device and provisioning profiles
+    'mobileconfig','provisionprofile'
+
+);
+
+$extokFRONTendBLOCKED=array_values(
+    array_unique(
+        array_filter(
+            array_map(
+                'strtolower',
+                $extokFRONTendBLOCKED
+            ),
+            'strlen'
+        )
+    )
+);
+
+$extokFRONTend=array_values(
+    array_diff(
+        $extokTOTAL,
+        $extokFRONTendBLOCKED
+    )
+);
+
 $extokBACKend=$extokTOTAL;
+
+unset($extokFRONTendBLOCKED);
 
 ?>
