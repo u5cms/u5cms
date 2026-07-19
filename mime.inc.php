@@ -283,4 +283,9 @@ $m['xsl']='text/xsl';
 $m['xwd']='image/x-xwindowdump';
 $m['z']='application/x-compress';
 $m['zip']='application/zip';
+$m['apng']='image/apng';
+$m['avif']='image/avif';
+$m['cur']='image/x-icon';
+$m['pjp']='image/jpeg';
+$m['webp']='image/webp';
 ?>
