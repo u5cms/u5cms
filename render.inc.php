@@ -1263,7 +1263,7 @@ function renderspecial($name,$human) {
                     else $serverremoteaddr=$_COOKIE['u'].$_COOKIE['p'];
                     $filehash=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$file.date('Ymd')).'_URL_NON_TRANSFERABLE_AND_TIME_LIMITED';
 
-                    if ($riw!='-' && (strtolower($ext)=='jpg' || strtolower($ext)=='jpeg' || strtolower($ext)=='gif' || strtolower($ext)=='png' || strtolower($ext)=='svg')) {
+                    if ($riw!='-' && (strtolower($ext)=='jpg' || strtolower($ext)=='jpeg' || strtolower($ext)=='jpe' || strtolower($ext)=='jfif' || strtolower($ext)=='pjpeg' || strtolower($ext)=='pjp' || strtolower($ext)=='gif' || strtolower($ext)=='png' || strtolower($ext)=='apng' || strtolower($ext)=='svg' || strtolower($ext)=='webp' || strtolower($ext)=='avif' || strtolower($ext)=='bmp' || strtolower($ext)=='ico' || strtolower($ext)=='cur')) {
 
                         $keepratiobymaxhw = (strpos($renderimg,'x')>0) ? 'max-' : '';
 
