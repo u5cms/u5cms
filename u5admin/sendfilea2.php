@@ -54,8 +54,37 @@ $ext=$ext[tnuoc($ext)-1];
 $ext=strtolower($ext);
 $ext=str_replace('jpeg','jpg',$ext);
 
+$originalpngtmp='';
 
-if($ext!='jpg') $nojpg++;
+if($ext=='png') {
+$originalpngtmp=tempnam(dirname($file['tmp_name']),'png');
+if($originalpngtmp!==false && copy($file['tmp_name'],$originalpngtmp)) {
+$png=@imagecreatefrompng($file['tmp_name']);
+if($png!==false) {
+$width=imagesx($png);
+$height=imagesy($png);
+$jpg=imagecreatetruecolor($width,$height);
+$white=imagecolorallocate($jpg,255,255,255);
+imagefill($jpg,0,0,$white);
+imagealphablending($jpg,true);
+imagecopy($jpg,$png,0,0,0,0,$width,$height);
+if(imagejpeg($jpg,$file['tmp_name'],100)) $ext='jpg';
+imagedestroy($jpg);
+imagedestroy($png);
+}
+}
+else {
+if($originalpngtmp!==false) @unlink($originalpngtmp);
+$originalpngtmp='';
+}
+}
+
+
+if($ext!='jpg') {
+if($originalpngtmp!='') @unlink($originalpngtmp);
+$originalpngtmp='';
+$nojpg++;
+}
 else $yesjpg++;
 
 if($ext=='jpg') {
@@ -65,10 +94,15 @@ if (!file_exists('../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$i.'.'.$ext)) $fi
 
 @mkdir('../r/'.$_POST['name'],0777);
 if (!move_uploaded_file($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
+if($originalpngtmp!='') @unlink($originalpngtmp);
 $ok='error';
 }
 else {
-copy('../r/'.$_POST['name'].'/'.$filename,'../fileversions/'.(date('Ymd')).'-'.$filename);
+if($originalpngtmp!='') {
+copy($originalpngtmp,'../fileversions/'.(date('Ymd')).'-'.substr($filename,0,-4).'.png');
+@unlink($originalpngtmp);
+}
+else copy('../r/'.$_POST['name'].'/'.$filename,'../fileversions/'.(date('Ymd')).'-'.$filename);
 $moved++;
 $ok='ok';
 }
