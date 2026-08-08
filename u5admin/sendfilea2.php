@@ -54,35 +54,49 @@ $ext=$ext[tnuoc($ext)-1];
 $ext=strtolower($ext);
 $ext=str_replace('jpeg','jpg',$ext);
 
-$originalpngtmp='';
+$originalimagetmp='';
+$originalimageext='';
 
-if($ext=='png') {
-$originalpngtmp=tempnam(dirname($file['tmp_name']),'png');
-if($originalpngtmp!==false && copy($file['tmp_name'],$originalpngtmp)) {
-$png=@imagecreatefrompng($file['tmp_name']);
-if($png!==false) {
-$width=imagesx($png);
-$height=imagesy($png);
+if($ext=='png' || $ext=='gif' || $ext=='webp' || $ext=='bmp' || $ext=='avif') {
+
+$imageloader='';
+if($ext=='png') $imageloader='imagecreatefrompng';
+if($ext=='gif') $imageloader='imagecreatefromgif';
+if($ext=='webp') $imageloader='imagecreatefromwebp';
+if($ext=='bmp') $imageloader='imagecreatefrombmp';
+if($ext=='avif') $imageloader='imagecreatefromavif';
+
+if($imageloader!='' && function_exists($imageloader) && function_exists('imagecreatetruecolor') && function_exists('imagejpeg')) {
+$originalimageext=$ext;
+$originalimagetmp=tempnam(dirname($file['tmp_name']),'img');
+if($originalimagetmp!==false && copy($file['tmp_name'],$originalimagetmp)) {
+$image=@$imageloader($file['tmp_name']);
+if($image!==false) {
+$width=imagesx($image);
+$height=imagesy($image);
 $jpg=imagecreatetruecolor($width,$height);
 $white=imagecolorallocate($jpg,255,255,255);
 imagefill($jpg,0,0,$white);
 imagealphablending($jpg,true);
-imagecopy($jpg,$png,0,0,0,0,$width,$height);
+imagecopy($jpg,$image,0,0,0,0,$width,$height);
 if(imagejpeg($jpg,$file['tmp_name'],100)) $ext='jpg';
 imagedestroy($jpg);
-imagedestroy($png);
+imagedestroy($image);
 }
 }
 else {
-if($originalpngtmp!==false) @unlink($originalpngtmp);
-$originalpngtmp='';
+if($originalimagetmp!==false) @unlink($originalimagetmp);
+$originalimagetmp='';
+$originalimageext='';
+}
 }
 }
 
 
 if($ext!='jpg') {
-if($originalpngtmp!='') @unlink($originalpngtmp);
-$originalpngtmp='';
+if($originalimagetmp!='') @unlink($originalimagetmp);
+$originalimagetmp='';
+$originalimageext='';
 $nojpg++;
 }
 else $yesjpg++;
@@ -94,13 +108,13 @@ if (!file_exists('../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$i.'.'.$ext)) $fi
 
 @mkdir('../r/'.$_POST['name'],0777);
 if (!move_uploaded_file($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
-if($originalpngtmp!='') @unlink($originalpngtmp);
+if($originalimagetmp!='') @unlink($originalimagetmp);
 $ok='error';
 }
 else {
-if($originalpngtmp!='') {
-copy($originalpngtmp,'../fileversions/'.(date('Ymd')).'-'.substr($filename,0,-4).'.png');
-@unlink($originalpngtmp);
+if($originalimagetmp!='') {
+copy($originalimagetmp,'../fileversions/'.(date('Ymd')).'-'.substr($filename,0,-4).'.'.$originalimageext);
+@unlink($originalimagetmp);
 }
 else copy('../r/'.$_POST['name'].'/'.$filename,'../fileversions/'.(date('Ymd')).'-'.$filename);
 $moved++;
