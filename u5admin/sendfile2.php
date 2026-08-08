@@ -51,37 +51,49 @@ alert('Your file has the extension $ext which is not whitelisted in conficallowe
 $ext.='.txt';
 }
 
-if($_GET['typ']=='i' && $ext!='jpg' && $ext!='JPG' && $ext!='jpeg' && $ext!='JPEG' && $ext!='png' && $ext!='PNG') die('<script>document.getElementById("body").style.background="red";alert("Error: picture format must be jpg RGB (not CMYK) or png with file extension .jpg or .png and not '.$ext.'");parent.location.href=parent.location.href</script>');
+if($_GET['typ']=='i' && $ext!='jpg' && $ext!='JPG' && $ext!='jpeg' && $ext!='JPEG' && $ext!='png' && $ext!='PNG' && $ext!='gif' && $ext!='GIF' && $ext!='webp' && $ext!='WEBP' && $ext!='bmp' && $ext!='BMP' && $ext!='avif' && $ext!='AVIF') die('<script>document.getElementById("body").style.background="red";alert("Error: picture format must be jpg RGB (not CMYK), png, gif, webp, bmp or avif and not '.$ext.'");parent.location.href=parent.location.href</script>');
 
-$originalpngtmp='';
+$originalimagetmp='';
+$originalimageext='';
 
-if($_GET['typ']=='i' && ($ext=='png' || $ext=='PNG')) {
-$originalpngtmp=tempnam(dirname($_FILES['userfile']['tmp_name']),'png');
-if($originalpngtmp===false || !copy($_FILES['userfile']['tmp_name'],$originalpngtmp)) die('<script>document.getElementById("body").style.background="red";alert("Error: original PNG file could not be preserved.");parent.location.href=parent.location.href</script>');
+if($_GET['typ']=='i' && ($ext=='png' || $ext=='gif' || $ext=='webp' || $ext=='bmp' || $ext=='avif')) {
 
-$png=@imagecreatefrompng($_FILES['userfile']['tmp_name']);
-if($png===false) {
-@unlink($originalpngtmp);
-die('<script>document.getElementById("body").style.background="red";alert("Error: PNG file could not be read.");parent.location.href=parent.location.href</script>');
+$imageloader='';
+if($ext=='png') $imageloader='imagecreatefrompng';
+if($ext=='gif') $imageloader='imagecreatefromgif';
+if($ext=='webp') $imageloader='imagecreatefromwebp';
+if($ext=='bmp') $imageloader='imagecreatefrombmp';
+if($ext=='avif') $imageloader='imagecreatefromavif';
+
+if($imageloader=='' || !function_exists($imageloader) || !function_exists('imagecreatetruecolor') || !function_exists('imagejpeg')) die('<script>document.getElementById("body").style.background="red";alert("Error: '.$ext.' cannot be converted to JPG by GD on this server.");parent.location.href=parent.location.href</script>');
+
+$originalimageext=$ext;
+$originalimagetmp=tempnam(dirname($_FILES['userfile']['tmp_name']),'img');
+if($originalimagetmp===false || !copy($_FILES['userfile']['tmp_name'],$originalimagetmp)) die('<script>document.getElementById("body").style.background="red";alert("Error: original image file could not be preserved.");parent.location.href=parent.location.href</script>');
+
+$image=@$imageloader($_FILES['userfile']['tmp_name']);
+if($image===false) {
+@unlink($originalimagetmp);
+die('<script>document.getElementById("body").style.background="red";alert("Error: '.$originalimageext.' file could not be read by GD.");parent.location.href=parent.location.href</script>');
 }
 
-$width=imagesx($png);
-$height=imagesy($png);
+$width=imagesx($image);
+$height=imagesy($image);
 $jpg=imagecreatetruecolor($width,$height);
 $white=imagecolorallocate($jpg,255,255,255);
 imagefill($jpg,0,0,$white);
 imagealphablending($jpg,true);
-imagecopy($jpg,$png,0,0,0,0,$width,$height);
+imagecopy($jpg,$image,0,0,0,0,$width,$height);
 
 if(!imagejpeg($jpg,$_FILES['userfile']['tmp_name'],100)) {
 imagedestroy($jpg);
-imagedestroy($png);
-@unlink($originalpngtmp);
-die('<script>document.getElementById("body").style.background="red";alert("Error: PNG file could not be converted to JPG.");parent.location.href=parent.location.href</script>');
+imagedestroy($image);
+@unlink($originalimagetmp);
+die('<script>document.getElementById("body").style.background="red";alert("Error: '.$originalimageext.' file could not be converted to JPG.");parent.location.href=parent.location.href</script>');
 }
 
 imagedestroy($jpg);
-imagedestroy($png);
+imagedestroy($image);
 $ext='jpg';
 }
 
@@ -98,15 +110,15 @@ $ext='jpg';
 
 @mkdir('../r/'.$_POST['name'],0777);
 if (!move_uploaded_file($_FILES['userfile']['tmp_name'], '../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$ext)) {
-if($originalpngtmp!='') @unlink($originalpngtmp);
+if($originalimagetmp!='') @unlink($originalimagetmp);
 echo '<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded.\\n\\nIs the file too big? Max file size='.($max_upload_size/1024/1024).' MB");parent.location.href=parent.location.href</script>';
 $ok='error';
 }
 else {
 
-if($originalpngtmp!='') {
-copy($originalpngtmp,'../fileversions/'.(date('Ymd')).'-'.$_POST['name'].$_GET['l'].'.png');
-@unlink($originalpngtmp);
+if($originalimagetmp!='') {
+copy($originalimagetmp,'../fileversions/'.(date('Ymd')).'-'.$_POST['name'].$_GET['l'].'.'.$originalimageext);
+@unlink($originalimagetmp);
 }
 else copy('../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$ext,'../fileversions/'.(date('Ymd')).'-'.$_POST['name'].$_GET['l'].'.'.$ext);
 
