@@ -27,7 +27,7 @@ shortcut.add("Ctrl+S",function() {
   
   </p>
   <p>
-    <input name="name" type="text" onchange="if (this.value!=validated(this.value)) this.value=validated(this.value);nc.location.href='nc.php?name='+this.value" onkeyup="if (this.value!=validated(this.value)) this.value=validated(this.value);nc.location.href='nc.php?name='+this.value" size="20" maxlength="20" />
+    <input name="name" type="text" oninput="var v=validated(this.value).substring(0,20);if(this.value!=v)this.value=v;nc.location.href='nc.php?name='+this.value" size="20" />
     <br>
     <input type="hidden" name="typ" value="<?php echo $_GET['typ'] ?>">
     </p>

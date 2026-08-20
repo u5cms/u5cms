@@ -29,7 +29,7 @@ return confirm('Do you really want to delete\n\n'+document.form1.name.value+'\n\
   <h1>Delete an item <span style="font-size:40%"><a href="archiveunarchive.php?name=<?php echo $_GET['name'] ?>">go to archive/unarchive</a></span></h1>
   <p>To confirm deletion, enter the name of the item  you are comig from (having clicked 'D'):</p>
   <p>
-    <input name="name" type="text" onchange="if (this.value!=validated(this.value)) this.value=validated(this.value);" onkeyup="if (this.value!=validated(this.value)) this.value=validated(this.value);" size="20" maxlength="20" />
+    <input name="name" type="text" oninput="var v=validated(this.value).substring(0,20);if(this.value!=v)this.value=v" size="20" />
     | Delete files? 
      <input name="dfiles" type="radio" value="yes" />
 yes /

@@ -20,7 +20,7 @@ shortcut.add("Ctrl+S",function() {
   <h1><span id="h1title">Define (toggle) archive status of an item</span> <span style="font-size:40%"><a href="deleteanitem.php?name=<?php echo $_GET['name'] ?>">go to delete</a></span></h1>
   <p>To confirm, enter the name of the item  you are comig from (having clicked 'D'):</p>
   <p>
-    <input name="name" type="text" onchange="if (this.value!=validated(this.value)) this.value=validated(this.value);" onkeyup="if (this.value!=validated(this.value)) this.value=validated(this.value);" size="20" maxlength="20" />
+    <input name="name" type="text" oninput="var v=validated(this.value).substring(0,20);if(this.value!=v)this.value=v" size="20" />
     <br><br>
     <small>An archived item may be still surfable (depending on its publicity status) but it will be listed in PIDVESA's archive section <span style="font-size:80%;color:white;background:black">a</span> instead of PIDVESA's current section. Use archiving according to your needs. Suggestions: Move delicate items (which should not be edited accidentally) to the archive or keep PIDVESAs current lists  short by moving rarely touched items to the archive. </small><br><br><br><br><br><br>
     </p>
