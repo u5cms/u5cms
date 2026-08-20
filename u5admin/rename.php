@@ -18,7 +18,7 @@ shortcut.add("Ctrl+S",function() {
   <h1>Rename <i><?php echo $_GET['name']?></i></h1>
   <p>Enter a new name for that item</p>
   <p>
-    <input value="<?php echo $_GET['name']?>" name="name" type="text" onchange="if (this.value!=validated(this.value)) this.value=validated(this.value);nc.location.href='nc.php?name='+this.value" onkeyup="if (this.value!=validated(this.value)) this.value=validated(this.value);nc.location.href='nc.php?name='+this.value" size="20" maxlength="20" />
+    <input value="<?php echo $_GET['name']?>" name="name" type="text" oninput="var v=validated(this.value).substring(0,20);if(this.value!=v)this.value=v;nc.location.href='nc.php?name='+this.value" size="20" />
      | Update links? 
      <input name="ulinks" type="radio" value="yes" checked="checked" />
     yes / <input type="radio" name="ulinks" value="no" />
