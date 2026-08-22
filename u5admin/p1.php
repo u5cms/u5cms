@@ -13,7 +13,7 @@ require_once('connect.inc.php');
     <?php require('backendcss.php'); ?></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php include('pidvesadiv.inc.php'); require_once('pidvesanavi.inc.php'); ?>
-<h1 style="display:inline">std&nbsp;Pages <a style="font-size:11px;font-weight:100" href="p2.php">show&nbsp;intranet</a></h1>
+<h1 style="display:inline">std&nbsp;Pages <a style="font-size:10px;font-weight:100" href="p2.php">show&nbsp;intranet</a></h1>
 <?php require_once('pidvesasubnavi.inc.php'); include('pidvesadiv.end.inc.php'); ?>
 <table cellpadding="1">
     <?php

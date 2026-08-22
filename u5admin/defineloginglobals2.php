@@ -84,7 +84,7 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
 '".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
 '".time()."',0,'x',
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 
 [v]LOGININTRO[/]
@@ -95,7 +95,7 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
@@ -106,7 +106,7 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
@@ -117,7 +117,7 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
@@ -128,7 +128,7 @@ $sql_a="INSERT INTO resources (hidden,name,operator,ip,lastmut,deleted,typ,conte
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
@@ -151,7 +151,7 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
 '".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
 '".time()."',0,'x',
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 
 [v]LOGININTRO[/]
@@ -162,7 +162,7 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
@@ -173,7 +173,7 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
@@ -184,7 +184,7 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]
@@ -195,7 +195,7 @@ $sql_a="INSERT INTO resources_log (hidden,name,operator,ip,lastmut,deleted,typ,c
 ',
 
 
-'[v]CONTENT FROM PIDVESA\'s S -> special functions -> define languages -> goto login instructions
+'[v]CONTENT FROM PIDVESA\'s S -> special funcs -> define languages -> goto login instructions
     The page ::LOGINPAGE:: itself is non-functional, it is only a content copy of the aforementionad login instructions![/]
 	
 [v]LOGININTRO[/]

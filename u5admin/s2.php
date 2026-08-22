@@ -14,7 +14,7 @@ require_once('connect.inc.php');
     <?php require('backendcss.php'); ?></head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php include('pidvesadiv.inc.php'); require_once('pidvesanavi.inc.php'); ?>
-<h1 style="display:inline">Save&nbsp;history <a style="font-size:11px;font-weight:100" href="s1.php">special&nbsp;functions</a></h1>
+<h1 style="display:inline">Save&nbsp;history <a style="font-size:10px;font-weight:100" href="s1.php">special&nbsp;funcs</a></h1>
 <?php require_once('pidvesasubnavi.inc.php'); include('pidvesadiv.end.inc.php'); ?>
 <script>
 document.getElementById('sortascdesc').style.visibility='hidden';

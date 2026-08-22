@@ -124,10 +124,9 @@ if(isphperror!=1){changes=0;resetchanges();skipone();checkother()}
         <tr>
 
 
-            <td>
+            <td style="white-space:nowrap">
 <span id="nosync" title="no sync of page selectors">
-ns
-<input
+ns<input
     onchange="if (window.name=='i2') {parent.i4e.location.replace('cookie.php?a=ns&b='+document.form1.ns.checked);if(document.form1.ns.checked) alert('WARNING: You have activated the ns checkbox. As long as this option is checked, the left and the right page selector are no longer automatically synchronized!')}"
     type="checkbox" name="ns" <?php if ($_COOKIE['ns'] == 'true') echo 'checked="checked"' ?> />
 </span>
@@ -138,7 +137,7 @@ ns
 
             <td>
 <span title="select page to edit">
-  <select name="page" onchange="gotopage(this.value)">
+  <select style="font-size:95%" name="page" onchange="gotopage(this.value)">
       <option value="_">&nbsp;</option>
       <?php
       $allnames = '';
@@ -176,17 +175,17 @@ ns
                 if (sizeof($unique_lans) == 5) $onechar = true; ?>
                 <span
                     title="Click a radio (<?php echo $onechar ? $lan1na[0] : $lan1na ?>, <?php echo $onechar ? $lan2na[0] : $lan2na ?>, <?php echo $onechar ? $lan3na[0] : $lan3na ?>, <?php echo $onechar ? $lan4na[0] : $lan4na ?> or <?php echo $onechar ? $lan5na[0] : $lan5na ?>) to choose a language or click the P-radio to wysiwyg preview this page in the nighbor editor area.">
-<input onclick="manlview=1;lview('1')" name="view" type="radio" value="1"/><span
+<input style="margin-right:0px" onclick="manlview=1;lview('1')" name="view" type="radio" value="1"/><span
                         id="sl01"><?php echo $onechar ? $lan1na[0] : $lan1na ?></span>
-<input onclick="manlview=1;lview('2')" name="view" type="radio" value="2"/><span
+<input style="margin-right:0px;margin-left:1px" onclick="manlview=1;lview('2')" name="view" type="radio" value="2"/><span
                         id="sl02"><?php echo $onechar ? $lan2na[0] : $lan2na ?></span>
-<input onclick="manlview=1;lview('3')" name="view" type="radio" value="3"/><span
+<input style="margin-right:0px;margin-left:1px" onclick="manlview=1;lview('3')" name="view" type="radio" value="3"/><span
                         id="sl03"><?php echo $onechar ? $lan3na[0] : $lan3na ?></span>
-<input onclick="manlview=1;lview('4')" name="view" type="radio" value="4"/><span
+<input style="margin-right:0px;margin-left:1px" onclick="manlview=1;lview('4')" name="view" type="radio" value="4"/><span
                         id="sl04"><?php echo $onechar ? $lan4na[0] : $lan4na ?></span>
-<input onclick="manlview=1;lview('5')" name="view" type="radio" value="5"/><span
+<input style="margin-right:0px;margin-left:1px" onclick="manlview=1;lview('5')" name="view" type="radio" value="5"/><span
                         id="sl05"><?php echo $onechar ? $lan5na[0] : $lan5na ?></span>
-<input
+<input style="margin-right:0px;margin-left:1px"
     title="Click the radio for wysiwyg preview. Doubleclick the radio to highlight and expand paragraphs. Click the letter P to go to the live web page"
     ondblclick="hilitp()" onclick="lview('P');preload()" name="view" type="radio" value="P" id="pvradio"/><script>if (parent.location.href.indexOf('?i') > 1)document.getElementById('pvradio').style.display = 'none'</script><a
                         title="[Ctrl+F12] open real website" href="javascript:void(0)"

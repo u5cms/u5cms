@@ -14,7 +14,7 @@ setcookie('subs', 's1', time() + 3600 * 24 * 365 * 10, '/');
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php include('pidvesadiv.inc.php'); include('pidvesanavi.inc.php'); ?>
 <?php include('pidvesadiv.end.inc.php'); include('savehistory.inc.php'); ?>
-<h1 style="margin-top:-55px">Special&nbsp;functions</h1>
+<h1 style="margin-top:-55px">Special&nbsp;funcs</h1>
 
 <p>
     <!--  <button onClick="f1=window.open('formdata.php','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999');">form data</button> -->
