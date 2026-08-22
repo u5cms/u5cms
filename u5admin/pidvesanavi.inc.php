@@ -89,17 +89,24 @@ background:white;
 .nw {
 	white-space: pre;
 	}
+h1 {
+	font-size:15px;
+	}
+input {
+	margin-right:1px;
+	}
+
 </style>
 <span style="font-size:100%">
 
 <table width="100%" style="margin-top:-3px;margin-bottom:-33px;margin-left:-5px">
-  <tr><td>
+  <tr><td style="letter-spacing:-1px">
 <span class="nw" title="Pages"><input id="idp" onclick="cpc('pidvesa','p');location.href=this.value+'.php'" style="width:10px" name="navi" type="radio" value="p">P</span> 
 <span class="nw" title="Images"><input id="idi" onclick="cpc('pidvesa','i');location.href=this.value+'.php'" style="width:10px" name="navi" type="radio" value="i">I</span> 
 <span class="nw" title="Documents"><input id="idd" onclick="cpc('pidvesa','d');location.href=this.value+'.php'" style="width:10px" name="navi" type="radio" value="d">D</span> 
 <span class="nw" title="Video &amp; Audio"><input id="idv" onclick="cpc('pidvesa','v');location.href=this.value+'.php'" style="width:10px" name="navi" type="radio" value="v">V</span> 
 <span class="nw" title="External links"><input id="ide" onclick="cpc('pidvesa','e');location.href=this.value+'.php'" style="width:10px" name="navi" type="radio" value="e">E</span> 
-<span class="nw" title="Save history &amp; Special functions"><input id="ids" onclick="cpc('pidvesa','s');location.href=this.value+'.php'" style="width:10px" name="navi" type="radio" value="s">S</span> 
+<span class="nw" title="Save history &amp; Special funcs"><input id="ids" onclick="cpc('pidvesa','s');location.href=this.value+'.php'" style="width:10px" name="navi" type="radio" value="s">S</span> 
 
 <?php
 if ($_COOKIE['shrchv']=='1'  && $donotshowtogglearchive!=1) {

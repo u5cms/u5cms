@@ -16,7 +16,7 @@ require_once('connect.inc.php');
 <h1 style="display:inline"><!--<a title="HTML5 specific instructions concerning video and audio formats"
                               style="font-weight:bold;color:white;background:orange;font-family:'Courier New', Courier, monospace"
                               href="javascript:alert('<?php include('html5videoinstructions.php') ?>')">i</a> -->Video<span
-        style="font-size:70%">&nbsp;&amp;&nbsp;</span>Audio <a style="font-size:11px;font-weight:100" href="y.php">show&nbsp;youtube</a></h1>
+        style="font-size:70%">&#8239;&amp;&#8239;</span>Audio <a style="font-size:10px;font-weight:100" href="y.php">show&nbsp;youtube</a></h1>
 <?php require_once('pidvesasubnavi.inc.php'); include('pidvesadiv.end.inc.php'); ?>
 <table cellpadding="1">
     <?php
