@@ -40,12 +40,12 @@ $close=substr_count($data,'</'.$tag.' ');
 
 if($open>$close){
 $res='&nbsp;!&nbsp;';
-$err.='\u279c On the page* «'.basename(htmlentities($_GET['c'])).'» '.strtoupper($l).' are too little closing '.$tag.'-tags ('.$open.':'.$close.').\r\n';
+$err.='\u279c On the page* \u00ab'.basename(htmlentities($_GET['c'])).'\u00bb '.strtoupper($l).' are too few closing '.$tag.'-tags ('.$open.':'.$close.').\r\n';
 }
 
 else if(tagoc($data,$tag)!=0){
 $res='&nbsp;!&nbsp;';
-$err.='\u279c On the page* «'.basename(htmlentities($_GET['c'])).'» '.strtoupper($l).' not all '.$tag.'-tags are closed!\r\n';
+$err.='\u279c On the page* \u00ab'.basename(htmlentities($_GET['c'])).'\u00bb '.strtoupper($l).' not all '.$tag.'-tags are closed!\r\n';
 }
 }
 
