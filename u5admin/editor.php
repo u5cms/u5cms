@@ -60,6 +60,17 @@ iOS=(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
     -webkit-overflow-scrolling: touch;
 	}
 
+    #ta1, #ta2, #ta3, #ta4, #ta5, #pframe2 {
+        display: block;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    html, body {
+        height: 100%;
+        overflow: hidden;
+    }
+
     input {
     <?php echo $cssbackendinput ?>
     }
@@ -557,34 +568,42 @@ ns<input
         return newstr;
     }
 
-    res = 55;
-
     function loader() {
-        resizer();
         readcookies();
         starthide();
+        resizer();
+    }
+
+    function viewportBottom() {
+        var bottom = document.documentElement.clientHeight || window.innerHeight || 0;
+        if (window.visualViewport) {
+            var visualBottom = window.visualViewport.offsetTop + window.visualViewport.height;
+            if (visualBottom > 0) bottom = Math.min(bottom, visualBottom);
+        }
+        return Math.floor(bottom);
+    }
+
+    function fitToViewport(element) {
+        if (!element || element.offsetParent === null) return;
+        var top = element.getBoundingClientRect().top;
+        var height = Math.max(0, Math.floor(viewportBottom() - top));
+        var value = height + 'px';
+        if (element.style.height !== value) element.style.height = value;
     }
 
     function sizer() {
         if (parent.location.href.indexOf('?i') < 1 && !iOS) {
-            document.getElementById('ta1').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
-            document.getElementById('ta2').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
-            document.getElementById('ta3').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
-            document.getElementById('ta4').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
-            document.getElementById('ta5').style.height = document.documentElement.clientHeight - res - ires - mres - pres + 'px';
-            document.getElementById('pframe2').style.height = document.documentElement.clientHeight - res + 10 + 'px';
+            fitToViewport(document.getElementById('ta1'));
+            fitToViewport(document.getElementById('ta2'));
+            fitToViewport(document.getElementById('ta3'));
+            fitToViewport(document.getElementById('ta4'));
+            fitToViewport(document.getElementById('ta5'));
+            fitToViewport(document.getElementById('pframe2'));
         }
     }
 
     function resizer() {
-        if (parent.location.href.indexOf('?i') < 1 && !iOS) {
-            if (document.getElementById('ta1').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
-            if (document.getElementById('ta2').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
-            if (document.getElementById('ta3').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
-            if (document.getElementById('ta4').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
-            if (document.getElementById('ta5').style.height != document.documentElement.clientHeight - res - ires - mres - pres) sizer();
-            if (document.getElementById('pframe2').style.height != document.documentElement.clientHeight - res) sizer();
-        }
+        sizer();
         if (parent.i3) if (parent.i3.document.getElementById('a_<?php echo $_GET['c']?>')) {
             parent.i3.document.getElementById('a_<?php echo $_GET['c']?>').style.fontSize = '120%';
             parent.i3.document.getElementById('a_<?php echo $_GET['c']?>').style.background = 'yellow'
