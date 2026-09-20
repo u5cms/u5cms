@@ -41,7 +41,6 @@
         shortcut.add("Ctrl+F9", function () {
             parent.i3.location.href = 'focus.php?c=<?php echo $_GET['c']?>';
         })
-iOS=(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
     </script>
     <?php require 'backendcss.php' ?>
 </head>
@@ -198,7 +197,7 @@ ns<input
                         id="sl05"><?php echo $onechar ? $lan5na[0] : $lan5na ?></span>
 <input style="margin-right:0px;margin-left:1px"
     title="Click the radio for wysiwyg preview. Doubleclick the radio to highlight and expand paragraphs. Click the letter P to go to the live web page"
-    ondblclick="hilitp()" onclick="lview('P');preload()" name="view" type="radio" value="P" id="pvradio"/><script>if (parent.location.href.indexOf('?i') > 1)document.getElementById('pvradio').style.display = 'none'</script><a
+    ondblclick="hilitp()" onclick="lview('P');preload()" name="view" type="radio" value="P" id="pvradio"/><a
                         title="[Ctrl+F12] open real website" href="javascript:void(0)"
                         onclick="if (lansel!='P') window.open('../?c='+document.form1.page.value+'&l='+lansel); else {if (window.name=='i2') window.open('../?c='+document.form1.page.value+'&l='+parent.i1.lansel); else  window.open('../?c='+document.form1.page.value+'&l='+parent.i2.lansel)}">P</a>
 </span>
@@ -583,24 +582,93 @@ ns<input
         return Math.floor(bottom);
     }
 
+    function documentScrollTop() {
+        return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    }
+
+    function documentScrollLeft() {
+        return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+    }
+
+    function keepDocumentAtOrigin() {
+        if (documentScrollLeft() !== 0 || documentScrollTop() !== 0) window.scrollTo(0, 0);
+    }
+
     function fitToViewport(element) {
         if (!element || element.offsetParent === null) return;
-        var top = element.getBoundingClientRect().top;
-        var height = Math.max(0, Math.floor(viewportBottom() - top));
+
+        // Use the element's document position, not a temporarily scrolled viewport position.
+        var top = element.getBoundingClientRect().top + documentScrollTop();
+        var bottom = viewportBottom();
+        var height = Math.max(0, Math.floor(bottom - top));
+
+        // A broken intermediate browser measurement must never enlarge the element beyond the viewport.
+        height = Math.min(height, Math.max(0, bottom));
+
         var value = height + 'px';
         if (element.style.height !== value) element.style.height = value;
     }
 
     function sizer() {
-        if (parent.location.href.indexOf('?i') < 1 && !iOS) {
-            fitToViewport(document.getElementById('ta1'));
-            fitToViewport(document.getElementById('ta2'));
-            fitToViewport(document.getElementById('ta3'));
-            fitToViewport(document.getElementById('ta4'));
-            fitToViewport(document.getElementById('ta5'));
-            fitToViewport(document.getElementById('pframe2'));
+        keepDocumentAtOrigin();
+        fitToViewport(document.getElementById('ta1'));
+        fitToViewport(document.getElementById('ta2'));
+        fitToViewport(document.getElementById('ta3'));
+        fitToViewport(document.getElementById('ta4'));
+        fitToViewport(document.getElementById('ta5'));
+        fitToViewport(document.getElementById('pframe2'));
+        keepDocumentAtOrigin();
+    }
+
+    var viewportRepairPending = false;
+
+    function scheduleViewportRepair() {
+        if (viewportRepairPending) return;
+        viewportRepairPending = true;
+
+        var repair = function () {
+            viewportRepairPending = false;
+            keepDocumentAtOrigin();
+            sizer();
+        };
+
+        if (window.requestAnimationFrame) window.requestAnimationFrame(repair);
+        else setTimeout(repair, 0);
+    }
+
+    function scheduleViewportRepairFollowUp() {
+        scheduleViewportRepair();
+        setTimeout(scheduleViewportRepair, 50);
+        setTimeout(scheduleViewportRepair, 150);
+    }
+
+    function installViewportRepair() {
+        ['ta1', 'ta2', 'ta3', 'ta4', 'ta5'].forEach(function (id) {
+            var element = document.getElementById(id);
+            if (!element) return;
+
+            element.addEventListener('input', scheduleViewportRepair);
+            element.addEventListener('paste', scheduleViewportRepairFollowUp);
+            element.addEventListener('focus', scheduleViewportRepairFollowUp);
+        });
+
+        window.addEventListener('resize', scheduleViewportRepair);
+        window.addEventListener('orientationchange', scheduleViewportRepairFollowUp);
+        window.addEventListener('scroll', scheduleViewportRepair);
+        window.addEventListener('pageshow', scheduleViewportRepairFollowUp);
+        window.addEventListener('focus', scheduleViewportRepairFollowUp);
+
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) scheduleViewportRepairFollowUp();
+        });
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', scheduleViewportRepair);
+            window.visualViewport.addEventListener('scroll', scheduleViewportRepair);
         }
     }
+
+    installViewportRepair();
 
     function resizer() {
         sizer();
@@ -721,6 +789,7 @@ ns<input
 
 
         document.getElementById('d_' + that).style.display = 'block';
+        scheduleViewportRepairFollowUp();
 
         if (that == 'P') {
             document.getElementById('insertbutton').style.display = 'none';

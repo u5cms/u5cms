@@ -17,6 +17,25 @@ $nointranet='';
 if ($doeshideintranetcontenttopublic=="yes") $nointranet="AND name NOT LIKE '!%'";
 $turn=-7; // the lower this value is below zero, the more memory is allocated for levenshtein anti misstyping searches. if you get a fatal memory error, increase this value towards zero.
 if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searchenginesqladditionalbooland;
+
+if (!function_exists('u5SearchUnicodeEntities')) {
+function u5SearchUnicodeEntities($value) {
+  return preg_replace_callback(
+    '/%u([dD][89aAbB][0-9a-fA-F]{2})%u([dD][c-fC-F][0-9a-fA-F]{2})|%u(.{4})/',
+    function($match){
+      if (isset($match[1]) && $match[1] !== '') {
+        $high = hexdec($match[1]);
+        $low = hexdec($match[2]);
+        $codepoint = 0x10000 + (($high - 0xD800) << 10) + ($low - 0xDC00);
+        return '&#'.$codepoint.';';
+      }
+
+      return '&#'.hexdec('x'.$match[3]).';';
+    },
+    $value
+  );
+}
+}
 ?>
 <p>
 <form class="unibeform" id="frm_Search2" name="fsearch2" method="get" action="javascript:location.href='index.php?c=_searchsi&amp;l=<?php echo $_GET['l']?>&amp;q='+escape(document.fsearch2.q.value.replace(/ /g,',').replace(/\+/g,','))" onsubmit="return isterm2()">
@@ -28,13 +47,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
   <input type="submit" class="btnSubmit" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
 <?php
   $prefill=$_GET['q'];
-  $prefill = preg_replace_callback(
-    '/%u(.{4})/',
-    function($match){
-      return "&#".hexdec("x".$match[1]).";";
-    },
-    $prefill
-  );
+  $prefill = u5SearchUnicodeEntities($prefill);
 ?><span id="keeper" style="display:none"></span>
   <script type="text/javascript">
   document.fsearch2.q.value=unescape('<?php echo str_replace("'","\'",(str_replace('  ',' ',str_replace(',',' ',trim($_GET['q'])))))?>').replace(/&quot;/g,'"');
@@ -91,13 +104,7 @@ $sfor=str_replace('  ',' ',$sfor);
 $sfor=str_replace('  ',' ',$sfor);
 
 
-  $sfor = preg_replace_callback(
-    '/%u(.{4})/',
-    function($match){
-      return "&#".hexdec("x".$match[1]).";";
-    },
-    $sfor
-  );
+  $sfor = u5SearchUnicodeEntities($sfor);
 
 
 $terms=str_replace('_',' ',$sfor);

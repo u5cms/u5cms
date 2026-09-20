@@ -928,9 +928,18 @@ function render($stringa) {
                 ///////////////////////////////////////
                 if ($row_a['typ'] == 'e') {
 
+                    // URLs may already contain HTML entities because u5CMS stores
+                    // text in its historical WINDOWS-1252/Latin-1 environment.
+                    // Decode one stored HTML-entity layer before escaping the URL
+                    // again for the HTML attribute. Numeric entities for characters
+                    // outside WINDOWS-1252 remain untouched here and are decoded by
+                    // the browser when the href is parsed. Existing %XX and %uXXXX
+                    // sequences are deliberately left unchanged.
+                    $externalurl = htmlX_entity_decode(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']));
+
                     $title = '';
-                    if (def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']) != '') {
-                        $title = 'title="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '"';
+                    if ($externalurl != '') {
+                        $title = 'title="' . ehtml($externalurl) . '"';
                     }
 
                     if ($human=='' || $human=='linktext') $human=ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']));
@@ -944,7 +953,7 @@ function render($stringa) {
                         $isblank='target="_blank"';
                     }
 
-					$stringa[$i] = '<a '.$isblank.' ' . $title . ' href="' . ehtml(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '">' . str_replace('<nobr>;',';<nobr>&#8288;',substr($human,0,-1).'<nobr>'.$human[strlen($human)-1]) . $extern . '</nobr></a>';
+					$stringa[$i] = '<a '.$isblank.' ' . $title . ' href="' . ehtml($externalurl) . '">' . str_replace('<nobr>;',';<nobr>&#8288;',substr($human,0,-1).'<nobr>'.$human[strlen($human)-1]) . $extern . '</nobr></a>';
                 }
             }
         }

@@ -2,8 +2,6 @@
 require_once('connect.inc.php'); file_put_contents('../fileversions/EDITORrunning.txt',time());
 if ($_COOKIE['i1_l']=='') setcookie('i1_l', 'P', time()+3600*24*365*10,'/');
 if ($_COOKIE['i2_l']=='') setcookie('i2_l', '1', time()+3600*24*365*10,'/');
-if($_SERVER['QUERY_STRING']=='i') setcookie('i1_l', '1', time()+3600*24*365*10,'/');
-if($_SERVER['QUERY_STRING']=='i') setcookie('i2_1', '1', time()+3600*24*365*10,'/');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,9 +9,6 @@ if($_SERVER['QUERY_STRING']=='i') setcookie('i2_1', '1', time()+3600*24*365*10,'
 <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>u5CMS - Welcome <?php echo ehtml($_SERVER['PHP_AUTH_USER'])?></title>
-<script>
-if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) location.href='indexios.php';
-</script>
 <script src="shortcut.js"></script>
 <?php require('backendcss.php'); ?>
 <style>
