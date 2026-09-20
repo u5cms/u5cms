@@ -937,6 +937,17 @@ function render($stringa) {
                     // sequences are deliberately left unchanged.
                     $externalurl = htmlX_entity_decode(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']));
 
+                    // If a non-WINDOWS-1252 character was stored as a numeric
+                    // HTML character reference and that reference itself was
+                    // HTML-escaped, collapse only the nested ampersand layer.
+                    // Ordinary query separators, named entities, %XX and %uXXXX
+                    // are deliberately not normalized here.
+                    $externalurl = preg_replace(
+                        '/&(?:amp;)+#(x[0-9a-f]+|[0-9]+);/i',
+                        '&#$1;',
+                        $externalurl
+                    );
+
                     $title = '';
                     if ($externalurl != '') {
                         $title = 'title="' . ehtml($externalurl) . '"';

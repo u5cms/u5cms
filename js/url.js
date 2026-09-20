@@ -28,6 +28,16 @@ var decodeEntities=(function(){
       return once(entity);
     });
 
+    // Numeric character references for characters outside the historical
+    // WINDOWS-1252 range can acquire another &amp; layer while passing through
+    // stored/rendered HTML. Collapse only that numeric-reference wrapper, then
+    // decode the numeric reference itself. Do not repeatedly decode arbitrary
+    // named entities or ordinary query ampersands.
+    s=s.replace(/&(?:amp;)+#(x[0-9a-f]+|[0-9]+);/gi,'&#$1;');
+    s=s.replace(/&#(?:x[0-9a-f]+|[0-9]+);/gi,function(entity){
+      return once(entity);
+    });
+
     return s;
   }
 
