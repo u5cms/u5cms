@@ -1,1 +1,4 @@
-This file is obsolete an can be deleted because index.php takes it all since u5CMS 12.9.1
+<?php
+$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+header('Location: index.php' . ($query !== '' ? '?' . $query : ''), true, 302);
+exit;
