@@ -1,4 +1,38 @@
-var decodeEntities=(function(){var e=document.createElement('div');function d(s){if(s&&typeof s==='string'){s=s.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,'');s=s.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,'');e.innerHTML=s;s=e.textContent||e.innerText||'';e.textContent='';}return s;}return d;})();
+var decodeEntities=(function(){
+  var e=document.createElement('div');
+
+  function once(s){
+    if(s&&typeof s==='string'){
+      s=s.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,'');
+      s=s.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,'');
+      e.innerHTML=s;
+      s=e.textContent||e.innerText||'';
+      e.textContent='';
+    }
+    return s;
+  }
+
+  function d(s){
+    if(!s||typeof s!=='string')return s;
+
+    // First pass removes the HTML-escaping layer added while rendering.
+    s=once(s);
+
+    // A URL stored by u5CMS may itself already contain HTML entities.
+    // Decode one such stored layer as well. Do this entity by entity so
+    // ordinary query separators stay ordinary separators. A token directly
+    // followed by '=' is left alone because it can be a (rare but valid)
+    // query-parameter name such as "copy;" rather than encoded URL data.
+    s=s.replace(/&(?:#(?:x[0-9a-f]+|[0-9]+)|[a-z][a-z0-9]+);/gi,function(entity,offset,whole){
+      if(whole.charAt(offset+entity.length)==='=')return entity;
+      return once(entity);
+    });
+
+    return s;
+  }
+
+  return d;
+})();
 
 (function(){
   if(typeof s!=='string')return;
