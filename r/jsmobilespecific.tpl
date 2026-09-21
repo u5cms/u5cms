@@ -95,17 +95,28 @@ function u5mkmobile() {
 				document.getElementById('outer').style.boxShadow = 'none';
 			}
 			if (document.getElementById('content')) {
-				document.getElementById('content').style.minHeight = '100px';
-				document.getElementById('content').style.borderRight = 0;
-				document.getElementById('content').style.padding = 0;
-				document.getElementById('content').style.margin = 0;
-				if (document.getElementById('checkboxlang')) document.getElementById('content').style.marginTop = '111px';
-				document.getElementById('content').style.width = '100%';
-				document.getElementById('content').innerHTML = '<div id="contentinner">' + document.getElementById('content').innerHTML + '</div>';
-				if (document.getElementById('contentinner')) {
-					document.getElementById('contentinner').style.padding = '7px';
-					document.getElementById('content').style.height = document.getElementById('contentinner').style.height;
+				var content = document.getElementById('content');
+				content.style.minHeight = '100px';
+				content.style.borderRight = 0;
+				content.style.padding = 0;
+				content.style.margin = 0;
+				if (document.getElementById('checkboxlang')) content.style.marginTop = '111px';
+				content.style.width = '100%';
+
+				var contentinner = document.getElementById('contentinner');
+				if (!contentinner) {
+					contentinner = document.createElement('div');
+					contentinner.id = 'contentinner';
+
+					while (content.firstChild) {
+						contentinner.appendChild(content.firstChild);
+					}
+
+					content.appendChild(contentinner);
 				}
+
+				contentinner.style.padding = '7px';
+				content.style.height = contentinner.style.height;
 			}
 			if (document.getElementById('news')) {
 				document.getElementById('news').style.background = '#fafafa';
