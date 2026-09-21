@@ -567,11 +567,22 @@ ns<input
         return newstr;
     }
 
-    function loader() {
+    var languageViewInitialized = false;
+
+    function initializeLanguageView() {
+        if (languageViewInitialized) return;
+        languageViewInitialized = true;
         readcookies();
         starthide();
+    }
+
+    function loader() {
+        initializeLanguageView();
         resizer();
     }
+
+    if (document.readyState == 'loading') document.addEventListener('DOMContentLoaded', initializeLanguageView);
+    else initializeLanguageView();
 
     function viewportBottom() {
         var bottom = document.documentElement.clientHeight || window.innerHeight || 0;
@@ -778,7 +789,7 @@ ns<input
         if (window.name == 'i2' && parent.i2.document.form1.view[5].checked == true && parent.i2.pframe.pviewit) parent.i2.pframe.pviewit();
     }
 
-    function lview(that) {
+    function lview(that, doNotPersist) {
         lansel = that;
         document.getElementById('d_1').style.display = 'none';
         document.getElementById('d_2').style.display = 'none';
@@ -814,8 +825,10 @@ ns<input
             }
         }
 
-        if (window.name == 'i1') parent.i4a.location.replace('cookie.php?a=' + window.name + '_l&b=' + that);
-        if (window.name == 'i2') parent.i4d.location.replace('cookie.php?a=' + window.name + '_l&b=' + that);
+        if (!doNotPersist) {
+            if (window.name == 'i1') parent.i4a.location.replace('cookie.php?a=' + window.name + '_l&b=' + that);
+            if (window.name == 'i2') parent.i4d.location.replace('cookie.php?a=' + window.name + '_l&b=' + that);
+        }
 
         pview();
         setTimeout("pview()", 333);
@@ -873,12 +886,12 @@ ns<input
 
     function readcookies() {
         if (window.name == 'i1') {
-            if ('<?php echo $_COOKIE['i1_l']?>' == '1') lview('1');
-            if ('<?php echo $_COOKIE['i1_l']?>' == '2') lview('2');
-            if ('<?php echo $_COOKIE['i1_l']?>' == '3') lview('3');
-            if ('<?php echo $_COOKIE['i1_l']?>' == '4') lview('4');
-            if ('<?php echo $_COOKIE['i1_l']?>' == '5') lview('5');
-            if ('<?php echo $_COOKIE['i1_l']?>' == 'P') lview('P');
+            if ('<?php echo $_COOKIE['i1_l']?>' == '1') lview('1', true);
+            if ('<?php echo $_COOKIE['i1_l']?>' == '2') lview('2', true);
+            if ('<?php echo $_COOKIE['i1_l']?>' == '3') lview('3', true);
+            if ('<?php echo $_COOKIE['i1_l']?>' == '4') lview('4', true);
+            if ('<?php echo $_COOKIE['i1_l']?>' == '5') lview('5', true);
+            if ('<?php echo $_COOKIE['i1_l']?>' == 'P') lview('P', true);
 
             if ('<?php echo $_COOKIE['i1_l']?>' == '1') document.form1.view[0].checked = true;
             if ('<?php echo $_COOKIE['i1_l']?>' == '2') document.form1.view[1].checked = true;
@@ -888,12 +901,12 @@ ns<input
             if ('<?php echo $_COOKIE['i1_l']?>' == 'P') document.form1.view[5].checked = true;
         }
         if (window.name == 'i2') {
-            if ('<?php echo $_COOKIE['i2_l']?>' == '1') lview('1');
-            if ('<?php echo $_COOKIE['i2_l']?>' == '2') lview('2');
-            if ('<?php echo $_COOKIE['i2_l']?>' == '3') lview('3');
-            if ('<?php echo $_COOKIE['i2_l']?>' == '4') lview('4');
-            if ('<?php echo $_COOKIE['i2_l']?>' == '5') lview('5');
-            if ('<?php echo $_COOKIE['i2_l']?>' == 'P') lview('P');
+            if ('<?php echo $_COOKIE['i2_l']?>' == '1') lview('1', true);
+            if ('<?php echo $_COOKIE['i2_l']?>' == '2') lview('2', true);
+            if ('<?php echo $_COOKIE['i2_l']?>' == '3') lview('3', true);
+            if ('<?php echo $_COOKIE['i2_l']?>' == '4') lview('4', true);
+            if ('<?php echo $_COOKIE['i2_l']?>' == '5') lview('5', true);
+            if ('<?php echo $_COOKIE['i2_l']?>' == 'P') lview('P', true);
 
             if ('<?php echo $_COOKIE['i2_l']?>' == '1') document.form1.view[0].checked = true;
             if ('<?php echo $_COOKIE['i2_l']?>' == '2') document.form1.view[1].checked = true;
