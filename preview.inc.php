@@ -11,26 +11,32 @@ require_once('san.inc.php');
 u5prvldd=1;
 
 function pviewit() {
+var previewLanguage='';
 if (parent.window.name=='i2') {
    
    if (parent.parent.i1.document.form1.view[0].checked==true) {
    document.formp.r.value=parent.parent.i1.document.form1.content_1.value;
+   previewLanguage='1';
    }
 
    if (parent.parent.i1.document.form1.view[1].checked==true) {
    document.formp.r.value=parent.parent.i1.document.form1.content_2.value;
+   previewLanguage='2';
    }
 
    if (parent.parent.i1.document.form1.view[2].checked==true) {
    document.formp.r.value=parent.parent.i1.document.form1.content_3.value;
+   previewLanguage='3';
    }
 
     if (parent.parent.i1.document.form1.view[3].checked==true) {
         document.formp.r.value=parent.parent.i1.document.form1.content_4.value;
+        previewLanguage='4';
     }
 
     if (parent.parent.i1.document.form1.view[4].checked==true) {
         document.formp.r.value=parent.parent.i1.document.form1.content_5.value;
+        previewLanguage='5';
     }
 }
 
@@ -38,26 +44,33 @@ if (parent.window.name=='i1') {
    
    if (parent.parent.i2.document.form1.view[0].checked==true) {
    document.formp.r.value=parent.parent.i2.document.form1.content_1.value;
+   previewLanguage='1';
    }
 
    if (parent.parent.i2.document.form1.view[1].checked==true) {
    document.formp.r.value=parent.parent.i2.document.form1.content_2.value;
+   previewLanguage='2';
    }
 
    if (parent.parent.i2.document.form1.view[2].checked==true) {
    document.formp.r.value=parent.parent.i2.document.form1.content_3.value;
+   previewLanguage='3';
    }
 
     if (parent.parent.i2.document.form1.view[3].checked==true) {
         document.formp.r.value=parent.parent.i2.document.form1.content_4.value;
+        previewLanguage='4';
     }
 
     if (parent.parent.i2.document.form1.view[4].checked==true) {
         document.formp.r.value=parent.parent.i2.document.form1.content_5.value;
+        previewLanguage='5';
     }
 
 }
 
+
+if (previewLanguage!='') document.formp.action=document.formp.action.replace(/([?&]l=)[^&]*/, '$1'+previewLanguage);
 
 document.formp.submit();
 }
