@@ -5,6 +5,59 @@ else $delstatus=0;
 $squot="\'";
 ?>
 <script>
+var filterRowGroups=[];
+
+function orderFilterRows() {
+var doc=parent.document;
+var form=doc.form1;
+if (!form || !form.pvs_f || !form.pvs_f[1]) return;
+
+if (filterRowGroups.length==0) {
+var rows=doc.querySelectorAll('tr[id^="tr1_"]');
+for (var r=0;r<rows.length;r++) {
+var container=rows[r].parentNode;
+var group=null;
+for (var g=0;g<filterRowGroups.length;g++) {
+if (filterRowGroups[g].container===container) group=filterRowGroups[g];
+}
+if (!group) {
+group={container:container,rows:[]};
+filterRowGroups.push(group);
+}
+group.rows.push(rows[r]);
+}
+}
+
+for (var g=0;g<filterRowGroups.length;g++) {
+var group=filterRowGroups[g];
+var regular=[];
+var orphans=[];
+for (var r=0;r<group.rows.length;r++) {
+var row=group.rows[r];
+var marker=doc.getElementById('o_'+row.id.substring(4));
+if (form.pvs_f[1].checked && marker && marker.innerHTML.indexOf('_orphan_')!==-1) orphans.push(row);
+else regular.push(row);
+}
+var ordered=regular.concat(orphans);
+var current=group.container.querySelectorAll('tr[id^="tr1_"]');
+var changed=false;
+for (var r=0;r<ordered.length;r++) {
+if (current[r]!==ordered[r]) changed=true;
+}
+if (!changed) continue;
+
+// Move existing row pairs so previews, highlights and handlers stay intact.
+var fragment=doc.createDocumentFragment();
+for (var r=0;r<ordered.length;r++) {
+var row=ordered[r];
+var preview=doc.getElementById('tr2_'+row.id.substring(4));
+fragment.appendChild(row);
+if (preview && preview.parentNode===group.container) fragment.appendChild(preview);
+}
+group.container.appendChild(fragment);
+}
+}
+
 function green(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,tid) {
 if (ctL.indexOf(s1)>-1 || ctL.indexOf(s2)>-1 || ctL.indexOf(s3)>-1 || ctL.indexOf(s4)>-1 || ctL.indexOf(s5)>-1 || ctL.indexOf(s6)>-1 || ctL.indexOf(s7)>-1 || ctL.indexOf(s8)>-1 || ctL.indexOf(s9)>-1 || ctL.indexOf(s10)>-1) {
 parent.document.getElementById('tdL_'+tid).style.background='lightgreen';
@@ -71,6 +124,7 @@ id=id.substring(4);
 green('['+id+']' , ':'+id+']' , '['+id+'?' , ':'+id+'?' , '[lo:]'+id+'[:lo]' , '[go:]'+id+'[:go]' , '/'+id+'/'+id+'_' , 'c='+id+'"' , 'c='+id+'\'' , 'c='+id+'\\' , 'c='+id+'&',id);
 }
 }
+orderFilterRows();
 } // if parents there
 setTimeout("filter()",333);
 } // function filter
