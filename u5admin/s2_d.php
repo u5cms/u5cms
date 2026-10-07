@@ -41,6 +41,6 @@
             echo ehtml(substr(trim($row_a['content_1']), 0, 80));
             if (strlen(trim($row_a['content_1'])) > 80) echo '&hellip;';
             echo '<hr></td></tr>';
-        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="9"></td></tr>';
+        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="9"></td></tr>';
 
 ?>

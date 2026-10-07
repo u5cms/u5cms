@@ -42,5 +42,5 @@ $row_a_desc_d0=explode('?',$row_a['desc_1']);
 <iframe width="150" height="80" src="' . $videoportalegyoutubeembedurl . ehtml($row_a_desc_d0[0]) . '" frameborder="0" allowfullscreen></iframe>
 <a onmouseover="this.style.fontSize=\'100%\'" href="http://youtu.be/' . ehtml($row_a['desc_1'], 0, 180) . '" target="_blank">' . ehtml(substr($row_a['desc_1'], 0, 180)) . '</a><hr></td></tr>';
 		}
-        else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="9"></td></tr>';
+        else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="9"></td></tr>';
 ?>

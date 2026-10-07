@@ -44,5 +44,5 @@
             echo '<a onmouseover="this.style.fontSize=\'100%\'" href="' . ehtml($row_a['desc_1'], 0, 3000) . '" target="_blank">' . ehtml(substr($row_a['desc_1'], 0, 40)) . '</a>';
             if (strlen(trim($row_a['desc_1'])) > 40) echo '&hellip;';
             echo '<hr></td></tr>';
-        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="9"></td></tr>';
+        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="9"></td></tr>';
 ?>

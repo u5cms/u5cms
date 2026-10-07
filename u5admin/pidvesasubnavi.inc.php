@@ -1,10 +1,34 @@
 <?php require_once('connect.inc.php') ?>
+<style>
+#pvs_f_control.pvs_f_active { background-color:#fff2b8; }
+#pvs_f_control.pvs_f_flash { animation:pvs_f_warning 2222ms steps(1,end) 2222ms 3; }
+@keyframes pvs_f_warning {
+0% { background-color:yellow; }
+50%,100% { background-color:#fff2b8; }
+}
+@media (prefers-reduced-motion:reduce) {
+#pvs_f_control.pvs_f_flash { animation:none; }
+}
+</style>
 <br><span style="white-space: nowrap;font-size:80%">
 <form name="form1" style="display:inline" method="get"><?php $inputradiostyle='style="width:10px;margin-left:-1px"';?>
-<span class="nw" title="Preview (off | on)">P&#8239;<input <?php echo $inputradiostyle ?> onClick="cpc('pvs_p','on');document.form1.submit()" name="pvs_p" type="radio" value="off" <?php if ($_GET['pvs_p']!='on') echo'checked="checked"'?> /><input <?php echo $inputradiostyle ?> onClick="cpc('pvs_p','off');document.form1.submit()" name="pvs_p" type="radio" value="on" <?php if ($_GET['pvs_p']=='on') echo'checked="checked"'?> />&nbsp;</span> <span class="nw" title="Sort (name ASC | date DESC)" id="sortascdesc">S&#8239;<input <?php echo $inputradiostyle ?> onClick="cpc('pvs_s','on');document.form1.submit()"  name="pvs_s" type="radio" value="name" <?php if ($_GET['pvs_s']!='date') echo'checked="checked"'?> /><input <?php echo $inputradiostyle ?> onClick="cpc('pvs_s','off');document.form1.submit()"  name="pvs_s" type="radio" value="date" <?php if ($_GET['pvs_s']=='date') echo'checked="checked"'?> />&nbsp;</span> <span class="nw" title="Filter (all | linked in the editors &amp; orphans)">F&#8239;<input <?php echo $inputradiostyle ?> onClick="cpc('pvs_f','on');document.form1.submit()"  name="pvs_f" type="radio" value="all" <?php if ($_GET['pvs_f']!='here') echo'checked="checked"'?> /><input <?php echo $inputradiostyle ?> onClick="cpc('pvs_f','off');document.form1.submit()"  name="pvs_f" type="radio" value="here" <?php if ($_GET['pvs_f']=='here') echo'checked="checked"'?> />&nbsp;&nbsp;</span></form>
+<span class="nw" title="Preview (off | on)">P&#8239;<input <?php echo $inputradiostyle ?> onClick="cpc('pvs_p','on');document.form1.submit()" name="pvs_p" type="radio" value="off" <?php if ($_GET['pvs_p']!='on') echo'checked="checked"'?> /><input <?php echo $inputradiostyle ?> onClick="cpc('pvs_p','off');document.form1.submit()" name="pvs_p" type="radio" value="on" <?php if ($_GET['pvs_p']=='on') echo'checked="checked"'?> />&nbsp;</span> <span class="nw" title="Sort (name ASC | date DESC)" id="sortascdesc">S&#8239;<input <?php echo $inputradiostyle ?> onClick="cpc('pvs_s','on');document.form1.submit()"  name="pvs_s" type="radio" value="name" <?php if ($_GET['pvs_s']!='date') echo'checked="checked"'?> /><input <?php echo $inputradiostyle ?> onClick="cpc('pvs_s','off');document.form1.submit()"  name="pvs_s" type="radio" value="date" <?php if ($_GET['pvs_s']=='date') echo'checked="checked"'?> />&nbsp;</span> <span id="pvs_f_control" class="nw<?php if ($_GET['pvs_f']=='here') echo ' pvs_f_active pvs_f_flash'; ?>" title="Filter (all | linked in the editors &amp; orphans)">F&#8239;<input <?php echo $inputradiostyle ?> onClick="cpc('pvs_f','on');document.form1.submit()"  name="pvs_f" type="radio" value="all" <?php if ($_GET['pvs_f']!='here') echo'checked="checked"'?> /><input <?php echo $inputradiostyle ?> onClick="cpc('pvs_f','off');document.form1.submit()"  name="pvs_f" type="radio" value="here" <?php if ($_GET['pvs_f']=='here') echo'checked="checked"'?> />&nbsp;&nbsp;</span></form>
 </span>
 <button id="newbutton" <?php if ($delstatus==2) echo 'style="display:none"' ?> onClick="f1=window.open('new.php?typ=<?php echo $pidvesa ?>','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999');">new</button>
 <script>
+(function() {
+var control=document.getElementById('pvs_f_control');
+var form=document.form1;
+if (!control || !form || !form.pvs_f || !form.pvs_f[1]) return;
+function updateWarning() {
+var active=form.pvs_f[1].checked;
+control.classList.toggle('pvs_f_active',active);
+control.classList.toggle('pvs_f_flash',active);
+}
+form.pvs_f[0].addEventListener('change',updateWarning);
+form.pvs_f[1].addEventListener('change',updateWarning);
+})();
+
 function replace(string,text,by) {
 // Replaces text with by in string
 var strLength = string.length, txtLength = text.length;

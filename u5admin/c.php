@@ -73,7 +73,7 @@ require_once('connect.inc.php');
             echo ehtml(substr($row_a['content_1'], 0, 150));
             if (strlen(trim($row_a['content_1'])) > 150) echo '&hellip;';
             echo '<hr></td></tr>';
-        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="8"></td></tr>';
+        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="8"></td></tr>';
     }
     ?>
 </table>
