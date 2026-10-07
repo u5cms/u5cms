@@ -1,13 +1,10 @@
 <?php require_once('connect.inc.php') ?>
 <style>
-#pvs_f_control.pvs_f_active { background-color:#fff2b8; }
-#pvs_f_control.pvs_f_flash { animation:pvs_f_warning 2222ms steps(1,end) 2222ms 3; }
+#pvs_f_control.pvs_f_active { background-color:white; }
+#pvs_f_control.pvs_f_flash { animation:pvs_f_warning 2222ms steps(1,end) infinite; }
 @keyframes pvs_f_warning {
 0% { background-color:yellow; }
-50%,100% { background-color:#fff2b8; }
-}
-@media (prefers-reduced-motion:reduce) {
-#pvs_f_control.pvs_f_flash { animation:none; }
+50%,100% { background-color:white; }
 }
 </style>
 <br><span style="white-space: nowrap;font-size:80%">
