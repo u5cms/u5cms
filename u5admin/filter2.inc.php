@@ -7,6 +7,32 @@ $squot="\'";
 <script>
 var filterRowGroups=[];
 
+function compactFilterRows(group, filtered) {
+if (group.spacers) {
+for (var s=0;s<group.spacers.length;s++) {
+var spacer=group.spacers[s];
+spacer.row.style.display=spacer.display;
+}
+}
+group.spacers=[];
+if (!filtered) return;
+
+var children=group.container.children;
+for (var r=0;r<children.length;r++) {
+var row=children[r];
+if (row.tagName!='TR' || row.id || row.textContent.trim()!='') continue;
+var empty=true;
+for (var c=0;c<row.children.length;c++) {
+var cell=row.children[c];
+if (cell.tagName!='TD' || cell.id || cell.children.length) empty=false;
+}
+if (!empty) continue;
+// Empty rows must collapse before filtering and before later orphan sorting.
+group.spacers.push({row:row,display:row.style.display});
+row.style.display='none';
+}
+}
+
 function orderFilterRows() {
 var doc=parent.document;
 var form=doc.form1;
@@ -30,6 +56,7 @@ group.rows.push(rows[r]);
 
 for (var g=0;g<filterRowGroups.length;g++) {
 var group=filterRowGroups[g];
+compactFilterRows(group,form.pvs_f[1].checked);
 var regular=[];
 var orphans=[];
 for (var r=0;r<group.rows.length;r++) {
@@ -77,21 +104,21 @@ parent.document.getElementById('tdR_'+tid).style.background='#ffcc66';
 parent.document.getElementById('tdR_'+tid).name='off';
 }
 
-if (parent.document.form1.pvs_f[1].checked==true) {
-if(parent.document.getElementById('tdL_'+tid).name=='on' || parent.document.getElementById('tdR_'+tid).name=='on' || parent.document.getElementById('o_'+id).innerHTML.indexOf('_orphan_')>0) parent.document.getElementById('tr1_'+tid).style.display='block';
-else parent.document.getElementById('tr1_'+tid).style.display='none';
+var doc=parent.document;
+var form=doc.form1;
+var marker=doc.getElementById('o_'+tid);
+var visible=!form.pvs_f[1].checked ||
+doc.getElementById('tdL_'+tid).name=='on' ||
+doc.getElementById('tdR_'+tid).name=='on' ||
+(marker && marker.innerHTML.indexOf('_orphan_')!==-1) ||
+tid==parent.parent.i1.form1.page.value || tid==parent.parent.i2.form1.page.value;
 
-if(parent.document.getElementById('tdL_'+tid).name=='on' || parent.document.getElementById('tdR_'+tid).name=='on' || parent.document.getElementById('o_'+id).innerHTML.indexOf('_orphan_')>0)parent.document.getElementById('tr2_'+tid).style.display='block';
-else parent.document.getElementById('tr2_'+tid).style.display='none';
+// Keep native table rows and suppress placeholders when preview is off.
+doc.getElementById('tr1_'+tid).style.display=visible ? '' : 'none';
+var preview=doc.getElementById('tr2_'+tid);
+var showPreview=form.pvs_p && form.pvs_p[1] && form.pvs_p[1].checked;
+if (preview) preview.style.display=visible && showPreview ? '' : 'none';
 
-
-if(parent.document.getElementById('tr1_'+parent.parent.i1.form1.page.value))parent.document.getElementById('tr1_'+parent.parent.i1.form1.page.value).style.display='block';
-if(parent.document.getElementById('tr2_'+parent.parent.i1.form1.page.value))parent.document.getElementById('tr2_'+parent.parent.i1.form1.page.value).style.display='block';
-
-if(parent.document.getElementById('tr1_'+parent.parent.i2.form1.page.value))parent.document.getElementById('tr1_'+parent.parent.i2.form1.page.value).style.display='block';
-if(parent.document.getElementById('tr2_'+parent.parent.i2.form1.page.value))parent.document.getElementById('tr2_'+parent.parent.i2.form1.page.value).style.display='block';
-
-}
 }
 
 function filter() {
