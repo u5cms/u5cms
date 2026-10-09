@@ -91,5 +91,5 @@ $aclosest.=$closest.' ';
 }	 
 
 echo '<a href="index.php?s='.str_replace(' ','+',$aclosest).'">'.$aclosest.'</a></big></b>&nbsp;</span> ';
-if (trim($sfora)==trim($aclosest)) echo "<script type="text/javascript">document.getElementById('levenshtein').style.display='none'</script>";
+if (trim($sfora)==trim($aclosest)) echo "<script type=\"text/javascript\">document.getElementById('levenshtein').style.display='none'</script>";
 ?>

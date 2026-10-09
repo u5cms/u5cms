@@ -145,7 +145,7 @@ require_once('connect.inc.php');
             if (strlen(trim($row_a['desc_1'])) > 80) echo '&hellip;';
             echo '<hr></td></tr>';
 
-        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff"><td colspan="9"></td></tr>';
+        } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="9"></td></tr>';
     }
     ?>
 </table>

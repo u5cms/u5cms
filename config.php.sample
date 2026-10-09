@@ -87,6 +87,14 @@ use Laminas\Mail\Transport\SmtpOptions;
 // Allow user Pupload in forms, e. g. $allowuserPuploads = 'yes' (the uploaded files are stored in r/P and are NOT password protected);
    $allowuserPuploads = 'no';
 
+// Cloudflare Turnstile: create a widget for your domain at https://dash.cloudflare.com/.
+// Set this to 'yes' to require Turnstile on frontend form saves and PayPal submissions.
+// Include grc.php inside each protected form; existing grc.php includes now render Turnstile.
+// Copy these three settings to config.php and enter your Turnstile keys before enabling it.
+   $requireturnstileonfrontendformsave = 'no';
+   $u5turnstilesitekey = ''; // Public site key (rendered in the form).
+   $u5turnstilesecret = ''; // Secret key (used only for server-side verification).
+
 // Merge multiple <br>'s to <p>'s, e. g. $autocreateparagraphs = 'yes';
    $autocreateparagraphs = 'yes';
 

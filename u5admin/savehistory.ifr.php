@@ -33,7 +33,7 @@ else $attr='href="javascript:void(0)" onclick="f1=window.open(\'upload'.$isalbum
 echo '<tr onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#f5f5f5\'" style="text-decoration:none;font-size:11px;background:#f5f5f5;margin-bottom:1px">
 
 <td style="cursor:pointer;color:blue" title="focus in repository" onclick="parent.parent.i3.location.href=\'focus.php?c='.$row_a['name'].'\';">F</td>
-<td style="color:gray;word-break:break-all">'.$row_a['typ'].'</span>&nbsp;<span style="word-break:break-all;cursor:pointer;color:blue" '.$attr.' class="last7" id="id'.$row_a['name'].'">'.$row_a['name'].'</span></td>
+<td style="color:gray;word-break:break-all">'.$row_a['typ'].'</span>&nbsp;<span style="word-break:break-all;cursor:pointer;color:blue'.($row_a['typ']=='p' && $row_a['deleted']==2?';font-style:italic':'').'" '.$attr.' class="last7" id="id'.$row_a['name'].'">'.$row_a['name'].'</span></td>
 <td style="color:gray;">'.date('Y-m-d H:i:s',$row_a['lastmut']).'</td>
 
 </tr>
