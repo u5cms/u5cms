@@ -4,6 +4,7 @@ function readScroll()
 {
  var hscroll2 = readCookie('<?php echo $pidvesascroll ?>scrollposh');
  var vscroll2 = readCookie('<?php echo $pidvesascroll ?>scrollposv');
+ if (window.u5FScroll && u5FScroll.active()) return;
  window.scrollTo(hscroll2,vscroll2);
 }
 
@@ -55,6 +56,7 @@ function f_filterResults(n_win, n_docel, n_body) {
 
 window.onscroll=function saveScroll()
 {
+    if (window.u5FScroll && u5FScroll.active() && u5FScroll.hold()) return;
     var hscroll = 0, vscroll = 0;
    
  if( typeof( window.pageYOffset ) == 'number' ) {
@@ -72,7 +74,84 @@ window.onscroll=function saveScroll()
  }
  createCookie('<?php echo $pidvesascroll ?>scrollposh',hscroll,1);
  createCookie('<?php echo $pidvesascroll ?>scrollposv',vscroll,1);
+ if (window.u5FScroll && u5FScroll.active()) u5FScroll.saveAnchor();
 }
+
+// Only the F-filter uses deferred restoration and a visible-row anchor.
+window.u5FScroll=(function() {
+var key='<?php echo $pidvesascroll ?>';
+var targetX=Number(readCookie(key+'scrollposh')) || 0;
+var targetY=Number(readCookie(key+'scrollposv')) || 0;
+var targetAnchor=null;
+try { targetAnchor=JSON.parse(decodeURIComponent(readCookie(key+'fscrollanchor') || 'null')); } catch(e) {}
+if (targetAnchor && (targetAnchor.y!==targetY || targetAnchor.x!==targetX)) targetAnchor=null;
+if (!targetAnchor || typeof targetAnchor.id!='string' || typeof targetAnchor.top!='number' || !isFinite(targetAnchor.top)) targetAnchor=null;
+var pending=true, ready=false, adjusting=false;
+function active() {
+var form=document.form1;
+return !!(form && form.pvs_f && form.pvs_f[1] && form.pvs_f[1].checked);
+}
+function anchor() {
+var rows=document.querySelectorAll('tr[id^="tr1_"],tr[id^="tr2_"]');
+for (var r=0;r<rows.length;r++) {
+var row=rows[r];
+if (!row.getClientRects().length) continue;
+var rect=row.getBoundingClientRect();
+if (rect.bottom>0 && rect.top<window.innerHeight) return {id:row.id,top:rect.top};
+}
+return null;
+}
+function saveAnchor() {
+if (!ready || pending || adjusting) return;
+var a=anchor();
+if (a) { a.x=window.pageXOffset; a.y=window.pageYOffset; }
+createCookie(key+'fscrollanchor',encodeURIComponent(JSON.stringify(a)),1);
+}
+function move(x,y) {
+adjusting=true;
+try { window.scrollTo(x,y); } finally { adjusting=false; }
+}
+function restore() {
+if (!pending || !ready) return;
+var row=targetAnchor && document.getElementById(targetAnchor.id);
+if (row && !row.getClientRects().length) return;
+var y=row ? window.pageYOffset+row.getBoundingClientRect().top-targetAnchor.top : targetY;
+move(targetX,y);
+// A short interim list must never overwrite the original target.
+if (Math.abs(window.pageYOffset-Math.max(0,y))<1 && Math.abs(window.pageXOffset-Math.max(0,targetX))<1) {
+pending=false;
+window.onscroll();
+}
+}
+function before() {
+if (!active()) return null;
+return {anchor:ready && !pending ? anchor() : null,x:window.pageXOffset,y:window.pageYOffset};
+}
+function after(state) {
+if (!state || !active()) return;
+ready=true;
+if (pending) { restore(); return; }
+var a=state.anchor;
+var row=a && document.getElementById(a.id);
+if (row && row.getClientRects().length) move(state.x,window.pageYOffset+row.getBoundingClientRect().top-a.top);
+else move(state.x,state.y);
+window.onscroll();
+}
+function userScrollIntent(event) {
+if (!active()) return;
+if (event.type=='keydown') {
+var tag=event.target && event.target.tagName;
+if (tag=='INPUT' || tag=='TEXTAREA' || tag=='SELECT' || (event.target && event.target.isContentEditable)) return;
+if ([32,33,34,35,36,37,38,39,40].indexOf(event.keyCode)==-1) return;
+}
+pending=false;
+}
+window.addEventListener('wheel',userScrollIntent,{passive:true});
+window.addEventListener('touchstart',userScrollIntent,{passive:true});
+window.addEventListener('pointerdown',userScrollIntent);
+window.addEventListener('keydown',userScrollIntent);
+return {active:active,hold:function(){return pending || adjusting || !ready;},saveAnchor:saveAnchor,before:before,after:after};
+})();
 </script>
 <style>
 body {

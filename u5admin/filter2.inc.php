@@ -141,6 +141,7 @@ if (i2.document.form1.view[2].checked==true) if (i2.document.form1.content_3) ct
 if (i2.document.form1.view[3].checked==true) if (i2.document.form1.content_4) ctR=i2.document.form1.content_4.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
 if (i2.document.form1.view[4].checked==true) if (i2.document.form1.content_5) ctR=i2.document.form1.content_5.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
 
+var scrollState=parent.u5FScroll ? parent.u5FScroll.before() : null;
 tr=parent.document.getElementsByTagName('tr');
 
 for(i=0;i<tr.length;i++) {
@@ -152,6 +153,7 @@ green('['+id+']' , ':'+id+']' , '['+id+'?' , ':'+id+'?' , '[lo:]'+id+'[:lo]' , '
 }
 }
 orderFilterRows();
+if (parent.u5FScroll) parent.u5FScroll.after(scrollState);
 } // if parents there
 setTimeout("filter()",333);
 } // function filter
