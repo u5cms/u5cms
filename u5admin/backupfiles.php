@@ -32,6 +32,7 @@ $backupDirs = array(
 $instName = preg_replace("/[^a-z0-9]/", "", strtolower($db));
 $targetfile = U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . $instName . '_FilesExclCMSsys.zip';
 
+try {
 $zip = new Zipper($targetfile);
 $zip->setStripPath(U5ROOT_PATH);
 
@@ -49,6 +50,12 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 }
 
 $zip->write();
+} catch (Throwable $error) {
+    unset($zip);
+    echo '<p>Backup failed. The previous backup has been kept.</p>';
+    echo '<script>parent.document.title=parent.document.title.replace(/\.\.\./,"?");</script>';
+    exit;
+}
 
 if (file_exists($targetfile)) {
 echo '<a href="../ff.php?f='.basename($targetfile).'&t='.filemtime($targetfile).'">' . basename($targetfile) . '</a> ' . ceil(filesize($targetfile) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($targetfile));

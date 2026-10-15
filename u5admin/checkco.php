@@ -6,27 +6,31 @@
 </head>
 <body>
 <?php
-$sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
-
+$sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' LIMIT 1";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) {
-echo 'SQL_a-Query failed!...!<p>';
+if ($result_a==false) die('SQL_a-Query failed!...!<p>');
+$row_a=mysql_fetch_array($result_a);
+if ($row_a && (int)$_GET['coco']<(int)$row_a['lastmut']) {
+function checkCoJsString($value) {
+return "'".str_replace(array("\\","'","\r","\n","<"),array("\\\\","\\'","\\r","\\n","\\x3c"),$value)."'";
 }
-$row_a = mysql_fetch_array($result_a);
-
-if ($_GET['coco']<$row_a['lastmut']) {
-$conflict='(!)';
+$message='Conflict with '.$row_a['operator'].' who has saved a new version of '.$_GET['name'].' during your editing session (at '.date('Y-m-d H:i:s',$row_a['lastmut']).").\n\nPlease save your page immediately. You automatically will receive instructions how to resolve the conflict afterwards.";
 ?>
 <script>
-msgconflict='Conflict with <?php echo htmlXspecialchars($row_a['operator']) ?> who has saved a new version of <?php echo $_GET['name']?> during your editing session (at <?php echo date('Y-m-d H:i:s',$row_a['lastmut'])?>).\n\nPlease save your page immediately. You automatically will receive instructions how to resolve the conflict afterwards.';
-</script>
-
-<?php
-if ($_GET['changes']<1) echo '<script>parent.location.href=parent.location.href</script>';
-else echo '<script>top.document.title=msgconflict;parent.document.getElementsByTagName("body")[0].style.background="red"</script>';
-
+(function() {
+var form=parent.document.form1;
+if (!form || !form.page || !form.coco || form.page.value!==<?php echo checkCoJsString($_GET['name']) ?>) return;
+// A response can arrive after a save or after the next keystroke.
+if (Number(form.coco.value)>=<?php echo (int)$row_a['lastmut'] ?> || parent.parent.u5SavePending) return;
+var button=parent.document.getElementById('savebutton');
+var dirty=Number(parent.changes)>0 || (button && button.textContent.indexOf('*')!==-1);
+if (!dirty) parent.location.reload();
+else {
+top.document.title=<?php echo checkCoJsString($message) ?>;
+parent.document.body.style.background='red';
 }
-?>
-
+})();
+</script>
+<?php } ?>
 </body>
 </html>

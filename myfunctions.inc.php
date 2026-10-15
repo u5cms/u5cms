@@ -36,7 +36,7 @@ function u5ProhibTravers(string $input, string $base): string {
     $base = realpath($base);
     $real = realpath($path);
 
-    if ($real === false || strpos($real, $base) !== 0) {
+    if ($base === false || $real === false || ($real !== $base && strpos($real, rtrim($base, '/\\') . DIRECTORY_SEPARATOR) !== 0)) {
         return '';
     }
 

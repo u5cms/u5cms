@@ -37,7 +37,7 @@ if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 //////////////////////////////////////////////////////
 
 if ($_POST['ulinks'] == 'yes') {
-    $fields = 'content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_5,desc_5,key_1,key_2,key_3,key_4,key_5';
+    $fields = 'content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5';
     sere13b($fields, '[' . $_GET['name'] . ']', '[' . $_POST['name'] . ']');
     sere13b($fields, ':' . $_GET['name'] . ']', ':' . $_POST['name'] . ']');
 	sere13b($fields, '[' . $_GET['name'] . '?', '[' . $_POST['name'] . '?');

@@ -12,7 +12,7 @@ $_GET['name']=basename($_GET['name']);
 @unlink('./../r/'.$_GET['name'].'/'.$_GET['f']);
 trxlog('delfile '.$_GET['name'].' '.$_GET['f']);
 
-$sql_a="UPDATE resources SET lastmut='".time()."' WHERE name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time().") WHERE name='".mysql_real_escape_string($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

@@ -212,7 +212,7 @@ function sere13($fields, $search, $replace)
 
         $fields[$i] = mysql_real_escape_string($fields[$i]);
 
-        $sql_a = "UPDATE resources SET lastmut=".time().", operator=concat('R ',operator), $fields[$i]=
+        $sql_a = "UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time()."), operator=concat('R ',operator), $fields[$i]=
 replace(
 replace(
 replace(

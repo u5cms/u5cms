@@ -8,15 +8,8 @@ $squot="\'";
 var filterRowGroups=[];
 
 function compactFilterRows(group, filtered) {
-if (group.spacers) {
-for (var s=0;s<group.spacers.length;s++) {
-var spacer=group.spacers[s];
-spacer.row.style.display=spacer.display;
-}
-}
+if (!group.spacers) {
 group.spacers=[];
-if (!filtered) return;
-
 var children=group.container.children;
 for (var r=0;r<children.length;r++) {
 var row=children[r];
@@ -26,10 +19,12 @@ for (var c=0;c<row.children.length;c++) {
 var cell=row.children[c];
 if (cell.tagName!='TD' || cell.id || cell.children.length) empty=false;
 }
-if (!empty) continue;
-// Empty rows must collapse before filtering and before later orphan sorting.
-group.spacers.push({row:row,display:row.style.display});
-row.style.display='none';
+if (empty) group.spacers.push({row:row,display:row.style.display});
+}
+}
+for (var s=0;s<group.spacers.length;s++) {
+var spacer=group.spacers[s], display=filtered ? 'none' : spacer.display;
+if (spacer.row.style.display!==display) spacer.row.style.display=display;
 }
 }
 
@@ -85,78 +80,85 @@ group.container.appendChild(fragment);
 }
 }
 
-function green(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,tid) {
-if (ctL.indexOf(s1)>-1 || ctL.indexOf(s2)>-1 || ctL.indexOf(s3)>-1 || ctL.indexOf(s4)>-1 || ctL.indexOf(s5)>-1 || ctL.indexOf(s6)>-1 || ctL.indexOf(s7)>-1 || ctL.indexOf(s8)>-1 || ctL.indexOf(s9)>-1 || ctL.indexOf(s10)>-1) {
-parent.document.getElementById('tdL_'+tid).style.background='lightgreen';
-parent.document.getElementById('tdL_'+tid).name='on';
+var ctL='', ctR='', pageL='', pageR='';
+var filterTimer=null, filterInputs=null, orphanDirty=true, markerObserver=null;
+function highlight(cell, linked) {
+if (!cell) return;
+var state=linked ? 'on' : 'off';
+if (cell.name===state) return;
+cell.name=state;
+cell.style.background=linked ? 'lightgreen' : '#ffcc66';
 }
-else {
-parent.document.getElementById('tdL_'+tid).style.background='#ffcc66';
-parent.document.getElementById('tdL_'+tid).name='off';
+function green(patterns,tid) {
+var left=false, right=false;
+for (var p=0;p<patterns.length;p++) {
+if (ctL.indexOf(patterns[p])!==-1) left=true;
+if (ctR.indexOf(patterns[p])!==-1) right=true;
 }
-
-if (ctR.indexOf(s1)>-1 || ctR.indexOf(s2)>-1 || ctR.indexOf(s3)>-1 || ctR.indexOf(s4)>-1 || ctR.indexOf(s5)>-1 || ctR.indexOf(s6)>-1 || ctR.indexOf(s7)>-1 || ctR.indexOf(s8)>-1 || ctR.indexOf(s9)>-1 || ctR.indexOf(s10)>-1) {
-parent.document.getElementById('tdR_'+tid).style.background='lightgreen';
-parent.document.getElementById('tdR_'+tid).name='on';
-}
-else {
-parent.document.getElementById('tdR_'+tid).style.background='#ffcc66';
-parent.document.getElementById('tdR_'+tid).name='off';
-}
-
-var doc=parent.document;
-var form=doc.form1;
+var doc=parent.document, form=doc.form1;
+highlight(doc.getElementById('tdL_'+tid),left);
+highlight(doc.getElementById('tdR_'+tid),right);
 var marker=doc.getElementById('o_'+tid);
-var visible=!form.pvs_f[1].checked ||
-doc.getElementById('tdL_'+tid).name=='on' ||
-doc.getElementById('tdR_'+tid).name=='on' ||
-(marker && marker.innerHTML.indexOf('_orphan_')!==-1) ||
-tid==parent.parent.i1.form1.page.value || tid==parent.parent.i2.form1.page.value;
-
-// Keep native table rows and suppress placeholders when preview is off.
-doc.getElementById('tr1_'+tid).style.display=visible ? '' : 'none';
+var visible=!form.pvs_f[1].checked || left || right ||
+(marker && marker.innerHTML.indexOf('_orphan_')!==-1) || tid===pageL || tid===pageR;
+var row=doc.getElementById('tr1_'+tid), display=visible ? '' : 'none';
+if (row.style.display!==display) row.style.display=display;
 var preview=doc.getElementById('tr2_'+tid);
 var showPreview=form.pvs_p && form.pvs_p[1] && form.pvs_p[1].checked;
-if (preview) preview.style.display=visible && showPreview ? '' : 'none';
-
+display=visible && showPreview ? '' : 'none';
+if (preview && preview.style.display!==display) preview.style.display=display;
 }
-
-function filter() {
-if (parent.parent.i1 && parent.parent.i2 && parent.parent.i1.document.form1 && parent.parent.i2.document.form1) {
-
-ctL='';
-ctR='';
-i1=parent.parent.i1;
-i2=parent.parent.i2;
-
-if (i1.document.form1.view[0].checked==true) if (i1.document.form1.content_1) ctL=i1.document.form1.content_1.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i1.document.form1.view[1].checked==true) if (i1.document.form1.content_2) ctL=i1.document.form1.content_2.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i1.document.form1.view[2].checked==true) if (i1.document.form1.content_3) ctL=i1.document.form1.content_3.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i1.document.form1.view[3].checked==true) if (i1.document.form1.content_4) ctL=i1.document.form1.content_4.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i1.document.form1.view[4].checked==true) if (i1.document.form1.content_5) ctL=i1.document.form1.content_5.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-
-if (i2.document.form1.view[0].checked==true) if (i2.document.form1.content_1) ctR=i2.document.form1.content_1.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i2.document.form1.view[1].checked==true) if (i2.document.form1.content_2) ctR=i2.document.form1.content_2.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i2.document.form1.view[2].checked==true) if (i2.document.form1.content_3) ctR=i2.document.form1.content_3.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i2.document.form1.view[3].checked==true) if (i2.document.form1.content_4) ctR=i2.document.form1.content_4.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-if (i2.document.form1.view[4].checked==true) if (i2.document.form1.content_5) ctR=i2.document.form1.content_5.value.replace(/\]\]\]\]/g, " ").replace(/\]\]\]/g, " ").replace(/\]\]/g, " ").replace(/\[\[\[\[/g, " ").replace(/\[\[\[/g, " ").replace(/\[\[/g, " ");
-
-var scrollState=parent.u5FScroll ? parent.u5FScroll.before() : null;
-tr=parent.document.getElementsByTagName('tr');
-
-for(i=0;i<tr.length;i++) {
-id=tr[i].id
-if(id.indexOf('tr1_')===0) {
-id=id.substring(4);
-
-green('['+id+']' , ':'+id+']' , '['+id+'?' , ':'+id+'?' , '[lo:]'+id+'[:lo]' , '[go:]'+id+'[:go]' , '/'+id+'/'+id+'_' , 'c='+id+'"' , 'c='+id+'\'' , 'c='+id+'\\' , 'c='+id+'&',id);
+function selectedContent(form) {
+for (var n=0;n<5;n++) {
+if (form.view && form.view[n] && form.view[n].checked) {
+var field=form.elements.namedItem('content_'+(n+1));
+return field ? field.value : '';
 }
+}
+return '';
+}
+function filter(force) {
+if (filterTimer!==null) clearTimeout(filterTimer);
+filterTimer=null;
+try {
+var left=parent.parent.i1.document.form1, right=parent.parent.i2.document.form1;
+var form=parent.document.form1;
+if (!left || !right || !form || !form.pvs_f || !form.pvs_f[1]) return;
+var inputs=[selectedContent(left),selectedContent(right),left.page.value,right.page.value,
+form.pvs_f[1].checked,!!(form.pvs_p && form.pvs_p[1] && form.pvs_p[1].checked)];
+var changed=!!force || orphanDirty || !filterInputs;
+for (var n=0;!changed && n<inputs.length;n++) if (inputs[n]!==filterInputs[n]) changed=true;
+var controller=parent.u5FScroll;
+if (!changed && !(controller && controller.hold())) return;
+var scrollState=controller ? controller.before() : null;
+if (changed) {
+ctL=inputs[0].replace(/\]{2,4}|\[{2,4}/g,' ');
+ctR=inputs[1].replace(/\]{2,4}|\[{2,4}/g,' ');
+pageL=inputs[2]; pageR=inputs[3];
+var rows=parent.document.querySelectorAll('tr[id^="tr1_"]');
+if (!markerObserver && window.MutationObserver) {
+markerObserver=new MutationObserver(function(){orphanDirty=true;});
+for (var n=0;n<rows.length;n++) {
+var marker=parent.document.getElementById('o_'+rows[n].id.substring(4));
+if (marker) markerObserver.observe(marker,{childList:true,subtree:true,characterData:true});
+}
+}
+for (var n=0;n<rows.length;n++) {
+var id=rows[n].id.substring(4);
+green(['['+id+']',':'+id+']','['+id+'?',':'+id+'?','[lo:]'+id+'[:lo]',
+'[go:]'+id+'[:go]','/'+id+'/'+id+'_','c='+id+'"',"c="+id+"'",'c='+id+'\\','c='+id+'&'],id);
 }
 orderFilterRows();
-if (parent.u5FScroll) parent.u5FScroll.after(scrollState);
-} // if parents there
-setTimeout("filter()",333);
-} // function filter
+filterInputs=inputs; orphanDirty=false;
+if (markerObserver) markerObserver.takeRecords();
+}
+if (controller) controller.after(scrollState);
+} catch(error) {
+// An editor may be navigating; retain the last valid list until it is ready.
+} finally {
+filterTimer=setTimeout(filter,333);
+}
+}
 filter();
 </script>
 <?php include('orphan.inc.php') ?>

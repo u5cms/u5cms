@@ -110,7 +110,7 @@ body{background:#7695AD}
   var resizePending=false;
 
   function setImportant(element,property,value) {
-    if(element) element.style.setProperty(property,value,'important');
+    if(element && (element.style.getPropertyValue(property)!==value || element.style.getPropertyPriority(property)!=='important')) element.style.setProperty(property,value,'important');
   }
 
   function minPositive(values) {
@@ -231,25 +231,93 @@ body{background:#7695AD}
     }
     if(user) title+=' | '+user;
 
-    document.getElementById('documenttitle').textContent=title;
-    document.title=title;
+    var label=document.getElementById('documenttitle');
+    if(label.textContent!==title) label.textContent=title;
+    if(document.title!==title) document.title=title;
   }
 
   function saveEditor(frameName) {
     try {
       var frame=window.frames[frameName];
-      if(!frame) return;
-      if(frame.document && frame.document.form1) frame.document.form1.submit();
+      var form=frame && frame.document && frame.document.form1;
+      if(!form || frame.document.readyState==='loading' || typeof frame.onsubmitfunction!=='function' || !form.page || !form.page.value.replace(/[_\s]/g,'')) return false;
+      if(typeof form.checkValidity==='function' && !form.checkValidity()) {
+        if(typeof form.reportValidity==='function') form.reportValidity();
+        return false;
+      }
+      if(typeof form.requestSubmit==='function') form.requestSubmit();
+      else {
+        if(frame.onsubmitfunction()===false) return false;
+        frame.HTMLFormElement.prototype.submit.call(form);
+      }
       if(typeof frame.ctrls==='function') frame.ctrls();
+      return true;
     }
-    catch(error) {}
+    catch(error) { return false; }
   }
 
+  var saveQueue=[], activeSave=null;
+  window.u5SavePending=false;
+  function queueEditor(frameName) {
+    if(saveQueue.indexOf(frameName)===-1) saveQueue.push(frameName);
+  }
+  function saveNextEditor() {
+    if(activeSave) return;
+    while(saveQueue.length && !activeSave) saveEditor(saveQueue.shift());
+  }
+  window.u5BeginEditorSave=function(frameName,serial) {
+    if(frameName!=='i1' && frameName!=='i2') return true;
+    if(activeSave) { queueEditor(frameName); return false; }
+    var id='u5savetransport_'+frameName;
+    var transport=document.getElementById(id);
+    if(!transport) {
+      transport=document.createElement('iframe');
+      transport.id=id; transport.name=id; transport.style.display='none';
+      transport.setAttribute('aria-hidden','true');
+      transport.addEventListener('load',function() {
+        if(!activeSave || activeSave.transport!==transport) return;
+        try { if(transport.contentWindow.location.href==='about:blank') return; }
+        catch(error) {}
+        var acknowledged=false;try { acknowledged=!!transport.contentWindow.u5SaveAcknowledged; } catch(error) {}
+        if(!acknowledged) {
+          try {
+            var editor=window.frames[activeSave.name];
+            editor.postsubmitfunction(activeSave.serial,activeSave.page,0,false);
+            window.u5ShowSaveResult(transport.contentDocument.body);
+            saveFrame.contentDocument.body.setAttribute('bgcolor','darkred');
+          } catch(error) {}
+        }
+        activeSave=null; window.u5SavePending=false;
+        saveNextEditor();
+      });
+      document.body.appendChild(transport);
+    }
+    window.frames[frameName].document.form1.target=transport.name;
+    activeSave={name:frameName,serial:serial,page:window.frames[frameName].document.form1.page.value,transport:transport};
+    window.u5SavePending=true;
+    return true;
+  };
+  window.u5ShowSaveResult=function(status) {
+    if(!status || !saveFrame.contentDocument) return;
+    var source=status.ownerDocument, copy=status.cloneNode(true);
+    var styles=Array.prototype.slice.call(source.head.querySelectorAll('style,link[rel="stylesheet"]')).map(function(node){return node.cloneNode(true);});
+    var doc=saveFrame.contentDocument;
+    doc.open();
+    doc.write('<!doctype html><html><head><meta charset="windows-1252"></head><body style="margin:0"></body></html>');
+    doc.close();
+    styles.forEach(function(node){doc.head.appendChild(doc.importNode(node,true));});
+    doc.body.setAttribute('bgcolor',source.body.getAttribute('bgcolor') || '#339900');
+    doc.body.setAttribute('text',source.body.getAttribute('text') || '#ffffff');
+    doc.body.appendChild(doc.importNode(copy,true));
+  };
+  function saveBothEditors(event) {
+    if(event && event.repeat) return;
+    queueEditor('i1'); queueEditor('i2');
+    saveNextEditor();
+  }
   if(window.shortcut && typeof window.shortcut.add==='function') {
-    window.shortcut.add('Ctrl+S',function() {
-      saveEditor('i1');
-      saveEditor('i2');
-    });
+    window.shortcut.add('Ctrl+S',saveBothEditors);
+    window.shortcut.add('Meta+S',saveBothEditors);
   }
 
   // Keep the original global entry points for code loaded inside the frames.

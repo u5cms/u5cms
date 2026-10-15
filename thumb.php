@@ -1,15 +1,5 @@
 <?php
 require_once('connect.inc.php');
-if ($_GET['t'] < 1) $_GET['t'] = time();
-session_cache_limiter('none');
-header('Cache-control: max-age=' . (60 * 60 * 24 * 365 * 10));
-header('Expires: ' . gmdate(DATE_RFC1123, time() + 60 * 60 * 24 * 365 * 10));
-header('Last-Modified: ' . gmdate(DATE_RFC1123, $_GET['t']));
-if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-    header('HTTP/1.1 304 Not Modified');
-    die();
-}
-
 // The file you are resizing 
 if (!isset($stdimagequality)) $stdimagequality = 80;
 
@@ -34,15 +24,15 @@ if ($_GET['h'] > 0 && $_GET['w'] > 0) {
 }
 
 ////////////////////////////////////////////////
-if (file_exists(dirname($f) . '/.htpasswd')) {
-require('ft.idn.inc.php');
-////////////////////////////////////////////////
-}
+$privateFile=file_exists(dirname($f).'/.htpasswd');
+if ($privateFile) require('ft.idn.inc.php');
+require_once('filecache.inc.php');
+u5FileCacheHeaders($f,$privateFile);
 
 if ($_GET['h'] > 0) {
 
 //This will set our output to $h px
-    $h = $_GET['h'];
+    $h = max(1,(int)$_GET['h']);
 
 // This sets it to a .jpg, but you can change this to png or gif 
     if (strpos($f, '.jpg') > 0 || strpos($f, '.JPG') > 0 || strpos($f, '.jpeg') > 0 || strpos($f, '.JPEG') > 0) {
@@ -52,7 +42,7 @@ if ($_GET['h'] > 0) {
         list($width, $height) = getimagesize($f);
         if($_GET['ed']!=0) require('thumbcrop.inc.php');
         $modheight = $h;
-        $modwidth = round(($width / $height) * $h);
+        $modwidth = max(1,(int)round(($width / $height) * $h));
 
 // Creating the Canvas 
         if($_GET['sq']==1)$tn = imagecreatetruecolor($h, $h);
@@ -70,7 +60,7 @@ if ($_GET['h'] > 0) {
             $src_w=$width; 
             $src_h=$width; 
 		}
-		imagecopyresampled($tn, $source, 0, 0, $src_x, $src_y, $h, $h, $src_w, $src_h); 
+		imagecopyresampled($tn, $source, 0, 0, $src_x ?? 0, $src_y ?? 0, $h, $h, $src_w, $src_h); 
 		}
 		else imagecopyresampled($tn, $source, 0, 0, 0, 0, $modwidth, $modheight, $width, $height);
 
@@ -93,7 +83,7 @@ if ($_GET['h'] > 0) {
 } else if ($_GET['w'] > 0) {
 
 //This will set our output to $w px
-    $w = $_GET['w'];
+    $w = max(1,(int)$_GET['w']);
 
 // This sets it to a .jpg, but you can change this to png or gif 
     if (strpos($f, '.jpg') > 0 || strpos($f, '.JPG') > 0 || strpos($f, '.jpeg') > 0 || strpos($f, '.JPEG') > 0) {
@@ -103,14 +93,13 @@ if ($_GET['h'] > 0) {
         list($width, $height) = getimagesize($f);
         if($_GET['ed']!=0) require('thumbcrop.inc.php');
 		$modwidth = $w;
-        $modheight = round(($height / $width) * $w);
+        $modheight = max(1,(int)round(($height / $width) * $w));
 
 // Creating the Canvas 
-        if($_GET['sq']==1)$tn = imagecreatetruecolor($h, $h);
+        if($_GET['sq']==1)$tn = imagecreatetruecolor($w, $w);
 		else $tn = imagecreatetruecolor($modwidth, $modheight);    
         $source = imagecreatefromjpeg($f);
 
-// Resizing our image to fit the canvas 
 // Resizing our image to fit the canvas 
         if($_GET['sq']==1) {
 		        if($width>$height){ 
@@ -122,6 +111,7 @@ if ($_GET['h'] > 0) {
             $src_w=$width; 
             $src_h=$width; 
 		}
+		imagecopyresampled($tn,$source,0,0,$src_x ?? 0,$src_y ?? 0,$w,$w,$src_w,$src_h);
 		}
 		else imagecopyresampled($tn, $source, 0, 0, 0, 0, $modwidth, $modheight, $width, $height);
 

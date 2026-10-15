@@ -26,8 +26,8 @@
 </style>
 
 <body bgcolor="#D1EBF8" id="idbody" onload="loader()">
-<form name="form1" method="post" action="savepage.php" target="save"
-      onsubmit="changes=0;resetchanges();skipone();checkother()">
+<form name="form1" method="get" action="editor.php" target="_self"
+      onsubmit="if(this.page.value && this.page.value!=='_')gotopage(this.page.value);return false">
     <input type="hidden" name="skon" value="0"/>
     <table width="100%" bgcolor="#FFD6A8">
         <tr>

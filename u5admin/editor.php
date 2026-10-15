@@ -10,10 +10,16 @@
         mres = 0;
         pres = 0;
 		manlview = 0;
-        shortcut.add("Ctrl+S", function () {
-			onsubmitfunction();
-            document.form1.submit();            
-        })
+        function saveByShortcut() {
+            if (document.readyState === 'loading' || !document.form1) return;
+            if (typeof document.form1.requestSubmit === 'function') document.form1.requestSubmit();
+            else {
+                if (onsubmitfunction() === false) return;
+                HTMLFormElement.prototype.submit.call(document.form1);
+            }
+        }
+        shortcut.add("Ctrl+S", saveByShortcut);
+        shortcut.add("Meta+S", saveByShortcut);
 
         shortcut.add("Ctrl+I", function () {
             insertonoff();
@@ -101,35 +107,83 @@
     }
 
     function checkotherchanges() {
-        if (parent.i1.document.getElementById('savebutton')) {
-            if (parent.i2.document.getElementById('savebutton')) {
-                if (parent.i1.form1.page.value == parent.i2.form1.page.value) {
-                    if (parent.i1.document.getElementById('savebutton').innerHTML.indexOf('*') > 0) parent.i2.document.getElementById('savebutton').innerHTML = 's<span id="star" style="color:red">*</span>';
-                    if (parent.i2.document.getElementById('savebutton').innerHTML.indexOf('*') > 0) parent.i1.document.getElementById('savebutton').innerHTML = 's<span id="star" style="color:red">*</span>';
-                }
-            }
-        }
+        try {
+            var left=parent.i1, right=parent.i2;
+            var leftButton=left.document.getElementById('savebutton'), rightButton=right.document.getElementById('savebutton');
+            if (!leftButton || !rightButton || left.document.form1.page.value!==right.document.form1.page.value) return;
+            if (leftButton.textContent.indexOf('*')===-1 && rightButton.textContent.indexOf('*')===-1) return;
+            [left,right].forEach(function(editor) {
+                editor.changes=Math.max(editor.changes || 0,1);
+                if (!editor.document.getElementById('star')) editor.document.getElementById('savebutton').innerHTML='s<span id="star" style="color:red">*</span>';
+            });
+        } catch(error) {}
     }
 isphperror=0;
 function phperror() {
 isphperror=1;
+var oldTarget=document.form1.target;
+document.form1.target='save';
 document.form1.action='phperror.php';
 document.form1.submit();
 isphperror=0;
 document.form1.action='savepage.php';
+document.form1.target=oldTarget;
 }
-function onsubmitfunction() {
+var saveSerial=0, saveSnapshot=null;
+var saveSession=Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+function saveFingerprint() {
+var names=['page','ishomepage','hidden','logins'];
+for(var n=1;n<=5;n++) names.push('content_'+n,'title_'+n,'desc_'+n,'key_'+n);
+return JSON.stringify(names.map(function(name) {
+var field=document.form1.elements.namedItem(name);
+return field ? field.value : '';
+}));
+}
+function onsubmitfunction(event) {
+if(document.readyState==='loading') return false;
+var serial=saveSession+'_'+(saveSerial+1);
+if(parent.u5BeginEditorSave && !parent.u5BeginEditorSave(window.name,serial)) {
+if(event) event.preventDefault();
+return false;
+}
+saveSerial++;
+document.form1.u5saveid.value=serial;
+saveSnapshot={serial:serial,page:document.form1.page.value,data:saveFingerprint()};
 document.form1.action=document.form1.action.split('?')[0]+'?i='+window.name;
 if(document.getElementById('star'))document.getElementById('star').classList.add('blink_me');
+return true;
 }
-function postsubmitfunction() {
-if(isphperror!=1){changes=0;resetchanges();skipone();checkother()}	
+function postsubmitfunction(serial,page,stamp,success) {
+if(!saveSnapshot || serial!==saveSnapshot.serial || page!==document.form1.page.value) return false;
+var current=saveFingerprint(), clean=success && current===saveSnapshot.data;
+if(success) {
+document.form1.coco.value=stamp;
+var other=parent.frames[window.name==='i1' ? 'i2' : 'i1'];
+try {
+if(other && other.document.form1.page.value===page && typeof other.saveFingerprint==='function') {
+var otherData=other.saveFingerprint();
+if(otherData===saveSnapshot.data || otherData===current) other.document.form1.coco.value=stamp;
+if(otherData===saveSnapshot.data) other.resetchanges2();
+else if(otherData===current) {
+other.changes=Math.max(other.changes || 0,1);
+other.document.getElementById('savebutton').innerHTML='s<span id="star" style="color:red">*</span>';
+}
+}
+} catch(error) {}
+}
+if(clean) { resetchanges2(); skipone(); }
+else {
+changes=Math.max(changes,1);
+document.getElementById('savebutton').innerHTML='s<span id="star" style="color:red">*</span>';
+}
+return clean;
 }
 </script>
 
 <form name="form1" method="post" action="savepage.php" target="save"
-      onsubmit="onsubmitfunction()">
+      onsubmit="return onsubmitfunction(event)">
     <input type="hidden" name="skon" value="0"/>
+    <input type="hidden" name="u5saveid" value=""/>
     <table width="100%" bgcolor="#FFD6A8">
         <tr>
 
@@ -496,7 +550,7 @@ ns<input
         <iframe width="100%" height="0" frameborder="0" id="pframe" name="pframe"
                 src="../index.php?i=1&p=1&c=<?php echo $_GET['c'] ?>&l=<?php echo $lansel ?>"></iframe>
     </div>
-    <input type="hidden" name="coco" value="<?php echo time() ?>"/>
+    <input type="hidden" name="coco" value="<?php echo isset($row_a['lastmut']) ? (int)$row_a['lastmut'] : 0 ?>"/>
 <?php require('t1.php') ?></form>
 
 
@@ -504,7 +558,7 @@ ns<input
     function mychanges() {
         changes++;
         if (changes > 0 && parent.save.location.href.indexOf('notsaved.php') < 0) parent.save.location.replace('notsaved.php');
-        document.getElementById('savebutton').innerHTML = 's<span id="star" style="color:red">*</span>';
+        if (!document.getElementById('star')) document.getElementById('savebutton').innerHTML = 's<span id="star" style="color:red">*</span>';
         checkotherchanges();
     }
 

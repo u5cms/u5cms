@@ -13,15 +13,15 @@ include('../config.php');
 require_once('../san.inc.php');
 require_once('u5idn.inc.php');
 
-eval($evaluateifhttpsisinuse);
-$httpsisinuse = $httpsisinuse ? true : false;
-if ($forcehttpsonfrontend=='yes' && !$httpsisinuse) {
+$httpsisinuse=false;
+$u5HttpsResult=eval($evaluateifhttpsisinuse);
+if (is_bool($u5HttpsResult)) $httpsisinuse=$u5HttpsResult;
+$httpsisinuse=(bool)$httpsisinuse;
+if ($forcehttpsonbackend=='yes' && !$httpsisinuse) {
     $url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     header('Location: ' . $url);
     echo "<script>location.href='$url'</script>";
     exit;
-} else {
-    $httpsisinuse = false;
 }
 
 if ($quotehandling=='on') include('../quotehandling.inc.php');

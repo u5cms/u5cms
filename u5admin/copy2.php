@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php');require_once('t2.php'); ?>
+<?php require_once('connect.inc.php');require_once('t2.php');require_once('resourceupdate.inc.php'); ?>
 <?php if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');?>
 <?php if (strlen($_GET['name'])<4) die('<script>history.go(-1)</script>');?>
 <!DOCTYPE html>
@@ -15,19 +15,23 @@ require_once('../globals.inc.php');
 $_POST['name']=basename($_POST['name']);
 $_GET['name']=basename($_GET['name']);
 
-$sql_a="DELETE FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) 
-echo 'SQL_a-Query failed!...!<p>';
-
+$revisionResult=mysql_query("SELECT MAX(lastmut) AS revision FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'");
+if ($revisionResult===false) die('Cannot determine the copy revision.');
+$revisionRow=mysql_fetch_array($revisionResult);
+$copyRevision=max(time(),(int)$revisionRow['revision']+1);
 $sql_a="SELECT name FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
+if ($result_a===false) die('Cannot check the copy target.');
 $num_a = mysql_num_rows($result_a);
 if($num_a>0) die('<script>document.getElementById("body").style.background="red";;alert("ERROR: Target already exists!");history.go(-1)</script>');
 
 duplicateallrecsinTABLENAMEwithoutAUTOINCFIELDwhereCONDITIONSaltervlaueofFIELDNAMEtotihisNEWVALUE
-('resources','id','WHERE name=\''.$_GET['name'].'\'','name',$_POST['name']);
+('resources','id','WHERE deleted!=1 AND name=\''.mysql_real_escape_string($_GET['name']).'\'','name',$_POST['name']);
+
+$sql_a="DELETE FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
+$result_a=mysql_query($sql_a);
+if ($result_a===false) die('Cannot prepare the copy.');
+
 
 function duplicateallrecsinTABLENAMEwithoutAUTOINCFIELDwhereCONDITIONSaltervlaueofFIELDNAMEtotihisNEWVALUE
 ($tablename,$autoincfield,$conditions,$fieldname,$newvalue) {
@@ -38,9 +42,11 @@ function duplicateallrecsinTABLENAMEwithoutAUTOINCFIELDwhereCONDITIONSaltervlaue
     global $lan5na;
 
 $sql="SELECT * FROM $tablename $conditions";
-$result=@mysql_query($sql);
+$result=mysql_query($sql);
+if ($result===false) die('Cannot read the resource to copy.');
 $anz=mysql_num_fields($result); 
 $num = mysql_num_rows($result);
+if ($num===0) die('The resource to copy no longer exists.');
 
 //Felderstring erstellen
 
@@ -59,14 +65,17 @@ $valuestring='';
 $row = mysql_fetch_array($result);
 for ($i=0;$i<$anz;$i++) {
 if (mysql_field_name($result,$i)!=$autoincfield) {
-if (mysql_field_name($result,$i)==$fieldname) $valuestring.="'".$newvalue."'";
+if (mysql_field_name($result,$i)==$fieldname) $valuestring.="'".mysql_real_escape_string($newvalue)."'";
+elseif (mysql_field_name($result,$i)=='ishomepage') $valuestring.='0';
+elseif (mysql_field_name($result,$i)=='lastmut') $valuestring.=(string)$GLOBALS['copyRevision'];
+elseif (preg_match('/^search_[1-5]$/',mysql_field_name($result,$i))) $valuestring.='NULL';
 else $valuestring.="'".mysql_real_escape_string($row[mysql_field_name($result,$i)])."'";
 if ($i<$anz-1) $valuestring.=', ';
 }
 }
 $sqlb="INSERT INTO $tablename ($fieldstring) VALUES ($valuestring)";
 $resultb=@mysql_query($sqlb);
-if ($resultb==false) echo 'SQL_a-Query failed!...!<p>';
+if ($resultb==false) die('Copy failed; subsequent file operations were stopped.');
 else echo "<!--ok -->";
 }
 }
@@ -150,11 +159,10 @@ die('SQL_a-Query failed!...!<p>');
 }
 ?>
 <script>
-if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href='done.php?n=copied <?php echo $_GET['name']?> to <?php echo $_POST['name']?>';
-  
-if ('<?php echo $row_a['typ']?>'=='p' && '<?php echo $_POST['go']?>'=='yes') {
-if('<?php echo $_POST['wn']?>'=='i1')opener.parent.i1.gotopage('<?php echo $_POST['name']?>');
-else opener.parent.i2.gotopage('<?php echo $_POST['name']?>');
+if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href=<?php echo u5ResourceJsString('done.php?n='.rawurlencode('copied '.$_GET['name'].' to '.$_POST['name'])) ?>;
+if (<?php echo u5ResourceJsString($row_a['typ']) ?>=='p' && <?php echo u5ResourceJsString($_POST['go'] ?? '') ?>=='yes') {
+if(<?php echo u5ResourceJsString($_POST['wn'] ?? '') ?>=='i1')opener.parent.i1.gotopage(<?php echo u5ResourceJsString($_POST['name']) ?>);
+else opener.parent.i2.gotopage(<?php echo u5ResourceJsString($_POST['name']) ?>);
 }
 document.getElementById('body').style.background='#009900';
 setTimeout("self.close()",111);

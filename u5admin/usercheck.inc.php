@@ -5,7 +5,7 @@ if($donotloadu5adminconfig!=1)require_once('connect.inc.php');
 
 if ($autoresolvefastcgiproblems == 'yes') {
     if ($basicauthvarname == '') $basicauthvarname = 'HTTP_AUTHORIZATION';
-    list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = explode(':', base64_decode(substr($_SERVER[$basicauthvarname], 6)));
+    list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = array_pad(explode(':', base64_decode(substr($_SERVER[$basicauthvarname] ?? '', 6)), 2),2,'');
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
@@ -29,8 +29,9 @@ $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
 $sql = "SELECT email, pw FROM accounts WHERE TRIM(email)!='' AND TRIM(pw)!='' AND email='" . mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER'])) . "' AND pw='" . mysql_real_escape_string(pwdhsh($_SERVER['PHP_AUTH_PW'])) . "'";
 $result = mysql_query($sql);
+if ($result===false) die('SQL_a-Query failed!...!<p>');
 
-$num = @mysql_num_rows($result);
+$num = mysql_num_rows($result);
 
 if ($num > 0) {
     $unknown = 'ok';
@@ -49,13 +50,20 @@ if ($num > 0) {
             if ($usesessioninsteadofbasicauth != 'no') {
                 if (u5flatidnlower($_SERVER['PHP_AUTH_USER']) == u5flatidnlower($row['email']) && $_SERVER['PHP_AUTH_PW'] == pwdcookieget($row['pw'])) $unknown = 'ok';
             } else {
-                if (u5flatidnlower($row['email'] == u5flatidnlower($_SERVER['PHP_AUTH_USER'])) && $row['pw'] == pwdhsh($_SERVER['PHP_AUTH_PW'])) $unknown = 'ok';
+                if (u5flatidnlower($row['email']) == u5flatidnlower($_SERVER['PHP_AUTH_USER']) && $row['pw'] == pwdhsh($_SERVER['PHP_AUTH_PW'])) $unknown = 'ok';
             }
         }
     }
 }
 if($automaticallyskipbackendlogin!='yes') {
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
+        $async=(isset($_POST['u5saveid']) && is_string($_POST['u5saveid']) && $_POST['u5saveid']!=='') ||
+            (isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && $_POST['u5resourceid']!=='');
+        if ($async) {
+            http_response_code(401);
+            echo '<p>Login required. Your editor contents have been kept. <a href="index.php" target="_blank">Log in in another tab, then retry saving.</a></p>';
+            exit;
+        }
         //trxlog('loginrequest');
         if(isset($u5samlsalt)&&$u5samlsalt!='')die('<div style="font-family:sans-serif"><br><center>'.ehtml($_COOKIE['u5samlusername']).'<br><br><button id="samllogin" onclick="top.location.href=\'../loginsave.php?u=\'+location.href">LOGIN</button><br><br>'.$u5samllogininfo.'</center><script>document.getElementById("samllogin").focus();if(top!=self)top.close();if(isNaN(location.href.split("%26")[location.href.split("%26").length-1])&&location.href.indexOf("'.time().'")<0)document.getElementById("samllogin").click();else document.write("<br<br><br><center style=color:red>Is the user '.ehtml($_COOKIE['u5samlusername']).' registered in this u5CMS backend as a backend user?</center>")</script></div>');
         if ($usesessioninsteadofbasicauth == 'no') {

@@ -1,4 +1,5 @@
 <?php
+$knownamdin='';
  $sql = "SELECT email, pw FROM accounts WHERE accadmin=1";
         $result = mysql_query($sql);
 
@@ -12,7 +13,7 @@
             if ($usesessioninsteadofbasicauth != 'no') {
                 if (u5flatidnlower($_SERVER['PHP_AUTH_USER']) == u5flatidnlower($row['email']) && $_SERVER['PHP_AUTH_PW'] == pwdcookieget($row['pw'])) $knownamdin = 'ok';
             } else {
-                if (u5flatidnlower($row['email'] == u5flatidnlower($_SERVER['PHP_AUTH_USER'])) && $row['pw'] == pwdhsh($_SERVER['PHP_AUTH_PW'])) $knownamdin = 'ok';
+                if (u5flatidnlower($row['email']) == u5flatidnlower($_SERVER['PHP_AUTH_USER']) && $row['pw'] == pwdhsh($_SERVER['PHP_AUTH_PW'])) $knownamdin = 'ok';
             }
         }
 ?>

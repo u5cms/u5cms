@@ -144,7 +144,7 @@ use Laminas\Mail\Transport\SmtpOptions;
    $scripturi = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
    $forcehttpsonfrontend='no';
    $forcehttpsonbackend='no';
-   $evaluateifhttpsisinuse='if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"]!=="off") $httpsisinuse=true;'; // For some providers/servers, the condition (the $_SERVER-variables/their values) have to be different, please consult https://urltoyouru5cmsinstallation/server.php. However, the then-part $httpsnotyetinuse=true; must not be changed!
+   $evaluateifhttpsisinuse='if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"]!=="off") $httpsisinuse=true;'; // For some providers/servers, the condition (the $_SERVER-variables/their values) have to be different, please consult https://urltoyouru5cmsinstallation/server.php. However, the then-part $httpsisinuse=true; must not be changed!
    $searchforthisinhttpsurl=''; // Empty if http-requesturi==https-requesturi ($searchforthisinhttpsurl='';). E. g. 'https://www.maarsen.ch' (if you mention the protocol in the search string, it is already https!)
    $replacewiththisinhttpsurl=''; // Idem. E. g. 'https://secure.maarsen.ch'. The search-replace-parameters are necessary if your provider offers https only as subdomain (as shown in the e.g.'s);
 

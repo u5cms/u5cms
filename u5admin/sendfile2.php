@@ -36,6 +36,8 @@ $max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get(
 <body id="body" bgcolor="#009900" text="#FFFFFF"><script>parent.upend();</script>
 <?php
 require('archivecheck.inc.php');
+require_once('publishupload.inc.php');
+if (!isset($_FILES['userfile']['error']) || $_FILES['userfile']['error']!==UPLOAD_ERR_OK || !is_uploaded_file($_FILES['userfile']['tmp_name'])) die('ERROR: incomplete upload. The current file has been kept.');
 $_POST['name']=basename($_POST['name']);
 $_GET['l']=basename($_GET['l']);
 $_FILES['userfile']['name']=str_replace(chr(0),'',$_FILES['userfile']['name']);
@@ -97,6 +99,13 @@ imagedestroy($image);
 $ext='jpg';
 }
 
+@mkdir('../r/'.$_POST['name'],0777);
+if (!u5PublishUploadedFile($_FILES['userfile']['tmp_name'], '../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$ext)) {
+if($originalimagetmp!='') @unlink($originalimagetmp);
+echo '<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded.\\n\\nIs the file too big? Max file size='.($max_upload_size/1024/1024).' MB");parent.location.href=parent.location.href</script>';
+$ok='error';
+}
+else {
      $path='../r/'.$_POST['name'];
      if ($handle = @opendir($path))  {
      while (false !== ($file = readdir($handle)))  {
@@ -104,17 +113,11 @@ $ext='jpg';
      $exta=explode('.',$file);
      $exta=$exta[tnuoc($exta)-1];
 
-     if ($_FILES['userfile']['tmp_name']!='') if (str_replace('.','',$file)!='') @unlink('../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$exta);
+     if ($exta!=$ext) if (str_replace('.','',$file)!='') @unlink('../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$exta);
      }
+     closedir($handle);
      }
 
-@mkdir('../r/'.$_POST['name'],0777);
-if (!move_uploaded_file($_FILES['userfile']['tmp_name'], '../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$ext)) {
-if($originalimagetmp!='') @unlink($originalimagetmp);
-echo '<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded.\\n\\nIs the file too big? Max file size='.($max_upload_size/1024/1024).' MB");parent.location.href=parent.location.href</script>';
-$ok='error';
-}
-else {
 
 if($originalimagetmp!='') {
 copy($originalimagetmp,'../fileversions/'.(date('Ymd')).'-'.$_POST['name'].$_GET['l'].'.'.$originalimageext);
@@ -127,11 +130,13 @@ $ok='ok';
 }
 trxlog('upload '.$_POST['name'].' '.$ok.' '.$_FILES['userfile']['name']);
 
-$sql_a="UPDATE resources SET lastmut='".time()."' WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+if ($ok=='ok') {
+$sql_a="UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time().") WHERE name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
 	   echo 'SQL_a-Query failed!...!<p>';
+}
 }
 ?>
 </body>

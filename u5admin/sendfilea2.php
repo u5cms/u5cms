@@ -37,6 +37,7 @@ $post_max_size = let_to_num(ini_get('post_max_size'));
 <body id="body" bgcolor="#009900" text="#FFFFFF"><script>parent.upend();</script>
 <?php
 require('archivecheck.inc.php');
+require_once('publishupload.inc.php');
 $_POST['name']=basename($_POST['name']);
 $moved=0;
 $nojpg=0;
@@ -102,12 +103,18 @@ $nojpg++;
 else $yesjpg++;
 
 if($ext=='jpg') {
+$filename='';
 for ($i=1000;$i>99;$i--) {
 if (!file_exists('../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$i.'.'.$ext)) $filename=$_POST['name'].'_'.$i.'.'.$ext;
 }
 
+if ($filename==='') {
+if($originalimagetmp!='') @unlink($originalimagetmp);
+echo '<p>Album is full. Existing files have been kept.</p>';
+continue;
+}
 @mkdir('../r/'.$_POST['name'],0777);
-if (!move_uploaded_file($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
+if (!u5PublishUploadedFile($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
 if($originalimagetmp!='') @unlink($originalimagetmp);
 $ok='error';
 }
@@ -122,11 +129,13 @@ $ok='ok';
 }
 trxlog('upload '.$_POST['name'].' '.$ok.' '.$filenames);
 
-$sql_a="UPDATE resources SET lastmut='".time()."' WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+if ($ok=='ok') {
+$sql_a="UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time().") WHERE name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
 	   echo 'SQL_a-Query failed!...!<p>';
+}
 }
 }
 }

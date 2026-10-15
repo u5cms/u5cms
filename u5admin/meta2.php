@@ -1,138 +1,81 @@
-<?php require_once('connect.inc.php');require_once('t2.php'); ?>
+<?php
+require_once('connect.inc.php');
+require_once('t2.php');
+require_once('resourceupdate.inc.php');
+try {
+$name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
+$row=u5ResourceForUpdate($name);
+if ($archiveRqHIADRI!='no' && $row['deleted']==2) require('accadmin.inc.php');
+if ($cssRqHIADRI!='no' && $row['typ']=='c') require('accadmin.inc.php');
+$changes=array();
+for ($language=1;$language<=5;$language++) foreach (array('content','title','desc','key') as $field) {
+$column=$field.'_'.$language;
+if (!isset($_POST[$column])) {
+if ($field!='key') throw new RuntimeException('Incomplete metadata form. The current resource has been kept.');
+continue;
+}
+if (!is_string($_POST[$column])) throw new RuntimeException('Invalid resource field.');
+$changes[$column]=trim($_POST[$column]);
+}
+if (isset($_POST['logins'])) {
+if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource logins.');
+$changes['logins']=trim($_POST['logins']);
+}
+$changes['typ']=isset($_GET['typ']) && is_string($_GET['typ']) && $_GET['typ']!=='' ? $_GET['typ'] : $row['typ'];
+
+$result=u5UpdateResource($name,$changes,$row,$_POST['coco'] ?? null);
+u5LogResourceAttempt($result);
+trxlog('meta'.($result['saved'] ? '' : '(!)').' '.$name);
+} catch (RuntimeException $error) {
+http_response_code(500);
+echo '<p>'.htmlXspecialchars($error->getMessage()).'</p>';
+exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
+<head><meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
-<body id="body" bgcolor="#339900" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body id="body" bgcolor="#339900" text="#FFFFFF">
 <?php
-require('archivecheck.inc.php');
-require('delcheck.inc.php');
-
-$sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) {
-echo 'SQL_a-Query failed!...!<p>';
-}
-$row_a = mysql_fetch_array($result_a);
-if ($_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER'])))) ) {
-$conflict='(!)';
+$nonce=isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',$_POST['u5resourceid']) ? $_POST['u5resourceid'] : '';
+$current=$result['current'];
+$message='CONFLICT: The current resource was kept. Your submitted content is in text versions. Latest editor: '.($current ? $current['operator'] : 'unknown').'. Merge your changes manually; your editor contents remain available.';
 ?>
-<div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',$row_a['operator'])) ?></div>
+<div>saved <?php echo $result['saved'] ? '' : '(!)' ?><?php echo htmlXspecialchars($name) ?></div>
 <script>
-msgconflict='CONFLICT(!)\n\nYour data has been saved only in the section «text versions» but it is not functional.\n\nReason: '+document.getElementById('e').innerHTML+' has saved this data in a new version during your editing session (at <?php echo date('Y-m-d H:i:s',$row_a['lastmut'])?>).\n\nPlease find your changes in the section «text versions» and merge it manually into '+document.getElementById('e').innerHTML+'\'s work.';
-if(window.name=='ametai'){
+window.u5ResourceAcknowledged=true;
+var success=<?php echo $result['saved'] ? 'true' : 'false' ?>;
+var clean=false;
+if(parent.u5ResourceSave) clean=parent.u5ResourceSave.complete('<?php echo $nonce ?>',<?php echo u5ResourceJsString($name) ?>,<?php echo (int)$result['stamp'] ?>,success);
+if(!success) {
+alert(<?php echo u5ResourceJsString($message) ?>);
+window.open('textversions.php?c=<?php echo rawurlencode($name) ?>','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=640,height=500');
 }
-</script>
-<?php 
+if(clean) {
+if(parent.name==='ametai') {
+var owner=parent.parent;
+if(owner.document.getElementById('sacabu')) owner.document.getElementById('sacabu').style.display='none';
+owner.location.reload();
+} else {
+try { if(parent.opener && parent.opener.parent && parent.opener.parent.save) parent.opener.parent.save.location.href='done.php?n=updated <?php echo rawurlencode($name) ?>'; } catch(error) {}
+parent.close();
 }
-
-else {
-$conflict='';
-require('delold.php');
-$sql_a="INSERT INTO resources (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES 
-(
-'".mysql_real_escape_string(trim($_POST['name']))."',
-'".mysql_real_escape_string(trim($_POST['content_1']))."',
-'".mysql_real_escape_string(trim($_POST['content_2']))."',
-'".mysql_real_escape_string(trim($_POST['content_3']))."',
-'".mysql_real_escape_string(trim($_POST['content_4']))."',
-'".mysql_real_escape_string(trim($_POST['content_5']))."',
-'".mysql_real_escape_string(trim($_POST['title_1']))."',
-'".mysql_real_escape_string(trim($_POST['title_2']))."',
-'".mysql_real_escape_string(trim($_POST['title_3']))."',
-'".mysql_real_escape_string(trim($_POST['title_4']))."',
-'".mysql_real_escape_string(trim($_POST['title_5']))."',
-'".mysql_real_escape_string(trim($_POST['desc_1']))."',
-'".mysql_real_escape_string(trim($_POST['desc_2']))."',
-'".mysql_real_escape_string(trim($_POST['desc_3']))."',
-'".mysql_real_escape_string(trim($_POST['desc_4']))."',
-'".mysql_real_escape_string(trim($_POST['desc_5']))."',
-'".mysql_real_escape_string(trim($_POST['key_1']))."',
-'".mysql_real_escape_string(trim($_POST['key_2']))."',
-'".mysql_real_escape_string(trim($_POST['key_3']))."',
-'".mysql_real_escape_string(trim($_POST['key_4']))."',
-'".mysql_real_escape_string(trim($_POST['key_5']))."',
-'".mysql_real_escape_string(trim($_POST['logins']))."',
-0,
-'".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
-'".time()."',$deleted,'".mysql_real_escape_string($_GET['typ'])."')";
-
-
-$result_a=mysql_query($sql_a);
-
-if ($result_a==false) {
-die('SQL_a-Query failed!...!<p>');
 }
-
-} //else if coco
-
-$sql_a="INSERT INTO resources_log (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES 
-(
-'".mysql_real_escape_string(trim($_POST['name']))."',
-'".mysql_real_escape_string(trim($_POST['content_1']))."',
-'".mysql_real_escape_string(trim($_POST['content_2']))."',
-'".mysql_real_escape_string(trim($_POST['content_3']))."',
-'".mysql_real_escape_string(trim($_POST['content_4']))."',
-'".mysql_real_escape_string(trim($_POST['content_5']))."',
-'".mysql_real_escape_string(trim($_POST['title_1']))."',
-'".mysql_real_escape_string(trim($_POST['title_2']))."',
-'".mysql_real_escape_string(trim($_POST['title_3']))."',
-'".mysql_real_escape_string(trim($_POST['title_4']))."',
-'".mysql_real_escape_string(trim($_POST['title_5']))."',
-'".mysql_real_escape_string(trim($_POST['desc_1']))."',
-'".mysql_real_escape_string(trim($_POST['desc_2']))."',
-'".mysql_real_escape_string(trim($_POST['desc_3']))."',
-'".mysql_real_escape_string(trim($_POST['desc_4']))."',
-'".mysql_real_escape_string(trim($_POST['desc_5']))."',
-'".mysql_real_escape_string(trim($_POST['key_1']))."',
-'".mysql_real_escape_string(trim($_POST['key_2']))."',
-'".mysql_real_escape_string(trim($_POST['key_3']))."',
-'".mysql_real_escape_string(trim($_POST['key_4']))."',
-'".mysql_real_escape_string(trim($_POST['key_5']))."',
-'".mysql_real_escape_string(trim($_POST['logins']))."',
-0,
-'".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].$conflict)."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
-'".time()."','$deleted','".mysql_real_escape_string($_GET['typ'])."')";
-
-
-$result_a=mysql_query($sql_a);
-
-if ($result_a==false) {
-die('SQL_a-Query failed!...!<p>');
-}
-
-trxlog('metadata'.$conflict.' '.$_POST['name']);
-?> 
-
-<?php 
-if ($conflict!='') echo "
-<script>
-setTimeout(\"foundconflict()\",1);
-function foundconflict() {
-alert(msgconflict);
-window.open('textversions.php?c=".$_POST['name']."','_blank','toolbar=0,location=0,status=1,screenX=1000,screenY=0,top=0,left=1000,menubar=0,scrollbars=1,resizable=1,width=640,height=500');
-location.href='".$_GET['uri']."?name=".mysql_real_escape_string($_POST['name'])."&typ=".$_GET['typ']."';
-if(window.name=='ametai'){parent.document.getElementById('sacabu').style.display='none';parent.location.href=parent.location.href};
-}
-</script>";
-
-else {
-?>
-
-
-<script>
-if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href='done.php?n=updated <?php echo $_POST['name']?>';
-if(parent)if(parent.parent)if(parent.parent.opener)if(parent.parent.opener.parent)if(parent.parent.opener.parent.save)parent.parent.opener.parent.save.location.href='done.php?n=updated <?php echo $_POST['name']?>';
-if(window.name=='ametai'){
-parent.document.getElementById('sacabu').style.display='none';
-location.href='metai.php?typ=a&name=<?php echo $_POST['name']?>';
-}
+<?php if ($nonce==='') { ?>
+// Preserve navigation for old forms, while retaining data on a conflict.
+if(success) {
+if(window.name==='ametai') parent.location.reload();
 else self.close();
-</script>
+} else {
+var back=<?php $uri=isset($_GET['uri']) && in_array($_GET['uri'],array('meta.php','metaf.php','metad.php','metai.php','metae.php','metay.php'),true) ? $_GET['uri'] : 'meta.php';echo u5ResourceJsString($uri.'?name='.rawurlencode($name).'&typ='.rawurlencode($changes['typ'])); ?>;
+var form=document.createElement('form');form.method='post';form.action=back;
+<?php foreach ($result['record'] as $field=>$value) { if (preg_match('/^(content_[1-5]|title_[1-5]|desc_[1-5]|key_[1-5]|logins)$/',$field)) { ?>
+var input=document.createElement('textarea');input.name=<?php echo u5ResourceJsString($field) ?>;input.value=<?php echo u5ResourceJsString($value ?? '') ?>;form.appendChild(input);
+<?php } } ?>
+document.body.appendChild(form);
+}
 <?php } ?>
-<div style="margin:-2px 0 0 2px;white-space: nowrap;" onmouseover="this.title=this.innerHTML" onclick="alert(this.innerHTML)"><?php echo $conflict ?>saved <?php echo $_POST['name']?></div>
+</script>
 </body>
 </html>

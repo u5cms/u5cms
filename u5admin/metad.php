@@ -7,17 +7,17 @@
 <?php require('metachg.inc.php'); ?>
 <script src="shortcut.js"></script>
 <script>
-shortcut.add("Ctrl+S",function() {
-	cchanges=0;document.form1.submit();
-})
+shortcut.add("Ctrl+S",function(){u5ResourceSave.submit();});
+shortcut.add("Meta+S",function(){u5ResourceSave.submit();});
 </script>
-<?php require('backendcss.php'); ?></head>
+<?php require('backendcss.php'); ?><script src="resourcesave.js"></script>
+</head>
 <body>
-<form onsubmit="cchanges=0;document.querySelectorAll('.asterisk').forEach(e=>e.classList.add('blink_me'));" action="meta2.php?typ=<?php echo $_GET['typ']?>&uri=metad.php" method="post" name="form1" id="form1">
+<form onsubmit="return u5ResourceSave.begin(event)" action="meta2.php?typ=<?php echo $_GET['typ']?>&uri=metad.php" method="post" name="form1" id="form1">
   <p>
     <?php 
 
-$sql_a="SELECT * FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -120,7 +120,7 @@ $row_a = mysql_fetch_array($result_a);
 
   </p>
   <p></p>
-<input type="hidden" name="coco" value="<?php echo time() ?>" />
+<input type="hidden" name="coco" value="<?php echo isset($row_a['lastmut']) ? (int)$row_a['lastmut'] : 0 ?>" />
 <?php require('t1.php') ?></form>
 <script>
 initchanges();

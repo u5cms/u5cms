@@ -117,7 +117,7 @@ $sql_a="UPDATE resources SET content_5=(replace(content_5,'9999>>>','$old>>>')) 
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 
-    $sql_a="UPDATE resources SET lastmut=".time()." WHERE name='".mysql_real_escape_string($n)."'";
+    $sql_a="UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time().") WHERE name='".mysql_real_escape_string($n)."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>'; 
 
