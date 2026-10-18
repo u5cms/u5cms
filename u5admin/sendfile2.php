@@ -53,10 +53,16 @@ alert('Your file has the extension $ext which is not whitelisted in conficallowe
 $ext.='.txt';
 }
 
-if($_GET['typ']=='i' && $ext!='jpg' && $ext!='JPG' && $ext!='jpeg' && $ext!='JPEG' && $ext!='png' && $ext!='PNG' && $ext!='gif' && $ext!='GIF' && $ext!='webp' && $ext!='WEBP' && $ext!='bmp' && $ext!='BMP' && $ext!='avif' && $ext!='AVIF') die('<script>document.getElementById("body").style.background="red";alert("Error: picture format must be jpg RGB (not CMYK), png, gif, webp, bmp or avif and not '.$ext.'");parent.location.href=parent.location.href</script>');
-
 $originalimagetmp='';
 $originalimageext='';
+require_once('extendedimage.inc.php');
+if ($_GET['typ']==='i' || $_GET['typ']==='f') {
+$conversionerror=u5PrepareExtendedImage($_FILES['userfile'], isset($_FILES['u5converted']) ? $_FILES['u5converted'] : null, $ext, $originalimagetmp, $originalimageext);
+if ($conversionerror!=='') die('<script>document.getElementById("body").style.background="red";alert('.json_encode($conversionerror).');parent.location.href=parent.location.href</script>');
+}
+
+if($_GET['typ']=='i' && $ext!='jpg' && $ext!='JPG' && $ext!='jpeg' && $ext!='JPEG' && $ext!='png' && $ext!='PNG' && $ext!='gif' && $ext!='GIF' && $ext!='webp' && $ext!='WEBP' && $ext!='bmp' && $ext!='BMP' && $ext!='avif' && $ext!='AVIF') die('<script>document.getElementById("body").style.background="red";alert("Error: picture format must be jpg RGB (not CMYK), png, gif, webp, bmp or avif and not '.$ext.'");parent.location.href=parent.location.href</script>');
+
 
 if($_GET['typ']=='i' && ($ext=='png' || $ext=='gif' || $ext=='webp' || $ext=='bmp' || $ext=='avif')) {
 

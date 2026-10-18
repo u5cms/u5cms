@@ -18,7 +18,7 @@ shortcut.add("Ctrl+S",function() {
 <body><?php require('uploading.inc.php'); ?>
 <h1 style="margin-bottom:5px">Upload type <span style="color:red"><?php echo $_GET['typ']?></span> as <i><?php echo $_GET['name']?></i><br><span style="font-size:40%;"><?php include('iniget.inc.php')?></span></h1>
 <?php
-if ($_GET['typ']=='i') echo 'For type <span style="color:red">i</span> only jpg (!) images are allowed.<!--<br><small>Video player pre-start images: same name as video with a preceding letter v</small>-->';
+if ($_GET['typ']=='i') echo 'For type <span style="color:red">i</span> JPG, PNG, GIF, WebP, BMP, AVIF, HEIC/HEIF/HIF and TIFF images are supported; the published image is a JPG.<!--<br><small>Video player pre-start images: same name as video with a preceding letter v</small>-->';
 if ($_GET['typ']=='d') echo 'Type <span style="color:red">d</span> is for documents (standard is pdf). All other file types (e. g. zip) are also allowed.';
 if ($_GET['typ']=='v') {
 echo '<a title="video and audio format infos" style="float:right;text-decoration:none;font-size:70%;color:white;background:orange;" href="javascript:alert(\'';
