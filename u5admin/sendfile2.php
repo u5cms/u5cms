@@ -105,6 +105,10 @@ imagedestroy($image);
 $ext='jpg';
 }
 
+if ($originalimagetmp!='' && !u5ArchiveImageOriginal($originalimagetmp, '../fileversions/'.date('Ymd').'-'.$_POST['name'].$_GET['l'].'.'.$originalimageext)) {
+@unlink($originalimagetmp);
+die('<script>document.getElementById("body").style.background="red";alert("The original image could not be archived. No image has been replaced.");parent.location.href=parent.location.href</script>');
+}
 @mkdir('../r/'.$_POST['name'],0777);
 if (!u5PublishUploadedFile($_FILES['userfile']['tmp_name'], '../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$ext)) {
 if($originalimagetmp!='') @unlink($originalimagetmp);
@@ -126,7 +130,6 @@ else {
 
 
 if($originalimagetmp!='') {
-copy($originalimagetmp,'../fileversions/'.(date('Ymd')).'-'.$_POST['name'].$_GET['l'].'.'.$originalimageext);
 @unlink($originalimagetmp);
 }
 else copy('../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$ext,'../fileversions/'.(date('Ymd')).'-'.$_POST['name'].$_GET['l'].'.'.$ext);

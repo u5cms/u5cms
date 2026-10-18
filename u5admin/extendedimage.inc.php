@@ -61,3 +61,28 @@ function u5ConvertedAlbumImage($index) {
     }
     return $file;
 }
+
+// Stage the original in the archive before replacing a published image.
+// A failed copy/rename must neither corrupt an older archive nor publish a
+// conversion for which the original could not be retained.
+function u5ArchiveImageOriginal($source, $target) {
+    if (!is_file($source)) return false;
+    $directory = realpath(dirname($target));
+    if ($directory === false) return false;
+    $temporary = @tempnam($directory, 'u5original_');
+    if ($temporary === false || dirname($temporary) !== $directory) {
+        if ($temporary !== false) @unlink($temporary);
+        return false;
+    }
+    $mode = is_file($target) ? (fileperms($target) & 0777) : (0666 & ~umask());
+    if (!@copy($source, $temporary)) {
+        @unlink($temporary);
+        return false;
+    }
+    clearstatcache(true, $temporary);
+    if (@filesize($temporary) !== @filesize($source) || !@chmod($temporary, $mode) || !@rename($temporary, $target)) {
+        @unlink($temporary);
+        return false;
+    }
+    return true;
+}

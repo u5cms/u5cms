@@ -30,6 +30,8 @@ already present in `12.10.0-Multi-Optimizations-by-AI`; no unrelated changes fro
 that development branch are included. Existing files are published atomically
 before obsolete extensions are removed. The new decoding step precedes this
 publisher, so missing conversions cannot remove the previous published file.
+Originals of converted images are archived atomically before publication;
+if the archive cannot be written, the existing image is retained.
 
 ## Regression checks
 

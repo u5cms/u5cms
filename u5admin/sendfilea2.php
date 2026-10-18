@@ -120,6 +120,12 @@ if($originalimagetmp!='') @unlink($originalimagetmp);
 echo '<p>Album is full. Existing files have been kept.</p>';
 continue;
 }
+if ($originalimagetmp!='' && !u5ArchiveImageOriginal($originalimagetmp, '../fileversions/'.date('Ymd').'-'.substr($filename,0,-4).'.'.$originalimageext)) {
+@unlink($originalimagetmp);
+$nojpg++;
+echo '<p>The original image could not be archived. No album image has been added.</p>';
+continue;
+}
 @mkdir('../r/'.$_POST['name'],0777);
 if (!u5PublishUploadedFile($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
 if($originalimagetmp!='') @unlink($originalimagetmp);
@@ -127,7 +133,6 @@ $ok='error';
 }
 else {
 if($originalimagetmp!='') {
-copy($originalimagetmp,'../fileversions/'.(date('Ymd')).'-'.substr($filename,0,-4).'.'.$originalimageext);
 @unlink($originalimagetmp);
 }
 else copy('../r/'.$_POST['name'].'/'.$filename,'../fileversions/'.(date('Ymd')).'-'.$filename);
