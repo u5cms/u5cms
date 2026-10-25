@@ -1,4 +1,3 @@
 .hot {
 color: green;
 }
- 

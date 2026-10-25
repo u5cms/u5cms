@@ -152,7 +152,7 @@ echo '</div>';
 
 
 &nbsp;<input id="savebutton" onClick="this.style.background='lightyellow';document.getElementById('bodyid').style.background='lightyellow'" type="submit" value="save [Ctrl + S]" style="width:90%"/>
-       <span style="color:white;font-size:9px;cursor:pointer" onClick="alert('If you can save code and pages containing easy content, but saving code or pages with long and or complex content fails, then you have to tell this issue your provider for that he can lower the security (e.g. mod sec) rules!\n\nFurther, if your CSS files don\'t work, have a look to them by surfing to them in a browser (e.g. http://www.yoursite.ch/r/cssbase.css) and check if your server automatically adds slashes to quotes. If you find this issue, solve it by setting $quotehandling=\'on\' in config.php in the CMS directory on your server.')">can't&nbsp;save?</span>
+       <span style="color:white;font-size:9px;cursor:pointer" onClick="alert('If you can save code and pages containing easy content, but saving code or pages with long and or complex content fails, then you have to tell this issue your provider for that he can lower the security (e.g. mod sec) rules!\n\nFurther, if your CSS files don\'t work, have a look to them by surfing to them in a browser (e.g. http://www.yoursite.ch/r/base.css) and check if your server automatically adds slashes to quotes. If you find this issue, solve it by setting $quotehandling=\'on\' in config.php in the CMS directory on your server.')">can't&nbsp;save?</span>
 
 </div>
 

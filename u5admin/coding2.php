@@ -5,6 +5,7 @@ require_once('resourceupdate.inc.php');
 try {
 $name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
 $row=u5ResourceForUpdate($name);
+u5CodeAssetFilename($name);
 if ($archiveRqHIADRI!='no' && $row['deleted']==2) require('accadmin.inc.php');
 if ($cssRqHIADRI!='no') require('accadmin.inc.php');
 $changes=array();
@@ -22,7 +23,7 @@ if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource l
 $changes['logins']=trim($_POST['logins']);
 }
 $changes['typ']=isset($_GET['typ']) && is_string($_GET['typ']) && $_GET['typ']!=='' ? $_GET['typ'] : $row['typ'];
-if ($_POST['name']=='htmltemplate') {
+if (($_POST['name']=='htmltemplate' || $_POST['name']==u5CodeTemplateName())) {
 $teststr=$_POST['content_1'];
 $teststr=str_replace("\t",' ',$teststr);
 $teststr=str_replace("\r",' ',$teststr);

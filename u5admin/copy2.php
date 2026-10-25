@@ -14,6 +14,15 @@ require_once('../globals.inc.php');
 
 $_POST['name']=basename($_POST['name']);
 $_GET['name']=basename($_GET['name']);
+$u5CopySource=mysql_query("SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' AND deleted!=1 LIMIT 1");
+$u5CopyKind=$u5CopySource ? mysql_fetch_array($u5CopySource) : array();
+$u5CopyCode=strtolower((string)($u5CopyKind['typ'] ?? ''))==='c';
+if ($u5CopyCode) {
+    if ($cssRqHIADRI!='no') require('accadmin.inc.php');
+    try { u5CodeAssetFilename($_POST['name']); }
+    catch (RuntimeException $error) { die(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252')); }
+}
+
 
 $revisionResult=mysql_query("SELECT MAX(lastmut) AS revision FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'");
 if ($revisionResult===false) die('Cannot determine the copy revision.');
@@ -132,6 +141,7 @@ if (file_exists('../r/v'.$_POST['name'].'/v'.$_GET['name'].'_'.$a.'.'.$ext)) ren
 ////////////////////
 
 
+if ($u5CopyCode) u5CodeAssetExport(dirname(__DIR__));
 trxlog('copy '.$_GET['name'].' '.$_POST['name']);
 
 

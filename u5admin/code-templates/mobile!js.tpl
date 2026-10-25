@@ -31,7 +31,7 @@ function u5mkmobile() {
 				async: true
 			});
 		}
-		if (typeof jsmobilegeneralloaded == 'undefined') jQuery.loadScript('https://yuba.ch/r/jsmobilegeneral.css', function() {
+		if (typeof jsmobilegeneralloaded == 'undefined') jQuery.loadScript('r/mobilebase.js', function() {
 
 			//START SITE SPECIFIC CODE TO CREATE A WEB APP. IF YOU CHANGE THE HTML TEMPLATE MAY BE YOU HAVE TO MAKE CHANGES HERE TOO.
 
@@ -162,4 +162,4 @@ function u5mkmobile() {
 	}
 	if (document.cookie.indexOf('u5cmsfrcthsvw=desktop') > -1) document.getElementById('footer').innerHTML += ('<div id="webapp_monadesktop" style="position:fixed;top:100px;left:-30px;z-index:9999999;cursor:pointer;font-size:100px" onclick="document.cookie=\'u5cmsfrcthsvw=mobile;\';location.href=location.href.replace(/mobile=off/,\'\')">' + webappmobilesymbol + '</div>');
 
-}   
+}

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>saving...</title>
-<?php if(file_exists('r/csspworder.css')) echo'<link rel="stylesheet" href="r/csspworder.css" type="text/css" />';?>
+<?php $u5PasswordStyle=u5CodeAssetPublicPath('csspworder'); if (is_file($u5PasswordStyle)) echo '<link rel="stylesheet" href="'.htmlspecialchars($u5PasswordStyle,ENT_QUOTES,'Windows-1252').'" type="text/css" />'; ?>
 </head>
 <body leftmargin="0" id="body">
 <?php

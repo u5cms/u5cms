@@ -15,6 +15,7 @@ shortcut.add("Ctrl+S",function() {
 <span id="spinner"></span><form id="form1" name="form1" method="post" action="new2.php?typ=<?php echo $_GET['typ']?>" onsubmit="return check()">
   <h1>New item of type <span style="color:red"><?php echo $_GET['typ']?></span></h1>
   <p>Enter a name for the new item.
+  <?php if (($_GET['typ'] ?? '')==='c') echo 'Use name!extension, for example mobile!js or base!css. The last ! separates the filename from its extension.'; ?>
   
   <?php 
   if ($_GET['typ']=='i') {
@@ -27,7 +28,7 @@ shortcut.add("Ctrl+S",function() {
   
   </p>
   <p>
-    <input name="name" type="text" oninput="var v=validated(this.value).substring(0,20);if(this.value!=v)this.value=v;nc.location.href='nc.php?name='+this.value" size="20" />
+    <input name="name" type="text" oninput="var v=validated(this.value).substring(0,<?php echo ($_GET['typ'] ?? '')==='c' ? 240 : 20 ?>);if(this.value!=v)this.value=v;nc.location.href='nc.php?typ=<?php echo ($_GET['typ'] ?? '')==='c' ? 'c' : '' ?>&name='+this.value" size="20" />
     <br>
     <input type="hidden" name="typ" value="<?php echo $_GET['typ'] ?>">
     </p>

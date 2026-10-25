@@ -144,7 +144,7 @@ OR
 
 OR
 
-   (name='htmltemplate' AND (
+   (name='".mysql_real_escape_string(u5CodeTemplateName())."' AND (
    
 (" . $replacestart . "content_1" . $replaceend . " LIKE '%{{{" . mysql_real_escape_string($_GET['name']) . "}}}%' OR " . $replacestart . "content_1" . $replaceend . " LIKE '%[_" . mysql_real_escape_string($_GET['name']) . "_]%')
 

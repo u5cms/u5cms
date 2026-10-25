@@ -56,7 +56,7 @@ else if(trim($row_a['logins'])!='')echo '<script>setTimeout("alert(\'You have de
 
 if (file_exists('../r/runonce.php')) {
 include('../r/runonce.php');
-include('endrunonce.php');
+if (!empty($u5CodeMigrationComplete)) include('endrunonce.php');
 }
 ?>
 <iframe frameborder="0" width="0" height="0" style="display:none" src="writable.php"></iframe>

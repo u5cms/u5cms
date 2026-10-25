@@ -1,5 +1,0 @@
-# These legacy CSS resources contain JavaScript. Their source and references
-# also live in the database, so keep the existing URLs when setting the MIME type.
-<FilesMatch "^jsmobile(specific|general)\.css$">
-    ForceType text/javascript
-</FilesMatch>

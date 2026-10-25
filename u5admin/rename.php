@@ -1,4 +1,8 @@
-<?php require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php');
+$u5CodeKindResult=mysql_query("SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_GET['name'] ?? '')."' AND deleted!=1 LIMIT 1");
+$u5CodeKind=$u5CodeKindResult ? mysql_fetch_array($u5CodeKindResult) : array();
+$u5CodeItem=strtolower((string)($u5CodeKind['typ'] ?? ''))==='c';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +22,7 @@ shortcut.add("Ctrl+S",function() {
   <h1>Rename <i><?php echo $_GET['name']?></i></h1>
   <p>Enter a new name for that item</p>
   <p>
-    <input value="<?php echo $_GET['name']?>" name="name" type="text" oninput="var v=validated(this.value).substring(0,20);if(this.value!=v)this.value=v;nc.location.href='nc.php?name='+this.value" size="20" />
+    <input value="<?php echo $_GET['name']?>" name="name" type="text" oninput="var v=validated(this.value).substring(0,<?php echo $u5CodeItem ? 240 : 20 ?>);if(this.value!=v)this.value=v;nc.location.href='nc.php?typ=<?php echo $u5CodeItem ? 'c' : '' ?>&name='+this.value" size="20" />
      | Update links? 
      <input name="ulinks" type="radio" value="yes" checked="checked" />
     yes / <input type="radio" name="ulinks" value="no" />

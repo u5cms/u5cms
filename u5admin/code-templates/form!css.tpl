@@ -36,9 +36,9 @@ font-family: 'Open Sans', sans-serif;
 }
 
 input[type=submit], input[type=text], input[type=email], input[type=number], input[type=password], textarea, select {
-width: 98%; 
-font-size:110%; 
-padding:3px; 
+width: 98%;
+font-size:110%;
+padding:3px;
 color:#555;
 }
 
@@ -58,7 +58,7 @@ input:hover, input:focus, input:active, select:hover, select:focus, select:activ
 border: 1px solid #333333;
 }
 
-::placeholder { 
+::placeholder {
 color: #ddd;
 }
 
@@ -71,6 +71,3 @@ border: 1px solid #999999;
 label.readonly {
 cursor: default;
 }
-
-
- 

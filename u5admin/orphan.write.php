@@ -151,7 +151,7 @@ OR
 (".$replacestart."content_1".$replaceend." LIKE '%c=".$likeName."&%' OR ".$replacestart."content_2".$replaceend." LIKE '%c=".$likeName."&%' OR ".$replacestart."content_3".$replaceend." LIKE '%c=".$likeName."&%' OR ".$replacestart."content_4".$replaceend." LIKE '%c=".$likeName."&%' OR ".$replacestart."content_5".$replaceend." LIKE '%c=".$likeName."&%')
 
 OR
-   (name='htmltemplate' AND (
+   (name='".mysql_real_escape_string(u5CodeTemplateName())."' AND (
    
 (".$replacestart."content_1".$replaceend." LIKE '%{{{".$likeName."}}}%' OR ".$replacestart."content_1".$replaceend." LIKE '%[!_".$likeName."!_]%')
 

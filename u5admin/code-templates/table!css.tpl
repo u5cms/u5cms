@@ -52,4 +52,4 @@ table-layout: auto;
 .albumhorizontal td {
 border: 0px solid white;
 padding: 0 5px 0 0;
-} 
+}

@@ -7,7 +7,7 @@
 <?php require('backendcss.php'); ?></head>
 <body bgcolor="#009900" id="body">
 <?php 
-if($_POST['name']=='htmltemplate') {
+if(($_POST['name']=='htmltemplate' || $_POST['name']==u5CodeTemplateName())) {
 echo('<script>document.getElementById("body").style.background="red";
 if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href="notdone.php?n=forbidden to delete '.$_POST['name'].'";
 self.close();

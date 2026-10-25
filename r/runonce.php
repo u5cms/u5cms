@@ -1,4 +1,13 @@
 <?php
+ignore_user_abort(true);
+set_time_limit(3600);
+require_once dirname(__DIR__).'/u5admin/codeassets-migrate.inc.php';
+$u5CodeMigrationComplete=false;
+$u5CodeMigrationRelease=null;
+try {
+$u5CodeMigrationRelease=u5CodeMigrationLock(dirname(__DIR__));
+$u5LegacyUpgradeNeeded=u5CodeMigrationNeedsLegacySchema();
+if ($u5LegacyUpgradeNeeded) {
 $sql_a="SET storage_engine=MYISAM;";
 $result_a=mysql_query($sql_a);
 $sql_a="ALTER TABLE accounts ENGINE = MyISAM, DEFAULT CHARSET=utf8;";
@@ -55,7 +64,7 @@ $sql_a="SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 
 $result_a=mysql_query($sql_a);
 $row_a = mysql_fetch_array($result_a);
 
-if($row_a['COLUMN_NAME']=='content_d') {
+if(($row_a['COLUMN_NAME'] ?? '')=='content_d') {
 
 $legacyLangCols = array('content_d', 'content_e', 'content_f');
 foreach ($legacyLangCols as $langCol) {
@@ -244,17 +253,20 @@ $datatype_definition = array(
     'loginglobals.wait' => "varchar(255) NULL DEFAULT 'Too many login attempts. Try again in'"
 );
 
-function get_data_type($table_name, $table_field) {
-    global $datatype_definition;
+if (!function_exists('get_data_type')) {
+function get_data_type($table_name, $table_field, $datatype_definition) {
     if (isset($datatype_definition[$table_name.'.'.$table_field])) {
         return $datatype_definition[$table_name.'.'.$table_field];
     }
     return 'varchar(255)';
 }
 
-function adapt_table_to_5languages($table_name, $table_fields) {
+}
+
+if (!function_exists('adapt_table_to_5languages')) {
+function adapt_table_to_5languages($table_name, $table_fields, $datatype_definition) {
     foreach ($table_fields as $table_field) {
-        $datatype = get_data_type($table_name, $table_field);
+        $datatype = get_data_type($table_name, $table_field, $datatype_definition);
         $sql_a="ALTER TABLE $table_name CHANGE COLUMN IF EXISTS `{$table_field}_d` {$table_field}_1 $datatype";
         mysql_query($sql_a);
         $sql_a="ALTER TABLE $table_name CHANGE COLUMN IF EXISTS `{$table_field}_e` {$table_field}_2 $datatype";
@@ -269,8 +281,10 @@ function adapt_table_to_5languages($table_name, $table_fields) {
     }
 }
 
+}
+
 foreach ($migrate_tables as $table_name => $table_fields) {
-    adapt_table_to_5languages($table_name, $table_fields);
+    adapt_table_to_5languages($table_name, $table_fields, $datatype_definition);
 }
 
 /*
@@ -290,25 +304,24 @@ $sql_a="SELECT content_1 FROM resources WHERE deleted!=1 AND name='htmltemplate'
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 $row_a = mysql_fetch_array($result_a);
-$c=explode('<body',$row_a['content_1']);
-$c=$c[1];
-$head='<!DOCTYPE html>
-{{{meta}}}
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<link rel="stylesheet" href="r/cssbase.css" type="text/css" />
-<link href="favicon.ico" rel="shortcut icon" />
-<link rel="stylesheet" href="js/jquery.fancybox.min.css" />
-<script src="js/jquery.js"></script>
-<script src="js/jquery.fancybox.min.js"></script>
-<script src="js/u5_scripts.js" type="text/javascript"></script>
-<script src="r/jsmobilespecific.css"></script>
-</head>
-<body';
-$c=$head.$c;
-
-$sql_a="UPDATE resources SET content_1='".mysql_real_escape_string($c)."' WHERE deleted!=1 AND name='htmltemplate' AND content_1 NOT LIKE '%js/jquery.fancybox.min.js%'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+$c=(string)($row_a['content_1'] ?? '');
+if ($c!=='' && strpos($c,'js/jquery.fancybox.min.js')===false) {
+    $dependencies=array(
+        'r/cssbase.css'=>'<link rel="stylesheet" href="r/cssbase.css" type="text/css" />',
+        'js/jquery.fancybox.min.css'=>'<link rel="stylesheet" href="js/jquery.fancybox.min.css" />',
+        'js/jquery.js'=>'<script src="js/jquery.js"></script>',
+        'js/jquery.fancybox.min.js'=>'<script src="js/jquery.fancybox.min.js"></script>',
+        'js/u5_scripts.js'=>'<script src="js/u5_scripts.js" type="text/javascript"></script>',
+        'r/jsmobilespecific.css'=>'<script src="r/jsmobilespecific.css"></script>'
+    );
+    $extra='';
+    foreach ($dependencies as $needle=>$tag) if (strpos($c,$needle)===false) $extra.=$tag."\n";
+    if (stripos($c,'</head')!==false) $c=preg_replace('~</head\s*>~i',$extra.'</head>',$c,1);
+    else $c=preg_replace('~<body\b~i',$extra.'<body',$c,1);
+    $sql_a="UPDATE resources SET content_1='".mysql_real_escape_string($c)."' WHERE deleted!=1 AND name='htmltemplate'";
+    $result_a=mysql_query($sql_a);
+    if ($result_a===false) throw new RuntimeException('Cannot upgrade legacy template dependencies.');
+}
 file_put_contents('../fileversions/'.sha1($c).'.updatedone',file_get_contents('../r/runonce.php'));
 
 $sql_a="UPDATE sizes SET smallimgL_h=50 WHERE smallimgL_h<1";
@@ -378,11 +391,11 @@ $sql_a="ALTER TABLE `mailing` ADD IF NOT EXISTS `mailtested` TINYINT DEFAULT '0'
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="DELETE FROM inserts";
+$sql_a="SELECT 1";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$sql_a="INSERT INTO `inserts` VALUES (1,'','','[lo:]','<script src=\"js/logo.php?name=','[:lo]','\"></script>','','','[lo:]denoteanobjectnamehere[:lo]',0,0),(2,'','','[l]','<div style=\"text-align:left\">','[-]','</div>','','','[l]writeyourtexthere[-]\r\n',0,1),(3,'','','[in:]','<iframe src=\"sendintranetlogin.php?','[:in]','\" frameborder=\"0\" scrolling=\"no\" width=\"100%\"></iframe>','','','',0,0),(4,'','','[au:]','<iframe style=\"display:inline\" width=\"100%\" height=\"20\" frameborder=\"0\" scrolling=\"no\" src=\"authuser.php?t=','[:au]','&c=[_pagename_]\"></iframe>','','','',0,0),(5,'ELEMENTS','','[:fi]','</fieldset>','[:fo]','</form>','','','',0,1),(6,'ELEMENTS','form','[fo:]','<iframe style=\"visibility:hidden\" width=\"0\" height=\"0\" frameborder=\"0\" name=\"fvifr\" src=\"fv.php\"></iframe><form class=\"unibeform\" name=\"u5form\" action=\"formsave.php?n=[_pagename_]&l=[_language_]\" method=\"post\" target=\"fvifr\">','[:fo]','</form>','[fi:],[:fi],[le:],[:le]','<fieldset class=\"ksl\">,</fieldset>,<legend>,</legend>,<label>,</label>','[fo:]\r\n[fi:]\r\n[le:]Your data[:le]\r\n[h:]\r\n\r\n<!--Hidden fields in your form. You should have them in your form!-->\r\n\r\n<input type=\"hidden\" name=\"ouremail\" value=\"enter@youremailaddress.here\" />\r\n<!-- IT IS EXTREMELY IMPORTANT THAT YOU READ https://yuba.ch/mail REGARDING THE SENDING OF FORM CONTENT BY EMAIL AND THE SENDER ADDRESS USED FOR THIS!!!
+$sql_a="INSERT IGNORE INTO `inserts` VALUES (1,'','','[lo:]','<script src=\"js/logo.php?name=','[:lo]','\"></script>','','','[lo:]denoteanobjectnamehere[:lo]',0,0),(2,'','','[l]','<div style=\"text-align:left\">','[-]','</div>','','','[l]writeyourtexthere[-]\r\n',0,1),(3,'','','[in:]','<iframe src=\"sendintranetlogin.php?','[:in]','\" frameborder=\"0\" scrolling=\"no\" width=\"100%\"></iframe>','','','',0,0),(4,'','','[au:]','<iframe style=\"display:inline\" width=\"100%\" height=\"20\" frameborder=\"0\" scrolling=\"no\" src=\"authuser.php?t=','[:au]','&c=[_pagename_]\"></iframe>','','','',0,0),(5,'ELEMENTS','','[:fi]','</fieldset>','[:fo]','</form>','','','',0,1),(6,'ELEMENTS','form','[fo:]','<iframe style=\"visibility:hidden\" width=\"0\" height=\"0\" frameborder=\"0\" name=\"fvifr\" src=\"fv.php\"></iframe><form class=\"unibeform\" name=\"u5form\" action=\"formsave.php?n=[_pagename_]&l=[_language_]\" method=\"post\" target=\"fvifr\">','[:fo]','</form>','[fi:],[:fi],[le:],[:le]','<fieldset class=\"ksl\">,</fieldset>,<legend>,</legend>,<label>,</label>','[fo:]\r\n[fi:]\r\n[le:]Your data[:le]\r\n[h:]\r\n\r\n<!--Hidden fields in your form. You should have them in your form!-->\r\n\r\n<input type=\"hidden\" name=\"ouremail\" value=\"enter@youremailaddress.here\" />\r\n<!-- IT IS EXTREMELY IMPORTANT THAT YOU READ https://yuba.ch/mail REGARDING THE SENDING OF FORM CONTENT BY EMAIL AND THE SENDER ADDRESS USED FOR THIS!!!
  -->\r\n\r\n<input type=\"hidden\" name=\"thanks\" value=\"thanks\" />\r\n<input type=\"hidden\" name=\"thankssubject\" value=\"Thank you for your message!\" />\r\n<input type=\"hidden\" name=\"thankstext\" value=\"Thank you for your message! Please find it quoted below:\" />\r\n<input type=\"hidden\" name=\"thanksgreetings\" value=\"Yours faithfully, John Smith\" />\r\n\r\n<!--Visible fields in your form displayed to the form user-->\r\n<label>\r\n  Business*\r\n  <select name=\"business_mandatory\"> \r\n    <option value=\"\">please select</option>\r\n    <option value=\"education\">Education</option>\r\n    <option value=\"engineering\">Engineering</option>\r\n    <option value=\"medical\">Medical</option>\r\n    <option value=\"other\">other</option>\r\n  </select>\r\n</label>\r\n\r\n<label>\r\n  Name*\r\n  <input type=\"text\" name=\"name_mandatory\" />\r\n</label>\r\n \r\n<label>\r\n  Firstname (optional)\r\n  <input type=\"text\" name=\"firstname\" />\r\n</label>\r\n \r\n<label>\r\n  E-Mail*\r\n  <input type=\"text\" name=\"youremail_mandatory\" />\r\n</label>\r\n\r\n<br><label>Your CV* (pdf, doc, docx)<script src=\"upload_mandatory\"></script></label>\r\n\r\n<br><label>Your photo (optional)<script src=\"upload\"></script></label>\r\n \r\n<label>\r\n  Message*\r\n  <textarea rows=\"3\" style=\"width:98%\" type=\"text\" name=\"message_mandatory\"></textarea>\r\n</label>\r\n\r\n<label>\r\n  How much is hundred minus one (enter digits)? [whythis]\r\n  <input type=\"text\" name=\"cliving_mandatory\" />\r\n</label>\r\n\r\n<center>\r\n  <br><input type=\"submit\" value=\"send\" />\r\n</center>\r\n\r\n<!-- FOR MORE INFORMATION ON THE PSEUDO-CAPTCHA cliving_mandatory AND OTHER SPECIAL FUNCTIONS FOR YOUR FORMS, CONSULT https://yuba.ch/forms -->\r\n\r\n[:h]\r\n[:fi]\r\n[:fo]\r\n',0,1),(7,'ELEMENTS','goto','[go:]','<script>location.replace(\'?c=','[:go]','\')</script>','','','[go:]denoteatargetpagenamehere[:go]\r\n\r\n',0,0),(8,'ELEMENTS','html','[h:]','','[:h]','','','','[h:]writeyourtexthere[:h]',0,0),(9,'ELEMENTS','image','','[:::::',']',']','','','[:::::denoteanobjectnamehere]',0,0),(10,'ELEMENTS','incl','[','[',']',']','','','[$$$:denoteasourcepagenamehere]',0,0),(11,'ELEMENTS','line','[_]','<div class=\"separator\"></div>','','','','','[_]\r\n',0,0),(12,'ELEMENTS','list123','[o:]','<ol>','[:o]','</ol>','','','[o:]\r\n---firstitem---\r\n---seconditem---\r\n---andnextitems---\r\n[:o]\r\n',0,1),(13,'ELEMENTS','list•••','[u:]','<ul>','[:u]','</ul>','','','[u:]\r\n---firstitem---\r\n---seconditem---\r\n---andnextitems---\r\n[:u]\r\n',0,1),(14,'ELEMENTS','mark','[!]','<div class=\"mark\">','[-]','</div>','','','[!]writeyourtexthere[-]\r\n',0,1),(15,'ELEMENTS','table','[t:]','<table class=\"table\">','[:t]','</table>','*||;,*|*,||*,||;,||,|*,*|,|','</th></tr>,</th><th>,<tr><th>,</td></tr>,<tr><td>,\r\n</td><th>,</th><td>,</td><td>','[t:]\r\n||        |* ZH *|* BE *|* VD *|* GE *||;\r\n||* Temp *| 22°C | 21°C | 20°C | 19°C ||;\r\n||* Sun  *| 4h   | 5h   | 4h   |  6h  ||;\r\n||* Rain *| 0    | 0    | 2mm  |  0   ||;\r\n[:t]\r\n',0,0),(16,'ELEMENTS','url','[l:]','<script>s=\"','[:l]','\"</script><script src=\"js/url.js\"></script>','','','[l:]https://www.maarsen.ch/anydirectoriespagesfiles[:l]',0,0),(17,'INLINE','#','[#:]','<a href=\"#','[:#]','</a>','?#','\">','[#:]anchorname?#linktext[:#]',0,0),(18,'INLINE','#a','[#a:]','<a name=\"','[:#a]','\"></a>','','','[#a:]anchorname[:#a]',0,0),(19,'INLINE','<s>&nbsp;x&nbsp;</s>','[x]','<span class=\"crossout\">','[/]','</span>','','','[x]writehere[/]',0,0),(20,'INLINE','<span class=\"hot\">A</span>','[hot]','<span class=\"hot\">','[/]','</span>','','','[hot]writehere[/]',0,0),(21,'INLINE','<span title=\"larger font\">&lt;</span>','[&lt;]','<span class=\"larger\">','[/]','</span>','','','[<]writehere[/]',0,0),(22,'INLINE','<span title=\"smaller font\">&gt;</span>','[&gt;]','<span class=\"smaller\">','[/]','</span>','','','[>]writehere[/]',0,0),(23,'INLINE','<u>u</u>','[u]','<span class=\"underline\">','[/]','</span>','','','[u]writehere[/]',0,0),(24,'INLINE','abbr','[ab]','<abbr class=\"abbroracro\" title=\"','[/ab]','</abbr>','=','\" onclick=\"abbroracro(this)\">','[ab]Learning Management System=LMS[/ab]',0,0),(25,'INLINE','acro','[ac]','<acronym class=\"abbroracro\" title=\"','[/ac]','</acronym>','=','\" onclick=\"abbroracro(this)\">','[ac]Read Only Memory=ROM[/ac]',0,0),(26,'INLINE','bold','[b]','<span class=\"bold\">','[/]','</span>','','','[b]writehere[/]',0,0),(27,'INLINE','hilite','[h]','<span class=\"stabiloboss\">','[/]','</span>','','','[h]writehere[/]',0,0),(28,'INLINE','italic','[i]','<span class=\"italic\">','[/]','</span>','','','[i]writehere[/]',0,0),(29,'INLINE','mono','[m]','<span class=\"mono\">','[/]','</span>','','','[m]writehere[/]',0,0),(30,'INLINE','sub','[dn]','<span class=\"subscript\">','[/]','</span>','','','[dn]x[/]',0,0),(31,'INLINE','sup','[up]','<span class=\"superscript\">','[/]','</span>','','','[up]x[/]',0,0),(32,'INLINE','veil','[v]','<div class=\"veil\">','[/]','</div>','','','[v]writehere[/]',0,0),(33,'PARAGRAPH','<span title=\"larger font &amp; line\">&lt;:</span>','[&lt;:]','<div class=\"largerblock\">','[-]','</div>','','','[<:]writehere[-]',0,1),(34,'PARAGRAPH','<span title=\"smaller font &amp; line\">&gt;:</span>','[&gt;:]','<div class=\"smallerblock\">','[-]','</div>','','','[>:]writehere[-]',0,1),(35,'PARAGRAPH','?','[?:]','<a href=\"javascript:void(0)\" class=\"showblockinactivetab\" onclick=\"if (this.nextSibling.style.display==\'block\') showblockscript(this); else showblockscript(this,0)\">','[:?]','</div>','???','</a><div class=\"showblockdivinner\"><div class=\"showblockclose\" onclick=\"showblockscript(this.parentNode.previousSibling)\">×</div>','¶[?:]ClickHereToSeeXY ??? HereComesTheXYContentOUTSIDELeadingParagraphSymbolMayBeMandatory[:?]\n',0,1),(36,'PARAGRAPH','??','[??:]','<a href=\"javascript:void(0)\" class=\"showblock2inactivetab\" onclick=\"if (this.nextSibling.style.display==\'block\') showblock2script(this); else showblock2script(this,0)\">','[:??]','</div>','???','</a><div class=\"showblock2divinner\"><div class=\"showblock2close\" onclick=\"showblock2script(this.parentNode.previousSibling)\">×</div>','¶[??:]ClickHereToSeeXY ??? HereComesTheXYContentOUTSIDELeadingParagraphSymbolMayBeMandatory[:??] ',0,1),(37,'PARAGRAPH','align right','[r]','<div class=\"right\">','[-]','</div>','','','[r]writeyourtexthere[-]\r\n',0,1),(38,'PARAGRAPH','bquot','[bq:]','<blockquote>','[:bq]','</blockquote>','','','[bq:]writehere[:bq]\r\n',0,1),(39,'PARAGRAPH','center','[c]','<div class=\"center\">','[-]','</div>','','','[c]writeyourtexthere[-]\r\n',0,1),(40,'PARAGRAPH','justify','[j]','<div class=\"justify\">','[-]','</div>','','','[j]writeyourtexthere[-]\r\n',0,1),(41,'PARAGRAPH','note','[n]','<div class=\"note\">','[-]','</div>','','','[n]writehere[-]\r\n',0,1),(42,'PARAGRAPH','pre','[pr:]','<pre>','[:pr]','</pre>','','','[pr:]writehere[:pr]\n',0,1),(43,'PARAGRAPH','stay right','[s]','<div class=\"stayright\">','[-]','</div>','','','[s]writeyourtexthere[-]\r\n',0,1),(44,'TITLES&#8239;et&#8239;al','<span title=\"caption per image in albums\">xcaption</span>','[ca:]','','[:ca]','','[ca],&gt;&gt;&gt;,[/],</span><br />','','\r\nCUT AND PASTE THE FOLLOWING 3 LINES INTO THE LONG CAPTION OF YOUR ALBUM METADATA. EXTENSION IS ALLOWED (103, 104 ETC.)\r\n\r\n[ca:][ca]100>>>writecaptionforjpg100here[/]\r\n     [ca]101>>>writecaptionforjpg101here[/]\r\n     [ca]102>>>writecaptionforjpg102here[/][:ca]\r\n\r\n',0,0),(45,'TITLES&#8239;et&#8239;al','maintitle','[[[[','<h1>',']]]]','</h1>','','','[[[[writeyourtitlehere]]]]\r\n',0,1),(46,'TITLES&#8239;et&#8239;al','subtitle','[[[','<h2>',']]]','</h2>','','','[[[writeyourtitlehere]]]\r\n',0,1),(47,'TITLES&#8239;et&#8239;al','undersubtitle','[[','<h3>',']]','</h3>','','','[[writeyourtitlehere]]\r\n',0,1),(48,'X',NULL,'[:?]','</div>',NULL,NULL,NULL,NULL,NULL,0,1),(49,'X',NULL,'[:??]','</div>',NULL,NULL,NULL,NULL,NULL,0,1),(50,'X',NULL,'[/]','</span>',NULL,NULL,NULL,NULL,NULL,0,0),(51,'X',NULL,'[-]','</div>',NULL,NULL,NULL,NULL,NULL,0,1),(52,'X','','[:fo]','</form>','','','','','',0,1),(53,'X','','---','<li>','---<br />','</li>','','','',0,1),(54,'X','','[:u]','</ul>','','','','','',0,1),(55,'X','','[:o]','</ol>','','','','','',0,1),(56,'X','','[mf]','<input type=\"hidden\" name=\"ed2cu\" value=\"on\" /><iframe name=\"ifrmonofill\" width=\"0\" height=\"0\" style=\"visibility:hidden\"></iframe><script>locationhref=location.href;if(locationhref.indexOf(\'c=\')<0) locationhref+=\'&c=MF_NOT_ALLOWED_ON_YOUR_MAIN_PAGE\';if(locationhref.indexOf(\'id=\')<0) locationhref+=\'&id=0\';ifrmonofill.location.href=\'monofill.php?n=\'+locationhref.split(\'c=\')[1].split(\'&\')[0]+\'&id=\'+locationhref.split(\'id=\')[1].split(\'&\')[0];</script>','','','','','',0,0),(57,'X','','[mfs]','<input type=\"hidden\" name=\"ed2cu\" value=\"on\" /><iframe name=\"ifrmonofillshared\" width=\"0\" height=\"0\" style=\"visibility:hidden\"></iframe><script>locationhref=location.href;if(locationhref.indexOf(\'c=\')<0) locationhref+=\'&c=MF_NOT_ALLOWED_ON_YOUR_MAIN_PAGE\';if(locationhref.indexOf(\'id=\')<0) locationhref+=\'&id=0\';ifrmonofillshared.location.href=\'monofillshared.php?n=\'+locationhref.split(\'c=\')[1].split(\'&\')[0]+\'&id=\'+locationhref.split(\'id=\')[1].split(\'&\')[0];</script>','','','','','',0,0),(58,'X','<div style=\"display:none\"><span title=\"share in facebook/twitter\">xshare</span></div>','[s:]','<form method=\"post\" action=\"xshare.php\" target=\"xshareWIN\" onclick=\"xshfrm=this;this.xshareTEXT.value=this.innerHTML.split(\'<\'+\'xshare\'+\'>\')[1];xshfrm.xshareTITLE.value=document.title;xshfrm.xshareLOCATION.value=document.location.href\" onmouseover=\"xshfrm=this;this.xshareTEXT.value=this.innerHTML.split(\'<\'+\'xshare\'+\'>\')[1];xshfrm.xshareTITLE.value=document.title;xshfrm.xshareLOCATION.value=document.location.href\" onfocus=\"xshfrm=this;this.xshareTEXT.value=this.innerHTML.split(\'<\'+\'xshare\'+\'>\')[1];xshfrm.xshareTITLE.value=document.title;xshfrm.xshareLOCATION.value=document.location.href\" onkeydown=\"xshfrm=this;this.xshareTEXT.value=this.innerHTML.split(\'<\'+\'xshare\'+\'>\')[1];xshfrm.xshareTITLE.value=document.title;xshfrm.xshareLOCATION.value=document.location.href\"><input type=\"hidden\" name=\"xshareTEXT\" /><input type=\"hidden\" name=\"xshareTITLE\" /><input type=\"hidden\" name=\"xshareLOCATION\" /><input type=\"hidden\" name=\"xshareTYPE\" /><a href=\"javascript:void(0)\" onclick=\"xshfrm.xshareTYPE.value=\'f\';xshhdl=window.open(\'xshare.php\', \'xshareWIN\',\'toolbar=0,location=0,status=1,screenX=0,screenY=0,top=0,left=0,menubar=0,scrollbars=1,resizable=1,width=800,height=500\');xshfrm.submit();xshhdl.focus()\" title=\"Share on Facebook\"><img src=\"images/facebook.png\" border=\"0\" alt=\"Share on Facebook\"></a>&nbsp;<a href=\"javascript:void(0)\" onclick=\"xshfrm.xshareTYPE.value=\'t\';xshhdl=window.open(\'xshare.php\', \'xshareWIN\',\'toolbar=0,location=0,status=1,screenX=0,screenY=0,top=0,left=0,menubar=0,scrollbars=1,resizable=1,width=800,height=500\');xshfrm.submit();xshhdl.focus()\" title=\"Share on Twitter\"><img src=\"images/twitter.png\" border=\"0\" alt=\"Share on Twitter\"></a>&nbsp;<xshare>','[:s]','<xshare></xshare></xshare></form>','','','[s:]noteeventtosharehere[:s]',0,0),(59,'X','<span title=\"escaped square brackets\">[ ]</span>','(&uml;','&#91;','&uml;)','&#93;','','','(¨writeyourtexthere¨)',1,0),(60,'X','<span title=\"new cleared paragraph; type a backslash just before (¶) to achieve the opposit (suppress line break; caution: no succeeding spaces or characters)\">&para;</span>','&para;','<p class=\"clearing\"></p>','¶','<p class=\"clearing\"></p>','','','¶',1,1),(61,'X','<span title=\"non-breaking space\">nbsp</span>','&curren;','&nbsp;','','','','','¤',1,0),(62,'X','<span title=\"soft hyphen\">shy</span>','&cedil;','&shy;','','','','','¸',1,0);";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
@@ -432,11 +445,7 @@ $sql_a="UPDATE `resources` SET content_1=REPLACE(content_1,'$search','$replace')
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
 
-$search='r/cssbase.css?';
-$replace='r/cssbase.css" "?';
-$sql_a="UPDATE `resources` SET content_1=REPLACE(content_1,'$search','$replace')";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) echo 'SQL_a-Query did not work!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
+// Cache versions are now added only to exported assets, without changing DB markup.
 
 $sql_a="CREATE TABLE IF NOT EXISTS `mailing` (
 `id` int(11) NOT NULL,
@@ -591,8 +600,7 @@ $result_a=mysql_query($sql_a);
 $sql_a="ALTER TABLE `sizes` ADD IF NOT EXISTS `cropedge` INT NULL DEFAULT '0' AFTER `tosquare`;";
 $result_a=mysql_query($sql_a);
 
-$sql_a="UPDATE resources SET content_1 = REGEXP_REPLACE(content_1, '\\\\?[0-9]+', '') WHERE typ = 'c' AND content_1 REGEXP '\\\\?[0-9]+';";
-$result_a=mysql_query($sql_a);
+// The exporter versions asset URLs; legacy cache cleanup must not alter source code.
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -604,7 +612,7 @@ foreach ($tables as $table) {
 
     // Analyze table structure
     $query = "DESCRIBE `$table`";
-    $result = mysql_query($query, $link);
+    $result = mysql_query($query);
 
     if (!$result) {
         echo "Error retrieving table structure for `$table`: " . mysql_error() . "\n";
@@ -623,7 +631,7 @@ foreach ($tables as $table) {
     if (!empty($alter_statements)) {
         $alter_sql = "ALTER TABLE `$table` " . implode(", ", $alter_statements);
         echo "Executing: $alter_sql\n";
-        $alter_result = mysql_query($alter_sql, $link);
+        $alter_result = mysql_query($alter_sql);
 
         if ($alter_result) {
             echo "Successfully updated `$table`!\n";
@@ -655,28 +663,6 @@ $result_a=mysql_query($sql_a);
 -->
 
 <?php
-$t=time();
-$beforets=array('.css"'       ,  '.css)'       ,  '.jpg)'       ,  '.jpe)'       ,  '.jpeg)'       ,  '.gif)'       ,  '.htm)'       ,  '.html)'       ,  '.svg)'       ,  '.ttf)'       ,  '.woff)'           );
-$afterts= array('.css?'.$t.'"',  '.css?'.$t.')',  '.jpg?'.$t.')',  '.jpe?'.$t.')',  '.jpeg?'.$t.')',  '.gif?'.$t.')',  '.htm?'.$t.')',  '.html?'.$t.')',  '.svg?'.$t.')',  '.ttf?'.$t.')',  '.woff?'.$t.')'    );
-
-$sql_a="SELECT * FROM resources WHERE typ='c' AND deleted!=1";
-$result_a=mysql_query($sql_a);
-
-if ($result_a==false) {
-echo 'SQL_a-Query failed!<p>'.mysql_error().'<p><font color=red>'.$sql_a.'</font><p>';
-}
-
-$num_a = mysql_num_rows($result_a);
-
-for ($i_a=0; $i_a<$num_a; $i_a++) {
-$row_a = mysql_fetch_array($result_a);
-
-if (file_put_contents('../r/'.$row_a['name'].'.css',str_replace($beforets,$afterts,$row_a['content_1'].' '))) {
-echo '<!--w ../r/ ok -->';
-}
-else echo '<script>alert("PROBLEM: The server can store your data but not write the consequent output file '.$row_a['name'].'.\n\nEFFECTS: The data you typed is stored but you won\'t see any effects in the layout.\n\nSOLUTION: CHMOD the folder named \'r\' RECURSIVELY (incl. all its files, subfolders a.s.o.) e. g. to 777 e. g. with FileZilla.");</script>';
-}
-
 $r=mysql_query("SELECT COUNT(*) c FROM resources_log");$n=mysql_fetch_assoc($r);
 if(!$n['c'])mysql_query("INSERT INTO resources_log(
 name,content_1,content_2,content_3,content_4,content_5,
@@ -700,7 +686,9 @@ if(strpos($configphp,'$resamplingquality=70;')>0)$configphp=str_replace('$resize
 file_put_contents('../config.php',$configphp);
 }
 
+if (!function_exists('rrmdir')) {
  function rrmdir($dir) { 
+   if (is_link($dir)) { @unlink($dir); return; }
    if (is_dir($dir)) { 
      $objects = scandir($dir); 
      foreach ($objects as $object) { 
@@ -714,17 +702,32 @@ file_put_contents('../config.php',$configphp);
      rmdir($dir); 
    } 
  }
+}
 rrmdir('../fancybox');
 rrmdir('../lib');
-unlink('../v.js');
-unlink('../c.js');
-unlink('../getcode.php');
-unlink('../story.php');
-unlink('../cookies.php');
-unlink('../js/jquery-3.3.1.min.js');
-include('../u5admin/putcss.inc.php');
+@unlink('../v.js');
+@unlink('../c.js');
+@unlink('../getcode.php');
+@unlink('../story.php');
+@unlink('../cookies.php');
+@unlink('../js/jquery-3.3.1.min.js');
+
+// Some very old schemas create login globals after the first language-column pass.
+foreach ($migrate_tables as $table_name=>$table_fields) adapt_table_to_5languages($table_name,$table_fields,$datatype_definition);
+if (u5CodeMigrationNeedsLegacySchema()) throw new RuntimeException('The legacy database schema upgrade is not complete. Keep runonce.php and retry after resolving the database error.');
+}
+u5CodeAssetsMigrate(dirname(__DIR__));
+$u5CodeMigrationComplete=true;
+} catch (Throwable $u5MigrationError) {
+    if (!headers_sent()) http_response_code(500);
+    echo '<p>Update 12.11.0 was not completed: '.htmlspecialchars($u5MigrationError->getMessage(),ENT_QUOTES,'Windows-1252').'</p><p>Keep runonce.php in place and retry the backend after resolving the error. The migration checkpoint has been preserved.</p>';
+    return;
+} finally {
+    if ($u5CodeMigrationRelease) $u5CodeMigrationRelease();
+}
+
 ?>
 <script>
-setTimeout("alert('Your DB has been updated. If you are going to experience a loop now, delete the file runonce.php in the folder r of your u5CMS installation on your server!')",1111);
+setTimeout("alert('Your database and code files have been updated to 12.11.0.')",1111);
 setTimeout("top.location.href=top.location.href",2222);
 </script>

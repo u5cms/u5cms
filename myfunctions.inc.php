@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/codeassets.inc.php';
 if(preg_match('/\.php\/+/',$_SERVER['REQUEST_URI'])){header('Location: '.(($_SERVER['HTTPS']??'')==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].preg_replace('/(\.php)\/+.*/i','$1',parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH)).(($_SERVER['QUERY_STRING']??'')?('?'.$_SERVER['QUERY_STRING']):''),true,301);exit;}
 
 define('U5ROOT_PATH', __DIR__);

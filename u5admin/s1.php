@@ -30,9 +30,9 @@ setcookie('subs', 's1', time() + 3600 * 24 * 365 * 10, '/');
     <br/>
     Backup your content (database and uploaded files) on a regular basis. </p>
 <p id="htmlandcode">
-    <button onclick="location.href='c.php'">code (html template &amp; css)</button>
+    <button onclick="location.href='c.php'">code (HTML, CSS &amp; JavaScript)</button>
     <br/>
-    Manage the htmltemplate and its css-files.</p>
+    Manage code objects such as htmltemplate!html, base!css and mobile!js. The last ! determines the exported file extension.</p>
 <p>
     <button
         onClick="f1=window.open('titlefixum.php','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999');">

@@ -1,4 +1,4 @@
 <?php
 require_once('connect.inc.php');
-@unlink('../r/runonce.php');
+if (!empty($u5CodeMigrationComplete) && is_file('../fileversions/codeassets-12.11.0.done.php')) @unlink('../r/runonce.php');
 ?>

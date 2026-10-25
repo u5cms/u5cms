@@ -3,7 +3,7 @@ This CSS formats the first (horizontal) level of a split navigation.
 
 If you want a split navigation, you have to
 
-1: In PIDVESA's S, htmltemplate, switch the 
+1: In PIDVESA's S, htmltemplate, switch the
 #navTop on
 
   <div id="navigationtop">
@@ -30,7 +30,7 @@ height:0px;
 
 #navTop a {
 text-decoration: none;
-color: 
+color:
 #3F3F3F;
 display:inline-block;
 margin-top:7px;
@@ -39,7 +39,7 @@ margin-top:7px;
 #navTop a:hover {
 text-decoration: none;
 color: black;
-text-shadow: 1px 1px 
+text-shadow: 1px 1px
 #ccc;
 }
 
@@ -51,7 +51,7 @@ display: inline;
 #navTop li {
 display: inline;
 margin-right: 11px;
-background: 
+background:
 #eee;
 padding: 7px;
 }
@@ -75,4 +75,4 @@ display: none;
 
 #navTop li li li {
 display: none;
-}  
+}

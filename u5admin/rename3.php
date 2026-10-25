@@ -67,11 +67,11 @@ if ($_POST['ulinks'] == 'yes') {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     $st3='{{{';
     $en3='}}}';
-    $sql_a = "UPDATE resources_log SET content_1=REPLACE(content_1,'".$st3."$search".$en3."','".$st3."$replace".$en3."') WHERE name='htmltemplate';";
+    $sql_a = "UPDATE resources_log SET content_1=REPLACE(content_1,'".$st3."$search".$en3."','".$st3."$replace".$en3."') WHERE name='".mysql_real_escape_string(u5CodeTemplateName())."';";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
-    $sql_a = "UPDATE resources_log SET content_1=REPLACE(content_1,'[_".$search."_]','[_".$replace."_]') WHERE name='htmltemplate';";
+    $sql_a = "UPDATE resources_log SET content_1=REPLACE(content_1,'[_".$search."_]','[_".$replace."_]') WHERE name='".mysql_real_escape_string(u5CodeTemplateName())."';";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 

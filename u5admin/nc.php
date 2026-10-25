@@ -16,7 +16,13 @@ shortcut.add("Ctrl+S",function() {
 <input name="ok" type="hidden" />
 <?php require('t1.php') ?></form>
 <?php 
-if (strlen($_GET['name'])<4) echo ('name must be 4 characters or more (a-z, 0-9)<script>document.form1.ok.value=\'\'</script>');
+$u5CodeNameError='';
+if (($_GET['typ'] ?? '')==='c' && strlen($_GET['name'] ?? '')>=4) {
+    try { u5CodeAssetFilename($_GET['name']); }
+    catch (RuntimeException $error) { $u5CodeNameError=$error->getMessage(); }
+}
+if ($u5CodeNameError!=='') echo '<span style="color:red">'.htmlspecialchars($u5CodeNameError,ENT_QUOTES,'Windows-1252').'</span>';
+elseif (strlen($_GET['name'] ?? '')<4) echo ('name must be 4 characters or more (a-z, 0-9)<script>document.form1.ok.value=\'\'</script>');
 
 else {
 $sql_a="SELECT name, typ, deleted FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' AND deleted!=1";

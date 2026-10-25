@@ -4,6 +4,26 @@
 <?php if ($_POST['ulinks'] == '' && $_GET['ulinks'] != '') $_POST['ulinks'] = $_GET['ulinks']; ?>
 <?php if (strlen($_POST['name']) < 4) die('<script>history.go(-1)</script>'); ?>
 <?php if (strlen($_GET['name']) < 4) die('<script>history.go(-1)</script>'); ?>
+<?php
+$u5RenameSource=mysql_query("SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' AND deleted!=1 LIMIT 1");
+$u5RenameKind=$u5RenameSource ? mysql_fetch_array($u5RenameSource) : array();
+$u5RenamePending=is_file('../fileversions/codeasset-rename-'.sha1($_GET['name']."\0".$_POST['name']).'.pending.php');
+if (strtolower((string)($u5RenameKind['typ'] ?? ''))==='c' || $u5RenamePending) {
+    require('archivecheckget.inc.php');
+    if ($cssRqHIADRI!='no') require('accadmin.inc.php');
+    require_once('codeassets-migrate.inc.php');
+    try {
+        u5CodeAssetsRename(dirname(__DIR__),$_GET['name'],$_POST['name'],($_POST['ulinks'] ?? '')==='yes');
+        trxlog('rename '.$_GET['name'].' '.$_POST['name']);
+        echo '<script>if(opener)opener.location.reload();self.close();</script>';
+    } catch (Throwable $error) {
+        http_response_code(500);
+        echo '<p>'.htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252').'</p>';
+    }
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,11 +99,11 @@ if ($_POST['ulinks'] == 'yes') {
 
     $st3='{{{';
     $en3='}}}';
-    $sql_a = "UPDATE resources SET content_1=REPLACE(content_1,'".$st3."$search".$en3."','".$st3."$replace".$en3."') WHERE name='htmltemplate';";
+    $sql_a = "UPDATE resources SET content_1=REPLACE(content_1,'".$st3."$search".$en3."','".$st3."$replace".$en3."') WHERE name='".mysql_real_escape_string(u5CodeTemplateName())."';";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
-    $sql_a = "UPDATE resources SET content_1=REPLACE(content_1,'[_".$search."_]','[_".$replace."_]') WHERE name='htmltemplate';";
+    $sql_a = "UPDATE resources SET content_1=REPLACE(content_1,'[_".$search."_]','[_".$replace."_]') WHERE name='".mysql_real_escape_string(u5CodeTemplateName())."';";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 	

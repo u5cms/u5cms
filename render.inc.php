@@ -1000,7 +1000,7 @@ function render($stringa) {
     $stringa=str_replace('<!--nobr-->','',$stringa);
 
     if ($usesessioninsteadofbasicauth != 'no') {
-        $stringa = str_replace('src="r/', 'src="f.php?f=r/', $stringa);
+        $stringa = u5CodeAssetProxyMediaSources($stringa);
     }
 
     $uploadhash=sha1(date('Ymd').$password.$sessioncookiehashsalt);
