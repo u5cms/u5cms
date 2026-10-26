@@ -1,5 +1,6 @@
 <?php ignore_user_abort(true);set_time_limit(3600); ?>
-<?php require_once('connect.inc.php');require_once('t2.php'); ?>
+<?php require_once('connect.inc.php');require_once('t2.php');
+$u5MutationRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MutationRelease); ?>
 <?php if ($_POST['name'] == '' && $_GET['newname'] != '') $_POST['name'] = $_GET['newname']; ?>
 <?php if ($_POST['ulinks'] == '' && $_GET['ulinks'] != '') $_POST['ulinks'] = $_GET['ulinks']; ?>
 <?php if (strlen($_POST['name']) < 4) die('<script>history.go(-1)</script>'); ?>

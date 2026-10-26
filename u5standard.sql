@@ -499,11 +499,11 @@ CREATE TABLE `resources_log` (
   `content_3` mediumtext DEFAULT NULL,
   `content_4` mediumtext DEFAULT NULL,
   `content_5` mediumtext DEFAULT NULL,
-  `title_1` varchar(255) DEFAULT NULL,
-  `title_2` varchar(255) DEFAULT NULL,
-  `title_3` varchar(255) DEFAULT NULL,
-  `title_4` varchar(255) DEFAULT NULL,
-  `title_5` varchar(255) DEFAULT NULL,
+  `title_1` varchar(1000) DEFAULT NULL,
+  `title_2` varchar(1000) DEFAULT NULL,
+  `title_3` varchar(1000) DEFAULT NULL,
+  `title_4` varchar(1000) DEFAULT NULL,
+  `title_5` varchar(1000) DEFAULT NULL,
   `desc_1` text DEFAULT NULL,
   `desc_2` text DEFAULT NULL,
   `desc_3` text DEFAULT NULL,
@@ -521,7 +521,8 @@ CREATE TABLE `resources_log` (
   `lastmut` int(11) DEFAULT NULL,
   `deleted` int(4) DEFAULT 0,
   `typ` varchar(255) DEFAULT NULL,
-  `ishomepage` tinyint(4) DEFAULT 0
+  `ishomepage` tinyint(4) DEFAULT 0,
+  KEY `u5_code_history_lookup` (`name`(150),`lastmut`,`deleted`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

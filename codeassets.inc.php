@@ -1,5 +1,26 @@
 <?php
 /* Code resources are static assets. The LAST exclamation mark is the suffix separator. */
+function u5CodeMigrationLock($root) {
+    static $held=array();
+    $key=realpath($root) ?: $root;
+    if (isset($held[$key])) $held[$key]['depth']++;
+    else {
+        $handle=@fopen($root.'/fileversions/codeassets-12.11.0.lock.php','c+');
+        if (!$handle) throw new RuntimeException('Cannot open the code asset update lock.');
+        if (!flock($handle,LOCK_EX|LOCK_NB)) {
+            fclose($handle);
+            throw new RuntimeException('Another code asset update is already running. Retry the backend when it has finished.');
+        }
+        if (fstat($handle)['size']===0) fwrite($handle,"<?php exit; ?>\n");
+        $held[$key]=array('handle'=>$handle,'depth'=>1);
+    }
+    return function() use(&$held,$key) {
+        if (!isset($held[$key])) return;
+        $held[$key]['depth']--;
+        if ($held[$key]['depth']===0) { flock($held[$key]['handle'],LOCK_UN);fclose($held[$key]['handle']);unset($held[$key]); }
+    };
+}
+
 function u5CodeAssetDefaults() {
     return array(
         'cssauthuser'=>'authuser!css', 'cssbase'=>'base!css', 'cssform'=>'form!css',
@@ -38,21 +59,22 @@ function u5CodeAssetLegacyFilename($name) {
 
 function u5CodeAssetGuess($name, $source, $uses='') {
     $defaults=u5CodeAssetDefaults();
-    if (isset($defaults[$name])) return array($defaults[$name], 'standard object');
+    if (isset($defaults[strtolower($name)])) return array($defaults[strtolower($name)], 'standard object');
     if (u5CodeAssetIsTyped($name)) return array($name, 'explicit suffix');
     $body=preg_replace('~/\*.*?\*/|<!--.*?-->|^[ \t]*//[^\r\n]*~ms', '', $source);
-    $body=ltrim($body);
+    if ($body===null) $body=$source;
+    $body=ltrim(substr($body,0,3)==="\xEF\xBB\xBF" ? substr($body,3) : $body);
     $extension='css'; $reason='CSS fallback for an ambiguous legacy code object';
-    if (preg_match('~^\s*<(?:!doctype|html|head|body|div|script|style|meta|link)\b~i', $body)) {
+    if (preg_match('~^<\?xml\b|^<svg\b~i', $body)) {
+        $extension=stripos($body,'<svg')!==false ? 'svg' : 'xml'; $reason='XML markup';
+    } elseif (preg_match('~^\s*<(?:!doctype\b|[a-z][a-z0-9:-]*(?:\s|/?>))~i', $body)) {
         $extension='html'; $reason='HTML markup';
     } elseif (preg_match('~<(?:script)\b[^>]*\bsrc\s*=\s*["\'][^"\']*r/'.preg_quote($name,'~').'\.css(?:[?"\'])|(?:loadScript|getScript)\s*\(\s*["\'][^"\']*r/'.preg_quote($name,'~').'\.css~i', $uses)) {
         $extension='js'; $reason='loaded as a script';
-    } elseif (preg_match('~(?:^|[;\r\n])\s*(?:var\s|let\s|const\s|function\s|\(?function\s*\(|(?:window|document|jQuery)\s*[.(]|\$\s*\()|^\s*\(?\s*(?:\([^)]*\)|[a-zA-Z_$]\w*)\s*=>|^\s*if\s*\(~', $body)) {
+    } elseif (preg_match('~(?:^|[;\r\n])\s*(?:var\s|let\s|const\s|function\s|class\s|(?:export|import|async|await|throw)\b|try\s*\{|(?:for|while|switch|setTimeout|setInterval|fetch)\s*\(|console\s*\.\s*(?:log|info|warn|error|debug|assert)\s*\(|\(?function\s*\(|(?:window|document|jQuery)\s*[.(]|\$\s*\()|^\s*\(?\s*(?:\([^)]*\)|[a-zA-Z_$]\w*)\s*=>|^\s*if\s*\(~', $body)) {
         $extension='js'; $reason='JavaScript syntax';
     } elseif ($body!=='' && ($body[0]==='{' || $body[0]==='[') && json_decode($body, true)!==null) {
         $extension='json'; $reason='JSON content';
-    } elseif (preg_match('~^<\?xml\b|^<svg\b~i', $body)) {
-        $extension=stripos($body,'<svg')!==false ? 'svg' : 'xml'; $reason='XML markup';
     } elseif (preg_match('~(?:^|[}\r\n])\s*(?:[.#@][\w-]|[a-z][\w\s,.#:\[\]="\'()>+\~-]*\{)~i', $body)) {
         $reason='CSS rules';
     }
@@ -62,15 +84,19 @@ function u5CodeAssetGuess($name, $source, $uses='') {
     return array($base.'!'.$extension, $reason);
 }
 
-function u5CodeAssetPlanNames($resources, $uses='') {
+function u5CodeAssetPlanNames($resources, $uses='', $occupiedFiles=array()) {
     $groups=array(); $reserved=array(); $files=array(); $map=array(); $notes=array();
+    foreach ($occupiedFiles as $file=>$owner) $files[strtolower($file)]=$owner;
     foreach ($resources as $row) {
         $reserved[strtolower($row['name'])]=true;
         if (strtolower((string)$row['typ'])!=='c') continue;
         $name=$row['name'];
         $rank=(int)$row['deleted']===0 ? 0 : ((int)$row['deleted']===2 ? 1 : 2);
         if (!isset($groups[$name]) || $rank<$groups[$name]['rank']) $groups[$name]=array('row'=>$row,'rank'=>$rank);
-        if (u5CodeAssetIsTyped($name)) $files[strtolower(u5CodeAssetFilename($name))]=$name;
+        if (u5CodeAssetIsTyped($name)) {
+            $file=strtolower(u5CodeAssetFilename($name));
+            if (!array_key_exists($file,$files)) $files[$file]=$name;
+        }
     }
     ksort($groups, SORT_STRING);
     foreach ($groups as $name=>$group) {
@@ -79,7 +105,8 @@ function u5CodeAssetPlanNames($resources, $uses='') {
         while (($target!==$name && isset($reserved[strtolower($target)])) ||
                (isset($files[strtolower(u5CodeAssetFilename($target))]) && $files[strtolower(u5CodeAssetFilename($target))]!==$name)) {
             $split=strrpos($wanted,'!');
-            $target=substr($wanted,0,$split).'!migrated'.substr(sha1($name),0,8).($suffix ? $suffix : '').substr($wanted,$split);
+            $token='!migrated'.substr(sha1($name),0,8).($suffix ? $suffix : '');
+            $target=substr(substr($wanted,0,$split),0,220-strlen($token)).$token.substr($wanted,$split);
             $suffix++;
         }
         $reserved[strtolower($target)]=true;
@@ -90,78 +117,181 @@ function u5CodeAssetPlanNames($resources, $uses='') {
     return array('map'=>$map,'notes'=>$notes);
 }
 
-function u5CodeAssetReferences($text, $map=array(), $depth=0) {
+function u5CodeAssetFormat($name,$map=array()) {
+    $typed=$map[$name] ?? $name;
+    return u5CodeAssetIsTyped($typed) ? strtolower(pathinfo(u5CodeAssetFilename($typed),PATHINFO_EXTENSION)) : 'data';
+}
+
+function u5CodeAssetReplace($pattern,$callback,$source) {
+    $result=preg_replace_callback($pattern,$callback,$source);
+    if ($result===null) throw new RuntimeException('Cannot rewrite code references (regular expression error '.preg_last_error().').');
+    return $result;
+}
+
+function u5CodeAssetQueryNames($text,$names,$quotedOnly=false) {
+    $unsafe=preg_quote("&\"'`# \t\r\n<>)]\\",'~');
+    $rewrite=function($part) use($names,$unsafe) {
+        return u5CodeAssetReplace('~(\?|&(?:amp;)?)(name|c|n)=([^'.$unsafe.']+)~i',function($m) use($names) {
+            $old=urldecode($m[3]);$key=strtolower($old);
+            if (!isset($names[$key])) return $m[0];
+            $new=$names[$key];
+            return $m[1].$m[2].'='.(strpos($m[3],'%')!==false || strpos($m[3],'+')!==false ? rawurlencode($new) : $new);
+        },$part);
+    };
+    if (!$quotedOnly) return $rewrite($text);
+    $out='';$offset=0;$length=strlen($text);
+    while ($offset<$length) {
+        $begin=$offset+strcspn($text,"\"'`",$offset);
+        if ($begin===$length) break;
+        $quote=$text[$begin];$end=$begin;
+        do {
+            $end=strpos($text,$quote,$end+1);
+            if ($end===false) break 2;
+            $slashes=0;for ($i=$end-1;$i>$begin && $text[$i]==='\\';$i--) $slashes++;
+        } while ($slashes%2);
+        $out.=substr($text,$offset,$begin-$offset).$rewrite(substr($text,$begin,$end-$begin+1));
+        $offset=$end+1;
+    }
+    return $out.substr($text,$offset);
+}
+
+function u5CodeAssetMarkupNames($text,$names,$simple=true) {
+    return u5CodeAssetReplace('~\{\{\{([^{}\r\n]+)\}\}\}|\[([^\[\]\r\n]*)\]~',function($m) use($names,$simple) {
+        if (isset($m[1]) && $m[1]!=='') {
+            if (!$simple || (preg_match('/^[a-zA-Z0-9_!-]+$/D',$m[1]) && is_file(__DIR__.'/u5sys.'.$m[1].'.php'))) return $m[0];
+            $key=strtolower($m[1]);return isset($names[$key]) ? '{{{'.$names[$key].'}}}' : $m[0];
+        }
+        $body=$m[2];$colon=strrpos($body,':');
+        $prefix=$colon===false ? '' : substr($body,0,$colon+1);
+        if (!$simple && $prefix!=='$$$:') return $m[0];
+        $value=substr($body,strlen($prefix));$parts=explode('?',$value,2);$key=strtolower($parts[0]);
+        return isset($names[$key]) ? '['.$prefix.$names[$key].(isset($parts[1]) ? '?'.$parts[1] : '').']' : $m[0];
+    },$text);
+}
+
+function u5CodeAssetJsonReferences($text,$map,$depth,$format,$objectMap) {
+    $out='';$offset=0;$length=strlen($text);
+    while (($begin=strpos($text,'"',$offset))!==false) {
+        $end=$begin;
+        do {
+            $end=strpos($text,'"',$end+1);
+            if ($end===false) throw new RuntimeException('Invalid JSON reference token.');
+            $slashes=0;for($i=$end-1;$i>$begin && $text[$i]==='\\';$i--) $slashes++;
+        } while ($slashes%2);
+        $literal=substr($text,$begin,$end-$begin+1);$value=json_decode($literal,true);
+        $context=in_array(strtolower($format),array('html','htm','json','map','webmanifest','manifest'),true) ? 'json' : $format;
+        if (in_array(strtolower($format),array('html','htm','json','map','webmanifest','manifest'),true)) {
+            if (preg_match('~^\s*<~',$value)) $context='html';
+            elseif (preg_match('~^(?:[a-z][a-z0-9+.-]*:|//|/|\./|\.\./|\?|[a-z0-9_!.-]+\.php\?)~i',$value)) $context='data';
+        }
+        $new=u5CodeAssetReferences($value,$map,$depth+1,$context,$objectMap);
+        if ($new!==$value) {
+            $flags=strpos($literal,'\\/')===false ? JSON_UNESCAPED_SLASHES : 0;
+            if (!preg_match('/\\\\u[0-9a-f]{4}/i',$literal)) $flags|=JSON_UNESCAPED_UNICODE;
+            foreach(array('003c'=>JSON_HEX_TAG,'003e'=>JSON_HEX_TAG,'0026'=>JSON_HEX_AMP,'0027'=>JSON_HEX_APOS,'0022'=>JSON_HEX_QUOT) as $hex=>$flag) if (stripos($literal,'\\u'.$hex)!==false) $flags|=$flag;
+            $literal=json_encode($new,$flags);
+            if ($literal===false) throw new RuntimeException('Cannot encode JSON code references.');
+        }
+        $out.=substr($text,$offset,$begin-$offset).$literal;$offset=$end+1;
+    }
+    return $out.substr($text,$offset);
+}
+
+function u5CodeAssetReferences($text,$map=array(),$depth=0,$format='html',$objectMap=null) {
     if (!is_string($text) || $text==='' || $depth>8) return $text;
-    // Serialized strings use byte counts. Rewrite their payloads, never their raw representation.
-    if (preg_match('/^(?:a:\d+:\{|O:\d+:|s:\d+:"|C:\d+:)/', $text)) {
+    // Preserve byte lengths in PHP serialized data without instantiating objects.
+    if (preg_match('/^(?:a:\d+:\{|O:\d+:|s:\d+:"|C:\d+:)/',$text)) {
         if (strpos($text,'C:')===0) return $text;
-        $out=''; $cursor=0;
-        while (preg_match('/s:(\d+):"/', $text, $hit, PREG_OFFSET_CAPTURE, $cursor)) {
-            $start=$hit[0][1]; $dataStart=$start+strlen($hit[0][0]); $length=(int)$hit[1][0];
+        $out='';$cursor=0;
+        while (preg_match('/s:(\d+):"/',$text,$hit,PREG_OFFSET_CAPTURE,$cursor)) {
+            $start=$hit[0][1];$dataStart=$start+strlen($hit[0][0]);$length=(int)$hit[1][0];
             if (substr($text,$dataStart+$length,2)!=='";') return $text;
-            $body=substr($text,$dataStart,$length);
-            $new=u5CodeAssetReferences($body,$map,$depth+1);
+            $new=u5CodeAssetReferences(substr($text,$dataStart,$length),$map,$depth+1,$format,$objectMap);
             $out.=substr($text,$cursor,$start-$cursor).'s:'.strlen($new).':"'.$new.'";';
             $cursor=$dataStart+$length+2;
         }
         return $out.substr($text,$cursor);
     }
-    // Older copied markup may already contain the renderer's media wrapper.
-    // Only flat static code exports are unwrapped; protected resource folders are untouched.
-    $text=preg_replace('~(?<![a-zA-Z0-9_.-])f{1,4}\.php\?f=(r/[^/\s"\'<>?#]+\.(?:css|js|mjs|html?|txt|json|map|xml|svg|webmanifest|manifest|csv|rss|atom|ics|md|ya?ml))(?=[?&#"\'\s<>)]|$)~i','$1',$text);
-    $allNames=array_merge(u5CodeAssetDefaults(),$map);
-    $paths=array();$names=array();
-    foreach ($allNames as $old=>$new) {
-        $oldFile=u5CodeAssetLegacyFilename($old);
-        if ($oldFile===null) continue;
-        // Before 12.11.0 even an object already named example!js exported as example!js.css.
-        $candidates=array($oldFile);
-        if (strpos($old,'!')!==false && u5CodeAssetIsTyped($old)) $candidates[]=u5CodeAssetFilename($old);
-        $present=strpos($text,$old)!==false;
-        foreach ($candidates as $candidate) if (strpos($text,$candidate)!==false) $present=true;
-        if (!$present) continue;
-        $target=u5CodeAssetFilename($new);
-        foreach ($candidates as $index=>$candidate) if ($candidate!==$target && ($index===0 || !isset($paths[$candidate]))) $paths[$candidate]=$target;
-        if ($old!==$new) { $names[$old]=$new; $paths[$old.'.tpl']=$new.'.tpl'; }
-    }
-    if (!$names && !$paths) return $text;
-    // Sharing a site-specific mobile script with another CMS domain remains supported.
-    // Only the former yuba.ch code CDN is localized; links to its documentation are untouched.
-    $text=preg_replace_callback('~(?:https?:)?//(?:www\.)?yuba\.ch/(?:[^\s"\'<>?#]*/)?r/([^/\s"\'<>?#]+)(?=[?\#"\'\s<>)]|$)~i', function($m) use ($paths) {
-        return isset($paths[$m[1]]) ? 'r/'.$m[1] : $m[0];
-    },$text);
-    $text=preg_replace_callback('~(?<![a-zA-Z0-9_!.-])r/([^/\s"\'<>?#)]+)(?=[?\#"\'\s<>)]|$)~', function($m) use($paths) {
-        return isset($paths[$m[1]]) ? 'r/'.$paths[$m[1]] : $m[0];
-    },$text);
-    // Stylesheets import siblings relative to r/, without an r/ prefix.
-    $text=preg_replace_callback('~(?<![a-zA-Z0-9_/!.-])([^/\s"\'<>?#(]+\.(?:css|tpl))(?=[?\#"\'\s<>)]|$)~',function($m) use($paths) {
-        return $paths[$m[1]] ?? $m[0];
-    },$text);
-    // JSON commonly escapes slashes; preserve that representation.
-    $escaped=array();
-    foreach ($paths as $old=>$new) {
-        foreach (array('https://yuba.ch/r/','http://yuba.ch/r/','//yuba.ch/r/','https://www.yuba.ch/r/','http://www.yuba.ch/r/','//www.yuba.ch/r/') as $cdn) {
-            $escaped[str_replace('/','\\/',$cdn.$old)]=str_replace('/','\\/','r/'.$new);
+    $trimmed=ltrim($text);
+    if (in_array($trimmed[0] ?? '',array('{','[','"'),true)) {
+        $valid=function_exists('json_validate') ? json_validate($text) : (json_decode($text,true)!==null || json_last_error()===JSON_ERROR_NONE);
+        $simpleMarkup=false;
+        if ($valid && in_array(strtolower($format),array('html','htm'),true) && preg_match('/^\[([^\[\]"{}]+)\]$/D',$trimmed,$tag)) {
+            $all=array_merge(u5CodeAssetDefaults(),$map);$simpleMarkup=isset($all[$tag[1]]);
         }
-        $escaped['r\\/'.$old]='r\\/'.$new;
+        if ($valid && !$simpleMarkup) return u5CodeAssetJsonReferences($text,$map,$depth,$format,$objectMap);
     }
-    // A single replacement pass avoids cascading when a new path is another object's old path.
-    if ($escaped) {
-        $keys=array(); foreach ($escaped as $key=>$value) $keys[]=preg_quote($key,'~');
-        $pattern='~(?:'.implode('|',$keys).')(?=[?&#"\'\s<>)]|$|'.preg_quote('\\','~').'["\'])~';
-        $text=preg_replace_callback($pattern,function($match) use($escaped) { return $escaped[$match[0]]; },$text);
+    $slash='(?:/|'.preg_quote('\\/','~').')';
+    $token='(?:'.preg_quote('\\/','~').'|[^'.preg_quote("\\ \t\r\n\"'<>)]",'~').'])+';
+    // Flat public exports may have been copied with the old renderer's media wrapper.
+    $text=u5CodeAssetReplace('~(?<![a-zA-Z0-9_.-])f{1,4}\.php\?f=('.$token.')~i',function($m) {
+        $escaped=strpos($m[1],'\\/')!==false;$value=str_replace('\\/','/',$m[1]);
+        $parts=preg_split('/&(?:amp;)?/',$value,2);$file=$parts[0];
+        if (strpos($file,'r/')!==0) $file=rawurldecode($file);
+        $path=preg_split('/[?#]/',$file,2)[0];
+        if (!preg_match('~^r/[^/]+\.(?:css|js|mjs|html?|txt|json|map|xml|svg|webmanifest|manifest|csv|rss|atom|ics|md|ya?ml)$~i',$path)) return $m[0];
+        if (isset($parts[1])) {
+            $fragment=explode('#',$file,2);$file=$fragment[0].(strpos($fragment[0],'?')===false ? '?' : (strpos($value,'&amp;')!==false ? '&amp;' : '&')).$parts[1].(isset($fragment[1]) ? '#'.$fragment[1] : '');
+        }
+        return $escaped ? str_replace('/','\\/',$file) : $file;
+    },$text);
+    $all=array_merge(u5CodeAssetDefaults(),$map);$paths=array();$cdnPaths=array();$names=array();
+    foreach ($all as $old=>$new) {
+        $legacy=u5CodeAssetLegacyFilename($old);if ($legacy===null) continue;
+        $target=u5CodeAssetFilename($new);
+        if ($legacy!==$target) $paths[$legacy]=$target;
+        if (strpos($old,'!')!==false && u5CodeAssetIsTyped($old)) {
+            $current=u5CodeAssetFilename($old);
+            if ($current!==$target && !isset($paths[$current])) $paths[$current]=$target;
+        }
+        if ($old!==$new) $paths[$old.'.tpl']=$new.'.tpl';
+        $cdnPaths[$legacy]=$target;$cdnPaths[$target]=$target;
     }
-    foreach ($names as $old=>$new) {
-        if ($old===$new) continue;
-        $quoted=preg_quote($old,'~');
-        $text=preg_replace_callback('~(?:(?<=[\[:])'.$quoted.'(?=[\]?])|(?<=\{\{\{)'.$quoted.'(?=\}\}\})|(?<=["\'])'.$quoted.'(?=["\'])|(?<=[?&])(?:name|c|n)='.$quoted.'(?=[&\#"\'\s]|$))~', function($m) use($old,$new) {
-            return substr($m[0],0,strlen($m[0])-strlen($old)).$new;
-        },$text);
+    foreach (u5CodeAssetDefaults() as $legacy=>$canonical) {
+        $cdnPaths[u5CodeAssetFilename($canonical)]=u5CodeAssetFilename($all[$legacy] ?? $canonical);
     }
-    return $text;
+    foreach ($objectMap===null ? $all : $objectMap as $old=>$new) if ($old!==$new) $names[strtolower($old)]=$new;
+    $file='[^'.preg_quote("/\\ \t\r\n\"'<>?#&()",'~').']+';
+    $origin='(?:(?:https?:)?'.$slash.$slash.'(?:www\.)?yuba\.ch'.$slash.'(?:'.$file.$slash.')*)';
+    $boundary='(?=[?#&\"\'\s<>()]|$|'.preg_quote('\\','~').'[\"\']|/(?=>))';
+    // One constant-size pattern handles both ordinary and JSON-escaped paths. No cascading replacements.
+    $text=u5CodeAssetReplace('~(?<![a-zA-Z0-9_!.-])('.$origin.')?r('.$slash.')('.$file.')'.$boundary.'~i',function($m) use($paths,$cdnPaths) {
+        $old=rawurldecode($m[3]);$cdn=$m[1]!=='';$lookup=$cdn ? $cdnPaths : $paths;
+        if (!isset($lookup[$old])) return $m[0];
+        $new=$lookup[$old];if (strpos($m[3],'%')!==false) $new=rawurlencode($new);
+        return 'r'.$m[2].$new;
+    },$text);
+    // CSS imports may use sibling paths, including an explicit ./ prefix.
+    $text=u5CodeAssetReplace('~(?<![a-zA-Z0-9_/!.-])((?:\.'.$slash.')?)('.$file.')'.$boundary.'~',function($m) use($paths) {
+        $old=rawurldecode($m[2]);
+        if (!isset($paths[$old])) return $m[0];
+        $new=$paths[$old];if (strpos($m[2],'%')!==false) $new=rawurlencode($new);
+        return $m[1].$new;
+    },$text);
+    if (!$names) return $text;
+    if (!in_array(strtolower($format),array('html','htm'),true)) {
+        $text=u5CodeAssetQueryNames($text,$names,in_array(strtolower($format),array('js','mjs','json','map','webmanifest','manifest'),true));
+        return u5CodeAssetMarkupNames($text,$names,false);
+    }
+    // CMS inclusion syntax remains valid inside tags and scripts. Ordinary JS/CSS identifiers do not change.
+    $parts=preg_split('~(<(?:script|style)\b[^>]*>.*?</(?:script|style)\s*>)~is',$text,-1,PREG_SPLIT_DELIM_CAPTURE);
+    if ($parts===false) throw new RuntimeException('Cannot parse code reference context.');
+    foreach ($parts as &$part) {
+        $code=preg_match('~^<(?:script|style)\b~i',$part);
+        $part=u5CodeAssetQueryNames($part,$names,$code && stripos($part,'<script')===0);
+        if ($code) $part=u5CodeAssetMarkupNames($part,$names,false);
+        else {
+            $tags=preg_split('~(<(?:"[^"]*"|\'[^\']*\'|[^\'">])*>)~s',$part,-1,PREG_SPLIT_DELIM_CAPTURE);
+            if ($tags===false) throw new RuntimeException('Cannot parse code reference tags.');
+            foreach ($tags as &$tag) $tag=u5CodeAssetMarkupNames($tag,$names,substr($tag,0,1)!=='<');
+            unset($tag);$part=implode('',$tags);
+        }
+    }
+    unset($part);return implode('',$parts);
 }
 
 function u5CodeAssetVersionURL($url,$stamp) {
+    if (preg_match('~^(?:[a-z][a-z0-9+.-]*:|//)~i',$url)) return $url;
     if (!preg_match('~\.(?:css|js|mjs|png|jpe?g|gif|webp|avif|svg|ttf|woff2?)(?:[?#]|$)~i',$url) || preg_match('~^(?:data|javascript):~i',$url)) return $url;
     $parts=explode('#',$url,2); $fragment=isset($parts[1]) ? '#'.$parts[1] : '';
     $parts=explode('?',$parts[0],2); $query=isset($parts[1]) ? $parts[1] : '';
@@ -172,13 +302,13 @@ function u5CodeAssetVersionURL($url,$stamp) {
 }
 
 function u5CodeAssetOutput($source,$stamp) {
-    $source=preg_replace_callback('~(\b(?:src|href)\s*=\s*)(["\'])(.*?)\2~is',function($m) use($stamp) {
+    $source=u5CodeAssetReplace('~(\b(?:src|href)\s*=\s*)(["\'])(.*?)\2~is',function($m) use($stamp) {
         return $m[1].$m[2].u5CodeAssetVersionURL($m[3],$stamp).$m[2];
     },$source);
-    $source=preg_replace_callback('~(\burl\(\s*)(["\']?)([^\s\)"\']+)\2(\s*\))~i',function($m) use($stamp) {
+    $source=u5CodeAssetReplace('~(\burl\(\s*)(["\']?)([^\s\)"\']+)\2(\s*\))~i',function($m) use($stamp) {
         return $m[1].$m[2].u5CodeAssetVersionURL($m[3],$stamp).$m[2].$m[4];
     },$source);
-    return preg_replace_callback('~((?:loadScript|getScript)\s*\(\s*)(["\'])(.*?)\2~s',function($m) use($stamp) {
+    return u5CodeAssetReplace('~((?:loadScript|getScript)\s*\(\s*)(["\'])(.*?)\2~s',function($m) use($stamp) {
         return $m[1].$m[2].u5CodeAssetVersionURL($m[3],$stamp).$m[2];
     },$source);
 }
@@ -187,8 +317,10 @@ function u5CodeAssetAtomicWrite($path,$data) {
     $temporary=@tempnam(dirname($path),'.u5asset-');
     if ($temporary===false) throw new RuntimeException('Cannot create asset in '.dirname($path));
     try {
+        if (realpath(dirname($temporary))!==realpath(dirname($path))) throw new RuntimeException('Cannot create an atomic file in '.dirname($path));
         if (file_put_contents($temporary,$data)!==strlen($data)) throw new RuntimeException('Cannot write '.$path);
-        @chmod($temporary,is_file($path) ? (fileperms($path)&0777) : 0644);
+        $permissions=is_file($path) ? @fileperms($path) : 0644;
+        if ($permissions===false || !@chmod($temporary,$permissions&0777)) throw new RuntimeException('Cannot set permissions on '.$path);
         if (!@rename($temporary,$path)) throw new RuntimeException('Cannot publish '.$path);
     } finally { if (is_file($temporary)) @unlink($temporary); }
 }
@@ -220,20 +352,34 @@ function u5CodeAssetRowsToFiles($rows,$stamp) {
     }
     $files=array();
     foreach ($chosen as $file=>$value) {
-        $data=u5CodeAssetOutput((string)$value['row']['content_1'],$stamp);
-        $extension=strtolower(pathinfo($file,PATHINFO_EXTENSION));
-        if (in_array($extension,array('js','mjs','css'),true)) $data="\xEF\xBB\xBF".u5CodeAssetUtf8($data);
-        elseif (in_array($extension,array('json','map','webmanifest','manifest'),true)) $data=u5CodeAssetUtf8($data);
+        $row=$value['row'];$extension=strtolower(pathinfo($file,PATHINFO_EXTENSION));
+        $source=(string)($row['content_1'] ?? '');
+        if (in_array($extension,array('html','htm'),true)) {
+            $data=u5CodeAssetOutput($source,$stamp);
+        } else {
+            $utf8=isset($row['u5_code_utf8']) ? (string)$row['u5_code_utf8'] : u5CodeAssetUtf8(substr($source,0,3)==="\xEF\xBB\xBF" ? substr($source,3) : $source);
+            if (substr($utf8,0,3)==="\xEF\xBB\xBF") $utf8=substr($utf8,3);
+            if (in_array($extension,array('js','mjs','css'),true)) $data="\xEF\xBB\xBF".u5CodeAssetOutput($utf8,$stamp);
+            else {
+                $data=$utf8;
+                if (in_array($extension,array('xml','svg','rss','atom'),true)) {
+                    $data=u5CodeAssetReplace('~^(<\\?xml\\b[^?]*\\bencoding\\s*=\\s*)(["\'])[^"\']*\\2~i',function($m) { return $m[1].$m[2].'UTF-8'.$m[2]; },$data);
+                }
+            }
+        }
         $files[$file]=$data;
     }
     return $files;
 }
 
 function u5CodeAssetExport($root) {
-    $result=mysql_query("SELECT * FROM resources WHERE typ='c' AND deleted!=1");
+    $release=u5CodeMigrationLock($root);
+    try {
+    $result=mysql_query("SELECT *,CAST(CONVERT(content_1 USING utf8mb4) AS BINARY) AS u5_code_utf8 FROM resources WHERE typ='c' AND deleted!=1");
     if ($result===false) throw new RuntimeException('Cannot read code objects for export.');
     $rows=array(); while ($row=mysql_fetch_array($result,MYSQL_ASSOC)) $rows[]=$row;
     foreach (u5CodeAssetRowsToFiles($rows,time()) as $file=>$data) u5CodeAssetAtomicWrite($root.'/r/'.$file,$data);
+    } finally { $release(); }
 }
 
 function u5CodeTemplateName($root=null) {

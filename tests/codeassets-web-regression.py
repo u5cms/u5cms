@@ -42,6 +42,7 @@ header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readf
                     assert response.headers.get_content_type()==mime
                     assert response.headers.get('X-Content-Type-Options')=='nosniff'
             subprocess.run(['node',str(REPO/'tests/codeassets-browser.cjs'),base,str(site)],check=True)
+            subprocess.run(['node',str(REPO/'tests/codeassets-backend.cjs'),base,str(site)],check=True)
         except Exception:
             log.flush();print((work/'server.log').read_text()[-12000:]);raise
         finally:

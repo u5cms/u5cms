@@ -1,4 +1,5 @@
-<?php require_once('connect.inc.php');require_once('t2.php');require_once('resourceupdate.inc.php'); ?>
+<?php require_once('connect.inc.php');require_once('t2.php');
+$u5MutationRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MutationRelease);require_once('resourceupdate.inc.php'); ?>
 <?php if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');?>
 <?php if (strlen($_GET['name'])<4) die('<script>history.go(-1)</script>');?>
 <!DOCTYPE html>
@@ -19,7 +20,10 @@ $u5CopyKind=$u5CopySource ? mysql_fetch_array($u5CopySource) : array();
 $u5CopyCode=strtolower((string)($u5CopyKind['typ'] ?? ''))==='c';
 if ($u5CopyCode) {
     if ($cssRqHIADRI!='no') require('accadmin.inc.php');
-    try { u5CodeAssetFilename($_POST['name']); }
+    try {
+        u5CodeAssetFilename($_POST['name']);
+        if (file_exists('../r/'.u5CodeAssetFilename($_POST['name'])) || file_exists('../r/'.$_POST['name'].'.tpl')) throw new RuntimeException('The target code file or reset template already exists.');
+    }
     catch (RuntimeException $error) { die(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252')); }
 }
 
@@ -44,52 +48,27 @@ if ($result_a===false) die('Cannot prepare the copy.');
 
 function duplicateallrecsinTABLENAMEwithoutAUTOINCFIELDwhereCONDITIONSaltervlaueofFIELDNAMEtotihisNEWVALUE
 ($tablename,$autoincfield,$conditions,$fieldname,$newvalue) {
-  global $lan1na;
-  global $lan2na;
-  global $lan3na;
-    global $lan4na;
-    global $lan5na;
-
-$sql="SELECT * FROM $tablename $conditions";
-$result=mysql_query($sql);
-if ($result===false) die('Cannot read the resource to copy.');
-$anz=mysql_num_fields($result); 
-$num = mysql_num_rows($result);
-if ($num===0) die('The resource to copy no longer exists.');
-
-//Felderstring erstellen
-
-$fieldstring='';
-for ($i=0;$i<$anz;$i++) {
-if (mysql_field_name($result,$i)!=$autoincfield) {
-$fieldstring.=mysql_field_name($result,$i);
-if ($i<$anz-1) $fieldstring.=', ';
-}
+    require_once __DIR__.'/codeassets-migrate.inc.php';
+    $columns=u5CodeMigrationColumns($tablename);$fields=array();$values=array();
+    foreach ($columns as $name=>$column) {
+        if ($name===$autoincfield || stripos($column['Extra'],'auto_increment')!==false) continue;
+        $field=u5CodeMigrationIdentifier($name);$fields[]=$field;
+        if ($name===$fieldname) $values[]=u5ResourceSqlValue($newvalue);
+        elseif ($name==='ishomepage') $values[]='0';
+        elseif ($name==='lastmut') $values[]=(string)$GLOBALS['copyRevision'];
+        elseif ($name==='operator') $values[]=u5ResourceSqlValue(u5flatidnlower($_SERVER['PHP_AUTH_USER']));
+        elseif ($name==='ip') $values[]=u5ResourceSqlValue($_SERVER['REMOTE_ADDR']);
+        elseif (preg_match('/^search_[1-5]$/',$name)) $values[]='NULL';
+        else $values[]=$field;
+    }
+    u5CodeMigrationHistorySchema();
+    u5CodeMigrationQuery('INSERT INTO '.u5CodeMigrationIdentifier($tablename).' ('.implode(',',$fields).') SELECT '.implode(',',$values).' FROM '.u5CodeMigrationIdentifier($tablename).' '.$conditions);
+    if (!mysql_affected_rows()) throw new RuntimeException('The resource to copy no longer exists.');
+    u5CodeMigrationInitializeHistory();
 }
 
-
-for ($ii=0;$ii<$num;$ii++) {
-//Valuestrings erstellen
-$valuestring='';
-$row = mysql_fetch_array($result);
-for ($i=0;$i<$anz;$i++) {
-if (mysql_field_name($result,$i)!=$autoincfield) {
-if (mysql_field_name($result,$i)==$fieldname) $valuestring.="'".mysql_real_escape_string($newvalue)."'";
-elseif (mysql_field_name($result,$i)=='ishomepage') $valuestring.='0';
-elseif (mysql_field_name($result,$i)=='lastmut') $valuestring.=(string)$GLOBALS['copyRevision'];
-elseif (preg_match('/^search_[1-5]$/',mysql_field_name($result,$i))) $valuestring.='NULL';
-else $valuestring.="'".mysql_real_escape_string($row[mysql_field_name($result,$i)])."'";
-if ($i<$anz-1) $valuestring.=', ';
-}
-}
-$sqlb="INSERT INTO $tablename ($fieldstring) VALUES ($valuestring)";
-$resultb=@mysql_query($sqlb);
-if ($resultb==false) die('Copy failed; subsequent file operations were stopped.');
-else echo "<!--ok -->";
-}
-}
-
-@mkdir('../r/'.$_POST['name'],0777);
+if ($u5CopyCode && is_file('../r/'.$_GET['name'].'.tpl')) u5CodeAssetAtomicWrite('../r/'.$_POST['name'].'.tpl',file_get_contents('../r/'.$_GET['name'].'.tpl'));
+if (!$u5CopyCode) @mkdir('../r/'.$_POST['name'],0777);
 
 $path='../r/'.$_GET['name'];
      if ($handle = @opendir($path))  { 

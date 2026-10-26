@@ -100,11 +100,14 @@ foreach (get_included_files() as $f) {
 $keys = ['c','n','l','typ','name','id'];
 foreach ($keys as $k) {
     $pattern = ($k === 'n') ? '/[^a-z0-9_! ]/i' : '/[^a-z0-9_!]/i';
+    $codeKey=in_array($k,array('c','n','name'),true);
+    $getCode=$codeKey && isset($_GET[$k]) && is_string($_GET[$k]) && function_exists('u5CodeAssetIsTyped') && u5CodeAssetIsTyped($_GET[$k]);
+    $postCode=$codeKey && isset($_POST[$k]) && is_string($_POST[$k]) && function_exists('u5CodeAssetIsTyped') && u5CodeAssetIsTyped($_POST[$k]);
 
     if (isset($_GET[$k]) && is_string($_GET[$k])) {
-        $_GET[$k] = preg_replace($pattern, '', $_GET[$k]);
+        $_GET[$k] = preg_replace($getCode ? '/[^a-z0-9_!-]/i' : $pattern, '', $_GET[$k]);
     }
     if (!$skipPost && isset($_POST[$k]) && is_string($_POST[$k])) {
-        $_POST[$k] = preg_replace($pattern, '', $_POST[$k]);
+        $_POST[$k] = preg_replace($postCode ? '/[^a-z0-9_!-]/i' : $pattern, '', $_POST[$k]);
     }
 }

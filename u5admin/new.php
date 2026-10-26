@@ -28,7 +28,7 @@ shortcut.add("Ctrl+S",function() {
   
   </p>
   <p>
-    <input name="name" type="text" oninput="var v=validated(this.value).substring(0,<?php echo ($_GET['typ'] ?? '')==='c' ? 240 : 20 ?>);if(this.value!=v)this.value=v;nc.location.href='nc.php?typ=<?php echo ($_GET['typ'] ?? '')==='c' ? 'c' : '' ?>&name='+this.value" size="20" />
+    <input name="name" type="text" oninput="var v=(<?php echo ($_GET['typ'] ?? '')==='c' ? 'true' : 'false' ?> ? this.value.replace(/[^a-zA-Z0-9_!-]/g,'') : validated(this.value)).substring(0,<?php echo ($_GET['typ'] ?? '')==='c' ? 240 : 20 ?>);if(this.value!=v)this.value=v;nc.location.href='nc.php?typ=<?php echo ($_GET['typ'] ?? '')==='c' ? 'c' : '' ?>&name='+this.value" size="20" />
     <br>
     <input type="hidden" name="typ" value="<?php echo $_GET['typ'] ?>">
     </p>

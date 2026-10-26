@@ -18,7 +18,13 @@ shortcut.add("Ctrl+S",function() {
 <?php 
 $u5CodeNameError='';
 if (($_GET['typ'] ?? '')==='c' && strlen($_GET['name'] ?? '')>=4) {
-    try { u5CodeAssetFilename($_GET['name']); }
+    try {
+        $u5NcFile=u5CodeAssetFilename($_GET['name']);
+        if (file_exists('../r/'.$u5NcFile)) {
+            $u5NcOwner=mysql_query("SELECT name FROM resources WHERE typ='c' AND name='".mysql_real_escape_string($_GET['name'])."' LIMIT 1");
+            if (!$u5NcOwner || !mysql_num_rows($u5NcOwner)) throw new RuntimeException('An independent file occupies this code filename.');
+        }
+    }
     catch (RuntimeException $error) { $u5CodeNameError=$error->getMessage(); }
 }
 if ($u5CodeNameError!=='') echo '<span style="color:red">'.htmlspecialchars($u5CodeNameError,ENT_QUOTES,'Windows-1252').'</span>';

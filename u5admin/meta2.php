@@ -4,9 +4,15 @@ require_once('t2.php');
 require_once('resourceupdate.inc.php');
 try {
 $name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
-$row=u5ResourceForUpdate($name);
-if ($archiveRqHIADRI!='no' && $row['deleted']==2) require('accadmin.inc.php');
-if ($cssRqHIADRI!='no' && $row['typ']=='c') require('accadmin.inc.php');
+$u5MetaRecord=u5ResourceForUpdate($name);
+$u5MetaIsCode=strtolower((string)$u5MetaRecord['typ'])==='c';
+if ($u5MetaIsCode) {
+    require_once('codeassets-migrate.inc.php');$u5MetaRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MetaRelease);
+    $u5MetaRecord=u5ResourceForUpdate($name,true);
+}
+if ($archiveRqHIADRI!='no' && $u5MetaRecord['deleted']==2) require('accadmin.inc.php');
+if ($cssRqHIADRI!='no' && $u5MetaRecord['typ']=='c') require('accadmin.inc.php');
+if ($u5MetaIsCode) u5CodeMigrationHistorySchema();
 $changes=array();
 for ($language=1;$language<=5;$language++) foreach (array('content','title','desc','key') as $field) {
 $column=$field.'_'.$language;
@@ -15,16 +21,20 @@ if ($field!='key') throw new RuntimeException('Incomplete metadata form. The cur
 continue;
 }
 if (!is_string($_POST[$column])) throw new RuntimeException('Invalid resource field.');
-$changes[$column]=trim($_POST[$column]);
+$changes[$column]=$u5MetaIsCode && $field==='content' ? $_POST[$column] : trim($_POST[$column]);
 }
 if (isset($_POST['logins'])) {
 if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource logins.');
 $changes['logins']=trim($_POST['logins']);
 }
-$changes['typ']=isset($_GET['typ']) && is_string($_GET['typ']) && $_GET['typ']!=='' ? $_GET['typ'] : $row['typ'];
+if (isset($_GET['typ']) && $_GET['typ']!=='' && $_GET['typ']!==$u5MetaRecord['typ']) throw new RuntimeException('The requested type does not match the actual resource.');
+$changes['typ']=$u5MetaRecord['typ'];
+$u5MetaEncodings=array();
+if ($u5MetaIsCode && ($_POST['_u5_code_encoding'] ?? '')==='utf8') foreach ($changes as $field=>$value) $u5MetaEncodings[$field]='utf8mb4';
 
-$result=u5UpdateResource($name,$changes,$row,$_POST['coco'] ?? null);
+$result=u5UpdateResource($name,$changes,$u5MetaRecord,$_POST['coco'] ?? null,$u5MetaEncodings);
 u5LogResourceAttempt($result);
+if ($u5MetaIsCode && $result['saved']) u5CodeAssetExport(dirname(__DIR__));
 trxlog('meta'.($result['saved'] ? '' : '(!)').' '.$name);
 } catch (RuntimeException $error) {
 http_response_code(500);

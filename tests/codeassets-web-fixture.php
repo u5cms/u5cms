@@ -15,6 +15,8 @@ if (!mysqli_multi_query($link,file_get_contents(dirname(__DIR__).'/u5standard.sq
 do { if ($result=mysqli_store_result($link)) mysqli_free_result($result); } while (mysqli_more_results($link) && mysqli_next_result($link));
 if (mysqli_errno($link)) throw new RuntimeException(mysqli_error($link));
 u5CodeMigrationQuery('SET NAMES latin1');
+u5CodeMigrationQuery('ALTER TABLE resources MODIFY content_1 MEDIUMTEXT CHARACTER SET utf8mb4');
+u5CodeMigrationQuery("UPDATE accounts SET email='auditadmin',pw=".u5CodeMigrationValue('{SHA}'.base64_encode(sha1('audit-password',true))).',accadmin=1 WHERE id=1');
 $body=<<<'HTML'
 [h:]
 <img alt="fixture" width="1" height="1" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
@@ -46,7 +48,7 @@ foreach (array('upload!css'=>'body { color: rgb(1, 2, 3); }','accent!js'=>"windo
 }
 $config=file_get_contents($root.'/config.php.sample');
 $settings=array('host'=>'127.0.0.1','username'=>getenv('U5CMS_TEST_USER') ?: 'root','password'=>getenv('U5CMS_TEST_PASSWORD') ?: '',
-    'db'=>$name,'mymail'=>'fixture@example.invalid','allowuseruploads'=>'yes','allowuserPuploads'=>'yes');
+    'db'=>$name,'mymail'=>'fixture@example.invalid','allowuseruploads'=>'yes','allowuserPuploads'=>'yes','usesessioninsteadofbasicauth'=>'no','checksaveversionconflictinbackend'=>'all');
 foreach ($settings as $variable=>$value) $config=preg_replace('/\$'.preg_quote($variable,'/').'\s*=\s*[\'\"][^\'\"]*[\'\"]\s*;/', '\$'.$variable.'='.var_export($value,true).';',$config,1);
 $config.="\n\$blockautoincluderefresherforhtaccessandindex='yes';\n";
 file_put_contents($root.'/config.php',$config);
@@ -67,4 +69,16 @@ u5CodeAssetExport(__DIR__);
 header('Content-Type: application/json');echo '{"ready":true}';
 PHP;
 file_put_contents($root.'/fixture-mode.php',$mode);
+// Test-only snapshot endpoint lives in the disposable installation, never in a release.
+$snapshot=<<<'PHP'
+<?php
+require __DIR__.'/connect.inc.php';
+$name=$_GET['asset'] ?? '';if (!preg_match('/^[a-zA-Z0-9_!-]+$/D',$name)) exit;
+$result=mysql_query("SELECT name,typ,deleted,lastmut,CAST(CONVERT(content_1 USING utf8mb4) AS BINARY) content_1 FROM resources WHERE name='".mysql_real_escape_string($name)."'");
+$rows=array();while($row=mysql_fetch_array($result,MYSQL_ASSOC))$rows[]=$row;
+$result=mysql_query("SELECT CAST(CONVERT(content_1 USING utf8mb4) AS BINARY) content_1 FROM resources_log WHERE name='".mysql_real_escape_string($name)."'");
+$history=array();while($row=mysql_fetch_array($result,MYSQL_ASSOC))$history[]=$row['content_1'];
+header('Content-Type: application/json; charset=utf-8');echo json_encode(array('rows'=>$rows,'history'=>$history));
+PHP;
+file_put_contents($root.'/fixture-snapshot.php',$snapshot);
 echo json_encode(array('database'=>$name));

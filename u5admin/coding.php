@@ -1,7 +1,7 @@
 <?php 
 require_once('connect.inc.php');
 
-$sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT *,CAST(CONVERT(content_1 USING utf8mb4) AS BINARY) AS u5_code_utf8 FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -9,6 +9,7 @@ echo 'SQL_a-Query failed!...!<p>';
 }
 
 $row_a = mysql_fetch_array($result_a);
+if (!$row_a || strtolower((string)$row_a['typ'])!=='c') { http_response_code(404);die('Code object not found.'); }
 
 ?>
 <html lang="en">
@@ -127,7 +128,7 @@ tov='';
 </head>
 <body bgcolor="#666666" id="bodyid">
 
-<form onsubmit="return u5ResourceSave.begin(event)" name="form1" action="coding2.php?typ=c" method="post" target="saver"><input type="hidden" name="changes" id="changes" />
+<form onsubmit="return u5ResourceSave.begin(event)" name="form1" action="coding2.php?typ=c" method="post" accept-charset="UTF-8" target="saver"><input type="hidden" name="_u5_code_encoding" value="utf8" /><input type="hidden" name="changes" id="changes" />
 <div style="margin-top:-15px;margin-left:-12;padding-top:3px;background:#666666;position:fixed;z-index:9;width:102%">
 <input type="hidden" name="coco" value="<?php echo isset($row_a['lastmut']) ? (int)$row_a['lastmut'] : 0 ?>" />
 <?php 
@@ -157,7 +158,7 @@ echo '</div>';
 </div>
 
        <input type="hidden" name="name" value="<?php echo $_GET['name']?>">
-<br><br><br>  <textarea onKeyUp="tov=this.value;watchchanges()" onMouseOut="this.onchange()" onMouseOver="this.onchange()" onChange="tov=this.value;watchchanges()" name="content_1" wrap="off" id="codeTextarea"><?php echo htmlXspecialchars($row_a['content_1'])?></textarea>
+<br><br><br>  <textarea onKeyUp="tov=this.value;watchchanges()" onMouseOut="this.onchange()" onMouseOver="this.onchange()" onChange="tov=this.value;watchchanges()" name="content_1" wrap="off" id="codeTextarea"><?php echo mb_encode_numericentity(htmlspecialchars($row_a['u5_code_utf8'] ?? '',ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8'),array(128,0x10ffff,0,0x1fffff),'UTF-8')?></textarea>
 <?php require('t1.php') ?></form>
 <script type="text/javascript">
        createTextAreaWithLines('codeTextarea');

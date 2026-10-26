@@ -62,6 +62,8 @@ sameAsset(u5CodeAssetProxyMediaSources('<script src="r/mobile.js?u5v=1"></script
 sameAsset(u5CodeAssetProxyMediaSources('<img src="r/private/image.jpg?t=1">'),'<img src="f.php?f=r/private/image.jpg?t=1">','protected media keeps its proxy');
 sameAsset(u5CodeAssetProxyMediaSources("<img src='r/private/image.jpg'>"),"<img src='f.php?f=r/private/image.jpg'>",'single-quoted media keeps its proxy');
 sameAsset(rtrim(str_replace("\r\n","\n",file_get_contents(dirname(__DIR__).'/r/mobilebase!js.tpl'))),rtrim(u5CodeMigrationMobileSource()),'embedded updater fallback matches the packaged mobile reset template');
+require_once __DIR__.'/codeassets-audit.inc.php';
+u5CodeAuditCore();
 echo "Core checks: $checks passed.\n";
 if (!getenv('U5CMS_TEST_PORT')) { echo "Database checks require U5CMS_TEST_PORT and mysqli.\n"; exit; }
 require_once dirname(__DIR__).'/mysql.php';
@@ -69,9 +71,10 @@ require_once dirname(__DIR__).'/u5admin/codeassets-migrate.inc.php';
 ini_set('mysqli.default_port',(string)(int)getenv('U5CMS_TEST_PORT'));
 if (!mysql_connect('127.0.0.1',getenv('U5CMS_TEST_USER') ?: 'root',getenv('U5CMS_TEST_PASSWORD') ?: '')) throw new RuntimeException('Cannot connect to the disposable database.');
 $testRoot=sys_get_temp_dir().'/u5-codeassets-'.bin2hex(random_bytes(6));
-mkdir($testRoot,0700,true); $databases=array(); $faultPhase=null; $concurrentEdit=false; $parallelProbe=null; $templateConcurrentRoot=null;
+mkdir($testRoot,0700,true); $databases=array(); $faultPhase=null; $concurrentEdit=false; $parallelProbe=null; $templateConcurrentRoot=null;$blockedOutputRoot=null;
 function u5CodeMigrationTestCheckpoint($phase) {
-    global $faultPhase,$concurrentEdit,$parallelProbe,$templateConcurrentRoot;
+    global $faultPhase,$concurrentEdit,$parallelProbe,$templateConcurrentRoot,$blockedOutputRoot;
+    if ($phase==='planned' && $blockedOutputRoot) { mkdir($blockedOutputRoot.'/r/mobile.js');$blockedOutputRoot=null; }
     if ($phase===$faultPhase) { $faultPhase=null; throw new RuntimeException('TEST INTERRUPTION '.$phase); }
     if ($phase==='template:0' && $templateConcurrentRoot) {
         file_put_contents($templateConcurrentRoot.'/r/cssbase.tpl','concurrent reset template edit');
@@ -157,6 +160,7 @@ function runAssetLayoutReset($root) {
     $reset=file_get_contents(dirname(__DIR__).'/u5admin/reactivateinitialu5cmslayout.php');
     $reset=preg_replace('/^die\([^\n]+\);\n/m','',$reset,1);
     file_put_contents($root.'/u5admin/reset-layout.php',$reset);
+    if (!file_exists($root.'/u5admin/codeassets-migrate.inc.php')) symlink(dirname(__DIR__).'/u5admin/codeassets-migrate.inc.php',$root.'/u5admin/codeassets-migrate.inc.php');
     file_put_contents($root.'/u5admin/connect.inc.php','<?php');
     $_GET['iswear']='iknowthatthisoverwritesthecurrentlayout';
     $previous=getcwd();chdir($root.'/u5admin');ob_start();
@@ -302,7 +306,7 @@ try {
         u5CodeAssetsMigrate($root);assertAssetInstallation($root,'resumed '.$phase);
     }
     $root=assetFixture($legacy,'blocked-output');oldAssetFiles($root);
-    mkdir($root.'/r/mobile.js');$before=assetSnapshot();
+    $blockedOutputRoot=$root;$before=assetSnapshot();
     expectAssetFailure(function() use($root){ u5CodeAssetsMigrate($root); },'blocked file publication stops migration');
     sameAsset(assetSnapshot(),$before,'file failure leaves database untouched');
     checkAsset(is_file($root.'/r/jsmobilespecific.css'),'file failure preserves the old serving file');
@@ -389,7 +393,7 @@ try {
     checkAsset(strpos($response,'was not completed')!==false,'backend reports failed update');
     $response=runBackendAssetUpdate($root);
     checkAsset(!is_file($root.'/r/runonce.php'),'backend removes runonce only after success: '.substr(strip_tags($response),-1800));
-    checkAsset(strpos($response,'updated to 12.11.0')!==false,'backend reports successful update');
+    checkAsset(strpos($response,'updated to 12.11.1')!==false,'backend reports successful update');
     assertAssetInstallation($root,'backend update');
 
     $root=assetFixture($legacy,'older-schema');oldAssetFiles($root);
@@ -435,6 +439,8 @@ try {
     foreach (array('resources','resources_log','inserts') as $table) {
         $status=u5CodeMigrationRows("SHOW TABLE STATUS LIKE '".$table."'");sameAsset($status[0]['Engine'],'InnoDB','engine retained: '.$table);
     }
+    u5CodeAuditDatabase($legacy);
+    if (getenv('U5CMS_AUDIT_STRESS')) u5CodeAuditStress($legacy);
     echo "Core and database checks: $checks passed.\n";
 } finally {
     foreach ($databases as $database) mysql_query('DROP DATABASE `'.$database.'`');

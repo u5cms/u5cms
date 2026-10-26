@@ -21,7 +21,7 @@ shortcut.add("Ctrl+S",function() {
   <h1>Copy <i><?php echo $_GET['name']?></i></h1>
   <p>Enter a new name for the item</p>
   <p>
-    <input value="<?php echo $_GET['name']?>" name="name" type="text" oninput="var v=validated(this.value).substring(0,<?php echo $u5CodeItem ? 240 : 20 ?>);if(this.value!=v)this.value=v;nc.location.href='nc.php?typ=<?php echo $u5CodeItem ? 'c' : '' ?>&name='+this.value" size="20" />
+    <input value="<?php echo $_GET['name']?>" name="name" type="text" oninput="var v=(<?php echo $u5CodeItem ? 'true' : 'false' ?> ? this.value.replace(/[^a-zA-Z0-9_!-]/g,'') : validated(this.value)).substring(0,<?php echo $u5CodeItem ? 240 : 20 ?>);if(this.value!=v)this.value=v;nc.location.href='nc.php?typ=<?php echo $u5CodeItem ? 'c' : '' ?>&name='+this.value" size="20" />
    
  <br>
     </p>
