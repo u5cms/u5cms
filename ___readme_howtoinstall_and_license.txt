@@ -87,11 +87,12 @@ A) If the layout does not look right after having done step 8, go to https://url
 B) If after A) the layout still does not look right, please consult https://yuba.ch/?c=u5cmsupdate
 C) Version 12.11.0 migrates code objects to name!extension (the LAST ! is the separator),
    e.g. mobile!js exports to r/mobile.js and base!css to r/base.css. No MIME .htaccess rule is needed.
-   Upload all application files, including u5admin/code-templates/, before opening the backend.
+   Upload all application files before opening the backend; from r/ upload only runonce.php.
    Existing customized sources and references are migrated by r/runonce.php, with a resumable
    checkpoint and report in fileversions/. If the update reports an error, keep runonce.php
    and the checkpoint, fix the reported problem, and retry the backend.
-   The common mobile script is included locally. No yuba.ch script download is needed.
+   Existing .tpl reset sources stay under r/ and are renamed with their references.
+   The common mobile fallback is embedded in the updater. No yuba.ch script download is needed.
    For details, collision handling, and regression tests see docs/12.11.0-code-assets.md.
 
 

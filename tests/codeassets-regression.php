@@ -2,6 +2,7 @@
 /* Run with mysqli loaded and U5CMS_TEST_PORT pointing at a disposable local MariaDB. */
 ob_start();
 require_once dirname(__DIR__).'/codeassets.inc.php';
+require_once dirname(__DIR__).'/u5admin/codeassets-migrate.inc.php';
 $checks=0;
 function checkAsset($condition,$message) {
     global $checks; $checks++;
@@ -15,6 +16,8 @@ foreach (array('plain','!js','a!','../a!js','a/b!css','a!php','a!phtml','a!htacc
 }
 $references=array(
     '@import url(csslayout.css);'=>'@import url(layout.css);',
+    'r/cssbase.tpl'=>'r/base!css.tpl',
+    'cssbase.tpl'=>'base!css.tpl',
     '@import url("cssstyle.css?123#x");'=>'@import url("style.css?123#x");',
     '<script src="https://info.agov.ch/r/jsmobilespecific.css?t=1#x"></script>'=>'<script src="https://info.agov.ch/r/mobile.js?t=1#x"></script>',
     "jQuery.loadScript('https://yuba.ch/r/jsmobilegeneral.css',f);"=>"jQuery.loadScript('r/mobilebase.js',f);",
@@ -58,6 +61,7 @@ sameAsset(u5CodeAssetUtf8("\xDCber \x80 &amp;"),"\xC3\x9Cber \xE2\x82\xAC &amp;"
 sameAsset(u5CodeAssetProxyMediaSources('<script src="r/mobile.js?u5v=1"></script>'),'<script src="r/mobile.js?u5v=1"></script>','flat code export bypasses media proxy');
 sameAsset(u5CodeAssetProxyMediaSources('<img src="r/private/image.jpg?t=1">'),'<img src="f.php?f=r/private/image.jpg?t=1">','protected media keeps its proxy');
 sameAsset(u5CodeAssetProxyMediaSources("<img src='r/private/image.jpg'>"),"<img src='f.php?f=r/private/image.jpg'>",'single-quoted media keeps its proxy');
+sameAsset(rtrim(str_replace("\r\n","\n",file_get_contents(dirname(__DIR__).'/r/mobilebase!js.tpl'))),rtrim(u5CodeMigrationMobileSource()),'embedded updater fallback matches the packaged mobile reset template');
 echo "Core checks: $checks passed.\n";
 if (!getenv('U5CMS_TEST_PORT')) { echo "Database checks require U5CMS_TEST_PORT and mysqli.\n"; exit; }
 require_once dirname(__DIR__).'/mysql.php';
@@ -65,10 +69,14 @@ require_once dirname(__DIR__).'/u5admin/codeassets-migrate.inc.php';
 ini_set('mysqli.default_port',(string)(int)getenv('U5CMS_TEST_PORT'));
 if (!mysql_connect('127.0.0.1',getenv('U5CMS_TEST_USER') ?: 'root',getenv('U5CMS_TEST_PASSWORD') ?: '')) throw new RuntimeException('Cannot connect to the disposable database.');
 $testRoot=sys_get_temp_dir().'/u5-codeassets-'.bin2hex(random_bytes(6));
-mkdir($testRoot,0700,true); $databases=array(); $faultPhase=null; $concurrentEdit=false; $parallelProbe=null;
+mkdir($testRoot,0700,true); $databases=array(); $faultPhase=null; $concurrentEdit=false; $parallelProbe=null; $templateConcurrentRoot=null;
 function u5CodeMigrationTestCheckpoint($phase) {
-    global $faultPhase,$concurrentEdit,$parallelProbe;
+    global $faultPhase,$concurrentEdit,$parallelProbe,$templateConcurrentRoot;
     if ($phase===$faultPhase) { $faultPhase=null; throw new RuntimeException('TEST INTERRUPTION '.$phase); }
+    if ($phase==='template:0' && $templateConcurrentRoot) {
+        file_put_contents($templateConcurrentRoot.'/r/cssbase.tpl','concurrent reset template edit');
+        $templateConcurrentRoot=null;
+    }
     if ($phase==='files' && $concurrentEdit) {
         $concurrentEdit=false;
         u5CodeMigrationQuery("UPDATE resources SET content_1=CONCAT(content_1,' concurrent edit') WHERE name='cssbase' AND deleted=0");
@@ -92,8 +100,8 @@ function assetFixture($dump,$label) {
     while (mysqli_more_results($link) && mysqli_next_result($link));
     if (mysqli_errno($link)) throw new RuntimeException('Fixture SQL error: '.mysqli_error($link));
     u5CodeMigrationQuery('SET NAMES latin1');
-    $root=$testRoot.'/'.$label;mkdir($root.'/r',0700,true);mkdir($root.'/fileversions',0700,true);mkdir($root.'/u5admin/code-templates',0700,true);
-    foreach (glob(dirname(__DIR__).'/u5admin/code-templates/*.tpl') as $source) copy($source,$root.'/u5admin/code-templates/'.basename($source));
+    $root=$testRoot.'/'.$label;mkdir($root.'/r',0700,true);mkdir($root.'/fileversions',0700,true);mkdir($root.'/u5admin',0700,true);
+    foreach (glob(dirname(__DIR__).'/r/*.tpl') as $source) copy($source,$root.'/r/'.basename($source));
     return $root;
 }
 function oldAssetDump($name) {
@@ -125,6 +133,16 @@ function assertAssetInstallation($root,$label) {
     $before=assetSnapshot();u5CodeAssetsMigrate($root);sameAsset(assetSnapshot(),$before,$label.': repeated migration leaves database unchanged');
 }
 function oldAssetFiles($root) {
+    static $templates=null;
+    if ($templates===null) {
+        $templates=array();
+        foreach (u5CodeAssetDefaults() as $legacy=>$typed) {
+            if ($legacy==='jsmobilegeneral' || $legacy==='cssupload' || $legacy==='csspworder') continue;
+            $templates[$legacy]=oldAssetDump('r/'.$legacy.'.tpl');
+        }
+    }
+    foreach (glob($root.'/r/*.tpl') as $file) unlink($file);
+    foreach ($templates as $name=>$body) file_put_contents($root.'/r/'.$name.'.tpl',$body);
     foreach (u5CodeMigrationRows("SELECT * FROM resources WHERE typ='c' AND deleted!=1") as $row) file_put_contents($root.'/r/'.$row['name'].'.css',$row['content_1']);
 }
 function addAssetCode($name,$source,$deleted=0) {
@@ -134,6 +152,16 @@ function expectAssetFailure($callback,$label) {
     $failed=false;
     try { $callback(); } catch (RuntimeException $error) { $failed=true; }
     checkAsset($failed,$label);
+}
+function runAssetLayoutReset($root) {
+    $reset=file_get_contents(dirname(__DIR__).'/u5admin/reactivateinitialu5cmslayout.php');
+    $reset=preg_replace('/^die\([^\n]+\);\n/m','',$reset,1);
+    file_put_contents($root.'/u5admin/reset-layout.php',$reset);
+    file_put_contents($root.'/u5admin/connect.inc.php','<?php');
+    $_GET['iswear']='iknowthatthisoverwritesthecurrentlayout';
+    $previous=getcwd();chdir($root.'/u5admin');ob_start();
+    try { include $root.'/u5admin/reset-layout.php';return ob_get_contents(); }
+    finally { ob_end_clean();chdir($previous); }
 }
 function runBackendAssetUpdate($root) {
     global $allowu5pwprotectedpageashomepage,$u5CodeMigrationComplete;
@@ -213,11 +241,37 @@ try {
     $report=file_get_contents($root.'/fileversions/codeassets-12.11.0-report.php');
     checkAsset(strpos($report,'abcxy -> abcxy!js')!==false && strpos($report,'emptycode -> emptycode!css')!==false,'guesses documented');
 
+    $root=assetFixture($legacy,'custom-reset-sources');oldAssetFiles($root);
+    $activeCSS='/* active site code */ .active { color: red; }';
+    $resetCSS="/* reset baseline \xDCber \x80 &amp; */\n@import url(csslayout.css?mode=reset#top);\n.reset { color: blue; }";
+    $expectedResetCSS=str_replace('csslayout.css','layout.css',$resetCSS);
+    u5CodeMigrationQuery('UPDATE resources SET content_1=_latin1 '.u5CodeMigrationValue($activeCSS)." WHERE name='cssbase' AND deleted=0");
+    file_put_contents($root.'/r/cssbase.tpl',$resetCSS);
+    $resetHTML=str_replace('<body id="body">','<body id="body" data-reset="preserved">',file_get_contents($root.'/r/htmltemplate.tpl'));
+    file_put_contents($root.'/r/htmltemplate.tpl',$resetHTML);
+    addAssetCode('customreset','var activeReset=1;');
+    file_put_contents($root.'/r/customreset.tpl','var resetLink="r/cssbase.css";');
+    u5CodeAssetsMigrate($root);
+    sameAsset(u5CodeMigrationRows("SELECT content_1 FROM resources WHERE name='base!css' AND deleted=0")[0]['content_1'],$activeCSS,'migration keeps active DB layout distinct from reset baseline');
+    sameAsset(file_get_contents($root.'/r/base!css.tpl'),$expectedResetCSS,'custom reset CSS and encoding survive under the new name');
+    sameAsset(u5CodeMigrationFileBackup($root,'r/cssbase.tpl'),$resetCSS,'original custom reset source backed up exactly');
+    checkAsset(!is_file($root.'/r/cssbase.tpl'),'legacy reset source removed after its replacement is published');
+    sameAsset(file_get_contents($root.'/r/customreset!js.tpl'),'var resetLink="r/base.css";','unknown C reset source renamed and linked');
+    checkAsset(strpos(u5CodeMigrationRows("SELECT content_1 FROM resources WHERE name='htmltemplate!html' AND deleted=0")[0]['content_1'],'data-reset="preserved"')===false,'HTML reset baseline is not applied by the update');
+    runAssetLayoutReset($root);
+    sameAsset(u5CodeMigrationRows("SELECT content_1 FROM resources WHERE name='base!css' AND deleted=0")[0]['content_1'],$expectedResetCSS,'explicit reset restores the original custom baseline');
+    $resetPage=u5CodeMigrationRows("SELECT content_1 FROM resources WHERE name='htmltemplate!html' AND deleted=0")[0]['content_1'];
+    checkAsset(strpos($resetPage,'data-reset="preserved"')!==false && strpos($resetPage,'r/base.css')!==false,'HTML reset restores custom markup with current references');
+    assertAssetInstallation($root,'custom reset sources');
+
     $root=assetFixture($legacy,'collisions');
     addAssetCode('base!css','/* existing independently named base */');
     addAssetCode('htmltemplate!html','<body id="body">independent template</body>');
     u5CodeMigrationQuery("INSERT INTO resources (name,typ,deleted,content_1) VALUES ('mobile!js','p',0,'independent page')");
-    oldAssetFiles($root);u5CodeAssetsMigrate($root);assertAssetInstallation($root,'collisions');
+    oldAssetFiles($root);
+    file_put_contents($root.'/r/cssbase.tpl','/* preserved role reset */ @import url(csslayout.css);');
+    file_put_contents($root.'/r/base!css.tpl','/* independent reset baseline */');
+    u5CodeAssetsMigrate($root);assertAssetInstallation($root,'collisions');
     $state=include $root.'/fileversions/codeassets-12.11.0.done.php';
     checkAsset($state['map']['cssbase']!=='base!css','base collision gets distinct name');
     checkAsset($state['template']!=='htmltemplate!html','active old template retained under a distinct name');
@@ -229,25 +283,17 @@ try {
     checkAsset(strpos($liveTemplate,'r/'.u5CodeAssetFilename($state['map']['jsmobilespecific']))!==false,'template points to its own preserved script');
 
     // Exercise the real layout-reset implementation in an isolated copy, including collision roles.
-    $reset=file_get_contents(dirname(__DIR__).'/u5admin/reactivateinitialu5cmslayout.php');
-    $reset=preg_replace('/^die\([^\n]+\);\n/m','',$reset,1);
-    file_put_contents($root.'/u5admin/reset-layout.php',$reset);
-    file_put_contents($root.'/u5admin/connect.inc.php','<?php');
-    $_GET['iswear']='iknowthatthisoverwritesthecurrentlayout';
-    $executeReset=function($root) {
-        global $u5ResetReferences;
-        $previous=getcwd();chdir($root.'/u5admin');ob_start();
-        try { include $root.'/u5admin/reset-layout.php'; } finally { ob_end_clean();chdir($previous); }
-    };
-    $executeReset($root);
+    runAssetLayoutReset($root);
     sameAsset(u5CodeMigrationRows("SELECT content_1 FROM resources WHERE name='base!css'")[0]['content_1'],'/* existing independently named base */','layout reset preserves independently named CSS');
     sameAsset(u5CodeMigrationRows("SELECT content_1 FROM resources WHERE name='htmltemplate!html'")[0]['content_1'],'<body id="body">independent template</body>','layout reset preserves independent template');
     $resetTemplate=file_get_contents(u5CodeTemplatePath($root));
     checkAsset(strpos($resetTemplate,'r/'.u5CodeAssetFilename($state['map']['cssbase']))!==false,'layout reset follows stylesheet collision role');
     checkAsset(strpos($resetTemplate,'r/'.u5CodeAssetFilename($state['map']['jsmobilespecific']))!==false,'layout reset follows mobile collision role');
+    sameAsset(file_get_contents($root.'/r/base!css.tpl'),'/* independent reset baseline */','independent reset template is not replaced');
+    sameAsset(u5CodeMigrationRows('SELECT content_1 FROM resources WHERE name='.u5CodeMigrationValue($state['map']['cssbase']))[0]['content_1'],'/* preserved role reset */ @import url(layout.css);','reset restores the correct colliding resource baseline');
     assertAssetInstallation($root,'layout reset with collisions');
 
-    foreach (array('planned','files','row:0','row:5','database','exported','complete') as $phase) {
+    foreach (array('planned','template:0','template:3','templates-written','template-cleanup:2','templates-complete','files','row:0','row:5','database','exported','complete') as $phase) {
         $root=assetFixture($legacy,'interrupt-'.str_replace(':','-',$phase));oldAssetFiles($root);
         $faultPhase=$phase;
         expectAssetFailure(function() use($root){ u5CodeAssetsMigrate($root); },'interrupted at '.$phase);
@@ -262,12 +308,53 @@ try {
     checkAsset(is_file($root.'/r/jsmobilespecific.css'),'file failure preserves the old serving file');
     rmdir($root.'/r/mobile.js');u5CodeAssetsMigrate($root);assertAssetInstallation($root,'file failure retried');
 
-    $root=assetFixture($legacy,'missing-bundle');oldAssetFiles($root);
-    $bundle=$root.'/u5admin/code-templates/mobilebase!js.tpl';rename($bundle,$bundle.'.missing');$before=assetSnapshot();
-    expectAssetFailure(function() use($root){ u5CodeAssetsMigrate($root); },'missing common source stops preflight');
-    sameAsset(assetSnapshot(),$before,'missing source leaves database untouched');
-    checkAsset(!is_file($root.'/fileversions/codeassets-12.11.0.pending.php'),'missing bundle makes no partial plan');
-    rename($bundle.'.missing',$bundle);u5CodeAssetsMigrate($root);assertAssetInstallation($root,'missing bundle restored');
+    $root=assetFixture($legacy,'embedded-common-source');oldAssetFiles($root);
+    checkAsset(!is_dir($root.'/u5admin/code-templates'),'update does not need a new template directory');
+    u5CodeAssetsMigrate($root);assertAssetInstallation($root,'embedded common source');
+    checkAsset(is_file($root.'/r/mobilebase!js.tpl'),'common reset source is installed under r');
+
+    $root=assetFixture($legacy,'blocked-reset-source');oldAssetFiles($root);$before=assetSnapshot();
+    mkdir($root.'/r/base!css.tpl');
+    expectAssetFailure(function() use($root){u5CodeAssetsMigrate($root);},'reset template publication failure stops the update');
+    sameAsset(assetSnapshot(),$before,'reset template file failure leaves DB untouched');
+    checkAsset(is_file($root.'/r/cssbase.tpl'),'old reset source retained on publication failure');
+    rmdir($root.'/r/base!css.tpl');u5CodeAssetsMigrate($root);assertAssetInstallation($root,'reset publication retried');
+
+    $root=assetFixture($legacy,'concurrent-reset-source');oldAssetFiles($root);$before=assetSnapshot();$templateConcurrentRoot=$root;
+    expectAssetFailure(function() use($root){u5CodeAssetsMigrate($root);},'concurrent reset template edit is detected');
+    sameAsset(file_get_contents($root.'/r/cssbase.tpl'),'concurrent reset template edit','concurrent reset source is not overwritten or removed');
+    sameAsset(assetSnapshot(),$before,'concurrent reset source edit leaves DB unchanged');
+    checkAsset(!is_file($root.'/fileversions/codeassets-12.11.0-templates.done.php'),'concurrent reset source does not mark template migration complete');
+
+    // Recreate the first 12.11.0 preview's completed state: old sources are only in protected backups.
+    $root=assetFixture($legacy,'completed-preview-recovery');oldAssetFiles($root);
+    file_put_contents($root.'/r/cssbase.tpl','/* site-specific reset from before the preview */ @import url(csslayout.css);');
+    u5CodeAssetsMigrate($root);$before=assetSnapshot();
+    unlink($root.'/fileversions/codeassets-12.11.0-templates.done.php');
+    foreach (glob($root.'/r/*.tpl') as $file) unlink($file);
+    mkdir($root.'/u5admin/code-templates');
+    foreach (glob(dirname(__DIR__).'/r/*.tpl') as $source) copy($source,$root.'/u5admin/code-templates/'.basename($source));
+    u5CodeAssetsMigrate($root);
+    sameAsset(file_get_contents($root.'/r/base!css.tpl'),'/* site-specific reset from before the preview */ @import url(layout.css);','completed preview recovers customized reset baseline from original backup');
+    checkAsset(!is_dir($root.'/u5admin/code-templates'),'obsolete preview folder removed after reset sources are recovered');
+    sameAsset(assetSnapshot(),$before,'completed preview repair does not repeat DB migration');
+    file_put_contents($root.'/r/base!css.tpl','/* typed reset source edited after the preview */');
+    unlink($root.'/fileversions/codeassets-12.11.0-templates.done.php');
+    u5CodeAssetsMigrate($root);
+    sameAsset(file_get_contents($root.'/r/base!css.tpl'),'/* typed reset source edited after the preview */','post-preview edits take precedence over historical backups');
+    $oldPending=array('version'=>'12.11.0','oldFiles'=>array('r/base!css.tpl','r/cssbase.tpl'));
+    file_put_contents($root.'/fileversions/codeassets-12.11.0.pending.php',"<?php exit; ?>\n".serialize($oldPending));
+    u5CodeAssetsMigrate($root);
+    sameAsset(file_get_contents($root.'/r/base!css.tpl'),'/* typed reset source edited after the preview */','old preview cleanup cannot delete a recovered typed reset source');
+    checkAsset(!is_file($root.'/fileversions/codeassets-12.11.0.pending.php'),'old preview cleanup checkpoint finishes safely');
+    assertAssetInstallation($root,'completed preview recovery');
+    $shared=$root.'/shared-reset-sources';mkdir($shared);
+    foreach (glob(dirname(__DIR__).'/r/*.tpl') as $source) copy($source,$shared.'/'.basename($source));
+    symlink($shared,$root.'/u5admin/code-templates');
+    unlink($root.'/fileversions/codeassets-12.11.0-templates.done.php');
+    u5CodeAssetsMigrate($root);
+    checkAsset(is_file($shared.'/base!css.tpl'),'recovery never deletes templates through a shared-directory symlink');
+    checkAsset(is_link($root.'/u5admin/code-templates'),'shared-directory alias is retained instead of deleting external contents');
 
     $root=assetFixture($legacy,'sql-error');oldAssetFiles($root);$before=assetSnapshot();
     u5CodeMigrationQuery("CREATE TRIGGER fixture_failure BEFORE UPDATE ON resources FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='fixture failure'");
@@ -316,16 +403,23 @@ try {
     assertAssetInstallation($root,'older schema');
 
     $root=assetFixture($legacy,'rename-lifecycle');oldAssetFiles($root);u5CodeAssetsMigrate($root);
+    $faultPhase='template:0';
+    expectAssetFailure(function() use($root){u5CodeAssetsRename($root,'base!css','theme!custom!css');},'code rename can resume after template publication interruption');
     u5CodeAssetsRename($root,'base!css','theme!custom!css');
     checkAsset(is_file($root.'/r/theme!custom.css'),'rename uses final exclamation mark');
     checkAsset(!is_file($root.'/r/base.css'),'renamed old stylesheet removed');
     checkAsset(strpos(file_get_contents(u5CodeTemplatePath($root)),'r/theme!custom.css')!==false,'rename updates template URL');
     sameAsset(u5CodeAssetPublicPath('cssbase','r/',$root),'r/theme!custom.css','role follows renamed stylesheet');
+    checkAsset(is_file($root.'/r/theme!custom!css.tpl') && !is_file($root.'/r/base!css.tpl'),'code rename also renames its reset source');
+    checkAsset(strpos(file_get_contents($root.'/r/htmltemplate!html.tpl'),'r/theme!custom.css')!==false,'code rename updates reset-template dependencies');
     u5CodeAssetsRename($root,u5CodeTemplateName($root),'site!layout!html');
     sameAsset(u5CodeTemplateName($root),'site!layout!html','active template follows rename');
     checkAsset(is_file(u5CodeTemplatePath($root)),'renamed active template exists');
     u5CodeAssetsMigrate($root);
     checkAsset(is_file(u5CodeTemplatePath($root)),'repeated update keeps renamed active template');
+    runAssetLayoutReset($root);
+    checkAsset(is_file($root.'/r/site!layout!html.tpl'),'renamed active HTML reset source exists');
+    checkAsset(strpos(file_get_contents(u5CodeTemplatePath($root)),'r/theme!custom.css')!==false,'layout reset after code renames keeps renamed dependencies');
 
     $root=assetFixture($legacy,'paged-history');oldAssetFiles($root);
     u5CodeMigrationQuery('CREATE TABLE paging_data (id INT PRIMARY KEY, body MEDIUMTEXT) ENGINE=MyISAM');

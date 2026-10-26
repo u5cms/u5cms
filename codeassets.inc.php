@@ -122,7 +122,7 @@ function u5CodeAssetReferences($text, $map=array(), $depth=0) {
         if (!$present) continue;
         $target=u5CodeAssetFilename($new);
         foreach ($candidates as $index=>$candidate) if ($candidate!==$target && ($index===0 || !isset($paths[$candidate]))) $paths[$candidate]=$target;
-        if ($old!==$new) $names[$old]=$new;
+        if ($old!==$new) { $names[$old]=$new; $paths[$old.'.tpl']=$new.'.tpl'; }
     }
     if (!$names && !$paths) return $text;
     // Sharing a site-specific mobile script with another CMS domain remains supported.
@@ -134,7 +134,7 @@ function u5CodeAssetReferences($text, $map=array(), $depth=0) {
         return isset($paths[$m[1]]) ? 'r/'.$paths[$m[1]] : $m[0];
     },$text);
     // Stylesheets import siblings relative to r/, without an r/ prefix.
-    $text=preg_replace_callback('~(?<![a-zA-Z0-9_/!.-])([^/\s"\'<>?#(]+\.css)(?=[?\#"\'\s<>)]|$)~',function($m) use($paths) {
+    $text=preg_replace_callback('~(?<![a-zA-Z0-9_/!.-])([^/\s"\'<>?#(]+\.(?:css|tpl))(?=[?\#"\'\s<>)]|$)~',function($m) use($paths) {
         return $paths[$m[1]] ?? $m[0];
     },$text);
     // JSON commonly escapes slashes; preserve that representation.

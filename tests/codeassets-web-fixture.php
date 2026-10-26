@@ -51,7 +51,7 @@ foreach ($settings as $variable=>$value) $config=preg_replace('/\$'.preg_quote($
 $config.="\n\$blockautoincluderefresherforhtaccessandindex='yes';\n";
 file_put_contents($root.'/config.php',$config);
 u5CodeAssetsMigrate($root);
-$source=getenv('U5CMS_TEST_SITE_SOURCE') ? file_get_contents(getenv('U5CMS_TEST_SITE_SOURCE')) : file_get_contents($root.'/u5admin/code-templates/mobile!js.tpl');
+$source=getenv('U5CMS_TEST_SITE_SOURCE') ? file_get_contents(getenv('U5CMS_TEST_SITE_SOURCE')) : file_get_contents($root.'/r/mobile!js.tpl');
 $source=u5CodeAssetReferences($source);
 // The real AGOV variant uses its own domain for the common file; its update must follow that domain.
 $source=str_replace("'r/mobilebase.js'","'https://info.agov.ch/r/mobilebase.js'",$source);

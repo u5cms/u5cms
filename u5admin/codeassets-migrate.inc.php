@@ -1,6 +1,196 @@
 <?php
 require_once dirname(__DIR__).'/codeassets.inc.php';
 
+// The updater receives only r/runonce.php from r/. Keep the common mobile fallback here.
+function u5CodeMigrationMobileSource() {
+    $source=<<<'U5CMS_MOBILE_BASE'
+if(location.href.indexOf('mobile=on')>0)document.cookie='u5cmsfrcthsvw=mobile;';
+if(location.href.indexOf('mobile=off')>0)document.cookie='u5cmsfrcthsvw=desktop;';
+
+var jsmobilegeneralloaded=true;
+if(typeof webappdesktopsymbol=='undefined') webappdesktopsymbol='&#128187;';
+if(typeof webappmobilesymbol=='undefined') webappmobilesymbol='&#128241;';
+
+document.getElementById('body').style.maxWidth='600px';
+document.getElementById('body').style.margin='auto';
+
+document.getElementById('content').insertAdjacentHTML('afterbegin','<center><div id="webapp_monalink"><a style="text-decoration:none" id="webapp_monalinka" href="javascript:void(0)" onclick="this.style.display=\'none\';document.getElementById(\'webapp_mona\').style.display=\'block\'">&#9776;&nbsp;Navigation</a></div><div id="webapp_mona" style="display:none;text-align:left;padding:0 17px 0 17px"></div></center>');
+
+if(document.getElementById('navTop'))document.getElementById('navTop').style.display='none';
+if(document.getElementById('navLeftSubTop'))document.getElementById('navLeftSubTop').id='navLeft';
+
+if(document.getElementById('webapp_mona'))if(document.getElementById('navLeft'))document.getElementById('webapp_mona').innerHTML=document.getElementById('navLeft').innerHTML;
+if(document.getElementById('webapp_monalinka').style.display='block')wbppamnlnksts='block';
+else wbppamnlnksts='inline';
+wamonafloat='<div id="webapp_monafloat" style="width:50px;position:absolute;left:-10px"><div id="webapp_monaclose" style="width:22px;overflow:hidden;color:white;background:#e63320;cursor:pointer;padding:3px 7px 7px 7px;font-size:150%;margin-bottom:10px;" onclick="document.getElementById(\'webapp_mona\').style.display=\'none\';document.getElementById(\'webapp_monalinka\').style.display=wbppamnlnksts">&nbsp;&times;&nbsp;</div><div id="webapp_monadesktop" style="width:36px;overflow:hidden;background:transparent;padding:3px 0 3px 0;cursor:pointer;font-size:36px" onclick="document.cookie=\'u5cmsfrcthsvw=desktop;\';location.href=location.href.replace(/mobile=on/,\'\')">'+webappdesktopsymbol+'</div></div>';
+document.getElementById('webapp_mona').innerHTML=wamonafloat+'<div style="margin:0;padding:0" id="navLeft">'+document.getElementById('webapp_mona').innerHTML+'</div>';
+document.getElementById('navLeft').style.width='100%';
+document.getElementById('navLeft').style.fontSize='80%';
+document.getElementById('navLeft').style.lineHeight='90%';
+document.getElementById('navLeft').style.lineHeight='90%';
+
+e=document.getElementById('content').getElementsByTagName('table');
+for(i=0;i<e.length;i++) {
+if(e[i].clientWidth>400) {
+e[i].style.width='100%';
+}
+}
+
+e=document.getElementsByTagName('iframe');
+for(i=0;i<e.length;i++) {
+if(e[i].width>200) {
+e[i].width='100%';
+if(document.getElementById('content'))e[i].height=Math.floor(document.getElementById('content').clientWidth*0.3);
+}
+}
+
+e=document.getElementsByTagName('dl');
+for(i=0;i<e.length;i++) {
+if(e[i].style.width.replace(/px/,'')>200) {
+e[i].style.width='none';
+e[i].style.maxWidth='100%';
+}
+}
+
+e=document.getElementsByTagName('audio');
+for(i=0;i<e.length;i++) {
+if(e[i].style.width.replace(/px/,'')>200) {
+e[i].style.width='100%';
+}
+}
+
+e=document.getElementsByTagName('video');
+for(i=0;i<e.length;i++) {
+if(e[i].style.width.replace(/px/,'')>200) {
+e[i].style.width='100%';
+e[i].style.height=e[i].style.width;
+}
+}
+
+e=document.getElementsByTagName('div');
+for(i=0;i<e.length;i++) {
+if(e[i].innerHTML.indexOf('albumhorizontal')>0) {
+e[i].style.width='90%';
+e[i].style.height='100px';
+}
+}
+
+e=document.getElementsByTagName('div');
+for(i=0;i<e.length;i++) {
+if(e[i].innerHTML.indexOf('albumhorizontal')>0 && e[i].style.overflowY=='hidden') {
+e[i].style.width='100%';
+}
+}
+
+e=document.getElementsByTagName('form');
+for(i=0;i<e.length;i++) {
+e[i].style.width='100%';
+}
+
+e=document.getElementsByTagName('fieldset');
+for(i=0;i<e.length;i++) {
+e[i].style.width='87%';
+}
+
+e=document.getElementsByTagName('label');
+for(i=0;i<e.length;i++) {
+e[i].style.width='100%';
+e[i].style.marginBottom='-7px';
+e[i].style.marginTop='-10px';
+e[i].style.border='none';
+}
+
+e=document.getElementsByTagName('input');
+for(i=0;i<e.length;i++) {
+if(e[i].id!='search_Input') {
+if(e[i].clientWidth>100){
+if(e[i].type=='text')e[i].style.width='100%';
+if(e[i].type=='email')e[i].style.width='100%';
+}
+}
+}
+
+e=document.getElementsByTagName('select');
+for(i=0;i<e.length;i++) {
+if(e[i].clientWidth>100)e[i].style.width='100%';
+}
+
+e=document.getElementsByTagName('textarea');
+for(i=0;i<e.length;i++) {
+e[i].style.width='100%';
+}
+
+e=document.getElementsByClassName('showblockdivinner');
+for(i=0;i<e.length;i++) {
+e[i].style.width='inherit';
+}
+
+e=document.getElementsByClassName('showblock2divinner');
+for(i=0;i<e.length;i++) {
+e[i].style.width='inherit';
+}
+e=document.getElementsByClassName('stayright');
+for(i=0;i<e.length;i++) {
+e[i].style.marginLeft='0';
+}
+e=document.getElementsByClassName('imgBoxLeft');
+for(i=0;i<e.length;i++) {
+//e[i].style.float='none';
+}
+
+e=document.getElementsByClassName('imgBoxRight');
+for(i=0;i<e.length;i++) {
+//e[i].style.float='none';
+}
+
+e=document.getElementsByClassName('freeImgLeft');
+for(i=0;i<e.length;i++) {
+//e[i].style.float='none';
+}
+
+e=document.getElementsByClassName('freeImgRight');
+for(i=0;i<e.length;i++) {
+//e[i].style.float='none';
+}
+
+e=document.getElementsByTagName('img');
+for(i=0;i<e.length;i++) {
+if(e[i].width>290) {
+e[i].style.width='100%';
+}
+}
+
+e=document.getElementsByClassName('albumhorizontal');
+for(i=0;i<e.length;i++) {
+e[i].innerHTML=e[i].innerHTML.replace(/class=/g,'style="display:block;width:100px;height:100px;overflow:hidden" class=');
+e[i].innerHTML=e[i].innerHTML.replace(/img height/g,'img style="height:100px;width:auto"');
+}
+
+frombtmwebappnavlinkscrollto=0;
+document.getElementById('content').insertAdjacentHTML('beforeend','<center><div id="webapp_monalinkbtm"><a id="webapp_monalinkabtm" style="text-decoration:none" href="javascript:void(0)" onclick="window.scroll(0,frombtmwebappnavlinkscrollto);document.getElementById(\'webapp_monalinka\').click()">&#9776;&nbsp;Navigation</a></div></center>');
+
+e=document.getElementsByTagName('button');
+for(i=0;i<e.length;i++) {
+ftriggerid=e[i].id
+if(e[i].id.indexOf('f_trigger_b')===0)setTimeout("window[ftriggerid]();",111);
+}
+
+e=document.getElementsByTagName('iframe');
+for(i=0;i<e.length;i++) {
+if(e[i].name=='ifrmonofill') {
+locationhref=location.href;if(locationhref.indexOf('c=')<0) locationhref+='&c=MF_NOT_ALLOWED_ON_YOUR_MAIN_PAGE';if(locationhref.indexOf('id=')<0) locationhref+='&id=0';e[i].src='monofill.php?n='+locationhref.split('c=')[1].split('&')[0]+'&id='+locationhref.split('id=')[1].split('&')[0];
+}
+if(e[i].name=='ifrmonofillshared') {
+locationhref=location.href;if(locationhref.indexOf('c=')<0) locationhref+='&c=MF_NOT_ALLOWED_ON_YOUR_MAIN_PAGE';if(locationhref.indexOf('id=')<0) locationhref+='&id=0';e[i].src='monofillshared.php?n='+locationhref.split('c=')[1].split('&')[0]+'&id='+locationhref.split('id=')[1].split('&')[0];
+}
+}
+
+document.getElementsByTagName('html')[0].style.overflowX='hidden';
+document.getElementsByTagName('body')[0].style.overflowX='hidden';
+U5CMS_MOBILE_BASE;
+    return $source."\n";
+}
+
 function u5CodeMigrationLock($root) {
     static $held=array();
     $key=realpath($root) ?: $root;
@@ -163,8 +353,7 @@ function u5CodeMigrationBuildPlan($root) {
         $source=null; $reason='';
         if (is_file($legacy)) { $source=file_get_contents($legacy); $reason='existing exported file imported'; }
         elseif ($old==='jsmobilegeneral') {
-            $source=@file_get_contents($root.'/u5admin/code-templates/mobilebase!js.tpl'); $reason='bundled common mobile code installed';
-            if ($source===false) throw new RuntimeException('Bundled common mobile source is missing.');
+            $source=u5CodeMigrationMobileSource(); $reason='bundled common mobile code installed';
         }
         if ($source===null) continue;
         $candidate=array('name'=>$old,'content_1'=>u5CodeMigrationFileText($source,$charset),'typ'=>'c','deleted'=>0,
@@ -202,7 +391,6 @@ function u5CodeMigrationBuildPlan($root) {
         $oldFile=u5CodeAssetLegacyFilename($old);
         if ($oldFile===null) continue;
         if (!isset($files[$oldFile]) && is_file($root.'/r/'.$oldFile)) $oldFiles[]='r/'.$oldFile;
-        if (is_file($root.'/r/'.$old.'.tpl')) $oldFiles[]='r/'.$old.'.tpl';
     }
     $template=$effective['htmltemplate'];
     $foundTemplate=false;
@@ -219,13 +407,153 @@ function u5CodeMigrationBuildPlan($root) {
         'template'=>$template,'initializeHistory'=>(int)$historyCount[0]['n']===0,'created'=>time());
 }
 
+function u5CodeMigrationSafeBackupPath($relative) {
+    foreach (array('r/','u5admin/code-templates/') as $prefix) {
+        if (strpos($relative,$prefix)!==0) continue;
+        $name=substr($relative,strlen($prefix));
+        if ($name!=='' && $name!=='.' && $name!=='..' && strpos($name,'/')===false && strpos($name,'\\')===false && strpos($name,"\0")===false) return true;
+    }
+    return false;
+}
+
 function u5CodeMigrationBackupFile($root,$relative) {
-    if (strpos($relative,'r/')!==0 || strpos(substr($relative,2),'/')!==false || strpos($relative,'\\')!==false || strpos($relative,"\0")!==false) throw new RuntimeException('Invalid migration backup path.');
+    if (!u5CodeMigrationSafeBackupPath($relative)) throw new RuntimeException('Invalid migration backup path.');
     if (!is_file($root.'/'.$relative)) return;
     $directory=$root.'/fileversions/codeassets-12.11.0-files';
     if (!is_dir($directory) && !@mkdir($directory,0700,true)) throw new RuntimeException('Cannot create asset migration backup directory.');
     $backup=$directory.'/'.sha1($relative).'.php';
     if (!is_file($backup)) u5CodeAssetAtomicWrite($backup,"<?php exit; ?>\n".serialize(array('path'=>$relative,'bytes'=>file_get_contents($root.'/'.$relative))));
+}
+
+function u5CodeMigrationFileBackup($root,$relative) {
+    if (!u5CodeMigrationSafeBackupPath($relative)) throw new RuntimeException('Invalid migration backup path.');
+    $path=$root.'/fileversions/codeassets-12.11.0-files/'.sha1($relative).'.php';
+    if (!is_file($path)) return null;
+    $data=file_get_contents($path);$prefix="<?php exit; ?>\n";
+    if (substr($data,0,strlen($prefix))!==$prefix) throw new RuntimeException('Invalid migration file backup.');
+    $saved=@unserialize(substr($data,strlen($prefix)),array('allowed_classes'=>false));
+    if (!is_array($saved) || ($saved['path'] ?? '')!==$relative || !is_string($saved['bytes'] ?? null)) throw new RuntimeException('Invalid migration file backup.');
+    return $saved['bytes'];
+}
+
+function u5CodeMigrationTemplatePlan($root,$map,$preferTyped=false) {
+    $files=array();$sources=array();$remove=array();$used=array();$defaults=u5CodeAssetDefaults();
+    foreach ($map as $old=>$new) {
+        if (!u5CodeAssetIsTyped($new) || u5CodeAssetLegacyFilename($old)===null) continue;
+        $target='r/'.$new.'.tpl';
+        if (isset($files[$target])) continue;
+        $legacy='r/'.$old.'.tpl';$body=null;$source=null;
+        // After an earlier completed update a subsequently edited typed template wins.
+        if ($preferTyped && is_file($root.'/'.$target)) { $body=file_get_contents($root.'/'.$target);$source=$target; }
+        if ($body===null && is_file($root.'/'.$legacy)) { $body=file_get_contents($root.'/'.$legacy);$source=$legacy; }
+        if ($body===null) $body=u5CodeMigrationFileBackup($root,$legacy);
+        if ($body===null && is_file($root.'/'.$target)) { $body=file_get_contents($root.'/'.$target);$source=$target; }
+        // Recover installations that already used the first 12.11.0 preview.
+        $previous='u5admin/code-templates/'.($defaults[$old] ?? $new).'.tpl';
+        $previousBelongsHere=isset($defaults[$old]) || !in_array($new,$defaults,true);
+        if ($body===null && $previousBelongsHere && !isset($used[$previous]) && is_file($root.'/'.$previous)) { $body=file_get_contents($root.'/'.$previous);$source=$previous; }
+        if ($body===null && $previousBelongsHere && !isset($used[$previous])) $body=u5CodeMigrationFileBackup($root,$previous);
+        if ($body===null && $old==='jsmobilegeneral') {
+            $common='r/jsmobilegeneral.css';
+            if (is_file($root.'/'.$common)) $body=file_get_contents($root.'/'.$common);
+            if ($body===null) $body=u5CodeMigrationFileBackup($root,$common);
+            if ($body===null) {
+                $rows=u5CodeMigrationRows("SELECT content_1 FROM resources WHERE typ='c' AND deleted!=1 AND (BINARY name=".u5CodeMigrationValue($old).' OR BINARY name='.u5CodeMigrationValue($new).') ORDER BY deleted=0 DESC LIMIT 1');
+                $body=$rows ? (string)$rows[0]['content_1'] : u5CodeMigrationMobileSource();
+            }
+        }
+        if ($body===null) continue;
+        if (!is_string($body)) throw new RuntimeException('Cannot read reset template '.$legacy);
+        $before=is_file($root.'/'.$target) ? file_get_contents($root.'/'.$target) : null;
+        $files[$target]=array('before'=>$before,'after'=>u5CodeAssetReferences($body,$map));
+        if ($source!==null) {
+            $used[$source]=true;$sources[$source]=$body;
+            if ($source!==$target) $remove[]=$source;
+        }
+    }
+    // The obsolete preview folder is no longer a source. Back up its known files before removal.
+    foreach ($defaults as $old=>$canonical) {
+        $target='r/'.($map[$old] ?? $canonical).'.tpl';
+        $previous='u5admin/code-templates/'.$canonical.'.tpl';
+        if (isset($files[$target]) && is_file($root.'/'.$previous)) {
+            $sources[$previous]=file_get_contents($root.'/'.$previous);$remove[]=$previous;
+        }
+    }
+    $remove=array_values(array_diff(array_unique($remove),array_keys($files)));
+    return array('version'=>'12.11.0','files'=>$files,'sources'=>$sources,'remove'=>$remove);
+}
+
+function u5CodeMigrationPublishTemplates($root,$plan) {
+    foreach ($plan['sources'] as $relative=>$before) {
+        if (!is_file($root.'/'.$relative)) continue;
+        $current=file_get_contents($root.'/'.$relative);
+        if ($current!==$before && $current!==($plan['files'][$relative]['after'] ?? null)) throw new RuntimeException('A reset template changed during migration: '.$relative);
+        u5CodeMigrationBackupFile($root,$relative);
+    }
+    foreach ($plan['files'] as $relative=>$change) {
+        $current=is_file($root.'/'.$relative) ? file_get_contents($root.'/'.$relative) : null;
+        if ($current===$change['after']) continue;
+        if ($current!==$change['before']) throw new RuntimeException('A reset template changed during migration: '.$relative);
+        u5CodeMigrationBackupFile($root,$relative);
+    }
+    $index=0;
+    foreach ($plan['files'] as $relative=>$change) {
+        $current=is_file($root.'/'.$relative) ? file_get_contents($root.'/'.$relative) : null;
+        if ($current!==$change['after']) {
+            if ($current!==$change['before']) throw new RuntimeException('A reset template changed during migration: '.$relative);
+            u5CodeAssetAtomicWrite($root.'/'.$relative,$change['after']);
+        }
+        u5CodeMigrationCheckpoint('template:'.$index++);
+    }
+}
+
+function u5CodeMigrationCleanupTemplates($root,$plan) {
+    $index=0;
+    foreach ($plan['remove'] as $relative) {
+        // A legacy directory may be a link to a shared installation's templates.
+        if (strpos($relative,'u5admin/code-templates/')===0 && is_link($root.'/u5admin/code-templates')) continue;
+        if (!is_file($root.'/'.$relative)) continue;
+        if (file_get_contents($root.'/'.$relative)!==$plan['sources'][$relative]) throw new RuntimeException('A reset template changed during migration: '.$relative);
+        u5CodeMigrationBackupFile($root,$relative);
+        if (!@unlink($root.'/'.$relative)) throw new RuntimeException('Cannot remove obsolete reset template '.$relative);
+        u5CodeMigrationCheckpoint('template-cleanup:'.$index++);
+    }
+    // rmdir only succeeds for an empty directory; unrelated local files are retained.
+    if (is_dir($root.'/u5admin/code-templates')) @rmdir($root.'/u5admin/code-templates');
+}
+
+function u5CodeMigrationTemplates($root,$map,$preferTyped=false) {
+    $pending=$root.'/fileversions/codeassets-12.11.0-templates.pending.php';
+    $complete=$root.'/fileversions/codeassets-12.11.0-templates.done.php';
+    if (is_file($complete)) {
+        if (is_file($pending) && !@unlink($pending)) throw new RuntimeException('Cannot finish the reset template checkpoint.');
+        return;
+    }
+    $plan=is_file($pending) ? u5CodeMigrationReadJournal($pending) : u5CodeMigrationTemplatePlan($root,$map,$preferTyped);
+    if (!is_file($pending)) u5CodeAssetAtomicWrite($pending,"<?php exit; ?>\n".serialize($plan));
+    u5CodeMigrationPublishTemplates($root,$plan);
+    u5CodeMigrationCheckpoint('templates-written');
+    u5CodeMigrationCleanupTemplates($root,$plan);
+    u5CodeAssetAtomicWrite($complete,"<?php\nreturn ".var_export(array('version'=>'12.11.0','completed'=>time()),true).";\n");
+    u5CodeMigrationCheckpoint('templates-complete');
+    if (!@unlink($pending)) throw new RuntimeException('Cannot finish the reset template checkpoint.');
+}
+
+function u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks) {
+    $files=array();$sources=array();$remove=array();
+    foreach (glob($root.'/r/*.tpl') as $path) {
+        $relative='r/'.basename($path);$target=$relative;
+        if (basename($path)===$old.'.tpl') $target='r/'.$new.'.tpl';
+        if ($target!==$relative && file_exists($root.'/'.$target)) throw new RuntimeException('The target reset template already exists.');
+        $body=file_get_contents($path);
+        if (!is_string($body)) throw new RuntimeException('Cannot read reset template '.$relative);
+        $after=$updateLinks ? u5CodeAssetReferences($body,array($old=>$new)) : $body;
+        if ($target===$relative && $after===$body) continue;
+        $files[$target]=array('before'=>$target===$relative ? $body : null,'after'=>$after);
+        $sources[$relative]=$body;
+        if ($target!==$relative && $updateLinks) $remove[]=$relative;
+    }
+    return array('version'=>'12.11.0','files'=>$files,'sources'=>$sources,'remove'=>$remove);
 }
 
 function u5CodeMigrationApplyRow($change) {
@@ -287,11 +615,15 @@ function u5CodeAssetsMigrateLocked($root) {
     $pending=$root.'/fileversions/codeassets-12.11.0.pending.php';
     $complete=$root.'/fileversions/codeassets-12.11.0.done.php';
     if (is_file($complete)) {
+        $state=include $complete;
+        u5CodeMigrationTemplates($root,$state['map'],true);
         u5CodeAssetExport($root);
         u5CodeMigrationRemoveMimeRule($root);
         if (is_file($pending)) {
             $unfinished=u5CodeMigrationReadJournal($pending);
             foreach ($unfinished['oldFiles'] as $relative) {
+                // Earlier preview checkpoints also listed .tpl files; their own migration owns those now.
+                if (substr(strtolower($relative),-4)==='.tpl') continue;
                 u5CodeMigrationBackupFile($root,$relative);
                 if (is_file($root.'/'.$relative) && !@unlink($root.'/'.$relative)) throw new RuntimeException('Cannot remove obsolete asset '.$relative);
             }
@@ -302,6 +634,7 @@ function u5CodeAssetsMigrateLocked($root) {
     $plan=is_file($pending) ? u5CodeMigrationReadJournal($pending) : u5CodeMigrationBuildPlan($root);
     if (!is_file($pending)) u5CodeAssetAtomicWrite($pending,"<?php exit; ?>\n".serialize($plan));
     u5CodeMigrationCheckpoint('planned');
+    u5CodeMigrationTemplates($root,$plan['map']);
     foreach ($plan['files'] as $file=>$data) {
         u5CodeMigrationBackupFile($root,'r/'.$file);
         u5CodeAssetAtomicWrite($root.'/r/'.$file,$data);
@@ -329,6 +662,7 @@ function u5CodeAssetsMigrateLocked($root) {
     u5CodeAssetAtomicWrite($complete,"<?php\nreturn ".var_export(array('version'=>'12.11.0','template'=>$plan['template'],'map'=>$plan['map'],'completed'=>time()),true).";\n");
     // Old URLs remain usable until all new files and all DB references have been published.
     foreach ($plan['oldFiles'] as $relative) {
+        if (substr(strtolower($relative),-4)==='.tpl') continue;
         u5CodeMigrationBackupFile($root,$relative);
         if (is_file($root.'/'.$relative) && !@unlink($root.'/'.$relative)) throw new RuntimeException('Cannot remove obsolete asset '.$relative);
     }
@@ -372,7 +706,12 @@ function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
         $columns=u5CodeMigrationColumns('resources');$charset=u5CodeMigrationCharset($columns['content_1']);
         foreach ($afterResources as &$row) if (strtolower((string)$row['typ'])==='c') $row['content_1']=u5CodeMigrationDisplayText((string)$row['content_1'],$charset);
         unset($row);
-        $plan=array('version'=>'12.11.0','updates'=>$changes,'files'=>u5CodeAssetRowsToFiles($afterResources,time()));
+        $plan=array('version'=>'12.11.0','updates'=>$changes,'files'=>u5CodeAssetRowsToFiles($afterResources,time()),
+            'templates'=>u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks));
+        u5CodeAssetAtomicWrite($pending,"<?php exit; ?>\n".serialize($plan));
+    }
+    if (!isset($plan['templates'])) {
+        $plan['templates']=u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks);
         u5CodeAssetAtomicWrite($pending,"<?php exit; ?>\n".serialize($plan));
     }
     // Publish the new target before replacing stylesheets/templates which reference it.
@@ -382,6 +721,7 @@ function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
         u5CodeMigrationBackupFile($root,'r/'.$file);
         u5CodeAssetAtomicWrite($root.'/r/'.$file,$body);
     }
+    u5CodeMigrationPublishTemplates($root,$plan['templates']);
     foreach ($plan['updates'] as $change) u5CodeMigrationApplyRow($change);
     $marker=$root.'/fileversions/codeassets-12.11.0.done.php';
     $state=is_file($marker) ? include $marker : array('version'=>'12.11.0','template'=>'htmltemplate!html','map'=>array());
@@ -394,5 +734,6 @@ function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
         u5CodeMigrationBackupFile($root,'r/'.$oldFile);
         if (!@unlink($root.'/r/'.$oldFile)) throw new RuntimeException('Cannot remove the old code export.');
     }
+    u5CodeMigrationCleanupTemplates($root,$plan['templates']);
     if (!@unlink($pending)) throw new RuntimeException('Cannot finalize code rename.');
 }
