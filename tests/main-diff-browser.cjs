@@ -1,9 +1,9 @@
 const fs=require('fs'),path=require('path'),os=require('os'),assert=require('node:assert/strict');
 const {spawnSync}=require('child_process');
-const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
+const {launchBrowser}=require('./browser-runtime.cjs');
 (async()=>{
  const [, ,base,site]=process.argv;
- const browser=await chromium.launch({executablePath:process.env.U5_TEST_BROWSER,headless:true,args:['--no-sandbox']});
+ const browser=await launchBrowser();
  let checks=0;
  const equal=(a,b,label)=>{assert.equal(a,b,label);checks++;};
  const verify=(a,label)=>{assert.ok(a,label);checks++;};
@@ -186,10 +186,10 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
     const before=(await snapshot(name)).rows[0].lastmut;
     await meta.locator('[name=content_1]').fill('Über € &amp; metadata '+item.type);
     await meta.locator('input[name=button2]').click();
-    await meta.waitForFunction(old=>document.form1.coco.value!==String(old),before);
+    if(!meta.isClosed())await Promise.race([meta.waitForEvent('close'),meta.waitForFunction(old=>document.form1.coco.value!==String(old),before)]);
     equal((await snapshot(name)).rows[0].content_1,'Über € &amp; metadata '+item.type,mode+': metadata '+item.type+' saves without Latin1 corruption');
     equal((await snapshot(name)).rows[0].typ,item.type,mode+': metadata '+item.type+' preserves the object kind');
-    await meta.close();
+    if(!meta.isClosed())await meta.close();
    }
    // The normal page endpoint must reject actual code objects.
    const code='maintype'+mode+'!js';
@@ -205,6 +205,23 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
    verify((await stale.text()).includes('CONFLICT'),'stale normal page save reports its version conflict');
    const rightAfter=await snapshot(rightName);equal(rightAfter.rows[0].content_1,other,'stale normal page save keeps the newer page');
    verify(rightAfter.history.includes('conflicting ordinary page text'),'conflicting ordinary page input remains in text versions');
+   // Independent sessions submit the same revision concurrently.
+   const racingName='mainrace'+mode;
+   await ctx.request.post(base+'/u5admin/new2.php?typ=p',{form:{name:racingName,u5scrtytknfrfrms:csrf}});
+   const peer=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}} : {});
+   try {
+    if(mode==='session')equal((await peer.request.post(base+'/loginsave.php?u=u5admin',{form:{u:'auditadmin',p:'audit-password'},maxRedirects:0})).status(),302,'independent second session logs in');
+    const peerForm=await peer.request.get(base+'/u5admin/new.php?typ=p');
+    const peerToken=(await peerForm.text()).match(/name="u5scrtytknfrfrms"[^>]*value="([^"]+)"/)[1];
+    const revision=(await snapshot(racingName)).rows[0].lastmut;
+    const bodies=['simultaneous first '+mode,'simultaneous second '+mode];
+    const responses=await Promise.all([ctx,peer].map((session,index)=>session.request.post(base+'/u5admin/savepage.php?i=i1',{form:{...stalePage,page:racingName,coco:revision,content_1:bodies[index],u5scrtytknfrfrms:index===0 ? csrf : peerToken}})));
+    const documents=await Promise.all(responses.map(response=>response.text()));
+    equal(documents.filter(text=>text.includes('CONFLICT')).length,1,mode+': exactly one simultaneous stale revision conflicts');
+    const raced=await snapshot(racingName);
+    verify(bodies.includes(raced.rows[0].content_1),mode+': simultaneous save retains one complete source');
+    verify(bodies.every(body=>raced.history.includes(body)),mode+': both simultaneous inputs remain recoverable in history');
+   } finally { await peer.close(); }
    const expired=await browser.newContext();
    equal((await expired.request.post(base+'/u5admin/savepage.php?i=i2',{form:{...stalePage,u5saveid:'audit_expired'}})).status(),401,'an expired ordinary editor login is rejected without an acknowledgement');
    await expired.close();
@@ -233,10 +250,14 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
     verify(fs.readFileSync(path.join(site,'fileversions/orphan.js.php'),'latin1').includes("mark('"+used+"',false)"),mode+': used flat code export is not an orphan');
    }
    await left.locator('textarea[name=content_1]').fill('<link href="r/'+file+'">');
-   const repository=page.frame({name:'i3'});
-   await repository.goto(base+'/u5admin/c.php?f=*',{waitUntil:'domcontentloaded'});
-   await repository.locator('[id="tdL_'+used+'"]').waitFor({state:'attached'});
-   await repository.waitForFunction(name=>document.getElementById('tdL_'+name).style.background==='lightgreen',used);
+   // Inspect the actual iframe document: Firefox may retain the old frame
+   // navigation identity after the legacy editor uses document.open/write.
+   await page.evaluate(url=>{document.querySelector('iframe[name=i3]').src=url;},base+'/u5admin/c.php?f=*');
+   await page.waitForFunction(name=>{
+    const doc=document.querySelector('iframe[name=i3]').contentDocument;
+    const row=doc && doc.getElementById('tdL_'+name);
+    return row && row.style.background==='lightgreen';
+   },used);
    verify(true,mode+': repository highlights code linked by its flat public filename');
    const cookieValues=Object.fromEntries((await ctx.cookies()).map(cookie=>[cookie.name,cookie.value]));
    const prepared=php([path.join(__dirname,'main-diff-support.php'),site,'cache',JSON.stringify(cookieValues)]);
@@ -272,7 +293,9 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
     equal((await ctx.request.get(base+'/thumb.php?f=r/auditprivate/'+shape+'.jpg&'+parameter,{headers:{'If-Modified-Since':modified}})).status(),304,'unchanged authorized thumbnail is revalidated');
    }
    const deniedThumb=await anonymous.request.get(base+'/thumb.php?f=r/auditprivate/portrait.jpg&w=19&sq=1',{headers:{'If-Modified-Since':new Date().toUTCString()}});
-   verify(deniedThumb.status()!==304 && deniedThumb.headers()['content-type']!=='image/jpeg','thumbnail access is checked before conditional caching');
+   equal(deniedThumb.status(),401,'thumbnail access is rejected before conditional caching');
+   equal(deniedThumb.headers()['cache-control'],'no-store','thumbnail authentication failure cannot be reused from cache');
+   verify(deniedThumb.headers()['content-type']!=='image/jpeg','thumbnail denial contains no image response');
    const download=base+'/df.php?f='+prepared.stdout;
    const direct=await ctx.request.get(download);equal(direct.status(),200,'private form upload hash permits its original session');
    equal((await ctx.request.get(download,{headers:{'If-Modified-Since':direct.headers()['last-modified']}})).status(),304,'private form upload uses correct conditional dates');

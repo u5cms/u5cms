@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('node:assert/strict');
 const crypto = require('crypto');
-const { chromium } = require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
+const {launchBrowser}=require('./browser-runtime.cjs');
 
 (async () => {
   const [, , base, site] = process.argv;
-  const browser = await chromium.launch({executablePath:process.env.U5_TEST_BROWSER || undefined,headless:true,args:['--no-sandbox']});
+  const browser = await launchBrowser();
   let checks=0;
   const verify=(condition,label)=>{assert.ok(condition,label);checks++;};
   const equal=(actual,expected,label)=>{assert.equal(actual,expected,label);checks++;};

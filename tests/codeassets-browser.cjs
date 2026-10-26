@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('node:assert/strict');
-const { chromium } = require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
+const {launchBrowser}=require('./browser-runtime.cjs');
 
 (async () => {
   const [, , base, site] = process.argv;
-  const browser = await chromium.launch({ executablePath: process.env.U5_TEST_BROWSER || undefined, headless: true, args: ['--no-sandbox'] });
+  const browser = await launchBrowser();
+  const sharedOrigin=process.env.U5_TEST_SHARED_ORIGIN || 'https://info.agov.ch';
   let checks = 0;
   const verify = (value, message) => { assert.ok(value, message); checks++; };
   try {
@@ -24,7 +25,7 @@ const { chromium } = require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
       const requests = [], errors = [], mimeErrors = [];
       await context.route('**/*', async route => {
         const url = new URL(route.request().url()); requests.push(url.href);
-        if (url.origin === new URL(base).origin || url.protocol === 'data:') return route.continue();
+        if ((process.env.U5_TEST_SHARED_ORIGIN && url.origin===sharedOrigin) || url.origin === new URL(base).origin || url.protocol === 'data:') return route.continue();
         if (url.hostname === 'info.agov.ch' && ['/r/mobile.js','/r/mobilebase.js'].includes(url.pathname)) {
           return route.fulfill({ status: 200, headers: { 'content-type': 'text/javascript; charset=utf-8', 'x-content-type-options': 'nosniff' }, body: fs.readFileSync(path.join(site, url.pathname)) });
         }
@@ -64,8 +65,8 @@ const { chromium } = require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
       verify(mimeErrors.length === 0, scenario.name + ': no MIME errors: ' + mimeErrors.join('\n'));
       verify(errors.length === 0, scenario.name + ': no JavaScript exceptions: ' + errors.join('\n'));
       if (scenario.shared) {
-        verify(requests.some(url => url.startsWith('https://info.agov.ch/r/mobile.js')), 'shared script keeps source domain');
-        verify(requests.some(url => url.startsWith('https://info.agov.ch/r/mobilebase.js')), 'shared common script uses updated extension');
+        verify(requests.some(url => url.startsWith(sharedOrigin+'/r/mobile.js')), 'shared script keeps source domain');
+        verify(requests.some(url => url.startsWith(sharedOrigin+'/r/mobilebase.js')), 'shared common script uses updated extension');
       }
       await context.close();
     }

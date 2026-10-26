@@ -77,7 +77,7 @@ function u5MainDiffDatabase($legacy) {
     $oldSource=shell_exec('git show 16377863d62f0b9a53235fbfabf236d1b18a425c:codeassets.inc.php');
     checkAsset(is_string($oldSource) && strpos($oldSource,'function u5CodeAssetReferences')!==false,'previous parser is available for the recovery reproduction');
     $parser=$root.'/old-parser.php';file_put_contents($parser,$oldSource.';echo serialize(u5CodeAssetReferences(unserialize(base64_decode($argv[1]))));');
-    $process=proc_open(array(PHP_BINARY,'-n',$parser,base64_encode(serialize($before))),array(1=>array('pipe','w'),2=>array('pipe','w')),$pipes);
+    $process=proc_open(array_merge(array(PHP_BINARY),json_decode(getenv('U5_TEST_PHP_ARGS') ?: '["-n"]',true),array($parser,base64_encode(serialize($before)))),array(1=>array('pipe','w'),2=>array('pipe','w')),$pipes);
     $bad=unserialize(stream_get_contents($pipes[1]));$error=stream_get_contents($pipes[2]);fclose($pipes[1]);fclose($pipes[2]);
     sameAsset(proc_close($process),0,'previous Latin1 JSON parser reproduction: '.$error);
     checkAsset($bad!==$expected && strpos($bad,'"selector":"[base!css]"')!==false,'previous parser actually changed a literal JSON selector');

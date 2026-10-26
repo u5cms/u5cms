@@ -38,6 +38,9 @@
     if (str_replace($search, '', $passwd) != $passwd) $unknown = 'ok';
 if($automaticallyskipintranetlogin!='yes') {
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
+        // An authentication failure must not be a cacheable successful response.
+        http_response_code(401);
+        header('Cache-Control: no-store');
         if ($usesessioninsteadofbasicauth == 'no') {
             if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';
 			header('WWW-Authenticate: Basic realm="'.$u5cmsrealm.'", charset="UTF-8"');

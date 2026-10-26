@@ -306,6 +306,29 @@ try {
         if ($phase!=='complete') checkAsset(is_file($root.'/r/jsmobilespecific.css'),'old script remains until completion after '.$phase);
         u5CodeAssetsMigrate($root);assertAssetInstallation($root,'resumed '.$phase);
     }
+    if (DIRECTORY_SEPARATOR==='/') {
+        foreach (array('planned','templates-written','files','row:0','database','exported','complete') as $phase) {
+            $root=assetFixture($legacy,'sigkill-'.str_replace(':','-',$phase));oldAssetFiles($root);
+            $database=u5CodeMigrationRows('SELECT DATABASE() AS db')[0]['db'];
+            $signal=$root.'/worker-checkpoint';
+            $arguments=json_decode(getenv('U5_TEST_PHP_ARGS') ?: '[]',true);
+            $command=array_merge(array(PHP_BINARY),$arguments,array(__DIR__.'/codeassets-kill-worker.php',$database,$root,$phase,$signal));
+            $worker=proc_open($command,array(1=>array('file',$root.'/worker.log','a'),2=>array('file',$root.'/worker.log','a')),$pipes);
+            if (!is_resource($worker)) throw new RuntimeException('Cannot start kill worker.');
+            try {
+                $deadline=microtime(true)+15;
+                while (!is_file($signal) && microtime(true)<$deadline && proc_get_status($worker)['running']) usleep(10000);
+                checkAsset(is_file($signal),'SIGKILL worker reached '.$phase.': '.file_get_contents($root.'/worker.log'));
+                checkAsset(proc_terminate($worker,9),'SIGKILL delivered at '.$phase);
+                $deadline=microtime(true)+5;
+                do { $status=proc_get_status($worker);if (!$status['running']) break;usleep(10000); } while (microtime(true)<$deadline);
+                checkAsset(!$status['running'] && $status['signaled'] && $status['termsig']===9,'worker was killed without PHP cleanup at '.$phase);
+            } finally { proc_terminate($worker,9);proc_close($worker); }
+            u5CodeAssetsMigrate($root);assertAssetInstallation($root,'SIGKILL resumed '.$phase);
+            $snapshot=assetSnapshot();u5CodeAssetsMigrate($root);
+            sameAsset(assetSnapshot(),$snapshot,'SIGKILL resume is idempotent at '.$phase);
+        }
+    }
     $root=assetFixture($legacy,'blocked-output');oldAssetFiles($root);
     $blockedOutputRoot=$root;$before=assetSnapshot();
     expectAssetFailure(function() use($root){ u5CodeAssetsMigrate($root); },'blocked file publication stops migration');
@@ -394,7 +417,7 @@ try {
     checkAsset(strpos($response,'was not completed')!==false,'backend reports failed update');
     $response=runBackendAssetUpdate($root);
     checkAsset(!is_file($root.'/r/runonce.php'),'backend removes runonce only after success: '.substr(strip_tags($response),-1800));
-    checkAsset(strpos($response,'updated to 12.11.2')!==false,'backend reports successful update');
+    checkAsset(strpos($response,'updated to 12.11.3')!==false,'backend reports successful update');
     assertAssetInstallation($root,'backend update');
 
     $root=assetFixture($legacy,'older-schema');oldAssetFiles($root);
