@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/codeassets.inc.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>

@@ -17,9 +17,10 @@ It is very easy to build a web application yourself with u5CMS. Let users log in
   ※ https://yuba.ch/r/rendertutorial/rendertutorial_en.pdf
 ※※ https://yuba.ch/?c=u5eformedit
 
-Version 12.11.3 includes typed code resource names such as `mobile!js` and
+Version 12.11.4 includes typed code resource names such as `mobile!js` and
 `base!css`, bundled mobile code, and an automatic migration for existing sites.
 See [the update and migration guide](docs/12.11.0-code-assets.md),
 [the 12.11.1 migration audit](docs/12.11.1-audit.md),
 [the 12.11.2 main comparison and restore report](docs/12.11.2-audit.md), and
-[the 12.11.3 process-abort and web-server audit](docs/12.11.3-audit.md).
+[the 12.11.3 process-abort and web-server audit](docs/12.11.3-audit.md), and
+[the final main comparison and entry-point correction](docs/12.11.4-main-audit.md).

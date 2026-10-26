@@ -13,6 +13,30 @@ const {launchBrowser}=require('./browser-runtime.cjs');
  try {
   setMode('no');
   const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}});
+  // Direct entry must load the stylesheet helper before its first use.
+  // Forbid password orders in this fixture so this check cannot send mail.
+  const passwordConfig=fs.readFileSync(config);
+  const passwordStyle=path.join(site,'r/pworder.css');
+  const legacyPasswordStyle=path.join(site,'r/csspworder.css');
+  const passwordMarker=path.join(site,'fileversions/codeassets-12.11.0.done.php');
+  const markerBytes=fs.readFileSync(passwordMarker);
+  const savedStyles=[passwordStyle,legacyPasswordStyle].map(file=>fs.existsSync(file) ? fs.readFileSync(file) : null);
+  try {
+   fs.writeFileSync(config,passwordConfig.toString('latin1').replace(/\$orderingintranetpasswordsisforbidden\s*=\s*'no'/,"$orderingintranetpasswordsisforbidden='yes'"),'latin1');
+   for(const migrated of [true,false]) {
+    if(migrated)fs.writeFileSync(passwordStyle,'/* migrated password order style */');
+    else {fs.unlinkSync(passwordMarker);fs.writeFileSync(legacyPasswordStyle,'/* legacy password order style */');}
+    const response=await context.request.get(base+'/sendintranetlogin.php');
+    const body=await response.text();
+    equal(response.status(),200,'direct password order entry renders '+(migrated ? 'migrated' : 'legacy')+' installation');
+    verify(!/Fatal error|undefined function/i.test(body),'password order entry has its helper before rendering');
+    verify(body.includes('MESSAGE TO THE ADMINISTRATOR'),'password order policy still blocks the request before mail or salt changes');
+    verify(body.includes('href="r/'+(migrated ? 'pworder.css' : 'csspworder.css')+'"'),'password order uses the appropriate stylesheet');
+   }
+  } finally {
+   fs.writeFileSync(config,passwordConfig);fs.writeFileSync(passwordMarker,markerBytes);
+   [passwordStyle,legacyPasswordStyle].forEach((file,index)=>{if(savedStyles[index]===null) {if(fs.existsSync(file))fs.unlinkSync(file);}else fs.writeFileSync(file,savedStyles[index]);});
+  }
   const tokenResponse=await context.request.get(base+'/u5admin/new.php?typ=p');
   const match=(await tokenResponse.text()).match(/name="u5scrtytknfrfrms"[^>]*value="([^"]+)"/);verify(match,'real backend CSRF token');
   const token=match[1];
@@ -312,12 +336,12 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await album.frameLocator('iframe[name=ametai]').locator('input[name=coco]').waitFor({state:'attached'});
    const firstCaption='Über € &amp; caption',laterCaption='Über € &amp; later caption';
    const albumRevision=(await snapshot(albumName)).rows[0].lastmut;
-   await caption.fill(firstCaption);await caption.blur();
+   await caption.fill('');await caption.pressSequentially(firstCaption);await caption.blur();
    let releaseAlbum,albumStarted;
    const albumGate=new Promise(resolve=>releaseAlbum=resolve),albumPending=new Promise(resolve=>albumStarted=resolve);
    await ctx.route('**/u5admin/meta2.php?typ=a**',async route=>{const saved=await route.fetch();albumStarted();await albumGate;await route.fulfill({response:saved});});
    await album.locator('#sacabu button').click();await albumPending;
-   await caption.fill(laterCaption);await caption.blur();releaseAlbum();
+   await caption.fill('');await caption.pressSequentially(laterCaption);await caption.blur();releaseAlbum();
    const albumFrame=await (await album.locator('iframe[name=ametai]').elementHandle()).contentFrame();
    await albumFrame.waitForFunction(old=>document.form1.coco.value!==String(old),albumRevision);
    verify((await snapshot(albumName)).rows[0].content_1.includes(firstCaption),'album saves its submitted caption snapshot');
