@@ -28,7 +28,8 @@ header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readf
         probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
     base='http://127.0.0.1:'+str(port)
     with (work/'server.log').open('w+') as log:
-        server = subprocess.Popen(PHP + ['-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'], '-d','upload_max_filesize=24M','-d','post_max_size=64M','-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],cwd=site,stdout=log,stderr=log)
+        limits=['-d','memory_limit=64M'] if os.environ.get('U5CMS_BACKUP_STRESS') else []
+        server = subprocess.Popen(PHP + limits + ['-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'], '-d','upload_max_filesize=24M','-d','post_max_size=64M','-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],cwd=site,stdout=log,stderr=log)
         try:
             for attempt in range(100):
                 try:
@@ -41,8 +42,11 @@ header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readf
                 with urllib.request.urlopen(base+'/'+file,timeout=5) as response:
                     assert response.headers.get_content_type()==mime
                     assert response.headers.get('X-Content-Type-Options')=='nosniff'
-            subprocess.run(['node',str(REPO/'tests/codeassets-browser.cjs'),base,str(site)],check=True)
-            subprocess.run(['node',str(REPO/'tests/codeassets-backend.cjs'),base,str(site)],check=True)
+            if not os.environ.get('U5CMS_MAIN_AUDIT_ONLY'):
+                subprocess.run(['node',str(REPO/'tests/codeassets-browser.cjs'),base,str(site)],check=True)
+                subprocess.run(['node',str(REPO/'tests/codeassets-backend.cjs'),base,str(site)],check=True)
+            if os.environ.get('U5CMS_MAIN_AUDIT') or os.environ.get('U5CMS_MAIN_AUDIT_ONLY'):
+                subprocess.run(['node',str(REPO/'tests/main-diff-browser.cjs'),base,str(site)],check=True)
         except Exception:
             log.flush();print((work/'server.log').read_text()[-12000:]);raise
         finally:

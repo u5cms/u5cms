@@ -73,7 +73,7 @@ function u5CodeAssetGuess($name, $source, $uses='') {
         $extension='js'; $reason='loaded as a script';
     } elseif (preg_match('~(?:^|[;\r\n])\s*(?:var\s|let\s|const\s|function\s|class\s|(?:export|import|async|await|throw)\b|try\s*\{|(?:for|while|switch|setTimeout|setInterval|fetch)\s*\(|console\s*\.\s*(?:log|info|warn|error|debug|assert)\s*\(|\(?function\s*\(|(?:window|document|jQuery)\s*[.(]|\$\s*\()|^\s*\(?\s*(?:\([^)]*\)|[a-zA-Z_$]\w*)\s*=>|^\s*if\s*\(~', $body)) {
         $extension='js'; $reason='JavaScript syntax';
-    } elseif ($body!=='' && ($body[0]==='{' || $body[0]==='[') && json_decode($body, true)!==null) {
+    } elseif ($body!=='' && ($body[0]==='{' || $body[0]==='[') && json_decode(preg_match('//u',$body)===1 ? $body : u5CodeAssetUtf8($body), true)!==null) {
         $extension='json'; $reason='JSON content';
     } elseif (preg_match('~(?:^|[}\r\n])\s*(?:[.#@][\w-]|[a-z][\w\s,.#:\[\]="\'()>+\~-]*\{)~i', $body)) {
         $reason='CSS rules';
@@ -215,6 +215,13 @@ function u5CodeAssetReferences($text,$map=array(),$depth=0,$format='html',$objec
     $trimmed=ltrim($text);
     if (in_array($trimmed[0] ?? '',array('{','[','"'),true)) {
         $valid=function_exists('json_validate') ? json_validate($text) : (json_decode($text,true)!==null || json_last_error()===JSON_ERROR_NONE);
+        if (!$valid && preg_match('//u',$text)!==1) {
+            // Raw latin1 columns/files can contain JSON that PHP's UTF-8 JSON parser rejects.
+            // Normalize only for parsing, then return its original single-byte representation.
+            $utf8=u5CodeAssetUtf8($text);
+            $validLatin1=function_exists('json_validate') ? json_validate($utf8) : (json_decode($utf8,true)!==null || json_last_error()===JSON_ERROR_NONE);
+            if ($validLatin1) return u5CodeAssetLatin1(u5CodeAssetReferences($utf8,$map,$depth,$format,$objectMap));
+        }
         $simpleMarkup=false;
         if ($valid && in_array(strtolower($format),array('html','htm'),true) && preg_match('/^\[([^\[\]"{}]+)\]$/D',$trimmed,$tag)) {
             $all=array_merge(u5CodeAssetDefaults(),$map);$simpleMarkup=isset($all[$tag[1]]);
@@ -338,6 +345,35 @@ function u5CodeAssetUtf8($source) {
         if ($point<160) $point=$windows[$point-128];
         if ($point<2048) $out.=chr(0xc0|($point>>6)).chr(0x80|($point&63));
         else $out.=chr(0xe0|($point>>12)).chr(0x80|(($point>>6)&63)).chr(0x80|($point&63));
+    }
+    return $out;
+}
+
+// Localization, orphan scans and repository highlighting share this pattern.
+// Callers normalize JSON's escaped slashes before matching.
+function u5CodeAssetUsagePattern($name) {
+    $file=u5CodeAssetFilename($name);
+    $files=array_unique(array($file,rawurlencode($file)));
+    $literal='(?:'.implode('|',array_map(function($file){return str_replace('.','[.]',$file);},$files)).')';
+    $space='[ \\t\\r\\n]';
+    $css='(?:@import(?:'.$space.'+|'.$space.'*url[(]'.$space.'*)|url[(]'.$space.'*)["\']?(?:[.]/)?'.$literal;
+    $module='(?:(?:from|import)'.$space.'+["\']|(?:import|require|fetch|getScript|loadScript|URL)'.$space.'*[(]'.$space.'*["\'])(?:[.]/)?'.$literal;
+    return '(?:^|[^A-Za-z0-9_!.%-])(?:r/'.$literal.'|'.$css.'|'.$module.')(?=[^A-Za-z0-9_!./%-]|$)';
+}
+
+function u5CodeAssetLatin1($source) {
+    static $characters=null;
+    if ($characters===null) {
+        $characters=array();
+        for ($value=128;$value<256;$value++) $characters[u5CodeAssetUtf8(chr($value))]=chr($value);
+    }
+    $out='';
+    for ($index=0,$length=strlen($source);$index<$length;) {
+        $first=ord($source[$index]);
+        if ($first<128) { $out.=$source[$index++];continue; }
+        $size=$first<224 ? 2 : ($first<240 ? 3 : 4);$character=substr($source,$index,$size);
+        if (!isset($characters[$character])) throw new RuntimeException('A rewritten Latin1 JSON value cannot be represented losslessly.');
+        $out.=$characters[$character];$index+=$size;
     }
     return $out;
 }

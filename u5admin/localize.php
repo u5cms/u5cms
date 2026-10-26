@@ -18,6 +18,11 @@
 <?php
 require('../config.php');
 $ormanualfullpath = '';
+require_once('codeassets-usage.inc.php');
+$codeType=mysql_query("SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' LIMIT 1");
+if ($codeType===false) die('Cannot inspect resource type.');
+$codeType=mysql_fetch_assoc($codeType);
+$codeUsage=$codeType && strtolower((string)$codeType['typ'])==='c' ? 'OR '.u5CodeAssetUsageSql($_GET['name']) : '';
 
 $replacestart = "replace(replace(replace(replace(replace(replace(";
 $replaceend = ",'[[[[',' '),'[[[',' '),'[[',' '),']]]]',' '),']]]',' '),']]',' ')";
@@ -151,6 +156,8 @@ OR
     ))
 
 $ormanualfullpath
+
+$codeUsage
 
 )
 ORDER BY typ, name

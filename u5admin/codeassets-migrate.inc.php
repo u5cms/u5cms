@@ -368,7 +368,46 @@ function u5CodeMigrationRetainedSource($root,$name,$fallback) {
     return $source;
 }
 
-function u5CodeMigrationBuildPlan($root,$previousMap=array()) {
+// Repair only JSON changed by an earlier migration, and only if the entire row
+// still matches that migration's saved result. Subsequent edits always win.
+function u5CodeMigrationJsonRecovery($root,$backup) {
+    $empty=function($table,$row) { return array(); };
+    if (empty($backup['directory'])) return $empty;
+    $directory=u5CodeMigrationChangesDirectory($root,$backup);
+    if (!is_file($root.'/'.$directory.'/manifest.php')) return $empty;
+    $manifest=u5CodeMigrationReadGuarded($root.'/'.$directory.'/manifest.php');
+    $journal=$manifest['journal'] ?? array();
+    if (($journal['format'] ?? '')!=='chunked-v1' || ($journal['directory'] ?? '')!==$directory) throw new RuntimeException('Invalid saved migration row manifest.');
+    if (($journal['implementation'] ?? '')==='12.11.2') return $empty;
+    $index=array();
+    u5CodeMigrationEachChange($root,$journal,function($change,$number,$location) use(&$index) {
+        $fields=array();
+        foreach ($change['before'] as $field=>$value) {
+            if (!is_string($value) || $value===($change['after'][$field] ?? null) || preg_match('//u',$value)===1) continue;
+            $trimmed=ltrim($value);
+            if (!in_array($trimmed[0] ?? '',array('{','[','"'),true)) continue;
+            json_decode(u5CodeAssetUtf8($value),true);
+            if (json_last_error()===JSON_ERROR_NONE) $fields[$field]=$value;
+        }
+        if (!$fields) return;
+        $key=$change['table'].':'.hash('sha256',serialize($change['after']));
+        $fingerprint=hash('sha256',serialize($fields));
+        if (array_key_exists($key,$index) && ($index[$key]===false || $index[$key]['fingerprint']!==$fingerprint)) $index[$key]=false;
+        else $index[$key]=$location+array('fingerprint'=>$fingerprint,'fields'=>array_keys($fields));
+    });
+    $cachedPath=null;$cached=array();
+    return function($table,$row) use($root,$index,&$cachedPath,&$cached) {
+        $key=$table.':'.hash('sha256',serialize($row));
+        if (empty($index[$key])) return array();
+        $found=$index[$key];$chunk=$found['chunk'];
+        if ($cachedPath!==$chunk['path']) { $cached=u5CodeMigrationReadChangeBlock($root,$chunk);$cachedPath=$chunk['path']; }
+        $change=$cached[$found['position']];
+        if ($change['table']!==$table || $change['after']!==$row) return array();
+        return array_intersect_key($change['before'],array_flip($found['fields']));
+    };
+}
+
+function u5CodeMigrationBuildPlan($root,$previousMap=array(),$previousBackup=array()) {
     u5CodeMigrationHistorySchema();
     $schema=array();
     foreach (u5CodeMigrationRows('SHOW FULL TABLES') as $tableRow) {
@@ -431,7 +470,7 @@ function u5CodeMigrationBuildPlan($root,$previousMap=array()) {
         }
         if ($source===null) continue;
         $candidate=array('name'=>$old,'content_1'=>u5CodeMigrationFileText($source,$charset),'typ'=>'c','deleted'=>0,
-            'hidden'=>0,'ishomepage'=>0,'lastmut'=>time(),'operator'=>'u5CMS 12.11.1','ip'=>($_SERVER['REMOTE_ADDR'] ?? ''));
+            'hidden'=>0,'ishomepage'=>0,'lastmut'=>time(),'operator'=>'u5CMS 12.11.2','ip'=>($_SERVER['REMOTE_ADDR'] ?? ''));
         if (!isset($map[$old])) {
             $probe=$nameRows; $probe[]=$candidate;
             $resolved=u5CodeAssetPlanNames($probe,$uses,$occupied);
@@ -442,17 +481,18 @@ function u5CodeMigrationBuildPlan($root,$previousMap=array()) {
     }
     $effective=array_merge($defaults,$map);$objectMap=$effective;
     foreach ($objectMap as $old=>$target) if (isset($nonCode[strtolower($old)])) unset($objectMap[$old]);
+    $recoverJson=u5CodeMigrationJsonRecovery($root,$previousBackup);
     $updates=u5CodeMigrationStartChanges(); $afterResources=array();
     try {
-    foreach ($schema as $table=>$columns) u5CodeMigrationEachRow($table,$columns,function($before) use($schema,$table,$effective,$objectMap,$root,&$updates,&$afterResources) {
-        $after=$before;
+    foreach ($schema as $table=>$columns) u5CodeMigrationEachRow($table,$columns,function($before) use($schema,$table,$effective,$objectMap,$root,$recoverJson,&$updates,&$afterResources) {
+        $after=$before;$originalJson=$recoverJson($table,$before);
         foreach ($schema[$table] as $field=>$column) {
             if (!array_key_exists($field,$before) || !preg_match('/char|text|json|enum|set/i',$column['Type']) || !is_string($before[$field])) continue;
             if ($field==='name' && ($table==='resources' || $table==='resources_log') && strtolower((string)($before['typ'] ?? ''))==='c') {
                 $after[$field]=$effective[$before[$field]] ?? $before[$field];
             } else {
                 $format=(($table==='resources' || $table==='resources_log') && strtolower((string)($before['typ'] ?? ''))==='c' && strpos($field,'content_')===0) ? u5CodeAssetFormat($before['name'],$effective) : 'html';
-                $after[$field]=u5CodeAssetReferences($before[$field],$effective,0,$format,$objectMap);
+                $after[$field]=u5CodeAssetReferences($originalJson[$field] ?? $before[$field],$effective,0,$format,$objectMap);
             }
         }
         if ($table==='resources') u5CodeMigrationRevision($before,$after);
@@ -499,7 +539,7 @@ function u5CodeMigrationBuildPlan($root,$previousMap=array()) {
     if (!$foundTemplate || !isset($files[u5CodeAssetFilename($template)])) throw new RuntimeException('The active HTML template could not be identified. No database changes were made.');
     $historyCount=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM resources_log');
     $updates=u5CodeMigrationFinishChanges($root,$updates);
-    return array('version'=>'12.11.0','audit'=>'12.11.1','map'=>$effective,'notes'=>$notes,'updates'=>$updates,
+    return array('version'=>'12.11.0','audit'=>'12.11.1','implementation'=>'12.11.2','map'=>$effective,'notes'=>$notes,'updates'=>$updates,
         'additions'=>$additions,'files'=>$files,'oldFiles'=>array_values(array_unique($oldFiles)),
         'template'=>$template,'initializeHistory'=>(int)$historyCount[0]['n']===0,'created'=>time());
     } catch (Throwable $error) { u5CodeMigrationAbortChanges($root,$updates);throw $error; }
@@ -712,7 +752,11 @@ function u5CodeMigrationRemoveMimeRule($root) {
 
 function u5CodeAssetsMigrate($root) {
     $release=u5CodeMigrationLock($root);
-    try { u5CodeAssetsMigrateLocked($root); }
+    try {
+        // Finish an older immutable checkpoint before applying the next repair.
+        u5CodeAssetsMigrateLocked($root);
+        if (!is_file($root.'/fileversions/codeassets-12.11.2.done.php') || is_file($root.'/fileversions/codeassets-12.11.2.pending.php')) u5CodeAssetsMigrateLocked($root,'12.11.2');
+    }
     finally { $release(); }
 }
 
@@ -728,8 +772,8 @@ function u5CodeMigrationCleanupAssets($root,$plan) {
     }
 }
 
-function u5CodeAssetsMigrateLocked($root) {
-    $base=$root.'/fileversions/codeassets-12.11.0';$patch=$root.'/fileversions/codeassets-12.11.1';
+function u5CodeAssetsMigrateLocked($root,$patchVersion='12.11.1') {
+    $base=$root.'/fileversions/codeassets-12.11.0';$patch=$root.'/fileversions/codeassets-'.$patchVersion;
     $complete=$base.'.done.php';$pending=$base.'.pending.php';$previous=array();$repair=false;
     if (is_file($complete)) {
         $previous=include $complete;
@@ -750,13 +794,13 @@ function u5CodeAssetsMigrateLocked($root) {
     }
     if (is_file($pending)) $plan=u5CodeMigrationReadJournal($pending);
     else {
-        $plan=u5CodeMigrationBuildPlan($root,$previous['map'] ?? array());
+        $plan=u5CodeMigrationBuildPlan($root,$previous['map'] ?? array(),$previous['row_backup'] ?? array());
         try { u5CodeAssetAtomicWrite($pending,u5CodeMigrationEncodeJournal($plan)); }
         catch (Throwable $error) { u5CodeMigrationAbortChanges($root,$plan['updates']);throw $error; }
     }
     u5CodeMigrationCheckpoint('planned');
     u5CodeMigrationValidateChanges($root,$plan['updates']);
-    u5CodeMigrationTemplates($root,$plan['map'],$repair,$repair ? '12.11.1' : '12.11.0');
+    u5CodeMigrationTemplates($root,$plan['map'],$repair,$repair ? $patchVersion : '12.11.0');
     foreach ($plan['files'] as $file=>$data) {
         u5CodeMigrationBackupFile($root,'r/'.$file);u5CodeAssetAtomicWrite($root.'/r/'.$file,$data);
     }
@@ -766,19 +810,26 @@ function u5CodeAssetsMigrateLocked($root) {
     if (!empty($plan['initializeHistory'])) u5CodeMigrationInitializeHistory();
     u5CodeMigrationCheckpoint('database');
     u5CodeAssetExport($root);u5CodeMigrationRemoveMimeRule($root);
-    $report="u5CMS 12.11.1 code resource migration\n";
+    $report='u5CMS '.($plan['implementation'] ?? $plan['audit'] ?? '12.11.0')." code resource migration\n";
     foreach ($plan['notes'] as $note) $report.=$note['from'].' -> '.$note['to'].' ('.$note['reason'].")\n";
     u5CodeAssetAtomicWrite($base.'-report.php',"<?php exit; ?>\n".$report);
     u5CodeMigrationCheckpoint('exported');
     $state=array('version'=>'12.11.0','template'=>$plan['template'],'map'=>$plan['map'],'completed'=>time());
     if (($plan['updates']['format'] ?? '')==='chunked-v1') $state['row_backup']=array('directory'=>$plan['updates']['directory'],'count'=>$plan['updates']['count']);
     u5CodeAssetAtomicWrite($complete,"<?php\nreturn ".var_export($state,true).";\n");
-    if (($plan['audit'] ?? '')==='12.11.1') u5CodeAssetAtomicWrite($patch.'.done.php',"<?php\nreturn ".var_export(array('version'=>'12.11.1','completed'=>time(),'row_backup'=>$state['row_backup'] ?? null),true).";\n");
+    if (($plan['audit'] ?? '')==='12.11.1') {
+        $patchState=array('version'=>$patchVersion,'completed'=>time(),'row_backup'=>$state['row_backup'] ?? null);
+        u5CodeAssetAtomicWrite($patch.'.done.php',"<?php\nreturn ".var_export($patchState,true).";\n");
+        if (($plan['implementation'] ?? '')==='12.11.2') {
+            $patchState['version']='12.11.2';
+            u5CodeAssetAtomicWrite($root.'/fileversions/codeassets-12.11.2.done.php',"<?php\nreturn ".var_export($patchState,true).";\n");
+        }
+    }
     // Keep old URLs until the new files and all database references have been published.
     u5CodeMigrationCleanupAssets($root,$plan);u5CodeMigrationCheckpoint('complete');
     if (!@unlink($pending)) throw new RuntimeException('Cannot finish the asset migration checkpoint.');
     // An interrupted older release can finish its own immutable plan before the patch repair.
-    if (($plan['audit'] ?? '')!=='12.11.1') u5CodeAssetsMigrateLocked($root);
+    if (($plan['audit'] ?? '')!=='12.11.1') u5CodeAssetsMigrateLocked($root,$patchVersion);
 }
 
 function u5CodeAssetsRename($root,$old,$new,$updateLinks=true) {

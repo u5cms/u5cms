@@ -6,7 +6,11 @@ if (!mysql_connect('127.0.0.1',getenv('U5CMS_TEST_USER') ?: 'root',getenv('U5CMS
 if (($argv[1] ?? '')==='cleanup') {
     $name=$argv[2] ?? '';
     if (!preg_match('/^u5asset_web_[a-f0-9]+$/D',$name)) throw new RuntimeException('Invalid test database name.');
-    u5CodeMigrationQuery('DROP DATABASE IF EXISTS `'.$name.'`');exit;
+    for ($attempt=0;$attempt<4;$attempt++) {
+        if (mysql_query('DROP DATABASE IF EXISTS `'.$name.'`')!==false) exit;
+        if ($attempt===3) throw new RuntimeException('Cannot clean disposable database: '.mysql_error());
+        usleep(100000);
+    }
 }
 $root=$argv[1];$name='u5asset_web_'.bin2hex(random_bytes(6));
 u5CodeMigrationQuery('CREATE DATABASE `'.$name.'` CHARACTER SET utf8mb4');mysql_select_db($name);
@@ -50,7 +54,7 @@ $config=file_get_contents($root.'/config.php.sample');
 $settings=array('host'=>'127.0.0.1','username'=>getenv('U5CMS_TEST_USER') ?: 'root','password'=>getenv('U5CMS_TEST_PASSWORD') ?: '',
     'db'=>$name,'mymail'=>'fixture@example.invalid','allowuseruploads'=>'yes','allowuserPuploads'=>'yes','usesessioninsteadofbasicauth'=>'no','checksaveversionconflictinbackend'=>'all');
 foreach ($settings as $variable=>$value) $config=preg_replace('/\$'.preg_quote($variable,'/').'\s*=\s*[\'\"][^\'\"]*[\'\"]\s*;/', '\$'.$variable.'='.var_export($value,true).';',$config,1);
-$config.="\n\$blockautoincluderefresherforhtaccessandindex='yes';\n";
+$config.="\n\$blockautoincluderefresherforhtaccessandindex='yes';\n\$backup_send_mail=false;\n";
 file_put_contents($root.'/config.php',$config);
 u5CodeAssetsMigrate($root);
 $source=getenv('U5CMS_TEST_SITE_SOURCE') ? file_get_contents(getenv('U5CMS_TEST_SITE_SOURCE')) : file_get_contents($root.'/r/mobile!js.tpl');
@@ -81,4 +85,12 @@ $history=array();while($row=mysql_fetch_array($result,MYSQL_ASSOC))$history[]=$r
 header('Content-Type: application/json; charset=utf-8');echo json_encode(array('rows'=>$rows,'history'=>$history));
 PHP;
 file_put_contents($root.'/fixture-snapshot.php',$snapshot);
+if (getenv('U5CMS_MAIN_AUDIT') || getenv('U5CMS_MAIN_AUDIT_ONLY')) {
+    u5CodeMigrationQuery("CREATE TABLE audit_backup_data(id INT PRIMARY KEY, latin VARCHAR(255) CHARACTER SET latin1 DEFAULT 'default' COMMENT 'custom column', wide MEDIUMTEXT CHARACTER SET utf8mb4, payload BLOB, derived VARCHAR(255) AS (SUBSTRING(wide,1,30)) STORED, KEY latin_prefix(latin(25))) ENGINE=InnoDB");
+    $wide="Unicode \xE4\xB8\xAD\xE6\x96\x87 \xF0\x9F\x8C\xB7 &amp; \"quoted\"";
+    u5CodeMigrationQuery("INSERT INTO audit_backup_data(id,latin,wide,payload) VALUES (1,_latin1 ".u5CodeMigrationValue("\xDCber \x80 &amp;").",_utf8mb4 ".u5CodeMigrationValue($wide).",X'00ff27225c80')");
+    u5CodeMigrationQuery("CREATE TABLE audit_backup_types(id INT AUTO_INCREMENT PRIMARY KEY, choice ENUM('a','quo''te') DEFAULT 'quo''te' COMMENT 'quote: '' and slash: \\\\', flags SET('a','b'), bits BIT(9), fixed BINARY(8), amount DECIMAL(25,7), exact_float FLOAT, exact_double DOUBLE, body JSON, happened TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP, zero_date DATE) ENGINE=MyISAM");
+    u5CodeMigrationQuery("SET sql_mode='NO_AUTO_VALUE_ON_ZERO'");
+    u5CodeMigrationQuery("INSERT INTO audit_backup_types VALUES(0,'quo''te','a,b',b'101010101',X'ff00275c',-12345678901234.1234567,3.141592653589793,1.2345678901234567,'{\"a\":\"raw &amp;\"}',NULL,'0000-00-00')");
+}
 echo json_encode(array('database'=>$name));

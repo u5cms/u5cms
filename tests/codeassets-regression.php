@@ -64,6 +64,7 @@ sameAsset(u5CodeAssetProxyMediaSources("<img src='r/private/image.jpg'>"),"<img 
 sameAsset(rtrim(str_replace("\r\n","\n",file_get_contents(dirname(__DIR__).'/r/mobilebase!js.tpl'))),rtrim(u5CodeMigrationMobileSource()),'embedded updater fallback matches the packaged mobile reset template');
 require_once __DIR__.'/codeassets-audit.inc.php';
 u5CodeAuditCore();
+require_once __DIR__.'/main-diff-audit.inc.php';u5MainDiffCore();
 echo "Core checks: $checks passed.\n";
 if (!getenv('U5CMS_TEST_PORT')) { echo "Database checks require U5CMS_TEST_PORT and mysqli.\n"; exit; }
 require_once dirname(__DIR__).'/mysql.php';
@@ -393,7 +394,7 @@ try {
     checkAsset(strpos($response,'was not completed')!==false,'backend reports failed update');
     $response=runBackendAssetUpdate($root);
     checkAsset(!is_file($root.'/r/runonce.php'),'backend removes runonce only after success: '.substr(strip_tags($response),-1800));
-    checkAsset(strpos($response,'updated to 12.11.1')!==false,'backend reports successful update');
+    checkAsset(strpos($response,'updated to 12.11.2')!==false,'backend reports successful update');
     assertAssetInstallation($root,'backend update');
 
     $root=assetFixture($legacy,'older-schema');oldAssetFiles($root);
@@ -440,6 +441,7 @@ try {
         $status=u5CodeMigrationRows("SHOW TABLE STATUS LIKE '".$table."'");sameAsset($status[0]['Engine'],'InnoDB','engine retained: '.$table);
     }
     u5CodeAuditDatabase($legacy);
+    u5MainDiffDatabase($legacy);
     if (getenv('U5CMS_AUDIT_STRESS')) u5CodeAuditStress($legacy);
     echo "Core and database checks: $checks passed.\n";
 } finally {

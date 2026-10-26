@@ -2,6 +2,7 @@
 ignore_user_abort(true);set_time_limit(36000); 
 require('connect.inc.php');
 require('../config.php');
+require_once('codeassets-usage.inc.php');
 
 $orphanLock=@fopen('../fileversions/orphan.lock','c');
 if (!$orphanLock || !flock($orphanLock,LOCK_EX|LOCK_NB)) die('<script>setTimeout("location.reload()",10000)</script>');
@@ -30,7 +31,7 @@ $echo="(function(){\nvar doc=parent.parent.document;\nfunction mark(id,orphan){\
 "['o_','oo_'].forEach(function(prefix){var el=doc.getElementById(prefix+id);if(!el)return;\n".
 "if(el.style.color!==color)el.style.color=color;if(el.title!==title)el.title=title;if(el.innerHTML!==html)el.innerHTML=html;});\n}\n";
 
-$sql_a='SELECT name FROM resources WHERE deleted!=1';
+$sql_a='SELECT name,typ FROM resources WHERE deleted!=1';
 
 $result_a=mysql_query($sql_a);
 
@@ -45,6 +46,7 @@ $row_a = mysql_fetch_array($result_a);
 $likeName=mysql_real_escape_string(str_replace(array('!','%','_'),array('!!','!%','!_'),$row_a['name']));
 
 $manfph='';
+$codeUsage=strtolower((string)$row_a['typ'])==='c' ? 'OR '.u5CodeAssetUsageSql($row_a['name']) : '';
 
 $replacestart="replace(replace(replace(replace(replace(replace(";
 $replaceend=",'[[[[',' '),'[[[',' '),'[[',' '),']]]]',' '),']]]',' '),']]',' ')";
@@ -159,6 +161,7 @@ OR
 
 $manfph
 
+$codeUsage
 
 ) LIMIT 1
 ";

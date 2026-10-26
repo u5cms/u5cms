@@ -11,6 +11,7 @@ class Zipper
     private $activeFolders=[];
 
     public function __construct(string $filename) {
+        if (!class_exists('ZipArchive')) throw new \RuntimeException('The PHP zip extension is required for file backups');
         $this->filename=$filename;
         $directory=realpath(dirname($filename));
         if ($directory===false) throw new \RuntimeException('Backup directory does not exist');

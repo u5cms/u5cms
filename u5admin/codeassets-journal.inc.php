@@ -17,7 +17,7 @@ function u5CodeMigrationReadGuarded($path) {
 }
 
 function u5CodeMigrationStartChanges() {
-    return array('format'=>'chunked-v1','count'=>0,'directory'=>null,'chunks'=>array(),'buffer'=>array(),'bytes'=>0);
+    return array('format'=>'chunked-v1','implementation'=>'12.11.2','count'=>0,'directory'=>null,'chunks'=>array(),'buffer'=>array(),'bytes'=>0);
 }
 
 function u5CodeMigrationQueueChange($root,&$journal,$change) {
@@ -67,6 +67,20 @@ function u5CodeMigrationValidateChanges($root,$journal) {
     }
 }
 
+function u5CodeMigrationReadChangeBlock($root,$chunk) {
+    $block=u5CodeMigrationReadGuarded($root.'/'.$chunk['path']);
+    if (($block['version'] ?? '')!=='12.11.0') throw new RuntimeException('Invalid migration row backup version.');
+    if (($block['codec'] ?? '')==='zlib') {
+        if (!function_exists('gzuncompress')) throw new RuntimeException('The saved migration row backup needs PHP zlib.');
+        $data=@gzuncompress($block['payload'],$chunk['bytes']+1);
+    } elseif (($block['codec'] ?? '')==='plain') $data=$block['payload'];
+    else throw new RuntimeException('Unsupported migration row backup encoding.');
+    if (!is_string($data) || strlen($data)!==$chunk['bytes']) throw new RuntimeException('Invalid migration row backup length.');
+    $changes=@unserialize($data,array('allowed_classes'=>false));
+    if (!is_array($changes)) throw new RuntimeException('Invalid migration row backup data.');
+    return $changes;
+}
+
 function u5CodeMigrationEachChange($root,$journal,$callback) {
     if (($journal['format'] ?? '')!=='chunked-v1') {
         foreach ($journal as $index=>$change) $callback($change,$index);
@@ -74,17 +88,8 @@ function u5CodeMigrationEachChange($root,$journal,$callback) {
     }
     u5CodeMigrationValidateChanges($root,$journal);$index=0;
     foreach ($journal['chunks'] as $chunk) {
-        $block=u5CodeMigrationReadGuarded($root.'/'.$chunk['path']);
-        if (($block['version'] ?? '')!=='12.11.0') throw new RuntimeException('Invalid migration row backup version.');
-        if (($block['codec'] ?? '')==='zlib') {
-            if (!function_exists('gzuncompress')) throw new RuntimeException('The saved migration row backup needs PHP zlib.');
-            $data=@gzuncompress($block['payload'],$chunk['bytes']+1);
-        } elseif (($block['codec'] ?? '')==='plain') $data=$block['payload'];
-        else throw new RuntimeException('Unsupported migration row backup encoding.');
-        if (!is_string($data) || strlen($data)!==$chunk['bytes']) throw new RuntimeException('Invalid migration row backup length.');
-        $changes=@unserialize($data,array('allowed_classes'=>false));
-        if (!is_array($changes)) throw new RuntimeException('Invalid migration row backup data.');
-        foreach ($changes as $change) $callback($change,$index++);
+        $changes=u5CodeMigrationReadChangeBlock($root,$chunk);
+        foreach ($changes as $position=>$change) $callback($change,$index++,array('chunk'=>$chunk,'position'=>$position));
     }
     if ($index!==(int)$journal['count']) throw new RuntimeException('Migration row backup count mismatch.');
 }

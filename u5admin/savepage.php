@@ -1,4 +1,13 @@
 <?php require_once('connect.inc.php');require_once('t2.php'); 
+if (!isset($_POST['page']) || !is_string($_POST['page']) || str_replace(array('_',' '),'',$_POST['page'])==='') {
+http_response_code(400);die('ERROR: no page selected. Your editor contents have been kept.');
+}
+$_POST['name']=$_POST['page'];
+$result_a=mysql_query("SELECT operator,ip,lastmut,deleted,typ FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."' LIMIT 1");
+if ($result_a===false) { http_response_code(500);die('SQL_a-Query failed. Your editor contents have been kept.'); }
+$row_a=mysql_fetch_array($result_a);
+if (!$row_a) { http_response_code(409);die('ERROR: the page no longer exists. Your editor contents have been kept.'); }
+if (strtolower((string)$row_a['typ'])!=='p') { http_response_code(409);die('ERROR: this resource is not a page. Its existing type and contents have been kept.'); }
 $f9focusBis=basename(trim($_POST['page']));
 setcookie('f9focusBis', $f9focusBis, time() + 3600 * 24 * 365 * 10, '/');
 ?>
@@ -9,17 +18,8 @@ setcookie('f9focusBis', $f9focusBis, time() + 3600 * 24 * 365 * 10, '/');
 <?php require('backendcss.php'); ?></head>
 <body bgcolor="#339900" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php
-if(str_replace('_','',str_replace(' ','',$_POST['page']))=='') die('<script>alert("ERROR: no page selected");</script>');
-$_POST['name']=$_POST['page'];
-
-$sql_a="SELECT operator,ip,lastmut,deleted,typ FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."' LIMIT 1";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) die('SQL_a-Query failed!...!<p>');
-$row_a=mysql_fetch_array($result_a);
-if (!$row_a || $row_a['deleted']==1) die('ERROR: the page no longer exists. Your editor contents have been kept.');
 require('../config.php');
 if ($archiveRqHIADRI!='no' && $row_a['deleted']==2) require('accadminnoclose.inc.php');
-if ($cssRqHIADRI!='no' && $row_a['typ']=='c') require('accadminnoclose.inc.php');
 $deleted=$row_a['deleted']==2 ? 2 : 0;
 
 $u5OriginalDeleted=$row_a['deleted'];
@@ -53,14 +53,15 @@ if ($row_a['deleted']!=$u5OriginalDeleted || ((int)$_POST['coco']<(int)$row_a['l
 $u5SaveTime=max(time(),(int)$row_a['lastmut']+1);
 $u5PreviousRevision=$row_a['lastmut']===NULL ? 'lastmut IS NULL' : 'lastmut='.(int)$row_a['lastmut'];
 $sql_a="UPDATE resources SET ".implode(',',$u5Assignments).",lastmut=".$u5SaveTime.
-" WHERE name='".mysql_real_escape_string($_POST['name'])."' AND deleted=".(int)$u5OriginalDeleted." AND ".$u5PreviousRevision." LIMIT 1";
+" WHERE name='".mysql_real_escape_string($_POST['name'])."' AND typ='p' AND deleted=".(int)$u5OriginalDeleted." AND ".$u5PreviousRevision." LIMIT 1";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) die('SQL_a-Query failed! The existing page has been kept.<p>');
 if (mysql_affected_rows()==1) { $u5Saved=true; break; }
-$result_a=mysql_query("SELECT operator,ip,lastmut,deleted FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."' LIMIT 1");
+$result_a=mysql_query("SELECT operator,ip,lastmut,deleted,typ FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_POST['name'])."' LIMIT 1");
 if ($result_a==false) die('SQL_a-Query failed!...!<p>');
 $row_a=mysql_fetch_array($result_a);
 if (!$row_a) break;
+if (strtolower((string)$row_a['typ'])!=='p') { http_response_code(409);die('ERROR: the resource type changed. Your editor contents have been kept.'); }
 }
 if (!$u5Saved) {
 $conflict='(!)';
