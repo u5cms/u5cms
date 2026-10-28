@@ -17,6 +17,7 @@ if ($usesessioninsteadofbasicauth != 'no') {
 $_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
 $_SERVER['PHP_AUTH_PW'] = trim($_SERVER['PHP_AUTH_PW']);
 $unknown = 'unknown';
+$u5SearchAuthenticated = false;
 
 if ($usesessioninsteadofbasicauth == 'no') {
 $_SERVER['PHP_AUTH_USER']=u5allnument($_SERVER['PHP_AUTH_USER']);
@@ -30,9 +31,9 @@ $sql = "SELECT name, logins FROM resources WHERE typ='p' AND deleted!=1 AND name
 $result = mysql_query($sql);
 $num = @mysql_num_rows($result);
 
-if ($num > 0) {
+if ($num > 0 || !empty($u5SearchRequireLogin)) {
 
-    if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
+    if ($num > 0 && ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '')) {
 		$sql = "SELECT name, logins FROM resources WHERE typ='p' AND deleted!=1 AND name LIKE '!%' AND logins NOT LIKE '' LIMIT 0,1";
         $result = mysql_query($sql);
 
@@ -76,6 +77,7 @@ if($automaticallyskipintranetlogin!='yes') {
         exit;
     }
 }
+$u5SearchAuthenticated = ($unknown === 'ok' && $_SERVER['PHP_AUTH_USER'] !== '' && $_SERVER['PHP_AUTH_PW'] !== '');
 }
 if ($num > 0) {
 include('config.php');

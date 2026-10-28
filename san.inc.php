@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/search-request.inc.php';
+u5SearchCaptureRequest();
 if (!function_exists('u5qCodepointEscape')) {
 function u5qCodepointEscape($cp) {
     $cp = (int) $cp;
