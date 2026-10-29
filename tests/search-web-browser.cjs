@@ -8,8 +8,100 @@ const equal = (actual, expected, message) => { assert.deepEqual(actual, expected
 const verify = (condition, message) => { assert.ok(condition, message); checks++; };
 const url = (q, language='de', scope='_search') => base + '/index.php?' + new URLSearchParams({c:scope,l:language,qv:'2',q});
 
+async function checkPresentation(browser) {
+    const screenshotDirectory = process.env.U5_SEARCH_SCREENSHOTS;
+    if (screenshotDirectory) require('node:fs').mkdirSync(screenshotDirectory, {recursive:true});
+    for (const width of [1440, 320]) {
+        const context = await browser.newContext({viewport:{width,height:900},screen:{width,height:900},reducedMotion:'reduce'});
+        await context.route('**/*', route => new URL(route.request().url()).origin === new URL(base).origin ? route.continue() : route.abort());
+        const page = await context.newPage();
+        const errors = [];
+        page.on('pageerror', error => errors.push(String(error)));
+        const open = async query => {
+            await page.goto(url(query), {waitUntil:'networkidle'});
+            if (width === 320) await page.waitForSelector('#contentinner #frm_Search2');
+        };
+        const fits = async message => {
+            verify(await page.locator('#frm_Search2, .u5-search-results').evaluateAll(nodes => nodes.every(node => {
+                const rect = node.getBoundingClientRect();
+                return node.scrollWidth <= node.clientWidth + 1 && rect.width > 0 && (window.innerWidth > 420 || rect.left >= 0 && rect.right <= window.innerWidth + 1);
+            })), message);
+        };
+        try {
+            await open('"Wort (Wort Wort) Wort"');
+            equal(await page.locator('link[href^="search-results.css?"]').count(), 1, 'Result stylesheet loads once with a content version');
+            verify(await page.locator('#frm_Search2.u5-search-form').isVisible(), 'Search form is visible in the real default theme at ' + width);
+            const excerptStyle = await page.locator('.u5-search-excerpt').evaluate(node => {
+                const style = getComputedStyle(node);
+                return {tag:node.tagName,border:parseFloat(style.borderInlineStartWidth),line:parseFloat(style.lineHeight),font:parseFloat(style.fontSize)};
+            });
+            equal(excerptStyle.tag, 'P', 'Excerpt remains a paragraph without inherited blockquote quotation ornaments');
+            verify(excerptStyle.border > 0 && excerptStyle.line >= excerptStyle.font * 1.3, 'Excerpt has a visible boundary and readable line spacing');
+            equal(await page.locator('.u5-search-excerpt .hitshilite').allTextContents(), ['Wort (Wort Wort) Wort'], 'Default-theme excerpt retains the complete literal phrase');
+            await fits('Result and form fit their default-theme container at ' + width);
+            if (screenshotDirectory) await page.screenshot({path:require('node:path').join(screenshotDirectory, 'search-phrase-' + width + '.png'),fullPage:true});
+
+            const probeStable = await page.evaluate(() => {
+                const probe = document.createElement('aside');
+                probe.innerHTML = '<article><h3>Unrelated heading</h3><p>Unrelated paragraph <a href="#probe">link</a></p></article>';
+                document.body.append(probe);
+                const properties = ['color','backgroundColor','fontSize','lineHeight','marginTop','marginBottom','paddingLeft','borderLeftWidth','display'];
+                const styles = () => Array.from(probe.querySelectorAll('*'), node => properties.map(property => getComputedStyle(node)[property]));
+                const before = styles();
+                const sheet = document.querySelector('link[href^="search-results.css?"]').sheet;
+                sheet.disabled = true;
+                const after = styles();
+                sheet.disabled = false;
+                probe.remove();
+                return JSON.stringify(before) === JSON.stringify(after);
+            });
+            verify(probeStable, 'Search stylesheet leaves unrelated headings, paragraphs and links unchanged');
+
+            await open('"' + 'LongLiteral'.repeat(10) + ' (quoted phrase)"');
+            equal(await page.locator('.u5-search-result').count(), 1, 'Long literal phrase is searchable in the real layout');
+            await fits('Long unbroken query and excerpt wrap without overflowing at ' + width);
+            if (width === 320) {
+                const controls = await page.locator('#searchlarge, #frm_Search2 input[type="submit"]').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().toJSON()));
+                verify(controls[1].top >= controls[0].bottom, 'Mobile search button wraps below the input');
+            }
+            if (screenshotDirectory) await page.screenshot({path:require('node:path').join(screenshotDirectory, 'search-long-' + width + '.png'),fullPage:true});
+
+            await open('');
+            equal(await page.locator('.u5-search-result, .u5-search-message[role="alert"]').count(), 0, 'An empty query displays the form without a misleading error');
+            await fits('Empty search form fits its container');
+            await open('qzzunfindable');
+            verify(await page.locator('.u5-search-summary').isVisible(), 'A no-result heading is visible');
+            await fits('No-result state fits its container');
+            await open('green qzzmissing');
+            verify(await page.locator('.u5-search-subtitle, .u5-search-message').count() === 2, 'Partial results have a heading and explanation');
+            verify(await page.locator('.u5-search-match-count').evaluateAll(nodes => nodes.length > 0 && nodes.every(node => node.textContent.startsWith('1/2'))), 'Each partial result states the matched-term count');
+            await fits('Partial-result state fits its container');
+            await open('muler');
+            verify(await page.locator('.u5-search-suggestions').isVisible(), 'Spelling suggestions have a visible separate presentation');
+            equal(await page.locator('.u5-search-suggestions a').first().textContent(), 'M\u00fcller', 'Suggestion presentation retains the source accent and case');
+            await fits('Suggestion state fits its container');
+            if (screenshotDirectory) await page.screenshot({path:require('node:path').join(screenshotDirectory, 'search-suggestion-' + width + '.png'),fullPage:true});
+            await open('PaginateMarker');
+            verify(await page.locator('.u5-search-pagination [rel="next"]').isVisible(), 'Pagination stays visible in the default theme');
+            await fits('Pagination state fits its container');
+            equal(errors, [], 'Default desktop/mobile layout has no uncaught JavaScript exceptions');
+        } finally {
+            await context.close();
+        }
+    }
+}
+
 (async () => {
     const browser = await launchBrowser();
+    if (process.argv[4] === 'presentation') {
+        try {
+            await checkPresentation(browser);
+            console.log(`Search default-theme presentation checks: ${checks} passed.`);
+        } finally {
+            await browser.close();
+        }
+        return;
+    }
     const context = await browser.newContext({viewport:{width:1000,height:700},reducedMotion:'reduce'});
     const page = await context.newPage();
     const errors = [];
@@ -37,6 +129,20 @@ const url = (q, language='de', scope='_search') => base + '/index.php?' + new UR
             equal(await search(query), ['unicode'], 'Unicode, accents and legacy codepages share the same matching: ' + query);
         }
         equal(await search('Suchbegriff'), ['inline'], 'A word split by inline formatting is indexed as one word');
+        const destination = await context.newPage();
+        destination.on('pageerror', error => errors.push(String(error)));
+        for (const [query, resource, original] of [
+            ['C++','punctuation','C++'], ['100%','punctuation','100%'], ['foo_bar','punctuation','foo_bar'],
+            ['[square]','punctuation','[square]'], ['a&b','punctuation','a&b'],
+            ['cafe','unicode','Caf\u00e9'], ['strasse','unicode','Stra\u00dfe'],
+            ['oeuvre','unicode','\u0152uvre'], ['ecole','unicode','e\u0301cole'], ['\ud83d\ude00','unicode','\ud83d\ude00'],
+        ]) {
+            await destination.goto(url(query,'de',resource), {waitUntil:'domcontentloaded'});
+            await destination.waitForFunction(() => window.u5SearchHighlight && window.u5SearchHighlight.ready);
+            equal((await destination.evaluate(() => window.u5SearchHighlight.ready)).count, 1, 'Real target page matches the literal/normalized query: ' + query);
+            equal(await destination.locator('#content [data-u5-search-hit]').allTextContents(), [original], 'Real target highlights original characters: ' + original);
+        }
+        await destination.close();
         equal(await search('TitleNeedle ordinary'), ['titleonly'], 'Separate words may match title and body');
         equal(await search('"TitleNeedle ordinary"'), [], 'A phrase cannot cross title/body boundaries');
         equal(await search('TitleNeedle'), ['titleonly'], 'Title-only match remains available');
@@ -66,6 +172,11 @@ const url = (q, language='de', scope='_search') => base + '/index.php?' + new UR
         const suggestions = await page.locator('.u5-search-results a').evaluateAll(links => links.map(link => new URL(link.href).searchParams.get('q')));
         verify(suggestions.includes('sunflower'), 'A bounded spelling suggestion is offered as a link');
         equal(new URL(page.url()).searchParams.get('q'), 'sunflwer', 'No automatic recursive navigation changes the misspelling');
+        for (const [query, suggestion] of [['Bren', 'Bern'], ['muler', 'M\u00fcller']]) {
+            equal(await search(query), [], 'A misspelling remains an explicit no-result query: ' + query);
+            const suggestionLinks = await page.locator('.u5-search-results a').evaluateAll(links => links.map(link => ({query: new URL(link.href).searchParams.get('q'), text: link.textContent})));
+            verify(suggestionLinks.some(link => link.query === suggestion && link.text.trim() === suggestion), 'Suggestion preserves the source spelling: ' + suggestion);
+        }
 
         equal((await search('PaginateMarker')).length, 5, 'First result page respects the configured page size');
         const firstPageNames = await names();

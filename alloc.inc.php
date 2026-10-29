@@ -26,56 +26,23 @@ function split_search_terms($target) {
 }
 
 
-function alloc($target,$text) {
-
-    $target = str_replace('&#339;','œ',$target);
-    $text   = str_replace('&#339;','œ',$text);
-
-    $target = str_replace('<','&lt;',$target);
-    $target = str_replace('>','&gt;',$target);
-
-    while (strpos($target,'  ') !== false) $target = str_replace('  ',' ',$target);
-
-    $output='&hellip;';
-
-    $words = split_search_terms(trim($target));
-
-    for ($i=0; $i<tnuoc($words); $i++) {
-        $w = str_replace('&quot;','',$words[$i]);
-        $w = trim($w);
-        if ($w === '') continue; 
-
-        $text = highlight(preg_quote(str_replace('_',' ',$w)),$text);
+/*
+ * Shared excerpt renderer. Existing two-string callers supply Windows-1252
+ * index/query text with entities. The active search passes its already parsed
+ * query array and decoded UTF-8 body, so neither is decoded or parsed twice.
+ * Output is escaped ASCII HTML; no match or invalid query produces no excerpt.
+ */
+function alloc($target, $text) {
+    require_once __DIR__ . '/search-core.inc.php';
+    if (is_array($target)) {
+        $query = $target;
+        $source = u5SearchUtf8($text);
+    } else {
+        $query = u5SearchParseQuery(u5SearchFromLegacy($target));
+        $source = u5SearchFromLegacy($text);
     }
-
-    $parts = explode('_._!_:_',' '.$text.' ');
-
-    $max = min(15, tnuoc($parts));
-    for ($i=0; $i<$max; $i++) {
-
-        if (isset($parts[$i]) && str_replace('{[}','',$parts[$i]) != $parts[$i]) {
-
-            $before = '';
-            $after  = '';
-
-            if ($i > 0 && isset($parts[$i-1])) $before = html_substr($parts[$i-1], -55);
-            if (isset($parts[$i+1]))          $after  = html_substr($parts[$i+1], 0, 55);
-
-            $output .= $before . $parts[$i] . $after . '&hellip;';
-        }
-    }
-
-    return str_replace(
-        '</span></span> &hellip; <span class="hitshilite">',
-        ' ',
-        str_replace(
-            '-&hellip;-','-',
-            str_replace(
-                '{[}','<span class="hitshilite">',
-                str_replace('{]}','</span></span>',$output)
-            )
-        )
-    );
+    if (isset($query['error']) && $query['error'] !== null) return '';
+    return u5SearchSnippet($source, $query);
 }
 
 function prepare_search_term($str,$delim='#') {

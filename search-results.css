@@ -1,0 +1,199 @@
+/* Scoped search presentation; installation styles remain in charge elsewhere. */
+#frm_Search2.u5-search-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .65rem;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 52rem;
+    margin: 1rem 0 1.5rem;
+}
+
+#frm_Search2.u5-search-form #searchlarge {
+    box-sizing: border-box;
+    flex: 1 1 18rem;
+    min-width: 0;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+    padding: .65em .8em;
+    border: 1px solid #8a8a8a;
+    border-radius: .25rem;
+    background: #fff;
+    color: #202020;
+    font: inherit;
+    line-height: 1.4;
+}
+
+#frm_Search2.u5-search-form .btnSubmit {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    min-height: 44px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: .65em 1em;
+    font: inherit;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+#frm_Search2.u5-search-form #u5-search-help {
+    flex: 1 1 100%;
+    margin: 0;
+    font-size: .9em;
+    line-height: 1.5;
+}
+
+.u5-search-results {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 52rem;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.u5-search-results .u5-search-summary {
+    margin: 0 0 1rem;
+    font-size: 1.3em;
+    font-weight: normal;
+    line-height: 1.45;
+    color: inherit;
+}
+
+.u5-search-summary #terms {
+    font-weight: 600;
+    hyphens: none;
+}
+
+.u5-search-results .u5-search-subtitle {
+    margin: 1rem 0 .4rem;
+    font-size: 1.1em;
+    line-height: 1.5;
+    color: inherit;
+}
+
+.u5-search-results .u5-search-result {
+    margin: 0;
+    padding: 1.15rem 0 1.35rem;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.u5-search-results .u5-search-result h3 {
+    margin: 0 0 .5rem;
+    font-size: 1.15em;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.u5-search-result h3 a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .14em;
+}
+
+.u5-search-results .u5-search-type {
+    display: inline-block;
+    padding: .08em .4em;
+    border: 1px solid currentColor;
+    border-radius: .2em;
+    font-size: .65em;
+    line-height: 1.4;
+    vertical-align: .1em;
+    letter-spacing: .03em;
+}
+
+#content .u5-search-results .u5-search-excerpt,
+.u5-search-results .u5-search-excerpt {
+    margin: .55rem 0 0;
+    padding: .1rem 0 .1rem .85rem;
+    border-left: 3px solid #c7c7c7;
+    font-size: 1em;
+    line-height: 1.65;
+    hyphens: none;
+}
+
+#content .u5-search-results .u5-search-protected,
+#content .u5-search-results .u5-search-match-count,
+.u5-search-results .u5-search-protected,
+.u5-search-results .u5-search-match-count {
+    margin: .4rem 0;
+    font-size: .9em;
+    line-height: 1.5;
+}
+
+#content .u5-search-results .u5-search-message,
+#content .u5-search-results .u5-search-suggestions,
+.u5-search-results .u5-search-message,
+.u5-search-results .u5-search-suggestions {
+    margin: .75rem 0 1rem;
+    padding: .8rem 1rem;
+    border: 1px solid #c7c7c7;
+    border-radius: .25rem;
+    line-height: 1.6;
+}
+
+.u5-search-suggestions a,
+.u5-search-alternative a {
+    display: inline-block;
+    padding: .25em .1em;
+    text-decoration: underline;
+    text-underline-offset: .14em;
+}
+
+.u5-search-results .u5-search-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .65rem 1rem;
+    margin: 1.5rem 0;
+    line-height: 1.4;
+}
+
+.u5-search-pagination a {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: .55em .9em;
+    border: 1px solid currentColor;
+    border-radius: .25rem;
+    text-decoration: none;
+}
+
+.u5-search-results .hitshilite,
+span.hitshilite[data-u5-search-hit] {
+    background-color: #ffe67b;
+    color: #1a1a1a;
+    border-radius: .12em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+.u5-search-results a:focus-visible,
+#frm_Search2.u5-search-form input:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+
+@media (max-width: 420px) {
+    #frm_Search2.u5-search-form #searchlarge {
+        flex-basis: 100%;
+    }
+    #frm_Search2.u5-search-form .btnSubmit {
+        flex-grow: 1;
+    }
+}
+
+@media (forced-colors: active) {
+    .u5-search-results .hitshilite,
+    span.hitshilite[data-u5-search-hit] {
+        background-color: Mark;
+        color: MarkText;
+        border-bottom: 2px solid MarkText;
+    }
+}

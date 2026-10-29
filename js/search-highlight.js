@@ -233,6 +233,32 @@
         return bottom + 16;
     }
 
+    function revealScrollContainers(element) {
+        var document = element.ownerDocument, view = document.defaultView;
+        for (var parent = element.parentElement; parent && parent !== document.body && parent !== document.documentElement; parent = parent.parentElement) {
+            var style = view.getComputedStyle(parent);
+            var vertical = /^(auto|scroll|hidden)$/.test(style.overflowY) && parent.scrollHeight > parent.clientHeight;
+            var horizontal = /^(auto|scroll|hidden)$/.test(style.overflowX) && parent.scrollWidth > parent.clientWidth;
+            if (!vertical && !horizontal) continue;
+            var box = parent.getBoundingClientRect(), hit = element.getBoundingClientRect();
+            var top = box.top + parent.clientTop, left = box.left + parent.clientLeft;
+            var nextTop = parent.scrollTop, nextLeft = parent.scrollLeft;
+            if (vertical && (hit.top < top || hit.bottom > top + parent.clientHeight)) {
+                nextTop += hit.top - top - Math.min(16, Math.max(0, (parent.clientHeight - hit.height) / 2));
+            }
+            if (horizontal) {
+                if (hit.left < left) nextLeft += hit.left - left;
+                else if (hit.right > left + parent.clientWidth) nextLeft += hit.right - left - parent.clientWidth;
+            }
+            // Scroll offsets may be rounded to whole CSS pixels by the browser.
+            if (nextTop !== parent.scrollTop) nextTop = nextTop > parent.scrollTop ? Math.ceil(nextTop) : Math.floor(nextTop);
+            if (nextLeft !== parent.scrollLeft) nextLeft = nextLeft > parent.scrollLeft ? Math.ceil(nextLeft) : Math.floor(nextLeft);
+            // Resolve inner clipping before computing the window's destination. Instant
+            // movement also avoids a container's own scroll-behavior invalidating it.
+            if (nextTop !== parent.scrollTop || nextLeft !== parent.scrollLeft) parent.scrollTo({ top: nextTop, left: nextLeft, behavior: 'instant' });
+        }
+    }
+
     function watchInteraction(view) {
         var state = { cancelled: false };
         var events = ['pointerdown', 'touchstart', 'wheel', 'keydown'];
@@ -275,6 +301,7 @@
                 }
             }
             if (!first) return;
+            revealScrollContainers(first);
             var offset = headerOffset(document);
             var target = Math.max(0, first.getBoundingClientRect().top + view.scrollY - offset);
             // A mobile wrapper may preserve position but scroll to 7px afterwards.
@@ -297,7 +324,8 @@
         }
         if (view.MutationObserver) {
             observer = new view.MutationObserver(queue);
-            observer.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['style', 'class', 'hidden', 'open'] });
+            // The mobile template's visibility fallback changes html, not body.
+            observer.observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['style', 'class', 'hidden', 'open'] });
         }
         if (view.ResizeObserver) { resizeObserver = new view.ResizeObserver(queue); resizeObserver.observe(root); }
         view.addEventListener('resize', queue);

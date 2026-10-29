@@ -139,20 +139,26 @@ function u5SearchFind($query, $slot, $policy, $page = 1, $pageSize = 25, $refres
     return $empty;
 }
 
-/* Unicode edit distance, bounded at two edits; never recursively re-search. */
+/* Unicode optimal-string-alignment distance: an adjacent transposition is one
+   typing error, including in short words. Bounded; never recursively re-search. */
 function u5SearchEditDistance($left, $right, $limit) {
     $a = preg_split('//u', $left, -1, PREG_SPLIT_NO_EMPTY);
     $b = preg_split('//u', $right, -1, PREG_SPLIT_NO_EMPTY);
     if (abs(count($a) - count($b)) > $limit) return $limit + 1;
     $previous = range(0, count($b));
+    $beforePrevious = array();
     for ($i = 1; $i <= count($a); $i++) {
         $current = array($i);
         $minimum = $i;
         for ($j = 1; $j <= count($b); $j++) {
             $current[$j] = min($current[$j - 1] + 1, $previous[$j] + 1, $previous[$j - 1] + ($a[$i - 1] === $b[$j - 1] ? 0 : 1));
+            if ($i > 1 && $j > 1 && $a[$i - 1] === $b[$j - 2] && $a[$i - 2] === $b[$j - 1]) {
+                $current[$j] = min($current[$j], $beforePrevious[$j - 2] + 1);
+            }
             $minimum = min($minimum, $current[$j]);
         }
         if ($minimum > $limit) return $limit + 1;
+        $beforePrevious = $previous;
         $previous = $current;
     }
     return $previous[count($b)];

@@ -117,14 +117,19 @@ serviceSame(u5SearchRowTitle(serviceRow('encoded', "Caf\xe9 &#128512;", ''), 1),
 serviceSame(u5SearchRowTitle(serviceRow('literal-entity', '&euro;', ''), 1), '&euro;', 'A named entity in a title remains visible literal text like the CMS title renderer');
 serviceSame(u5SearchRowTitle(serviceRow('currency', "\x80 &#128512;", ''), 1), "\u{20ac} \u{1f600}", 'CP1252 euro and numeric-reference emoji remain real title characters');
 
-// Edit distance operates on Unicode characters, with a bounded rejection path.
+// Edit distance operates on Unicode characters and counts a swapped pair once.
 foreach (array(
     array('same', 'same', 2, 0), array('', 'ab', 2, 2), array('ab', '', 2, 2),
     array("ma\u{f1}ana", 'manana', 1, 1), array("\u{732b}", "\u{732b}\u{72ac}", 1, 1),
     array("\u{1f600}x", "\u{1f601}x", 1, 1), array("e\u{301}cole", 'ecole', 1, 1),
+    array('bren', 'bern', 1, 1), array('bern', 'bren', 1, 1),
+    array('ab', 'ba', 1, 1), array('abcd', 'badc', 2, 2),
+    array("\u{732b}\u{72ac}", "\u{72ac}\u{732b}", 1, 1),
+    array('bren', 'bernx', 2, 2),
     array('x', 'enormous', 2, 3)
 ) as $case) serviceSame(u5SearchEditDistance($case[0], $case[1], $case[2]), $case[3], 'Unicode edit distance ' . json_encode(array($case[0], $case[1])));
 serviceCheck(u5SearchEditDistance('abcdef', 'uvwxyz', 2) > 2, 'Clearly distant words stop outside the edit limit');
+serviceCheck(u5SearchEditDistance('abcd', 'badc', 1) > 1, 'Two transpositions still exceed a one-error budget');
 
 // Streaming tokens retain combining marks and charge repeated tokens to budgets.
 $bytes = 1000; $tokens = 20;
@@ -238,6 +243,8 @@ serviceSame(array($result['error'], $result['rows']), array('unavailable', array
 
 // Suggestions are finite alternatives, retain display spelling, and honor access.
 serviceSame(serviceSuggestions('cat', array(serviceRow('words', 'Words', 'cat bat BAT cats cot cut bot')), $public), array('bat', 'cats', 'cot'), 'Suggestions are unique, distance-sorted, deterministic, and limited to three');
+serviceSame(serviceSuggestions('Bren', array(serviceRow('swapped', 'Bern', 'Willkommen')), $public), array('Bern'), 'A short place name with swapped letters receives the original-spelling suggestion');
+serviceSame(serviceSuggestions('muler', array(serviceRow('accented', serviceLegacy("M\u{fc}ller"), 'Name')), $public), array("M\u{fc}ller"), 'Spelling corrections use accent folding while retaining the original umlaut');
 $decomposed = "e\u{301}cole";
 serviceSame(serviceSuggestions('ecle', array(serviceRow('unicode', 'Words', serviceLegacy($decomposed . ' Ecole'))), $public), array($decomposed), 'Combining marks stay attached to the displayed suggestion');
 serviceSame(serviceSuggestions('sunflwer', array(serviceRow('first', 'Words', 'sun'), serviceRow('second', 'Words', 'flower')), $public), array(), 'Vocabulary never concatenates adjacent resources into a new word');

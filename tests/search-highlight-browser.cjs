@@ -130,6 +130,16 @@ async function fixture(browser, body, terms, options = {}) {
             await f.finish();
         }
         {
+            const literal = 'C++ [W\u00f6rt] (x.y) {z} a|b ^$ *? 100% foo_bar 5/6 R&D <tag> "q" \\path';
+            const escaped = literal.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const f = await fixture(browser, '<main id="content"><div style="height:1000px"></div><p id="special">' + escaped + '</p><div style="height:1200px"></div></main>', [literal.replace('\u00f6', 'o')], {scroll: true});
+            equal((await f.ready()).count, 1, 'A diacritic-tolerant phrase treats all regex/HTML/SQL punctuation literally');
+            equal(await f.page.locator('[data-u5-search-hit]').textContent(), literal, 'Special characters are marked in their original source spelling');
+            await f.page.waitForFunction(() => window.scrollY > 800);
+            verify((await f.page.locator('[data-u5-search-hit]').boundingBox()).y >= 14, 'Special-character phrase is brought into view');
+            await f.finish();
+        }
+        {
             const f = await fixture(browser, '<main id="content">' + 'a '.repeat(1100) + '</main>', ['a']);
             const result = await f.ready();
             equal(result.count, 1000, 'Maximum occurrence count bounds DOM work');
@@ -206,6 +216,38 @@ async function fixture(browser, body, terms, options = {}) {
             });
             await f.page.waitForFunction(() => window.scrollY > 800 && Math.abs(document.getElementById('target').getBoundingClientRect().top - 88) < 3);
             equal(await f.page.locator('#contentinner [data-u5-search-hit]').count(), 1, 'Mobile node moves preserve the original mark');
+            await f.finish();
+        }
+        {
+            const body = '<div id="fixed-header">Header</div><main id="content"><div style="height:1000px"></div><p id="target">Needle</p><div style="height:1700px"></div></main>';
+            const f = await fixture(browser, body, ['Needle'], {scroll: true, head: '<style>html{opacity:0}</style>'});
+            equal((await f.ready()).count, 1, 'The hidden mobile document is marked before its visibility fallback');
+            // Let initial layout/load observers settle; the u5CMS fallback changes only html.
+            await f.page.waitForTimeout(200);
+            equal(await f.page.evaluate(() => window.scrollCalls.length), 0, 'Invisible document has not scrolled prematurely');
+            await f.page.evaluate(() => { document.documentElement.style.opacity = '1'; });
+            await f.page.waitForFunction(() => Math.abs(document.getElementById('target').getBoundingClientRect().top - 88) < 3, null, {timeout: 1500});
+            verify(await f.page.evaluate(() => window.scrollY > 800), 'Changing only html visibility triggers the deferred search scroll');
+            await f.finish();
+        }
+        {
+            const body = '<div id="fixed-header">Header</div><main id="content"><div style="height:900px"></div>' +
+                '<a id="panel-toggle" class="showblockinactivetab">Open</a><div id="scroll-panel" class="showblockdivinner" style="height:180px;overflow:auto;scroll-behavior:smooth">' +
+                '<div id="inner-scroll" style="width:700px;height:160px;overflow:auto;scroll-behavior:smooth;margin-top:600px"><div style="width:1400px;height:500px"></div>' +
+                '<p id="target" style="margin-left:1000px;white-space:nowrap">Needle</p><div style="height:300px"></div></div><div style="height:500px"></div></div>' +
+                '<div style="height:1700px"></div></main>';
+            const f = await fixture(browser, body, ['Needle'], {scroll: true});
+            equal((await f.ready()).count, 1, 'A hit in nested scrolling content is matched');
+            await f.page.waitForFunction(() => {
+                const hit = document.querySelector('[data-u5-search-hit]').getBoundingClientRect();
+                return ['scroll-panel', 'inner-scroll'].every(id => {
+                    const panel = document.getElementById(id).getBoundingClientRect();
+                    return hit.top >= panel.top && hit.bottom <= panel.bottom && hit.left >= panel.left && hit.right <= panel.right;
+                }) && hit.top >= 86 && hit.bottom < innerHeight;
+            }, null, {timeout: 1500});
+            verify(await f.page.locator('#scroll-panel').evaluate(el => el.scrollTop > 400), 'Outer scroll container reveals its nested content');
+            verify(await f.page.locator('#inner-scroll').evaluate(el => el.scrollTop > 300 && el.scrollLeft > 250), 'Inner scroll container reveals the hit vertically and horizontally');
+            equal(await f.page.evaluate(() => document.activeElement.tagName), 'BODY', 'Nested container scrolling preserves keyboard focus');
             await f.finish();
         }
         {

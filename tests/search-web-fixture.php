@@ -88,6 +88,10 @@ try {
     $seed('deleted', 'Deleted item', '<p>DeletedNeverDisplayed</p>', array('deleted'=>1));
     $seed('codefixture', 'Code item', '<p>CodeNeverDisplayed</p>', array('typ'=>'c'));
     $seed('suggestion', 'Suggestions', '<p>sunflower</p>');
+    $seed('suggestionbern', 'Swiss city', '<p>Bern</p>');
+    $seed('suggestionmuller', 'Accent in a suggestion', "<p>M\u{00fc}ller</p>");
+    $longToken = str_repeat('LongLiteral', 10);
+    $seed('longlayout', 'Long literal phrase', '<p>' . $longToken . ' (quoted phrase)</p>');
     for ($i = 1; $i <= 7; $i++) $seed('pagination' . $i, 'Pagination ' . $i, '<p>PaginateMarker</p>', array('lastmut'=>100+$i));
 
     $config = file_get_contents($root . '/config.php.sample');

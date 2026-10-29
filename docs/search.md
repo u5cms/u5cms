@@ -37,7 +37,10 @@ Spelling suggestions are links, not automatic substitutions. They are considered
 only when there are no complete or partial results and the query is one unquoted
 term of 3-40 normalized characters. The scan stops at 4 MiB of text, 100,000
 tokens or 20,000 relevant distinct words; edit distance is at most two and at
-most three suggestions are displayed. Protected text is not used when its
+most three suggestions are displayed. An adjacent letter transposition counts
+as one typing error, including in short words (`Bren` can suggest `Bern`).
+Suggestions retain the source spelling and accents (`muler` can suggest
+`Müller`). Protected text is not used when its
 preview is disabled. Suggestions are candidates, not an exhaustive list.
 
 Partial results first rank by the number of matched terms. Further ranking
@@ -54,7 +57,8 @@ unchanged characters pass through, consecutive ASCII spaces are then collapsed.
 The table provides case folding, selected accent/compatibility folding,
 ligature expansion, whitespace equivalence, dash-to-space equivalence and
 removal of designated invisible characters. For example, `Straße` can match
-`STRASSE`, `Œuvre` can match `oeuvre`, and a phrase containing normal spaces can
+`STRASSE`, `Café` can match `cafe`, `Müller` can match `muller`, `Œuvre` can match
+`oeuvre`, and a phrase containing normal spaces can
 match nonbreaking spaces or line breaks. Parentheses and ordinary punctuation
 remain literal, apart from the documented dash equivalence.
 
@@ -74,6 +78,10 @@ Review and commit the generated JSON together with any corresponding code
 changes. The PHP/JavaScript parity test checks the complete table as well as
 matched original-text ranges.
 
+Accent tolerance does not add spelling substitutions such as `ue` for `ü`,
+synonyms or stemming. The same defined folds apply to search, excerpts and
+target-page marks, including phrases.
+
 Offsets are retained through normalization. An expansion such as `ß` to `ss`
 still marks the original `ß`; decomposed accents remain attached to their base
 character. PHP ranges use original UTF-8 byte offsets; browser ranges use DOM
@@ -87,6 +95,8 @@ UTF-16 offsets. Excerpts and marks retain the spelling of the source text.
 | [`search-core.inc.php`](../search-core.inc.php) | Decode request versions, parse/serialize terms, normalize, match, rank field matches and produce escaped excerpts. |
 | [`search-service.inc.php`](../search-service.inc.php) | Apply installation eligibility/preview policies, match indexed rows, sort, paginate and suggest alternatives. |
 | [`search-ui.inc.php`](../search-ui.inc.php), [`search-page.inc.php`](../search-page.inc.php) | Render forms, results, complete links and safely encoded browser configuration. |
+| [`alloc.inc.php`](../alloc.inc.php) | Adapt existing excerpt callers and the current result page to the shared literal snippet engine. |
+| [`search-results.css`](../search-results.css) | Scope result layout, responsive form controls and legible owned highlights without changing other page content. |
 | [`search-index.inc.php`](../search-index.inc.php), [`indexer.php`](../indexer.php) | Extract index text, preserve legacy storage encoding and manage rebuild completion. |
 | [`js/search-highlight.js`](../js/search-highlight.js) | Match authoritative terms against eligible DOM text, wrap original ranges and reveal/scroll to a visible hit. |
 
@@ -107,9 +117,34 @@ sanitized `$_GET['q']` remains available for other application code.
 
 The browser receives parsed `{text, normalized, phrase}` terms in
 `window.u5SearchConfig`; it does not reparse a search field. Normalization and
-script URLs contain file-content hashes so a changed deployment does not reuse
-an earlier mapping accidentally. Deploy the PHP files, JavaScript and JSON
+script and search stylesheet URLs contain file-content hashes so a changed
+deployment does not reuse an earlier asset accidentally. Deploy the PHP files,
+JavaScript, JSON and search stylesheet
 together.
+
+## Excerpts and result presentation
+
+The result page calls `alloc($query, $body)` with its canonical parsed query
+array and decoded UTF-8 text. Existing `alloc($target, $text)` calls with two
+strings remain supported as Windows-1252 text with HTML entities. This explicit
+distinction prevents already-decoded query or body text from being decoded
+twice. Both paths use `u5SearchSnippet`; an invalid query or absent match returns
+an empty excerpt. The older utility functions in `alloc.inc.php` remain
+available for existing callers, but are no longer used to build these excerpts.
+
+Selected excerpts favor coverage of different query terms, retain full matches
+and show omitted text with ellipses. Ordinary word boundaries are preferred
+within a bounded 20-character adjustment at each context edge. Long unbroken
+tokens and repeated overlaps cannot force unbounded output. Source accents,
+case and punctuation remain intact, with balanced and escaped highlight markup.
+
+The scoped stylesheet separates result titles, quotations and status messages;
+partial results report the number of matched terms per result. It retains the
+installation's link colors. Search controls wrap on small screens, long query
+strings and excerpts can wrap, and pagination has visible keyboard focus and
+44-pixel link targets. The standalone large form retains its existing IDs,
+names and `unibeform` class. The stylesheet also gives only this highlighter's
+owned target-page marks a legible foreground/background pair.
 
 ## Target-page marks and scrolling
 
@@ -126,10 +161,14 @@ native `<details>` can be searched while collapsed. The first applicable hit's
 ancestor chain is opened without closing an outer accordion panel. The script
 then scrolls with room for fixed/sticky headers, respects reduced motion and
 does not take keyboard focus. A meaningful URL fragment takes precedence.
+Nested scrollable containers are moved first, so a mark inside a constrained
+panel is brought into its visible area before the window is positioned.
 
 Mobile node moves and early image/font/layout changes can trigger bounded scroll
 corrections. Trusted user interaction cancels automatic scrolling. This is not
 an indefinite observer that repeatedly takes the reader back to a result.
+The visibility observer includes the document's `html` element, covering the
+default mobile template's delayed opacity fallback as well as body changes.
 Zero visible hits require no scroll. Failure to load the shared mapping leaves
 the page usable and skips client marking instead of guessing different search
 semantics.
@@ -227,6 +266,7 @@ installed browser.
 
 ```bash
 php tests/search-core-regression.php
+php tests/search-alloc-regression.php
 php tests/search-index-regression.php
 php tests/search-service-regression.php
 node tests/search-normalization-parity.cjs

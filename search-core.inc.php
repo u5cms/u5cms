@@ -370,6 +370,57 @@ function u5SearchResolveOccurrences($text, $occurrences) {
     return array_values($resolved);
 }
 
+function u5SearchSnippetWordWindow($text, $window, $occurrences, $textLength, $windowLimit) {
+    // Refine only the few selected windows, never every candidate in a large
+    // document. Keep complete anchors and the hard bound while avoiding a cut
+    // through an ordinary word. A giant token cannot force a giant excerpt.
+    $keepLeft = $window[1];
+    $keepRight = $window[0];
+    foreach ($occurrences as $occurrence) {
+        if ($occurrence[2] >= $window[0] && $occurrence[3] <= $window[1]) {
+            $keepLeft = min($keepLeft, $occurrence[2]);
+            $keepRight = max($keepRight, $occurrence[3]);
+        }
+    }
+    if ($keepLeft > $keepRight) return $window;
+    $edgeLimit = 20;
+    $probeStart = max(0, $window[0] - $edgeLimit - 1);
+    $probeEnd = min($textLength, $window[1] + $edgeLimit + 1);
+    $characters = preg_split('//u', mb_substr($text, $probeStart, $probeEnd - $probeStart, 'UTF-8'), -1, PREG_SPLIT_NO_EMPTY);
+    $splitsWord = function ($position) use ($characters, $probeStart, $textLength) {
+        if ($position <= 0 || $position >= $textLength) return false;
+        $offset = $position - $probeStart;
+        return preg_match('/[\p{L}\p{M}\p{N}_]/u', $characters[$offset - 1])
+            && preg_match('/[\p{L}\p{M}\p{N}_]/u', $characters[$offset]);
+    };
+    foreach (array(-1, 1) as $direction) {
+        $index = $direction < 0 ? 0 : 1;
+        $edge = $window[$index];
+        if (!$splitsWord($edge)) continue;
+        $replacement = null;
+        for ($step = 1; $step <= $edgeLimit; $step++) {
+            $candidate = $edge + $direction * $step;
+            if ($candidate < 0 || $candidate > $textLength) break;
+            if (!$splitsWord($candidate)) {
+                $length = $direction < 0 ? $window[1] - $candidate : $candidate - $window[0];
+                if ($length <= $windowLimit) $replacement = $candidate;
+                break;
+            }
+        }
+        if ($replacement === null) {
+            // If extending would exceed the bound, discard only the broken
+            // context word; none of the complete matches may be clipped.
+            for ($step = 1; $step <= $edgeLimit; $step++) {
+                $candidate = $edge - $direction * $step;
+                if (($direction < 0 && $candidate > $keepLeft) || ($direction > 0 && $candidate < $keepRight)) break;
+                if (!$splitsWord($candidate)) { $replacement = $candidate; break; }
+            }
+        }
+        if ($replacement !== null) $window[$index] = $replacement;
+    }
+    return $window;
+}
+
 function u5SearchSnippet($text, $terms, $context = 65, $maxFragments = 3) {
     $text = u5SearchUtf8($text);
     $terms = array_values(u5SearchTerms($terms));
@@ -430,6 +481,11 @@ function u5SearchSnippet($text, $terms, $context = 65, $maxFragments = 3) {
         if ($best === null) break;
         $windows[] = $best;
         foreach ($bestCoverage as $id => $unused) unset($uncovered[$id]);
+    }
+    if ($context > 0) {
+        foreach ($windows as $index => $window) {
+            $windows[$index] = u5SearchSnippetWordWindow($text, $window, $occurrences, $textLength, $windowLimit);
+        }
     }
     usort($windows, function ($a, $b) { return $a[0] <=> $b[0]; });
     $boundedWindows = array();

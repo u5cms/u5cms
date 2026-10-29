@@ -37,6 +37,8 @@ with tempfile.TemporaryDirectory(prefix='u5-search-web-') as temporary:
     work = Path(temporary)
     site = work / 'site'
     shutil.copytree(REPO, site, ignore=shutil.ignore_patterns('.git', 'tests'))
+    default_template = (site / 'r/htmltemplate.html').read_bytes()
+    default_templates = {name: default_template for name in ('htmltemplate.css', 'htmltemplate.html')}
     setup = json.loads(php_fixture(str(site)))
     database = setup['database']
     router = site / 'router-search-fixture.php'
@@ -110,6 +112,15 @@ readfile($file);
                 check(status == 200 and 'role="alert"' in body and 'class="u5-search-result"' not in body, 'Invalid or oversized query gives a bounded user-facing error')
 
             subprocess.run(['node', str(REPO / 'tests/search-web-browser.cjs'), base, json.dumps(setup)], check=True)
+
+            fixture_templates = {name: (site / 'r' / name).read_bytes() for name in default_templates}
+            try:
+                for name, content in default_templates.items():
+                    (site / 'r' / name).write_bytes(content)
+                subprocess.run(['node', str(REPO / 'tests/search-web-browser.cjs'), base, json.dumps(setup), 'presentation'], check=True)
+            finally:
+                for name, content in fixture_templates.items():
+                    (site / 'r' / name).write_bytes(content)
 
             config = site / 'config.php'
             original_config = config.read_bytes()
