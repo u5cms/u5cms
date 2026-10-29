@@ -7,6 +7,36 @@ let checks = 0;
 const equal = (actual, expected, message) => { assert.deepEqual(actual, expected, message); checks++; };
 const verify = (condition, message) => { assert.ok(condition, message); checks++; };
 const url = (q, language='de', scope='_search') => base + '/index.php?' + new URLSearchParams({c:scope,l:language,qv:'2',q});
+const nestedTypoQuery = 'Adressen "Mueller (Bern Rathuas) Hilfe & Beratung"';
+const nestedCorrectedQuery = 'Adressen "M\u00fcller (Bern Rathaus) Hilfe & Beratung"';
+const offers = activePage => activePage.locator('.u5-search-suggestions a').evaluateAll(links => links.map(link => ({query:new URL(link.href).searchParams.get('q'),language:new URL(link.href).searchParams.get('l'),text:link.textContent,href:link.href})));
+
+async function checkRevealedTarget(target, label) {
+    await target.waitForFunction(() => window.u5SearchHighlight && window.u5SearchHighlight.ready);
+    equal((await target.evaluate(() => window.u5SearchHighlight.ready)).count, 2, label + ': the word and intact quoted phrase are highlighted');
+    equal(await target.locator('#corrected-target').textContent(), 'Adressen M\u00fcller (Bern Rathaus) Hilfe & Beratung', label + ': source accents, parentheses and ampersand remain intact');
+    equal((await target.locator('#corrected-target [data-u5-search-hit]').allTextContents()).join(''), 'AdressenM\u00fcller (Bern Rathaus) Hilfe & Beratung', label + ': marking crosses inline elements without replacing the source');
+    await target.waitForFunction(() => {
+        const hit = document.querySelector('#corrected-target [data-u5-search-hit]');
+        if (!hit || !document.getElementById('suggestion-details').open) return false;
+        const rect = hit.getBoundingClientRect();
+        return window.scrollY > 500 && rect.top >= 8 && rect.bottom < window.innerHeight;
+    });
+    equal(await target.locator('#suggestion-details').evaluate(node => node.open), true, label + ': native details opens');
+    for (const level of ['outer','inner']) {
+        equal(await target.locator('#suggestion-' + level).evaluate(node => getComputedStyle(node).display), 'block', label + ': ' + level + ' showblock opens');
+        equal(await target.locator('#suggestion-' + level + '-toggle').getAttribute('aria-expanded'), 'true', label + ': ' + level + ' control is synchronized');
+        verify(await target.locator('#suggestion-' + level).evaluate(node => node.scrollTop > 200), label + ': ' + level + ' scroll container reveals its hit');
+        verify(await target.locator('#suggestion-' + level).evaluate(node => {
+            const panel = node.getBoundingClientRect();
+            const hit = node.querySelector('[data-u5-search-hit]').getBoundingClientRect();
+            const top = panel.top + node.clientTop, left = panel.left + node.clientLeft;
+            return hit.top >= top - 1 && hit.bottom <= top + node.clientHeight + 1 && hit.left >= left - 1 && hit.right <= left + node.clientWidth + 1;
+        }), label + ': the hit lies inside the visible ' + level + ' panel, not merely inside the viewport');
+    }
+    equal(await target.locator('#unrelated-details').evaluate(node => node.open), false, label + ': unrelated container remains closed');
+    equal(await target.locator('#search_Input').inputValue(), nestedCorrectedQuery, label + ': destination retains the corrected quoted query');
+}
 
 async function checkPresentation(browser) {
     const screenshotDirectory = process.env.U5_SEARCH_SCREENSHOTS;
@@ -81,6 +111,15 @@ async function checkPresentation(browser) {
             equal(await page.locator('.u5-search-suggestions a').first().textContent(), 'M\u00fcller', 'Suggestion presentation retains the source accent and case');
             await fits('Suggestion state fits its container');
             if (screenshotDirectory) await page.screenshot({path:require('node:path').join(screenshotDirectory, 'search-suggestion-' + width + '.png'),fullPage:true});
+            await open(nestedTypoQuery);
+            verify((await offers(page)).some(offer => offer.query === nestedCorrectedQuery), 'A long mixed phrase correction is visible in the default theme');
+            await fits('A multiword quoted suggestion wraps within the default theme at ' + width);
+            if (screenshotDirectory) await page.screenshot({path:require('node:path').join(screenshotDirectory, 'search-multiword-suggestion-' + width + '.png'),fullPage:true});
+            await page.goto(url(nestedCorrectedQuery), {waitUntil:'networkidle'});
+            const correctedHref = await page.locator('.u5-search-result h3 a').getAttribute('href');
+            await page.goto(new URL(correctedHref, base).href, {waitUntil:'networkidle'});
+            await checkRevealedTarget(page, 'Default theme at ' + width);
+            if (screenshotDirectory) await page.screenshot({path:require('node:path').join(screenshotDirectory, 'search-corrected-target-' + width + '.png')});
             await open('PaginateMarker');
             verify(await page.locator('.u5-search-pagination [rel="next"]').isVisible(), 'Pagination stays visible in the default theme');
             await fits('Pagination state fits its container');
@@ -178,6 +217,62 @@ async function checkPresentation(browser) {
             verify(suggestionLinks.some(link => link.query === suggestion && link.text.trim() === suggestion), 'Suggestion preserves the source spelling: ' + suggestion);
         }
 
+        const proposedQueries = new Set();
+        for (const [query, expected] of [
+            ['Bern Rathuas','Bern Rathaus'], ['Bren Rathuas','Bern Rathaus'],
+            ['"Bern Rathuas"','"Bern Rathaus"'], ['Mueller','M\u00fcller'],
+            ['Mueller Reiseplanugn','M\u00fcller Reiseplanung'], [nestedTypoQuery,nestedCorrectedQuery],
+        ]) {
+            const rows = await search(query);
+            const offered = await offers(page);
+            verify(offered.some(offer => offer.query === expected && offer.text === expected), 'A complete correction retains phrase and source spelling: ' + query);
+            verify(offered.length <= 3, 'The number of whole-query suggestions remains bounded');
+            equal(new URL(page.url()).searchParams.get('q'), query, 'The unaccepted correction does not change the current URL');
+            if (query === 'Bern Rathuas') {
+                verify(rows.includes('suggestionbern') && rows.includes('suggestionbernrathaus'), 'Correction is offered alongside the original partial Bern matches');
+                verify(await page.locator('.u5-search-subtitle').isVisible(), 'Partial matches remain labelled while a better complete query is offered');
+            }
+            for (const offer of offered) proposedQueries.add(offer.query);
+        }
+        for (const corrected of proposedQueries) {
+            verify((await search(corrected)).length > 0, 'An offered correction leads to an actual indexed result: ' + corrected);
+            equal(await page.locator('.u5-search-subtitle').count(), 0, 'An offered correction satisfies the complete query, not only part of it');
+        }
+        for (const language of ['de','fr','it','rm','en']) {
+            await search('"Bern Rathuas"', language);
+            verify((await offers(page)).some(offer => offer.query === '"Bern Rathaus"' && offer.language === language), 'Quoted correction preserves the selected language: ' + language);
+        }
+        for (const [query, fabricated] of [['Harbor Gazebo','Harbour Gazebo'], ['"Harbor Gazebo"','"Harbour Gazebo"'], ['"Lrahc Maple"','"Larch Maple"']]) {
+            await search(query);
+            verify(!(await offers(page)).some(offer => offer.query === fabricated), 'Suggestions cannot combine separate pages or title/body into a nonexistent match: ' + query);
+        }
+        await search('SecretNeedle privatepaylod');
+        verify(!(await offers(page)).some(offer => offer.query.includes('privatepayload')), 'A partial protected match cannot reveal private words through a multiword suggestion');
+        verify(!(await page.locator('.u5-search-results').textContent()).includes('privatepayload'), 'Protected correction vocabulary is absent from the result output');
+
+        await search(nestedTypoQuery);
+        const journeyOffers = await offers(page);
+        const correctionIndex = journeyOffers.findIndex(offer => offer.query === nestedCorrectedQuery);
+        verify(correctionIndex >= 0, 'The mixed quoted correction is selectable');
+        await Promise.all([
+            page.waitForURL(current => current.searchParams.get('q') === nestedCorrectedQuery),
+            page.locator('.u5-search-suggestions a').nth(correctionIndex).click(),
+        ]);
+        equal(await page.locator('#searchlarge').inputValue(), nestedCorrectedQuery, 'Selecting a suggestion explicitly changes the search field to the complete corrected query');
+        equal(await names(), ['suggestionnested'], 'The selected correction leads to its verified resource');
+        equal(await page.locator('.u5-search-excerpt .hitshilite').allTextContents(), ['Adressen','M\u00fcller (Bern Rathaus) Hilfe & Beratung'], 'Corrected result excerpts preserve the word and literal quoted phrase');
+        const correctedLink = await page.locator('.u5-search-result h3 a').getAttribute('href');
+        equal(new URL(correctedLink, base).searchParams.get('q'), nestedCorrectedQuery, 'Copied result URL contains the entire corrected phrase');
+        const correctedTarget = await context.newPage();
+        correctedTarget.on('pageerror', error => errors.push(String(error)));
+        await correctedTarget.goto(new URL(correctedLink, base).href, {waitUntil:'domcontentloaded'});
+        await checkRevealedTarget(correctedTarget, 'Copied corrected result');
+        const hitBox = await correctedTarget.locator('#corrected-target [data-u5-search-hit]').first().boundingBox();
+        const headerBox = await correctedTarget.locator('header').boundingBox();
+        verify(hitBox.y >= headerBox.y + headerBox.height + 8, 'Corrected destination scroll clears the real sticky header');
+        equal(await correctedTarget.evaluate(() => document.activeElement.tagName), 'BODY', 'Corrected destination scrolling does not steal keyboard focus');
+        await correctedTarget.close();
+
         equal((await search('PaginateMarker')).length, 5, 'First result page respects the configured page size');
         const firstPageNames = await names();
         const next = await page.locator('.u5-search-pagination [rel=next]').getAttribute('href');
@@ -220,6 +315,8 @@ async function checkPresentation(browser) {
         const authPage = await authenticated.newPage();
         await authPage.goto(url('SecretNeedle','de','_searchsi'), {waitUntil:'domcontentloaded'});
         verify((await authPage.locator('.u5-search-excerpt').textContent()).includes('privatepayload'), 'Real browser Basic authentication enables protected search preview');
+        await authPage.goto(url('SecretNeedle privatepaylod','de','_searchsi'), {waitUntil:'domcontentloaded'});
+        verify((await offers(authPage)).some(offer => offer.query === 'SecretNeedle privatepayload'), 'Authenticated intranet corrections may use the now permitted protected vocabulary');
         await authenticated.close();
         equal(errors, [], 'Search and destination pages have no uncaught JavaScript errors');
         console.log(`Search web browser checks: ${checks} passed.`);

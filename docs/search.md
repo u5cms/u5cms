@@ -33,15 +33,46 @@ partial-result message explains that distinction. The query is not silently
 changed. A link to search without phrase constraints is offered when relevant;
 literal quotes and backslashes remain escaped correctly in that new query.
 
-Spelling suggestions are links, not automatic substitutions. They are considered
-only when there are no complete or partial results and the query is one unquoted
-term of 3-40 normalized characters. The scan stops at 4 MiB of text, 100,000
-tokens or 20,000 relevant distinct words; edit distance is at most two and at
-most three suggestions are displayed. An adjacent letter transposition counts
-as one typing error, including in short words (`Bren` can suggest `Bern`).
-Suggestions retain the source spelling and accents (`muler` can suggest
-`Müller`). Protected text is not used when its
-preview is disabled. Suggestions are candidates, not an exhaustive list.
+Spelling suggestions are considered when there are **no complete matches**,
+including alongside partial results. They offer complete corrected queries for
+single words, several words, quoted phrases and mixtures of those forms. The
+original input stays unchanged until a suggestion is selected. Corrections are
+displayed before the original query's partial results, whose counts remain
+about the original query.
+
+| Original query | Example suggestion, when supported by indexed content |
+| --- | --- |
+| `Bern Rathuas` | `Bern Rathaus` |
+| `Bren Rathuas` | `Bern Rathaus` |
+| `"Bren Rathuas"` | `"Bern Rathaus"` |
+| `C++ "Wrot (Bren Rathuas)"` | `C++ "Wort (Bern Rathaus)"` |
+| `Mueller Reiseplanugn` | `Müller Reiseplanung` |
+
+A candidate must satisfy the complete corrected query on one eligible resource.
+Separate unquoted terms may match its title or body; a quoted phrase must occur
+contiguously within one field. The generator never joins words from unrelated
+pages into a suggestion with no complete result. Existing matching terms stay
+unchanged. Corrected words use the source spelling and accents; literal
+punctuation, digits, quote roles and backslashes are preserved. Typographic outer
+quotation marks may be serialized as ordinary double quotes without changing
+their phrase meaning.
+
+An adjacent letter transposition counts as one typing error. Alphabetic word
+parts of 3-4 normalized characters allow one edit; parts of 5-40 allow two.
+Shorter or longer parts, punctuation and numbers can remain exact but are not
+fuzzily rewritten. These limits apply to individual word parts, not to the number
+of terms in the complete query; the normal 16-term/512-character query limits
+still apply. Exact queries do not trigger a correction scan.
+
+The scan is bounded by 4 MiB each of source and normalized text, 100,000 letter
+tokens and 20,000 computed word-distance pairs. It keeps at most four alternatives
+per missing term, eight complete combinations per resource and twelve distinct
+candidate queries globally. At most three witness resources are retained per
+candidate. A fresh, streaming lookup rechecks eligibility, preview permission
+and a complete match before at most three suggestions are displayed. This also
+rejects candidates whose supporting text became hidden, protected or changed
+during the request. Protected text is not read for suggestions when its preview
+is disabled. Suggestions are bounded candidates, not an exhaustive list.
 
 Partial results first rank by the number of matched terms. Further ranking
 favors title matches and exact title matches; ties use modification time and
@@ -80,7 +111,9 @@ matched original-text ranges.
 
 Accent tolerance does not add spelling substitutions such as `ue` for `ü`,
 synonyms or stemming. The same defined folds apply to search, excerpts and
-target-page marks, including phrases.
+target-page marks, including phrases. A spelling suggestion can still turn
+`Mueller` into the indexed `Müller`, including in a multiword or quoted query;
+this is an explicit correction, not a new global character equivalence.
 
 Offsets are retained through normalization. An expansion such as `ß` to `ss`
 still marks the original `ß`; decomposed accents remain attached to their base
@@ -94,6 +127,7 @@ UTF-16 offsets. Excerpts and marks retain the spelling of the source text.
 | [`search-request.inc.php`](../search-request.inc.php) | Capture and parse the original request before the legacy global sanitizer changes `q`. |
 | [`search-core.inc.php`](../search-core.inc.php) | Decode request versions, parse/serialize terms, normalize, match, rank field matches and produce escaped excerpts. |
 | [`search-service.inc.php`](../search-service.inc.php) | Apply installation eligibility/preview policies, match indexed rows, sort, paginate and suggest alternatives. |
+| [`search-suggestions.inc.php`](../search-suggestions.inc.php) | Build bounded, complete-query spelling corrections from individual resources while preserving phrase and punctuation constraints. |
 | [`search-ui.inc.php`](../search-ui.inc.php), [`search-page.inc.php`](../search-page.inc.php) | Render forms, results, complete links and safely encoded browser configuration. |
 | [`alloc.inc.php`](../alloc.inc.php) | Adapt existing excerpt callers and the current result page to the shared literal snippet engine. |
 | [`search-results.css`](../search-results.css) | Scope result layout, responsive form controls and legible owned highlights without changing other page content. |
@@ -269,6 +303,8 @@ php tests/search-core-regression.php
 php tests/search-alloc-regression.php
 php tests/search-index-regression.php
 php tests/search-service-regression.php
+php tests/search-suggestions-regression.php
+php tests/search-distance-regression.php
 node tests/search-normalization-parity.cjs
 node tests/search-highlight-browser.cjs
 ```

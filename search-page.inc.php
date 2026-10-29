@@ -23,8 +23,6 @@ if ($found['error'] !== null) {
 }
 if ($found['partial']) {
     echo '<h2 class="u5-search-summary">' . u5SearchHtml(u5SearchLabel('no_results')) . ' <span id="terms">' . u5SearchHtml($query['raw']) . '</span></h2>';
-    echo '<h3 class="u5-search-subtitle">' . u5SearchHtml(u5SearchLabel('partial')) . ' (' . $found['total'] . ')</h3>';
-    echo '<p class="u5-search-message">' . u5SearchHtml(u5SearchLabel('partial_help')) . '</p>';
 } elseif ($found['total'] > 0) {
     echo '<h2 class="u5-search-summary"><strong>' . $found['total'] . '</strong> ' . u5SearchHtml(u5SearchLabel('results')) . ' <span id="terms">' . u5SearchHtml($query['raw']) . '</span></h2>';
 } else {
@@ -40,6 +38,10 @@ if ($found['exactTotal'] === 0) {
     $hasPhrase = false;
     foreach ($query['terms'] as $term) $hasPhrase = $hasPhrase || $term['phrase'];
     if ($hasPhrase) echo '<p class="u5-search-alternative"><a href="' . u5SearchHtml(u5SearchUrl($scope, u5SearchSerializeTerms($query['terms'], false))) . '">' . u5SearchHtml(u5SearchLabel('without_quotes')) . '</a></p>';
+}
+if ($found['partial']) {
+    echo '<h3 class="u5-search-subtitle">' . u5SearchHtml(u5SearchLabel('partial')) . ' (' . $found['total'] . ')</h3>';
+    echo '<p class="u5-search-message">' . u5SearchHtml(u5SearchLabel('partial_help')) . '</p>';
 }
 foreach ($found['rows'] as $hit) {
     $url = u5SearchUrl($hit['name'], $query['raw']);

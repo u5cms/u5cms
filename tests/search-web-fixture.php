@@ -90,6 +90,18 @@ try {
     $seed('suggestion', 'Suggestions', '<p>sunflower</p>');
     $seed('suggestionbern', 'Swiss city', '<p>Bern</p>');
     $seed('suggestionmuller', 'Accent in a suggestion', "<p>M\u{00fc}ller</p>");
+    $seed('suggestionbernrathaus', 'Municipal destination', '<p>Bern Rathaus</p>');
+    $seed('suggestionmullerreise', 'Travel destination', "<p>M\u{00fc}ller Reiseplanung</p>");
+    $seed('suggestionseparateone', 'Separate vocabulary first', '<p>Harbour Orchid</p>');
+    $seed('suggestionseparatetwo', 'Separate vocabulary second', '<p>Gazebo Juniper</p>');
+    $seed('suggestionseparatefields', 'Larch', '<p>Maple</p>');
+    $nestedCorrection = '<div style="height:1100px"></div><details id="suggestion-details"><summary>Information</summary>'
+        . '<a id="suggestion-outer-toggle" class="showblockinactivetab">More</a><div id="suggestion-outer" class="showblockdivinner" style="display:none;height:190px;overflow:auto">'
+        . '<div style="height:600px"></div><a id="suggestion-inner-toggle" class="showblock2inactivetab">Text</a><div id="suggestion-inner" class="showblock2divinner" style="display:none;height:140px;overflow:auto">'
+        . '<div style="height:450px"></div><p id="corrected-target">Adressen <em>M&#252;ller (Bern</em> Rathaus) Hilfe &amp; Beratung</p><div style="height:350px"></div>'
+        . '</div><div style="height:300px"></div></div></details>'
+        . '<details id="unrelated-details"><summary>Other</summary><p>Unrelated content</p></details><div style="height:1400px"></div>';
+    $seed('suggestionnested', 'Nested correction target', $nestedCorrection);
     $longToken = str_repeat('LongLiteral', 10);
     $seed('longlayout', 'Long literal phrase', '<p>' . $longToken . ' (quoted phrase)</p>');
     for ($i = 1; $i <= 7; $i++) $seed('pagination' . $i, 'Pagination ' . $i, '<p>PaginateMarker</p>', array('lastmut'=>100+$i));

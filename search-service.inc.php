@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/search-core.inc.php';
+require_once __DIR__ . '/search-suggestions.inc.php';
 
 /* Database eligibility and previews keep the existing installation policies. */
 function u5SearchPolicy($intranet = false) {
@@ -98,6 +99,7 @@ function u5SearchFind($query, $slot, $policy, $page = 1, $pageSize = 25, $refres
     $empty['pages'] = max(1, (int) ceil(count($rows) / $pageSize));
     $empty['page'] = max(1, min($empty['pages'], (int) $page));
     $selected = array_slice($rows, ($empty['page'] - 1) * $pageSize, $pageSize);
+    $eligibilityChanged = false;
     if ($selected) {
         $names = array();
         foreach ($selected as $hit) $names[] = "'" . mysql_real_escape_string($hit['name']) . "'";
@@ -126,6 +128,7 @@ function u5SearchFind($query, $slot, $policy, $page = 1, $pageSize = 25, $refres
         if (count($verified) !== count($selected)) {
             /* Refresh counts and pagination once after a concurrent eligibility change. */
             if (!$refreshed) return u5SearchFind($query, $slot, $policy, $page, $pageSize, true);
+            $eligibilityChanged = true;
             $removed = count($selected) - count($verified);
             $empty['total'] -= $removed;
             if (!$empty['partial']) $empty['exactTotal'] -= $removed;
@@ -135,33 +138,39 @@ function u5SearchFind($query, $slot, $policy, $page = 1, $pageSize = 25, $refres
         $selected = $verified;
     }
     $empty['rows'] = $selected;
-    if (!$rows) $empty['suggestions'] = u5SearchSuggest($query, $slot, $policy, $where);
+    if ($empty['exactTotal'] === 0 && !$eligibilityChanged) $empty['suggestions'] = u5SearchSuggest($query, $slot, $policy, $where);
     return $empty;
 }
 
 /* Unicode optimal-string-alignment distance: an adjacent transposition is one
-   typing error, including in short words. Bounded; never recursively re-search. */
+   typing error, including in short words. Only the band within the edit limit
+   is evaluated, avoiding full quadratic work for every candidate word. */
 function u5SearchEditDistance($left, $right, $limit) {
     $a = preg_split('//u', $left, -1, PREG_SPLIT_NO_EMPTY);
     $b = preg_split('//u', $right, -1, PREG_SPLIT_NO_EMPTY);
-    if (abs(count($a) - count($b)) > $limit) return $limit + 1;
-    $previous = range(0, count($b));
+    $aLength = count($a);
+    $bLength = count($b);
+    $outside = $limit + 1;
+    if (abs($aLength - $bLength) > $limit) return $outside;
+    $previous = range(0, min($bLength, $limit));
     $beforePrevious = array();
-    for ($i = 1; $i <= count($a); $i++) {
-        $current = array($i);
-        $minimum = $i;
-        for ($j = 1; $j <= count($b); $j++) {
-            $current[$j] = min($current[$j - 1] + 1, $previous[$j] + 1, $previous[$j - 1] + ($a[$i - 1] === $b[$j - 1] ? 0 : 1));
+    for ($i = 1; $i <= $aLength; $i++) {
+        $current = array(0 => $i <= $limit ? $i : $outside);
+        $minimum = $current[0];
+        $end = min($bLength, $i + $limit);
+        for ($j = max(1, $i - $limit); $j <= $end; $j++) {
+            $current[$j] = min(($current[$j - 1] ?? $outside) + 1, ($previous[$j] ?? $outside) + 1,
+                ($previous[$j - 1] ?? $outside) + ($a[$i - 1] === $b[$j - 1] ? 0 : 1));
             if ($i > 1 && $j > 1 && $a[$i - 1] === $b[$j - 2] && $a[$i - 2] === $b[$j - 1]) {
-                $current[$j] = min($current[$j], $beforePrevious[$j - 2] + 1);
+                $current[$j] = min($current[$j], ($beforePrevious[$j - 2] ?? $outside) + 1);
             }
             $minimum = min($minimum, $current[$j]);
         }
-        if ($minimum > $limit) return $limit + 1;
+        if ($minimum > $limit) return $outside;
         $beforePrevious = $previous;
         $previous = $current;
     }
-    return $previous[count($b)];
+    return $previous[$bLength] ?? $outside;
 }
 
 /* Stream tokens within a shared scan budget, including repeated words. */
@@ -183,33 +192,54 @@ function u5SearchSuggestionWords($text, &$remainingBytes, &$remainingTokens) {
 }
 
 function u5SearchSuggest($query, $slot, $policy, $where) {
-    if (count($query['terms']) !== 1 || $query['terms'][0]['phrase']) return array();
-    $needle = $query['terms'][0]['normalized'];
-    $length = mb_strlen($needle, 'UTF-8');
-    if ($length < 3 || $length > 40 || strpos($needle, ' ') !== false) return array();
-    $limit = $length < 5 ? 1 : 2;
+    $state = u5SearchSuggestionState($query);
+    if (!u5SearchSuggestionCanScan($state)) return array();
     $result = mysql_unbuffered_query('SELECT name,logins,title_1,title_2,title_3,title_4,title_5,search_' . (int) $slot . ' AS search_text FROM resources WHERE ' . $where . ' ORDER BY name ASC');
     if ($result === false) return array();
-    $candidates = array();
-    $seen = array();
-    $remainingBytes = 4 * 1024 * 1024;
-    $remainingTokens = 100000;
-    while ($remainingBytes > 0 && $remainingTokens > 0 && ($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
+    while (u5SearchSuggestionCanScan($state) && ($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
         if (u5SearchRowProtected($row, $policy) && (!$policy['findProtected'] || !$policy['previewProtected'])) continue;
-        $text = u5SearchRowTitle($row, $slot) . ' ' . u5SearchFromLegacy((string) $row['search_text']);
-        foreach (u5SearchSuggestionWords($text, $remainingBytes, $remainingTokens) as $word) {
-            $normalized = u5SearchNormalize($word);
-            if (abs(mb_strlen($normalized, 'UTF-8') - $length) > $limit) continue;
-            if (isset($seen[$normalized])) continue;
-            if (count($seen) >= 20000) break 2;
-            $seen[$normalized] = true;
-            $distance = u5SearchEditDistance($needle, $normalized, $limit);
-            if ($distance > 0 && $distance <= $limit) $candidates[] = array('word' => $word, 'normalized' => $normalized, 'distance' => $distance);
-        }
+        u5SearchSuggestionCollect($state, u5SearchRowTitle($row, $slot), u5SearchFromLegacy((string) $row['search_text']), (string) $row['name']);
     }
     mysql_free_result($result);
-    usort($candidates, function ($a, $b) {
-        return $a['distance'] === $b['distance'] ? strcmp($a['normalized'], $b['normalized']) : $a['distance'] <=> $b['distance'];
-    });
-    return array_column(array_slice($candidates, 0, 3), 'word');
+    $candidates = u5SearchSuggestionCandidates($state);
+    if (!$candidates) return array();
+
+    /* Recheck the bounded set of witness resources before showing their words.
+       A vocabulary scan must not expose a resource made private in the meantime.
+       Streaming this lookup keeps memory independent of the witness body sizes. */
+    $witnesses = array();
+    $parsed = array();
+    foreach ($candidates as $index => $candidate) {
+        $parsed[$index] = u5SearchParseQuery($candidate['query']);
+        if ($parsed[$index]['error'] !== null) continue;
+        foreach ($candidate['sources'] as $name) {
+            if ($name === '') continue;
+            $witnesses[$name][] = $index;
+        }
+    }
+    if (!$witnesses) return array();
+    $names = array();
+    foreach ($witnesses as $name => $unused) $names[] = "'" . mysql_real_escape_string((string) $name) . "'";
+    $verified = array();
+    $details = mysql_unbuffered_query('SELECT name,logins,title_1,title_2,title_3,title_4,title_5,search_' . (int) $slot . ' AS search_text FROM resources WHERE ' . $where . ' AND name IN (' . implode(',', $names) . ')');
+    if ($details === false) return array();
+    while ($row = mysql_fetch_array($details, MYSQL_ASSOC)) {
+        $name = (string) $row['name'];
+        if (!isset($witnesses[$name])) continue;
+        clearstatcache(true, __DIR__ . '/r/' . $name . '/.htaccess');
+        if (u5SearchRowProtected($row, $policy) && (!$policy['findProtected'] || !$policy['previewProtected'])) continue;
+        $title = u5SearchRowTitle($row, $slot);
+        $body = u5SearchFromLegacy((string) $row['search_text']);
+        foreach ($witnesses[$name] as $index) {
+            if (!isset($verified[$index]) && u5SearchEvaluate($title, $body, $parsed[$index]['terms'])['matched']) $verified[$index] = true;
+        }
+    }
+    mysql_free_result($details);
+    $suggestions = array();
+    foreach ($candidates as $index => $candidate) {
+        if (!isset($verified[$index])) continue;
+        $suggestions[] = $candidate['query'];
+        if (count($suggestions) === 3) break;
+    }
+    return $suggestions;
 }

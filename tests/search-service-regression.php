@@ -3,7 +3,7 @@
 $serviceFixture = sys_get_temp_dir() . '/u5-search-service-' . bin2hex(random_bytes(8));
 mkdir($serviceFixture, 0700, true);
 mkdir($serviceFixture . '/r');
-foreach (array('search-service.inc.php', 'search-core.inc.php', 'search-normalization.json') as $file) {
+foreach (array('search-service.inc.php', 'search-suggestions.inc.php', 'search-core.inc.php', 'search-normalization.json') as $file) {
     copy(dirname(__DIR__) . '/' . $file, $serviceFixture . '/' . $file);
 }
 register_shutdown_function(function () use ($serviceFixture) {
@@ -76,8 +76,10 @@ function serviceNames($result) { return array_column($result['rows'], 'name'); }
 function serviceLegacy($text) { return mb_encode_numericentity($text, array(0x80, 0x10ffff, 0, 0x1fffff), 'UTF-8'); }
 function serviceScan($rows, $before = null) { return array('kind'=>'scan', 'rows'=>$rows, 'before'=>$before); }
 function serviceDetails($rows, $before = null) { return array('kind'=>'detail', 'rows'=>$rows, 'before'=>$before); }
-function serviceSuggestions($query, $rows, $policy) {
-    serviceDatabase(array(serviceScan($rows)));
+function serviceSuggestions($query, $rows, $policy, $verify = true) {
+    $steps = array(serviceScan($rows));
+    if ($verify) $steps[] = serviceScan($rows);
+    serviceDatabase($steps);
     return u5SearchSuggest(u5SearchParseQuery($query), 1, $policy, u5SearchWhere(1, $policy));
 }
 
@@ -156,7 +158,7 @@ serviceSame($bytes, 0, 'Byte budget is shared across resources');
 // Ranking prioritizes term coverage over title strength, then stable tie-breaks.
 $partialBody = serviceRow('two-body-terms', 'Neutral', 'alpha beta');
 $partialTitle = serviceRow('one-title-term', 'alpha', 'unrelated');
-serviceDatabase(array(serviceScan(array($partialTitle, $partialBody)), serviceDetails(array($partialTitle, $partialBody))));
+serviceDatabase(array(serviceScan(array($partialTitle, $partialBody)), serviceDetails(array($partialTitle, $partialBody)), serviceScan(array($partialTitle, $partialBody))));
 $result = u5SearchFind(u5SearchParseQuery('alpha beta omega'), 1, $public);
 serviceSame(serviceNames($result), array('two-body-terms', 'one-title-term'), 'More matched terms outrank a stronger single title match');
 serviceCheck($result['partial'] && $result['exactTotal'] === 0, 'Incomplete results remain explicitly partial');
@@ -230,7 +232,7 @@ serviceSame(count($serviceCalls), 4, 'Eligibility retries are capped at one');
 
 // Query text remains data: SQL selects candidates and literal matching is in PHP.
 $literalQuery = "x' OR fixture_canary=1 --";
-serviceDatabase(array(serviceScan(array())));
+serviceDatabase(array(serviceScan(array()), serviceScan(array())));
 $result = u5SearchFind(u5SearchParseQuery($literalQuery), 1, $public);
 serviceSame($result['rows'], array(), 'SQL-looking query does not alter eligibility');
 serviceCheck(strpos($serviceCalls[0][1], 'fixture_canary') === false, 'Literal search text is never interpolated into SQL');
@@ -242,19 +244,20 @@ $result = u5SearchFind(u5SearchParseQuery('TitleNeedle'), 1, $public);
 serviceSame(array($result['error'], $result['rows']), array('unavailable', array()), 'Detail SQL failure cannot expose unverified metadata');
 
 // Suggestions are finite alternatives, retain display spelling, and honor access.
-serviceSame(serviceSuggestions('cat', array(serviceRow('words', 'Words', 'cat bat BAT cats cot cut bot')), $public), array('bat', 'cats', 'cot'), 'Suggestions are unique, distance-sorted, deterministic, and limited to three');
+serviceSame(serviceSuggestions('dat', array(serviceRow('words', 'Words', 'bat BAT cat cot cut dot')), $public), array('bat', 'cat', 'dot'), 'Suggestions are unique, distance-sorted, deterministic, and limited to three');
+serviceSame(serviceSuggestions('cat', array(serviceRow('exact-word', 'Words', 'cat')), $public, false), array(), 'An already complete query is not rewritten');
 serviceSame(serviceSuggestions('Bren', array(serviceRow('swapped', 'Bern', 'Willkommen')), $public), array('Bern'), 'A short place name with swapped letters receives the original-spelling suggestion');
 serviceSame(serviceSuggestions('muler', array(serviceRow('accented', serviceLegacy("M\u{fc}ller"), 'Name')), $public), array("M\u{fc}ller"), 'Spelling corrections use accent folding while retaining the original umlaut');
 $decomposed = "e\u{301}cole";
 serviceSame(serviceSuggestions('ecle', array(serviceRow('unicode', 'Words', serviceLegacy($decomposed . ' Ecole'))), $public), array($decomposed), 'Combining marks stay attached to the displayed suggestion');
-serviceSame(serviceSuggestions('sunflwer', array(serviceRow('first', 'Words', 'sun'), serviceRow('second', 'Words', 'flower')), $public), array(), 'Vocabulary never concatenates adjacent resources into a new word');
-serviceSame(serviceSuggestions('sunflwer', array(serviceRow('fields', 'sun', 'flower')), $public), array(), 'Vocabulary keeps title/body word boundaries');
-serviceSame(serviceSuggestions('secretw', array(serviceRow('private', 'Protected title', new ServiceUnreadableBody(), array('logins'=>'person:secret'))), $findProtected), array(), 'Disabled protected previews exclude body vocabulary before reading it');
-serviceSame(serviceSuggestions('secretw', array(serviceRow('private', 'Protected title', new ServiceUnreadableBody(), array('logins'=>'person:secret'))), $noProtected), array(), 'Preview permission cannot override disabled protected search');
-serviceSame(serviceSuggestions('needle', array($raceUnreadable), $noProtected), array(), 'File-protected vocabulary follows the same exclusion');
+serviceSame(serviceSuggestions('sunflwer', array(serviceRow('first', 'Words', 'sun'), serviceRow('second', 'Words', 'flower')), $public, false), array(), 'Vocabulary never concatenates adjacent resources into a new word');
+serviceSame(serviceSuggestions('sunflwer', array(serviceRow('fields', 'sun', 'flower')), $public, false), array(), 'Vocabulary keeps title/body word boundaries');
+serviceSame(serviceSuggestions('secretw', array(serviceRow('private', 'Protected title', new ServiceUnreadableBody(), array('logins'=>'person:secret'))), $findProtected, false), array(), 'Disabled protected previews exclude body vocabulary before reading it');
+serviceSame(serviceSuggestions('secretw', array(serviceRow('private', 'Protected title', new ServiceUnreadableBody(), array('logins'=>'person:secret'))), $noProtected, false), array(), 'Preview permission cannot override disabled protected search');
+serviceSame(serviceSuggestions('needle', array($raceUnreadable), $noProtected, false), array(), 'File-protected vocabulary follows the same exclusion');
 $open['previewProtected'] = false;
 serviceSame(serviceSuggestions('sunflwer', array(serviceRow('!open', 'Words', 'sunflower', array('logins'=>'person:secret'))), $open), array('sunflower'), 'Explicitly open intranet vocabulary can be suggested');
-foreach (array('"quoted phrase"', 'two words', 'ab', str_repeat('x', 41)) as $invalidSuggestion) {
+foreach (array('ab', str_repeat('x', 41), '""', '"unclosed', '123% [45]') as $invalidSuggestion) {
     serviceDatabase(array());
     serviceSame(u5SearchSuggest(u5SearchParseQuery($invalidSuggestion), 1, $public, u5SearchWhere(1, $public)), array(), 'Ineligible suggestion query never starts a scan');
     serviceSame($serviceCalls, array(), 'No SQL for unsupported suggestion shape');
@@ -263,14 +266,70 @@ serviceDatabase(array(array('kind'=>'scan', 'fail'=>true)));
 serviceSame(u5SearchSuggest(u5SearchParseQuery('sunflwer'), 1, $public, u5SearchWhere(1, $public)), array(), 'Suggestion SQL failure returns no invented alternative');
 
 $repeated = serviceRow('budget-first', 'Budget', str_repeat('x ', 100000) . 'sunflower');
-serviceSame(serviceSuggestions('sunflwer', array($repeated, serviceRow('budget-later', 'Words', 'sunflower')), $public), array(), 'Repeated input cannot bypass the global suggestion token budget');
+serviceSame(serviceSuggestions('sunflwer', array($repeated, serviceRow('budget-later', 'Words', 'sunflower')), $public, false), array(), 'Repeated input cannot bypass the global suggestion token budget');
 serviceSame($serviceResults[0]->fetches, 1, 'Token exhaustion stops before fetching later resources');
 unset($repeated);
 $prefix = 4 * 1024 * 1024 - strlen('Budget ') - strlen('sunflower');
 $cut = serviceRow('byte-budget', 'Budget', str_repeat(' ', $prefix) . 'sunflowerSuffix');
-serviceSame(serviceSuggestions('sunflwer', array($cut, serviceRow('byte-later', 'Words', 'sunflower')), $public), array(), 'Byte truncation cannot invent sunflower from a longer cut-off word');
+serviceSame(serviceSuggestions('sunflwer', array($cut, serviceRow('byte-later', 'Words', 'sunflower')), $public, false), array(), 'Byte truncation cannot invent sunflower from a longer cut-off word');
 serviceSame($serviceResults[0]->fetches, 1, 'Byte exhaustion stops before fetching later resources');
 unset($cut);
+
+// Whole-query corrections retain valid terms, punctuation and phrase boundaries.
+$bern = serviceRow('bern-rathaus', 'Information', 'Bern Rathaus');
+foreach (array('Bern Rathuas' => 'Bern Rathaus', 'Bren Rathuas' => 'Bern Rathaus', 'bern Rathuas' => 'bern Rathaus', '"Bren Rathuas"' => '"Bern Rathaus"') as $input => $expected) {
+    serviceSame(serviceSuggestions($input, array($bern), $public), array($expected), 'A full multiword query is corrected: ' . $input);
+    serviceSame(count($serviceCalls), 2, 'Correction uses one bounded scan and one witness recheck');
+    serviceCheck(strpos($serviceCalls[1][1], 'name IN (') !== false, 'Fresh validation is limited to candidate witnesses');
+}
+$mixed = serviceRow('mixed', 'Information', 'C++ Wort (Bern Rathaus)');
+serviceSame(serviceSuggestions('C++ "Wrot (Bren Rathuas)"', array($mixed), $public), array('C++ "Wort (Bern Rathaus)"'), 'A mixed query retains technical syntax and a parenthesized quoted phrase');
+$accented = serviceRow('umlaut', 'Information', serviceLegacy("M\u{fc}ller Reiseplanung"));
+serviceSame(serviceSuggestions('Mueller Reiseplanugn', array($accented), $public), array("M\u{fc}ller Reiseplanung"), 'Multiword correction preserves the source umlaut and fixes the second word');
+serviceSame(serviceSuggestions('Bren Rathuas', array(serviceRow('field-split', 'Bern', 'Rathaus')), $public), array('Bern Rathaus'), 'Unquoted corrected terms can match separate fields of one resource');
+serviceSame(serviceSuggestions('"Bren Rathuas"', array(serviceRow('field-split', 'Bern', 'Rathaus')), $public, false), array(), 'A corrected phrase cannot cross title/body boundaries');
+serviceSame(serviceSuggestions('Bren Rathuas', array(serviceRow('separate-a', 'Information', 'Bern'), serviceRow('separate-b', 'Information', 'Rathaus')), $public, false), array(), 'Words from separate resources cannot create a zero-result suggested query');
+serviceSame(serviceSuggestions('"Bern (Rathuas)"', array($bern), $public, false), array(), 'Correction cannot remove literal parentheses to manufacture a phrase hit');
+
+// Original partial results do not suppress a verified whole-query correction.
+$bernPartial = serviceRow('bern-only', 'Information', 'Bern Reise');
+serviceDatabase(array(serviceScan(array($bern, $bernPartial)), serviceDetails(array($bern, $bernPartial)), serviceScan(array($bern, $bernPartial)), serviceScan(array($bern))));
+$result = u5SearchFind(u5SearchParseQuery('Bern Rathuas'), 1, $public);
+serviceCheck($result['partial'] && $result['exactTotal'] === 0 && $result['total'] === 2, 'Original partial-result counts stay tied to the original query');
+serviceSame($result['suggestions'], array('Bern Rathaus'), 'A correction is offered beside original partial results');
+serviceSame(count($serviceCalls), 4, 'Partial results add only one bounded suggestion scan and witness validation');
+serviceDatabase(array(serviceScan(array($bern)), serviceDetails(array($bern))));
+$result = u5SearchFind(u5SearchParseQuery('Bern Rathaus'), 1, $public);
+serviceSame($result['suggestions'], array(), 'A complete original match never triggers spelling alternatives');
+serviceSame(count($serviceCalls), 2, 'Complete matches do not pay for a correction scan');
+
+// Candidate witnesses are checked again, including protection and changed text.
+$changedPrivate = array_merge($bern, array('logins'=>'person:secret', 'search_text'=>new ServiceUnreadableBody()));
+foreach (array($public, $findProtected) as $candidatePolicy) {
+    serviceDatabase(array(serviceScan(array($bern)), serviceScan(array($changedPrivate))));
+    serviceSame(u5SearchSuggest(u5SearchParseQuery('Bren Rathuas'), 1, $candidatePolicy, u5SearchWhere(1, $candidatePolicy)), array(), 'A resource made private after discovery cannot supply corrected words');
+}
+serviceDatabase(array(serviceScan(array($bern)), serviceScan(array())));
+serviceSame(u5SearchSuggest(u5SearchParseQuery('Bren Rathuas'), 1, $public, u5SearchWhere(1, $public)), array(), 'Deleted or hidden witnesses no longer validate a suggestion');
+serviceCheck(strpos($serviceCalls[1][1], 'deleted!=1') !== false && strpos($serviceCalls[1][1], 'hidden=0') !== false, 'Witness lookup repeats eligibility conditions');
+serviceDatabase(array(serviceScan(array($bern)), serviceScan(array(array_merge($bern, array('search_text'=>'Bonn Museum'))))));
+serviceSame(u5SearchSuggest(u5SearchParseQuery('Bren Rathuas'), 1, $public, u5SearchWhere(1, $public)), array(), 'A changed body cannot validate a suggestion that no longer has a full match');
+serviceDatabase(array(serviceScan(array($bern)), array('kind'=>'scan', 'fail'=>true)));
+serviceSame(u5SearchSuggest(u5SearchParseQuery('Bren Rathuas'), 1, $public, u5SearchWhere(1, $public)), array(), 'Failed fresh witness lookup cannot expose an unverified suggestion');
+
+$suggestionRaceName = 'suggestion-race-' . bin2hex(random_bytes(6));
+mkdir($serviceFixture . '/r/' . $suggestionRaceName);
+$suggestionRaceFile = $serviceFixture . '/r/' . $suggestionRaceName . '/.htaccess';
+$suggestionRace = serviceRow($suggestionRaceName, 'Information', 'Bern Rathaus');
+serviceDatabase(array(
+    serviceScan(array($suggestionRace)),
+    serviceScan(array(array_merge($suggestionRace, array('search_text'=>new ServiceUnreadableBody()))), function () use ($suggestionRaceFile) { file_put_contents($suggestionRaceFile, 'Require valid-user'); })
+));
+serviceSame(u5SearchSuggest(u5SearchParseQuery('Bren Rathuas'), 1, $noProtected, u5SearchWhere(1, $noProtected)), array(), 'New file protection is rechecked before decoding witness text');
+
+$otherWitness = serviceRow('bern-public', 'Information', 'Bern Rathaus');
+serviceDatabase(array(serviceScan(array($bern, $otherWitness)), serviceScan(array($changedPrivate, $otherWitness))));
+serviceSame(u5SearchSuggest(u5SearchParseQuery('Bren Rathuas'), 1, $public, u5SearchWhere(1, $public)), array('Bern Rathaus'), 'Another public witness can validate the same correction after one source becomes private');
 serviceDatabase(array());
 
 echo 'Search service regression checks: ' . $serviceChecks . " passed.\n";
