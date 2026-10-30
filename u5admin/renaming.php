@@ -1,37 +1,25 @@
-<?php require_once('connect.inc.php'); ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
-<title>renaming <?php echo $_GET['n']?>, please wait...</title>
-<?php require('backendcss.php'); ?></head>
-<body>
 <?php
-$sql_a = "SELECT name FROM resources WHERE deleted!=1 AND name='" . mysql_real_escape_string($_GET['n']) . "'";
-$result_a = mysql_query($sql_a);
-if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-$num_a = mysql_num_rows($result_a);
-if ($num_a > 0) echo('<script>setTimeout("location.href=location.href",999);</script>');
-else {
-?>
-<script>
-if(opener) {
-    if ('<?php echo $_GET['newname'] ?>' == '') opener.parent.save.location.href = 'done.php?n=renamed <?php echo $_GET['name']?> to <?php echo $_GET['nn']?>';
-
-    if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i1.document.form1.page.value) opener.parent.i1.gotopage('<?php echo $_GET['nn'] ?>');
-    else opener.parent.i1.gotopage(opener.parent.i1.document.form1.page.value);
-    if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i2.document.form1.page.value) opener.parent.i2.gotopage('<?php echo $_GET['nn'] ?>');
-    else opener.parent.i2.gotopage(opener.parent.i2.document.form1.page.value);
-    opener.focus();
-}
-self.close();
-</script>
-<?php	
-}
-?>
-<br><br><br><br>
-<center>
-<?php echo date('Y-m-d H:i:s') ?><br><br>Renaming of <i><?php echo $_GET['n'] ?></i> in progress.<br><br>This takes a few minutes for large sites.<br><br>It is recommended to wait and not to continue working in the backend for so long.<br><br>PLEASE WAIT AND DO NOT CLOSE THIS WINDOW!
-</center>
-</body>
-</html>
+require_once('connect.inc.php');
+require_once('resource-rename.inc.php');
+$old=is_string($_GET['n'] ?? null) ? $_GET['n'] : '';
+$new=is_string($_GET['nn'] ?? null) ? $_GET['nn'] : '';
+$pending=false;$complete=false;
+try {
+    u5RenameName($old,true);u5RenameName($new,true);
+    $base=u5RenameBase(dirname(__DIR__),$old,$new);
+    $pending=is_file($base.'.pending.php') || is_file('../fileversions/codeasset-rename-'.sha1($old."\0".$new).'.pending.php');
+    $complete=!$pending && is_file($base.'.done.php');
+} catch (Throwable $error) {http_response_code(400);}
+?><!doctype html><html lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252" />
+<title>Resource rename status</title>
+<?php require('backendcss.php'); ?></head><body>
+<p><?php echo htmlXspecialchars($old).' to '.htmlXspecialchars($new); ?></p>
+<?php if ($pending) { ?>
+<p>The rename has not completed. Keep the original request window open. After a failed request, use its Retry rename button to resume.</p>
+<script>setTimeout(function(){location.reload();},3000);</script>
+<?php } elseif ($complete) { ?>
+<p>The rename has completed, including files, references and history.</p>
+<?php } else { ?>
+<p>No resource rename completion checkpoint is available. Check the result in the original rename window.</p>
+<?php } ?></body></html>

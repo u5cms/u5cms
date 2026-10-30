@@ -14,7 +14,7 @@ $backup_compress=$backup_compress && extension_loaded('zlib');
 $u5BackupRelease=null;$u5BackupError=null;
 $link=null;
 try {
-    $u5BackupRelease=u5CodeMigrationLock(U5ROOT_PATH);
+    $u5BackupRelease=u5CodeMigrationLock(U5ROOT_PATH,null,true);
     $link=mysql_connect($host,$username,$password,true);
     if (!$link) throw new RuntimeException('Cannot open a separate database backup connection.');
     $backup_files=u5CreateDatabaseBackup($db,$backup_dir,$backup_compress,$link);

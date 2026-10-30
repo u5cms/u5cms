@@ -13,6 +13,8 @@ Since u5CMS version 10.0.0 compatibility with PHP 8 is given. It supports Unicod
 
 Version 12.12.0 adds optional OpenID Connect federation alongside the existing SAML integration. See [OIDC setup, identity mapping, operation and rollback](docs/oidc.md) and the [validation report](docs/12.12.0-oidc-validation.md). OIDC is disabled until explicitly configured.
 
+Version 12.12.1 replaces ordinary resource renaming with a fast, resumable workflow, preserves title brackets and all configured dependency policies, and audits the cumulative changes against production main. See [rename operation and recovery](docs/rename.md) and [the complete release audit](docs/12.12.1-general-corrections.md).
+
 Build a web application with u5CMS without programming skills
 It is very easy to build a web application yourself with u5CMS. Let users log in, enter data, edit data again and publish data. Your web application interacts with the u5CMS database without you having to worry about it. To get started, run the Tutorial※ and then the Scenario 2※※.
 

@@ -78,10 +78,11 @@ def test_site(site):
     (site / 'responses').mkdir()
     for name in ['sendfile.php', 'sendfile2.php', 'sendfilea.php', 'sendfilea2.php',
                  'extendedimage.inc.php', 'image-upload-limits.inc.php', 'image-upload.js',
-                 'image-upload-worker.js', 'publishupload.inc.php', 't1.php', 't2.php',
+                 'image-upload-worker.js', 'publishupload.inc.php', 'resource-mutation.inc.php', 't1.php', 't2.php',
                  'archivecheck.inc.php', 'shortcut.js']:
         shutil.copy2(REPO / 'u5admin' / name, admin / name)
     shutil.copytree(REPO / 'u5admin/image-formats', admin / 'image-formats')
+    shutil.copy2(REPO / 'codeassets.inc.php', site / 'codeassets.inc.php')
     shutil.copy2(REPO / 'configallowedfileextensions.php', site / 'configallowedfileextensions.php')
     shutil.copy2(REPO / 'upload/spinner.gif', site / 'upload/spinner.gif')
     (admin / 'iniset.inc.php').write_text('<?php error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED);')

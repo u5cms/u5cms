@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php');require_once('t2.php'); 
+<?php require_once('connect.inc.php');require_once('t2.php');require_once('resource-mutation.inc.php');
 if (!isset($_POST['page']) || !is_string($_POST['page']) || str_replace(array('_',' '),'',$_POST['page'])==='') {
 http_response_code(400);die('ERROR: no page selected. Your editor contents have been kept.');
 }

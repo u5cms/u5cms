@@ -1,6 +1,6 @@
 <?php
 /* Code resources are static assets. The LAST exclamation mark is the suffix separator. */
-function u5CodeMigrationLock($root) {
+function u5CodeMigrationLock($root,$renameCheckpoint=null,$allowPendingRename=false) {
     static $held=array();
     $key=realpath($root) ?: $root;
     if (isset($held[$key])) $held[$key]['depth']++;
@@ -10,6 +10,10 @@ function u5CodeMigrationLock($root) {
         if (!flock($handle,LOCK_EX|LOCK_NB)) {
             fclose($handle);
             throw new RuntimeException('Another code asset update is already running. Retry the backend when it has finished.');
+        }
+        foreach (glob($root.'/fileversions/resource-rename-*.pending.php') as $pending) if (!$allowPendingRename && $pending!==$renameCheckpoint) {
+            flock($handle,LOCK_UN);fclose($handle);
+            throw new RuntimeException('An interrupted resource rename must be resumed before another resource mutation or backup.');
         }
         if (fstat($handle)['size']===0) fwrite($handle,"<?php exit; ?>\n");
         $held[$key]=array('handle'=>$handle,'depth'=>1);
@@ -156,7 +160,7 @@ function u5CodeAssetQueryNames($text,$names,$quotedOnly=false) {
 }
 
 function u5CodeAssetMarkupNames($text,$names,$simple=true) {
-    return u5CodeAssetReplace('~\{\{\{([^{}\r\n]+)\}\}\}|\[([^\[\]\r\n]*)\]~',function($m) use($names,$simple) {
+    return u5CodeAssetReplace('~\[{2,4}[^\[\]]*\]{2,4}(*SKIP)(*F)|\{\{\{([^{}\r\n]+)\}\}\}|(?<!\[)\[([^\[\]\r\n]*)\](?!\])~',function($m) use($names,$simple) {
         if (isset($m[1]) && $m[1]!=='') {
             if (!$simple || (preg_match('/^[a-zA-Z0-9_!-]+$/D',$m[1]) && is_file(__DIR__.'/u5sys.'.$m[1].'.php'))) return $m[0];
             $key=strtolower($m[1]);return isset($names[$key]) ? '{{{'.$names[$key].'}}}' : $m[0];

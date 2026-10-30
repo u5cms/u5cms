@@ -42,9 +42,11 @@ header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readf
                 with urllib.request.urlopen(base+'/'+file,timeout=5) as response:
                     assert response.headers.get_content_type()==mime
                     assert response.headers.get('X-Content-Type-Options')=='nosniff'
-            if not os.environ.get('U5CMS_MAIN_AUDIT_ONLY'):
+            if not os.environ.get('U5CMS_MAIN_AUDIT_ONLY') and not os.environ.get('U5CMS_RENAME_AUDIT_ONLY'):
                 subprocess.run(['node',str(REPO/'tests/codeassets-browser.cjs'),base,str(site)],check=True)
                 subprocess.run(['node',str(REPO/'tests/codeassets-backend.cjs'),base,str(site)],check=True)
+            if os.environ.get('U5CMS_RENAME_AUDIT'):
+                subprocess.run(['node',str(REPO/'tests/rename-browser.cjs'),base,str(site)],check=True)
             if os.environ.get('U5CMS_MAIN_AUDIT') or os.environ.get('U5CMS_MAIN_AUDIT_ONLY'):
                 subprocess.run(['node',str(REPO/'tests/main-diff-browser.cjs'),base,str(site)],check=True)
         except Exception:

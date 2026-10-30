@@ -700,21 +700,23 @@ function u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks) {
     return array('version'=>'12.11.0','files'=>$files,'sources'=>$sources,'remove'=>$remove);
 }
 
-function u5CodeMigrationApplyRow($change,$columns=null) {
+function u5CodeMigrationApplyRow($change,$columns=null,$derivedFields=array()) {
     if ($columns===null) $columns=u5CodeMigrationColumns($change['table']);
     $before=$change['before']; $after=$change['after']; $table=u5CodeMigrationIdentifier($change['table']);
+    $derived=array_fill_keys($derivedFields,true);
+    $beforeGuard=array_diff_key($before,$derived);$afterGuard=array_diff_key($after,$derived);
     $set=array(); $compare=array();
-    foreach ($after as $field=>$value) if ($value!==$before[$field]) { $set[]=u5CodeMigrationIdentifier($field).'='.u5CodeMigrationColumnValue($value,$columns[$field]); $compare[$field]=$before[$field]; }
+    foreach ($after as $field=>$value) if ($value!==$before[$field] || isset($derived[$field])) { $set[]=u5CodeMigrationIdentifier($field).'='.u5CodeMigrationColumnValue($value,$columns[$field]); $compare[$field]=$before[$field]; }
     if (!$set) return;
     // Use the whole original row, including nulls, instead of a guessed primary key.
     // This also handles duplicate history rows in the legacy MyISAM tables.
-    $count=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($before,$columns));
+    $count=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($beforeGuard,$columns));
     if ((int)$count[0]['n']===0) {
-        $done=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($after,$columns));
+        $done=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($afterGuard,$columns));
         if ((int)$done[0]['n']>0) return;
         throw new RuntimeException('A database row changed during migration in '.$change['table'].'. The checkpoint was kept; no concurrent edit was overwritten.');
     }
-    u5CodeMigrationQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5CodeMigrationWhere($before,$columns));
+    u5CodeMigrationQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5CodeMigrationWhere($beforeGuard,$columns));
     if (mysql_affected_rows()!==(int)$count[0]['n']) throw new RuntimeException('A row changed while applying migration in '.$change['table']);
 }
 

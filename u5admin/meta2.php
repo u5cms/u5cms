@@ -1,13 +1,13 @@
 <?php
 require_once('connect.inc.php');
-require_once('t2.php');
+require_once('t2.php');require_once('resource-mutation.inc.php');
 require_once('resourceupdate.inc.php');
 try {
 $name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
 $u5MetaRecord=u5ResourceForUpdate($name);
 $u5MetaIsCode=strtolower((string)$u5MetaRecord['typ'])==='c';
 if ($u5MetaIsCode) {
-    require_once('codeassets-migrate.inc.php');$u5MetaRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MetaRelease);
+    require_once('codeassets-migrate.inc.php');
     $u5MetaRecord=u5ResourceForUpdate($name,true);
 }
 if ($archiveRqHIADRI!='no' && $u5MetaRecord['deleted']==2) require('accadmin.inc.php');

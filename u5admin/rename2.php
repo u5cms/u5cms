@@ -1,318 +1,78 @@
-<?php ignore_user_abort(true);set_time_limit(3600); ?>
-<?php require_once('connect.inc.php');require_once('t2.php');
-$u5MutationRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MutationRelease); ?>
-<?php if ($_POST['name'] == '' && $_GET['newname'] != '') $_POST['name'] = $_GET['newname']; ?>
-<?php if ($_POST['ulinks'] == '' && $_GET['ulinks'] != '') $_POST['ulinks'] = $_GET['ulinks']; ?>
-<?php if (strlen($_POST['name']) < 4) die('<script>history.go(-1)</script>'); ?>
-<?php if (strlen($_GET['name']) < 4) die('<script>history.go(-1)</script>'); ?>
 <?php
-$u5RenameSource=mysql_query("SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' AND deleted!=1 LIMIT 1");
-$u5RenameKind=$u5RenameSource ? mysql_fetch_array($u5RenameSource) : array();
-$u5RenamePending=is_file('../fileversions/codeasset-rename-'.sha1($_GET['name']."\0".$_POST['name']).'.pending.php');
-if (strtolower((string)($u5RenameKind['typ'] ?? ''))==='c' || $u5RenamePending) {
-    require('archivecheckget.inc.php');
-    if ($cssRqHIADRI!='no') require('accadmin.inc.php');
-    require_once('codeassets-migrate.inc.php');
-    try {
-        u5CodeAssetsRename(dirname(__DIR__),$_GET['name'],$_POST['name'],($_POST['ulinks'] ?? '')==='yes');
-        trxlog('rename '.$_GET['name'].' '.$_POST['name']);
-        echo '<script>if(opener)opener.location.reload();self.close();</script>';
-    } catch (Throwable $error) {
-        http_response_code(500);
-        echo '<p>'.htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252').'</p>';
-    }
-    exit;
+ignore_user_abort(true);
+set_time_limit(3600);
+if (!isset($_GET['name'],$_POST['name']) || !is_string($_GET['name']) || !is_string($_POST['name'])) {
+    http_response_code(400);die('Invalid rename request.');
 }
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
+$u5RawRenameOld=$_GET['name'];$u5RawRenameNew=$_POST['name'];
+require_once('connect.inc.php');
+require_once('t2.php');
+require_once('resource-rename.inc.php');
+require_once('resourceupdate.inc.php');
+$old=$u5RawRenameOld;$new=$u5RawRenameNew;$updateLinks=($_POST['ulinks'] ?? '')==='yes';
+$u5RenameError=null;$u5RenamePlan=null;
+try {
+    u5RenameName($old,true);
+    if (!is_string($new) || strlen($new)<4 || $old===$new) throw new RuntimeException('Choose a different valid resource name.');
+    $source=u5CodeMigrationRows('SELECT typ,deleted FROM resources WHERE BINARY name='.u5CodeMigrationValue($old).' AND deleted!=1 LIMIT 1');
+    $pending=u5RenameBase(dirname(__DIR__),$old,$new).'.pending.php';
+    if (!$source && is_file($pending)) {
+        $saved=u5CodeMigrationReadGuarded($pending);$source=array(array('typ'=>$saved['typ'],'deleted'=>$saved['deleted']));
+    }
+    $codeCheckpoint='../fileversions/codeasset-rename-'.sha1($old."\0".$new).'.pending.php';
+    $codePending=is_file($codeCheckpoint);
+    if (!$source && $codePending) {
+        $saved=u5CodeMigrationReadJournal($codeCheckpoint);
+        u5CodeMigrationEachChange(dirname(__DIR__),$saved['updates'],function($change) use(&$source,$old) {
+            $before=$change['before'];
+            if (!$source && $change['table']==='resources' && ($before['name'] ?? null)===$old && ($before['deleted'] ?? '1')!=1) $source=array(array('typ'=>$before['typ'],'deleted'=>$before['deleted']));
+        });
+    }
+    if ($archiveRqHIADRI!='no' && ($source[0]['deleted'] ?? '')==2) require('accadmin.inc.php');
+    $u5RenameCode=strtolower((string)($source[0]['typ'] ?? ''))==='c' || $codePending;
+    if ($u5RenameCode) {
+        if ($cssRqHIADRI!='no') require('accadmin.inc.php');
+        u5CodeAssetsRename(dirname(__DIR__),$old,$new,$updateLinks);
+    } else {
+        $u5RenamePlan=u5ResourceRename(dirname(__DIR__),$old,$new,u5RenameOptions($updateLinks));
+    }
+    trxlog('rename '.$old.' '.$new);
+} catch (Throwable $error) {
+    http_response_code(500);$u5RenameError=$error;
+}
+?><!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
+<title>Rename resource</title>
+<?php require('backendcss.php'); ?></head><body id="body">
+<?php if ($u5RenameError) { ?>
+<h1>Rename has not completed</h1>
+<p><?php echo htmlXspecialchars($u5RenameError->getMessage()); ?></p>
+<p>Existing content has been kept. If a checkpoint exists, retry this same operation to resume it. Do not start a different rename while this operation is pending.</p>
+<form method="post" action="rename2.php?name=<?php echo rawurlencode($old); ?>">
+<input type="hidden" name="name" value="<?php echo htmlXspecialchars($new); ?>" />
+<input type="hidden" name="ulinks" value="<?php echo $updateLinks ? 'yes' : 'no'; ?>" />
+<?php require('t1.php'); ?><button type="submit">Retry rename</button></form>
+<?php } else { ?>
+<p>Renamed <?php echo htmlXspecialchars($old); ?> to <?php echo htmlXspecialchars($new); ?>. Files, references and history have completed.</p>
 <script>
-changes=0;
-if(opener)if(opener.parent)if(opener.parent.i1.changes)changes+=opener.parent.i1.changes;
-if(opener)if(opener.parent)if(opener.parent.i2.changes)changes+=opener.parent.i2.changes;
-if(changes>0) {
-alert('RENAME COMMAND NOT EXECUTED!\n\nYou have to save the changes made in the editor(s) before performing a rename command.');
-self.close();
-window.stop();
-}
+(function(){
+ var oldName=<?php echo u5ResourceJsString($old); ?>,newName=<?php echo u5ResourceJsString($new); ?>;
+ if(opener && !opener.closed) {
+  var host=opener.parent;
+  if(host && host.save)host.save.location.href='done.php?n='+encodeURIComponent('renamed '+oldName+' to '+newName);
+  for(var i=1;i<=2;i++) {
+   var editor=host && host['i'+i];
+   if(editor && editor.document.form1 && editor.document.form1.page && typeof editor.gotopage==='function') {
+    var current=editor.document.form1.page.value;
+    editor.gotopage(current===oldName ? newName : current);
+   }
+  }
+  if(host && host.i3)host.i3.location.reload();
+  else opener.location.reload();
+  opener.focus();
+ }
+ self.close();
+})();
 </script>
-    <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
-    <title>DO NOT CLOSE</title>
-    <?php require('backendcss.php'); ?></head>
-<body id="body" bgcolor="white">
-<div id="spinner"><img src="../upload/spinner.gif"/>
-</div>
-<?php
-require('archivecheckget.inc.php');
-require_once('../globals.inc.php');
-require('../config.php');
-
-$_POST['name'] = mysql_real_escape_string(basename($_POST['name']));
-$_GET['name'] = mysql_real_escape_string(basename($_GET['name']));
-
-$sql_a = "DELETE FROM resources WHERE deleted=1 AND name='" . mysql_real_escape_string($_POST['name']) . "'";
-$result_a = mysql_query($sql_a);
-if ($result_a == false)
-    echo 'SQL_a-Query failed!...!<p>';
-
-$sql_a = "SELECT name FROM resources WHERE deleted!=1 AND name='" . mysql_real_escape_string($_POST['name']) . "'";
-$result_a = mysql_query($sql_a);
-if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-$num_a = mysql_num_rows($result_a);
-if ($num_a > 0) die('<script>document.getElementById("body").style.background="red";;alert("ERROR: Target already exists!");history.go(-1)</script>');
-
-$sql_a = "UPDATE formdata SET formname='" . mysql_real_escape_string($_POST['name']) . "' WHERE formname='" . mysql_real_escape_string($_GET['name']) . "'";
-$result_a = mysql_query($sql_a);
-if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-
-//////////////////////////////////////////////////////
-
-if ($_POST['ulinks'] == 'yes') {
-    $fields = 'content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5';
-    sere13($fields, '[' . $_GET['name'] . ']', '[' . $_POST['name'] . ']');
-    sere13($fields, ':' . $_GET['name'] . ']', ':' . $_POST['name'] . ']');
-	sere13($fields, '[' . $_GET['name'] . '?', '[' . $_POST['name'] . '?');
-    sere13($fields, ':' . $_GET['name'] . '?', ':' . $_POST['name'] . '?');
-    sere13($fields, '[go:]' . $_GET['name'] . '[:go]', '[go:]' . $_POST['name'] . '[:go]');
-    sere13($fields, '[lo:]' . $_GET['name'] . '[:lo]', '[lo:]' . $_POST['name'] . '[:lo]');
-    sere13($fields, 'name="thanks" value="' . $_GET['name'] . '"', 'name="thanks" value="' . $_POST['name'] . '"');
-    sere13($fields, 'name="thanks" value="' . $_GET['name'] . '&', 'name="thanks" value="' . $_POST['name'] . '&');
-
-    sere13($fields, '|' . $_GET['name'] . '|', '|' . $_POST['name'] . '|');
-
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'r/' . $_GET['name'] . '/' . $_GET['name'] . '_', 'r/' . $_POST['name'] . '/' . $_POST['name'] . '_');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'c=' . $_GET['name'] . '"', 'c=' . $_POST['name'] . '"');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'c=' . $_GET['name'] . '\'', 'c=' . $_POST['name'] . '\'');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'c=' . $_GET['name'] . '&', 'c=' . $_POST['name'] . '&');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'n=' . $_GET['name'] . '"', 'n=' . $_POST['name'] . '"');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'n=' . $_GET['name'] . '\'', 'n=' . $_POST['name'] . '\'');
-    if ($ignoremanualfullpaths != 'yes') sere13($fields, 'n=' . $_GET['name'] . '&', 'n=' . $_POST['name'] . '&');
-
-    $fields = 'content_1';
-
-    $search = mysql_real_escape_string($_GET['name']);
-    $replace = mysql_real_escape_string($_POST['name']);
-
-    require('renamebackslash.inc.php');
-
-    $st3='{{{';
-    $en3='}}}';
-    $sql_a = "UPDATE resources SET content_1=REPLACE(content_1,'".$st3."$search".$en3."','".$st3."$replace".$en3."') WHERE name='".mysql_real_escape_string(u5CodeTemplateName())."';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_1=REPLACE(content_1,'[_".$search."_]','[_".$replace."_]') WHERE name='".mysql_real_escape_string(u5CodeTemplateName())."';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-	
-	$sql_a = "UPDATE resources SET content_1='$replace' WHERE content_1='$search' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_2='$replace' WHERE content_2='$search' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_3='$replace' WHERE content_3='$search' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_4='$replace' WHERE content_4='$search' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_5='$replace' WHERE content_5='$search' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-/////
-
-    $sql_a = "UPDATE resources SET content_1='c=" . $replace . "' WHERE content_1='c=" . $search . "' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_2='c=" . $replace . "' WHERE content_2='c=" . $search . "' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_3='c=" . $replace . "' WHERE content_3='c=" . $search . "' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_4='c=" . $replace . "' WHERE content_4='c=" . $search . "' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_5='c=" . $replace . "' WHERE content_5='c=" . $search . "' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-/////
-
-    $sql_a = "UPDATE resources SET content_1='c=" . $replace . "&' WHERE content_1='c=" . $search . "&' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_2='c=" . $replace . "&' WHERE content_2='c=" . $search . "&' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_3='c=" . $replace . "&' WHERE content_3='c=" . $search . "&' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_4='c=" . $replace . "&' WHERE content_4='c=" . $search . "&' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_5='c=" . $replace . "&' WHERE content_5='c=" . $search . "&' AND typ='f';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-		
-    if(strpos($search,'!')>0) {
-    $searchstart=explode('!',$search);
-    $searchend=$searchstart[tnuoc($searchstart)-1];
-	array_pop($searchstart);
-    $searchstart=implode('!',$searchstart); 
-
-    $replacestart=explode('!',$replace);
-    $replaceend=$replacestart[tnuoc($replacestart)-1];
-	array_pop($replacestart);
-    $replacestart=implode('!',$replacestart); 
-
-    $sql_a = "UPDATE resources SET content_1=REPLACE(content_1,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_2=REPLACE(content_2,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_3=REPLACE(content_3,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_4=REPLACE(content_4,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    $sql_a = "UPDATE resources SET content_5=REPLACE(content_5,'[_pagename!_]!".$searchend."','[_pagename!_]!".$replaceend."') WHERE name LIKE '".$searchstart."!%';";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-    }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-}
-
-$sql_a = "DELETE FROM resources WHERE deleted=1 AND name='" . mysql_real_escape_string($_POST['name']) . "'";
-$result_a = mysql_query($sql_a);
-if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-$sql_a = "UPDATE resources SET name='" . mysql_real_escape_string($_POST['name']) . "' WHERE deleted!=1 AND name='" . mysql_real_escape_string($_GET['name']) . "'";
-$result_a = mysql_query($sql_a);
-if ($result_a == false) die('SQL_a-Query failed!...!<p>');
-
-function sere13($fields, $search, $replace)
-{
-    global $lan1na;
-    global $lan2na;
-    global $lan3na;
-    global $lan4na;
-    global $lan5na;
-
-    $fields = explode(',', $fields);
-
-    $search = mysql_real_escape_string($search);
-    $replace = mysql_real_escape_string($replace);
-
-    for ($i = 0; $i < tnuoc($fields); $i++) {
-
-        $fields[$i] = mysql_real_escape_string($fields[$i]);
-
-        $sql_a = "UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time()."), operator=concat('R ',operator), $fields[$i]=
-replace(
-replace(
-replace(
-replace(   replace(replace(replace($fields[$i],']]]]','|4br*,.-;:_+/ts|'),']]]','|3br*,.-;:_+/ts|'),']]','|2br*,.-;:_+/ts|')   ,'$search','$replace')
-,'|2br*,.-;:_+/ts|',']]')
-,'|3br*,.-;:_+/ts|',']]]')
-,'|4br*,.-;:_+/ts|',']]]]')
-WHERE $fields[$i] LIKE '%$search%';
-;";
-
-        $result_a = mysql_query($sql_a);
-        if ($result_a == false) die('SQL_a-Query failed!...!<p>');
-
-    }
-}
-
-//////////////////////////////////////////////////////
-
-if(file_exists('../r/' . $_POST['name']))@rename('../r/' . $_POST['name'], '../r/' . $_POST['name'].time());
-@rename('../r/' . $_GET['name'], '../r/' . $_POST['name']);
-
-$path = '../r/' . $_POST['name'];
-if ($handle = @opendir($path)) {
-    while (false !== ($file = readdir($handle))) {
-
-        $ext = explode('.', $file);
-        $ext = $ext[tnuoc($ext) - 1];
-
-
-        if (file_exists('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan1na . '.' . $ext)) rename('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan1na . '.' . $ext, '../r/' . $_POST['name'] . '/' . $_POST['name'] . '_' . $lan1na . '.' . $ext);
-        if (file_exists('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan2na . '.' . $ext)) rename('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan2na . '.' . $ext, '../r/' . $_POST['name'] . '/' . $_POST['name'] . '_' . $lan2na . '.' . $ext);
-        if (file_exists('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan3na . '.' . $ext)) rename('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan3na . '.' . $ext, '../r/' . $_POST['name'] . '/' . $_POST['name'] . '_' . $lan3na . '.' . $ext);
-        if (file_exists('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan4na . '.' . $ext)) rename('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan4na . '.' . $ext, '../r/' . $_POST['name'] . '/' . $_POST['name'] . '_' . $lan4na . '.' . $ext);
-        if (file_exists('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan5na . '.' . $ext)) rename('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $lan5na . '.' . $ext, '../r/' . $_POST['name'] . '/' . $_POST['name'] . '_' . $lan5na . '.' . $ext);
-
-        for ($a = 100; $a < 1000; $a++) {
-            if (file_exists('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $a . '.' . $ext)) rename('../r/' . $_POST['name'] . '/' . $_GET['name'] . '_' . $a . '.' . $ext, '../r/' . $_POST['name'] . '/' . $_POST['name'] . '_' . $a . '.' . $ext);
-        }
-    }
-}
-///////////////////////////////////////////////////////
-require('putcss.inc.php');
-//////////////////////////////////////////////////////
-
-
-trxlog('rename ' . $_GET['name'] . ' ' . $_POST['name']);
-
-$sql_a = "SELECT typ FROM resources WHERE name='" . mysql_real_escape_string($_POST['name']) . "'";
-$result_a = mysql_query($sql_a);
-if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-
-$row_a = mysql_fetch_array($result_a);
-
-if ($_GET['name'][0] == '!' && $_POST['name'] != '!') {
-    $sql_a = "UPDATE resources SET logins='' WHERE name='" . mysql_real_escape_string($_POST['name']) . "'";
-    $result_a = mysql_query($sql_a);
-    if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
-}
-
-?>
-<script>
-if(opener) {
-    if ('<?php echo $_GET['newname'] ?>' == '') opener.parent.save.location.href = 'done.php?n=renamed <?php echo $_GET['name']?> to <?php echo $_POST['name']?>';
-
-    if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i1.document.form1.page.value) opener.parent.i1.gotopage('<?php echo $_POST['name'] ?>');
-    else opener.parent.i1.gotopage(opener.parent.i1.document.form1.page.value);
-    if ('<?php echo $row_a['typ']?>' == 'p' && '<?php echo $_GET['name'] ?>' == opener.parent.i2.document.form1.page.value) opener.parent.i2.gotopage('<?php echo $_POST['name'] ?>');
-    else opener.parent.i2.gotopage(opener.parent.i2.document.form1.page.value);
-    opener.focus();
-}
-self.close();
-</script>
-
-<?php
-$_GET['newname0']=$_POST['name'];
-$_GET['typ']=$row_a['typ'];
-$_GET['fromv']=$_GET['newname'];
-$_GET['ulinks']=$_POST['ulinks'];
-require_once('rename3.php')
-?>
-</body>
-</html>
+<?php } ?></body></html>
