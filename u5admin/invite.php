@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/connect.inc.php'; ?>
 <?php ignore_user_abort(true);set_time_limit(36000);file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); ?>
 <script>setTimeout("parent.main.location.reload()",777)</script>
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
@@ -59,7 +60,7 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) {
 echo 'SQL_a-Query failed!...!<p>';
 }
-if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
+if(!u5OidcEnabled() && !(isset($u5samlsalt)&&$u5samlsalt!='')) {
 ?>
 <script>
 alert('Username '+document.getElementById('e').innerHTML+' and password <?php echo $p ?> sent.\n\n\WRITE IT DOWN IN CASE THE EMAIL GETS LOST!\n\nYou can now give Higher Admin Rights to him/her by changing this property in the current user table on the page at hand.');
@@ -67,7 +68,7 @@ alert('Username '+document.getElementById('e').innerHTML+' and password <?php ec
 <?php 
 }
 if($doublepasswordmailing!='no') {
-    if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
+    if(!u5OidcEnabled() && !(isset($u5samlsalt)&&$u5samlsalt!='')) {
         mail($e,'Your u5CMS backend user login',"Username: $e Password: $p");
     }
 }
@@ -76,7 +77,7 @@ $zendname=$mymail;
 $zendto=$e;
 $zendsubject='Your u5CMS backend user login';
 $zendmessage="Username: $e Password: $p";
-if(!(isset($u5samlsalt)&&$u5samlsalt!=''))include('../zendmail.php');
+if(!u5OidcEnabled() && !(isset($u5samlsalt)&&$u5samlsalt!=''))include('../zendmail.php');
 
 trxlog('invite '.$e);
 ?>

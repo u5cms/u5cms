@@ -1,4 +1,15 @@
 <?php
+require_once __DIR__.'/../config.php';
+require_once __DIR__.'/../oidc.inc.php';
+if (u5OidcEnabled()) {
+    try {
+        list($client)=u5OidcServices();
+        $target=$client->returnUrl($_GET['u'] ?? 'u5admin/');
+        u5OidcHeaders();
+        header('Location: '.$client->basePath().'oidc/login.php?u='.rawurlencode($target), true, 303);
+        exit;
+    } catch (Throwable $error) { u5OidcFailure($error); }
+}
 require('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
 

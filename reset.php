@@ -1,4 +1,5 @@
 <?php require('connect.inc.php');
+if (u5OidcEnabled()) die('Credentials for this website are managed by its OIDC identity provider.');
 if(isset($u5samlsalt)&&$u5samlsalt!='')die('You caonnot reset your password here because this u5CMS is SAML-integrated to an IAM-system. In other words, your credentials are managed in that IAM-system.');
 ?>
 <!DOCTYPE html>

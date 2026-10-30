@@ -18,7 +18,9 @@ shortcut.add("Ctrl+S",function() {
 if ($viewbackenduserlistRqHIADRI!='no') require_once('accadmin.inc.php'); 
 ?>
 <h2>Invite a backend user (<?php
-if (!(isset($u5samlsalt) && $u5samlsalt!='')) {
+if (u5OidcEnabled()) {
+    echo '<small>OIDC: no password is sent. Map the stable provider subject to this username in config.php and inform the user.</small>';
+} elseif (!(isset($u5samlsalt) && $u5samlsalt!='')) {
     echo 'send password';
 } else {
     echo '<small><a href="javascript:void(0)" onclick="alert(\'The u5CMS installation at hand is federated via SAML with an external IAM system. Therefore, your target user must log in using an account from that IAM system that has exactly the email address you entered below as its email attribute. The invited user does not receive any automatic invitation email at all and must be informed manually if necessary.\')">does NOT send a password. Read!</a></small>';

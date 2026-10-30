@@ -10,8 +10,10 @@ if ($autoresolvefastcgiproblems == 'yes') {
 if ($usesessioninsteadofbasicauth != 'no') {
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'] ?? '';
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'] ?? '';
+    if (!u5OidcRequired()) {
     setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
     setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
+    }
 }
 
 $_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
@@ -68,6 +70,7 @@ if ($num > 0) {
 /////////////////////////////////////////////////////////////////////////////////////////////
 if($automaticallyskipintranetlogin!='yes' || $thatpage[0]!='!') {
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
+        if (u5OidcRequired()) u5OidcLoginPrompt($_SERVER['REQUEST_URI'] ?? '');
         include('config.php');
         if ($usesessioninsteadofbasicauth == 'no') {
             if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';

@@ -705,7 +705,7 @@ u5CodeAssetsMigrate(dirname(__DIR__));
 $u5CodeMigrationComplete=true;
 } catch (Throwable $u5MigrationError) {
     if (!headers_sent()) http_response_code(500);
-    echo '<p>Update 12.11.4 was not completed: '.htmlspecialchars($u5MigrationError->getMessage(),ENT_QUOTES,'Windows-1252').'</p><p>Keep runonce.php in place and retry the backend after resolving the error. The migration checkpoint has been preserved.</p>';
+    echo '<p>Update 12.12.0 was not completed: '.htmlspecialchars($u5MigrationError->getMessage(),ENT_QUOTES,'Windows-1252').'</p><p>Keep runonce.php in place and retry the backend after resolving the error. The migration checkpoint has been preserved.</p>';
     return;
 } finally {
     if ($u5CodeMigrationRelease) $u5CodeMigrationRelease();
@@ -713,6 +713,6 @@ $u5CodeMigrationComplete=true;
 
 ?>
 <script>
-setTimeout("alert('Your database and code files have been updated to 12.11.4.')",1111);
+setTimeout("alert('Your database and code files have been updated to 12.12.0.')",1111);
 setTimeout("top.location.href=top.location.href",2222);
 </script>

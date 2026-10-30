@@ -1,5 +1,14 @@
 <?php
 require_once('config.php');
+require_once __DIR__.'/oidc.inc.php';
+if (u5OidcRequired()) {
+    require_once __DIR__.'/u5admin/u5idn.inc.php';
+    try {
+        $identity=u5OidcIdentity();
+        $_COOKIE['u']=$identity !== null ? u5OidcNormalizeUsername($identity['username']) : '';
+        $_COOKIE['p']=$identity !== null ? hash('sha256',$identity['sub'].'\0'.$identity['fingerprint']) : '';
+    } catch (Throwable $error) { u5OidcFailure($error,503); }
+}
 
 if ($autoresolvefastcgiproblems == 'yes') {
     if ($basicauthvarname == '') $basicauthvarname = 'HTTP_AUTHORIZATION';

@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/connect.inc.php'; ?>
 <script>
 parent.document.getElementById('coblel').innerHTML='';
 tasyerr='';

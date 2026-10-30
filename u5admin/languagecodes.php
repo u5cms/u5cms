@@ -1,9 +1,10 @@
+<?php require_once __DIR__.'/connect.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <title>ISO 639-1 language codes</title>
-<?php require('connect.inc.php');?>
+<?php require_once('connect.inc.php');?>
 <?php require('backendcss.php'); ?></head>
 
 <body>

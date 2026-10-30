@@ -1,5 +1,6 @@
 <?php
 // do not include myfunctions.inc.php here
+    if (function_exists('u5OidcPrivateCredentials')) u5OidcPrivateCredentials($passwd);
     $concatlogins = '';
     $passwd = nl2br($passwd);
     $logins1 = explode('<br />', $passwd);

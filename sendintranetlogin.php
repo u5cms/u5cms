@@ -1,4 +1,9 @@
-<?php require_once __DIR__.'/codeassets.inc.php'; ?>
+<?php
+require_once __DIR__.'/codeassets.inc.php';
+require_once __DIR__.'/config.php';
+require_once __DIR__.'/oidc.inc.php';
+if (u5OidcEnabled()) die('Credentials for this website are managed by its OIDC identity provider. Contact your administrator.');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +15,7 @@
 <?php
 require_once('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
+if (u5OidcEnabled()) die('Credentials for this website are managed by its OIDC identity provider. Contact your administrator.');
 if($orderingintranetpasswordsisforbidden=='yes') {
   die("MESSAGE TO THE ADMINISTRATOR: You have to set $orderingintranetpasswordsisforbidden=='no' in the file config.php of your u5CMS installation to allow that.");
 }

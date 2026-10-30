@@ -1,6 +1,12 @@
 <?php
 require_once('connect.inc.php');
 require_once('globalslogin.inc.php');
+if (u5OidcRequired(u5OidcTargetParameter())) u5OidcLoginPrompt(u5OidcTargetParameter(), def($loginbutton_1,$loginbutton_2,$loginbutton_3,$loginbutton_4,$loginbutton_5));
+
+if (u5OidcEnabled()) {
+    list($client)=u5OidcServices();
+    $_GET['u']=$client->returnUrl(u5OidcTargetParameter());
+}
 
 if (isset($_GET['u'])) {
     $u = $_GET['u'];

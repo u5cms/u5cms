@@ -3,6 +3,8 @@ if(function_exists('BACKENDexec'))BACKENDexec();
 require_once('u5idn.inc.php');
 if($donotloadu5adminconfig!=1)require_once('connect.inc.php');
 
+if (u5OidcEnabled()) u5OidcApplyCredentials(true);
+
 if ($autoresolvefastcgiproblems == 'yes') {
     if ($basicauthvarname == '') $basicauthvarname = 'HTTP_AUTHORIZATION';
     list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = array_pad(explode(':', base64_decode(substr($_SERVER[$basicauthvarname] ?? '', 6)), 2),2,'');
@@ -11,8 +13,10 @@ if ($autoresolvefastcgiproblems == 'yes') {
 if ($usesessioninsteadofbasicauth != 'no') {
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
+    if (!u5OidcEnabled()) {
     setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
     setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
+    }
 }
 
 $_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
@@ -64,6 +68,7 @@ if($automaticallyskipbackendlogin!='yes') {
             echo '<p>Login required. Your editor contents have been kept. <a href="index.php" target="_blank">Log in in another tab, then retry saving.</a></p>';
             exit;
         }
+        if (u5OidcEnabled()) u5OidcLoginPrompt($_SERVER['REQUEST_URI'] ?? 'u5admin/');
         //trxlog('loginrequest');
         if(isset($u5samlsalt)&&$u5samlsalt!='')die('<div style="font-family:sans-serif"><br><center>'.ehtml($_COOKIE['u5samlusername']).'<br><br><button id="samllogin" onclick="top.location.href=\'../loginsave.php?u=\'+location.href">LOGIN</button><br><br>'.$u5samllogininfo.'</center><script>document.getElementById("samllogin").focus();if(top!=self)top.close();if(isNaN(location.href.split("%26")[location.href.split("%26").length-1])&&location.href.indexOf("'.time().'")<0)document.getElementById("samllogin").click();else document.write("<br<br><br><center style=color:red>Is the user '.ehtml($_COOKIE['u5samlusername']).' registered in this u5CMS backend as a backend user?</center>")</script></div>');
         if ($usesessioninsteadofbasicauth == 'no') {

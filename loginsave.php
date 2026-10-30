@@ -1,6 +1,20 @@
 <?php
 require('connect.inc.php');
 require_once('u5admin/u5idn.inc.php');
+if (u5OidcRequired(u5OidcTargetParameter())) {
+    try {
+        list($client)=u5OidcServices();
+        $target=$client->returnUrl(u5OidcTargetParameter());
+        u5OidcHeaders();
+        header('Location: '.(u5OidcIdentity() !== null ? $target : $client->basePath().'oidc/login.php?u='.rawurlencode($target)), true, 303);
+        exit;
+    } catch (Throwable $error) { u5OidcFailure($error); }
+}
+
+if (u5OidcEnabled()) {
+    list($client)=u5OidcServices();
+    $_GET['u']=$client->returnUrl(u5OidcTargetParameter());
+}
 
 if (isset($_GET['u'])) {
     $u = $_GET['u'];

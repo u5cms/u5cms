@@ -176,6 +176,38 @@ use Laminas\Mail\Transport\SmtpOptions;
    $waitsecondsbetweenintranetpworders=600;
    $u5showlinkofactivelanguageinmetanavi='no';
 
+////// ****** Optional OpenID Connect (OIDC) integration ******
+// Disabled unless explicitly enabled. Use either SAML or OIDC per installation.
+// Full setup, subject mapping, testing and rollback: docs/oidc.md.
+/*
+$u5oidc = array(
+    'enabled' => true,
+    'issuer' => 'https://idp.example.org/realms/example', // exact issuer, no wildcard
+    'client_id' => 'your-registered-client-id',
+    'client_secret' => getenv('U5CMS_OIDC_CLIENT_SECRET') ?: '',
+    'redirect_uri' => 'https://cms.example.org/oidc/callback.php',
+    'token_auth_method' => 'client_secret_basic', // or client_secret_post / none
+    'frontend' => 'yes', // 'no': keep local frontend login; backend always federated
+    'frontend_enforced_unless_target_contains' => '', // with frontend='no': force OIDC unless target contains this string
+    'auto_intranet_enrollment' => false, // mapped identities only; never creates backend users
+    'login_info' => '', // trusted administrator HTML, like u5samllogininfo
+    'not_a_member_message' => '', // trusted administrator HTML, like u5notamembermessage
+    'logout_result_page' => 'index.php?c=loggedout',
+    'claims_to_keep' => array(), // optional verified attributes, e.g. array('email','given_name')
+    'scopes' => array('openid'),
+    'identity_mode' => 'subject_map', // optional: verified_email; see docs/oidc.md and install its binding table first
+    'subjects' => array(
+        'stable-subject-from-this-issuer' => 'existing-user@example.org',
+    ),
+    'session_ttl' => 3600,  // absolute RP session lifetime, independent of ID token expiry
+    'idle_timeout' => 900, // seconds, no refresh tokens or silent renewal
+    'clock_skew' => 30,
+    'provider_logout' => false, // true: also register /oidc/loggedout.php at the provider
+    'allowed_endpoint_origins' => array(), // normally all endpoints share the issuer origin
+    'ca_bundle' => '', // optional CA trust bundle; TLS verification is always enabled
+);
+*/
+
 ////// ****** SAML integration configuration ******
 // The u5CMS features SAML integration based on SimpleSAMLphp (https://simplesamlphp.org/).
 // You are free to install the package wherever you want. In addition to the following config

@@ -50,6 +50,8 @@ echo 'SQL_a-Query failed!...!<p>';
 
 }
 connect_to_db();
+require_once __DIR__.'/../oidc.inc.php';
+u5OidcApplyCredentials();
 if (basename($_SERVER['PHP_SELF'])!='htaccess.php') {
 require_once('trxlog.inc.php');
 require_once('usercheck.inc.php');

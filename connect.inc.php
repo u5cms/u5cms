@@ -46,6 +46,8 @@ echo 'SQL_a-Query failed!...!<p>';
 
 }
 connect_to_db();
+require_once __DIR__.'/oidc.inc.php';
+u5OidcApplyCredentials();
 include('u5admin/trxlog.inc.php');
 require_once('globals.inc.php');
 

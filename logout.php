@@ -1,5 +1,11 @@
 <?php
 require('connect.inc.php');
+if (u5OidcEnabled()) {
+    list($client)=u5OidcServices();
+    u5OidcHeaders();
+    header('Location: '.$client->basePath().'oidc/logout.php',true,303);
+    exit;
+}
 setcookie('u', '', 0, '/', '', $httpsisinuse, true);
 setcookie('p', '', 0, '/', '', $httpsisinuse, true);
 if(isset($u5samlsalt)&&$u5samlsalt!='') {

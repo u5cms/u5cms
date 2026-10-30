@@ -1,5 +1,6 @@
+<?php require_once __DIR__.'/connect.inc.php'; ?>
 <textarea style="display:none" id="xgram">&#19904;</textarea><?php
-require('connect.inc.php');
+require_once('connect.inc.php');
 
 /////
 $sql_a="SELECT * FROM mailing WHERE id='".mysql_real_escape_string($_GET['id'])."'";
