@@ -17,6 +17,7 @@ Formatieren markierter Quelltexte, kontextabhängige Objektaktionen, P-Objekt-Ed
 **Einordnung:** Kumulativer Stand mit allen vorherigen fachlichen Erweiterungen; Grundlage der neuen PHP-Kompatibilitätsarbeiten.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Bedienung, Grenzen und Prüfung](docs/12.13.0-textarea.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
