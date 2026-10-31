@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Anmelde- und Cacheantworten geschützter Dateien
+
+**Branch:** `12.11.3-Private-File-Cache-Corrections`  
+**Version in `index.php`:** 12.11.3  
+**Basis:** 12.11.2-Backup-Restore-Corrections vor dem späteren Mobile-Backport.
+
+Fehlgeschlagene Anmeldung bei privaten Dateien liefert 401 und no-store; verhindert irreführende bedingte 304-Antworten.
+
+- Fehlgeschlagene Authentisierung privater Dateien antwortet mit HTTP 401 und Cache-Control: no-store.
+- Bestehende Basic-Challenge und Weiterleitung zum Session-Login bleiben erhalten.
+- Erweitert die dokumentierten Prüfungen für harte Prozessabbrüche, Wiederaufnahme, unabhängige Editor-Sessions und Webserver-/Browservarianten.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Funktional in allen nachfolgenden nummerierten Branches enthalten. nosniff enthalten; neue Suche erst ab 12.12.0-OIDC.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Abbruch-, Webserver- und Browseraudit](docs/12.11.3-audit.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
