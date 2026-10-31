@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__).'/codeassets.inc.php';
+require_once __DIR__.'/mobiletools-migrate.inc.php';
 
 // The updater receives only r/runonce.php from r/. Keep the common mobile fallback here.
 function u5CodeMigrationMobileSource() {
@@ -607,7 +608,7 @@ function u5CodeMigrationRemoveMimeRule($root) {
 
 function u5CodeAssetsMigrate($root) {
     $release=u5CodeMigrationLock($root);
-    try { u5CodeAssetsMigrateLocked($root); }
+    try { u5CodeAssetsMigrateLocked($root); u5MobileToolsMigrate($root); }
     finally { $release(); }
 }
 
