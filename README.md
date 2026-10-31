@@ -16,6 +16,7 @@ Echte .js-, .css- und .html-Exporte, lokal gebündelte mobile Scripts und automa
 **Einordnung:** Erster nummerierter Stand mit nosniff-Korrektur und typisierten Codeobjekten. Funktional in allen nachfolgenden nummerierten Branches enthalten; neue Suche erst ab 12.12.0-OIDC.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Migration und Aktualisierung](docs/12.11.0-code-assets.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
