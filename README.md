@@ -14,6 +14,7 @@ Uploads für HEIC, HEIF, HIF, TIF und TIFF mit lokaler Browserkonvertierung, Ori
 **Einordnung:** In der späteren Entwicklungsreihe enthalten. nosniff-Korrektur und neue Suche fehlen in diesem älteren Stand.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Bildformate, Betrieb und Prüfung](u5admin/image-formats/README.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
