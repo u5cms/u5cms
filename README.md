@@ -1,3 +1,23 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Dezent überarbeitetes Standarddesign
+
+**Branch:** `12.12.4-Default-Design`  
+**Version in `index.php`:** 12.12.4  
+**Basis:** Abgeschlossener 12.12.3-Stand mit Mobile-Korrekturen cb876c924af9193a243e01edaacdfc773a4637c7.
+
+Verfeinertes Standarddesign für Typografie, Navigation, Formulare und Tabellen, synchron in beiden SQL-Seeds, CSS-Exporten und TPL-Reset-Vorlagen.
+
+- Verbessert Typografie, neutrale Hintergründe, Schatten, Trennlinien, Navigation, Formulare, Tabellen und sichtbaren Tastaturfokus.
+- Behält das feste Desktoplayout und die bestehende mobile Umwandlung per Script; führt keine CSS-Responsivität oder Ersatz-Mobildarstellung ein.
+- Synchronisiert u5standard.sql, u5conference.sql, r/*.css und r/*!css.tpl. Bestehende individuelle Layouts werden durch normale Updates erhalten; die Übernahme des neuen Standarddesigns erfolgt gezielt.
+
+**Einordnung:** Aktueller kumulativer Entwicklungsstand dieser Bestandsaufnahme. Die Änderungen sind als Quellstand veröffentlicht; daraus folgt keine produktive Installation.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Standarddesign, Übernahme und Prüfung](docs/12.15.0-default-design.md) · [Entwicklungsstatus](docs/development-status.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
@@ -30,6 +50,6 @@ See [the update and migration guide](docs/12.11.0-code-assets.md),
 [the final main comparison and entry-point correction](docs/12.11.4-main-audit.md).
 Development continuity: read [the saved implementation status, open boundaries and recovery protocol](docs/development-status.md) before continuing work from another chat.
 
-Version 12.13.0 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
+Version 12.12.2 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
 
-Version 12.14.0 removes the remaining reverse-named count workaround, establishes explicit text/encoding contracts and updates the bundled libraries with reproducible native interface return types. It requires PHP 8.2 or newer; executed compatibility checks cover PHP 8.3 and 8.5. See [scope, validation, dependency installation and rollback](docs/12.14.0-php9.md).
+Version 12.12.3 removes the remaining reverse-named count workaround, establishes explicit text/encoding contracts and updates the bundled libraries with reproducible native interface return types. It requires PHP 8.2 or newer; executed compatibility checks cover PHP 8.3 and 8.5. See [scope, validation, dependency installation and rollback](docs/12.14.0-php9.md).
