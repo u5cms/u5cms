@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Optionale OpenID-Connect-Föderation und integrierte neue Suche
+
+**Branch:** `12.12.0-OIDC`  
+**Version in `index.php`:** 12.12.0  
+**Basis:** feature/search-phrases-quotes-highlighting, fachlicher Such-Abschlussstand 2f5ce37c18b017375dfc31dab6086f325bd836a2.
+
+Optionale OIDC-Föderation mit Kontenzuordnung, Berechtigungen, Registrierung und Logout; erstmals neue Suche in einem nummerierten Branch.
+
+- OIDC-Anmeldung mit Code Flow, PKCE, überprüften Tokens, HTTPS-Discovery und serverseitigen Sessions.
+- Berücksichtigt Frontend-Ausnahmen, lokale Anmeldung, Backend-Vorgaben, Kontenzuordnung, Attribute, Einschreibung und Logout.
+- Übernimmt den abgeschlossenen Such-Arbeitsbranch. Bestehende SAML-Integration bleibt erhalten; die konkrete Provider-Abnahme erfolgt bei der Einführung.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Erster nummerierter Stand mit der neuen Suche. Enthält die 12.11-Migration und nosniff-Korrektur. OIDC bleibt bis zur Konfiguration ausgeschaltet.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [OIDC einrichten und betreiben](docs/oidc.md) · [OIDC-Prüfumfang](docs/12.12.0-oidc-validation.md) · [Neue Suche](docs/search.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
