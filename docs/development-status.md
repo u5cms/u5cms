@@ -1,5 +1,14 @@
 # u5CMS development checkpoint
 
+## Branch-Namen und Versionsabstufung (31. Oktober 2026)
+
+Aktuelle Branch-Bezeichnung: `12.12.2-Textarea-Interactions`, Versionskommentar 12.12.2. Die vollständige aktuelle Zuordnung steht in [BRANCHES.md](../BRANCHES.md). Die fünf rein numerischen 12.11-Branches haben beschreibende Namenszusätze erhalten; Textarea, PHP-Kompatibilität und Standarddesign werden als 12.12.2, 12.12.3 und 12.12.4 fortgeführt. Prüfberichte behalten ihre historischen Dateinamen und tatsächlichen Validierungsstände. Die nachfolgende frühere Momentaufnahme ist unter Berücksichtigung dieser Umbenennung zu lesen; ihre SHA-Angaben bleiben historische Anwendungsstände.
+
+Autorisierter Umfang dieses Schritts: Branch-Namen, README-Beschreibungen und Übersicht, Versionskommentare in index.php sowie Entfernung des historischen php9_compat-Branches. Ausgangscommit dieses Branches: `a7cc167d83a9cd4be01da1e6ae5d0f634b401051`. Fachliche Änderungen und frühere Prüfergebnisse werden beibehalten. Offene Veröffentlichungsschritte und ihr Abschluss werden anhand der Remote-Refs überprüft.
+
+Anschliessend ausdrücklich autorisiert: intensive Prüfung der gesamten Evolution von main (Anwendungsbasis 9d366253417822c279692767b89dcf1ff0388c5c) bis 12.12.3-PHP9-Compatibility auf Kollateralschäden und Erhalt der ursprünglichen Funktionskonzepte, Konfigurationsvarianten und Sonderfälle. Erkannte Regressionen korrigieren, real prüfen und notwendige Korrekturen im darauf aufbauenden 12.12.4-Default-Design nachführen. Diese Prüfung ist ein neuer Auftrag; frühere Testberichte sind keine Erledigung dieses Auftrags.
+
+
 Snapshot: 31 October 2026, Europe/Zurich.
 Repository: https://github.com/u5cms/u5cms
 

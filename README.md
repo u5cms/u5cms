@@ -1,3 +1,26 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Quelltextformatierung und Objektaktionen in Textareas
+
+**Branch:** `12.12.2-Textarea-Interactions`  
+**Version in `index.php`:** 12.12.2  
+**Basis:** Abgeschlossener 12.12.1-Stand f097070d54ac19003bb7b145ee91f6652a29e534, vor dem späteren Mobile-Backport.
+
+Formatieren markierter Quelltexte, kontextabhängige Objektaktionen, P-Objekt-Edit im neuen Tab sowie synchronisiertes Undo/Redo.
+
+- Aktionsmenü in beiden Seiteneditoren und allen fünf Sprachfeldern, erreichbar per Kontextmenü, Tastatur und Schaltfläche.
+- Versteht einfache, beschriftete, $$$- und weitere Objektverweise; P-Objekte bieten Edit über edit.php im neuen Tab.
+- Bearbeiten, Vorschau, Metadaten, Original/Download, Ziel- und Linktextänderung, Suche, Verwendungen und Referenzaktionen berücksichtigen bestehende Rechte.
+- Formatierung und Undo/Redo sind mit Änderungsanzeige, zweitem Editor, Vorschau und Speichern verbunden; veraltete asynchrone Aktionen überschreiben keine neueren Eingaben.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Kumulativer Stand mit allen vorherigen fachlichen Erweiterungen; Grundlage der neuen PHP-Kompatibilitätsarbeiten.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Bedienung, Grenzen und Prüfung](docs/12.13.0-textarea.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
@@ -30,4 +53,4 @@ See [the update and migration guide](docs/12.11.0-code-assets.md),
 [the final main comparison and entry-point correction](docs/12.11.4-main-audit.md).
 Development continuity: read [the saved implementation status, open boundaries and recovery protocol](docs/development-status.md) before continuing work from another chat.
 
-Version 12.13.0 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
+Version 12.12.2 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
