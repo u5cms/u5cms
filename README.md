@@ -14,6 +14,7 @@ Wortgruppen und Sonderzeichen, Diakritikatoleranz, Mehrwort-Korrekturvorschläge
 **Einordnung:** Historischer Arbeitsbranch. Die Suchüberarbeitung ist ab 12.12.0-OIDC in der nummerierten Reihe enthalten. Zusätzliche spätere Suchvorschläge sind weiterhin eine separate, zurückgestellte Erweiterung.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Suchverhalten und Prüfung](docs/search.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
