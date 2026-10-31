@@ -1,3 +1,23 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Zusätzliche Bildformate mit Erhaltung der Originale
+
+**Branch:** `12.10.1-Support-More-Image-Formats`  
+**Version in `index.php`:** 12.10.1  
+**Basis:** 12.10.0-Multi-Optimizations-by-AI.
+
+Uploads für HEIC, HEIF, HIF, TIF und TIFF mit lokaler Browserkonvertierung, Originalarchivierung und Schutz bestehender Bilder bei Fehlern.
+
+- Standardbilder, freie Bilder und Alben akzeptieren zusätzliche HEIC-/HEIF-/TIFF-Formate; die Konvertierung läuft lokal im Browser.
+- Originaldateien bleiben in fileversions erhalten. Orientierung, Abmessungen, Uploadgrenzen und Konvertierungsfehler werden berücksichtigt.
+- Die Originalarchivierung wird vor der Veröffentlichung abgeschlossen; bei Fehlern bleiben bestehende Bilder erhalten.
+
+**Einordnung:** In der späteren Entwicklungsreihe enthalten. nosniff-Korrektur und neue Suche fehlen in diesem älteren Stand.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Bildformate, Betrieb und Prüfung](u5admin/image-formats/README.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
