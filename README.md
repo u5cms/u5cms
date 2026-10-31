@@ -16,6 +16,7 @@ Fehlgeschlagene Anmeldung bei privaten Dateien liefert 401 und no-store; verhind
 **Einordnung:** Funktional in allen nachfolgenden nummerierten Branches enthalten. nosniff enthalten; neue Suche erst ab 12.12.0-OIDC.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Abbruch-, Webserver- und Browseraudit](docs/12.11.3-audit.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
