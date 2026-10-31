@@ -1,3 +1,23 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Arbeitsbranch · korrekte MIME-Typen bei aktiviertem nosniff
+
+**Branch:** `fix/nosniff-script-mime-types`  
+**Version in `index.php`:** 12.10.1  
+**Basis:** 12.10.1-Support-More-Image-Formats.
+
+Korrekte JavaScript-MIME-Typen für die vier Upload-Einstiegspunkte und die historischen mobilen .css-Scriptdateien.
+
+- Upload-Einstiegspunkte liefern JavaScript mit explizitem Content-Type aus.
+- Eine gezielte Regel in r/.htaccess behandelt die historischen mobilen .css-Dateien als JavaScript. nosniff bleibt eingeschaltet.
+- Diese Zwischenlösung ist kein Ersatz für die vollständige Codeobjekt-Migration ab 12.11.0.
+
+**Einordnung:** Historischer Arbeitsbranch. Die Anwendungskorrektur ist ab 12.11.0-Code-Resource-Migration enthalten; dort lösen echte Dateiendungen die provisorische MIME-Regel ab.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
