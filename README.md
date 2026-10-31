@@ -16,6 +16,7 @@ Optionale OIDC-Föderation mit Kontenzuordnung, Berechtigungen, Registrierung un
 **Einordnung:** Erster nummerierter Stand mit der neuen Suche. Enthält die 12.11-Migration und nosniff-Korrektur. OIDC bleibt bis zur Konfiguration ausgeschaltet.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [OIDC einrichten und betreiben](docs/oidc.md) · [OIDC-Prüfumfang](docs/12.12.0-oidc-validation.md) · [Neue Suche](docs/search.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
