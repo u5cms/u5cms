@@ -24,7 +24,7 @@ $changes[$column]=$_POST[$column];
 if (!isset($changes['content_1'])) throw new RuntimeException('Incomplete code form.');
 if (isset($_POST['logins'])) {
 if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource logins.');
-$changes['logins']=trim($_POST['logins']);
+$changes['logins']=trim(($_POST['logins'] ?? ''));
 }
 $changes['typ']=$u5CodeRecord['typ'];
 if (($_POST['name']=='htmltemplate' || $_POST['name']==u5CodeTemplateName())) {
@@ -59,7 +59,7 @@ exit;
 <body id="body" bgcolor="#339900" text="#FFFFFF">
 <?php
 if ($result['saved']) require('putcss.inc.php');
-$nonce=isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',$_POST['u5resourceid']) ? $_POST['u5resourceid'] : '';
+$nonce=isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',($_POST['u5resourceid'] ?? '')) ? $_POST['u5resourceid'] : '';
 $current=$result['current'];
 $message='CONFLICT: The current resource was kept. Your submitted content is in text versions. Latest editor: '.($current ? $current['operator'] : 'unknown').'. Merge your changes manually; your editor contents remain available.';
 ?>

@@ -1,0 +1,647 @@
+{
+    "purpose": "Explicit native interface return contracts; no warning suppression. Locked upstream sources only.",
+    "files": [
+        {
+            "path": "vendor/laminas/laminas-mail/src/AddressList.php",
+            "before_sha256": "6f38b40d81f80776adbb760ee7717790d9aadc9f307590a31524a078fb34aaab",
+            "after_sha256": "66fe740ce52fc44e045d1305c2d0edb07fdcb4fc7389c2e9a8765a90a43dee95",
+            "replacements": [
+                {
+                    "old": "    public function count()\n    {\n        return count($this->addresses);\n    }",
+                    "new": "    public function count(): int\n    {\n        return count($this->addresses);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function rewind()\n    {\n        return reset($this->addresses);\n    }",
+                    "new": "    public function rewind(): void\n    {\n        reset($this->addresses); return;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function current()\n    {\n        return current($this->addresses);\n    }",
+                    "new": "    public function current(): mixed\n    {\n        return current($this->addresses);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function key()\n    {\n        return key($this->addresses);\n    }",
+                    "new": "    public function key(): mixed\n    {\n        return key($this->addresses);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function next()\n    {\n        return next($this->addresses);\n    }",
+                    "new": "    public function next(): void\n    {\n        next($this->addresses); return;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function valid()\n    {\n        $key = key($this->addresses);\n        return $key !== null && $key !== false;\n    }",
+                    "new": "    public function valid(): bool\n    {\n        $key = key($this->addresses);\n        return $key !== null && $key !== false;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 6
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-mail/src/Headers.php",
+            "before_sha256": "bcfc2d85f6accbdfeb29e2bfa039acc82b1462f242c2d18da1cc5b1059f846b2",
+            "after_sha256": "e98767d80e9e1b5334eac5928be8a458934eb338eb97eb212af75d3f3834a612",
+            "replacements": [
+                {
+                    "old": "    public function next()\n    {\n        next($this->headers);\n    }",
+                    "new": "    public function next(): void\n    {\n        next($this->headers);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function key()\n    {\n        return key($this->headers);\n    }",
+                    "new": "    public function key(): mixed\n    {\n        return key($this->headers);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function valid()\n    {\n        return current($this->headers) !== false;\n    }",
+                    "new": "    public function valid(): bool\n    {\n        return current($this->headers) !== false;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function rewind()\n    {\n        reset($this->headers);\n    }",
+                    "new": "    public function rewind(): void\n    {\n        reset($this->headers);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function current()\n    {\n        $current = current($this->headers);\n        if ($current instanceof Header\\GenericHeader) {\n            $current = $this->lazyLoadHeader(key($this->headers));\n        }\n        return $current;\n    }",
+                    "new": "    public function current(): mixed\n    {\n        $current = current($this->headers);\n        if ($current instanceof Header\\GenericHeader) {\n            $current = $this->lazyLoadHeader(key($this->headers));\n        }\n        return $current;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function count()\n    {\n        return count($this->headers);\n    }",
+                    "new": "    public function count(): int\n    {\n        return count($this->headers);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 6
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-mail/src/Storage/Part.php",
+            "before_sha256": "b824fccb92afeadb771c4d9341216a95f5a0d6668daab189b9499ccee99b66f6",
+            "after_sha256": "ff6b53917df5cc317e4b84371e2b368507aba13a229a953315282839fec16d43",
+            "replacements": [
+                {
+                    "old": "    public function hasChildren()\n    {\n        $current = $this->current();\n        return $current && $current instanceof self && $current->isMultipart();\n    }",
+                    "new": "    public function hasChildren(): bool\n    {\n        $current = $this->current();\n        return $current && $current instanceof self && $current->isMultipart();\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function getChildren()\n    {\n        return $this->current();\n    }",
+                    "new": "    public function getChildren(): ?\\RecursiveIterator\n    {\n        return $this->current();\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function valid()\n    {\n        if ($this->countParts === null) {\n            $this->countParts();\n        }\n        return $this->iterationPos && $this->iterationPos <= $this->countParts;\n    }",
+                    "new": "    public function valid(): bool\n    {\n        if ($this->countParts === null) {\n            $this->countParts();\n        }\n        return $this->iterationPos && $this->iterationPos <= $this->countParts;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function next()\n    {\n        ++$this->iterationPos;\n    }",
+                    "new": "    public function next(): void\n    {\n        ++$this->iterationPos;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function key()\n    {\n        return $this->iterationPos;\n    }",
+                    "new": "    public function key(): mixed\n    {\n        return $this->iterationPos;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function current()\n    {\n        return $this->getPart($this->iterationPos);\n    }",
+                    "new": "    public function current(): mixed\n    {\n        return $this->getPart($this->iterationPos);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function rewind()\n    {\n        $this->countParts();\n        $this->iterationPos = 1;\n    }",
+                    "new": "    public function rewind(): void\n    {\n        $this->countParts();\n        $this->iterationPos = 1;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 7
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-mail/src/Storage/Folder.php",
+            "before_sha256": "11a48f49a793c15001ddec1770b8b19da69a7eefe192c100d6d715e8cfa2a998",
+            "after_sha256": "683813fc1721afbc55549531bef037457a975f3a7f02e6bf517aacdb3198927a",
+            "replacements": [
+                {
+                    "old": "    public function hasChildren()\n    {\n        $current = $this->current();\n        return $current && $current instanceof self && ! $current->isLeaf();\n    }",
+                    "new": "    public function hasChildren(): bool\n    {\n        $current = $this->current();\n        return $current && $current instanceof self && ! $current->isLeaf();\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function getChildren()\n    {\n        return $this->current();\n    }",
+                    "new": "    public function getChildren(): ?\\RecursiveIterator\n    {\n        return $this->current();\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function valid()\n    {\n        return key($this->folders) !== null;\n    }",
+                    "new": "    public function valid(): bool\n    {\n        return key($this->folders) !== null;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function next()\n    {\n        next($this->folders);\n    }",
+                    "new": "    public function next(): void\n    {\n        next($this->folders);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function key()\n    {\n        return key($this->folders);\n    }",
+                    "new": "    public function key(): mixed\n    {\n        return key($this->folders);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function current()\n    {\n        return current($this->folders);\n    }",
+                    "new": "    public function current(): mixed\n    {\n        return current($this->folders);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function rewind()\n    {\n        reset($this->folders);\n    }",
+                    "new": "    public function rewind(): void\n    {\n        reset($this->folders);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 7
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-mail/src/Storage/AbstractStorage.php",
+            "before_sha256": "e588ba8a07b08693f465d13ca03e2b65df27752c4d78688504699c76ff23774a",
+            "after_sha256": "b45d9cc2a4a386fb46c0857c3c6561c8a24a5fcfd72d2f9bf0948cf6724d572b",
+            "replacements": [
+                {
+                    "old": "    public function count()\n    {\n        return $this->countMessages();\n    }",
+                    "new": "    public function count(): int\n    {\n        return $this->countMessages();\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function offsetExists($id)\n    {\n        try {\n            if ($this->getMessage($id)) {\n                return true;\n            }\n        } catch (Exception\\ExceptionInterface) {\n        }\n\n        return false;\n    }",
+                    "new": "    public function offsetExists($id): bool\n    {\n        try {\n            if ($this->getMessage($id)) {\n                return true;\n            }\n        } catch (Exception\\ExceptionInterface) {\n        }\n\n        return false;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function offsetGet($id)\n    {\n        return $this->getMessage($id);\n    }",
+                    "new": "    public function offsetGet($id): mixed\n    {\n        return $this->getMessage($id);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function offsetSet(mixed $id, mixed $value)\n    {\n        throw new Exception\\RuntimeException('cannot write mail messages via array access');\n    }",
+                    "new": "    public function offsetSet(mixed $id, mixed $value): void\n    {\n        throw new Exception\\RuntimeException('cannot write mail messages via array access');\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function offsetUnset($id)\n    {\n        return $this->removeMessage($id);\n    }",
+                    "new": "    public function offsetUnset($id): void\n    {\n        $this->removeMessage($id); return;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function rewind()\n    {\n        $this->iterationMax = $this->countMessages();\n        $this->iterationPos = 1;\n    }",
+                    "new": "    public function rewind(): void\n    {\n        $this->iterationMax = $this->countMessages();\n        $this->iterationPos = 1;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function current()\n    {\n        return $this->getMessage($this->iterationPos);\n    }",
+                    "new": "    public function current(): mixed\n    {\n        return $this->getMessage($this->iterationPos);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function key()\n    {\n        return $this->iterationPos;\n    }",
+                    "new": "    public function key(): mixed\n    {\n        return $this->iterationPos;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function next()\n    {\n        ++$this->iterationPos;\n    }",
+                    "new": "    public function next(): void\n    {\n        ++$this->iterationPos;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function valid()\n    {\n        if ($this->iterationMax === null) {\n            $this->iterationMax = $this->countMessages();\n        }\n        return $this->iterationPos && $this->iterationPos <= $this->iterationMax;\n    }",
+                    "new": "    public function valid(): bool\n    {\n        if ($this->iterationMax === null) {\n            $this->iterationMax = $this->countMessages();\n        }\n        return $this->iterationPos && $this->iterationPos <= $this->iterationMax;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function seek($pos)\n    {\n        if ($this->iterationMax === null) {\n            $this->iterationMax = $this->countMessages();\n        }\n\n        if ($pos > $this->iterationMax) {\n            throw new Exception\\OutOfBoundsException('this position does not exist');\n        }\n        $this->iterationPos = $pos;\n    }",
+                    "new": "    public function seek($pos): void\n    {\n        if ($this->iterationMax === null) {\n            $this->iterationMax = $this->countMessages();\n        }\n\n        if ($pos > $this->iterationMax) {\n            throw new Exception\\OutOfBoundsException('this position does not exist');\n        }\n        $this->iterationPos = $pos;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 11
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/SplQueue.php",
+            "before_sha256": "9161a4344e5a2ffecb8e1f86ce64a4fcf5c5baf783b90eb04d622009aa67305f",
+            "after_sha256": "619b851227b126ff9fe78baed3644d956ad8142c37344bbb0990093b7e93bd8c",
+            "replacements": [
+                {
+                    "old": "    public function serialize()\n    {\n        return serialize($this->__serialize());\n    }",
+                    "new": "    public function serialize(): string\n    {\n        return serialize($this->__serialize());\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function __serialize()\n    {\n        return $this->toArray();\n    }",
+                    "new": "    public function __serialize(): array\n    {\n        return $this->toArray();\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function unserialize($data)\n    {\n        $toUnserialize = unserialize($data);\n        if (! is_array($toUnserialize)) {\n            throw new UnexpectedValueException(sprintf(\n                'Cannot deserialize %s instance; corrupt serialization data',\n                self::class\n            ));\n        }\n\n        $this->__unserialize($toUnserialize);\n    }",
+                    "new": "    public function unserialize($data): void\n    {\n        $toUnserialize = unserialize($data);\n        if (! is_array($toUnserialize)) {\n            throw new UnexpectedValueException(sprintf(\n                'Cannot deserialize %s instance; corrupt serialization data',\n                self::class\n            ));\n        }\n\n        $this->__unserialize($toUnserialize);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function __unserialize($data)\n    {\n        foreach ($data as $item) {\n            $this->push($item);\n        }\n    }",
+                    "new": "    public function __unserialize($data): void\n    {\n        foreach ($data as $item) {\n            $this->push($item);\n        }\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 4
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/SplStack.php",
+            "before_sha256": "6c9812454baa1825a9d2fe46679bb6f26d80eb2805c822b5c243b3fa271503cd",
+            "after_sha256": "e21b5f61108471076b475e5474735d5769bb6fa5365d87c684ff1de596d72b86",
+            "replacements": [
+                {
+                    "old": "    public function serialize()\n    {\n        return serialize($this->__serialize());\n    }",
+                    "new": "    public function serialize(): string\n    {\n        return serialize($this->__serialize());\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function __serialize()\n    {\n        return $this->toArray();\n    }",
+                    "new": "    public function __serialize(): array\n    {\n        return $this->toArray();\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function unserialize($data)\n    {\n        $toUnserialize = unserialize($data);\n        if (! is_array($toUnserialize)) {\n            throw new UnexpectedValueException(sprintf(\n                'Cannot deserialize %s instance; corrupt serialization data',\n                self::class\n            ));\n        }\n\n        $this->__unserialize($toUnserialize);\n    }",
+                    "new": "    public function unserialize($data): void\n    {\n        $toUnserialize = unserialize($data);\n        if (! is_array($toUnserialize)) {\n            throw new UnexpectedValueException(sprintf(\n                'Cannot deserialize %s instance; corrupt serialization data',\n                self::class\n            ));\n        }\n\n        $this->__unserialize($toUnserialize);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function __unserialize($data)\n    {\n        foreach ($data as $item) {\n            $this->unshift($item);\n        }\n    }",
+                    "new": "    public function __unserialize($data): void\n    {\n        foreach ($data as $item) {\n            $this->unshift($item);\n        }\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 4
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/ArrayObject.php",
+            "before_sha256": "366115c1edb0fe22891e236a8ad3d2a57f2cbefe4599737bb23135daa1ec3434",
+            "after_sha256": "cb709f4630c4d28619d47aa6541ec252c0ff3de33b5132a97afe32311e2e8335",
+            "replacements": [
+                {
+                    "old": "    public function count()\n    {\n        return count($this->storage);\n    }",
+                    "new": "    public function count(): int\n    {\n        return count($this->storage);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function getIterator()\n    {\n        $class = $this->iteratorClass;\n\n        return new $class($this->storage);\n    }",
+                    "new": "    public function getIterator(): \\Traversable\n    {\n        $class = $this->iteratorClass;\n\n        return new $class($this->storage);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function offsetExists(mixed $key)\n    {\n        return isset($this->storage[$key]);\n    }",
+                    "new": "    public function offsetExists(mixed $key): bool\n    {\n        return isset($this->storage[$key]);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function &offsetGet(mixed $key)\n    {\n        $ret = null;\n        if (! $this->offsetExists($key)) {\n            return $ret;\n        }\n        $ret = &$this->storage[$key];\n\n        return $ret;\n    }",
+                    "new": "    public function &offsetGet(mixed $key): mixed\n    {\n        $ret = null;\n        if (! $this->offsetExists($key)) {\n            return $ret;\n        }\n        $ret = &$this->storage[$key];\n\n        return $ret;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function offsetSet(mixed $offset, mixed $value)\n    {\n        $this->storage[$offset] = $value;\n    }",
+                    "new": "    public function offsetSet(mixed $offset, mixed $value): void\n    {\n        $this->storage[$offset] = $value;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function offsetUnset(mixed $offset)\n    {\n        if ($this->offsetExists($offset)) {\n            unset($this->storage[$offset]);\n        }\n    }",
+                    "new": "    public function offsetUnset(mixed $offset): void\n    {\n        if ($this->offsetExists($offset)) {\n            unset($this->storage[$offset]);\n        }\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 6
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/PriorityQueue.php",
+            "before_sha256": "0304257371dcd867537f9a5c5ddad4a4f6df2acdb25121b14386a87578b3f743",
+            "after_sha256": "186d2736d060f315a808a988999ab173592c243834a0a1752da4cf8472605c3d",
+            "replacements": [
+                {
+                    "old": "    public function count()\n    {\n        return count($this->items);\n    }",
+                    "new": "    public function count(): int\n    {\n        return count($this->items);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function getIterator()\n    {\n        $queue = $this->getQueue();\n        return clone $queue;\n    }",
+                    "new": "    public function getIterator(): \\Traversable\n    {\n        $queue = $this->getQueue();\n        return clone $queue;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 2
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/SplPriorityQueue.php",
+            "before_sha256": "867eb469b44a7d043eadd2ba499cf7834bb43dd74d856f0529905f3dd466aeb4",
+            "after_sha256": "b49ce5ccb3030dfb5535b3bf2b1a6b10b3d96a95be149506f76e136bfb1daaa8",
+            "replacements": [
+                {
+                    "old": "    public function insert($value, $priority)\n    {\n        if (! is_array($priority)) {\n            $priority = [$priority, $this->serial--];\n        }\n\n        parent::insert($value, $priority);\n    }",
+                    "new": "    public function insert($value, $priority): true\n    {\n        if (! is_array($priority)) {\n            $priority = [$priority, $this->serial--];\n        }\n\n        parent::insert($value, $priority);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function __serialize()\n    {\n        $clone = clone $this;\n        $clone->setExtractFlags(self::EXTR_BOTH);\n\n        $data = [];\n        foreach ($clone as $item) {\n            $data[] = $item;\n        }\n        return $data;\n    }",
+                    "new": "    public function __serialize(): array\n    {\n        $clone = clone $this;\n        $clone->setExtractFlags(self::EXTR_BOTH);\n\n        $data = [];\n        foreach ($clone as $item) {\n            $data[] = $item;\n        }\n        return $data;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function __unserialize($data)\n    {\n        $this->serial = PHP_INT_MAX;\n\n        foreach ($data as $item) {\n            if (! is_array($item)) {\n                throw new UnexpectedValueException(sprintf(\n                    'Cannot deserialize %s instance: corrupt item; expected array, received %s',\n                    self::class,\n                    get_debug_type($item)\n                ));\n            }\n\n            if (! array_key_exists('data', $item)) {\n                throw new UnexpectedValueException(sprintf(\n                    'Cannot deserialize %s instance: corrupt item; missing \"data\" element',\n                    self::class\n                ));\n            }\n\n            $priority = 1;\n            if (array_key_exists('priority', $item)) {\n                $priority = (int) $item['priority'];\n            }\n\n            $this->insert($item['data'], $priority);\n        }\n    }",
+                    "new": "    public function __unserialize($data): void\n    {\n        $this->serial = PHP_INT_MAX;\n\n        foreach ($data as $item) {\n            if (! is_array($item)) {\n                throw new UnexpectedValueException(sprintf(\n                    'Cannot deserialize %s instance: corrupt item; expected array, received %s',\n                    self::class,\n                    get_debug_type($item)\n                ));\n            }\n\n            if (! array_key_exists('data', $item)) {\n                throw new UnexpectedValueException(sprintf(\n                    'Cannot deserialize %s instance: corrupt item; missing \"data\" element',\n                    self::class\n                ));\n            }\n\n            $priority = 1;\n            if (array_key_exists('priority', $item)) {\n                $priority = (int) $item['priority'];\n            }\n\n            $this->insert($item['data'], $priority);\n        }\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 2
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                },
+                {
+                    "old": "        parent::insert($value, $priority);",
+                    "new": "        return parent::insert($value, $priority);",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange] // Inherited return type should be bool\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/ArrayStack.php",
+            "before_sha256": "69e3c16a13318df29705d15164b16c32c27162270c38b73be92225e34aa3e955",
+            "after_sha256": "d3e5795669408eae676a879506037b0ece5afcade39b282281dfb3d379d03eb7",
+            "replacements": [
+                {
+                    "old": "    public function getIterator()\n    {\n        $array = $this->getArrayCopy();\n        return new ArrayIterator(array_reverse($array));\n    }",
+                    "new": "    public function getIterator(): \\Iterator\n    {\n        $array = $this->getArrayCopy();\n        return new ArrayIterator(array_reverse($array));\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 1
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/Parameters.php",
+            "before_sha256": "63b5987841794a60e419f9f82d94ac88ec0ce9fa1a21e61d4b424e621949567c",
+            "after_sha256": "1a5cc87e41b77a4a655dd88f63bda8f13e2c8b4f0a567e789b344b149c37d740",
+            "replacements": [
+                {
+                    "old": "    public function offsetGet($name)\n    {\n        if ($this->offsetExists($name)) {\n            return parent::offsetGet($name);\n        }\n\n        return null;\n    }",
+                    "new": "    public function offsetGet($name): mixed\n    {\n        if ($this->offsetExists($name)) {\n            return parent::offsetGet($name);\n        }\n\n        return null;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 1
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/PriorityList.php",
+            "before_sha256": "94b67f231699deb9a80a6e1cdbc70a3415ae5e8ff807e54d22aa62f6ae9c9ffa",
+            "after_sha256": "3fa2fbb89f666612f8087f90953cab218341f617c743e84913f1733581d0ca71",
+            "replacements": [
+                {
+                    "old": "    public function rewind()\n    {\n        $this->sort();\n        reset($this->items);\n    }",
+                    "new": "    public function rewind(): void\n    {\n        $this->sort();\n        reset($this->items);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function current()\n    {\n        $this->sorted || $this->sort();\n        $node = current($this->items);\n\n        return $node ? $node['data'] : false;\n    }",
+                    "new": "    public function current(): mixed\n    {\n        $this->sorted || $this->sort();\n        $node = current($this->items);\n\n        return $node ? $node['data'] : false;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function key()\n    {\n        $this->sorted || $this->sort();\n        return key($this->items);\n    }",
+                    "new": "    public function key(): mixed\n    {\n        $this->sorted || $this->sort();\n        return key($this->items);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function next()\n    {\n        $node = next($this->items);\n\n        return $node ? $node['data'] : false;\n    }",
+                    "new": "    public function next(): void\n    {\n        $node = next($this->items);\n\n        $node ? $node['data'] : false; return;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function valid()\n    {\n        return current($this->items) !== false;\n    }",
+                    "new": "    public function valid(): bool\n    {\n        return current($this->items) !== false;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function count()\n    {\n        return $this->count;\n    }",
+                    "new": "    public function count(): int\n    {\n        return $this->count;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 6
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-stdlib/src/FastPriorityQueue.php",
+            "before_sha256": "d3a46ad20aef8c36fcb30f93ac4532fb91bb3fec030f7592ed6fb8f0e8120036",
+            "after_sha256": "4ec768d942ca47c480cd891a73941b481245daa4b3b05c0247e9db3822163603",
+            "replacements": [
+                {
+                    "old": "    public function count()\n    {\n        return $this->count;\n    }",
+                    "new": "    public function count(): int\n    {\n        return $this->count;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function current()\n    {\n        switch ($this->extractFlag) {\n            case self::EXTR_DATA:\n                return current($this->values[$this->maxPriority]);\n            case self::EXTR_PRIORITY:\n                return $this->maxPriority;\n            case self::EXTR_BOTH:\n                return [\n                    'data'     => current($this->values[$this->maxPriority]),\n                    'priority' => $this->maxPriority,\n                ];\n        }\n    }",
+                    "new": "    public function current(): mixed\n    {\n        switch ($this->extractFlag) {\n            case self::EXTR_DATA:\n                return current($this->values[$this->maxPriority]);\n            case self::EXTR_PRIORITY:\n                return $this->maxPriority;\n            case self::EXTR_BOTH:\n                return [\n                    'data'     => current($this->values[$this->maxPriority]),\n                    'priority' => $this->maxPriority,\n                ];\n        }\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function key()\n    {\n        return $this->index;\n    }",
+                    "new": "    public function key(): mixed\n    {\n        return $this->index;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function next()\n    {\n        if (false === next($this->values[$this->maxPriority])) {\n            unset($this->subPriorities[$this->maxPriority]);\n            reset($this->values[$this->maxPriority]);\n            $this->maxPriority = empty($this->subPriorities) ? null : max($this->subPriorities);\n            $this->subIndex    = -1;\n        }\n        ++$this->index;\n        ++$this->subIndex;\n    }",
+                    "new": "    public function next(): void\n    {\n        if (false === next($this->values[$this->maxPriority])) {\n            unset($this->subPriorities[$this->maxPriority]);\n            reset($this->values[$this->maxPriority]);\n            $this->maxPriority = empty($this->subPriorities) ? null : max($this->subPriorities);\n            $this->subIndex    = -1;\n        }\n        ++$this->index;\n        ++$this->subIndex;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function valid()\n    {\n        return isset($this->values[$this->maxPriority ?? '']);\n    }",
+                    "new": "    public function valid(): bool\n    {\n        return isset($this->values[$this->maxPriority ?? '']);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    public function rewind()\n    {\n        $this->subPriorities = $this->priorities;\n        $this->maxPriority   = empty($this->priorities) ? 0 : max($this->priorities);\n        $this->index         = 0;\n        $this->subIndex      = 0;\n    }",
+                    "new": "    public function rewind(): void\n    {\n        $this->subPriorities = $this->priorities;\n        $this->maxPriority   = empty($this->priorities) ? 0 : max($this->priorities);\n        $this->index         = 0;\n        $this->subIndex      = 0;\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 6
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-loader/src/PluginClassLoader.php",
+            "before_sha256": "6c751a3333ae7863afca6eac83e44c46a4823b85ddcee1dcf74accc33fa9864b",
+            "after_sha256": "94979c3a2b3a5a0e11fa9680b95dc1c13d59252c94287ffb19a13126da99741e",
+            "replacements": [
+                {
+                    "old": "    public function getIterator()\n    {\n        return new ArrayIterator($this->plugins);\n    }",
+                    "new": "    public function getIterator(): \\Traversable\n    {\n        return new ArrayIterator($this->plugins);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 1
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "path": "vendor/laminas/laminas-validator/src/ValidatorChain.php",
+            "before_sha256": "7f4ac99ea9d78866dae9c25050ae2fc3628164124f85528391c6d1b755f192b4",
+            "after_sha256": "c7a684ff70540d1ee6aea92eab09fed751560c803e3c222a9e7764c086852574",
+            "replacements": [
+                {
+                    "old": "    public function count()\n    {\n        return count($this->validators);\n    }",
+                    "new": "    public function count(): int\n    {\n        return count($this->validators);\n    }",
+                    "count": 1
+                },
+                {
+                    "old": "    #[ReturnTypeWillChange]\n",
+                    "new": "",
+                    "count": 1
+                },
+                {
+                    "old": "use ReturnTypeWillChange;\n",
+                    "new": "",
+                    "count": 1
+                }
+            ]
+        }
+    ]
+}

@@ -33,7 +33,7 @@ $echo=explode(',',$echo);
 
 rsort($echo);
 
-for ($i=0;$i<tnuoc($echo);$i++) {
+for ($i=0;$i<count($echo);$i++) {
 echo $echo[$i];
 }
 

@@ -17,7 +17,7 @@ body {
 <body>
 <?php 
 require('connect.inc.php');
-$_GET['m']=htmlspecialchars(strip_tags($_GET['m']));
+$_GET['m']=htmlspecialchars(strip_tags(($_GET['m'] ?? '')));
 if($_GET['n']=='')$_GET['n']=$_GET['c'];
 require('loginformsave.inc.php');
 
@@ -61,9 +61,9 @@ $num_a = mysql_num_rows($result_a);
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-$headcsv=explode(';',$row_a['headcsv']);
-$datacsv=explode(';',$row_a['datacsv']);
-for ($i=0;$i<tnuoc($headcsv);$i++) {
+$headcsv=explode(';',($row_a['headcsv'] ?? ''));
+$datacsv=explode(';',($row_a['datacsv'] ?? ''));
+for ($i=0;$i<count($headcsv);$i++) {
 
 if (strpos($headcsv[$i],$field)==1) $a+=substr($datacsv[$i],1);
 }
@@ -81,9 +81,9 @@ $num_a = mysql_num_rows($result_a);
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-$headcsv=explode(';',$row_a['headcsv']);
-$datacsv=explode(';',$row_a['datacsv']);
-for ($i=0;$i<tnuoc($headcsv);$i++) {
+$headcsv=explode(';',($row_a['headcsv'] ?? ''));
+$datacsv=explode(';',($row_a['datacsv'] ?? ''));
+for ($i=0;$i<count($headcsv);$i++) {
 
 if (strpos($headcsv[$i],$field)==1) $u+=substr($datacsv[$i],1);
 if (strpos($headcsv[$i],'_MAX_')>1) $uu+=substr($datacsv[$i],1);

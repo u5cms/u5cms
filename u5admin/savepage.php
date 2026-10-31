@@ -1,5 +1,5 @@
 <?php require_once('connect.inc.php');require_once('t2.php');require_once('resource-mutation.inc.php');
-if (!isset($_POST['page']) || !is_string($_POST['page']) || str_replace(array('_',' '),'',$_POST['page'])==='') {
+if (!isset($_POST['page']) || !is_string($_POST['page']) || str_replace(array('_',' '),'',($_POST['page'] ?? ''))==='') {
 http_response_code(400);die('ERROR: no page selected. Your editor contents have been kept.');
 }
 $_POST['name']=$_POST['page'];
@@ -8,7 +8,7 @@ if ($result_a===false) { http_response_code(500);die('SQL_a-Query failed. Your e
 $row_a=mysql_fetch_array($result_a);
 if (!$row_a) { http_response_code(409);die('ERROR: the page no longer exists. Your editor contents have been kept.'); }
 if (strtolower((string)$row_a['typ'])!=='p') { http_response_code(409);die('ERROR: this resource is not a page. Its existing type and contents have been kept.'); }
-$f9focusBis=basename(trim($_POST['page']));
+$f9focusBis=basename(trim(($_POST['page'] ?? '')));
 setcookie('f9focusBis', $f9focusBis, time() + 3600 * 24 * 365 * 10, '/');
 ?>
 <!DOCTYPE html>
@@ -112,18 +112,18 @@ die('SQL_a-Query failed!...!<p>');
 
 trxlog('saved'.$conflict.' '.$_POST['name']);
 
-$echo='<a title="focus in repository" href="javascript:void(0)" style="text-decoration:none;background:white" onmouseover="this.click();this.style.background=\'gold\'" onmouseout="this.style.background=\'white\'" onclick="parent.parent.i3.location.href=\'focus.php?c='.rawurlencode(basename(trim($_POST['name']))).'\'">F</a>&nbsp;';
+$echo='<a title="focus in repository" href="javascript:void(0)" style="text-decoration:none;background:white" onmouseover="this.click();this.style.background=\'gold\'" onmouseout="this.style.background=\'white\'" onclick="parent.parent.i3.location.href=\'focus.php?c='.rawurlencode(basename(trim(($_POST['name'] ?? '')))).'\'">F</a>&nbsp;';
 ?> 
 <div style="width:2px;height:19px;background:white;position:absolute;display:none;top:0px" id="htaccess"></div>
-<div id="u5savestatus" style="margin:-2px 0 0 2px;white-space: nowrap;"><?php echo $echo ?><span onmouseover="this.title=this.innerHTML" onclick="alert(this.innerHTML)"><?php echo $conflict ?>saved <?php echo htmlspecialchars($_POST['name'],ENT_QUOTES,'Windows-1252')?></span></div>
-<iframe style="display:none" src="../indexer.php?n=<?php echo rawurlencode($_POST['name']) ?>"></iframe>
+<div id="u5savestatus" style="margin:-2px 0 0 2px;white-space: nowrap;"><?php echo $echo ?><span onmouseover="this.title=this.innerHTML" onclick="alert(this.innerHTML)"><?php echo $conflict ?>saved <?php echo htmlspecialchars(($_POST['name'] ?? ''),ENT_QUOTES,'Windows-1252')?></span></div>
+<iframe style="display:none" src="../indexer.php?n=<?php echo rawurlencode(($_POST['name'] ?? '')) ?>"></iframe>
 <script>
 if (parent.i3) parent.i3.location.reload();
 </script>
 <?php
 $u5Frame=isset($_GET['i']) && in_array($_GET['i'],array('i1','i2'),true) ? $_GET['i'] : '';
-$u5Serial=isset($_POST['u5saveid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',$_POST['u5saveid']) ? $_POST['u5saveid'] : '';
-$u5JsPage="'".str_replace(array("\\","'","\r","\n","<"),array("\\\\","\\'","\\r","\\n","\\x3c"),$_POST['name'])."'";
+$u5Serial=isset($_POST['u5saveid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',($_POST['u5saveid'] ?? '')) ? $_POST['u5saveid'] : '';
+$u5JsPage="'".str_replace(array("\\","'","\r","\n","<"),array("\\\\","\\'","\\r","\\n","\\x3c"),($_POST['name'] ?? ''))."'";
 ?>
 <script>
 window.u5SaveAcknowledged=true;
@@ -134,7 +134,7 @@ clean=savedEditor.postsubmitfunction('<?php echo $u5Serial ?>',<?php echo $u5JsP
 if(parent.u5ShowSaveResult && (clean || !<?php echo $u5Saved ? 'true' : 'false' ?>)) parent.u5ShowSaveResult(document.getElementById('u5savestatus'));
 <?php if (!$u5Saved) { ?>
 alert(msgconflict);
-window.open('textversions.php?c=<?php echo rawurlencode($_POST['name']) ?>','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=640,height=500');
+window.open('textversions.php?c=<?php echo rawurlencode(($_POST['name'] ?? '')) ?>','_blank','toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=640,height=500');
 <?php } ?>
 </script>
 <iframe width="1" height="1" scrolling="no" frameborder="0" src="lastsave.php"></iframe>

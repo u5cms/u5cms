@@ -5,14 +5,14 @@ require_once('../san.inc.php');
 $ucrs='';
 if (isset($_GET['s']))$_GET['s']=intval($_GET['s']);
 if (isset($_GET['e']))$_GET['e']=intval($_GET['e']);
-if (isset($_GET['s'])) setcookie('mochr', htmlspecialchars($_GET['s']) , time()+3600*24*365*10,'/');
+if (isset($_GET['s'])) setcookie('mochr', htmlspecialchars(($_GET['s'] ?? '')) , time()+3600*24*365*10,'/');
 require('../config.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo str_replace('1114111&ndash;NaN','u5CMS Commons&ndash;',htmlspecialchars($_GET['s']).'&ndash;'.htmlspecialchars($_GET['e'])) ?> characters</title>
+<title><?php echo str_replace('1114111&ndash;NaN','u5CMS Commons&ndash;',htmlspecialchars(($_GET['s'] ?? '')).'&ndash;'.htmlspecialchars(($_GET['e'] ?? ''))) ?> characters</title>
 <script>
 function noopener() {
 if (!opener) self.close();
@@ -524,7 +524,7 @@ function uchr ($codes) {
 
 <?php 
 $xc=explode(',',$ucrs);
-for ($xi=0;$xi<tnuoc($xc);$xi++) {
+for ($xi=0;$xi<count($xc);$xi++) {
 if (strpos($xc[$xi],'!')==1) echo $xc[$xi];
 else {
 $xc[$xi]=rawurlencode($xc[$xi]);

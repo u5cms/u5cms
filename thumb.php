@@ -4,13 +4,13 @@ require_once('connect.inc.php');
 if (!isset($stdimagequality)) $stdimagequality = 80;
 
 $filebase = 'r';
-$f = explode('?', $_GET['f']);
+$f = explode('?', ($_GET['f'] ?? ''));
 $_GET['f'] = $f[0];
-$f = explode('/', $_GET['f']);
-$f = $filebase . '/' . basename($f[1]) . '/' . basename($_GET['f']);
+$f = explode('/', ($_GET['f'] ?? ''));
+$f = $filebase . '/' . basename($f[1]) . '/' . basename(($_GET['f'] ?? ''));
 $f=u5ProhibTravers($f, $filebase);
 
-if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
+if(substr(basename(($_GET['f'] ?? '')),0,1)=='.')die('forbidden');
 
 if (!file_exists($f)) die('file not found');
 
@@ -69,7 +69,7 @@ if ($_GET['h'] > 0) {
     } else {
         require_once('mime.inc.php');
         $ext = explode('.', basename($f));
-        $ext = $ext[tnuoc($ext) - 1];
+        $ext = $ext[count($ext) - 1];
         header("Content-type: " . $m[strtolower($ext)]);
         header("Content-Disposition:inline;filename=" . basename($f));
     $file = @fopen($f,"rb");
@@ -120,7 +120,7 @@ if ($_GET['h'] > 0) {
     } else {
         require_once('mime.inc.php');
         $ext = explode('.', basename($f));
-        $ext = $ext[tnuoc($ext) - 1];
+        $ext = $ext[count($ext) - 1];
         header("Content-type: " . $m[strtolower($ext)]);
         header('Content-length: ' . filesize($f));		
         header("Content-Disposition:inline;filename=" . basename($f));

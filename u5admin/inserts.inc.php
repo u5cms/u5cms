@@ -42,7 +42,7 @@ if ($i_b<$num){
 $row_b['cat']=$row_b['cat'].': ';
 if ($row_b['cat']=='X: ') $row_b['cat']='';
 if ($oldcat!=$row_b['cat'] && $row_b['cat']!=': ') {
-if(strpos($row_b['cat'],'et')>0) echo '<br>'.str_replace(': ','',$row_b['cat']).': '
+if(strpos(($row_b['cat'] ?? ''),'et')>0) echo '<br>'.str_replace(': ','',($row_b['cat'] ?? '')).': '
 .'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_mymail_]').'\')">'.'&#120236;&#120248;&#120236;'.'</a> <span style="color:white;font-weight:bold">|</span> '
 .'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_myurl_]').'\')">'.'&#120236;&#120248;&#120244;'.'</a> <span style="color:white;font-weight:bold">|</span> '
 .'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_language_]').'\')">'.'&#120235;&#120224;&#120237;'.'</a> <span style="color:white;font-weight:bold">|</span> '
@@ -50,7 +50,7 @@ if(strpos($row_b['cat'],'et')>0) echo '<br>'.str_replace(': ','',$row_b['cat']).
 .'<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode('[_pagename!_]').'\')">'.'&#120239;&#120224;<small>!</small>'.'</a> <span style="color:white;font-weight:bold">|</span> ';
 else echo '<br>'.$row_b['cat'];
 }
- echo '<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode($row_b['insstring']).'\')">'.$row_b['human'].'</a>';
+ echo '<a style="cursor:pointer;color:blue" onclick="doins(\''.$lanhere.'\',\''.rawurlencode(($row_b['insstring'] ?? '')).'\')">'.$row_b['human'].'</a>';
  if ($row_b['human']!='') echo ' <span style="color:white;font-weight:bold">|</span> ';      
 }
 $oldcat=$row_b['cat'];

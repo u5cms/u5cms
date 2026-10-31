@@ -156,6 +156,8 @@ return false;
     for listen,handler in [(idp_port,IdP),(cms_port,Proxy)]:
         server=ThreadingHTTPServer(('127.0.0.1',listen),handler);server.socket=tls.wrap_socket(server.socket,server_side=True)
         threading.Thread(target=server.serve_forever,daemon=True).start();servers.append(server)
+    if os.environ.get('U5CMS_PHP9_AUDIT'):
+        router.write_text('<?php require '+json.dumps(str(REPO/'tests/php9-guard.php'))+'; ?>\n'+router.read_text())
     with (work/'php.log').open('w+') as log:
         php=subprocess.Popen(PHP+['-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-d','session.save_path='+str(session_dir),
             '-d','output_buffering='+os.environ.get('U5_OIDC_OUTPUT_BUFFERING','0'),'-S',f'127.0.0.1:{backend_port}','-t',str(root),str(router)],cwd=root,stdout=log,stderr=log)

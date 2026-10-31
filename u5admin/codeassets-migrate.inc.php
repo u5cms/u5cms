@@ -433,7 +433,7 @@ function u5CodeMigrationBuildPlan($root,$previousMap=array(),$previousBackup=arr
     $nameRows=$resources;$currentCode=array();$historicalAliases=array();$nonCode=array();
     foreach ($resources as $row) {
         if (strtolower((string)$row['typ'])==='c') $currentCode[$row['name']]=true;
-        elseif ((int)$row['deleted']!==1) $nonCode[strtolower($row['name'])]=true;
+        elseif ((int)$row['deleted']!==1) $nonCode[strtolower(($row['name'] ?? ''))]=true;
     }
     $seen=$currentCode;
     // Historical C objects have their own namespace even when a current P object reused that name.
@@ -458,7 +458,7 @@ function u5CodeMigrationBuildPlan($root,$previousMap=array(),$previousBackup=arr
     foreach ($defaults as $old=>$standard) {
         $target=$map[$old] ?? $standard; $active=false;
         foreach ($resources as $row) if (strtolower((string)$row['typ'])==='c' && (int)$row['deleted']!==1 &&
-            (strcasecmp($row['name'],$old)===0 || strcasecmp($row['name'],$target)===0)) $active=true;
+            (strcasecmp(($row['name'] ?? ''),$old)===0 || strcasecmp(($row['name'] ?? ''),$target)===0)) $active=true;
         if ($active) continue;
         // Deleted/history-only code remains deleted. Its retained file is migrated separately.
         if (isset(array_change_key_case($seen,CASE_LOWER)[$old]) && $old!=='jsmobilegeneral') continue;

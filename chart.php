@@ -1,11 +1,11 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 require('connect.inc.php');
-if ($_SERVER['QUERY_STRING'] != str_replace('c=_search', '', $_SERVER['QUERY_STRING'])) header("Location: ./?" . $_SERVER['QUERY_STRING']);
-setcookie('dgets', $_GET['s'], time() + 3600 * 24 * 365 * 10, '/');
-setcookie('dgetf', $_GET['f'], time() + 3600 * 24 * 365 * 10, '/');
-setcookie('fdbool', $_GET['fdb'], time() + 3600 * 24 * 365 * 10, '/');
-setcookie('fdorder', $_GET['fdo'], time() + 3600 * 24 * 365 * 10, '/');
+if ($_SERVER['QUERY_STRING'] != str_replace('c=_search', '', ($_SERVER['QUERY_STRING'] ?? ''))) header("Location: ./?" . $_SERVER['QUERY_STRING']);
+setcookie('dgets', ($_GET['s'] ?? ''), time() + 3600 * 24 * 365 * 10, '/');
+setcookie('dgetf', ($_GET['f'] ?? ''), time() + 3600 * 24 * 365 * 10, '/');
+setcookie('fdbool', ($_GET['fdb'] ?? ''), time() + 3600 * 24 * 365 * 10, '/');
+setcookie('fdorder', ($_GET['fdo'] ?? ''), time() + 3600 * 24 * 365 * 10, '/');
 require('chartreadrights.inc.php');
 
 if ($_GET['s'] > 0) $andstatus = 'AND status = ' . mysql_real_escape_string(intval($_GET['s']));
@@ -18,12 +18,12 @@ $_GET['f'] = preg_replace_callback(
     function($match){
 		return "&#".hexdec("x".$match[1]).",.";
     },
-    $_GET['f']
+    ($_GET['f'] ?? '')
 );
 
 
 if ($_GET['f'] != '') {
-    $keywords = ((str_replace('  ', ' ', str_replace(' ', ' ', trim($_GET['f'])))));
+    $keywords = ((str_replace('  ', ' ', str_replace(' ', ' ', trim(($_GET['f'] ?? ''))))));
 
     $keywords = str_replace('"', ' ', $keywords);
     $keywords = str_replace('"', ' ', $keywords);
@@ -47,14 +47,14 @@ if ($_GET['f'] != '') {
     $orand = 'oR';
     if ($_GET['fdb'] == 'and') $orand = 'anD';
 
-    for ($k = 0; $k < tnuoc($keywords); $k++) {
+    for ($k = 0; $k < count($keywords); $k++) {
         $andfilter .= "datacsv='' ";
         $andfilter .= "OR datacsv LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR authuser LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR ip LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR notes LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
         $andfilter .= "OR humantime LIKE '%" . mysql_real_escape_string(str_replace(';', ',.', $keywords[$k])) . "%' ";
-        if ($k == tnuoc($keywords) - 1) $andfilter .= ')';
+        if ($k == count($keywords) - 1) $andfilter .= ')';
         else $andfilter .= ") $orand (";
 
     }
@@ -86,7 +86,7 @@ $e = str_replace('</body>', '<iframe frameborder="0" width="0" height="0" src="c
 $f = explode('<select', $e);
 $ifrid = 0;
 
-for ($i = 0; $i < tnuoc($f); $i++) {
+for ($i = 0; $i < count($f); $i++) {
 
     if (str_replace('</select>', '', $f[$i]) != $f[$i]) {
         $g = explode('</select>', $f[$i]);

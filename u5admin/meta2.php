@@ -25,7 +25,7 @@ $changes[$column]=$u5MetaIsCode && $field==='content' ? $_POST[$column] : trim($
 }
 if (isset($_POST['logins'])) {
 if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource logins.');
-$changes['logins']=trim($_POST['logins']);
+$changes['logins']=trim(($_POST['logins'] ?? ''));
 }
 if (isset($_GET['typ']) && $_GET['typ']!=='' && $_GET['typ']!==$u5MetaRecord['typ']) throw new RuntimeException('The requested type does not match the actual resource.');
 $changes['typ']=$u5MetaRecord['typ'];
@@ -48,7 +48,7 @@ exit;
 <?php require('backendcss.php'); ?></head>
 <body id="body" bgcolor="#339900" text="#FFFFFF">
 <?php
-$nonce=isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',$_POST['u5resourceid']) ? $_POST['u5resourceid'] : '';
+$nonce=isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',($_POST['u5resourceid'] ?? '')) ? $_POST['u5resourceid'] : '';
 $current=$result['current'];
 $message='CONFLICT: The current resource was kept. Your submitted content is in text versions. Latest editor: '.($current ? $current['operator'] : 'unknown').'. Merge your changes manually; your editor contents remain available.';
 ?>

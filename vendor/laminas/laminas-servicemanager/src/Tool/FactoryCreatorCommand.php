@@ -6,16 +6,20 @@ namespace Laminas\ServiceManager\Tool;
 
 use Laminas\ServiceManager\Exception;
 use Laminas\Stdlib\ConsoleHelper;
-use stdClass;
 
 use function array_shift;
+use function assert;
 use function class_exists;
 use function in_array;
+use function is_string;
 use function sprintf;
 
 use const STDERR;
 use const STDOUT;
 
+/**
+ * @psalm-type ArgumentObject = object{command:string, class:null|string, message:null|string}
+ */
 class FactoryCreatorCommand
 {
     public const COMMAND_DUMP  = 'dump';
@@ -39,19 +43,14 @@ Generates to STDOUT a factory for creating the specified class; this may then
 be added to your application, and configured as a factory for the class.
 EOH;
 
-    /** @var ConsoleHelper */
-    private $helper;
-
-    /** @var string */
-    private $scriptName;
+    private ConsoleHelper $helper;
 
     /**
      * @param string $scriptName
      */
-    public function __construct($scriptName = self::DEFAULT_SCRIPT_NAME, ?ConsoleHelper $helper = null)
+    public function __construct(private $scriptName = self::DEFAULT_SCRIPT_NAME, ?ConsoleHelper $helper = null)
     {
-        $this->scriptName = $scriptName;
-        $this->helper     = $helper ?: new ConsoleHelper();
+        $this->helper = $helper ?: new ConsoleHelper();
     }
 
     /**
@@ -67,6 +66,7 @@ EOH;
                 $this->help();
                 return 0;
             case self::COMMAND_ERROR:
+                assert(is_string($arguments->message));
                 $this->helper->writeErrorMessage($arguments->message);
                 $this->help(STDERR);
                 return 1;
@@ -77,6 +77,7 @@ EOH;
         }
 
         $generator = new FactoryCreator();
+        assert(is_string($arguments->class));
         try {
             $factory = $generator->createFactory($arguments->class);
         } catch (Exception\InvalidArgumentException $e) {
@@ -94,8 +95,7 @@ EOH;
     }
 
     /**
-     * @param array $args
-     * @return stdClass
+     * @return ArgumentObject
      */
     private function parseArgs(array $args)
     {
@@ -137,7 +137,7 @@ EOH;
      * @param string $command
      * @param string|null $class Name of class to reflect.
      * @param string|null $error Error message, if any.
-     * @return stdClass
+     * @return ArgumentObject
      */
     private function createArguments($command, $class = null, $error = null)
     {

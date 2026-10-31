@@ -32,7 +32,7 @@ if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';
 if($u5allowbasicauthtoprotectedfilesindirr=='yes') {
 $htpasswd="AuthName \"".$u5cmsrealm."\"
 AuthType Basic
-AuthUserFile \"".str_replace('/htaccess.php','',str_replace('\\','/',$_SERVER['SCRIPT_FILENAME']))."/fileversions/.htpasswd\"
+AuthUserFile \"".str_replace('/htaccess.php','',str_replace('\\','/',($_SERVER['SCRIPT_FILENAME'] ?? '')))."/fileversions/.htpasswd\"
 Require valid-user
 ";}
 else {
@@ -135,13 +135,13 @@ if($row_b['hidden']==1 )  $onofflinepages++;
 if($row_b['hidden']==-1)  $onnonindexedpages++;
 if($row_b['hidden']==2)  $onforcerpages++;
 
-if(trim($row_b['logins'])!='') $collectedlogins.=$row_b['logins'];
+if(trim(($row_b['logins'] ?? ''))!='') $collectedlogins.=$row_b['logins'];
 else $onfreepages++;
 
 }
 ////////////////
 }
-if(trim($row_a['name'])!='')mkhta($row_a['name'],$onindexedpages,$onofflinepages,$onnonindexedpages,$onforcerpages,$onfreepages,$collectedlogins,$row_a['typ']);      
+if(trim(($row_a['name'] ?? ''))!='')mkhta($row_a['name'],$onindexedpages,$onofflinepages,$onnonindexedpages,$onforcerpages,$onfreepages,$collectedlogins,$row_a['typ']);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
@@ -185,7 +185,7 @@ if ($result_a==false) 	echo 'SQL_a-Query schlug failed!...!<p>';
 $hts='';
 $collectedlogins=u5toutf8($collectedlogins);
 $collectedlogins=explode(';',str_replace('?','',$collectedlogins));
-for ($i=0;$i<tnuoc($collectedlogins);$i++) {
+for ($i=0;$i<count($collectedlogins);$i++) {
 
 $items=explode(':',trim($collectedlogins[$i]));
 if (str_replace('&#0;','',u5flatidn($items[0]))) $hts.=u5flatidn($items[0]).':'.pwdhsh($items[1])."\r\n";
@@ -198,7 +198,7 @@ if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';
 if($u5allowbasicauthtoprotectedfilesindirr=='yes') {
 $htpasswd="AuthName \"".$u5cmsrealm."\"
 AuthType Basic
-AuthUserFile \"".str_replace('/u5admin/htaccess.php','',str_replace('\\','/',$_SERVER['SCRIPT_FILENAME']))."/r/$name/.htpasswd\"
+AuthUserFile \"".str_replace('/u5admin/htaccess.php','',str_replace('\\','/',($_SERVER['SCRIPT_FILENAME'] ?? '')))."/r/$name/.htpasswd\"
 Require valid-user
 ";
 }

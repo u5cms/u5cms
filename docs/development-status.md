@@ -13,14 +13,14 @@ Refresh the snapshot against remote refs before resuming work.
 1. Implement and validate textarea source actions on `12.13.0-Textarea-Interactions`, based on `f097070d54ac19003bb7b145ee91f6652a29e534`.
 2. Immediately afterwards, create `12.14.0-PHP9-Compatibility` from the completed textarea branch. Study `php9_compat` for intent, but correct types and encoding at their real boundaries, remove `tnuoc` call-site workarounds, and do not adopt the historical blanket-wrapper approach.
 
-Textarea implementation and validation are complete: 748 parser/transform checks, 159 real editor/browser/HTTP checks, 1,671 inherited migration/database checks and 475 main-diff browser checks pass. See [the textarea report](12.13.0-textarea.md) for the final matrix. Publish the completed textarea commit, then immediately create the authorized PHP9 branch from it.
+Textarea implementation and validation are complete: 748 parser/transform checks, 159 real editor/browser/HTTP checks, 1,671 inherited migration/database checks and 475 main-diff browser checks pass. See [the textarea report](12.13.0-textarea.md) for the final matrix. The textarea result is published at `c0748dbedb6200c007438555ca76999aa0d97cea`. The second branch, `12.14.0-PHP9-Compatibility`, starts exactly there and is active. Historical wrapper and count changes were reviewed; the implementation removes the count alias, establishes explicit text and encoding boundaries, updates dependencies and declares native interface return contracts. The focused final-tree suite passes 123 checks on PHP 8.3.6 and 8.5.12; the PHP 8.3 browser regression passes. PHP 8.5 HTTP/image tests and inherited search/OIDC checks remain in progress. See [the PHP compatibility report](12.14.0-php9.md). This second branch is a recovery checkpoint until its final validation report is complete.
 
 ## Saved implementation
 
 | Item | Evidence | State |
 | --- | --- | --- |
 | Production source branch | `main` at `9d366253417822c279692767b89dcf1ff0388c5c`, last changed 9 October 2026 | Version 12.9.5; the later work below has not been merged into this branch. Installed production sites were not inspected in this checkpoint review. |
-| Current cumulative development branch | `12.13.0-Textarea-Interactions` | Use this as the starting point for the current development line, after fetching and inspecting the current remote head. |
+| Current cumulative development branch | `12.14.0-PHP9-Compatibility` | Use this as the starting point for the current development line, after fetching and inspecting the current remote head. |
 | Previous application baseline | `f842f5d1fca8d6856e67640e645519e09dfd05cf`, committed 30 October 2026 | 18 commits ahead of the main SHA above, zero behind; 296 changed paths. Later checkpoint-only commits do not imply a new application test run. |
 | Search | `2f5ce37c18b017375dfc31dab6086f325bd836a2`; [search guide](search.md) | Included in the current cumulative branch. Multiword and quoted suggestions, partial results, excerpts, normalization, highlighting, container opening and scrolling are implemented. |
 | Optional OIDC | `acdd8d6cf362c93803e94897336d347e26d1dba6`; [OIDC validation](12.12.0-oidc-validation.md) | Included; committed implementation and recorded local protocol/database/browser validation. Real provider acceptance remains separate. |

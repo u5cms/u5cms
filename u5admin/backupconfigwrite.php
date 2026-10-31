@@ -7,14 +7,14 @@ if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
 $coba=file_get_contents('../config.php');
 
 $coba=explode(';',$coba);
-for($i=0;$i<tnuoc($coba);$i++) {
+for($i=0;$i<count($coba);$i++) {
 if(str_replace('$password','',$coba[$i])!=$coba[$i])$coba[$i]='
    $password = \'?????????????????\'';
 }
 $coba=implode(';',$coba);
 
 $coba=explode(',',$coba);
-for($i=0;$i<tnuoc($coba);$i++) {
+for($i=0;$i<count($coba);$i++) {
 if(str_replace('password','',$coba[$i])!=$coba[$i]&&str_replace('=>','',$coba[$i])!=$coba[$i])$coba[$i]="'password' => '?????????????????'";
 }
 $coba=implode(',',$coba);

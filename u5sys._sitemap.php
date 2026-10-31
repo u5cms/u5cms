@@ -20,7 +20,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
 
   <input  style="width:450px" name="q"  id="searchlarge" type="text" value="" />
   <input  type="submit" class="btnSubmit" alt="search" value="<?php echo def($recherche_1,$recherche_2,$recherche_3,$recherche_4,$recherche_5)?>" />
-  <script type="text/javascript">//document.fsearch2.q.value=unescape('<?php echo (str_replace('  ',' ',str_replace(',',' ',trim($_GET['q']))))?>')</script>
+  <script type="text/javascript">//document.fsearch2.q.value=unescape('<?php echo (str_replace('  ',' ',str_replace(',',' ',trim(($_GET['q'] ?? '')))))?>')</script>
 </form>
 <br>
 
@@ -40,7 +40,7 @@ return false;
 
 $leven='';
 
-suchen((str_replace('  ',' ',str_replace(',',' ',trim($_GET['q'])))));
+suchen((str_replace('  ',' ',str_replace(',',' ',trim(($_GET['q'] ?? ''))))));
 
 
 $getq=$_GET['q'];
@@ -81,7 +81,7 @@ $sfor=str_replace('-','_',$sfor);
 
 $sfor=explode(' ',trim($sfor));
 
-for ($i=0;$i<tnuoc($sfor);$i++) {
+for ($i=0;$i<count($sfor);$i++) {
 
 if (str_replace(' ','',$sfor[$i])!='') $where.=" AND ".def('search_1','search_2','search_3','search_4','search_')." LIKE '".mysql_real_escape_string('%'.$sfor[$i].'%')."'";
 
@@ -243,7 +243,7 @@ global $nohit_5;
 
 
 $leven=def($nohit_1,$nohit_2,$nohit_3,$nohit_4,$nohit_5).'<br />';
-for ($liii=0; $liii<tnuoc($sfor); $liii++) {
+for ($liii=0; $liii<count($sfor); $liii++) {
 
 if ($doesfindpasswordprotectedcontent == 'yes') $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." ";
 else $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' AND logins NOT LIKE '%:%'";
@@ -368,10 +368,10 @@ echo '<h1>Sitemap</h1><br>';
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-if (str_replace(' ','',$row_a['title_2'])=='') $row_a['title_2']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_3'])=='') $row_a['title_3']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_4'])=='') $row_a['title_4']=$row_a['title_1'];
-if (str_replace(' ','',$row_a['title_5'])=='') $row_a['title_5']=$row_a['title_1'];
+if (str_replace(' ','',($row_a['title_2'] ?? ''))=='') $row_a['title_2']=$row_a['title_1'];
+if (str_replace(' ','',($row_a['title_3'] ?? ''))=='') $row_a['title_3']=$row_a['title_1'];
+if (str_replace(' ','',($row_a['title_4'] ?? ''))=='') $row_a['title_4']=$row_a['title_1'];
+if (str_replace(' ','',($row_a['title_5'] ?? ''))=='') $row_a['title_5']=$row_a['title_1'];
 
 $that=def('title_1','title_2','title_3','title_4','title_5');
 $row_a[$that]=trim($row_a[$that]);
@@ -392,10 +392,10 @@ $efile_5=explode('.',$file_5);
 $efile_5=$efile_5[1];
 
 $mustlogin='';
-if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos($row_a['logins'],':')>1) $mustlogin='cug ';
+if (file_exists('r/'.$row_a['name'].'/.htaccess') || strpos(($row_a['logins'] ?? ''),':')>1) $mustlogin='cug ';
 
 
-if ($row_a['typ']=='p' && strpos($row_a['logins'],':')>1) $typ='<span style="font-size:60%">'.$mustlogin.'</span> ';
+if ($row_a['typ']=='p' && strpos(($row_a['logins'] ?? ''),':')>1) $typ='<span style="font-size:60%">'.$mustlogin.'</span> ';
 if ($row_a['typ']=='a') $typ='<span style="font-size:60%">'.$mustlogin.'jpgs</span> ';
 if ($row_a['typ']=='i') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';
 if ($row_a['typ']=='f') $typ='<span style="font-size:60%">'.$mustlogin.def($efile_1,$efile_2,$efile_3,$efile_4,$efile_5).'</span> ';

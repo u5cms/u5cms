@@ -53,8 +53,8 @@ if (isset($_GET['u'])) {
 }
 
 if (isset($u5samlsalt)&&$u5samlsalt!='') {
-    if ($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain!='' && str_replace($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain,'',$_GET['u'])==$_GET['u']) $u5samlinfrontend='yes';
-    if ($u5samlinfrontend != 'no' || strpos($_GET['u'],'/u5admin/')>0) {
+    if ($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain!='' && str_replace($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain,'',($_GET['u'] ?? ''))==$_GET['u']) $u5samlinfrontend='yes';
+    if ($u5samlinfrontend != 'no' || strpos(($_GET['u'] ?? ''),'/u5admin/')>0) {
         require('saml.inc.php');
         if (!isset($_POST['u']) || empty($_POST['u'])) {
             // in case SAML-Login and not backend user
@@ -67,8 +67,8 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
             $salt=$row_a['salt'];
             $_POST['p']=floor(crc32(u5flatidnlower($_COOKIE['u5samlusername']).$salt));
 			
-			if(strpos($_GET['u'],'c=!')<1) {
-			$thegc=explode('c=',$_GET['u']);
+			if(strpos(($_GET['u'] ?? ''),'c=!')<1) {
+			$thegc=explode('c=',($_GET['u'] ?? ''));
 			$thegc=explode('&',$thegc[1]);
 			$thegc=$thegc[0];
             $sql_a="SELECT logins FROM resources WHERE name= '".mysql_real_escape_string($thegc)."' AND logins LIKE '%?".mysql_real_escape_string($_COOKIE['u5samlusername']).":%'";
@@ -90,9 +90,9 @@ if (isset($u5samlsalt)&&$u5samlsalt!='') {
 
 $_POST['u']=u5flatidn($_POST['u']);
 
-setcookie('u', trim($_POST['u']), 0, '/', '', $httpsisinuse, true);
-setcookie('p', pwdcookie(trim($_POST['p'])), 0, '/', '', $httpsisinuse, true);
-$u=explode('#',$_GET['u']);
+setcookie('u', trim(($_POST['u'] ?? '')), 0, '/', '', $httpsisinuse, true);
+setcookie('p', pwdcookie(trim(($_POST['p'] ?? ''))), 0, '/', '', $httpsisinuse, true);
+$u=explode('#',($_GET['u'] ?? ''));
 if(isset($u[1]))$u[1]='#'.$u[1];
 else $u[1]='';
 if(trim($u[0])=='')$u[0]='index.php';

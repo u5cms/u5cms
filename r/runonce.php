@@ -621,7 +621,7 @@ foreach ($tables as $table) {
 
     $alter_statements = [];
     while ($row = mysql_fetch_assoc($result)) {
-        if (preg_match('/^varchar\(255\)$/i', $row['Type']) && !in_array($row['Field'], $excluded_columns)) {
+        if (preg_match('/^varchar\(255\)$/i', ($row['Type'] ?? '')) && !in_array($row['Field'], $excluded_columns)) {
             $column = $row['Field'];
             $alter_statements[] = "CHANGE COLUMN `$column` `$column` TEXT";
         }

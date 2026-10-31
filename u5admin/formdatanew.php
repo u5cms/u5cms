@@ -17,9 +17,9 @@ echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
 
-if (str_replace(date('Y.m.d'),'',$row_a['humantime'])!=$row_a['humantime']) echo '<font color=red>last: '.str_replace('-','',$row_a['humantime']).'</font>';      
-else if (str_replace(date('Y.m.d',time()-24*60*60),'',$row_a['humantime'])!=$row_a['humantime']) echo '<font color=darkorange>last: '.str_replace('-','',$row_a['humantime']).'</font>';      
-else echo '<font color="#666666">last: '.str_replace('-','',$row_a['humantime']).'</font>';      
+if (str_replace(date('Y.m.d'),'',($row_a['humantime'] ?? ''))!=$row_a['humantime']) echo '<font color=red>last: '.str_replace('-','',($row_a['humantime'] ?? '')).'</font>';
+else if (str_replace(date('Y.m.d',time()-24*60*60),'',($row_a['humantime'] ?? ''))!=$row_a['humantime']) echo '<font color=darkorange>last: '.str_replace('-','',($row_a['humantime'] ?? '')).'</font>';
+else echo '<font color="#666666">last: '.str_replace('-','',($row_a['humantime'] ?? '')).'</font>';
 
 $sql_a="SELECT humantime FROM formdata WHERE status=1 AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);

@@ -4,7 +4,6 @@ namespace Laminas\Loader;
 
 use ArrayIterator;
 use IteratorAggregate;
-use ReturnTypeWillChange;
 use Traversable;
 
 use function array_key_exists;
@@ -215,8 +214,7 @@ class PluginClassLoader implements PluginClassLocator
      *
      * @return ArrayIterator
      */
-    #[ReturnTypeWillChange]
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new ArrayIterator($this->plugins);
     }

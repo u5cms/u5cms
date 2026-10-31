@@ -14,7 +14,7 @@ function split_search_terms($target) {
     preg_match_all('/"([^"]+)"|(\S+)/', $target, $m);
 
     $words = array();
-    for ($i=0; $i<tnuoc($m[0]); $i++) {
+    for ($i=0; $i<count($m[0]); $i++) {
         $tok = ($m[1][$i] !== '') ? $m[1][$i] : $m[2][$i];
         $tok = trim($tok);
 
@@ -91,7 +91,7 @@ function highlight($searchtext, $text) {
 
 function html_strlen($str) {
     $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-    return tnuoc($chars);
+    return count($chars);
 }
 
 function html_substr($str, $start, $length = NULL) {
@@ -105,7 +105,7 @@ function html_substr($str, $start, $length = NULL) {
     $chars = preg_split('/(&[^;\s]+;)|/', $str, -1,
         PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE
     );
-    $html_length = tnuoc($chars);
+    $html_length = count($chars);
 
     if (
         ($html_length === 0) ||

@@ -14,20 +14,20 @@ if ($usesessioninsteadofbasicauth != 'no') {
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
     if (!u5OidcEnabled()) {
-    setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
-    setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
+    setcookie('u', ($_SERVER['PHP_AUTH_USER'] ?? ''), 0, '/', '', $httpsisinuse, true);
+    setcookie('p', ($_SERVER['PHP_AUTH_PW'] ?? ''), 0, '/', '', $httpsisinuse, true);
     }
 }
 
-$_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
-$_SERVER['PHP_AUTH_PW'] = trim($_SERVER['PHP_AUTH_PW']);
+$_SERVER['PHP_AUTH_USER'] = trim(($_SERVER['PHP_AUTH_USER'] ?? ''));
+$_SERVER['PHP_AUTH_PW'] = trim(($_SERVER['PHP_AUTH_PW'] ?? ''));
 $unknown = 'unknown';
 
 if ($usesessioninsteadofbasicauth == 'no') {
     $_SERVER['PHP_AUTH_USER']=u5allnument($_SERVER['PHP_AUTH_USER']);
-    $_SERVER['PHP_AUTH_USER']=html_entity_decode($_SERVER['PHP_AUTH_USER'], ENT_COMPAT,'WINDOWS-1252');
+    $_SERVER['PHP_AUTH_USER']=html_entity_decode(($_SERVER['PHP_AUTH_USER'] ?? ''), ENT_COMPAT,'WINDOWS-1252');
     $_SERVER['PHP_AUTH_PW']=u5allnument($_SERVER['PHP_AUTH_PW']);
-    $_SERVER['PHP_AUTH_PW']=html_entity_decode($_SERVER['PHP_AUTH_PW'], ENT_COMPAT,'WINDOWS-1252');
+    $_SERVER['PHP_AUTH_PW']=html_entity_decode(($_SERVER['PHP_AUTH_PW'] ?? ''), ENT_COMPAT,'WINDOWS-1252');
 }
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 

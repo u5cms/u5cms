@@ -24,7 +24,7 @@ if (isset($_POST['s'])) {
 <form name="sf" method="post">
     <?php
     if ($_POST['snptrm'] == 'off') $posts = $_POST['s'];
-    else $posts = trim($_POST['s']) ?>
+    else $posts = trim(($_POST['s'] ?? '')) ?>
     <textarea style="width:700px;height:100px" id="id_s" name="s"><?php echo ehtml($posts) ?></textarea><br/><br/>
     <div style="margin-left:300px"><input type="submit" value="search"/>
         &nbsp;&nbsp;&nbsp;&nbsp;

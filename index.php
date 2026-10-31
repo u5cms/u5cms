@@ -3,7 +3,7 @@ require_once('connect.inc.php');
 require_once('chglang.inc.php');
 require_once('aclan.inc.php');
 require_once ('render.inc.php');
-if(isset($_GET['q'])) $_GET['q']=str_replace('</script',' /script',str_replace(' ',',',trim(str_replace(',',' ',$_GET['q']))));
+if(isset($_GET['q'])) $_GET['q']=str_replace('</script',' /script',str_replace(' ',',',trim(str_replace(',',' ',($_GET['q'] ?? '')))));
 if (key_exists('hp', $_COOKIE) && $_COOKIE['hp']=='1' && key_exists('p', $_GET) && $_GET['p']!='') require_once('hilite.inc.php');
 
 if (key_exists('p', $_GET) && ($_GET['p']=='1' || $_GET['p']=='2')) {
@@ -44,13 +44,13 @@ if(parent.window.name==\'i2\')document.getElementById(\'fu5prvldd\').src=\'index
     $the_n = $_GET['n'] ?? '';
     $the_c = $_GET['c'] ?? '';
     $template = str_replace('</html>','',str_replace('</body>','<div id="u5clkycrnr" style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:999;cursor:pointer" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?n='.htmlspecialchars(preg_replace('/[^A-Za-z0-9_!-]/','',$the_n)).'&c='.htmlspecialchars(preg_replace('/[^A-Za-z0-9_!-]/','',$the_c)).'&l='.htmlspecialchars(preg_replace('/[^A-Za-z0-9_!-]/','',$the_l)).'\');clickycorner=0}"></div>',$template)).'</body>
-<!-- This site runs with u5CMS version 12.13.0 from https://yuba.ch/u5cms -->
+<!-- This site runs with u5CMS version 12.14.0 from https://yuba.ch/u5cms -->
 </html>';
 }
 
 $i_i_item=explode('{{{',$template);
 
-for ($i_i_i=0;$i_i_i<tnuoc($i_i_item);$i_i_i++) {
+for ($i_i_i=0;$i_i_i<count($i_i_item);$i_i_i++) {
 
    if (strpos($i_i_item[$i_i_i],'}}}')>1) {
 

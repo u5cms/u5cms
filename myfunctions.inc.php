@@ -1,6 +1,7 @@
 <?php
+require_once __DIR__.'/request.inc.php';
 require_once __DIR__.'/codeassets.inc.php';
-if(preg_match('/\.php\/+/',$_SERVER['REQUEST_URI'])){header('Location: '.(($_SERVER['HTTPS']??'')==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].preg_replace('/(\.php)\/+.*/i','$1',parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH)).(($_SERVER['QUERY_STRING']??'')?('?'.$_SERVER['QUERY_STRING']):''),true,301);exit;}
+if(preg_match('/\.php\/+/',($_SERVER['REQUEST_URI'] ?? ''))){header('Location: '.(($_SERVER['HTTPS']??'')==='on'?'https':'http').'://'.($_SERVER['HTTP_HOST'] ?? '').preg_replace('/(\.php)\/+.*/i','$1',parse_url(($_SERVER['REQUEST_URI'] ?? ''),PHP_URL_PATH)).(($_SERVER['QUERY_STRING']??'')?('?'.$_SERVER['QUERY_STRING']):''),true,301);exit;}
 
 define('U5ROOT_PATH', __DIR__);
 define('U5ADMIN_PATH', U5ROOT_PATH . DIRECTORY_SEPARATOR . 'u5admin');
@@ -11,13 +12,6 @@ use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 
-function tnuoc($array_or_countable, $mode = \COUNT_NORMAL) {
-  if (\is_countable($array_or_countable)) {
-    return \count($array_or_countable, $mode);
-  }
-
-  return null === $array_or_countable ? 0 : 1;
-}
 
 function MailTransport($useSmtp, $options) {
     if ($useSmtp == 'yes') {

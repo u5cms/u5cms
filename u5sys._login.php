@@ -45,13 +45,13 @@ if (isset($_GET['u'])) {
 }
 
 if(isset($u5samlsalt)&&$u5samlsalt!='') {
-    if ($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain!='' && str_replace($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain,'',$_GET['u'])==$_GET['u']) $u5samlinfrontend='yes';
-    if ($u5samlinfrontend != 'no') die('<center>'.ehtml($_COOKIE['u5samlusername']).'<br><br><button id="samllogin" onclick="top.location.href=\'loginsave.php?u='.rawurlencode($_GET['u']).'\'">LOGIN</button><br><br>'.$u5samllogininfo.'</center><script>document.getElementById("samllogin").focus();if(location.href.split("%3Bamp").length<7)document.getElementById("samllogin").click();else document.write('.($u5notamembermessage!='' ? '"' . $u5notamembermessage . '"' : json_encode('<br><br><br><center style="color:red">Is the user '.ehtml($_COOKIE['u5samlusername']).' registered in this u5CMS backend as a backend user or intranet user or closed user group member of the target page?</center>')).')</script>');
+    if ($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain!='' && str_replace($u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain,'',($_GET['u'] ?? ''))==$_GET['u']) $u5samlinfrontend='yes';
+    if ($u5samlinfrontend != 'no') die('<center>'.ehtml($_COOKIE['u5samlusername']).'<br><br><button id="samllogin" onclick="top.location.href=\'loginsave.php?u='.rawurlencode(($_GET['u'] ?? '')).'\'">LOGIN</button><br><br>'.$u5samllogininfo.'</center><script>document.getElementById("samllogin").focus();if(location.href.split("%3Bamp").length<7)document.getElementById("samllogin").click();else document.write('.($u5notamembermessage!='' ? '"' . $u5notamembermessage . '"' : json_encode('<br><br><br><center style="color:red">Is the user '.ehtml($_COOKIE['u5samlusername']).' registered in this u5CMS backend as a backend user or intranet user or closed user group member of the target page?</center>')).')</script>');
 }
 ?>
 <h1 class="logintitle"><?php echo def($logintitle_1, $logintitle_2, $logintitle_3, $logintitle_4, $logintitle_5) ?></h1>
 <span class="loginintro"><?php echo def($loginintro_1, $loginintro_2, $loginintro_3, $logintitle_4, $logintitle_5) ?></span>
-<form name="loginform" class="loginform" action="loginsave.php?u=<?php echo rawurlencode($_GET['u']) ?>" method="post">
+<form name="loginform" class="loginform" action="loginsave.php?u=<?php echo rawurlencode(($_GET['u'] ?? '')) ?>" method="post">
     <fieldset class="loginfieldset">
         <label class="loginlabel" style="display:block"><?php echo def($username_1, $username_2, $username_3, $username_4, $username_5) ?></label><input type="text" name="u" aria-label="<?php echo def($username_1, $username_2, $username_3, $username_4, $username_5) ?>" /><br/>
         <label class="loginlabel" style="display:block"><?php echo def($password_1, $password_2, $password_3, $password_4, $password_5) ?></label><input type="password" name="p" aria-label="<?php echo def($password_1, $password_2, $password_3, $password_4, $password_5) ?>" /><br/>

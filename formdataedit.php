@@ -23,7 +23,7 @@ $template = str_replace('</html>','',str_replace('</body>','<div style="width:30
 
 $i_i_item=explode('{{{',$template);
 
-for ($i_i_i=0;$i_i_i<tnuoc($i_i_item);$i_i_i++) {
+for ($i_i_i=0;$i_i_i<count($i_i_item);$i_i_i++) {
 
    if (strpos($i_i_item[$i_i_i],'}}}')>1) {
 
@@ -58,7 +58,7 @@ if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 ?>
 <script>
-document.u5form.action='editformsave.php?a=<?php echo $_GET['a']?>&id=<?php echo $_GET['id']?>&ti=<?php echo $row_a['time']?>&hu=<?php echo rawurlencode($row_a['humantime'])?>&st=<?php echo $row_a['status']?>&n=<?php echo $_GET['n']?>&l=<?php echo $_GET['l']?>';
+document.u5form.action='editformsave.php?a=<?php echo $_GET['a']?>&id=<?php echo $_GET['id']?>&ti=<?php echo $row_a['time']?>&hu=<?php echo rawurlencode(($row_a['humantime'] ?? ''))?>&st=<?php echo $row_a['status']?>&n=<?php echo $_GET['n']?>&l=<?php echo $_GET['l']?>';
 </script>
 
 <iframe width="0" height="0" frameborder="0" src="formdataedit2.php?n=<?php echo $_GET['c']?>&id=<?php echo $_GET['id']?>&a=<?php echo $_GET['a']?>"></iframe>

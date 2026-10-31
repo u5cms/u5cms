@@ -4,11 +4,11 @@ header('X-XSS-Protection: 0');
 ini_set('default_charset','WINDOWS-1252');
 require_once('../myfunctions.inc.php');
 require_once('../mysql.php');
-$_GET['name']=basename($_GET['name']);
-$_POST['name']=basename($_POST['name']);
-$_GET['name']=str_replace(chr(0),'',$_GET['name']);
-$_POST['name']=str_replace(chr(0),'',$_POST['name']);
-$_GET['l']=htmlspecialchars($_GET['l']);
+$_GET['name']=basename(($_GET['name'] ?? ''));
+$_POST['name']=basename(($_POST['name'] ?? ''));
+$_GET['name']=str_replace(chr(0),'',($_GET['name'] ?? ''));
+$_POST['name']=str_replace(chr(0),'',($_POST['name'] ?? ''));
+$_GET['l']=htmlspecialchars(($_GET['l'] ?? ''));
 include('../config.php');
 require_once('../san.inc.php');
 require_once('u5idn.inc.php');
@@ -52,7 +52,7 @@ echo 'SQL_a-Query failed!...!<p>';
 connect_to_db();
 require_once __DIR__.'/../oidc.inc.php';
 u5OidcApplyCredentials();
-if (basename($_SERVER['PHP_SELF'])!='htaccess.php') {
+if (basename(($_SERVER['PHP_SELF'] ?? ''))!='htaccess.php') {
 require_once('trxlog.inc.php');
 require_once('usercheck.inc.php');
 }

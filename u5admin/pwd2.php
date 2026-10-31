@@ -9,11 +9,11 @@ if (u5OidcEnabled()) die('Credentials for this website are managed by its OIDC i
 <script>err=0;</script><body onload="if(err==0)self.close()">
 <?php
 if(!isset($u5cmsbackendpasswordminimumlength))$u5cmsbackendpasswordminimumlength=6;
-$_POST['old']=trim($_POST['old']);
-$_POST['new1']=trim($_POST['new1']);
-$_POST['new2']=trim($_POST['new2']);
+$_POST['old']=trim(($_POST['old'] ?? ''));
+$_POST['new1']=trim(($_POST['new1'] ?? ''));
+$_POST['new2']=trim(($_POST['new2'] ?? ''));
 
-if(strlen($_POST['new1'])<$u5cmsbackendpasswordminimumlength) die("<script>alert('The new password is too short. Minimum length is ".ehtml($u5cmsbackendpasswordminimumlength)." characters.');err=1;history.go(-1);</script>");
+if(strlen(($_POST['new1'] ?? ''))<$u5cmsbackendpasswordminimumlength) die("<script>alert('The new password is too short. Minimum length is ".ehtml($u5cmsbackendpasswordminimumlength)." characters.');err=1;history.go(-1);</script>");
 if ($_POST['new1']!=$_POST['new2']) die("<script>alert('You entered the new password twice but they do not match.');err=1;history.go(-1);</script>");
 
 $sql_a="SELECT * FROM accounts where email='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND pw='".mysql_real_escape_string(pwdhsh($_POST['old']))."'";
@@ -27,7 +27,7 @@ $num_a = mysql_num_rows($result_a);
 
 if ($num_a<1) die("<script>alert('The current password you indicated is wrong.');err=1;history.go(-1);</script>");
 else if ($_POST['new1']!=$_POST['new2']) die("<script>alert('You entered the new password twice but they do not match.');err=1;history.go(-1);</script>");
-else if (trim($_POST['new1'])=='') die("<script>alert('Your new password must not be empty.');err=1;history.go(-1);</script>");
+else if (trim(($_POST['new1'] ?? ''))=='') die("<script>alert('Your new password must not be empty.');err=1;history.go(-1);</script>");
 else if (strpos('x'.$_POST['new1'],':')>0) die("<script>alert('The colon (:) is a forbidden character in passwords.');err=1;history.go(-1);</script>");
 else {
 

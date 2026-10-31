@@ -1,5 +1,6 @@
 <?php
-setcookie('f9focus', $_GET['c'], time() + 3600 * 24 * 365 * 10, '/');
+require_once __DIR__.'/../request.inc.php';
+setcookie('f9focus', ($_GET['c'] ?? ''), time() + 3600 * 24 * 365 * 10, '/');
 setcookie('pvs_f', 'x', time() + 3600 * 24 * 365 * 10, '/');
 setcookie('dgf', '', time() + 3600 * 24 * 365 * 10, '/');
 

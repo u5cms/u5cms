@@ -1,13 +1,14 @@
-<?php 
+<?php
+require_once __DIR__.'/request.inc.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED); 
 require('login.inc.php'); 
 require_once ('render.inc.php');
 require_once('globalslogin.inc.php');
 if($_SERVER['PHP_AUTH_USER']=='')exit;
-$_GET['t']=htmlXspecialchars(strip_tags($_GET['t']));
+$_GET['t']=htmlXspecialchars(strip_tags(($_GET['t'] ?? '')));
 
-$_SERVER['PHP_AUTH_USER'] = htmlspecialchars($_SERVER['PHP_AUTH_USER'], ENT_NOQUOTES, 'UTF-8');
-$_SERVER['PHP_AUTH_USER'] = str_replace('&amp;', '&', $_SERVER['PHP_AUTH_USER']);
+$_SERVER['PHP_AUTH_USER'] = htmlspecialchars(($_SERVER['PHP_AUTH_USER'] ?? ''), ENT_NOQUOTES, 'UTF-8');
+$_SERVER['PHP_AUTH_USER'] = str_replace('&amp;', '&', ($_SERVER['PHP_AUTH_USER'] ?? ''));
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,7 +35,7 @@ if ($usesessioninsteadofbasicauth != 'no') {
 ?>
 <script>
     function automailfill() {
-        if (parent.document.u5form) if (parent.document.u5form.youremail) parent.document.u5form.youremail.value = "<?php echo htmlspecialchars($_SERVER['PHP_AUTH_USER'], ENT_QUOTES, 'Windows-1252') ?>";
+        if (parent.document.u5form) if (parent.document.u5form.youremail) parent.document.u5form.youremail.value = "<?php echo htmlspecialchars(($_SERVER['PHP_AUTH_USER'] ?? ''), ENT_QUOTES, 'Windows-1252') ?>";
     }
     setTimeout("automailfill()", 1111);
 <?php if ($usesessioninsteadofbasicauth != 'no') { ?>

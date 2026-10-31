@@ -91,7 +91,6 @@ def test_site(site):
     (admin / 'connect.inc.php').write_text('''<?php
 require_once(__DIR__.'/../config.php');
 if ($_SERVER['REQUEST_METHOD']==='POST') ob_start(function($body) { file_put_contents(__DIR__.'/../responses/'.basename($_POST['name']).'.html',$body);return $body; });
-function tnuoc($a) { return is_array($a)?count($a):0; }
 function mysql_real_escape_string($s) { return addslashes($s); }
 function mysql_query($s) { file_put_contents(__DIR__.'/../queries.log',$s."\\n",FILE_APPEND); return true; }
 function mysql_fetch_array($a) { return array('deleted'=>'0','typ'=>'i'); }

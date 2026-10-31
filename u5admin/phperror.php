@@ -1,5 +1,5 @@
 <?php require_once('connect.inc.php');require_once('t2.php'); 
-$f9focusBis=basename(trim($_POST['page']));
+$f9focusBis=basename(trim(($_POST['page'] ?? '')));
 setcookie('f9focusBis', $f9focusBis, time() + 3600 * 24 * 365 * 10, '/');
 ?>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ setcookie('f9focusBis', $f9focusBis, time() + 3600 * 24 * 365 * 10, '/');
 <?php require('backendcss.php'); ?></head>
 <body bgcolor="darkorange" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php
-if(str_replace('_','',str_replace(' ','',$_POST['page']))=='') die('<script>alert("ERROR: no page selected");</script>');
+if(str_replace('_','',str_replace(' ','',($_POST['page'] ?? '')))=='') die('<script>alert("ERROR: no page selected");</script>');
 $_POST['name']=$_POST['page'];
 
 require('deloldphperror.php');
@@ -49,7 +49,7 @@ if ($result_a==false) {
 die('SQL_a-Query failed!...!<p>');
 }
 
-$echo='<a title="focus in repository" href="javascript:void(0)" style="text-decoration:none;background:white" onmouseover="this.click();this.style.background=\'gold\'" onmouseout="this.style.background=\'white\'" onclick="parent.parent.i3.location.href=\'focus.php?c='.basename(trim($_POST['name'])).'\'">F</a>&nbsp;';
+$echo='<a title="focus in repository" href="javascript:void(0)" style="text-decoration:none;background:white" onmouseover="this.click();this.style.background=\'gold\'" onmouseout="this.style.background=\'white\'" onclick="parent.parent.i3.location.href=\'focus.php?c='.basename(trim(($_POST['name'] ?? ''))).'\'">F</a>&nbsp;';
 ?> 
 <div style="margin:-2px 0 0 2px;white-space: nowrap;"><?php echo $echo ?><span onmouseover="this.title=this.innerHTML" onclick="alert(this.innerHTML)"> <?php echo $_POST['name']?></span></div>
 <?php require('countblockrefresh.inc.php'); ?>

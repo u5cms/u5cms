@@ -34,7 +34,7 @@ elseif ($action==='cache') {
     }
     foreach (array('portrait'=>array(40,80),'landscape'=>array(80,40),'square'=>array(40,40)) as $name=>$size) {
         $image=imagecreatetruecolor($size[0],$size[1]);imagefill($image,0,0,imagecolorallocate($image,20,180,60));
-        imagejpeg($image,$root.'/r/auditprivate/'.$name.'.jpg');imagedestroy($image);
+        imagejpeg($image,$root.'/r/auditprivate/'.$name.'.jpg');unset($image);
     }
     $cookies=json_decode($argv[3] ?? '{}',true);$identity=($cookies['u'] ?? '').($cookies['p'] ?? '');
     if ($sticksessiontoip==='yes') $identity='127.0.0.1'.$identity;

@@ -1,6 +1,7 @@
 <?php
+require_once __DIR__.'/../request.inc.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-$_GET['i']=htmlspecialchars($_GET['i'], ENT_QUOTES);$_GET['e']=htmlspecialchars($_GET['e'], ENT_QUOTES);
+$_GET['i']=htmlspecialchars(($_GET['i'] ?? ''), ENT_QUOTES);$_GET['e']=htmlspecialchars(($_GET['e'] ?? ''), ENT_QUOTES);
 require_once '../myfunctions.inc.php';
 require_once '../config.php';
 if(function_exists('UPLOADexec'))UPLOADexec();
@@ -33,7 +34,7 @@ if ($filehash1 != $_GET['h'] && $filehash2 != $_GET['h']) die('<script>alert("ER
 <?php
 $_FILES['userfile']['name'] = str_replace(chr(0), '', $_FILES['userfile']['name']);
 $ext = explode('.', $_FILES['userfile']['name']);
-$ext = strtolower($ext[tnuoc($ext) - 1]);
+$ext = strtolower($ext[count($ext) - 1]);
 require('../configallowedfileextensions.php');
 $okext = $extokFRONTend;
 if (!in_array($ext, $okext)&&$renamenotallowedfileextensionstotxt=='yes') $_FILES['userfile']['name'] .= '.txt';
@@ -59,7 +60,7 @@ else return $s;
 
 function mkascii($s)
 {
-$s=utf8_decode($s);
+$s=mb_convert_encoding($s ?? '', 'ISO-8859-1', 'UTF-8');
     $badascii = array(" ", ":", "¦", "|", "@", "&", "¢", "£", "¤", "¥", "€", "§", "¨", "©", "ª", "¬", "®", "¯", "°", "±", "´", "µ", "¶", "…", "·", "¸", "º", "÷", "†", "ß", "„", "“", "”", "‚", "‘", "’", "«", "»", "‹", "›", "¡", "¿", "–", "À", "Á", "Â", "Ã", "Ä", "Å", "Æ", "Ç", "È", "É", "Ê", "Ë", "Ì", "Í", "Î", "Ï", "Ñ", "Ò", "Ó", "Ô", "Õ", "#", "Ö", "Ø", "Œ", "Ù", "Ú", "Û", "Ü", "à", "á", "â", "ã", "ä", "å", "æ", "ç", "è", "é", "ê", "ë", "ì", "í", "î", "ï", "ñ", "ò", "ó", "ô", "õ", "#", "ö", "ø", "œ", "ù", "ú", "û", "ü", "ÿ", "'", "%", "/", "\\", "<", ">", ",", ";", "+", "=", "(", ")", "[", "]", "{", "}", "*", "?", "!", "`", "\"");
     $goodascii = array("_", "", "", "", "AT", "u", "c", "L", "", "Y", "E", "S", "", "c", "a", "N", "R", "", "o", "pm", "", "u", "P", "", "", "", "o", "", "", "ss", "", "", "", "", "", "", "", "", "", "", "", "", "", "A", "A", "A", "A", "Ae", "A", "Ae", "C", "E", "E", "E", "E", "I", "I", "I", "I", "N", "O", "O", "O", "O", "", "Oe", "O", "Oe", "U", "U", "U", "Ue", "a", "a", "a", "a", "ae", "a", "ae", "c", "e", "e", "e", "e", "i", "i", "i", "i", "n", "o", "o", "o", "o", "", "oe", "o", "oe", "u", "u", "u", "ue", "y", "", "", "", "", "", "", "", "", "u", "", "", "", "", "", "", "", "x", "", "", "", "_");
     $s = str_replace($badascii, $goodascii, $s);

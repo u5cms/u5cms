@@ -38,20 +38,20 @@ $post_max_size = let_to_num(ini_get('post_max_size'));
 <?php
 require('archivecheck.inc.php');
 require_once('publishupload.inc.php');
-$_POST['name']=basename($_POST['name']);
+$_POST['name']=basename(($_POST['name'] ?? ''));
 $moved=0;
 $nojpg=0;
 $yesjpg=0;
 $file_ary = reArrayFiles($_FILES['userfile']);
 
 
-if(tnuoc($file_ary)>ini_get('max_file_uploads')-1)die('<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded. Reason: You tried to upload more than '.(ini_get('max_file_uploads')-1).' files at once.");parent.location.href=parent.location.href</script>');
+if(count($file_ary)>ini_get('max_file_uploads')-1)die('<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded. Reason: You tried to upload more than '.(ini_get('max_file_uploads')-1).' files at once.");parent.location.href=parent.location.href</script>');
 
 foreach ($file_ary as $fileindex => $file) {
 
 $file['name']=str_replace(chr(0),'',$file['name']);
 $ext=explode('.',$file['name']);
-$ext=$ext[tnuoc($ext)-1];
+$ext=$ext[count($ext)-1];
 $ext=strtolower($ext);
 $ext=str_replace('jpeg','jpg',$ext);
 
@@ -88,8 +88,8 @@ imagefill($jpg,0,0,$white);
 imagealphablending($jpg,true);
 imagecopy($jpg,$image,0,0,0,0,$width,$height);
 if(imagejpeg($jpg,$file['tmp_name'],100)) $ext='jpg';
-imagedestroy($jpg);
-imagedestroy($image);
+unset($jpg);
+unset($image);
 }
 }
 else {
@@ -152,7 +152,7 @@ if ($result_a==false) {
 }
 }
 
-if(tnuoc($file_ary)>1) if ($nojpg>0) echo '<script>document.getElementById("body").style.background="lightblue";alert("Not all files were readable supported images!\n\nOnly supported images have been saved ('.$yesjpg.' files).\n\nUnsupported or unreadable images have been skipped ('.$nojpg.') files.")</script>';
+if(count($file_ary)>1) if ($nojpg>0) echo '<script>document.getElementById("body").style.background="lightblue";alert("Not all files were readable supported images!\n\nOnly supported images have been saved ('.$yesjpg.' files).\n\nUnsupported or unreadable images have been skipped ('.$nojpg.') files.")</script>';
 
 if($moved>0) echo '<script>parent.files.location.href=parent.files.location.href;if (parent && parent.opener && parent.opener.parent && parent.opener.parent.save) parent.opener.parent.save.location.href=\'done.php?n=uploaded '.$_POST['name'].$_GET['l'].'\'</script><b>ok</b><script>setTimeout("location.href=\'sendfilea.php?name='.$_POST['name'].'&l='.$_GET['l'].'&typ='.$_GET['typ'].'\'",111)</script>';
 else echo '<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded.\\n\\nIs the file too big? Max file size='.($max_upload_size/1024/1024).' MB\\n\\nIf multiple files, is the total too big? Post max size='.($post_max_size/1024/1024).' MB\\n\\nWas it a readable supported image file?");parent.location.href=parent.location.href</script>';
@@ -160,7 +160,7 @@ else echo '<script>document.getElementById("body").style.background="red";alert(
 function reArrayFiles(&$file_post) {
 
     $file_ary = array();
-    $file_count = tnuoc($file_post['name']);
+    $file_count = count($file_post['name']);
     $file_keys = array_keys($file_post);
 
     for ($i=0; $i<$file_count; $i++) {

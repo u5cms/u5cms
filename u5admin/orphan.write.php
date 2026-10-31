@@ -43,7 +43,7 @@ $num_a = mysql_num_rows($result_a);
 
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
-$likeName=mysql_real_escape_string(str_replace(array('!','%','_'),array('!!','!%','!_'),$row_a['name']));
+$likeName=mysql_real_escape_string(str_replace(array('!','%','_'),array('!!','!%','!_'),($row_a['name'] ?? '')));
 
 $manfph='';
 $codeUsage=strtolower((string)$row_a['typ'])==='c' ? 'OR '.u5CodeAssetUsageSql($row_a['name']) : '';

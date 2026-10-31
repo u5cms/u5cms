@@ -1,5 +1,6 @@
-<?php 
-setcookie('fv', $_GET['f'], time()+10,'/');
+<?php
+require_once __DIR__.'/request.inc.php';
+setcookie('fv', ($_GET['f'] ?? ''), time()+10,'/');
 ?>
 <script type="text/javascript">
 parent.history.go(-1);

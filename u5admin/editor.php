@@ -314,7 +314,7 @@ ns<input
         <br><br>
 
         <?php
-        if (substr($_GET['c'], 0, 1) == '!') echo 'You cannot enter any logins here because this is an intranet page (indication: !-pagename) for which all intranet members are managed under the \'A\'-radiobutton of your PIDVESA-radiobutton-navigation in the upper right corner of the CMS-backend.';
+        if (substr(($_GET['c'] ?? ''), 0, 1) == '!') echo 'You cannot enter any logins here because this is an intranet page (indication: !-pagename) for which all intranet members are managed under the \'A\'-radiobutton of your PIDVESA-radiobutton-navigation in the upper right corner of the CMS-backend.';
         else echo 'Usernames &amp; passwords for all language versions of this page. One pair per line e.g. <font color=red><b>?</b></font>smith<font color=red><b>:</b></font>xy123<font color=red><b>;</b></font> (red delimiters are mandatory)';
         ?>
 
@@ -324,7 +324,7 @@ ns<input
                           onmouseout="if (this.value!=tov) {mychanges();dosync(window.name,this.id,this.value)};"><?php echo ehtml($row_a['logins']) ?></textarea>
         </center>
         <?php
-        if (substr($_GET['c'], 0, 1) == '!') echo '<script>document.getElementById("idlogins").style.display="none";</script>';
+        if (substr(($_GET['c'] ?? ''), 0, 1) == '!') echo '<script>document.getElementById("idlogins").style.display="none";</script>';
         ?>
 
         <br>
@@ -1095,7 +1095,7 @@ setTimeout("fcheckco()",1000*' . $monitorprospectivesaveconflictseverynseconds .
 if (document.form1.page.value == '' || document.form1.page.value == '_') setTimeout("location.href = 'selectpage.php'",777);
 if(getCookie(window.name+'edfo')-0>0)tareatextfo();
 function countblockels() {
-if(document.getElementById('idcoblel'))document.getElementById('idcoblel').src='countblockelements.php?c=<?php echo htmlentities($_GET['c'])?>&l1=<?php echo $lan1na ?>&l2=<?php echo $lan2na?>&l3=<?php echo $lan3na ?>&l4=<?php echo $lan4na ?>&l5=<?php echo $lan5na ?>';
+if(document.getElementById('idcoblel'))document.getElementById('idcoblel').src='countblockelements.php?c=<?php echo htmlentities(($_GET['c'] ?? ''))?>&l1=<?php echo $lan1na ?>&l2=<?php echo $lan2na?>&l3=<?php echo $lan3na ?>&l4=<?php echo $lan4na ?>&l5=<?php echo $lan5na ?>';
 }
 setTimeout("countblockels()",777);
 </script>

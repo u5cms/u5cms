@@ -92,7 +92,7 @@ function u5CodeAssetPlanNames($resources, $uses='', $occupiedFiles=array()) {
     $groups=array(); $reserved=array(); $files=array(); $map=array(); $notes=array();
     foreach ($occupiedFiles as $file=>$owner) $files[strtolower($file)]=$owner;
     foreach ($resources as $row) {
-        $reserved[strtolower($row['name'])]=true;
+        $reserved[strtolower(($row['name'] ?? ''))]=true;
         if (strtolower((string)$row['typ'])!=='c') continue;
         $name=$row['name'];
         $rank=(int)$row['deleted']===0 ? 0 : ((int)$row['deleted']===2 ? 1 : 2);

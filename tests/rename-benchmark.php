@@ -6,13 +6,14 @@ ini_set('mysqli.default_port',(string)(int)getenv('U5CMS_TEST_PORT'));mysql_conn
 $database='u5rename_bench_'.bin2hex(random_bytes(6));u5CodeMigrationQuery('CREATE DATABASE `'.$database.'` CHARACTER SET utf8mb4');mysql_select_db($database);
 $link=mysql_ensure_link(null);mysqli_multi_query($link,file_get_contents(dirname(__DIR__).'/u5standard.sql'));do {if ($r=mysqli_store_result($link))mysqli_free_result($r);}while(mysqli_more_results($link)&&mysqli_next_result($link));
 if (mysqli_errno($link))throw new RuntimeException(mysqli_error($link));u5CodeMigrationQuery('SET NAMES latin1');
-function tnuoc($value) {return count($value);}
 $alsorenamelinksinformdatadatacsv='yes';
 foreach (array('rename2.php'=>array('sere13'),'rename3.php'=>array('sere13b','loginglobals')) as $path=>$names) {
     $process=proc_open(array('git','show','acdd8d6cf362c93803e94897336d347e26d1dba6:u5admin/'.$path),array(1=>array('pipe','w'),2=>array('pipe','w')),$pipes,dirname(__DIR__));
     $code=stream_get_contents($pipes[1]);$error=stream_get_contents($pipes[2]);fclose($pipes[1]);fclose($pipes[2]);if(proc_close($process)!==0)throw new RuntimeException($error);
     foreach ($names as $name) {
         if (!preg_match('~function '.preg_quote($name,'~').'\(.*?\n\}~s',$code,$match))throw new RuntimeException('Missing legacy function.');
+        // Legacy benchmark inputs are arrays; the removed historical alias was count() here.
+        $match[0]=str_replace('tnuoc(', 'count(', $match[0]);
         eval(preg_replace('/\b(sere13b|sere13|loginglobals)\(/','legacy_$1(',$match[0]));
     }
 }

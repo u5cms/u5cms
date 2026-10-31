@@ -28,7 +28,7 @@ $s=str_replace('  ',' ',$s);
 $s=str_replace('  ',' ',$s);
 $s=str_replace('  ',' ',$s);
 
-$s=html_entity_decode(utf8_encode(htmlentities($s,ENT_QUOTES,'cp1252')), ENT_QUOTES, 'UTF-8');
+$s=html_entity_decode(htmlentities($s ?? '',ENT_QUOTES,'cp1252'), ENT_QUOTES, 'UTF-8');
 return $s;	
 }
 
@@ -107,7 +107,7 @@ function html_substr($str, $start, $length = NULL) {
 
   // create our array of characters and html entities
   $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
-  $html_length = tnuoc($chars);
+  $html_length = count($chars);
 
   // check if we can predict the return value and save some processing time
   if (

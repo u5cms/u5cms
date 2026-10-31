@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/../request.inc.php';
 
 function fd_cp1252_variants($s) {
 $map=array(
@@ -51,7 +52,7 @@ $variants[]=str_replace(';',',.',$literalfromentity);
 $variants=array_unique($variants);
 
 $clean=array();
-for($i=0;$i<tnuoc($variants);$i++) {
+for($i=0;$i<count($variants);$i++) {
 if($variants[$i]!=='') $clean[]=$variants[$i];
 }
 
@@ -67,11 +68,11 @@ if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);
     '/%u(.{4})/',
     function($match){      return "&#".hexdec("x".$match[1]).",.";
     },
-    $_GET['f']
+    ($_GET['f'] ?? '')
   );
 
 if ($_GET['f']!='') {
-$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim($_GET['f'])))));
+$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim(($_GET['f'] ?? ''))))));
 $keywords=str_replace('"',' ',$keywords);
 $keywords=str_replace('"',' ',$keywords);
 $keywords=str_replace('"',' ',$keywords);
@@ -92,10 +93,10 @@ $andfilter="AnD ( (";
 $orand='oR';
 if ($_COOKIE['fdbool']=='and') $orand='anD';
 
-for ($k=0;$k<tnuoc($keywords);$k++) {
+for ($k=0;$k<count($keywords);$k++) {
 
 if($keywords[$k]=='') {
-if ($k==tnuoc($keywords)-1) $andfilter.=')';
+if ($k==count($keywords)-1) $andfilter.=')';
 else $andfilter.=") $orand (";
 continue;
 }
@@ -106,7 +107,7 @@ $keywords[$k]=ltrim($keywords[$k], '-');
 
 $variants=fd_cp1252_variants($keywords[$k]);
 
-for($v=0;$v<tnuoc($variants);$v++) {
+for($v=0;$v<count($variants);$v++) {
 $andfilter.="AND datacsv NOT LIKE '%".mysql_real_escape_string($variants[$v])."%' ";
 $andfilter.="AND authuser NOT LIKE '%".mysql_real_escape_string($variants[$v])."%' ";
 $andfilter.="AND ip NOT LIKE '%".mysql_real_escape_string($variants[$v])."%' ";
@@ -119,7 +120,7 @@ else {
 $variants=fd_cp1252_variants($keywords[$k]);
 
 $andfilter.="datacsv='' ";
-for($v=0;$v<tnuoc($variants);$v++) {
+for($v=0;$v<count($variants);$v++) {
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string($variants[$v])."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string($variants[$v])."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string($variants[$v])."%' ";
@@ -128,7 +129,7 @@ $andfilter.="OR humantime LIKE '%".mysql_real_escape_string($variants[$v])."%' "
 }
 }
 
-if ($k==tnuoc($keywords)-1) $andfilter.=')';
+if ($k==count($keywords)-1) $andfilter.=')';
 else $andfilter.=") $orand (";
 }
 $andfilter.=')';

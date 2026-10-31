@@ -44,23 +44,19 @@ class ConsoleHelper
     public const HIGHLIGHT_INFO  = 'info';
     public const HIGHLIGHT_ERROR = 'error';
 
-    /**
-     * @var array
-     * @psalm-var array<ConsoleHelper::HIGHLIGHT_*, ConsoleHelper::COLOR_GREEN|ConsoleHelper::COLOR_RED>
-     */
-    private $highlightMap = [
+    /** @psalm-var array<ConsoleHelper::HIGHLIGHT_*, ConsoleHelper::COLOR_GREEN|ConsoleHelper::COLOR_RED> */
+    private array $highlightMap = [
         self::HIGHLIGHT_INFO  => self::COLOR_GREEN,
         self::HIGHLIGHT_ERROR => self::COLOR_RED,
     ];
 
     /** @var string Exists only for testing. */
-    private $eol = PHP_EOL;
+    private string $eol = PHP_EOL;
 
     /** @var resource Exists only for testing. */
     private $stderr = STDERR;
 
-    /** @var bool */
-    private $supportsColor;
+    private bool $supportsColor;
 
     /**
      * @param resource $resource
@@ -86,7 +82,7 @@ class ConsoleHelper
         foreach ($this->highlightMap as $key => $color) {
             $pattern = sprintf('#<%s>(.*?)</%s>#s', $key, $key);
             $color   = $this->supportsColor ? $color : '';
-            $string  = preg_replace($pattern, $color . '$1' . $reset, $string);
+            $string  = (string) preg_replace($pattern, $color . '$1' . $reset, $string);
         }
         return $string;
     }
@@ -160,7 +156,7 @@ class ConsoleHelper
     private function formatNewlines($string)
     {
         $string = str_replace($this->eol, "\0PHP_EOL\0", $string);
-        $string = preg_replace("/(\r\n|\n|\r)/", $this->eol, $string);
+        $string = (string) preg_replace("/(\r\n|\n|\r)/", $this->eol, $string);
         return str_replace("\0PHP_EOL\0", $this->eol, $string);
     }
 }

@@ -11,7 +11,7 @@ require_once('render.inc.php');
 require_once('loginformsave.inc.php');
 if($requireturnstileonfrontendformsave=='yes') require('grc2.php');
 /////////////////////////////////////////////////////////////////////////////////////////////////
-if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
+if (count($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
 $sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['n'])."'";
 $result_a=mysql_query($sql_a);
@@ -53,10 +53,10 @@ $head='';
 $data='';
 $thanks='';
 
-$nt2me=explode(',',$_POST['nt2me']);
+$nt2me=explode(',',($_POST['nt2me'] ?? ''));
 $nt2me=array_map('trim',$nt2me);
 
-$nt2cu=explode(',',$_POST['nt2cu']);
+$nt2cu=explode(',',($_POST['nt2cu'] ?? ''));
 $nt2cu=array_map('trim',$nt2cu);
 
 $zendsubject=$_POST['thankssubject'];
@@ -220,9 +220,9 @@ $zendsubject=$hzendsubject;
 $zendmessage=$hzendmessage;
 }
 
-if (strpos(trim($_POST['ouremail']),'@')>=1) $email1=trim($_POST['ouremail']);
-if (strpos(trim($_POST['youremail']),'@')>=1) $email2=trim($_POST['youremail']);
-if (strpos(trim($_POST['youremail_mandatory']),'@')>=1) $email2=trim($_POST['youremail_mandatory']);
+if (strpos(trim(($_POST['ouremail'] ?? '')),'@')>=1) $email1=trim(($_POST['ouremail'] ?? ''));
+if (strpos(trim(($_POST['youremail'] ?? '')),'@')>=1) $email2=trim(($_POST['youremail'] ?? ''));
+if (strpos(trim(($_POST['youremail_mandatory'] ?? '')),'@')>=1) $email2=trim(($_POST['youremail_mandatory'] ?? ''));
 
 $zendfrom=$email1;
 $zendname=$email1;

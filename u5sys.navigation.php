@@ -87,7 +87,7 @@ $oldz1 = $oldz2 = $oldz3  = 0;
 $context = '';
 $wasActive = true;
 
-// for ($i = 0; $i < tnuoc($string); $i++) {
+// for ($i = 0; $i < count($string); $i++) {
 $naviecho = "";
 foreach ($navitems as $navitem) {
     // Inspect current navigation item

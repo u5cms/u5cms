@@ -19,7 +19,7 @@ require '../simplesaml/_include.php';
 $simpleSaml = new \SimpleSAML\Auth\Simple($u5samlsspauthsourcekey);
 $simpleSaml->logout(
     [
-        'ReturnTo' => 'https://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']) . '/logged_out.php',
+        'ReturnTo' => 'https://' . $_SERVER['SERVER_NAME'] . dirname(($_SERVER['REQUEST_URI'] ?? '')) . '/logged_out.php',
         'ReturnStateParam' => 'LogoutState',
         'ReturnStateStage' => 'MyLogoutState',
     ]

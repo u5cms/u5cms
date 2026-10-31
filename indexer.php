@@ -74,7 +74,7 @@ try {
     if ($result_b === false) throw new RuntimeException('Cannot read inserts for indexing.');
 
 if(isset($_GET['n'])) {
-	$oneitemonly=" name='".mysql_real_escape_string(htmlspecialchars($_GET['n']))."' AND";
+	$oneitemonly=" name='".mysql_real_escape_string(htmlspecialchars(($_GET['n'] ?? '')))."' AND";
 }	
 else $oneitemonly='';
 
@@ -114,35 +114,35 @@ $content_3 = u5SearchIndexEncodeLegacy($content_3);
 $content_4 = u5SearchIndexEncodeLegacy($content_4);
 $content_5 = u5SearchIndexEncodeLegacy($content_5);
 
-if (trim($row_ii['title_1'])=='' || str_replace(' . . .','',$row_ii['title_1'])!=$row_ii['title_1']) {
+if (trim(($row_ii['title_1'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_1'] ?? ''))!=$row_ii['title_1']) {
 $title_1=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'1').' . . .';
 }
 else {
 $title_1=$row_ii['title_1'];
 }
 
-if (trim($row_ii['title_2'])=='' || str_replace(' . . .','',$row_ii['title_2'])!=$row_ii['title_2']) {
+if (trim(($row_ii['title_2'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_2'] ?? ''))!=$row_ii['title_2']) {
 $title_2=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'2').' . . .';
 }
 else {
 $title_2=$row_ii['title_2'];
 }
 
-if (trim($row_ii['title_3'])=='' || str_replace(' . . .','',$row_ii['title_3'])!=$row_ii['title_3']) {
+if (trim(($row_ii['title_3'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_3'] ?? ''))!=$row_ii['title_3']) {
 $title_3=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'3').' . . .';
 }
 else {
 $title_3=$row_ii['title_3'];
 }
 
-if (trim($row_ii['title_4'])=='' || str_replace(' . . .','',$row_ii['title_4'])!=$row_ii['title_4']) {
+if (trim(($row_ii['title_4'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_4'] ?? ''))!=$row_ii['title_4']) {
 $title_4=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'4').' . . .';
 }
 else {
 $title_4=$row_ii['title_4'];
 }
 
-if (trim($row_ii['title_5'])=='' || str_replace(' . . .','',$row_ii['title_5'])!=$row_ii['title_5']) {
+if (trim(($row_ii['title_5'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_5'] ?? ''))!=$row_ii['title_5']) {
 $title_5=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'5').' . . .';
 }
 else {

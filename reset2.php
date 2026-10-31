@@ -41,7 +41,7 @@ function genRandomString() {
 }
 $p=genRandomString();
 $hash=rand(1000000000,9999999999).rand(1000000000,9999999999);
-if($doublepasswordmailing!='no')mail($row_a['email'],"Your new u5CMS backend user password","Your new u5CMS backend user password is $p");
+if($doublepasswordmailing!='no')mail(($row_a['email'] ?? ''),"Your new u5CMS backend user password","Your new u5CMS backend user password is $p");
 $zendfrom=$mymail;
 $zendname=$mymail;
 $zendto=$row_a['email'];
@@ -80,7 +80,7 @@ exit;
 
 file_put_contents('fileversions/lastreset.txt',time());
 
-$e=str_replace(' ','',trim($_POST['e']));
+$e=str_replace(' ','',trim(($_POST['e'] ?? '')));
 require_once('u5admin/u5idn.inc.php');
 $e=u5flatidn($e);
 

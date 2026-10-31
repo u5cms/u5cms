@@ -23,7 +23,7 @@ if($_GET['t']<1)$t=1;
 else $t=$_GET['t'];
 
 $old=explode('_',$f);
-$old=$old[tnuoc($old)-1];
+$old=$old[count($old)-1];
 $old=explode('.',$old);
 $old=$old[0];
 

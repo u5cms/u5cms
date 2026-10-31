@@ -57,7 +57,9 @@ readfile($file);
     if os.environ.get('U5CMS_TEST_HTTP_PORT'):
         port = int(os.environ['U5CMS_TEST_HTTP_PORT'])
     else:
-        with socket.socket() as probe:
+        if os.environ.get('U5CMS_PHP9_AUDIT'):
+        router.write_text('<?php require '+json.dumps(str(REPO/'tests/php9-guard.php'))+'; ?>\n'+router.read_text())
+    with socket.socket() as probe:
             probe.bind(('127.0.0.1', 0))
             port = probe.getsockname()[1]
     base = 'http://127.0.0.1:' + str(port)

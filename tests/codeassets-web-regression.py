@@ -26,6 +26,8 @@ $mime=array('js'=>'text/javascript','css'=>'text/css','png'=>'image/png','jpg'=>
 $extension=strtolower(pathinfo($file,PATHINFO_EXTENSION));
 header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readfile($file);
 ''')
+    if os.environ.get('U5CMS_PHP9_AUDIT'):
+        router.write_text('<?php require '+json.dumps(str(REPO/'tests/php9-guard.php'))+'; ?>\n'+router.read_text())
     with socket.socket() as probe:
         probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
     base='http://127.0.0.1:'+str(port)

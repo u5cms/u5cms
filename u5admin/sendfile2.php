@@ -38,11 +38,11 @@ $max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get(
 require('archivecheck.inc.php');
 require_once('publishupload.inc.php');
 if (!isset($_FILES['userfile']['error']) || $_FILES['userfile']['error']!==UPLOAD_ERR_OK || !is_uploaded_file($_FILES['userfile']['tmp_name'])) die('ERROR: incomplete upload. The current file has been kept.');
-$_POST['name']=basename($_POST['name']);
-$_GET['l']=basename($_GET['l']);
+$_POST['name']=basename(($_POST['name'] ?? ''));
+$_GET['l']=basename(($_GET['l'] ?? ''));
 $_FILES['userfile']['name']=str_replace(chr(0),'',$_FILES['userfile']['name']);
 $ext=explode('.',$_FILES['userfile']['name']);
-$ext=strtolower($ext[tnuoc($ext)-1]);
+$ext=strtolower($ext[count($ext)-1]);
 require('../configallowedfileextensions.php');
 $okext=$extokBACKend;
 if (!in_array($ext,$okext)) {
@@ -94,14 +94,14 @@ imagealphablending($jpg,true);
 imagecopy($jpg,$image,0,0,0,0,$width,$height);
 
 if(!imagejpeg($jpg,$_FILES['userfile']['tmp_name'],100)) {
-imagedestroy($jpg);
-imagedestroy($image);
+unset($jpg);
+unset($image);
 @unlink($originalimagetmp);
 die('<script>document.getElementById("body").style.background="red";alert("Error: '.$originalimageext.' file could not be converted to JPG.");parent.location.href=parent.location.href</script>');
 }
 
-imagedestroy($jpg);
-imagedestroy($image);
+unset($jpg);
+unset($image);
 $ext='jpg';
 }
 
@@ -121,7 +121,7 @@ else {
      while (false !== ($file = readdir($handle)))  {
 
      $exta=explode('.',$file);
-     $exta=$exta[tnuoc($exta)-1];
+     $exta=$exta[count($exta)-1];
 
      if ($exta!=$ext) if (str_replace('.','',$file)!='') @unlink('../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$exta);
      }

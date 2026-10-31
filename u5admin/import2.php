@@ -13,8 +13,9 @@ unlink('../fileversions/x');
 }
 else echo '<script>alert("PROBLEM: The server does not have the right to write into the folder named \'fileversions\'.\n\nEFFECTS: Data import not possible.\n\nSOLUTION: CHMOD this folder RECURSIVELY (incl. all its files, subfolders a.s.o.) e. g. to 777 e. g. with FileZilla.");</script>';
 
-$filename=sha1($csv).'.csv';
+if (!isset($_POST['csv']) || !is_string($_POST['csv']) || trim($_POST['csv'])==='') { http_response_code(400);die('CSV input is required.'); }
 $csv=str_replace(';',',.',$_POST['csv']);
+$filename=sha1($csv).'.csv';
 file_put_contents('../fileversions/'.$filename,$csv);
 
 function subone(&$item1) {
@@ -32,7 +33,7 @@ if($for==0){
 $keys=array_keys($fields);
 }
 $for++;
-fputcsv($fp, $fields,';');
+fputcsv($fp, $fields, ';', '"', '');
 }
 
 }
@@ -78,19 +79,23 @@ class CsvImporter
     private $fp;
     private $parse_header;
     private $header;
+    private $escape;
     private $delimiter;
     private $length;
     //--------------------------------------------------------------------
-    function __construct($file_name, $parse_header=false, $delimiter="\t", $length=8000)
+    function __construct($file_name, $parse_header=false, $delimiter="\t", $length=8000, $escape="")
     {
         $this->fp = fopen($file_name, "r");
+        if (!is_resource($this->fp)) throw new RuntimeException('CSV input cannot be read.');
+        if ($escape!=='' && $escape!=="\\") throw new InvalidArgumentException('Invalid CSV escape option.');
+        $this->escape=$escape;
         $this->parse_header = $parse_header;
         $this->delimiter = $delimiter;
         $this->length = $length;
 
         if ($this->parse_header)
         {
-           $this->header = fgetcsv($this->fp, $this->length, $this->delimiter);
+           $this->header = fgetcsv($this->fp, $this->length, $this->delimiter, '"', $this->escape);
         }
 
     }
@@ -114,13 +119,14 @@ class CsvImporter
         else
             $line_count = -1; // so loop limit is ignored
 
-        while ($line_count < $max_lines && ($row = fgetcsv($this->fp, $this->length, $this->delimiter)) !== FALSE)
+        while ($line_count < $max_lines && ($row = fgetcsv($this->fp, $this->length, $this->delimiter, '"', $this->escape)) !== FALSE)
         {
             if ($this->parse_header)
             {
+                $row_new=array();
                 foreach ($this->header as $i => $heading_i)
                 {
-                    $row_new[$heading_i] = $row[$i];
+                    $row_new[$heading_i] = $row[$i] ?? '';
                 }
                 $data[] = $row_new;
             }
@@ -145,7 +151,7 @@ $c=explode("\n",$c);
 $m=$_POST['m'];
 $n=$_POST['n'];
 
-for($i=0;$i<tnuoc($c);$i++) {
+for($i=0;$i<count($c);$i++) {
 $d=explode(';',$c[$i]);
 $h=explode(';',$headcsv);
 
@@ -180,10 +186,10 @@ unset($h[1]);
 
 if($n==2) {
 $end=2;
-$sent=$d[tnuoc($d)-2];
-$ip=$d[tnuoc($d)-1];
-unset($h[tnuoc($h)]);
-unset($h[tnuoc($h)]);
+$sent=$d[count($d)-2];
+$ip=$d[count($d)-1];
+unset($h[count($h)]);
+unset($h[count($h)]);
 }
 
 else {
@@ -196,7 +202,7 @@ $h=implode(';',$h);
 
 
 $datacsv='';
-for($ii=$start;$ii<tnuoc($d)-$end;$ii++) {
+for($ii=$start;$ii<count($d)-$end;$ii++) {
 ////////////////////////////////////////
 //echo $h;
 $datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'·'.$d[$ii]).';';
@@ -207,7 +213,7 @@ $datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'·'.$d[$ii]).';';
 
 
 $datacsv=explode(';',$datacsv);
-for($iii=0;$iii<tnuoc($datacsv);$iii++) {
+for($iii=0;$iii<count($datacsv);$iii++) {
 if ($datacsv[$iii][1]=='"') {
 $datacsv[$iii]='·'.substr($datacsv[$iii],2);
 if ($datacsv[$iii][strlen($datacsv[$iii])-1]=='"') $datacsv[$iii]=substr($datacsv[$iii],0,-1);

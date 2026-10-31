@@ -34,7 +34,7 @@ if($row_a['mailsent']==0) die('<h3>Sending mails from mailjob &#19904;'.$_GET['i
 
 echo '<h1>Mailjob &#19904;'.$_GET['id'].' execution initiated '.date('Y-m-d H:i:s',$row_a['mailsent']).' by '.$row_a['mailsentop'].'</h1>';
 echo '<h2>Recipients (to, excl. cc/bcc)</h2>';
-echo '<small><small>'.str_replace(',',', ',substr($row_a['mailsentto'],0,-1)).'</small></small>';
+echo '<small><small>'.str_replace(',',', ',substr(($row_a['mailsentto'] ?? ''),0,-1)).'</small></small>';
 echo '<h2>Content</h2>';
 echo $row_a['mailsentts'];
 ?>

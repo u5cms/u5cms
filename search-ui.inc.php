@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__.'/request.inc.php';
 require_once __DIR__ . '/search-request.inc.php';
 
 function u5SearchLanguage() {
-    $language = isset($_GET['l']) && is_string($_GET['l']) ? strtolower($_GET['l']) : '';
+    $language = isset($_GET['l']) && is_string($_GET['l']) ? strtolower(($_GET['l'] ?? '')) : '';
     if ($language === '') $language = strtolower((string) ($GLOBALS['lan1na'] ?? 'en'));
     return in_array($language, array('de', 'fr', 'it', 'rm', 'en'), true) ? $language : 'en';
 }

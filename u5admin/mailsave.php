@@ -12,7 +12,7 @@ $row_a = mysql_fetch_array($result_a);
 if($row_a['mailsent']>0) die('<script>alert("You cannot save nor change mailjob "+document.getElementById("xgram").value+"'.$_GET['id'].' because it has been sent at '.date('Y-m-d H:i:s',$row_a['mailsent']).' by '.$row_a['mailsentop'].'");history.go(-1)</script>');
 if ($_POST['coco']<$row_a['mailsaved'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER'])))) ) {
 ?>
-<div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',$row_a['mailsavedop'])) ?></div>
+<div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',($row_a['mailsavedop'] ?? ''))) ?></div>
 <script>
 msgconflict='CONFLICT(!)\n\nYour data can not be saved.\n\nReason: '+document.getElementById('e').innerHTML+' has saved this data in a new version during your editing session (at <?php echo date('Y-m-d H:i:s',$row_a['mailsaved'])?>).\n\nPlease copy and paste your unsavable mail text e. g. to a word document. Afterwards click the edit link of this mail in the right column at hand to load the new version created by '+document.getElementById('e').innerHTML+'.';
 top.document.title=msgconflict;

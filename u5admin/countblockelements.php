@@ -16,11 +16,11 @@ $result_a = mysql_query($sql_a);
 if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 
-$l1=basename(htmlentities($_GET['l1']));
-$l2=basename(htmlentities($_GET['l2']));
-$l3=basename(htmlentities($_GET['l3']));
-$l4=basename(htmlentities($_GET['l4']));
-$l5=basename(htmlentities($_GET['l5']));
+$l1=basename(htmlentities(($_GET['l1'] ?? '')));
+$l2=basename(htmlentities(($_GET['l2'] ?? '')));
+$l3=basename(htmlentities(($_GET['l3'] ?? '')));
+$l4=basename(htmlentities(($_GET['l4'] ?? '')));
+$l5=basename(htmlentities(($_GET['l5'] ?? '')));
 
 $xdata[$l1]=render($row_a['content_1']);
 $xdata[$l2]=render($row_a['content_2']);
@@ -41,12 +41,12 @@ $close=substr_count($data,'</'.$tag.' ');
 
 if($open>$close){
 $res='&nbsp;!&nbsp;';
-$err.='\u279c On the page* \u00ab'.basename(htmlentities($_GET['c'])).'\u00bb '.strtoupper($l).' are too few closing '.$tag.'-tags ('.$open.':'.$close.').\r\n';
+$err.='\u279c On the page* \u00ab'.basename(htmlentities(($_GET['c'] ?? ''))).'\u00bb '.strtoupper($l).' are too few closing '.$tag.'-tags ('.$open.':'.$close.').\r\n';
 }
 
 else if(tagoc($data,$tag)!=0){
 $res='&nbsp;!&nbsp;';
-$err.='\u279c On the page* \u00ab'.basename(htmlentities($_GET['c'])).'\u00bb '.strtoupper($l).' not all '.$tag.'-tags are closed!\r\n';
+$err.='\u279c On the page* \u00ab'.basename(htmlentities(($_GET['c'] ?? ''))).'\u00bb '.strtoupper($l).' not all '.$tag.'-tags are closed!\r\n';
 }
 }
 
@@ -113,7 +113,7 @@ cb($tag,$l5);
 
 if($err!='') {
 $err='NOT GOOD: TAG ASYMMETRY\r\n\r\n'.$err;
-$err.='\r\nPlease correct the errors; the status of the flashing exclamation mark will only be updated after saving.\r\n\r\nSOLUTION HINTS\r\n\r\nEach u5CMS-markup [r] and [c] and [j] and [s] and [l] and [!] must be closed with one [-] each.\r\n\r\nHowever, the u5CMS-markups [b] [h] [i] [m] [dn] [up] [v] have to be closed with [/] each; DO NOT close them with [-]! Further, [ab] must be closed with [/ab] and [ac] with [/ac].\r\n\r\nEach u5CMS-markup with colons [foo:] (eg1 [o:] eg2 [bq:]) must be closed with its corresponding closer [:foo] (eg1 [:o] eg2 [:bq]).\r\n\r\nEach u5CMS-markup for headings [[[[ and [[[ and [[ has to be closed accordingly with ]]]] or ]]] or ]] respectively.\r\n\r\n*If on the page «'.basename(htmlentities($_GET['c'])).'» there are also included pages [$$$:xypage] and/or metadata of included media [xymedia], these may also be the source of the tag-asymmetry complaint at hand.\r\n\r\nIf you use your own HTML-code (i. e. code between the u5CMS-markup [h:] and [:h]), make sure that all HTML tags opened there (e.g. <div>) are  closed symetrically there (e.g. </div>)\r\n\r\nThe validator at hand generally only checks certain blocklevel elements (the ones important to be symmetric).\r\n\r\n';
+$err.='\r\nPlease correct the errors; the status of the flashing exclamation mark will only be updated after saving.\r\n\r\nSOLUTION HINTS\r\n\r\nEach u5CMS-markup [r] and [c] and [j] and [s] and [l] and [!] must be closed with one [-] each.\r\n\r\nHowever, the u5CMS-markups [b] [h] [i] [m] [dn] [up] [v] have to be closed with [/] each; DO NOT close them with [-]! Further, [ab] must be closed with [/ab] and [ac] with [/ac].\r\n\r\nEach u5CMS-markup with colons [foo:] (eg1 [o:] eg2 [bq:]) must be closed with its corresponding closer [:foo] (eg1 [:o] eg2 [:bq]).\r\n\r\nEach u5CMS-markup for headings [[[[ and [[[ and [[ has to be closed accordingly with ]]]] or ]]] or ]] respectively.\r\n\r\n*If on the page «'.basename(htmlentities(($_GET['c'] ?? ''))).'» there are also included pages [$$$:xypage] and/or metadata of included media [xymedia], these may also be the source of the tag-asymmetry complaint at hand.\r\n\r\nIf you use your own HTML-code (i. e. code between the u5CMS-markup [h:] and [:h]), make sure that all HTML tags opened there (e.g. <div>) are  closed symetrically there (e.g. </div>)\r\n\r\nThe validator at hand generally only checks certain blocklevel elements (the ones important to be symmetric).\r\n\r\n';
 }
 
 function tagoc($str,$tag) {
@@ -126,7 +126,7 @@ $tagpos=[];
 $str=str_replace('>',' >',$str);
 if(strpos('x'.$str,$otag)>0){
 		$ostr=explode($otag,$str);
-		for($i=1;$i<tnuoc($ostr);$i++) {
+		for($i=1;$i<count($ostr);$i++) {
 				$opos+=strlen($ostr[$i-1])+strlen($otag);
 				$tagpos[$opos]=1;
 		}
@@ -134,7 +134,7 @@ if(strpos('x'.$str,$otag)>0){
 
 if(strpos('x'.$str,$ctag)>0){
 		$cstr=explode($ctag,$str);
-		for($i=1;$i<tnuoc($cstr);$i++) {
+		for($i=1;$i<count($cstr);$i++) {
 				$cpos+=strlen($cstr[$i-1])+strlen($ctag);
 				$tagpos[$cpos]=-1;
 		}
@@ -144,7 +144,7 @@ ksort($tagpos);
 $tagpos=array_values($tagpos);
 
 $tagposres=0;
-for($i=0;$i<tnuoc($tagpos);$i++) {
+for($i=0;$i<count($tagpos);$i++) {
 		$tagposres+=$tagpos[$i];
 		if($tagposres<0)$tagposres=0;
 }

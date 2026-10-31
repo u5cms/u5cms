@@ -19,10 +19,10 @@ exit;
 
 require('archivecheck.inc.php');
 
-$_POST['name']=basename($_POST['name']);
-$_GET['name']=basename($_GET['name']);
+$_POST['name']=basename(($_POST['name'] ?? ''));
+$_GET['name']=basename(($_GET['name'] ?? ''));
 
-if ($_GET['name']!=md5($_POST['name'])) {
+if ($_GET['name']!=md5(($_POST['name'] ?? ''))) {
 echo('<script>document.getElementById("body").style.background="red";
 if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href="notdone.php?n=wrong name, not deleted '.$_POST['name'].'";
 self.close();
@@ -54,7 +54,7 @@ if ($_POST['dfiles']=='yes') {
  $path='../r/'.$_POST['name'];
      if ($handle = @opendir($path))  { 
      while (false !== ($file = readdir($handle)))  { 
-if (trim(str_replace(' ','',$_POST['name']))!='') @unlink('../r/'.$_POST['name'].'/'.$file);
+if (trim(str_replace(' ','',($_POST['name'] ?? '')))!='') @unlink('../r/'.$_POST['name'].'/'.$file);
  }
 }
 

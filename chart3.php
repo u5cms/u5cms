@@ -44,14 +44,14 @@ if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);
     function($match){
 		return "&#".hexdec("x".$match[1]).",.";
     },
-    $_GET['f']
+    ($_GET['f'] ?? '')
   );
 
 //xxxxxxxxxxxxxxxxx
 if ($_GET['f']!='') {
 
 
-$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim($_GET['f'])))));
+$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim(($_GET['f'] ?? ''))))));
 
 
 
@@ -82,14 +82,14 @@ $andfilter="AnD ( (";
 $orand='oR';
 if ($_COOKIE['fdbool']=='and') $orand='anD';
 
-for ($k=0;$k<tnuoc($keywords);$k++) {
+for ($k=0;$k<count($keywords);$k++) {
 $andfilter.="datacsv='' ";
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR notes LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR humantime LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-if ($k==tnuoc($keywords)-1) $andfilter.=')';
+if ($k==count($keywords)-1) $andfilter.=')';
 else $andfilter.=") $orand (";
 
 }
@@ -120,9 +120,9 @@ $num_a = mysql_num_rows($result_a);
 
 $row_a = mysql_fetch_array($result_a);
 
-$head=explode(';',$row_a['headcsv']);
+$head=explode(';',($row_a['headcsv'] ?? ''));
 
-for ($i=0;$i<tnuoc($head);$i++) {
+for ($i=0;$i<count($head);$i++) {
 
 if (trim(substr($head[$i],1,strlen($head[$i])-1))!='') echo '<script>if (parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).') parent.document.u5form.'.substr($head[$i],1,strlen($head[$i])-1).'.value=""</script>';
 
@@ -137,11 +137,11 @@ mysql_data_seek ($result_a , 0 );
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-$head=explode(';',$row_a['headcsv']);
-$data=explode(';',$row_a['datacsv']);
+$head=explode(';',($row_a['headcsv'] ?? ''));
+$data=explode(';',($row_a['datacsv'] ?? ''));
 
 
-for ($i=0;$i<tnuoc($head);$i++) {
+for ($i=0;$i<count($head);$i++) {
 
 $data[$i]=str_replace("\r",'\r',$data[$i]);
 $data[$i]=str_replace("\n",'\n',$data[$i]);

@@ -32,7 +32,7 @@ $row_a = mysql_fetch_array($result_a);
 <form name="form1" action="intranetmembers2.php" method="post">
 
   Add/remove e-mail addresses of members allowed to read the intranet:<a style="float:right;" href="javascript:void(0)" onclick="alert('You can paste any amount of text into the field (initially or appended), email addresses are extracted automatically, and stored addresses can access intranet content via password; intranet pages are u5CMS page objects whose names start with an exclamation mark.')">read me!</a><br><br>
-  <div id="membersdiv" style="display:none"></div><textarea onchange="this.value=this.value.replace(/;/g,',')" name="members" id="members" cols="77" rows="28" id="members"><?php echo htmlXspecialchars(str_replace(',',"\r\n",$row_a['members'])) ?></textarea>
+  <div id="membersdiv" style="display:none"></div><textarea onchange="this.value=this.value.replace(/;/g,',')" name="members" id="members" cols="77" rows="28" id="members"><?php echo htmlXspecialchars(str_replace(',',"\r\n",($row_a['members'] ?? ''))) ?></textarea>
 
 <input style="width:99%" type="submit" name="button" value="save" />
 <?php require('t1.php') ?></form>

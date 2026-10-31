@@ -10,7 +10,7 @@ require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('editreadrights.inc.php');
 /////////////////////////////////////////////////////////////////////////////////////////////////
-if (tnuoc($_POST)<1 && stripos($_SERVER['HTTP_REFERER']??'', 'formdataeditgen.php')===false) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
+if (count($_POST)<1 && stripos($_SERVER['HTTP_REFERER']??'', 'formdataeditgen.php')===false) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
 $sql_a="SELECT * FROM formdata WHERE id='".mysql_real_escape_string($_GET['id'])."' AND formname='".mysql_real_escape_string($_GET['n'])."' ORDER BY time DESC";
 $result_a=mysql_query($sql_a);

@@ -11,7 +11,7 @@ if (strlen(str_replace('.','',$f))>0) $allfiles.=$f.',';
 
 $allfiles=explode(',',$allfiles);
 
-for ($i=0;$i<tnuoc($allfiles)-1;$i++) {
+for ($i=0;$i<count($allfiles)-1;$i++) {
 if ($sticksessiontoip=='yes')
 $serverremoteaddr=$_SERVER['REMOTE_ADDR'].$_COOKIE['u'].$_COOKIE['p'];
 else
@@ -34,7 +34,7 @@ require_once('filecache.inc.php');
 u5FileCacheHeaders($f,true);
 
 $ext=explode('.',$f);
-$ext=$ext[tnuoc($ext)-1];
+$ext=$ext[count($ext)-1];
 
 if (strpos($f,'.jpg')>0 || strpos($f,'.JPG')>0 || strpos($f,'.jpeg')>0 || strpos($f,'.JPEG')>0) {
 
@@ -55,7 +55,7 @@ header('Content-type: image/jpeg');
 if ($revealorigfilenames=='yes')
 header("Content-Disposition:inline;filename=".basename($f));
 else
-header("Content-Disposition:inline;filename=".explode('_',basename($_GET['f']),2)[0].'.'.$ext);
+header("Content-Disposition:inline;filename=".explode('_',basename(($_GET['f'] ?? '')),2)[0].'.'.$ext);
 
 list($width,$height)=getimagesize($f);
 $modheight=$h;
@@ -74,7 +74,7 @@ header('Content-type: image/jpeg');
 if ($revealorigfilenames=='yes')
 header("Content-Disposition:inline;filename=".basename($f));
 else
-header("Content-Disposition:inline;filename=".explode('_',basename($_GET['f']),2)[0].'.'.$ext);
+header("Content-Disposition:inline;filename=".explode('_',basename(($_GET['f'] ?? '')),2)[0].'.'.$ext);
 
 list($width,$height)=getimagesize($f);
 $modwidth=$w;
@@ -92,7 +92,7 @@ header("Content-type: ".$m[strtolower($ext)]);
 if ($revealorigfilenames=='yes')
 header("Content-Disposition:inline;filename=".basename($f));
 else
-header("Content-Disposition:inline;filename=".explode('_',basename($_GET['f']),2)[0].'.'.$ext);
+header("Content-Disposition:inline;filename=".explode('_',basename(($_GET['f'] ?? '')),2)[0].'.'.$ext);
 
 $file=@fopen($f,"rb");
 while (!feof($file)) {
@@ -108,7 +108,7 @@ header("Content-type: ".$m[strtolower($ext)]);
 if ($revealorigfilenames=='yes')
 header("Content-Disposition:inline;filename=".basename($f));
 else
-header("Content-Disposition:inline;filename=".explode('_',basename($_GET['f']),2)[0].'.'.$ext);
+header("Content-Disposition:inline;filename=".explode('_',basename(($_GET['f'] ?? '')),2)[0].'.'.$ext);
 
 $file=@fopen($f,"rb");
 while (!feof($file)) {
