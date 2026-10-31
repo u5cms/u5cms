@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Codeobjekt-Migration und lokale mobile Scripts
+
+**Branch:** `12.11.0-Code-Resource-Migration`  
+**Version in `index.php`:** 12.11.0  
+**Basis:** fix/nosniff-script-mime-types.
+
+Echte .js-, .css- und .html-Exporte, lokal gebündelte mobile Scripts und automatische, wiederaufnehmbare Migration bestehender Installationen.
+
+- Codeobjekte verwenden ! als Endungstrenner: mobile!js wird zu r/mobile.js, base!css zu r/base.css und htmltemplate!html zu r/htmltemplate.html.
+- runonce.php migriert Datenbankobjekte, Referenzen, Dateien, Sprachfelder, Historien und Reset-Vorlagen mit Sicherungen und Wiederaufnahme.
+- Der mobile Basisscript wird lokal gebündelt. Beide Installations-SQL-Dateien, Exporte und Vorlagen sind auf das neue Modell abgestimmt.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Erster nummerierter Stand mit nosniff-Korrektur und typisierten Codeobjekten. Funktional in allen nachfolgenden nummerierten Branches enthalten; neue Suche erst ab 12.12.0-OIDC.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Migration und Aktualisierung](docs/12.11.0-code-assets.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
