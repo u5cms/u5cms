@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Explizite PHP-Typen, Encodinggrenzen und aktualisierte Abhängigkeiten
+
+**Branch:** `12.12.3-PHP9-Compatibility`  
+**Version in `index.php`:** 12.12.3  
+**Basis:** Abgeschlossener Textarea-Anwendungsstand c0748dbedb6200c007438555ca76999aa0d97cea.
+
+Rückbau von tnuoc, saubere Typ- und Encodingbehandlung, aktualisierte Bibliotheken und Vorbereitung auf bekannte kommende PHP-Änderungen.
+
+- Verwendet native Funktionen mit passenden Datentypen statt pauschaler umgekehrt benannter Ersatzfunktionen; tnuoc wird zurückgebaut.
+- Behandelt optionale Texte, SQL NULL und Zeichencodierungen an ihren tatsächlichen Übergängen und ersetzt entfallende Encoding-/Bild-/CSV-Operationen.
+- Aktualisiert Abhängigkeiten und native Interface-Rückgabetypen reproduzierbar; korrigiert weitere Download-, cURL- und SAML-Cookie-Pfade.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Neue Kompatibilitätslösung mit PHP >= 8.2. Ausgeführt und geprüft auf PHP 8.3 und 8.5; keine Zertifizierung einer tatsächlichen PHP-9-Laufzeit. Der historische Branch php9_compat wird entfernt; sein Ansatz ist nicht übernommen.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Umfang, Laufzeiten und Prüfung](docs/12.14.0-php9.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
@@ -30,6 +52,6 @@ See [the update and migration guide](docs/12.11.0-code-assets.md),
 [the final main comparison and entry-point correction](docs/12.11.4-main-audit.md).
 Development continuity: read [the saved implementation status, open boundaries and recovery protocol](docs/development-status.md) before continuing work from another chat.
 
-Version 12.13.0 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
+Version 12.12.2 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
 
-Version 12.14.0 removes the remaining reverse-named count workaround, establishes explicit text/encoding contracts and updates the bundled libraries with reproducible native interface return types. It requires PHP 8.2 or newer; executed compatibility checks cover PHP 8.3 and 8.5. See [scope, validation, dependency installation and rollback](docs/12.14.0-php9.md).
+Version 12.12.3 removes the remaining reverse-named count workaround, establishes explicit text/encoding contracts and updates the bundled libraries with reproducible native interface return types. It requires PHP 8.2 or newer; executed compatibility checks cover PHP 8.3 and 8.5. See [scope, validation, dependency installation and rollback](docs/12.14.0-php9.md).
