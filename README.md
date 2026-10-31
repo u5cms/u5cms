@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Sicherung, Wiederherstellung und weitere Migrationskorrekturen
+
+**Branch:** `12.11.2-Backup-Restore-Corrections`  
+**Version in `index.php`:** 12.11.2  
+**Basis:** 12.11.1-Migration-Hardening vor dem späteren Mobile-Backport.
+
+Vollständigere SQL-/Dateisicherungen und Wiederherstellung sowie Korrekturen bei Referenzen, Codeabhängigkeiten und Editorsynchronisation.
+
+- Sichert und restauriert Layoutrollen, Reset-Vorlagen und Migrationsjournale zusammen mit den zugehörigen Dateien.
+- SQL-Tabellen werden vollständig gestreamt; frühere fertige Sicherungen bleiben bei einem späteren Fehler erhalten.
+- Korrigiert Referenzen in älteren Zeichencodierungen, typisierte Codeabhängigkeiten und den Zeitpunkt der HTML-Vorschausynchronisation.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Funktional in allen nachfolgenden nummerierten Branches enthalten. nosniff enthalten; neue Suche erst ab 12.12.0-OIDC.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Main-Vergleich und Restore-Prüfung](docs/12.11.2-audit.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
