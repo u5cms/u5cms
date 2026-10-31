@@ -13,6 +13,7 @@ u5CMS 12.9.5 mit Cloudflare Turnstile; Ausgangsstand der nachfolgenden Entwicklu
 **Einordnung:** Stammbranch. Die spätere Entwicklungsreihe bis 12.12.4 ist hier fachlich noch nicht integriert.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
