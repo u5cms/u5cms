@@ -13,15 +13,15 @@ Refresh the snapshot against remote refs before resuming work.
 1. Implement and validate textarea source actions on `12.13.0-Textarea-Interactions`, based on `f097070d54ac19003bb7b145ee91f6652a29e534`.
 2. Immediately afterwards, create `12.14.0-PHP9-Compatibility` from the completed textarea branch. Study `php9_compat` for intent, but correct types and encoding at their real boundaries, remove `tnuoc` call-site workarounds, and do not adopt the historical blanket-wrapper approach.
 
-Initial system/branch review completed; the textarea implementation is being built. Next action: validate parser, authenticated object lookup, actual editor controls, synchronization, undo/redo and save paths before publication. The PHP9 stage remains authorized and queued.
+Textarea implementation and validation are complete: 748 parser/transform checks, 159 real editor/browser/HTTP checks, 1,671 inherited migration/database checks and 475 main-diff browser checks pass. See [the textarea report](12.13.0-textarea.md) for the final matrix. Publish the completed textarea commit, then immediately create the authorized PHP9 branch from it.
 
 ## Saved implementation
 
 | Item | Evidence | State |
 | --- | --- | --- |
 | Production source branch | `main` at `9d366253417822c279692767b89dcf1ff0388c5c`, last changed 9 October 2026 | Version 12.9.5; the later work below has not been merged into this branch. Installed production sites were not inspected in this checkpoint review. |
-| Current cumulative development branch | `12.12.1-General-Corrections` | Use this as the starting point for the current development line, after fetching and inspecting the current remote head. |
-| Latest application implementation | `f842f5d1fca8d6856e67640e645519e09dfd05cf`, committed 30 October 2026 | 18 commits ahead of the main SHA above, zero behind; 296 changed paths. Later checkpoint-only commits do not imply a new application test run. |
+| Current cumulative development branch | `12.13.0-Textarea-Interactions` | Use this as the starting point for the current development line, after fetching and inspecting the current remote head. |
+| Previous application baseline | `f842f5d1fca8d6856e67640e645519e09dfd05cf`, committed 30 October 2026 | 18 commits ahead of the main SHA above, zero behind; 296 changed paths. Later checkpoint-only commits do not imply a new application test run. |
 | Search | `2f5ce37c18b017375dfc31dab6086f325bd836a2`; [search guide](search.md) | Included in the current cumulative branch. Multiword and quoted suggestions, partial results, excerpts, normalization, highlighting, container opening and scrolling are implemented. |
 | Optional OIDC | `acdd8d6cf362c93803e94897336d347e26d1dba6`; [OIDC validation](12.12.0-oidc-validation.md) | Included; committed implementation and recorded local protocol/database/browser validation. Real provider acceptance remains separate. |
 | Rename and complete main comparison | `f842f5d1fca8d6856e67640e645519e09dfd05cf`; [cumulative audit](12.12.1-general-corrections.md) | Included; committed implementation and recorded validation, including interruption/retry and inherited application suites. |
@@ -64,7 +64,7 @@ or their private workspaces.
 | Real external SAML interoperability | Existing mock-path compatibility is recorded; live federation was not newly certified. |
 | Additional browser/server/site-specific acceptance | Follow the limits in the cumulative report, including the current branch's Firefox/WebKit and server-specific coverage limits. |
 | Merge/release/deployment | Not performed by the completed implementation tasks or this checkpoint review. Await the user's explicit instruction for these actions. |
-| Textarea interactions and P-object Edit actions | Authorized on 31 October 2026; active first stage above. |
+| Textarea interactions and P-object Edit actions | Implemented and validated on the first branch above; see its report. |
 | Further search relevance, passage links and match navigation | Deferred discussion; the user said this might be done later. No such remote branch was present in the branch inventory. An earlier proposed branch name is not evidence of delivered work. |
 | Site-specific long-page pauses around 21-22 entries | Separate CMS-object work. These core branch commits are not evidence that the site-specific issue is resolved; do not close that assignment through this checkpoint. |
 

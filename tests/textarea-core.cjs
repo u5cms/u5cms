@@ -35,7 +35,7 @@ equal(core.format('',0,0,'[b]','[/]',reserved).select,[3,3],'insert empty format
 for(const [text,start,end] of [['[h:]x[:h]',5,6],['[label:page]',2,4],['[[heading]]',2,5]]){
  assert.throws(()=>core.format(text,start,end,'[b]','[/]',reserved));checks++;
 }
-for(const bad of ['','../x','x/y','x.y','x:y','x\n','bad-name','x'.repeat(256),null]){
+for(const bad of ['','../x','x/y','x.y','x:y','x\n','bad-name','bad-name!php','x'.repeat(221)+'-a!js','x'.repeat(256),null]){
  equal(core.validName(bad),false,'unsafe target '+bad);assert.throws(()=>core.replaceTarget(core.references('[page]',reserved)[0],bad));checks++;
 }
 assert.throws(()=>core.replaceLabel(core.references('[$$$:page]',reserved)[0],'label'));checks++;

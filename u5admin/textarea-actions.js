@@ -6,10 +6,11 @@
     if (root && root.document) api.install(root, root.u5TextareaConfig || {});
 }(typeof window === 'undefined' ? null : window, function () {
     'use strict';
-    var namePattern = /^[A-Za-z0-9_!]+(?:-[A-Za-z0-9_!-]+)?$/;
     function validName(name) {
-        return typeof name === 'string' && name.length > 0 && name.length <= 255 &&
-            namePattern.test(name) && (name.indexOf('-') < 0 || /![A-Za-z0-9]+$/.test(name));
+        if (typeof name !== 'string' || !name.length || name.length > 255 || /[^A-Za-z0-9_!-]/.test(name)) return false;
+        if (name.indexOf('-') < 0) return true;
+        var split=name.lastIndexOf('!'), extensions=['css','js','mjs','html','htm','txt','json','map','xml','svg','csv','webmanifest','manifest','rss','atom','ics','md','yaml','yml'];
+        return split > 0 && split <= 220 && extensions.indexOf(name.slice(split+1).toLowerCase()) >= 0;
     }
     function protectedRanges(text) {
         var ranges = [], match;
@@ -294,13 +295,18 @@
                 menu.focus({ preventScroll: true });
             }
             areas.forEach(function (ta) {
-                state(ta); var before = null;
+                state(ta); var before = null, composition = null;
+                ta.addEventListener('compositionstart', function () { composition = snapshot(ta); });
+                ta.addEventListener('compositionend', function () {
+                    if (composition) record(ta, composition, 'composition'); composition = null; before = null;
+                });
                 ta.addEventListener('focus', function () { if (state(ta).current.value !== ta.value) receive(ta.id, ta.value); });
                 ta.addEventListener('beforeinput', function (e) {
                     if (e.inputType === 'historyUndo' || e.inputType === 'historyRedo') { e.preventDefault(); undo(ta, e.inputType === 'historyRedo'); }
                     else before = snapshot(ta);
                 });
                 ta.addEventListener('input', function (e) {
+                    if (composition || e.isComposing) { notify(ta); return; }
                     record(ta, before || state(ta).current, e.inputType || 'input'); before = null; notify(ta);
                 });
                 ta.addEventListener('contextmenu', function (e) {

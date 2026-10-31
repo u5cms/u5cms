@@ -29,3 +29,5 @@ See [the update and migration guide](docs/12.11.0-code-assets.md),
 [the 12.11.3 process-abort and web-server audit](docs/12.11.3-audit.md), and
 [the final main comparison and entry-point correction](docs/12.11.4-main-audit.md).
 Development continuity: read [the saved implementation status, open boundaries and recovery protocol](docs/development-status.md) before continuing work from another chat.
+
+Version 12.13.0 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).

@@ -14,8 +14,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.dismiss());
    await context.addCookies(['i1_p','i2_p','i1_l','i2_l'].map(name=>({name,value:name.endsWith('_p')?'textareatest':'1',url:base})));
    await page.goto(base+'/u5admin/index.php',{waitUntil:'domcontentloaded'});
-   await page.waitForFunction(()=>Array.from(document.querySelectorAll('iframe')).some(x=>x.name==='i1'));
-   await page.waitForFunction(()=>Array.from(document.querySelectorAll('iframe')).some(x=>x.name==='i2'));
+   await page.waitForFunction(()=>['i1','i2'].every(name=>{const el=document.querySelector('iframe[name='+name+']');return el && el.contentWindow && el.contentWindow.u5TextareaActions;}));
    const left=page.frame({name:'i1'}),right=page.frame({name:'i2'});
    for(const f of [left,right])await f.waitForFunction(()=>window.u5TextareaActions && document.form1.page.value==='textareatest');
    const ta=left.locator('#ta1');
@@ -30,6 +29,16 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': format undo');
    await ta.press('Control+Shift+z');ok((await ta.inputValue()).includes('[b]sample[/]'),mode+': format redo');
    await ta.press('Control+z');
+   // Mouse menu and compact toolbar keep the selected source unchanged until an action.
+   await left.evaluate(()=>{ta1.focus();ta1.setSelectionRange(5,11);ta1.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,cancelable:true,clientX:20,clientY:100}));});
+   await left.getByRole('dialog',{name:'Text and object actions'}).press('Escape');
+   equal(await left.locator('.u5-textarea-menu').count(),0,mode+': Escape closes the keyboard dialog');
+   await left.locator('#u5-textarea-trigger').click();await left.getByRole('button',{name:'Close text actions',exact:true}).click();
+   equal(await ta.inputValue(),initial,mode+': mouse and toolbar actions leave the source intact');
+   equal(await ta.evaluate(el=>el.selectionStart),5,mode+': closing returns the selection start');
+   equal(await ta.evaluate(el=>el.selectionEnd),11,mode+': closing returns the selection end');
+   await left.evaluate(()=>{ta1.focus();ta1.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));ta1.value='first composing value';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.value='completed composition';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true}));});
+   await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': an IME composition is one undo transaction');
    await ta.press('End');await ta.press('x');const typed=await ta.inputValue();
    await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': ordinary typing undo');
    await ta.press('Control+y');equal(await ta.inputValue(),typed,mode+': ordinary typing redo');
@@ -61,16 +70,16 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await left.waitForFunction(()=>!document.querySelector('.u5-textarea-menu'));equal(await ta.inputValue(),'[textareatarget]',mode+': typed valid names work without selecting a suggestion');
    await left.evaluate(()=>{ta1.focus();ta1.setSelectionRange(4,4);});await ta.press('Alt+Enter');await left.getByRole('button',{name:'Uses',exact:true}).click();
    await left.getByRole('link',{name:'textareatest',exact:true}).waitFor();ok(true,mode+': uses come from stored references');
-   await left.getByRole('button',{name:'Close',exact:true}).click();
+   await left.getByRole('button',{name:'Close text actions',exact:true}).click();
    await ta.fill('[accent!js]');await left.evaluate(()=>{ta1.focus();ta1.setSelectionRange(4,4);});await ta.press('Alt+Enter');
    await left.getByRole('link',{name:'Edit',exact:true}).waitFor();ok((await left.getByRole('link',{name:'Edit',exact:true}).getAttribute('href')).includes('coding.php?name=accent%21js'),mode+': C object opens the code editor');
-   await left.getByRole('button',{name:'Close',exact:true}).click();
+   await left.getByRole('button',{name:'Close text actions',exact:true}).click();
    // Delayed lookup must never overwrite source changed after opening the menu.
    await ta.fill('[textareatarget]');await left.evaluate(()=>{ta1.focus();ta1.setSelectionRange(4,4);});await ta.press('Alt+Enter');
    await left.getByRole('button',{name:'Replace target',exact:true}).click();await left.getByLabel('Object name',{exact:true}).fill('codefixture');
    await left.evaluate(()=>{ta1.value='Changed independently';});await left.getByRole('button',{name:'Apply',exact:true}).click();
    await left.getByRole('status').filter({hasText:'source changed'}).waitFor();equal(await ta.inputValue(),'Changed independently',mode+': stale action cannot overwrite a new value');
-   await left.getByRole('button',{name:'Close',exact:true}).click();
+   await left.getByRole('button',{name:'Close text actions',exact:true}).click();
    // All five language slots share source actions, without altering the other slots.
    for(let language=1;language<=5;language++){
     await left.evaluate(n=>{lview(String(n));},language);
@@ -80,7 +89,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    }
    await left.evaluate(()=>lview('1'));await ta.fill('Persist [b]sample[/] [textareatarget]');
    await left.locator('#savebutton').click();await left.waitForFunction(()=>!document.getElementById('star'),{timeout:15000});
-   await page.reload({waitUntil:'domcontentloaded'});const reloaded=page.frame({name:'i1'});await reloaded.waitForFunction(()=>window.u5TextareaActions);
+   await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>document.querySelector('iframe[name=i1]') && document.querySelector('iframe[name=i1]').contentWindow.u5TextareaActions);const reloaded=page.frame({name:'i1'});await reloaded.waitForFunction(()=>window.u5TextareaActions);
    equal(await reloaded.locator('#ta1').inputValue(),'Persist [b]sample[/] [textareatarget]',mode+': real save and reopen preserve the new markup');
    for(const value of ['../config','bad/name','bad-name','a'.repeat(256)])equal((await context.request.get(base+'/u5admin/textarea-resource.php?object='+encodeURIComponent(value))).status(),400,mode+': reject unsafe object '+value.slice(0,20));
    equal((await context.request.get(base+'/u5admin/textarea-resource.php?object[]=x')).status(),400,mode+': reject array-valued names');
