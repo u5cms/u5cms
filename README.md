@@ -14,6 +14,7 @@ Verfeinertes Standarddesign für Typografie, Navigation, Formulare und Tabellen,
 **Einordnung:** Aktueller kumulativer Entwicklungsstand dieser Bestandsaufnahme. Die Änderungen sind als Quellstand veröffentlicht; daraus folgt keine produktive Installation.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Standarddesign, Übernahme und Prüfung](docs/12.15.0-default-design.md) · [Entwicklungsstatus](docs/development-status.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
