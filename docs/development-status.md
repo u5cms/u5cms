@@ -8,6 +8,13 @@ committed evidence establish saved work; a chat promise or a quiet period does
 not establish completion, failure, or whether another chat is running.
 Refresh the snapshot against remote refs before resuming work.
 
+## Mobile controls and default design (authorized 31 October 2026)
+
+The mobile controls backport to all nine 12.11.0-12.14.0 branches is in progress.
+The subsequent separate default-site design branch is also authorized.
+See [the active implementation checkpoint](mobile-controls.md). These tasks
+are not covered by the earlier completion statements below.
+
 ## Completed authorized sequence (31 October 2026)
 
 1. Implement and validate textarea source actions on `12.13.0-Textarea-Interactions`, based on `f097070d54ac19003bb7b145ee91f6652a29e534`.

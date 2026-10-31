@@ -2,6 +2,7 @@
 require_once dirname(__DIR__).'/codeassets.inc.php';
 require_once __DIR__.'/codeassets-journal.inc.php';
 require_once __DIR__.'/codeassets-schema.inc.php';
+require_once __DIR__.'/mobiletools-migrate.inc.php';
 
 // The updater receives only r/runonce.php from r/. Keep the common mobile fallback here.
 function u5CodeMigrationMobileSource() {
@@ -758,6 +759,7 @@ function u5CodeAssetsMigrate($root) {
         // Finish an older immutable checkpoint before applying the next repair.
         u5CodeAssetsMigrateLocked($root);
         if (!is_file($root.'/fileversions/codeassets-12.11.2.done.php') || is_file($root.'/fileversions/codeassets-12.11.2.pending.php')) u5CodeAssetsMigrateLocked($root,'12.11.2');
+        u5MobileToolsMigrate($root);
     }
     finally { $release(); }
 }
