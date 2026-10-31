@@ -2,6 +2,9 @@
 /* Focused behavior contracts; run on each available PHP runtime. No mail is sent. */
 require __DIR__.'/php9-guard.php';
 $_SERVER['REQUEST_URI']='/readiness-test';$_SERVER['HTTP_HOST']='localhost';
+// This suite exercises an explicitly available IDN API. The separate identity
+// regression also verifies the historical profile without that capability.
+require dirname(__DIR__).'/vendor/autoload.php';
 require dirname(__DIR__).'/myfunctions.inc.php';
 require dirname(__DIR__).'/u5admin/u5idn.inc.php';
 $checks=0;

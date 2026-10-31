@@ -84,7 +84,7 @@ return $e;
 function u5toidn($e){
 $e = $e ?? '';
 $e=str_replace(',.',';',$e);
-if(strpos($e,'@')>0&&function_exists('idn_to_ascii')&&function_exists('idn_to_utf8')){
+if(strpos($e,'@')>0&&function_exists('idn_to_ascii')&&function_exists('idn_to_utf8')&&(!defined('U5CMS_IDN_AVAILABLE_BEFORE_AUTOLOAD')||U5CMS_IDN_AVAILABLE_BEFORE_AUTOLOAD)){
 if(trim($e)!=''){
 $e=explode(',',$e);
 for($i=0;$i<count($e);$i++){
@@ -108,7 +108,7 @@ else return $e;
 function u5fromidn($e){
 $e = $e ?? '';
 $e=str_replace(',.',';',$e);	
-if(strpos($e,'@')>0&&function_exists('idn_to_ascii')&&function_exists('idn_to_utf8')){
+if(strpos($e,'@')>0&&function_exists('idn_to_ascii')&&function_exists('idn_to_utf8')&&(!defined('U5CMS_IDN_AVAILABLE_BEFORE_AUTOLOAD')||U5CMS_IDN_AVAILABLE_BEFORE_AUTOLOAD)){
 if(trim($e)!=''){
 $e=explode(',',$e);
 for($i=0;$i<count($e);$i++){
