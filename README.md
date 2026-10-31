@@ -16,6 +16,7 @@ Vollständigere SQL-/Dateisicherungen und Wiederherstellung sowie Korrekturen be
 **Einordnung:** Funktional in allen nachfolgenden nummerierten Branches enthalten. nosniff enthalten; neue Suche erst ab 12.12.0-OIDC.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Main-Vergleich und Restore-Prüfung](docs/12.11.2-audit.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
