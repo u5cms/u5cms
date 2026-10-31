@@ -13,6 +13,17 @@ const {launchBrowser}=require('./browser-runtime.cjs');
  try {
   setMode('no');
   const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}});
+  // Custom P/web applications own their extra query/cookie fields. The shared
+  // bootstrap must preserve collections instead of rejecting the whole page.
+  fs.writeFileSync(path.join(site,'fixture-application-request.php'),'<?php require __DIR__."/connect.inc.php";header("Content-Type: application/json");echo json_encode(array("selection"=>$_GET["selection"],"preferences"=>$_COOKIE["application"]));');
+  const applicationResponse=await context.request.get(base+'/fixture-application-request.php?selection[0]=first&selection[1]=second',{headers:{Cookie:'application[mode]=compact; application[language]=de'}});
+  equal(applicationResponse.status(),200,'application query/cookie collections pass through the real CMS bootstrap');
+  const applicationInput=await applicationResponse.json();
+  equal(JSON.stringify(applicationInput.selection),JSON.stringify(['first','second']),'application query values and order are retained');
+  equal(JSON.stringify(applicationInput.preferences),JSON.stringify({mode:'compact',language:'de'}),'application cookie structure is retained');
+  const applicationPage=await context.request.get(base+'/?c=codefixture&selection[0]=first&selection[1]=second');
+  equal(applicationPage.status(),200,'the real resource page accepts additional application collections');
+  verify((await applicationPage.text()).includes('id="proof-form"'),'the resource renderer still reaches its P-object content');
   // Direct entry must load the stylesheet helper before its first use.
   // Forbid password orders in this fixture so this check cannot send mail.
   const passwordConfig=fs.readFileSync(config);
