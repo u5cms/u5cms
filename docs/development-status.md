@@ -1,8 +1,14 @@
 # u5CMS development checkpoint
 
-## Laufende neue Evolutionsprüfung (31. Oktober 2026)
+## Neue Evolutionsprüfung abgeschlossen (31. Oktober 2026, UTC)
 
-Auftrag: main 9d366253417822c279692767b89dcf1ff0388c5c bis 12.12.3 intensiv auf Funktions- und Konzeptverluste prüfen; **alle betroffenen Branches** korrigieren. [Aktueller Bericht, Befunde und tatsächliche Ausführungen](12.12.3-main-evolution-audit.md). Die meisten neuen Kern-/Datenbank-/HTTP-/Browserprüfungen bestehen auf PHP 8.3; 12.12.4 wurde mit eigenem Design separat geprüft. 12.12.3/12.12.4 halten eigene Request-Collections und bestehende Identitätsschlüssel stabil; OIDC-E-Mailprüfung bleibt unabhängig davon möglich. Die gemeinsame IDN-Host- und Include-Korrektur liegt auf allen 15 Entwicklungsbranches; main ist über [PR 187](https://github.com/u5cms/u5cms/pull/187) vorbereitet. Offen: restliche Quell-/Abhängigkeitsprüfung, UTC-Testfix überall nachführen, finale Veröffentlichung/Ref-Kontrolle und Berichtabschluss. Es läuft keine produktive Installation.
+Auftrag: originales main `9d366253417822c279692767b89dcf1ff0388c5c` bis 12.12.3 intensiv auf Funktions- und Konzeptverluste prüfen; **alle betroffenen Branches** korrigieren. [Befunde, Quelleninventur, genaue neue Ausführungen und Grenzen](12.12.3-main-evolution-audit.md). Der separate 12.12.4-Designstand wurde ebenfalls durch die reale HTTP-/Browsermatrix geprüft.
+
+Behoben: globale Blockade eigener Request-Collections, unbeabsichtigte Änderung bestehender IDN-Schlüssel durch Composer-Polyfills, dazu passende unabhängige OIDC-E-Mailprüfung, fehlende Download-Typprüfung am eigentlichen Endpunkt und fehlende Albumauswahl nach dem Count-Rückbau. Diese PHP-spezifischen Korrekturen betreffen 12.12.3/12.12.4. Die gemeinsame Login-Domain- und Include-Korrektur liegt auf allen 16 Branches, main über [PR 187](https://github.com/u5cms/u5cms/pull/187) bei `78cadbf87b7307203b8bd4ff96929b306af7d982`. Alle 13 Branches mit dem Bild-Uploadtest erhalten eine ausdrückliche gemeinsame UTC-Testuhr.
+
+Neue Hauptmatrix auf PHP 8.3.6/MariaDB 10.11.14/Chromium 153.0.8010.0: Migration 1.671, Rename 886, Mobile-Migration 69 und vollständige Such-/OIDC-/Browserläufe. Zuletzt 504 Main-Differenzprüfungen inklusive 24-MiB-Einzelzeile unter 64 MiB PHP; 498 auf der getrennten Designlinie ohne Zusatzstress. Uploads zuletzt je 96, jeweils 33 Bilder geprüft. Auf PHP 8.3 und 8.5: 876 Syntax-/Quellprüfdateien, 135 Kern-, 14 Request-, 40 IDN- und 40 Hostfälle sowie je 52 kalte Dependency-Installationsprüfungen. Mail-Konstruktoren wurden gegen das originale main verglichen; kein Versand. Zwei grosse Rename-Fixtures erhielten alle geprüften Textfelder und Dateien.
+
+Abschluss: Korrekturen, Beschreibungen und dieser Bericht sind über bewachte, branchlokale Commits veröffentlicht; die abschliessende Ref-Kontrolle prüft Namen, Versionskommentare, Beschreibungen und tatsächliche Korrektur-Bytes. Der gemergte temporäre PR-Branch wird bei dieser Kontrolle entfernt. Keine produktive Installation, kein echter externer Provider und keine tatsächliche PHP-9-Laufzeit wurden damit zertifiziert. Die nachfolgenden Abschnitte sind frühere Momentaufnahmen und ersetzen diesen neuen Bericht nicht.
 
 ## Branch-Namen und Versionsabstufung (31. Oktober 2026)
 

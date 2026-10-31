@@ -160,6 +160,9 @@ else echo '<script>document.getElementById("body").style.background="red";alert(
 function reArrayFiles(&$file_post) {
 
     $file_ary = array();
+    // A missing upload or a single-file field is not a multiple-upload list.
+    // Preserve the empty-collection outcome before counting native PHP arrays.
+    if (!is_array($file_post) || !isset($file_post['name']) || !is_array($file_post['name'])) return $file_ary;
     $file_count = count($file_post['name']);
     $file_keys = array_keys($file_post);
 
