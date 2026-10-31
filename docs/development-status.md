@@ -15,11 +15,13 @@ The mobile controls backport is complete, validated individually on all nine
 12.14.0 head is `cb876c924af9193a243e01edaacdfc773a4637c7`.
 See [the mobile report](mobile-controls.md).
 
-The subsequent authorized default-site design refinement is in progress on
+The subsequent authorized default-site design refinement is implemented and
+locally validated on
 `12.15.0-Default-Design`, starting exactly at that corrected head. Its four
-representations are both SQL seeds, CSS exports and reset templates. See
-[the design checkpoint](12.15.0-default-design.md). This new task is not covered
-by the earlier completion statements below; merging/deployment remain separate.
+representations are both SQL seeds, CSS exports and reset templates, synchronized
+in the final source revision. See
+[the design checkpoint](12.15.0-default-design.md). Both newly authorized tasks are complete in their respective source branches.
+There is no automatic implementation task pending; merging/deployment remain separate.
 
 ## Completed authorized sequence (31 October 2026)
 
@@ -41,7 +43,7 @@ Last completed step: final strict HTTP/provider/browser, database, source and de
 | Item | Evidence | State |
 | --- | --- | --- |
 | Production source branch | `main` at `9d366253417822c279692767b89dcf1ff0388c5c`, last changed 9 October 2026 | Version 12.9.5; the later work below has not been merged into this branch. Installed production sites were not inspected in this checkpoint review. |
-| Current cumulative development branch | `12.14.0-PHP9-Compatibility` | Use this as the starting point for the current development line, after fetching and inspecting the current remote head. |
+| Current cumulative development branch | `12.15.0-Default-Design` | Contains the completed mobile correction and restrained default design; fetch and inspect its current remote head. |
 | Textarea interactions | `12.13.0-Textarea-Interactions` at `c0748dbedb6200c007438555ca76999aa0d97cea` | Implemented, validated and published. |
 | PHP compatibility | `12.14.0-PHP9-Compatibility`, based on the completed textarea SHA; [scope and executed validation](12.14.0-php9.md) | Implemented, validated on the documented runtime matrix and published. Actual PHP 9 runtime and deployment-specific acceptance remain separate. |
 | Previous application baseline | `f842f5d1fca8d6856e67640e645519e09dfd05cf`, committed 30 October 2026 | 18 commits ahead of the main SHA above, zero behind; 296 changed paths. Later checkpoint-only commits do not imply a new application test run. |

@@ -1,0 +1,18 @@
+[
+  {
+    "path": "u5standard.sql",
+    "old_public_blob": "f837dc7bfb40f87307b3fb1db5b676437882648a",
+    "new_local_blob": "d1fc33e049a5489e59d279ff0fc6839b9085353b",
+    "outside_eight_css_object_sources": "byte-for-byte unchanged",
+    "source": "stock installation SQL already in u5cms/u5cms; not a production database dump",
+    "new_data": "CSS code only; no new personal data, credentials, accounts or fixture rows"
+  },
+  {
+    "path": "u5conference.sql",
+    "old_public_blob": "bd5e6b1de979cd28e078db00d348c11ae303c393",
+    "new_local_blob": "cbfb2db2e686cfa12560ef66f2d2fac0dc6e84c6",
+    "outside_eight_css_object_sources": "byte-for-byte unchanged",
+    "source": "stock installation SQL already in u5cms/u5cms; not a production database dump",
+    "new_data": "CSS code only; no new personal data, credentials, accounts or fixture rows"
+  }
+]

@@ -79,10 +79,25 @@ Changed paths: `r/mobile.js`, `r/mobile!js.tpl`, the two SQL seeds,
 helpers, this report and three `tests/mobiletools-*` runners. The cumulative
 branch also updates `docs/development-status.md`.
 
-Next action: verify guarded publication on all nine branch refs, then create
-`12.15.0-Default-Design` from the corrected cumulative 12.14.0 head. The design
-refresh is authorized; it must keep `u5standard.sql`, `u5conference.sql`, CSS
-exports and reset templates consistent without introducing responsive CSS.
+All nine branch refs were verified after guarded publication. The subsequent
+`12.15.0-Default-Design` starts from the corrected cumulative 12.14.0 head.
+Its completed default-design work and validation are recorded in
+[the design report](12.15.0-default-design.md). Review/merge/deployment are
+separate next actions; no further implementation task is pending.
+
+## Verified published mobile corrections
+
+| Branch | Published commit |
+| --- | --- |
+| `12.11.0` | `c11d8ffb3e37620eda88a32bb987279498869c7b` |
+| `12.11.1` | `8cf4154426035f7e1fce9f36488db9521defcca2` |
+| `12.11.2` | `cdbece8b89a66cbbfbee9e6662e20ec1cd1c3602` |
+| `12.11.3` | `b1b12ded84df1f5c214f50edc96a33de01dd08b7` |
+| `12.11.4` | `df572a2fceee814c95ebd3e0f1ed776c0b7202a0` |
+| `12.12.0-OIDC` | `5779d5d8e81d6da76ed1e58749a34d5c4f52ca4b` |
+| `12.12.1-General-Corrections` | `00e23ef37258a96d572d1ee08ba758b492ef2f9f` |
+| `12.13.0-Textarea-Interactions` | `a7cc167d83a9cd4be01da1e6ae5d0f634b401051` |
+| `12.14.0-PHP9-Compatibility` | `cb876c924af9193a243e01edaacdfc773a4637c7` |
 
 | Target branch | Starting SHA |
 | --- | --- |
