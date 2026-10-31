@@ -24,6 +24,18 @@ const {launchBrowser}=require('./browser-runtime.cjs');
   const applicationPage=await context.request.get(base+'/?c=codefixture&selection[0]=first&selection[1]=second');
   equal(applicationPage.status(),200,'the real resource page accepts additional application collections');
   verify((await applicationPage.text()).includes('id="proof-form"'),'the resource renderer still reaches its P-object content');
+  // A sharp-s domain and its old transitional spelling are distinct hosts.
+  // Exercise real endpoints with redirects disabled; no external request occurs.
+  equal(new URL('https://fa\u00df.example/').hostname,'xn--fa-hia.example','browser URL host identity retains sharp-s');
+  for(const endpoint of ['loginsave.php','u5admin/loginsave.php','saml/login.php','u5sys._login.php']) {
+   for(const [host,target] of [['fass.example','https://fa\u00df.example/path'],['xn--fa-hia.example','https://fass.example/path']]) {
+    const denied=await context.request.post(base+'/'+endpoint+'?u='+encodeURIComponent(target),{headers:{Host:host},form:{u:'auditadmin',p:'audit-password'},maxRedirects:0});
+    verify((await denied.text()).includes('Redirect to a different domain is not allowed.'),endpoint+' rejects a distinct IDN host: '+denied.status()+' '+(await denied.text()).slice(0,400));
+    verify(!denied.headers().location,endpoint+' publishes no cross-domain Location');
+   }
+  }
+  const idnLogin=await context.request.post(base+'/loginsave.php?u='+encodeURIComponent('https://fa\u00df.example/path'),{headers:{Host:'xn--fa-hia.example'},form:{u:'auditadmin',p:'audit-password'},maxRedirects:0});
+  equal(idnLogin.status(),302,'a legitimate Unicode/punycode login target is retained');
   // Direct entry must load the stylesheet helper before its first use.
   // Forbid password orders in this fixture so this check cannot send mail.
   const passwordConfig=fs.readFileSync(config);

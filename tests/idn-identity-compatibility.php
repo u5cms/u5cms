@@ -35,4 +35,27 @@ foreach (array(false,true) as $provided) foreach ($cases as $input=>$converted) 
         if ($result[$field]!==$expected) throw new RuntimeException('IDN identity contract ('.($provided?'provided API':'legacy missing API').', '.$input.', '.$field.'): '.var_export($result,true));
     }
 }
+// OIDC validates the protocol's UTF-8 email independently of the CMS identity
+// storage profile. Enrollment must not require rewriting an existing key.
+$emails=array(
+    'alice@example.org'=>true,
+    "m\xC3\xBCller@b\xC3\xBCcher.ch"=>true,
+    'alice@xn--bcher-kva.example'=>true,
+    'alice@b&#252;cher.example'=>false,
+    'not-an-email'=>false,
+    'alice@@example.org'=>false,
+    "alice@example.org\r\nBcc:other@example.org"=>false,
+    'alice@example.org,other@example.org'=>false
+);
+foreach (array(false,true) as $provided) {
+    $code='$_SERVER["REQUEST_URI"]="/";$_GET=array();$_COOKIE=array();';
+    if ($provided) $code.='require '.var_export($root.'/vendor/autoload.php',true).';';
+    $code.='require '.var_export($root.'/myfunctions.inc.php',true).';require '.var_export($root.'/oidc.inc.php',true).';';
+    $code.='$result=array();foreach ('.var_export(array_keys($emails),true).' as $email) $result[]=u5OidcValidEmail($email);echo json_encode($result);';
+    $result=identityChild(array_merge($bare,array('-r',$code)));
+    foreach (array_values($emails) as $index=>$expected) {
+        $checks++;
+        if ($result[$index]!==$expected) throw new RuntimeException('OIDC email validation changes with CMS IDN profile at case '.$index);
+    }
+}
 echo 'IDN identity compatibility: '.$checks.' checks passed on '.PHP_VERSION.".\n";

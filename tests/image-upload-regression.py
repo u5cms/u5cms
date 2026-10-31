@@ -121,7 +121,9 @@ def main():
         for name in ['image-upload.js', 'image-upload-worker.js']:
             subprocess.run(['node', '--check', str(REPO / 'u5admin' / name)], check=True)
         with (work / 'server.log').open('w+') as log:
-            server = subprocess.Popen(php + ['-d','upload_max_filesize=24M','-d','post_max_size=64M','-d','memory_limit=256M',
+            # The browser builds archive-day failure fixtures in UTC. Give the
+            # isolated PHP server the same clock, independently of host php.ini.
+            server = subprocess.Popen(php + ['-d','date.timezone=UTC','-d','upload_max_filesize=24M','-d','post_max_size=64M','-d','memory_limit=256M',
                                             '-S','127.0.0.1:'+str(port),'-t',str(site)], stdout=log, stderr=log)
             try:
                 url = 'http://127.0.0.1:' + str(port)

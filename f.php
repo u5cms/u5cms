@@ -1,6 +1,9 @@
 <?php
 set_time_limit(3600);
 require_once('connect.inc.php');
+// These fields belong to this download endpoint; other applications may use
+// collections under the same names without passing through f.php.
+u5ValidateTextRequest($_GET,array('f','s','t'));
 $_GET['f']=str_replace('r/../r/','r/',($_GET['f'] ?? ''));
 
 $t=isset($_GET['t']) && is_scalar($_GET['t']) ? (int)$_GET['t'] : 0;
