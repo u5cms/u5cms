@@ -1,3 +1,22 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Backend-Scrollposition und Objektlisten
+
+**Branch:** `12.9.6-Misc-Backend-Optimizations`  
+**Version in `index.php`:** 12.9.6  
+**Basis:** main (Anwendungsstand 12.9.5).
+
+Stabilere Scrollposition im Backendfilter und bereinigte Tooltips der Objektlisten.
+
+- Die Scrollposition bleibt beim Filtern anhand der sichtbaren Objektzeile erhalten; manuelles Scrollen bleibt möglich.
+- Tooltips der Code- und Seitenlisten zeigen Änderungszeit und Bearbeiter ohne angehängten Inhaltsauszug.
+
+**Einordnung:** Die funktionalen Änderungen sind in der späteren Entwicklungsreihe enthalten. Der eigene zusätzliche Versionskommentar dieses Branches wird dort nicht übernommen. nosniff-Korrektur und neue Suche fehlen in diesem älteren Stand.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
