@@ -114,7 +114,9 @@ readfile($file);
                 status, _, body = request(query(value))
                 check(status == 200 and 'role="alert"' in body and 'class="u5-search-result"' not in body, 'Invalid or oversized query gives a bounded user-facing error')
 
-            for path in ('/f.php', '/f.php?f=single', '/f.php?f%5B%5D=invalid'):
+            for path in ('/f.php', '/f.php?f=single', '/f.php?f%5B%5D=invalid',
+                         '/f.php?f=r/downloadfixture/downloadfixture_de.txt&s%5B%5D=invalid',
+                         '/f.php?f=r/downloadfixture/downloadfixture_de.txt&t%5B%5D=invalid'):
                 check(request(path)[0] == 400, 'Malformed download paths are rejected before string/path processing: ' + path)
             for suffix in ('', '&t=123', '?t=123'):
                 status, _, payload = request('/f.php?f=r/downloadfixture/downloadfixture_de.txt' + suffix)

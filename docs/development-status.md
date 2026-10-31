@@ -1,5 +1,9 @@
 # u5CMS development checkpoint
 
+## Laufende neue Evolutionsprüfung (31. Oktober 2026)
+
+Auftrag: main 9d366253417822c279692767b89dcf1ff0388c5c bis 12.12.3 intensiv auf Funktions- und Konzeptverluste prüfen; **alle betroffenen Branches** korrigieren. [Aktueller Bericht, Befunde und tatsächliche Ausführungen](12.12.3-main-evolution-audit.md). Die meisten neuen Kern-/Datenbank-/HTTP-/Browserprüfungen bestehen auf PHP 8.3; 12.12.4 wurde mit eigenem Design separat geprüft. 12.12.3/12.12.4 halten eigene Request-Collections und bestehende Identitätsschlüssel stabil; OIDC-E-Mailprüfung bleibt unabhängig davon möglich. Die gemeinsame IDN-Host- und Include-Korrektur liegt auf allen 15 Entwicklungsbranches; main ist über [PR 187](https://github.com/u5cms/u5cms/pull/187) vorbereitet. Offen: restliche Quell-/Abhängigkeitsprüfung, UTC-Testfix überall nachführen, finale Veröffentlichung/Ref-Kontrolle und Berichtabschluss. Es läuft keine produktive Installation.
+
 ## Branch-Namen und Versionsabstufung (31. Oktober 2026)
 
 Aktuelle Branch-Bezeichnung: `12.12.3-PHP9-Compatibility`, Versionskommentar 12.12.3. Die vollständige aktuelle Zuordnung steht in [BRANCHES.md](../BRANCHES.md). Die fünf rein numerischen 12.11-Branches haben beschreibende Namenszusätze erhalten; Textarea, PHP-Kompatibilität und Standarddesign werden als 12.12.2, 12.12.3 und 12.12.4 fortgeführt. Prüfberichte behalten ihre historischen Dateinamen und tatsächlichen Validierungsstände. Die nachfolgende frühere Momentaufnahme ist unter Berücksichtigung dieser Umbenennung zu lesen; ihre SHA-Angaben bleiben historische Anwendungsstände.

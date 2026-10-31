@@ -114,6 +114,16 @@ function u5OidcBindingStore()
     return $store = new \U5cms\Oidc\Bindings($connection, $client->config()['issuer'], $client->config()['client_id']);
 }
 
+/** Validate UTF-8 email syntax without changing the stored CMS identity key. */
+function u5OidcValidEmail($email)
+{
+    if (!is_string($email) || !mb_check_encoding($email,'UTF-8') || preg_match('/[\x00-\x20\x7F?:;,\\\\]/',$email) || substr_count($email,'@') !== 1) return false;
+    list($local,$domain)=explode('@',$email,2);
+    if (function_exists('idn_to_ascii')) $domain=idn_to_ascii($domain,IDNA_DEFAULT,INTL_IDNA_VARIANT_UTS46);
+    elseif (preg_match('/[^\x00-\x7F]/',$domain)) return false;
+    return $domain && filter_var($local.'@'.$domain, FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE) !== false;
+}
+
 function u5OidcResolveIdentity(array $identity)
 {
     if ($identity['username'] !== null) { unset($identity['email']); return $identity; }
@@ -123,13 +133,9 @@ function u5OidcResolveIdentity(array $identity)
     }
     require_once __DIR__.'/u5admin/u5idn.inc.php';
     $email = $identity['email'] ?? '';
-    if (!is_string($email) || !mb_check_encoding($email,'UTF-8') || preg_match('/[\x00-\x20\x7F?:;,\\\\]/',$email) || substr_count($email,'@') !== 1) {
+    if (!u5OidcValidEmail($email)) {
         throw new RuntimeException('Invalid verified OIDC email.');
     }
-    list($local,$domain)=explode('@',$email,2);
-    if (function_exists('idn_to_ascii')) $domain=idn_to_ascii($domain,IDNA_DEFAULT,INTL_IDNA_VARIANT_UTS46);
-    elseif (preg_match('/[^\x00-\x7F]/',$domain)) throw new RuntimeException('OIDC international email domains require PHP intl.');
-    if (!$domain || !filter_var($local.'@'.$domain, FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE)) throw new RuntimeException('Invalid verified OIDC email.');
     $user = u5OidcNormalizeUsername(u5OidcNativeText(mb_strtolower($email,'UTF-8')));
     foreach ($client->config()['subjects'] as $reserved) {
         if (u5OidcNormalizeUsername($reserved) === $user) throw new RuntimeException('OIDC email is reserved by an explicit subject mapping.');

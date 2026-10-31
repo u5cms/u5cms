@@ -8,7 +8,7 @@ try {
     chdir(dirname(__DIR__));
     require_once 'connect.inc.php';
     $user = u5OidcNormalizeUsername($identity['username']);
-    if (!filter_var(u5toidn($user), FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE)) throw new RuntimeException('Intranet enrollment requires an email CMS username.');
+    if (!u5OidcValidEmail(u5toutf8($user))) throw new RuntimeException('Intranet enrollment requires an email CMS username.');
     $lock = fopen('fileversions/oidc-enrollment.lock', 'c');
     if ($lock === false) throw new RuntimeException('Cannot open the intranet enrollment lock.');
     try {
