@@ -1,3 +1,23 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Speichern, Konflikterkennung, Filter, Uploads und Backups
+
+**Branch:** `12.10.0-Multi-Optimizations-by-AI`  
+**Version in `index.php`:** 12.10.0  
+**Basis:** Funktionaler Backend-Stand aus 12.9.6.
+
+Zuverlässigeres Speichern und Konflikthandling, schnellere Backendfilter sowie robustere Uploads, ZIP-Backups und Datei-Caches.
+
+- Speichervorgänge werden koordiniert; spätere Eingaben bleiben als ungespeicherte Änderungen erkennbar. Revisionskonflikte werden beim Schreiben geprüft.
+- Backendfilter und Vorschauwechsel vermeiden unnötige Aktualisierungen und halten den sichtbaren Objektbezug.
+- Dateien und ZIP-Backups werden erst nach erfolgreicher Fertigstellung veröffentlicht; bestehende Fassungen bleiben bei Fehlern erhalten. Cacheantworten folgen den Zugriffskontrollen.
+
+**Einordnung:** Funktional in 12.10.1 und der späteren Entwicklungsreihe enthalten. nosniff-Korrektur und neue Suche fehlen in diesem älteren Stand.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
