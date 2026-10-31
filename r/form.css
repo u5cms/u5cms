@@ -1,6 +1,6 @@
 ﻿fieldset {
-background-color: #f0f0f0;
-border: 1px solid #f0f0f0;
+background-color: #f7f8fa;
+border: 1px solid #e1e5e9;
 margin: 0 0 20px 0;
 padding: 25px;
 font-size:104%;
@@ -10,7 +10,7 @@ width:100%;
 
 fieldset legend {
 color: gray;
-background:#f0f0f0;
+background:#f7f8fa;
 font-size: 150%;
 margin-left:-25px;
 padding:3px 7px 7px 7px;
@@ -31,8 +31,8 @@ vertical-align: bottom;
 }
 
 input, select, textarea {
-border: 1px solid #EFEFEF;
-font-family: 'Open Sans', sans-serif;
+border: 1px solid #cbd2da;
+font-family: inherit;
 }
 
 input[type=submit], input[type=text], input[type=email], input[type=number], input[type=password], textarea, select {
@@ -43,8 +43,8 @@ color:#555;
 }
 
 input[type=submit] {
-background:lightgreen;
-color:black;
+background:#b3261e;
+color:white;
 width:auto;
 padding:5px 17px 5px 17px;
 }
@@ -59,7 +59,7 @@ border: 1px solid #333333;
 }
 
 ::placeholder {
-color: #ddd;
+color: #687687;
 }
 
 input.readonly, input.readonly:hover, input.readonly:focus, input.readonly:active {
@@ -71,3 +71,12 @@ border: 1px solid #999999;
 label.readonly {
 cursor: default;
 }
+
+fieldset { box-sizing: border-box; border-radius: 6px; }
+input, select, textarea { box-sizing: border-box; border-radius: 4px; }
+input[type=text], input[type=email], input[type=number], input[type=password], textarea, select { padding: 7px 9px; background: #fff; }
+input[type=submit] { border-color: #b3261e; border-radius: 5px; cursor: pointer; padding: 8px 18px; }
+input[type=submit]:hover { background: #92231d; border-color: #92231d; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #375f86; outline-offset: 2px; }
+input[type=checkbox], input[type=radio] { accent-color: #b3261e; }
+input:disabled, select:disabled, textarea:disabled { cursor: default; opacity: .65; }

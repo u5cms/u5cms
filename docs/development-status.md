@@ -8,13 +8,18 @@ committed evidence establish saved work; a chat promise or a quiet period does
 not establish completion, failure, or whether another chat is running.
 Refresh the snapshot against remote refs before resuming work.
 
-## Mobile controls and default design (authorized 31 October 2026)
+## Mobile controls and default design (31 October 2026)
 
-The mobile controls backport is implemented and validated on all nine
-12.11.0-12.14.0 branches; guarded branch-local publication is the current step.
-The subsequent separate default-site design branch is also authorized.
-See [the active implementation checkpoint](mobile-controls.md). These tasks
-are not covered by the earlier completion statements below.
+The mobile controls backport is complete, validated individually on all nine
+12.11.0-12.14.0 branches and verified on the remote refs. The corrected cumulative
+12.14.0 head is `cb876c924af9193a243e01edaacdfc773a4637c7`.
+See [the mobile report](mobile-controls.md).
+
+The subsequent authorized default-site design refinement is in progress on
+`12.15.0-Default-Design`, starting exactly at that corrected head. Its four
+representations are both SQL seeds, CSS exports and reset templates. See
+[the design checkpoint](12.15.0-default-design.md). This new task is not covered
+by the earlier completion statements below; merging/deployment remain separate.
 
 ## Completed authorized sequence (31 October 2026)
 
