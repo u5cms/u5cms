@@ -14,7 +14,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.dismiss());
    await context.addCookies(['i1_p','i2_p','i1_l','i2_l'].map(name=>({name,value:name.endsWith('_p')?'textareatest':'1',url:base})));
    await page.goto(base+'/u5admin/index.php',{waitUntil:'domcontentloaded'});
-   await page.waitForFunction(()=>['i1','i2'].every(name=>{const el=document.querySelector('iframe[name='+name+']');return el && el.contentWindow && el.contentWindow.u5TextareaActions;})).catch(async error=>{console.error('Editor initialization diagnostics',JSON.stringify({errors,frames:await Promise.all(page.frames().map(async f=>({url:f.url(),body:(await f.locator('body').innerText().catch(()=>'' )).slice(0,3000)})))}));throw error;});
+   await page.waitForFunction(()=>['i1','i2'].every(name=>{const el=document.querySelector('iframe[name='+name+']');return el && el.contentWindow && el.contentWindow.u5TextareaActions;})).catch(async error=>{console.error('Editor initialization diagnostics',JSON.stringify({mode,checks,errors,frames:await Promise.all(page.frames().map(async f=>({url:f.url(),body:(await f.locator('body').innerText().catch(()=>'' )).slice(0,3000)})))}));throw error;});
    const left=page.frame({name:'i1'}),right=page.frame({name:'i2'});
    for(const f of [left,right])await f.waitForFunction(()=>window.u5TextareaActions && document.form1.page.value==='textareatest');
    const ta=left.locator('#ta1');

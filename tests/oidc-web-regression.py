@@ -159,7 +159,8 @@ return false;
     if os.environ.get('U5CMS_PHP9_AUDIT'):
         router.write_text('<?php require '+json.dumps(str(REPO/'tests/php9-guard.php'))+'; ?>\n'+router.read_text())
     with (work/'php.log').open('w+') as log:
-        php=subprocess.Popen(PHP+['-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-d','session.save_path='+str(session_dir),
+        # Config/source fixtures change between requests; execute their current bytes.
+        php=subprocess.Popen(PHP+['-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-d','session.save_path='+str(session_dir),
             '-d','output_buffering='+os.environ.get('U5_OIDC_OUTPUT_BUFFERING','0'),'-S',f'127.0.0.1:{backend_port}','-t',str(root),str(router)],cwd=root,stdout=log,stderr=log)
         try:
             for attempt in range(100):

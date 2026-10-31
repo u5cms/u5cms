@@ -5,15 +5,15 @@ $_GET['f']=str_replace('r/../r/','r/',($_GET['f'] ?? ''));
 
 $t=isset($_GET['t']) && is_scalar($_GET['t']) ? (int)$_GET['t'] : 0;
 if(!isset($_GET['t'])){
-$t=explode('?t=',($_SERVER['QUERY_STRING'] ?? ''));
-$t=explode('&',$t[1]);
-$t=$t[0];
+$query=explode('?t=',($_SERVER['QUERY_STRING'] ?? ''),2);
+$t=isset($query[1]) ? explode('&',$query[1],2)[0] : '';
 }
 
 $filebase = 'r';
 $f = explode('?', ($_GET['f'] ?? ''));
 $_GET['f'] = $f[0];
 $f = explode('/', ($_GET['f'] ?? ''));
+if (!isset($f[1]) || $f[1]==='') { http_response_code(400);exit('Invalid file path.'); }
 $f = $filebase . '/' . basename($f[1]) . '/' . basename(($_GET['f'] ?? ''));
 $f=u5ProhibTravers($f, $filebase);
 

@@ -206,7 +206,7 @@ final class Client
         $ok = curl_exec($curl);
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $type = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-        curl_close($curl);
+        unset($curl);
         if ($ok === false || $status !== 200 || !is_string($type) ||
             !preg_match('#^application/(?:[a-z0-9.+-]+\+)?json(?:\s*;|$)#i', $type)) {
             throw new RuntimeException('OIDC provider request failed.');

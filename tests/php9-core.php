@@ -26,6 +26,20 @@ function readinessFunction($file,$name,$replacement) {
     return preg_replace('/\b'.preg_quote($name,'/').'\s*\(/',$replacement.'(',$out);
 }
 readinessSame(function_exists('tnuoc'),false,'No count mimic remains');
+function readinessRequest(array $query,array $cookies=array()) {
+    $code='$_GET='.var_export($query,true).';$_COOKIE='.var_export($cookies,true).';register_shutdown_function(function(){echo "|status=".(http_response_code() ?: 200);});require '.var_export(dirname(__DIR__).'/request.inc.php',true).';echo "accepted";';
+    $process=proc_open(array(PHP_BINARY,'-r',$code),array(1=>array('pipe','w'),2=>array('pipe','w')),$pipes);
+    if (!is_resource($process)) throw new RuntimeException('Cannot test the isolated request boundary.');
+    $out=stream_get_contents($pipes[1]);$err=stream_get_contents($pipes[2]);fclose($pipes[1]);fclose($pipes[2]);
+    if (proc_close($process)!==0 || $err!=='') throw new RuntimeException('Request-boundary child failed: '.$err);
+    return $out;
+}
+readinessSame(readinessRequest(array()),'accepted|status=200','Missing request keys retain absence semantics');
+readinessSame(readinessRequest(array('c'=>'page','l'=>'de')),'accepted|status=200','Scalar route input is accepted');
+readinessSame(readinessRequest(array('c'=>array('page'))),'Invalid request parameter.|status=400','Collection-shaped route input is rejected');
+readinessSame(readinessRequest(array(),array('u'=>array('name'))),'Invalid request parameter.|status=400','Collection-shaped cookie input is rejected');
+readinessSame(readinessRequest(array('q'=>array('term'))),'accepted|status=200','Search query keeps its dedicated parser policy');
+
 readinessSame(u5toutf8(null),'','Missing text is empty at its encoding boundary');
 readinessSame(u5allnument(null),'','Missing identifier text has no fabricated codepoint');
 readinessSame(u5toutf8("\x80 \x8C \x9C \xE4 &amp;"),"\xE2\x82\xAC \xC5\x92 \xC5\x93 \xC3\xA4 &",'Windows-1252 and entity conversion');
@@ -53,6 +67,8 @@ foreach (array('alice@example.invalid','alice@xn--bcher-kva.example','alice@b&#2
 foreach (array('','plain','alice@example.invalid,broken','alice@example.invalid,','alice@@example.invalid','@example.invalid','alice@') as $address) {
     readinessSame(u5flatidn($address),$address,'Malformed/empty identity list entries are preserved: '.$address);
 }
+readinessSame(u5toidn('alice@b&#252;cher.example'),'alice@xn--bcher-kva.example','IDN encoding retains the existing ASCII account key');
+readinessSame(u5flatidn('alice@xn--bcher-kva.example'),"alice@b\xFCcher.example",'IDN display conversion retains Windows-1252 account text');
 $stack=new Laminas\Stdlib\ArrayStack(array('first','second'));
 readinessSame(array_values(iterator_to_array($stack->getIterator())),array('second','first'),'Upstream iterator contract preserves stack order');
 $smtp=MailTransport('yes',new Laminas\Mail\Transport\SmtpOptions(array('host'=>'127.0.0.1','port'=>2525,'name'=>'localhost')));
@@ -99,6 +115,7 @@ try {
     foreach ($rows as $row) fputcsv($fp,$row,';','"','');fclose($fp);
     $csv=new CsvImporter($file,true,';');
     readinessSame($csv->get(),array(array('first'=>$rows[1][0],'second'=>$rows[1][1]),array('first'=>'','second'=>'0')),'CSV quotes, backslashes, multiline, empty and zero values');
+    unset($csv);file_put_contents($file,"first;second\nonly-one-field\n");$csv=new CsvImporter($file,true,';');readinessSame($csv->get(),array(array('first'=>'only-one-field','second'=>'')),'A missing CSV column is empty text and never the previous row');
     unset($csv);file_put_contents($file,'');$csv=new CsvImporter($file,false,';');readinessSame($csv->get(),array(),'Empty CSV is an empty collection');unset($csv);
 } finally {unlink($file);}
 echo 'PHP readiness behavior checks: '.$checks.' passed on '.PHP_VERSION.".\n";

@@ -33,7 +33,8 @@ header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readf
     base='http://127.0.0.1:'+str(port)
     with (work/'server.log').open('w+') as log:
         limits=['-d','memory_limit=64M'] if os.environ.get('U5CMS_BACKUP_STRESS') else []
-        server = subprocess.Popen(PHP + limits + ['-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'], '-d','upload_max_filesize=24M','-d','post_max_size=64M','-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],cwd=site,stdout=log,stderr=log)
+        # Config/source fixtures change between requests; execute their current bytes.
+        server = subprocess.Popen(PHP + limits + ['-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'], '-d','upload_max_filesize=24M','-d','post_max_size=64M','-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],cwd=site,stdout=log,stderr=log)
         try:
             for attempt in range(100):
                 try:

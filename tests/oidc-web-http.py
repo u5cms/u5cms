@@ -242,6 +242,7 @@ try:
     config("$u5oidc['enabled']=false;\n$u5samlsalt='saml-test-salt';\n$u5samlnonce='saml-test-nonce';\n$u5samlmockauth='yes';\n$u5samlmockauthusername='member@example.org';\n$u5samlinfrontend='yes';\n$u5samlautointranetenrollment='no';")
     saml=Browser();target=BASE+'/index.php?c=!oidcprivate'
     status,headers,body=saml.request(BASE+'/saml/login.php?'+urlencode({'u':target}))
+    check(any(cookie.name=='u5samlusername' and cookie.secure and cookie.has_nonstandard_attr('HttpOnly') for cookie in saml.cookies),'SAML evaluates configured HTTPS before issuing secure identity cookies')
     redirect=re.search(rb'location.href="([^"]+)"',body).group(1).decode()
     status,headers,body=saml.request(urljoin(BASE+'/saml/',redirect))
     check(status==302,'existing SAML mock assertion bridges to local login cookie')

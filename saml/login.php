@@ -42,6 +42,11 @@ if (isset($_GET['u'])) {
 $debug = (isset($_COOKIE['u5debug']) && $_COOKIE['u5debug']) == 'yes' ? true : false;
 $debug = (isset($_GET['u5debug'])) ? true : false;
 require('../config.php');
+$httpsisinuse=false;
+$u5HttpsResult=eval($evaluateifhttpsisinuse);
+if (is_bool($u5HttpsResult)) $httpsisinuse=$u5HttpsResult;
+$httpsisinuse=(bool)$httpsisinuse;
+
 
 /*
 ********************** SAML INTEGRATION ***************************3

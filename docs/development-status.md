@@ -8,12 +8,20 @@ committed evidence establish saved work; a chat promise or a quiet period does
 not establish completion, failure, or whether another chat is running.
 Refresh the snapshot against remote refs before resuming work.
 
-## Active authorized sequence (31 October 2026)
+## Completed authorized sequence (31 October 2026)
 
 1. Implement and validate textarea source actions on `12.13.0-Textarea-Interactions`, based on `f097070d54ac19003bb7b145ee91f6652a29e534`.
 2. Immediately afterwards, create `12.14.0-PHP9-Compatibility` from the completed textarea branch. Study `php9_compat` for intent, but correct types and encoding at their real boundaries, remove `tnuoc` call-site workarounds, and do not adopt the historical blanket-wrapper approach.
 
-Textarea implementation and validation are complete: 748 parser/transform checks, 159 real editor/browser/HTTP checks, 1,671 inherited migration/database checks and 475 main-diff browser checks pass. See [the textarea report](12.13.0-textarea.md) for the final matrix. The textarea result is published at `c0748dbedb6200c007438555ca76999aa0d97cea`. The second branch, `12.14.0-PHP9-Compatibility`, starts exactly there and is active. Historical wrapper and count changes were reviewed; the implementation removes the count alias, establishes explicit text and encoding boundaries, updates dependencies and declares native interface return contracts. The focused final-tree suite passes 123 checks on PHP 8.3.6 and 8.5.12; the PHP 8.3 browser regression passes. PHP 8.5 HTTP/image tests and inherited search/OIDC checks remain in progress. See [the PHP compatibility report](12.14.0-php9.md). This second branch is a recovery checkpoint until its final validation report is complete.
+Both requested implementation branches are complete and saved remotely. The textarea result is published at `c0748dbedb6200c007438555ca76999aa0d97cea` on `12.13.0-Textarea-Interactions`. The cumulative `12.14.0-PHP9-Compatibility` starts exactly there; its first recovery checkpoint is `92259f6136382725331917d004e1f9c60193a593`, followed by the final validation/fix commit containing this report. Fetch the branch to obtain its current final SHA.
+
+The second branch removes `tnuoc`, establishes actual input/encoding contracts, updates dependencies and declares native interface return types without adopting historical blanket wrappers. It also fixes missing download time components and initializes the configured SAML HTTPS decision before issuing cookies. PHP 8.2 is now the dependency platform minimum. Executed checks use PHP 8.3.6 and 8.5.12; no PHP 9 runtime certification is claimed. See [the textarea report](12.13.0-textarea.md) and [the PHP compatibility report](12.14.0-php9.md).
+
+Final evidence includes 131 focused contracts and 870 syntax/source-audit files on both runtimes; 52 clean upstream patch-installation checks on each; 159 textarea, 51 frontend, 98 backend and 475 main-diff checks on each; 1,671 migration/database, 886 rename and the complete inherited search/OIDC matrix on PHP 8.5. Final search and OIDC HTTPS/browser paths also pass on PHP 8.3, including 248 HTTPS checks and Secure/HttpOnly SAML cookies. All tests used disposable local fixtures.
+
+Changed paths are recoverable with `git diff --name-status --no-renames c0748dbedb6200c007438555ca76999aa0d97cea origin/12.14.0-PHP9-Compatibility`. They include request/bootstrap and text-consumer PHP, rendering/IDN, CSV/upload/image/download/federation paths, the Composer lock/vendor tree, pinned return-type patches and their installer, regression runners and reports. The 746 token-migrated text boundaries have a committed per-call-site inventory. Existing application source bytes and database NULL distinctions are preserved.
+
+Last completed step: final strict HTTP/provider/browser, database, source and dependency checks; publish the tested corrections and reports with an expected-head guard. No implementation test is left running as part of this checkpoint. Next action: review the two completed branches. Merging or deployment requires a separate user instruction; no further automatic implementation task is pending.
 
 ## Saved implementation
 
@@ -21,6 +29,8 @@ Textarea implementation and validation are complete: 748 parser/transform checks
 | --- | --- | --- |
 | Production source branch | `main` at `9d366253417822c279692767b89dcf1ff0388c5c`, last changed 9 October 2026 | Version 12.9.5; the later work below has not been merged into this branch. Installed production sites were not inspected in this checkpoint review. |
 | Current cumulative development branch | `12.14.0-PHP9-Compatibility` | Use this as the starting point for the current development line, after fetching and inspecting the current remote head. |
+| Textarea interactions | `12.13.0-Textarea-Interactions` at `c0748dbedb6200c007438555ca76999aa0d97cea` | Implemented, validated and published. |
+| PHP compatibility | `12.14.0-PHP9-Compatibility`, based on the completed textarea SHA; [scope and executed validation](12.14.0-php9.md) | Implemented, validated on the documented runtime matrix and published. Actual PHP 9 runtime and deployment-specific acceptance remain separate. |
 | Previous application baseline | `f842f5d1fca8d6856e67640e645519e09dfd05cf`, committed 30 October 2026 | 18 commits ahead of the main SHA above, zero behind; 296 changed paths. Later checkpoint-only commits do not imply a new application test run. |
 | Search | `2f5ce37c18b017375dfc31dab6086f325bd836a2`; [search guide](search.md) | Included in the current cumulative branch. Multiword and quoted suggestions, partial results, excerpts, normalization, highlighting, container opening and scrolling are implemented. |
 | Optional OIDC | `acdd8d6cf362c93803e94897336d347e26d1dba6`; [OIDC validation](12.12.0-oidc-validation.md) | Included; committed implementation and recorded local protocol/database/browser validation. Real provider acceptance remains separate. |
@@ -53,22 +63,20 @@ checks and the search and image-upload suites. Read the reports for the exact
 scope, environments and limitations; counts are not a universal correctness
 guarantee.
 
-This checkpoint review verified remote branches, commit ancestry, reports,
-open pull requests and the absence of automated GitHub check results. It did
-not rerun application tests. It makes no claim about the runtime of old chats
-or their private workspaces.
+The remote branch heads and cumulative ancestry were verified when publishing these results. The reports record actual local execution; they are not GitHub CI status. This task does not inspect the process state or private workspaces of other chats. The saved checkpoints provide a concrete recovery path after an interruption.
 
 | Remaining item | Treatment |
 | --- | --- |
 | Live eIAM/AGOV registration, exact provider policy and logout acceptance | Deployment-specific acceptance remains open; local TLS/IdP fixtures are not live-provider certification. |
 | Real external SAML interoperability | Existing mock-path compatibility is recorded; live federation was not newly certified. |
+| Actual PHP 9 runtime and future upstream package constraints | Not executed or certified by this branch; review the published PHP changes and upstream platform support against that runtime. |
 | Additional browser/server/site-specific acceptance | Follow the limits in the cumulative report, including the current branch's Firefox/WebKit and server-specific coverage limits. |
 | Merge/release/deployment | Not performed by the completed implementation tasks or this checkpoint review. Await the user's explicit instruction for these actions. |
 | Textarea interactions and P-object Edit actions | Implemented and validated on the first branch above; see its report. |
 | Further search relevance, passage links and match navigation | Deferred discussion; the user said this might be done later. No such remote branch was present in the branch inventory. An earlier proposed branch name is not evidence of delivered work. |
 | Site-specific long-page pauses around 21-22 entries | Separate CMS-object work. These core branch commits are not evidence that the site-specific issue is resolved; do not close that assignment through this checkpoint. |
 
-The initial checkpoint-only request is complete. The user subsequently authorized the two application branches above; merge and deployment remain separate actions.
+The checkpoint safeguards and both subsequently authorized application branches are complete. Merge and deployment remain separate actions.
 
 ## How to resume after an interrupted chat
 

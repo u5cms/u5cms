@@ -54,12 +54,12 @@ $mime=array('js'=>'text/javascript','json'=>'application/json','css'=>'text/css'
 header('Content-Type: '.($mime[strtolower(pathinfo($file,PATHINFO_EXTENSION))] ?? 'application/octet-stream'));
 readfile($file);
 ''', encoding='ascii')
+    if os.environ.get('U5CMS_PHP9_AUDIT'):
+        router.write_text('<?php require '+json.dumps(str(REPO/'tests/php9-guard.php'))+'; ?>\n'+router.read_text())
     if os.environ.get('U5CMS_TEST_HTTP_PORT'):
         port = int(os.environ['U5CMS_TEST_HTTP_PORT'])
     else:
-        if os.environ.get('U5CMS_PHP9_AUDIT'):
-        router.write_text('<?php require '+json.dumps(str(REPO/'tests/php9-guard.php'))+'; ?>\n'+router.read_text())
-    with socket.socket() as probe:
+        with socket.socket() as probe:
             probe.bind(('127.0.0.1', 0))
             port = probe.getsockname()[1]
     base = 'http://127.0.0.1:' + str(port)
@@ -81,7 +81,8 @@ readfile($file);
         return path + '?' + urllib.parse.urlencode({'c': scope, 'l': language, 'qv': '2', 'q': value})
 
     with (work / 'server.log').open('w+') as log:
-        server = subprocess.Popen(PHP + ['-d', 'mysqli.default_port=' + PORT, '-d', 'output_buffering=4096', '-d', 'display_errors=0', '-S', '127.0.0.1:' + str(port), '-t', str(site), str(router)], cwd=site, stdout=log, stderr=log)
+        # Config/source fixtures change between requests; execute their current bytes.
+        server = subprocess.Popen(PHP + ['-d','opcache.enable=0','-d', 'mysqli.default_port=' + PORT, '-d', 'output_buffering=4096', '-d', 'display_errors=0', '-S', '127.0.0.1:' + str(port), '-t', str(site), str(router)], cwd=site, stdout=log, stderr=log)
         try:
             for attempt in range(100):
                 try:
@@ -112,6 +113,12 @@ readfile($file);
             for value in ('x' * 513, '"unfinished', ' '.join('term' + str(i) for i in range(17))):
                 status, _, body = request(query(value))
                 check(status == 200 and 'role="alert"' in body and 'class="u5-search-result"' not in body, 'Invalid or oversized query gives a bounded user-facing error')
+
+            for path in ('/f.php', '/f.php?f=single', '/f.php?f%5B%5D=invalid'):
+                check(request(path)[0] == 400, 'Malformed download paths are rejected before string/path processing: ' + path)
+            for suffix in ('', '&t=123', '?t=123'):
+                status, _, payload = request('/f.php?f=r/downloadfixture/downloadfixture_de.txt' + suffix)
+                check(status == 200 and payload == 'Actual download fixture payload.', 'Download works with absent, explicit or legacy embedded time parameter: ' + suffix)
 
             subprocess.run(['node', str(REPO / 'tests/search-web-browser.cjs'), base, json.dumps(setup)], check=True)
 

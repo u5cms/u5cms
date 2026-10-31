@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-12.14.0-PHP9-Compatibility',
         'version' => 'dev-12.14.0-PHP9-Compatibility',
-        'reference' => 'c0748dbedb6200c007438555ca76999aa0d97cea',
+        'reference' => '92259f6136382725331917d004e1f9c60193a593',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-12.14.0-PHP9-Compatibility',
             'version' => 'dev-12.14.0-PHP9-Compatibility',
-            'reference' => 'c0748dbedb6200c007438555ca76999aa0d97cea',
+            'reference' => '92259f6136382725331917d004e1f9c60193a593',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
