@@ -1,6 +1,6 @@
 <?php
 require('connect.inc.php');
-require_once('u5admin/u5idn.inc.php');
+require_once(__DIR__.'/u5idn.inc.php');
 
 if (isset($_GET['u'])) {
     $u = $_GET['u'];
@@ -27,7 +27,7 @@ if (isset($_GET['u'])) {
     if (!empty($p['host'])) {
         $reqHost = strtolower($_SERVER['HTTP_HOST'] ?? '');
         $reqHost = preg_replace('/:\d+$/','',$reqHost);
-        $cmpA = function($h){ $h=strtolower($h); $idn=function_exists('idn_to_ascii')?idn_to_ascii($h,IDNA_DEFAULT,INTL_IDNA_VARIANT_UTS46):$h; return $idn?:$h; };
+        $cmpA = function($h){ $h=strtolower($h); $idn=function_exists('idn_to_ascii')?idn_to_ascii($h,IDNA_NONTRANSITIONAL_TO_ASCII,INTL_IDNA_VARIANT_UTS46):$h; return $idn?:$h; };
         if (strcasecmp($cmpA($p['host']), $cmpA($reqHost))!==0) {
             die('<center style="color:red">Error: Redirect to a different domain is not allowed.</center>');
         }

@@ -14,6 +14,7 @@ Zuverlässigeres Speichern und Konflikthandling, schnellere Backendfilter sowie 
 **Einordnung:** Funktional in 12.10.1 und der späteren Entwicklungsreihe enthalten. nosniff-Korrektur und neue Suche fehlen in diesem älteren Stand.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
