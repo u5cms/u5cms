@@ -146,6 +146,21 @@ let sequence = 0;
             } finally {await c.page.close();}
         }
         // Archive failure must prevent both replacement and album insertion.
+        for(const missing of [true,false]) {
+            const c=await open('a',true);const old=sentinel(c);
+            try {
+                const frame=c.page.frames().find(f=>f.url().includes('/sendfilea.php?'));
+                const action=await frame.locator('form').getAttribute('action');
+                const token=await frame.locator('[name=u5scrtytknfrfrms]').inputValue();
+                const multipart={name:c.name,u5scrtytknfrfrms:token};
+                if(!missing)multipart.userfile={name:'single.jpg',mimeType:'image/jpeg',buffer:fs.readFileSync(path.join(fixtures,'sample.jpg'))};
+                const response=await c.page.request.post(new URL(action,frame.url()).href,{multipart});
+                const body=await response.text();
+                assert(!/Fatal error|TypeError|<b>ok<\/b>/.test(body),body.slice(-1600));
+                assert(body.includes('no file uploaded'),body.slice(-1600));
+                assert.deepEqual(fs.readFileSync(target(c)),old);checks++;
+            } finally {await c.page.close();}
+        }
         for (const album of [false,true]) {
             const c=await open(album?'a':'i',album);const old=sentinel(c);
             const archiveStem=album?c.name+'_100':c.name+'_de';

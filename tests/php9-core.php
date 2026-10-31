@@ -73,6 +73,15 @@ foreach (array('','plain','alice@example.invalid,broken','alice@example.invalid,
 readinessSame(u5toidn('alice@b&#252;cher.example'),'alice@xn--bcher-kva.example','IDN encoding retains the existing ASCII account key');
 readinessSame(u5flatidn('alice@xn--bcher-kva.example'),"alice@b\xFCcher.example",'IDN display conversion retains Windows-1252 account text');
 $stack=new Laminas\Stdlib\ArrayStack(array('first','second'));
+eval(readinessFunction(dirname(__DIR__).'/u5admin/sendfilea2.php','reArrayFiles','readinessAlbumFiles'));
+$uploads=null;
+readinessSame(readinessAlbumFiles($uploads),array(),'An absent album upload is an empty collection');
+$uploads=array('name'=>'photo.jpg','tmp_name'=>'/tmp/not-an-upload','error'=>0,'size'=>12,'type'=>'image/jpeg');
+readinessSame(readinessAlbumFiles($uploads),array(),'A single-file field is not a multiple-upload collection');
+$uploads=array('name'=>array(),'tmp_name'=>array(),'error'=>array(),'size'=>array(),'type'=>array());
+readinessSame(readinessAlbumFiles($uploads),array(),'An empty multiple-upload field remains empty');
+$uploads=array('name'=>array('one.jpg','two.jpg'),'tmp_name'=>array('/tmp/one','/tmp/two'),'error'=>array(0,4),'size'=>array(12,0),'type'=>array('image/jpeg',''));
+readinessSame(readinessAlbumFiles($uploads),array(array('name'=>'one.jpg','tmp_name'=>'/tmp/one','error'=>0,'size'=>12,'type'=>'image/jpeg'),array('name'=>'two.jpg','tmp_name'=>'/tmp/two','error'=>4,'size'=>0,'type'=>'')),'Native upload order, metadata and error status are retained');
 readinessSame(array_values(iterator_to_array($stack->getIterator())),array('second','first'),'Upstream iterator contract preserves stack order');
 $smtp=MailTransport('yes',new Laminas\Mail\Transport\SmtpOptions(array('host'=>'127.0.0.1','port'=>2525,'name'=>'localhost')));
 readinessSame($smtp instanceof Laminas\Mail\Transport\Smtp,true,'Configured SMTP transport remains available');
