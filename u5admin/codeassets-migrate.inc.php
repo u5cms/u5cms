@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__).'/codeassets.inc.php';
+require_once __DIR__.'/mobiletools-migrate.inc.php';
 require_once __DIR__.'/codeassets-journal.inc.php';
 require_once __DIR__.'/codeassets-schema.inc.php';
 
@@ -712,7 +713,7 @@ function u5CodeMigrationRemoveMimeRule($root) {
 
 function u5CodeAssetsMigrate($root) {
     $release=u5CodeMigrationLock($root);
-    try { u5CodeAssetsMigrateLocked($root); }
+    try { u5CodeAssetsMigrateLocked($root); u5MobileToolsMigrate($root); }
     finally { $release(); }
 }
 
