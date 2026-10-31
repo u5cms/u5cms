@@ -14,6 +14,7 @@ Korrekte JavaScript-MIME-Typen für die vier Upload-Einstiegspunkte und die hist
 **Einordnung:** Historischer Arbeitsbranch. Die Anwendungskorrektur ist ab 12.11.0-Code-Resource-Migration enthalten; dort lösen echte Dateiendungen die provisorische MIME-Regel ab.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
