@@ -1,0 +1,7 @@
+.u5-textarea-menu{position:fixed;z-index:10000;box-sizing:border-box;max-width:calc(100vw - 4px);width:330px;max-height:calc(100vh - 4px);overflow:auto;padding:7px;border:1px solid #687585;border-radius:6px;background:#fff;color:#182331;box-shadow:0 4px 18px #0003;font:13px/1.35 system-ui,sans-serif;overflow-wrap:anywhere}
+.u5-textarea-menu .u5-textarea-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.u5-textarea-menu button,.u5-textarea-menu a{display:inline-block;margin:3px 3px 1px 0;padding:4px 7px;border:1px solid #bcc5cd;border-radius:3px;background:#f4f6f8;color:#123955;font:inherit;text-decoration:none;cursor:pointer}
+.u5-textarea-menu button:disabled{opacity:.5;cursor:default}
+.u5-textarea-menu :focus-visible{outline:2px solid #176ca4;outline-offset:1px}
+.u5-textarea-menu form{margin-top:6px}.u5-textarea-menu label{display:block}.u5-textarea-menu input{display:block;box-sizing:border-box;width:100%;font:inherit;margin:3px 0;padding:4px}
+.u5-textarea-menu [role=status]:not(:empty){padding:5px 0;color:#6c3400}.u5-textarea-menu strong,.u5-textarea-menu span{margin-right:4px}

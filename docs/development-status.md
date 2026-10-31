@@ -8,6 +8,13 @@ committed evidence establish saved work; a chat promise or a quiet period does
 not establish completion, failure, or whether another chat is running.
 Refresh the snapshot against remote refs before resuming work.
 
+## Active authorized sequence (31 October 2026)
+
+1. Implement and validate textarea source actions on `12.13.0-Textarea-Interactions`, based on `f097070d54ac19003bb7b145ee91f6652a29e534`.
+2. Immediately afterwards, create `12.14.0-PHP9-Compatibility` from the completed textarea branch. Study `php9_compat` for intent, but correct types and encoding at their real boundaries, remove `tnuoc` call-site workarounds, and do not adopt the historical blanket-wrapper approach.
+
+Initial system/branch review completed; the textarea implementation is being built. Next action: validate parser, authenticated object lookup, actual editor controls, synchronization, undo/redo and save paths before publication. The PHP9 stage remains authorized and queued.
+
 ## Saved implementation
 
 | Item | Evidence | State |
@@ -57,13 +64,11 @@ or their private workspaces.
 | Real external SAML interoperability | Existing mock-path compatibility is recorded; live federation was not newly certified. |
 | Additional browser/server/site-specific acceptance | Follow the limits in the cumulative report, including the current branch's Firefox/WebKit and server-specific coverage limits. |
 | Merge/release/deployment | Not performed by the completed implementation tasks or this checkpoint review. Await the user's explicit instruction for these actions. |
-| Textarea interactions and P-object Edit actions | Discussion only. The user explicitly said not to implement yet. |
+| Textarea interactions and P-object Edit actions | Authorized on 31 October 2026; active first stage above. |
 | Further search relevance, passage links and match navigation | Deferred discussion; the user said this might be done later. No such remote branch was present in the branch inventory. An earlier proposed branch name is not evidence of delivered work. |
 | Site-specific long-page pauses around 21-22 entries | Separate CMS-object work. These core branch commits are not evidence that the site-specific issue is resolved; do not close that assignment through this checkpoint. |
 
-For the present request, the deliverable is this saved checkpoint and the
-handoff rules in [AGENTS.md](../AGENTS.md). No application change, new release,
-merge or deployment is needed to complete this safeguard.
+The initial checkpoint-only request is complete. The user subsequently authorized the two application branches above; merge and deployment remain separate actions.
 
 ## How to resume after an interrupted chat
 

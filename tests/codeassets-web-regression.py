@@ -11,6 +11,8 @@ with tempfile.TemporaryDirectory(prefix='u5-codeassets-web-') as temporary:
     shutil.copytree(REPO, site, ignore=shutil.ignore_patterns('.git','tests'))
     setup = subprocess.run(PHP + [str(REPO/'tests/codeassets-web-fixture.php'),str(site)], capture_output=True, text=True, check=True)
     database = json.loads(setup.stdout)['database']
+    if os.environ.get('U5CMS_TEXTAREA_AUDIT'):
+        subprocess.run(PHP+[str(REPO/'tests/textarea-web-fixture.php'),str(site)],check=True)
     router = site/'router-fixture.php'
     router.write_text('''<?php
 header('X-Content-Type-Options: nosniff');
@@ -42,7 +44,9 @@ header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readf
                 with urllib.request.urlopen(base+'/'+file,timeout=5) as response:
                     assert response.headers.get_content_type()==mime
                     assert response.headers.get('X-Content-Type-Options')=='nosniff'
-            if not os.environ.get('U5CMS_MAIN_AUDIT_ONLY') and not os.environ.get('U5CMS_RENAME_AUDIT_ONLY'):
+            if os.environ.get('U5CMS_TEXTAREA_AUDIT'):
+                subprocess.run(['node',str(REPO/'tests/textarea-browser.cjs'),base,str(site)],check=True)
+            if not os.environ.get('U5CMS_MAIN_AUDIT_ONLY') and not os.environ.get('U5CMS_RENAME_AUDIT_ONLY') and not os.environ.get('U5CMS_TEXTAREA_AUDIT_ONLY'):
                 subprocess.run(['node',str(REPO/'tests/codeassets-browser.cjs'),base,str(site)],check=True)
                 subprocess.run(['node',str(REPO/'tests/codeassets-backend.cjs'),base,str(site)],check=True)
             if os.environ.get('U5CMS_RENAME_AUDIT'):

@@ -43,8 +43,8 @@ change, including changes described as small, preparatory, or performance-only.
   before long verification and at each meaningful phase boundary. Keep a safe,
   reviewable remote checkpoint so scratch files and chat history are not the
   only recovery copy. Do not store secrets or personal fixture data.
-* Respect explicit holds, such as the textarea discussion and deferred search
-  proposals. A proposed branch or promised action is not a delivered change.
+* Respect explicit holds, such as deferred search
+  proposals; the textarea work and subsequent PHP9 work were authorized on 31 October 2026. A proposed branch or promised action is not a delivered change.
   Preserve inaccessible or incomplete work as an explicit uncertainty.
 * Check for another chat's work before publishing to a shared branch. Use a
   fast-forward push or an expected-head guard; inspect and reconcile a moved

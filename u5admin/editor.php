@@ -48,7 +48,7 @@
             parent.i3.location.href = 'focus.php?c=<?php echo $_GET['c']?>';
         })
     </script>
-    <?php require 'backendcss.php' ?>
+    <?php require 'backendcss.php'; require 'textarea-actions.inc.php'; ?>
 </head>
 <style>
     body {
@@ -274,7 +274,7 @@ ns<input
 
             <td>
 <span title="[Ctrl+s] save changes (does save all three languages of the page in this editor area)">
-<button id="savebutton" type="submit">s&nbsp;</button>
+<button type="button" id="u5-textarea-trigger" hidden title="Text and object actions (Alt+Enter; Shift+right-click for browser menu)" aria-label="Text and object actions">&#8943;</button> <button id="savebutton" type="submit">s&nbsp;</button>
 </span>
                 </span>
             </td>
@@ -605,6 +605,7 @@ ns<input
         myField.focus();
         if (myField.setSelectionRange) myField.setSelectionRange(startPos + myValue.length, startPos + myValue.length);
         myField.scrollTop = keepscrolltop;
+        if (window.u5TextareaActions) myField.dispatchEvent(new Event('input', {bubbles:true}));
     }
 
 
@@ -978,10 +979,10 @@ ns<input
         console.log(w, i, v);
         if (parent.i1.document.form1.page.value == parent.i2.document.form1.page.value) {
             if (w == 'i1') {
-                parent.i2.document.getElementById(i).value = v;
+                if (!parent.i2.u5TextareaActions || !parent.i2.u5TextareaActions.receive(i,v)) parent.i2.document.getElementById(i).value = v;
             }
             if (w == 'i2') {
-                parent.i1.document.getElementById(i).value = v;
+                if (!parent.i1.u5TextareaActions || !parent.i1.u5TextareaActions.receive(i,v)) parent.i1.document.getElementById(i).value = v;
             }
         }
         pview();
@@ -991,11 +992,11 @@ ns<input
         console.log(w, i, v, 'dosync 2');
         if (parent.i1.document.form1.page.value == parent.i2.document.form1.page.value) {
             if (w == 'i1') {
-                parent.i2.document.getElementById(i).value = parent.i1.document.getElementById(i).value;
+                var v=parent.i1.document.getElementById(i).value; if (!parent.i2.u5TextareaActions || !parent.i2.u5TextareaActions.receive(i,v)) parent.i2.document.getElementById(i).value = v;
                 if (window.name == 'i1') mychanges();
             }
             if (w == 'i2') {
-                parent.i1.document.getElementById(i).value = parent.i2.document.getElementById(i).value;
+                var v=parent.i2.document.getElementById(i).value; if (!parent.i1.u5TextareaActions || !parent.i1.u5TextareaActions.receive(i,v)) parent.i1.document.getElementById(i).value = v;
                 if (window.name == 'i2') mychanges();
             }
         }
