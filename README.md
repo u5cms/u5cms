@@ -1,3 +1,23 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Arbeitsbranch · Suche, Zitate, Vorschläge und Hervorhebung
+
+**Branch:** `feature/search-phrases-quotes-highlighting`  
+**Version in `index.php`:** 12.11.4  
+**Basis:** 12.11.4 vor dem späteren Mobile-Backport; Such-Abschlusscommit 2f5ce37c18b017375dfc31dab6086f325bd836a2.
+
+Wortgruppen und Sonderzeichen, Diakritikatoleranz, Mehrwort-Korrekturvorschläge, bessere Auszüge, Hervorhebung und Aufklappen/Hinscrollen.
+
+- Gemeinsame Suchnormalisierung für Server und Browser; wörtliche Behandlung von Zitaten, Satzzeichen und URL-Transport.
+- Explizite Teiltreffer und überprüfte Korrekturvorschläge auch für Mehrwort- und zitierte Anfragen; die eingegebene Anfrage wird erst auf Auswahl ersetzt.
+- Hervorhebung über Inline-Markup hinweg, Aufklappen verschachtelter Container und Hinscrollen zu den Fundstellen auf Desktop und Mobile.
+
+**Einordnung:** Historischer Arbeitsbranch. Die Suchüberarbeitung ist ab 12.12.0-OIDC in der nummerierten Reihe enthalten. Zusätzliche spätere Suchvorschläge sind weiterhin eine separate, zurückgestellte Erweiterung.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Suchverhalten und Prüfung](docs/search.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
