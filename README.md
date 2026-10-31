@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Migrationshärtung und Reparatur bestehender 12.11.0-Stände
+
+**Branch:** `12.11.1-Migration-Hardening`  
+**Version in `index.php`:** 12.11.1  
+**Basis:** 12.11.0-Code-Resource-Migration vor dem späteren Mobile-Backport.
+
+Robustere Codeobjekt-Migration bei Zeichencodierungen, Namenskollisionen, angepassten Reset-Vorlagen, Abbrüchen und Datenbankvarianten.
+
+- Erhält Quellbytes, Programmbezeichner und angepasste Reset-Vorlagen; berücksichtigt codierte Referenzen und Dateikollisionen.
+- Schreibt Änderungen mit Sicherungsjournalen und Wiederaufnahmepunkten statt grosse Datenmengen unkontrolliert im Speicher zu halten.
+- Repariert bereits abgeschlossene 12.11.0-Migrationen und berücksichtigt ältere MySQL-/MariaDB-Schemas.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Funktional in allen nachfolgenden nummerierten Branches enthalten. nosniff enthalten; neue Suche erst ab 12.12.0-OIDC.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Migrationsaudit und Reparaturgrenzen](docs/12.11.1-audit.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
