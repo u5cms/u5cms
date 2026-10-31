@@ -38,7 +38,7 @@ Der aktuelle kumulative Entwicklungsstand ist **[12.12.4-Default-Design](https:/
 | Überarbeitete mobile Laschen | Nachträglich in allen neun nummerierten Branches von 12.11.0 bis 12.12.3 enthalten; in 12.12.4 weitergeführt. Die historischen Arbeitsbranches wurden nicht mit diesem späteren Backport aktualisiert. |
 | Dezentes Standarddesign | Ab 12.12.4-Default-Design; beide SQL-Seeds, CSS-Exporte und TPL-Reset-Vorlagen synchron. |
 
-Die Versionskommentare von 12.10.1 und des darauf aufbauenden nosniff-Arbeitsbranches werden auf 12.10.1 berichtigt. Der Such-Arbeitsbranch trägt die Basisversion 12.11.4; Arbeitsbranch und nummerierte Folgeveröffentlichung bleiben unterscheidbar.
+Die Versionskommentare von 12.10.1 und des darauf aufbauenden nosniff-Arbeitsbranches wurden auf 12.10.1 berichtigt. Der Such-Arbeitsbranch trägt die Basisversion 12.11.4; Arbeitsbranch und nummerierte Folgeveröffentlichung bleiben unterscheidbar.
 
 ## Umbenennungen vom 31. Oktober 2026
 
@@ -59,4 +59,4 @@ Die früher erstellten Prüfberichte behalten ihre Dateinamen, damit vorhandene 
 
 ## Historischer PHP-Kompatibilitätsversuch
 
-`php9_compat` gehört nicht zur aktuellen Branch-Reihe und wird auf ausdrücklichen Wunsch entfernt. Letzter historischer Commit: [b5e1556](https://github.com/u5cms/u5cms/commit/b5e1556ed2d3ab923f39ba7b4bfb005ded593fcc). Sein Ansatz mit umgekehrt benannten Ersatzfunktionen ist nicht in die neue Lösung übernommen. Massgebend sind 12.12.3-PHP9-Compatibility und dessen Folgestände.
+`php9_compat` gehört nicht zur aktuellen Branch-Reihe und wurde auf ausdrücklichen Wunsch entfernt. Letzter historischer Commit: [b5e1556](https://github.com/u5cms/u5cms/commit/b5e1556ed2d3ab923f39ba7b4bfb005ded593fcc). Sein Ansatz mit umgekehrt benannten Ersatzfunktionen ist nicht in die neue Lösung übernommen. Massgebend sind 12.12.3-PHP9-Compatibility und dessen Folgestände.
