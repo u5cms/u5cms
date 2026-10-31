@@ -16,6 +16,7 @@ Korrigiert den direkten Einstieg in die Intranet-Passwortbestellung nach der Cod
 **Einordnung:** Basis des Such-Arbeitsbranches und funktional in allen späteren nummerierten Branches enthalten. Die neue Suche gehört noch nicht zu diesem Stand.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Abschlussaudit und Einstiegspunkt-Korrektur](docs/12.11.4-main-audit.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
