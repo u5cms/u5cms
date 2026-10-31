@@ -10,7 +10,8 @@ Refresh the snapshot against remote refs before resuming work.
 
 ## Mobile controls and default design (authorized 31 October 2026)
 
-The mobile controls backport to all nine 12.11.0-12.14.0 branches is in progress.
+The mobile controls backport is implemented and validated on all nine
+12.11.0-12.14.0 branches; guarded branch-local publication is the current step.
 The subsequent separate default-site design branch is also authorized.
 See [the active implementation checkpoint](mobile-controls.md). These tasks
 are not covered by the earlier completion statements below.

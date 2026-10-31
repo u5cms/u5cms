@@ -191,7 +191,8 @@ function u5mkmobile() {
         var style = document.createElement('style');
         style.id = styleId;
         style.textContent = [
-            '#webapp_monafloat.u5-mobile-tools{width:50px!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:8px!important}',
+            '#webapp_mona.u5-mobile-tools-menu{padding-left:44px!important}',
+            '#webapp_monafloat.u5-mobile-tools{left:3px!important;width:50px!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:8px!important}',
             '#webapp_monafloat .u5-mobile-tool-wrap{width:44px!important;height:44px!important;margin:0!important;padding:0!important}',
             '#webapp_monafloat .u5-mobile-tool{box-sizing:border-box!important;width:44px!important;height:44px!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:visible!important;border:1px solid #d7d7d7!important;border-radius:9px!important;background:#fff!important;color:#222!important;box-shadow:0 1px 3px rgba(0,0,0,.12)!important;text-decoration:none!important;font-size:0!important;line-height:1!important;cursor:pointer!important;touch-action:manipulation;-webkit-tap-highlight-color:transparent}',
             '#webapp_monafloat .u5-mobile-tool:hover{background:#f4f4f4!important;border-color:#c8c8c8!important}',
@@ -239,6 +240,7 @@ function u5mkmobile() {
         var current = document.getElementById('webapp_mona');
         if (current && current !== menu) {
             menu = current;
+            menu.classList.add('u5-mobile-tools-menu');
             observer.disconnect();
             // Only the navigation is observed once available; page content is not rescanned.
             observer.observe(menu, {childList:true, subtree:true});
