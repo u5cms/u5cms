@@ -16,6 +16,7 @@ Schnellere Objektumbenennung mit Wiederaufnahme, vollständigerem Referenzerhalt
 **Einordnung:** Kumulativer Entwicklungsstand mit Migration, nosniff, neuer Suche und optionalem OIDC; Basis der Textarea-Erweiterung.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Umbenennen und Wiederaufnahme](docs/rename.md) · [Kumulativer Korrekturbericht](docs/12.12.1-general-corrections.md) · [Entwicklungsstatus](docs/development-status.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
