@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Intranet-Passwortbestellung und Abschlusskorrektur der 12.11-Reihe
+
+**Branch:** `12.11.4-Intranet-Login-Corrections`  
+**Version in `index.php`:** 12.11.4  
+**Basis:** 12.11.3-Private-File-Cache-Corrections vor dem späteren Mobile-Backport.
+
+Korrigiert den direkten Einstieg in die Intranet-Passwortbestellung nach der Codeobjekt-Umstellung.
+
+- Lädt die Codeobjekt-Hilfsfunktionen vor der Stylesheet-Ausgabe in sendintranetlogin.php.
+- Der direkte Einstieg funktioniert mit historischen und migrierten Stylesheets; Passwortregeln und Mailablauf werden beibehalten.
+- Dokumentiert den abschliessenden Vergleich mit main und die geerbten Migrations-, Editor- und Restore-Prüfungen.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Basis des Such-Arbeitsbranches und funktional in allen späteren nummerierten Branches enthalten. Die neue Suche gehört noch nicht zu diesem Stand.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Abschlussaudit und Einstiegspunkt-Korrektur](docs/12.11.4-main-audit.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
