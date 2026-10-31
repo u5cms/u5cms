@@ -1,3 +1,25 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Schnelle, wiederaufnehmbare Umbenennung und Gesamtkorrekturen
+
+**Branch:** `12.12.1-General-Corrections`  
+**Version in `index.php`:** 12.12.1  
+**Basis:** 12.12.0-OIDC vor dem späteren Mobile-Backport.
+
+Schnellere Objektumbenennung mit Wiederaufnahme, vollständigerem Referenzerhalt und Prüfung der kumulativen Änderungen gegen main.
+
+- Ersetzt wiederholte Vollscans durch begrenzte Kandidatendurchläufe und einen wiederaufnehmbaren Plan für Datenbank und Dateien.
+- Erhält Titelklammern, Sprachfassungen, konfigurierte Abhängigkeiten, Historien, Intranetmitgliedschaften, Videoposter und Dateizugriffsregeln.
+- Dokumentiert den gesamten Unterschied zur main-Anwendungsbasis und geerbte Prüfungen für Suche, OIDC, Editor, Uploads, Sicherung und Wiederherstellung.
+
+**Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
+
+**Einordnung:** Kumulativer Entwicklungsstand mit Migration, nosniff, neuer Suche und optionalem OIDC; Basis der Textarea-Erweiterung.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Umbenennen und Wiederaufnahme](docs/rename.md) · [Kumulativer Korrekturbericht](docs/12.12.1-general-corrections.md) · [Entwicklungsstatus](docs/development-status.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
