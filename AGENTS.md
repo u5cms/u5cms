@@ -32,3 +32,29 @@ change, including changes described as small, preparatory, or performance-only.
 * Document configuration, supported behavior, operation, rollback and validation.
   Commit the tested result to a new branch when requested. Do not change `main`
   or install into a production CMS unless explicitly instructed.
+
+## Checkpoints and completion across chats
+
+* Start by reading [the development checkpoint](docs/development-status.md).
+  Verify it against current remote refs and the local working tree; do not
+  treat its dated snapshot or prior chat claims as a live process status.
+* Record the authorized task, target branch, exact starting SHA, changed paths,
+  last completed step, test evidence, blockers and one concrete next action
+  before long verification and at each meaningful phase boundary. Keep a safe,
+  reviewable remote checkpoint so scratch files and chat history are not the
+  only recovery copy. Do not store secrets or personal fixture data.
+* Respect explicit holds, such as the textarea discussion and deferred search
+  proposals. A proposed branch or promised action is not a delivered change.
+  Preserve inaccessible or incomplete work as an explicit uncertainty.
+* Check for another chat's work before publishing to a shared branch. Use a
+  fast-forward push or an expected-head guard; inspect and reconcile a moved
+  remote head. Never overwrite other work or infer that another chat stopped
+  merely because no recent commit is visible.
+* Complete the authorized scope and required checks, then finish. Repeat or
+  broaden verification only for a new change, failure or specific unresolved
+  concern. Keep optional improvements separate instead of extending the task
+  indefinitely.
+* Close with a verified remote branch/commit, actual validation scope, remaining
+  acceptance boundaries and next action. Keep implemented, validated, pushed,
+  merged and deployed distinct. Committed reports are not GitHub CI results,
+  and documentation does not establish background execution or auto-recovery.
