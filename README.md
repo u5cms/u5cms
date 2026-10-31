@@ -1,3 +1,22 @@
+<!-- u5cms-branch-description:start -->
+# u5CMS · Stammbranch · u5CMS 12.9.5
+
+**Branch:** `main`  
+**Version in `index.php`:** 12.9.5  
+**Basis:** Vorheriger Stammstand; letzter Anwendungsschritt: reCAPTCHA durch Cloudflare Turnstile ersetzen.
+
+u5CMS 12.9.5 mit Cloudflare Turnstile; Ausgangsstand der nachfolgenden Entwicklungsreihe.
+
+- Cloudflare Turnstile ersetzt reCAPTCHA.
+- Die Beschreibung dieses GitHub-Branches belegt keine Installation oder Aktualisierung einer produktiven Website.
+
+**Einordnung:** Stammbranch. Die spätere Entwicklungsreihe bis 12.12.4 ist hier fachlich noch nicht integriert.
+
+[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+<!-- u5cms-branch-description:end -->
+
+---
+
 https://yuba.ch/u5cms: A small, handy content management system for medium-sized one- to five-language websites, conference / congress / submission administration, review processes, personalized serial mails, PayPal payments and online surveys based on PHP and MariaDB/MySQL and Apache (or IIS with htaccess-Simulation).
 u5CMS features
 Total 11 images (click the image)
