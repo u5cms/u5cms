@@ -13,9 +13,10 @@ Rückbau von tnuoc, saubere Typ- und Encodingbehandlung, aktualisierte Bibliothe
 
 **Nachtrag vom 31. Oktober 2026:** Die überarbeiteten mobilen Laschen für Menü-Schliessen, Desktopansicht und Suche sind in diesem nummerierten Branch enthalten.
 
-**Einordnung:** Neue Kompatibilitätslösung mit PHP >= 8.2. Ausgeführt und geprüft auf PHP 8.3 und 8.5; keine Zertifizierung einer tatsächlichen PHP-9-Laufzeit. Der historische Branch php9_compat wird entfernt; sein Ansatz ist nicht übernommen.
+**Einordnung:** Neue Kompatibilitätslösung mit PHP >= 8.2. Ausgeführt und geprüft auf PHP 8.3 und 8.5; keine Zertifizierung einer tatsächlichen PHP-9-Laufzeit. Der historische Branch php9_compat wurde entfernt; sein Ansatz ist nicht übernommen.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Umfang, Laufzeiten und Prüfung](docs/12.14.0-php9.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
