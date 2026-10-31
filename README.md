@@ -13,6 +13,7 @@ Stabilere Scrollposition im Backendfilter und bereinigte Tooltips der Objektlist
 **Einordnung:** Die funktionalen Änderungen sind in der späteren Entwicklungsreihe enthalten. Der eigene zusätzliche Versionskommentar dieses Branches wird dort nicht übernommen. nosniff-Korrektur und neue Suche fehlen in diesem älteren Stand.
 
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
+[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
 <!-- u5cms-branch-description:end -->
 
 ---
