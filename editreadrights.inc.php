@@ -1,4 +1,5 @@
 <?php 
+u5ValidateTextRequest($_GET,array('c','n'));
 if($_GET['c']=='' && $_GET['n']!='') $_GET['c']=$_GET['n']; 
 $sql_a="SELECT content_1, content_2, content_3, content_4, content_5 FROM resources WHERE name='".mysql_real_escape_string($_GET['c'])."'";
 $result_a=mysql_query($sql_a);

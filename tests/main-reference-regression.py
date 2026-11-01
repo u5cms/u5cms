@@ -49,14 +49,16 @@ class Site:
         self.resource('refpage',[b'[h:]<div id="proof">REF-DE \xdcber \x80 &amp; [literal]</div>[:h]',b'[h:]<div id="proof">REF-EN</div>[:h]',b'',b'[h:]<div id="proof">REF-IT</div>[:h]',b''])
         self.resource('refphp',[b'[h:]<?php echo "EXECUTED-REFERENCE"; ?>[:h]'])
         self.resource('refarchive',[b'[h:]<?php echo "EXECUTED-ARCHIVE"; ?>[:h]'],deleted=2)
-        self.resource('refprivate',[b'[h:]<div>PRIVATE-REFERENCE</div>[:h]'],logins='?reader:reader-password;')
+        self.resource('refprivate',[b'[h:]<div>PRIVATE-REFERENCE</div>[:h]'],logins='?reader:reader-password;\n?readertwo:reader-password;')
         self.fields={'name_mandatory':'Anna','comment':'He said "hello"; C:\\new\\path\r\nLine two \xdcber \u20ac &amp; [literal]',
                      'optional':'','zero':'0','qv2bo':'off','in2my':'off','em2cu':'off','em2me':'off','thanks':'referenceDone()'}
         form='[h:]<form name="u5form" id="reference-form" action="formsave.php?n=refform&l=de" method="post" target="saveframe">'
         for key,value in self.fields.items():
             form+='<textarea name="'+key+'"></textarea>'
-        form+='</form><iframe name="saveframe"></iframe><script>function referenceDone(){window.referenceSaved=true}</script>[:h]'
+        form+='<button id="reference-submit" type="submit">Save</button></form><iframe name="saveframe"></iframe><script>function referenceDone(){window.referenceSaved=true}</script>[:h]'
         self.resource('refform',[form.encode('cp1252')])
+        owned=form.replace('n=refform','n=refownerform')+'\n[h:]<!-- SELF_TOEDITITEMS_LOGINS_SAME_AS_[refprivate] SELF_TODELETEITEMS_LOGINS_SAME_AS_[refprivate] -->[:h]'
+        self.resource('refownerform',[owned.encode('cp1252')],logins='?reader:reader-password;\n?readertwo:reader-password;')
         app=b'''<?php require __DIR__.'/connect.inc.php';header('Content-Type: application/json');echo json_encode(array('query'=>$_GET,'cookies'=>$_COOKIE));'''
         (self.root/'reference-app.php').write_bytes(app)
         # The snapshot endpoint is not part of the CMS and never goes into releases.
@@ -94,7 +96,7 @@ class Site:
     def request(self,path,data=None,user=None,cookies=None):
         headers={}
         if user:
-            headers['Authorization']='Basic '+base64.b64encode((user+':'+('reader-password' if user=='reader' else 'reference-password')).encode()).decode()
+            headers['Authorization']='Basic '+base64.b64encode((user+':'+('reader-password' if user in ['reader','readertwo'] else 'reference-password')).encode()).decode()
         if cookies:headers['Cookie']=cookies
         if data is not None:
             if isinstance(data,dict):data=list(data.items())
@@ -184,6 +186,12 @@ def exercise(site):
     rows=site.rows('refimport')
     require(response['status']==200 and len(rows)==2 and 'Fatal error' not in response['body'],site.label+': real CSV import '+response['body'][-800:])
     observations['form-import']=rows
+    payload['target']='reflegacyimport'
+    payload['csv']='Name\tComment\tEmpty\tZero\r\nAlice\t"He said \\"hi\\" C:\\path"\t\t0\r\n'
+    response=site.request('u5admin/import2.php',payload,user='referenceadmin')
+    rows=site.rows('reflegacyimport')
+    require(response['status']==200 and len(rows)==1 and 'Fatal error' not in response['body'],site.label+': legacy escaped CSV import')
+    observations['form-import-legacy']=rows
     response=site.request('u5admin/formdata2csv.php?n=refform',user='referenceeditor')
     require('Bea' not in response['body'],site.label+': HIADRI export denial')
     observations['export-low-rights-denied']=True
@@ -192,7 +200,68 @@ def exercise(site):
     response=site.request('u5admin/formdata2csv.php?n=refform',user='referenceeditor')
     require('Bea' in response['body'],site.label+': configured non-HIADRI export allowance')
     observations['export-low-rights-configured']=True
+    response=site.request('formsave.php?n=refownerform&l=de',site.fields,user='reader')
+    rows=site.rows('refownerform')
+    require(response['status']==200 and len(rows)==1 and rows[0]['authuser']=='reader',site.label+': protected form records its actual owner')
+    owned=rows[0];ownerid=owned['id']
+    action='editformsave.php?n=refownerform&id='+ownerid+'&a=0&st=1&ti=1600000000&hu=2020.09.13'
+    response=site.request(action,dict(site.fields,name_mandatory='Foreign'),user='readertwo')
+    require('forbidden editing' in response['body'] and site.rows('refownerform')==rows,site.label+': same-page reader cannot edit another owner')
+    response=site.request('delformsave.php?n=refownerform&id='+ownerid+'&a=0&st=1',site.fields,user='readertwo')
+    require('forbidden deletion' in response['body'] and site.rows('refownerform')==rows,site.label+': same-page reader cannot delete another owner')
+    response=site.request(action.replace('a=0','a=1'),site.fields,user='readertwo')
+    require('Username and or password wrong' in response['body'] and site.rows('refownerform')==rows,site.label+': owner override denied without backend rights (legacy denial body)')
+    response=site.request(action,dict(site.fields,name_mandatory='Owner edited'),user='reader')
+    rows=site.rows('refownerform');current=next(item for item in rows if item['id']==ownerid)
+    require(response['status']==200 and 'Owner edited' in current['datacsv'] and current['authuser']=='reader' and len(rows)==2,site.label+': owner edit preserves identity and history')
+    observations['owner-edited']=rows
+    response=site.request(action,dict(site.fields,name_mandatory='Stale',firstsaverwins='0'),user='reader')
+    require('newer than the timestamp' in response['body'] and site.rows('refownerform')==rows,site.label+': stale form cannot overwrite current data')
+    response=site.request('delformsave.php?n=refownerform&id='+ownerid+'&a=0&st=1&ti=1600000000&hu=2020.09.13',site.fields,user='reader')
+    rows=site.rows('refownerform');current=next(item for item in rows if item['id']==ownerid)
+    require(response['status']==200 and current['status']=='5' and current['authuser']=='reader' and len(rows)==3,site.label+': owner delete retains deleted record and histories '+repr(rows))
+    observations['owner-deleted']=rows
+    if os.environ.get('U5_REFERENCE_BROWSER')=='1':
+        fields=dict(site.fields,name_mandatory='Browser Anna',comment='Browser \xdcber \u20ac \u4e2d\u6587 \U0001f600; "quote" \\tail')
+        run=subprocess.run(['node',str(HERE/'main-reference-browser.cjs')],input=json.dumps({'base':'http://127.0.0.1:'+str(site.port),'fields':fields}),text=True,capture_output=True,check=True)
+        browser=json.loads(run.stdout)
+        require(browser['callback'] and not browser['errors'],site.label+': browser submit callback')
+        row=site.rows()[-1]
+        require('Browser Anna' in row['datacsv'] and '\u00dcber \u20ac' in row['datacsv'] and '&#20013,.' in row['datacsv'] and '&#128512,.' in row['datacsv'],site.label+': original browser encoding preserves Unicode through numeric entities '+repr(row))
+        observations['browser-form']=dict(browser,row=row)
     return observations
+
+def exercise_text_boundaries(site):
+    for key in ['c','n','l','p','u5prvldd']:
+        response=site.request('index.php?'+urllib.parse.urlencode([(key+'[]','bad')]))
+        require(response['status']==400 and 'Fatal error' not in response['body'],site.label+': real route rejects '+key+'[]')
+    response=site.request('formsave.php?n[]=refform',site.fields)
+    require(response['status']==400,site.label+': real form route rejects n[]')
+    response=site.request('f.php?f[]=bad')
+    require(response['status']==400,site.label+': real file route rejects f[]')
+    token=hashlib.sha1((os.environ.get('U5CMS_TEST_USER','root')+os.environ.get('U5CMS_TEST_PASSWORD','')+'referenceadminreference-password'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')).encode()).hexdigest()
+    payload={'u5scrtytknfrfrms':token,'csv':'Name\tComment\r\nAlice\t"trailing slash \\"\r\n','target':'refrfcimport','h':'2','m':'1','n':'1','fixnotes':'','fixauthuser':'','csv_escape':'rfc4180'}
+    response=site.request('u5admin/import2.php',payload,user='referenceadmin')
+    rows=site.rows('refrfcimport')
+    require(response['status']==200 and len(rows)==1 and rows[0]['datacsv']=='\u00b7Alice;\u00b7trailing slash \\;',site.label+': explicit standard CSV retains trailing backslash '+repr(rows))
+    for key,bad in [('csv_escape','unknown'),('csv_escape[]','legacy')]:
+        payload.pop('csv_escape',None);payload.pop('csv_escape[]',None)
+        payload[key]=bad
+        before=site.rows('refrfcimport')
+        response=site.request('u5admin/import2.php',payload,user='referenceadmin')
+        require(response['status']==400 and site.rows('refrfcimport')==before,site.label+': invalid CSV mode does not write')
+    response=site.request('u5admin/import.php',user='referenceadmin')
+    require('name="csv_escape"' in response['body'] and 'value="legacy"' in response['body'] and 'value="rfc4180"' in response['body'],site.label+': both CSV choices are available in actual form')
+    # The direct bootstrap is not an authentication consumer, even in session mode.
+    site.settings['usesessioninsteadofbasicauth']='yes';site.write_config()
+    for key in ['u','p']:
+        cookie=key+'[owned]=value'
+        response=site.request('reference-app.php',cookies=cookie)
+        require(response['status']==200 and json.loads(response['body'])['cookies'][key]=={'owned':'value'},site.label+': session-mode independent app cookie '+key)
+        for path in ['index.php?c=refprivate','u5admin/index.php']:
+            response=site.request(path,cookies=cookie)
+            require(response['status']==400 and 'Fatal error' not in response['body'],site.label+': actual authentication rejects '+key+'[]')
+    site.settings['usesessioninsteadofbasicauth']='no';site.write_config()
 
 def differences(expected,actual):
     return {key:{'original':expected.get(key),'target':actual.get(key)} for key in sorted(set(expected)|set(actual)) if expected.get(key)!=actual.get(key)}
@@ -201,6 +270,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--baseline',type=pathlib.Path,required=True)
     parser.add_argument('--target',action='append',default=[],help='label=source-directory')
+    parser.add_argument('--text-boundaries',action='store_true',help='also assert contextual text guards on targets that provide them')
     parser.add_argument('--output',type=pathlib.Path,required=True)
     args=parser.parse_args();report={'method':'Original installation executes first; observations frozen before targets.','baseline':str(args.baseline),'results':[]}
     args.output.parent.mkdir(parents=True,exist_ok=True)
@@ -215,6 +285,7 @@ def main():
             label,path=value.split('=',1);site=Site(pathlib.Path(path),args.baseline,work,label)
             try:
                 actual=exercise(site);diff=differences(expected,actual)
+                if args.text_boundaries:exercise_text_boundaries(site)
                 record={'label':label,'differences':diff,'observations':actual}
             except Exception as error:
                 record={'label':label,'error':str(error)}

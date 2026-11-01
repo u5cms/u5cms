@@ -11,6 +11,7 @@ if ($autoresolvefastcgiproblems == 'yes') {
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
+    u5ValidateTextRequest($_COOKIE,array('u','p'));
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
     if (!u5OidcEnabled()) {

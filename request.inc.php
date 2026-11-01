@@ -1,7 +1,6 @@
 <?php
-/* Validate the CMS's shared routing/identity fields, not application-owned
- * query parameters or cookies. P objects may consume arrays of their own.
- * Missing keys and the search parser's separate policy remain intact. */
+/* Loading CMS helpers must not reserve application-owned request names.
+ * Validate text at the route, language or authentication consumer instead. */
 function u5ValidateTextRequest(array $values,array $keys) {
     foreach ($keys as $key) {
         if (!array_key_exists($key,$values)) continue;
@@ -13,5 +12,3 @@ function u5ValidateTextRequest(array $values,array $keys) {
         }
     }
 }
-u5ValidateTextRequest($_GET,array('c','n','l','p','u5prvldd'));
-u5ValidateTextRequest($_COOKIE,array('u','p','hp'));

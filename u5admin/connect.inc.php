@@ -8,6 +8,7 @@ $_GET['name']=basename(($_GET['name'] ?? ''));
 $_POST['name']=basename(($_POST['name'] ?? ''));
 $_GET['name']=str_replace(chr(0),'',($_GET['name'] ?? ''));
 $_POST['name']=str_replace(chr(0),'',($_POST['name'] ?? ''));
+u5ValidateTextRequest($_GET,array('l'));
 $_GET['l']=htmlspecialchars(($_GET['l'] ?? ''));
 include('../config.php');
 require_once('../san.inc.php');

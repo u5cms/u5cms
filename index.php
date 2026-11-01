@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__.'/request.inc.php';
+u5ValidateTextRequest($_GET,array('c','n','l','p','u5prvldd'));
+u5ValidateTextRequest($_COOKIE,array('hp'));
 require_once('connect.inc.php');
 require_once('chglang.inc.php');
 require_once('aclan.inc.php');

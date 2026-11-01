@@ -1,5 +1,6 @@
 <?php
 require_once('connect.inc.php');
+u5ValidateTextRequest($_COOKIE,array('u','p'));
 require_once('mime.inc.php');
 
 $path='fileversions/useruploads/';

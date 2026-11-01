@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__.'/request.inc.php';
+u5ValidateTextRequest($_GET,array('c','n'));
+?>
 <!DOCTYPE html>
 <html>
 <head>

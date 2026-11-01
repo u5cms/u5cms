@@ -30,7 +30,7 @@ function readinessFunction($file,$name,$replacement) {
 }
 readinessSame(function_exists('tnuoc'),false,'No count mimic remains');
 function readinessRequest(array $query,array $cookies=array()) {
-    $code='$_GET='.var_export($query,true).';$_COOKIE='.var_export($cookies,true).';register_shutdown_function(function(){echo "|status=".(http_response_code() ?: 200);});require '.var_export(dirname(__DIR__).'/request.inc.php',true).';echo "accepted";';
+    $code='$_GET='.var_export($query,true).';$_COOKIE='.var_export($cookies,true).';register_shutdown_function(function(){echo "|status=".(http_response_code() ?: 200);});require '.var_export(dirname(__DIR__).'/request.inc.php',true).';u5ValidateTextRequest($_GET,array("c","n","l","p","u5prvldd"));u5ValidateTextRequest($_COOKIE,array("u","p","hp"));echo "accepted";';
     $process=proc_open(array(PHP_BINARY,'-r',$code),array(1=>array('pipe','w'),2=>array('pipe','w')),$pipes);
     if (!is_resource($process)) throw new RuntimeException('Cannot test the isolated request boundary.');
     $out=stream_get_contents($pipes[1]);$err=stream_get_contents($pipes[2]);fclose($pipes[1]);fclose($pipes[2]);
