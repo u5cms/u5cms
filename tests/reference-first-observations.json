@@ -1,0 +1,494 @@
+{
+  "method": "Original installation executes first; observations frozen before targets.",
+  "baseline": "/workspace/scratch/2ac252dfae51/u5cms-main-baseline",
+  "results": [
+    {
+      "label": "php9",
+      "differences": {
+        "application-array-c": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-array-n": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-array-p": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-array-u5prvldd": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-cookie-array-hp": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-cookie-array-p": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-cookie-array-u": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        }
+      },
+      "observations": {
+        "upgrade": {
+          "status": 200,
+          "runonce_removed": true
+        },
+        "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+        "language-en": "REF-EN",
+        "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+        "language-it": "REF-IT",
+        "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+        "php-onallpages-refphp": true,
+        "php-onallpages-refarchive": true,
+        "php-inarchiveonly-refphp": false,
+        "php-inarchiveonly-refarchive": true,
+        "php-nowhere-refphp": false,
+        "php-nowhere-refarchive": false,
+        "private-denied": 401,
+        "private-allowed": true,
+        "application-array-c": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-n": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-p": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-u5prvldd": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-f": {
+          "status": 200,
+          "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-s": {
+          "status": 200,
+          "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-t": {
+          "status": 200,
+          "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-q": {
+          "status": 200,
+          "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-selection": {
+          "status": 200,
+          "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-cookie-array-u": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-cookie-array-p": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-cookie-array-hp": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-cookie-array-application": {
+          "status": 200,
+          "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+        },
+        "form-saved": {
+          "id": "2",
+          "formname": "refform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": null,
+          "authuser": ""
+        },
+        "form-edited": {
+          "id": "2",
+          "formname": "refform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": "",
+          "authuser": ""
+        },
+        "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+        "form-import": [
+          {
+            "id": "4",
+            "formname": "refimport",
+            "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+            "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+            "status": "7",
+            "notes": "fixed notes",
+            "authuser": "importowner"
+          },
+          {
+            "id": "5",
+            "formname": "refimport",
+            "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+            "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+            "status": "7",
+            "notes": "fixed notes",
+            "authuser": "importowner"
+          }
+        ],
+        "export-low-rights-denied": true,
+        "export-low-rights-configured": true
+      }
+    },
+    {
+      "label": "default",
+      "differences": {
+        "application-array-c": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-array-n": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-array-p": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-array-u5prvldd": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-cookie-array-hp": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-cookie-array-p": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        },
+        "application-cookie-array-u": {
+          "original": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "target": {
+            "status": 400,
+            "body": "Invalid request parameter."
+          }
+        }
+      },
+      "observations": {
+        "upgrade": {
+          "status": 200,
+          "runonce_removed": true
+        },
+        "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+        "language-en": "REF-EN",
+        "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+        "language-it": "REF-IT",
+        "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+        "php-onallpages-refphp": true,
+        "php-onallpages-refarchive": true,
+        "php-inarchiveonly-refphp": false,
+        "php-inarchiveonly-refarchive": true,
+        "php-nowhere-refphp": false,
+        "php-nowhere-refarchive": false,
+        "private-denied": 401,
+        "private-allowed": true,
+        "application-array-c": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-n": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-p": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-u5prvldd": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-array-f": {
+          "status": 200,
+          "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-s": {
+          "status": 200,
+          "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-t": {
+          "status": 200,
+          "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-q": {
+          "status": 200,
+          "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-array-selection": {
+          "status": 200,
+          "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+        },
+        "application-cookie-array-u": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-cookie-array-p": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-cookie-array-hp": {
+          "status": 400,
+          "body": "Invalid request parameter."
+        },
+        "application-cookie-array-application": {
+          "status": 200,
+          "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+        },
+        "form-saved": {
+          "id": "2",
+          "formname": "refform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": null,
+          "authuser": ""
+        },
+        "form-edited": {
+          "id": "2",
+          "formname": "refform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": "",
+          "authuser": ""
+        },
+        "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+        "form-import": [
+          {
+            "id": "4",
+            "formname": "refimport",
+            "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+            "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+            "status": "7",
+            "notes": "fixed notes",
+            "authuser": "importowner"
+          },
+          {
+            "id": "5",
+            "formname": "refimport",
+            "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+            "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+            "status": "7",
+            "notes": "fixed notes",
+            "authuser": "importowner"
+          }
+        ],
+        "export-low-rights-denied": true,
+        "export-low-rights-configured": true
+      }
+    }
+  ],
+  "original": {
+    "upgrade": {
+      "status": 200,
+      "runonce_removed": true
+    },
+    "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+    "language-en": "REF-EN",
+    "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+    "language-it": "REF-IT",
+    "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+    "php-onallpages-refphp": true,
+    "php-onallpages-refarchive": true,
+    "php-inarchiveonly-refphp": false,
+    "php-inarchiveonly-refarchive": true,
+    "php-nowhere-refphp": false,
+    "php-nowhere-refarchive": false,
+    "private-denied": 401,
+    "private-allowed": true,
+    "application-array-c": {
+      "status": 200,
+      "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-n": {
+      "status": 200,
+      "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-p": {
+      "status": 200,
+      "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-u5prvldd": {
+      "status": 200,
+      "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-f": {
+      "status": 200,
+      "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-s": {
+      "status": 200,
+      "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-t": {
+      "status": 200,
+      "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-q": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-selection": {
+      "status": 200,
+      "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-cookie-array-u": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+    },
+    "application-cookie-array-p": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+    },
+    "application-cookie-array-hp": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+    },
+    "application-cookie-array-application": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+    },
+    "form-saved": {
+      "id": "2",
+      "formname": "refform",
+      "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+      "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+      "status": "1",
+      "notes": null,
+      "authuser": ""
+    },
+    "form-edited": {
+      "id": "2",
+      "formname": "refform",
+      "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+      "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+      "status": "1",
+      "notes": "",
+      "authuser": ""
+    },
+    "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+    "form-import": [
+      {
+        "id": "4",
+        "formname": "refimport",
+        "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+        "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+        "status": "7",
+        "notes": "fixed notes",
+        "authuser": "importowner"
+      },
+      {
+        "id": "5",
+        "formname": "refimport",
+        "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+        "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+        "status": "7",
+        "notes": "fixed notes",
+        "authuser": "importowner"
+      }
+    ],
+    "export-low-rights-denied": true,
+    "export-low-rights-configured": true
+  },
+  "original_checks": 26,
+  "checks": 78
+}
