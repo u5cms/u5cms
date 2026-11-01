@@ -1281,6 +1281,7 @@ function renderspecial($name,$human) {
 
                     $file=basename($datacsv[$position]);
                     $ext = pathinfo($datacsv[$position], PATHINFO_EXTENSION);
+                    u5ValidateTextRequest($_COOKIE,array('u','p'));
                     if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'].$_COOKIE['u'].$_COOKIE['p'];
                     else $serverremoteaddr=$_COOKIE['u'].$_COOKIE['p'];
                     $filehash=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$file.date('Ymd')).'_URL_NON_TRANSFERABLE_AND_TIME_LIMITED';

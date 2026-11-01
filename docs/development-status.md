@@ -1,8 +1,8 @@
 # u5CMS development checkpoint
 
-## Zweite Evolutionsprüfung läuft (1. November 2026)
+## Zweite Evolutionsprüfung: Korrekturkandidat (1. November 2026)
 
-Neuer, ausdrücklich autorisierter Auftrag: funktionierende Original-Main-Abläufe zuerst in einer eigenen Referenzinstallation ausführen und dieselben Daten/Konfigurationen durch die Entwicklungsstände vergleichen. **Alle betroffenen Branches korrigieren.** [Arbeitsstand, feste Ausgangs-SHAs, Methode und nächster Schritt](12.12.3-reference-evolution-audit.md). Der folgende frühere Abschluss bleibt die Evidenz des ersten Durchgangs; er erledigt diese neue Prüfung nicht. Noch kein neuer Referenz-/Vergleichslauf wird als bestanden ausgewiesen.
+Der Originalvergleich hat zwei weitere Regressionen bestätigt: die verbleibende globale Reservierung von Request-/Cookie-Namen in eigenen Anwendungen und still veränderte ältere CSV-Eingaben. Beide sind auf 12.12.3/12.12.4 korrigiert; der erneute Original-/Zielvergleich samt echten Browserformularen, Eigentumsrechten und zusätzlichen Typ-/CSV-Grenzen besteht mit 142 Assertions ohne Abweichung. [Quellen, Reproduktionen, konkrete Korrekturen und noch offene Abschlussmatrix](12.12.3-reference-evolution-audit.md). Jetzt folgt der Durchgang über alle 16 Branches und die Erweiterungsprofile; der frühere Abschluss unten bleibt historische Evidenz.
 
 ## Neue Evolutionsprüfung abgeschlossen (31. Oktober 2026, UTC)
 

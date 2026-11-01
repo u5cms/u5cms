@@ -1,4 +1,11 @@
-<?php require_once('connect.inc.php');require_once('t2.php'); ?>
+<?php require_once('connect.inc.php');require_once('t2.php');
+if (!isset($_POST['csv']) || !is_string($_POST['csv']) || trim($_POST['csv'])==='') { http_response_code(400);die('CSV input is required.'); }
+// Unmarked requests retain the historical import contract. RFC 4180 is
+// explicit because a backslash before a quote is ambiguous between formats.
+$csvFormat=$_POST['csv_escape'] ?? 'legacy';
+if (!is_string($csvFormat) || !in_array($csvFormat,array('legacy','rfc4180'),true)) { http_response_code(400);die('Invalid CSV quote format.'); }
+$csvEscape=$csvFormat==='legacy' ? "\\" : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +20,6 @@ unlink('../fileversions/x');
 }
 else echo '<script>alert("PROBLEM: The server does not have the right to write into the folder named \'fileversions\'.\n\nEFFECTS: Data import not possible.\n\nSOLUTION: CHMOD this folder RECURSIVELY (incl. all its files, subfolders a.s.o.) e. g. to 777 e. g. with FileZilla.");</script>';
 
-if (!isset($_POST['csv']) || !is_string($_POST['csv']) || trim($_POST['csv'])==='') { http_response_code(400);die('CSV input is required.'); }
 $csv=str_replace(';',',.',$_POST['csv']);
 $filename=sha1($csv).'.csv';
 file_put_contents('../fileversions/'.$filename,$csv);
@@ -22,7 +28,7 @@ function subone(&$item1) {
 $item1=str_replace("\r","THS!S!M!HL!PRVT!LNBRK",str_replace("\n","THS!S!M!HL!PRVT!LNBRK",str_replace("\r\n","THS!S!M!HL!PRVT!LNBRK",$item1)));
 }
 
-$importer = new CsvImporter("../fileversions/$filename",true);
+$importer = new CsvImporter("../fileversions/$filename",true,"\t",8000,$csvEscape);
 $fp = fopen('../fileversions/_'.$filename, 'w');
 while($data = $importer->get())
 {
@@ -33,7 +39,7 @@ if($for==0){
 $keys=array_keys($fields);
 }
 $for++;
-fputcsv($fp, $fields, ';', '"', '');
+fputcsv($fp, $fields, ';', '"', $csvEscape);
 }
 
 }

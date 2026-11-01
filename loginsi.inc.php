@@ -1,5 +1,6 @@
 <?php
 require_once('connect.inc.php');
+u5ValidateTextRequest($_GET,array('c'));
 require_once('u5admin/u5idn.inc.php');
 
 if ($autoresolvefastcgiproblems == 'yes') {
@@ -8,6 +9,7 @@ if ($autoresolvefastcgiproblems == 'yes') {
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
+    u5ValidateTextRequest($_COOKIE,array('u','p'));
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
     if (!u5OidcRequired()) {
