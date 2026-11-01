@@ -1,8 +1,12 @@
 # u5CMS development checkpoint
 
-## Zweite Evolutionsprüfung: Korrekturkandidat (1. November 2026)
+## Zweite Evolutionsprüfung abgeschlossen (1. November 2026)
 
-Der Originalvergleich hat zwei weitere Regressionen bestätigt: die verbleibende globale Reservierung von Request-/Cookie-Namen in eigenen Anwendungen und still veränderte ältere CSV-Eingaben. Beide sind auf 12.12.3/12.12.4 korrigiert; der erneute Original-/Zielvergleich samt echten Browserformularen, Eigentumsrechten und zusätzlichen Typ-/CSV-Grenzen besteht mit 142 Assertions ohne Abweichung. [Quellen, Reproduktionen, konkrete Korrekturen und noch offene Abschlussmatrix](12.12.3-reference-evolution-audit.md). Jetzt folgt der Durchgang über alle 16 Branches und die Erweiterungsprofile; der frühere Abschluss unten bleibt historische Evidenz.
+Zwei weitere Kollateralschäden sind in allen betroffenen Branches 12.12.3 und 12.12.4 behoben: globale Request-/Cookie-Reservierungen in eigenen Bootstrap-Anwendungen und still veränderte ältere CSV-Importeingaben. [Abschlussbericht mit genauer Methode und Grenzen](12.12.3-reference-evolution-audit.md), [maschinelle Original-/Branch-/Profilnachweise](../tests/reference-evolution-evidence.json).
+
+Neue direkte Referenzreihe: 2.448 Assertions über Original und alle 16 Branches in vier tatsächlich erfolgreichen Original-Laufzeitprofilen, keine Vergleichsabweichung. Zwei zusätzliche mbstring-Polyfill-Profile bestehen auf den aktuellen Branches gegen die ausdrücklich gespeicherte Originalreferenz; der dort selbst fehlschlagende Original-Login wird separat dokumentiert. Nach der letzten Anwendungskorrektur bestehen die vollständigen 15 Kern-/DB-/HTTP-/Browsergruppen auf beiden kumulativen Linien; auf PHP 8.3 und 8.5 zusätzlich je 877 Syntax-/Quelldateien, 135 Kern-, 22 Request-, 40 IDN-, 40 Host- und 52 Dependency-Prüfungen. Alle 13 gesperrten Pakete mit 448 Paketdateien wurden neu geprüft.
+
+Geprüfte Anwendungskandidaten: 12.12.3 `4298d06feba13a4e13ef7b2efe3a58d18f2ecb52`, 12.12.4 `4159972464e798eb3371cc2d15625fcaa1e9f35d`. Abschlussänderungen betreffen nur Nachweise, Testdiagnostik und Dokumentation. Keine produktive Installation; kein offener automatischer Folgeauftrag. Die folgenden Abschnitte bleiben frühere Momentaufnahmen.
 
 ## Neue Evolutionsprüfung abgeschlossen (31. Oktober 2026, UTC)
 

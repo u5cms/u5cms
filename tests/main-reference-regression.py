@@ -73,7 +73,8 @@ class Site:
                 time.sleep(.025)
 
     def write_config(self):
-        suffix='\n'+''.join('$'+key+'='+json.dumps(value)+';\n' for key,value in self.settings.items())
+        # Preserve literal fixture credentials, including PHP interpolation chars.
+        suffix='\n'+''.join('$'+key+'=base64_decode("'+base64.b64encode(value.encode()).decode()+'");\n' for key,value in self.settings.items())
         suffix+='\n$backup_send_mail=false;\n'
         (self.root/'config.php').write_bytes(self.config+suffix.encode('ascii'))
 
@@ -119,7 +120,7 @@ def exercise(site):
     observations={}
     # Execute the real upgrade entry, not a target migration helper.
     response=site.request('u5admin/zr.php',user='referenceadmin')
-    require(response['status']==200 and 'Fatal error' not in response['body'],site.label+': actual backend bootstrap')
+    require(response['status']==200 and 'Fatal error' not in response['body'],site.label+': actual backend bootstrap '+response['body'][-1400:])
     observations['upgrade']={'status':response['status'],'runonce_removed':not (site.root/'r/runonce.php').exists()}
     for lang,expected in [('de','REF-DE'),('en','REF-EN'),('fr','REF-DE'),('it','REF-IT'),('es','REF-DE')]:
         response=site.request('index.php?c=refpage&l='+lang)
@@ -271,16 +272,28 @@ def main():
     parser.add_argument('--baseline',type=pathlib.Path,required=True)
     parser.add_argument('--target',action='append',default=[],help='label=source-directory')
     parser.add_argument('--text-boundaries',action='store_true',help='also assert contextual text guards on targets that provide them')
+    parser.add_argument('--oracle',type=pathlib.Path,help='explicit prior successful original observations for a capability-gain run; does not claim a new original execution')
     parser.add_argument('--output',type=pathlib.Path,required=True)
     args=parser.parse_args();report={'method':'Original installation executes first; observations frozen before targets.','baseline':str(args.baseline),'results':[]}
     args.output.parent.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='u5-reference-') as temporary:
-        work=pathlib.Path(temporary);baseline=Site(args.baseline,args.baseline,work,'original-main')
-        try:expected=exercise(baseline)
-        finally:baseline.close()
+        work=pathlib.Path(temporary)
+        if args.oracle:
+            expected=json.loads(args.oracle.read_text())['original']
+            report['method']='Capability-gain run against explicit prior successful original observations; original is not newly executed in this profile.'
+            report['oracle']=str(args.oracle)
+        else:
+            baseline=Site(args.baseline,args.baseline,work,'original-main')
+            try:expected=exercise(baseline)
+            except Exception as error:
+                baseline.log.flush()
+                report['original_failure']={'error':str(error),'server_log':(work/'original-main.server.log').read_text(errors='replace')[-6000:],'checks_before_failure':CHECKS}
+                args.output.write_text(json.dumps(report,indent=2,ensure_ascii=True))
+                raise
+            finally:baseline.close()
         report['original']=expected;report['original_checks']=CHECKS
         args.output.write_text(json.dumps(report,indent=2,ensure_ascii=True))
-        print('Original main expectations frozen: '+str(CHECKS)+' checks.',flush=True)
+        print(('Prior original oracle loaded; no new original checks.' if args.oracle else 'Original main expectations frozen: '+str(CHECKS)+' checks.'),flush=True)
         for value in args.target:
             label,path=value.split('=',1);site=Site(pathlib.Path(path),args.baseline,work,label)
             try:
