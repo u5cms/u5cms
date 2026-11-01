@@ -1,5 +1,9 @@
 # u5CMS development checkpoint
 
+## Zweite Evolutionsprüfung läuft (1. November 2026)
+
+Neuer, ausdrücklich autorisierter Auftrag: funktionierende Original-Main-Abläufe zuerst in einer eigenen Referenzinstallation ausführen und dieselben Daten/Konfigurationen durch die Entwicklungsstände vergleichen. **Alle betroffenen Branches korrigieren.** [Arbeitsstand, feste Ausgangs-SHAs, Methode und nächster Schritt](12.12.3-reference-evolution-audit.md). Der folgende frühere Abschluss bleibt die Evidenz des ersten Durchgangs; er erledigt diese neue Prüfung nicht. Noch kein neuer Referenz-/Vergleichslauf wird als bestanden ausgewiesen.
+
 ## Neue Evolutionsprüfung abgeschlossen (31. Oktober 2026, UTC)
 
 Auftrag: originales main `9d366253417822c279692767b89dcf1ff0388c5c` bis 12.12.3 intensiv auf Funktions- und Konzeptverluste prüfen; **alle betroffenen Branches** korrigieren. [Befunde, Quelleninventur, genaue neue Ausführungen und Grenzen](12.12.3-main-evolution-audit.md). Der separate 12.12.4-Designstand wurde ebenfalls durch die reale HTTP-/Browsermatrix geprüft.
