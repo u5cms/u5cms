@@ -1,5 +1,15 @@
 # u5CMS development checkpoint
 
+## Third main-evolution review in progress (2 November 2026, Europe/Zurich)
+
+Authorized task: independently review every development branch against production main, preserving its concepts and configured application behavior; correct confirmed regressions in every affected development branch. Production main and deployed installations are outside the mutation scope.
+
+Starting refs: main `78cadbf87b7307203b8bd4ff96929b306af7d982`; latest `12.12.4-Default-Design` at `694f2a3232c3659b1f7fa88fd15dae1369a853e8`; immutable original `9d366253417822c279692767b89dcf1ff0388c5c`. Current remote inventory contains main plus 15 development/work branches. Prior reports were read as historical evidence, not counted as new execution.
+
+Last completed step: fetch the complete repository, verify all current branch heads, read project rules/checkpoint and earlier audit reports, identify existing disposable-runtime tools. No application changes or new successful application checks at this checkpoint. Changed path: this checkpoint only.
+
+Next action: build a complete per-branch change inventory, review cross-cutting configuration/extension/authorization and failure paths against main, then reproduce specific findings in fresh disposable installations. Runtime setup is in progress; no background completion claim is made. This section will be replaced with exact findings, tests and remaining acceptance boundaries at completion.
+
 ## Zweite Evolutionsprüfung abgeschlossen (1. November 2026)
 
 Zwei weitere Kollateralschäden sind in allen betroffenen Branches 12.12.3 und 12.12.4 behoben: globale Request-/Cookie-Reservierungen in eigenen Bootstrap-Anwendungen und still veränderte ältere CSV-Importeingaben. [Abschlussbericht mit genauer Methode und Grenzen](12.12.3-reference-evolution-audit.md), [maschinelle Original-/Branch-/Profilnachweise](../tests/reference-evolution-evidence.json).
