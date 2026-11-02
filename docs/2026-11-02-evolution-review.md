@@ -120,7 +120,7 @@ Prüfläufen; sie sind kein GitHub-CI-Status. Es wurde nichts gemergt oder insta
 ## Drei zusätzlich beauftragte Untersuchungsläufe
 
 1. Ungewöhnliche Konfigurationen und eigene Erweiterungen: abgeschlossen; 2.210 Vergleichsfälle ohne Abweichung.
-2. Abbrüche, Fehlerfolgen und konkurrierende Änderungen: offen.
+2. Abbrüche, Fehlerfolgen und konkurrierende Änderungen: abgeschlossen; zusätzlicher Sperrfehler auf allen zehn betroffenen Branches korrigiert.
 3. Vollständige Redaktionsabläufe im Browser: offen.
 
 Jeder Lauf erhält eigene Fragestellungen, tatsächliche Ausführungen, Befunde und
@@ -144,3 +144,40 @@ haben dieselben festgesetzten Zeitwerte; Zeitunterschiede zwischen Fixture-
 Erstellungen werden nicht als Anwendungsfehler gewertet. Es wurde kein weiterer
 Kollateralschaden bestätigt und keine Anwendungskorrektur aus diesem Lauf nötig.
 [Gespeicherte Ergebnisse](../tests/evolution-configuration-2026-11-02.json).
+
+### Zusatzlauf 2: Echte Sperren und unterbrochene Umbenennung
+
+Abgeschlossen. Ein weiterer Fehler wurde bestätigt: Laufende Codeaktualisierungen
+und unterbrochene Umbenennungen verhinderten konkurrierende Änderungen, mehrere
+Schreibaktionen endeten dabei jedoch mit einem unbehandelten HTTP 500. Dies betraf
+Code speichern, Neu, Kopieren, Archivieren, Löschen und Umbenennen. Die beiden
+bereits kontrollierten Seiten-/Metadatenpfade zeigten, wie der Konflikt der
+Oberfläche mitgeteilt werden muss. Die ersten vier kumulativen Stände ergaben
+48 solcher Serverfehler bei unveränderten Daten.
+
+Die zehn betroffenen Branches ab `12.11.1-Migration-Hardening`, einschliesslich
+des Such-Arbeitsbranches, erhalten die gemeinsame Konfliktantwort. Eine eigene
+Busy-Exception trennt erwartete Konkurrenz von anderen Betriebsfehlern. Die
+betroffenen Einstiege liefern HTTP 409, `Retry-After: 2` und eine Erklärung.
+Die normale Revision-, Rechte- und CSRF-Prüfung bleibt Teil des Schreibablaufs.
+
+[HTTP-/Wiederaufnahmeprüfung](../tests/mutation-recovery-http.py): Ein getrennter
+Prozess hält die tatsächliche Dateisperre. Ein weiterer Lauf unterbricht eine
+echte Umbenennung nach dem Verzeichniswechsel und vor den Datenbankänderungen.
+Alle betroffenen Schreibversuche werden über die echten HTTP-Einstiege ausgeführt.
+Native SQL-Abfragen und Dateihashes vergleichen Ressourcen, Historien und Bytes
+vor und nach jedem abgewiesenen Versuch.
+
+Ergebnis: 100 blockierte Schreibaktionen liefern die kontrollierte Konfliktantwort
+und verändern keinen der geprüften Zustände. Vier tatsächlich unterbrochene
+Umbenennungen werden über das originale Retry-Ziel abgeschlossen; Wiederholung
+und veraltete Editoren verändern danach keine falschen Daten. Auf allen zehn
+Branches gelingt anschliessend wieder ein normaler Schreibzugriff. Die früheren
+Stände werden nur auf die dort bereits vorhandenen Sperrverbraucher geprüft;
+die umfassendere gewöhnliche Ressourcenkoordination kam erst mit 12.12.1 hinzu.
+
+Zusätzlich bestehen auf **jedem** der zehn korrigierten Branches erneut 51
+Frontend- und 98 Backend-Browserprüfungen, einschliesslich Basic-/Cookie-Anmeldung,
+Unicode, Revisionen, CSRF, Neu/Kopieren/Umbenennen/Archivieren/Löschen/Reaktivieren.
+[Reproduktion vorher](../tests/evolution-recovery-before-fix.json) und
+[neue Ergebnisse](../tests/evolution-recovery-2026-11-02.json).

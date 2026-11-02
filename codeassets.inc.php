@@ -1,5 +1,7 @@
 <?php
 /* Code resources are static assets. The LAST exclamation mark is the suffix separator. */
+class U5ResourceBusyException extends RuntimeException {}
+
 function u5CodeMigrationLock($root,$renameCheckpoint=null,$allowPendingRename=false) {
     static $held=array();
     $key=realpath($root) ?: $root;
@@ -9,11 +11,11 @@ function u5CodeMigrationLock($root,$renameCheckpoint=null,$allowPendingRename=fa
         if (!$handle) throw new RuntimeException('Cannot open the code asset update lock.');
         if (!flock($handle,LOCK_EX|LOCK_NB)) {
             fclose($handle);
-            throw new RuntimeException('Another code asset update is already running. Retry the backend when it has finished.');
+            throw new U5ResourceBusyException('Another code asset update is already running. Retry the backend when it has finished.');
         }
         foreach (glob($root.'/fileversions/resource-rename-*.pending.php') as $pending) if (!$allowPendingRename && $pending!==$renameCheckpoint) {
             flock($handle,LOCK_UN);fclose($handle);
-            throw new RuntimeException('An interrupted resource rename must be resumed before another resource mutation or backup.');
+            throw new U5ResourceBusyException('An interrupted resource rename must be resumed before another resource mutation or backup.');
         }
         if (fstat($handle)['size']===0) fwrite($handle,"<?php exit; ?>\n");
         $held[$key]=array('handle'=>$handle,'depth'=>1);
