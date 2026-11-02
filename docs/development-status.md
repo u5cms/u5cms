@@ -1,14 +1,40 @@
 # u5CMS development checkpoint
 
-## Third evolution review: main review complete; three further passes authorized (2 November 2026)
+## Main review and all three additional investigation passes complete (2 November 2026)
 
-The main review found and corrected unfiltered backend data-view aborts in both affected branches, 12.12.3 and 12.12.4. The common query now initializes its keyword collection; original non-ASCII bytes are unchanged. The new complete-view reference runner reproduces 28 differences per affected branch before the fix and passes 714 cases over original plus all 16 current branches afterwards. Current main and production installations are unchanged.
+The main review plus exactly three additional investigation passes are complete.
+All confirmed application defects are corrected and published in every affected
+branch: unfiltered backend data-view aborts (12.12.3/12.12.4); uncontrolled busy
+operation HTTP 500 responses (ten branches from 12.11.1 including search); and
+an error notice intercepting the next ordinary Save click (all 14 branches from
+12.10.0 including nosniff/search). Current main and 12.9.6 are unchanged. No
+production installation, merge or release replacement was performed.
 
-[Current review, exact new executions and limits](2026-11-02-evolution-review.md), [machine evidence](../tests/evolution-review-2026-11-02-evidence.json), [complete branch-path inventory](2026-11-02-evolution-paths.tsv). Fix commits: PHP compatibility `8931d314c2a5db4ae43ada86721a07afe899bba3`, design `0b1ab1c19dea9e7eec533d488a7ddd9f4e3e49be`. Initial task refs and historical checks are retained in the evidence.
+[Final review and exact limits](2026-11-02-evolution-review.md), [final machine evidence](../tests/evolution-final-2026-11-02-evidence.json), [source inventory](2026-11-02-evolution-paths.tsv).
 
-All new main-review integration groups pass on PHP 8.3.6 / MariaDB 10.11.14 / Chrome Headless Shell 156.0.8078.80. Original/reference and data-view comparison cover every branch; the full integration matrix uses the latest cumulative branch. All application blobs in the tested snapshots match the published branch application trees. Reports are actual local evidence, not GitHub CI or deployment.
+Final application commits include PHP compatibility
+`83dc1dbfd160e22de7ce70ac1f854ca59c9810eb` and default design
+`3cac2f23eed4fb2ff282424ce0f90c445c80ece0`; the report records every branch.
+The tested snapshots match 18,237 published application blobs across all 16
+branches. Branch names and version comments are verified. Any following commits
+only close evidence/documentation and do not imply another application test run.
 
-New explicit user instruction: after this main review, perform three further inspired investigation passes and correct every confirmed issue on all affected branches. Planned distinct passes: unusual configuration and extension combinations; interruption/failure/concurrency; complete browser editorial journeys. Additional pass 1 is now complete: 2,210 semantic configuration/extension comparisons across original and all 16 branches, no differences; see the review and saved configuration evidence. Additional pass 2 is complete: uncontrolled busy-operation HTTP 500 responses corrected on all ten affected branches from 12.11.1 onward, including search. 100 actual blocked writes preserve resource/history/file state and return 409 with Retry-After; four actual interrupted renames resume and retain repeated/stale-request safety. Each corrected branch passes 51 frontend and 98 backend browser checks. Additional pass 3 is complete: its real browser journey reproduced an error notice covering the Save control. The shared notice source is identical on all 14 affected branches from 12.10.0 onward and is corrected identically. Actual Basic/session failure-retry-peer-conflict-reopen journeys on 12.11.1/12.12.3/12.12.4 pass 63/73/73 checks. All three requested additional investigation passes are complete. Next action: publish the final notice patch on all 14 branches, complete post-correction regression and verify remote application bytes, branch inventory and final reports. No additional investigation task remains authorized or running beyond this closure. No automated background completion is implied.
+Executed after the final correction: original comparison 612; complete views
+714; contextual contracts 142; migration/rename/mobile 1671/886/69; complete
+HTTP/browser/editor/restore 159/51/98/92/504; search, OIDC, uploads and both
+seeds pass. PHP 8.3 core/request/IDN/host 135/22/40/40 and 878 syntax/source
+files pass. The extra configuration pass has 2,210 comparisons; recovery proves
+100 blocked writes and four actual interruption/resume operations, plus 51/98
+normal browser checks on each of ten corrected branches; editorial Basic/session
+journeys pass 63/73/73 checks. A fixture-cleanup failure after successful web
+assertions is retained and the complete successful repeat is recorded separately.
+
+Runtime: PHP 8.3.6, MariaDB 10.11.14, Chrome Headless Shell 156.0.8078.80, only
+disposable installations. No live-provider/mail-delivery or actual PHP-9 runtime
+certification is claimed. These are recorded local executions, not GitHub CI.
+No confirmed issue remains open in the tested scope, and no automatic follow-up
+or active verification process remains. Next action: none for this authorized
+review. Merging/deployment would be a separate instruction.
 
 ## Zweite Evolutionsprüfung abgeschlossen (1. November 2026)
 
