@@ -1,6 +1,6 @@
 <?php ignore_user_abort(true);set_time_limit(3600); ?>
 <?php require_once('connect.inc.php');require_once('t2.php');
-$u5MutationRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MutationRelease); ?>
+require_once('resource-mutation.inc.php'); ?>
 <?php if ($_POST['name'] == '' && $_GET['newname'] != '') $_POST['name'] = $_GET['newname']; ?>
 <?php if ($_POST['ulinks'] == '' && $_GET['ulinks'] != '') $_POST['ulinks'] = $_GET['ulinks']; ?>
 <?php if (strlen($_POST['name']) < 4) die('<script>history.go(-1)</script>'); ?>
@@ -18,7 +18,8 @@ if (strtolower((string)($u5RenameKind['typ'] ?? ''))==='c' || $u5RenamePending) 
         trxlog('rename '.$_GET['name'].' '.$_POST['name']);
         echo '<script>if(opener)opener.location.reload();self.close();</script>';
     } catch (Throwable $error) {
-        http_response_code(500);
+        http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
+    if ($error instanceof U5ResourceBusyException) header('Retry-After: 2');
         echo '<p>'.htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252').'</p>';
     }
     exit;
