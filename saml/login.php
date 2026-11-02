@@ -44,7 +44,7 @@ $debug = (isset($_GET['u5debug'])) ? true : false;
 require('../config.php');
 $httpsisinuse=false;
 $u5HttpsResult=eval($evaluateifhttpsisinuse);
-if (is_bool($u5HttpsResult)) $httpsisinuse=$u5HttpsResult;
+if ($u5HttpsResult!==null) $httpsisinuse=(bool)$u5HttpsResult;
 $httpsisinuse=(bool)$httpsisinuse;
 
 

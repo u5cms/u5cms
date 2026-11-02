@@ -16,7 +16,7 @@ require_once('u5idn.inc.php');
 
 $httpsisinuse=false;
 $u5HttpsResult=eval($evaluateifhttpsisinuse);
-if (is_bool($u5HttpsResult)) $httpsisinuse=$u5HttpsResult;
+if ($u5HttpsResult!==null) $httpsisinuse=(bool)$u5HttpsResult;
 $httpsisinuse=(bool)$httpsisinuse;
 if ($forcehttpsonbackend=='yes' && !$httpsisinuse) {
     $url=str_replace($searchforthisinhttpsurl,$replacewiththisinhttpsurl,'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
