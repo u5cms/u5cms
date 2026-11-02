@@ -38,7 +38,8 @@ try {
     }
     trxlog('rename '.$old.' '.$new);
 } catch (Throwable $error) {
-    http_response_code(500);$u5RenameError=$error;
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
+    if ($error instanceof U5ResourceBusyException) header('Retry-After: 2');$u5RenameError=$error;
 }
 ?><!DOCTYPE html>
 <html lang="en"><head>
