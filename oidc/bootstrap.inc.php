@@ -7,7 +7,7 @@ if (!u5OidcEnabled()) { http_response_code(404); exit; }
 try {
     $httpsisinuse = false;
     $result = eval($evaluateifhttpsisinuse ?? '');
-    if (is_bool($result)) $httpsisinuse = $result;
+    if ($result !== null) $httpsisinuse = (bool)$result;
     if (!$httpsisinuse) throw new RuntimeException('OIDC endpoints require HTTPS.');
     list($oidcClient, $oidcSession) = u5OidcServices();
 }
