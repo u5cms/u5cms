@@ -37,7 +37,7 @@ var acknowledged=false;try { acknowledged=!!transport.contentWindow.u5ResourceAc
 if(!acknowledged) {
 dirty();
 var status=document.getElementById('u5resource_status');
-if(!status) { status=document.createElement('div');status.id='u5resource_status';status.style.cssText='position:fixed;top:0;left:0;z-index:10000;color:white;background:darkred;padding:4px';document.body.appendChild(status); }
+if(!status) { status=document.createElement('div');status.id='u5resource_status';status.setAttribute('role','alert');status.style.cssText='position:fixed;right:8px;bottom:8px;max-width:calc(100% - 16px);box-sizing:border-box;z-index:10000;color:white;background:darkred;padding:4px;pointer-events:none';document.body.appendChild(status); }
 var message='Save failed. Your editor contents have been kept.';
 try { var body=transport.contentDocument.body.cloneNode(true);body.querySelectorAll('script,style').forEach(function(node){node.remove();});message+=' '+body.textContent.trim().slice(0,500); } catch(error) {}
 status.textContent=message;
