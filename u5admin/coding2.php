@@ -4,7 +4,7 @@ require_once('t2.php');
 require_once('resourceupdate.inc.php');
 try {
 require_once('codeassets-migrate.inc.php');
-$u5CodeRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5CodeRelease);
+require_once('resource-mutation.inc.php');
 $name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
 $u5CodeRecord=u5ResourceForUpdate($name,true);
 if (strtolower((string)$u5CodeRecord['typ'])!=='c') throw new RuntimeException('The selected resource is not a code object.');
