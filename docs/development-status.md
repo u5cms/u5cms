@@ -1,16 +1,40 @@
 # u5CMS development checkpoint
 
-## Third evolution review: confirmed data-view regression fixed; broad verification in progress (2 November 2026)
+## Main review and all three additional investigation passes complete (2 November 2026)
 
-Starting refs: main `78cadbf87b7307203b8bd4ff96929b306af7d982`, immutable original `9d366253417822c279692767b89dcf1ff0388c5c`, PHP compatibility `5df1713084563438e168cc67857208296d839125`, design `694f2a3232c3659b1f7fa88fd15dae1369a853e8` (subsequent design checkpoint `2008920e2cee0016cb052d6a7c4f4028b09a57a7`). Authorized task: review the whole branch evolution and correct every affected development branch; no main or production mutation.
+The main review plus exactly three additional investigation passes are complete.
+All confirmed application defects are corrected and published in every affected
+branch: unfiltered backend data-view aborts (12.12.3/12.12.4); uncontrolled busy
+operation HTTP 500 responses (ten branches from 12.11.1 including search); and
+an error notice intercepting the next ordinary Save click (all 14 branches from
+12.10.0 including nosniff/search). Current main and 12.9.6 are unchanged. No
+production installation, merge or release replacement was performed.
 
-Confirmed regression: `formdata2.php` and `formdatamail.php` abort without a nonempty filter because `formdata.query.php` left `$keywords` undefined after callers changed from tnuoc to count. Early output hides the abort behind HTTP 200. The shared producer now always defines an empty collection. Existing non-ASCII bytes are preserved. Changed application path: `u5admin/formdata.query.php`; affected branches: 12.12.3 and 12.12.4 only.
+[Final review and evidence on the cumulative line](https://github.com/u5cms/u5cms/blob/12.12.4-Default-Design/docs/2026-11-02-evolution-review.md).
 
-Independent real-view comparison reproduces 28 differences per affected branch in 42 cases each, while current main agrees with the original; see `tests/formdata-view-before-fix.json`. After correction, the original plus all 16 current branches pass 714 complete-view cases with no differences. The new runner checks actual selected rows, the installation extension hook, closing HTML, filters/status/sort and denial, not only status codes. The OIDC HTTP regression now checks completion of this view too. No mail is sent.
+Final application commits include PHP compatibility
+`83dc1dbfd160e22de7ce70ac1f854ca59c9810eb` and default design
+`3cac2f23eed4fb2ff282424ce0f90c445c80ece0`; the report records every branch.
+The tested snapshots match 18,237 published application blobs across all 16
+branches. Branch names and version comments are verified. Any following commits
+only close evidence/documentation and do not imply another application test run.
 
-New complete original/reference execution with real browser submissions: 612 checks across original plus all 16 branches, no differences; separate contextual contracts pass. Migration/database 1671, rename 886, mobile migration 69, real textarea 159, frontend 51, backend 98, rename browser 92 and main-diff/SQL/ZIP/editor 504 pass in fresh fixtures. PHP 8.3.6, MariaDB 10.11.14, Chrome Headless Shell 156.0.8078.80. Search, OIDC, upload and design completion remains in progress at this checkpoint. Earlier environment/setup failures are not counted as successful application tests.
+Executed after the final correction: original comparison 612; complete views
+714; contextual contracts 142; migration/rename/mobile 1671/886/69; complete
+HTTP/browser/editor/restore 159/51/98/92/504; search, OIDC, uploads and both
+seeds pass. PHP 8.3 core/request/IDN/host 135/22/40/40 and 878 syntax/source
+files pass. The extra configuration pass has 2,210 comparisons; recovery proves
+100 blocked writes and four actual interruption/resume operations, plus 51/98
+normal browser checks on each of ten corrected branches; editorial Basic/session
+journeys pass 63/73/73 checks. A fixture-cleanup failure after successful web
+assertions is retained and the complete successful repeat is recorded separately.
 
-Next action: finish the remaining actual integration runs, review source inventory and branch propagation, then replace this section with final evidence and exact limitations. No merging or deployment is authorized by this review.
+Runtime: PHP 8.3.6, MariaDB 10.11.14, Chrome Headless Shell 156.0.8078.80, only
+disposable installations. No live-provider/mail-delivery or actual PHP-9 runtime
+certification is claimed. These are recorded local executions, not GitHub CI.
+No confirmed issue remains open in the tested scope, and no automatic follow-up
+or active verification process remains. Next action: none for this authorized
+review. Merging/deployment would be a separate instruction.
 
 ## Zweite Evolutionsprüfung abgeschlossen (1. November 2026)
 
