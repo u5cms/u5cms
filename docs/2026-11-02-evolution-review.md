@@ -119,10 +119,28 @@ Prüfläufen; sie sind kein GitHub-CI-Status. Es wurde nichts gemergt oder insta
 
 ## Drei zusätzlich beauftragte Untersuchungsläufe
 
-1. Ungewöhnliche Konfigurationen und eigene Erweiterungen: offen.
+1. Ungewöhnliche Konfigurationen und eigene Erweiterungen: abgeschlossen; 2.210 Vergleichsfälle ohne Abweichung.
 2. Abbrüche, Fehlerfolgen und konkurrierende Änderungen: offen.
 3. Vollständige Redaktionsabläufe im Browser: offen.
 
 Jeder Lauf erhält eigene Fragestellungen, tatsächliche Ausführungen, Befunde und
 einen Abschluss. Neu bestätigte Fehler werden in allen betroffenen Branches
 behoben und nach der letzten Korrektur geprüft.
+
+### Zusatzlauf 1: Konfiguration und eigene Erweiterungen
+
+Abgeschlossen. Die [unabhängige Konfigurationsprüfung](../tests/configuration-reference.py)
+führt zuerst das Original aus, dann alle 16 Branches. Zehn Profile kombinieren
+Basic-/Cookie-Anmeldung, FastCGI, gewöhnliche und höhere Redaktionsrechte,
+ausdrücklich freigegebenen Backendzugang, Formularprüfung, Quotehandling sowie
+PHP-Ausführung überall, nur im Archiv und nirgends. Jedes Profil prüft fünf
+Sprachen, eigene Request-/Cookie-Collections, beide vollständigen Datenansichten,
+CSV und die vorhandenen Bearbeitungseinstiege.
+
+Ergebnis: 130 fachliche Beobachtungen je Installation, zusammen 2.210, ohne
+Vergleichsabweichung. Die vorhandene Präzisierung verweigerten Zugriffs von HTTP
+200 zu HTTP 403 wird ausdrücklich als erhaltene Ablehnung geprüft. Die Daten
+haben dieselben festgesetzten Zeitwerte; Zeitunterschiede zwischen Fixture-
+Erstellungen werden nicht als Anwendungsfehler gewertet. Es wurde kein weiterer
+Kollateralschaden bestätigt und keine Anwendungskorrektur aus diesem Lauf nötig.
+[Gespeicherte Ergebnisse](../tests/evolution-configuration-2026-11-02.json).

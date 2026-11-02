@@ -1,0 +1,985 @@
+{
+  "pass": "Additional 1: combined configuration and independent application contracts",
+  "profiles": [
+    "default",
+    "ordinary-open-data",
+    "ordinary-restricted-data",
+    "checked-form-edits",
+    "php-archive-only",
+    "php-disabled",
+    "quote-handling",
+    "cookie-session",
+    "fastcgi-auth",
+    "explicit-open-backend"
+  ],
+  "results": [
+    {
+      "label": "12.10.0-Multi-Optimizations-by-AI",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.10.1-Support-More-Image-Formats",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.11.0-Code-Resource-Migration",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.11.1-Migration-Hardening",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.11.2-Backup-Restore-Corrections",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.11.3-Private-File-Cache-Corrections",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.11.4-Intranet-Login-Corrections",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.12.0-OIDC",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.12.1-General-Corrections",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.12.2-Textarea-Interactions",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.12.3-PHP9-Compatibility",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.12.4-Default-Design",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "12.9.6-Misc-Backend-Optimizations",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "feature__search-phrases-quotes-highlighting",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "fix__nosniff-script-mime-types",
+      "cases": 130,
+      "differences": {}
+    },
+    {
+      "label": "main",
+      "cases": 130,
+      "differences": {}
+    }
+  ],
+  "original": {
+    "default/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "default/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "default/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "default/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "default/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "default/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "default/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "default/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "default/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "default/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "default/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "default/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "default/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "ordinary-open-data/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "ordinary-open-data/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "ordinary-open-data/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "ordinary-open-data/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "ordinary-open-data/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "ordinary-open-data/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "ordinary-open-data/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "ordinary-open-data/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "ordinary-open-data/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "ordinary-open-data/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "ordinary-open-data/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "ordinary-open-data/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "ordinary-open-data/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "ordinary-restricted-data/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "ordinary-restricted-data/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "ordinary-restricted-data/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "ordinary-restricted-data/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "ordinary-restricted-data/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "ordinary-restricted-data/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "ordinary-restricted-data/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "ordinary-restricted-data/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "ordinary-restricted-data/formdata2.php": {
+      "denied": true,
+      "record": false,
+      "extension": false,
+      "complete": false,
+      "fatal": false
+    },
+    "ordinary-restricted-data/formdatamail.php": {
+      "denied": true,
+      "record": false,
+      "extension": false,
+      "complete": false,
+      "fatal": false
+    },
+    "ordinary-restricted-data/csv": {
+      "denied": true,
+      "record": false,
+      "payload": ""
+    },
+    "ordinary-restricted-data/formdataedit.php": {
+      "status": "denied",
+      "denied": true,
+      "generic": false,
+      "original_form": false,
+      "complete": false,
+      "fatal": false
+    },
+    "ordinary-restricted-data/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "checked-form-edits/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "checked-form-edits/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "checked-form-edits/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "checked-form-edits/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "checked-form-edits/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "checked-form-edits/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "checked-form-edits/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "checked-form-edits/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "checked-form-edits/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "checked-form-edits/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "checked-form-edits/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "checked-form-edits/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "checked-form-edits/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "php-archive-only/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "php-archive-only/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "php-archive-only/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "php-archive-only/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "php-archive-only/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "php-archive-only/execution/refphp": {
+      "status": 200,
+      "executed": false,
+      "complete": true
+    },
+    "php-archive-only/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "php-archive-only/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "php-archive-only/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "php-archive-only/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "php-archive-only/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "php-archive-only/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "php-archive-only/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "php-disabled/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "php-disabled/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "php-disabled/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "php-disabled/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "php-disabled/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "php-disabled/execution/refphp": {
+      "status": 200,
+      "executed": false,
+      "complete": true
+    },
+    "php-disabled/execution/refarchive": {
+      "status": 200,
+      "executed": false,
+      "complete": true
+    },
+    "php-disabled/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "php-disabled/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "php-disabled/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "php-disabled/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "php-disabled/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "php-disabled/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "quote-handling/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "quote-handling/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "quote-handling/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "quote-handling/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "quote-handling/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "quote-handling/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "quote-handling/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "quote-handling/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "quote-handling/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "quote-handling/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "quote-handling/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "quote-handling/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "quote-handling/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "cookie-session/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "cookie-session/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "cookie-session/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "cookie-session/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "cookie-session/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "cookie-session/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "cookie-session/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "cookie-session/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "cookie-session/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "cookie-session/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "cookie-session/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "cookie-session/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "cookie-session/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "fastcgi-auth/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "fastcgi-auth/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "fastcgi-auth/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "fastcgi-auth/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "fastcgi-auth/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "fastcgi-auth/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "fastcgi-auth/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "fastcgi-auth/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "fastcgi-auth/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "fastcgi-auth/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "fastcgi-auth/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "fastcgi-auth/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "fastcgi-auth/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    },
+    "explicit-open-backend/language/de": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "explicit-open-backend/language/en": {
+      "status": 200,
+      "proof": "REF-EN",
+      "complete": true
+    },
+    "explicit-open-backend/language/fr": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "explicit-open-backend/language/it": {
+      "status": 200,
+      "proof": "REF-IT",
+      "complete": true
+    },
+    "explicit-open-backend/language/es": {
+      "status": 200,
+      "proof": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "complete": true
+    },
+    "explicit-open-backend/execution/refphp": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "explicit-open-backend/execution/refarchive": {
+      "status": 200,
+      "executed": true,
+      "complete": true
+    },
+    "explicit-open-backend/own-app": {
+      "status": 200,
+      "query": {
+        "c": [
+          "chosen"
+        ],
+        "n": [
+          "one"
+        ],
+        "selection": [
+          "0"
+        ],
+        "q": ""
+      },
+      "application_cookie": {
+        "panel": "open"
+      }
+    },
+    "explicit-open-backend/formdata2.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "explicit-open-backend/formdatamail.php": {
+      "denied": false,
+      "record": true,
+      "extension": true,
+      "complete": true,
+      "fatal": false
+    },
+    "explicit-open-backend/csv": {
+      "denied": false,
+      "record": true,
+      "payload": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;CONFIG-RECORD;He said \u00e2\u20ac\u00b3hello\u00e2\u20ac\u00b3,. C:\\new\\path | Line two \u00c3\u0153ber \u00e2\u201a\u00ac & [literal];;0;off;off;off;off;2023.11.14 23:13:20;127.0.0.1;\r\n"
+    },
+    "explicit-open-backend/formdataedit.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": true,
+      "complete": true,
+      "fatal": false
+    },
+    "explicit-open-backend/formdataeditgen.php": {
+      "status": 200,
+      "denied": false,
+      "generic": true,
+      "original_form": false,
+      "complete": true,
+      "fatal": false
+    }
+  },
+  "runtime": {
+    "php": "8.3.6",
+    "mariadb": "10.11.14"
+  },
+  "cases_total": 2210,
+  "fixture_note": "Identical fixed record time/humantime. Deliberate legacy denial-status improvement (200 to 403) compared through the explicit denial contract, not treated as a lost permission."
+}
