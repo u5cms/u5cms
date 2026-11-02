@@ -1,14 +1,16 @@
 # u5CMS development checkpoint
 
-## Third main-evolution review in progress (2 November 2026, Europe/Zurich)
+## Third evolution review: confirmed data-view regression fixed; broad verification in progress (2 November 2026)
 
-Authorized task: independently review every development branch against production main, preserving its concepts and configured application behavior; correct confirmed regressions in every affected development branch. Production main and deployed installations are outside the mutation scope.
+Starting refs: main `78cadbf87b7307203b8bd4ff96929b306af7d982`, immutable original `9d366253417822c279692767b89dcf1ff0388c5c`, PHP compatibility `5df1713084563438e168cc67857208296d839125`, design `694f2a3232c3659b1f7fa88fd15dae1369a853e8` (subsequent design checkpoint `2008920e2cee0016cb052d6a7c4f4028b09a57a7`). Authorized task: review the whole branch evolution and correct every affected development branch; no main or production mutation.
 
-Starting refs: main `78cadbf87b7307203b8bd4ff96929b306af7d982`; latest `12.12.4-Default-Design` at `694f2a3232c3659b1f7fa88fd15dae1369a853e8`; immutable original `9d366253417822c279692767b89dcf1ff0388c5c`. Current remote inventory contains main plus 15 development/work branches. Prior reports were read as historical evidence, not counted as new execution.
+Confirmed regression: `formdata2.php` and `formdatamail.php` abort without a nonempty filter because `formdata.query.php` left `$keywords` undefined after callers changed from tnuoc to count. Early output hides the abort behind HTTP 200. The shared producer now always defines an empty collection. Existing non-ASCII bytes are preserved. Changed application path: `u5admin/formdata.query.php`; affected branches: 12.12.3 and 12.12.4 only.
 
-Last completed step: fetch the complete repository, verify all current branch heads, read project rules/checkpoint and earlier audit reports, identify existing disposable-runtime tools. No application changes or new successful application checks at this checkpoint. Changed path: this checkpoint only.
+Independent real-view comparison reproduces 28 differences per affected branch in 42 cases each, while current main agrees with the original; see `tests/formdata-view-before-fix.json`. After correction, the original plus all 16 current branches pass 714 complete-view cases with no differences. The new runner checks actual selected rows, the installation extension hook, closing HTML, filters/status/sort and denial, not only status codes. The OIDC HTTP regression now checks completion of this view too. No mail is sent.
 
-Next action: build a complete per-branch change inventory, review cross-cutting configuration/extension/authorization and failure paths against main, then reproduce specific findings in fresh disposable installations. Runtime setup is in progress; no background completion claim is made. This section will be replaced with exact findings, tests and remaining acceptance boundaries at completion.
+New complete original/reference execution with real browser submissions: 612 checks across original plus all 16 branches, no differences; separate contextual contracts pass. Migration/database 1671, rename 886, mobile migration 69, real textarea 159, frontend 51, backend 98, rename browser 92 and main-diff/SQL/ZIP/editor 504 pass in fresh fixtures. PHP 8.3.6, MariaDB 10.11.14, Chrome Headless Shell 156.0.8078.80. Search, OIDC, upload and design completion remains in progress at this checkpoint. Earlier environment/setup failures are not counted as successful application tests.
+
+Next action: finish the remaining actual integration runs, review source inventory and branch propagation, then replace this section with final evidence and exact limitations. No merging or deployment is authorized by this review.
 
 ## Zweite Evolutionsprüfung abgeschlossen (1. November 2026)
 

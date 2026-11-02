@@ -71,6 +71,8 @@ if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);
     ($_GET['f'] ?? '')
   );
 
+// No filter is an empty keyword collection, also for the table renderers.
+$keywords=array();
 if ($_GET['f']!='') {
 $keywords=((str_replace('  ',' ',str_replace(' ',' ',trim(($_GET['f'] ?? ''))))));
 $keywords=str_replace('"',' ',$keywords);
