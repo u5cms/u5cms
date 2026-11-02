@@ -1,0 +1,928 @@
+{
+  "pass": "Additional 2: actual lock and interruption recovery",
+  "results": [
+    {
+      "label": "12.11.1-Migration-Hardening",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": false,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.11.2-Backup-Restore-Corrections",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": false,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.11.3-Private-File-Cache-Corrections",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": false,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.11.4-Intranet-Login-Corrections",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": false,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.0-OIDC",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": false,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.1-General-Corrections",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.2-Textarea-Interactions",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.3-PHP9-Compatibility",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.4-Default-Design",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "feature__search-phrases-quotes-highlighting",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 409,
+          "retry_after": "2",
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [],
+      "actual_interruption_resumed": false,
+      "normal_write_after_release": true
+    }
+  ],
+  "blocked_actions": 100,
+  "normal_integration_by_branch": {
+    "12.12.3-PHP9-Compatibility": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.11.4-Intranet-Login-Corrections": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.11.1-Migration-Hardening": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.12.2-Textarea-Interactions": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.12.1-General-Corrections": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "feature__search-phrases-quotes-highlighting": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.11.3-Private-File-Cache-Corrections": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.12.0-OIDC": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.11.2-Backup-Restore-Corrections": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ],
+    "12.12.4-Default-Design": [
+      "Browser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).",
+      "Backend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication)."
+    ]
+  }
+}

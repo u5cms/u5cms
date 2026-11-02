@@ -1,5 +1,5 @@
 <?php require_once('connect.inc.php');require_once('t2.php');
-$u5MutationRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MutationRelease); ?>
+require_once('resource-mutation.inc.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
