@@ -2,8 +2,8 @@
 
 Die Hauptprüfung ist abgeschlossen. Ein weiterer Kollateralschaden wurde gegen
 das ausführbare Original reproduziert, in allen betroffenen Branches korrigiert
-und geprüft. Die anschliessend beauftragten drei zusätzlichen Untersuchungsläufe
-werden unten getrennt dokumentiert; sie sind an diesem Zwischenstand noch offen.
+und geprüft. Auch die anschliessend beauftragten drei zusätzlichen Untersuchungsläufe sind
+abgeschlossen. Ihre getrennten Fragestellungen, Korrekturen und Nachweise stehen unten.
 
 ## Gegenstand und Referenzen
 
@@ -121,7 +121,7 @@ Prüfläufen; sie sind kein GitHub-CI-Status. Es wurde nichts gemergt oder insta
 
 1. Ungewöhnliche Konfigurationen und eigene Erweiterungen: abgeschlossen; 2.210 Vergleichsfälle ohne Abweichung.
 2. Abbrüche, Fehlerfolgen und konkurrierende Änderungen: abgeschlossen; zusätzlicher Sperrfehler auf allen zehn betroffenen Branches korrigiert.
-3. Vollständige Redaktionsabläufe im Browser: offen.
+3. Vollständige Redaktionsabläufe im Browser: abgeschlossen; überdeckender Fehlerhinweis auf allen 14 betroffenen Branches korrigiert.
 
 Jeder Lauf erhält eigene Fragestellungen, tatsächliche Ausführungen, Befunde und
 einen Abschluss. Neu bestätigte Fehler werden in allen betroffenen Branches
@@ -181,3 +181,32 @@ Frontend- und 98 Backend-Browserprüfungen, einschliesslich Basic-/Cookie-Anmeld
 Unicode, Revisionen, CSRF, Neu/Kopieren/Umbenennen/Archivieren/Löschen/Reaktivieren.
 [Reproduktion vorher](../tests/evolution-recovery-before-fix.json) und
 [neue Ergebnisse](../tests/evolution-recovery-2026-11-02.json).
+
+### Zusatzlauf 3: Tatsächliche Redaktionsabläufe
+
+Abgeschlossen. Die Fehlermeldung nach einem gescheiterten Ressourcen-Speichervorgang
+lag über dem Speichern-Knopf und fing den nächsten Mausklick ab. Der dritte Lauf
+reproduzierte dies im realen Browser auf allen drei untersuchten Entwicklungsstufen.
+Die Eingaben blieben erhalten, der normale Wiederholungsversuch scheiterte jedoch
+an der darüberliegenden Meldung. Die gemeinsame Datei ist auf allen 14 betroffenen
+Branches bytegleich; die Korrektur wird überall identisch nachgeführt.
+
+Die Meldung sitzt jetzt unten rechts und fängt keine Zeigerereignisse ab. Ihre
+Breite bleibt im Fenster; sie wird als Alert angekündigt. Die neue Prüfung benutzt
+gewöhnliche Klicks und würde einen weiterhin verdeckten Knopf erkennen.
+
+[Browserablauf](../tests/editorial-journey-browser.cjs),
+[Einweg-Webrunner](../tests/editorial-journey-web.py) und
+[gesicherte Ergebnisse](../tests/evolution-editorial-2026-11-02.json): Je Basic- und
+Cookie-Anmeldung auf 12.11.1, 12.12.3 und 12.12.4; echte Sperre und abgewiesene
+Anfrage, erhaltene Eingaben und Dirty-Markierung, erfolgreicher Wiederholungsversuch,
+Gegenänderung in einem separaten Quellfenster, unveränderte neuere Veröffentlichung,
+beide Historien, exakte Unicode-/Entity-Werte und UTF-8-Dateibytes, zwei verschiedene
+Seiten in den Backendfenstern und erneutes Öffnen. Die vorhandene Kopplung zweier
+Ansichten derselben Seite bleibt dabei erhalten.
+
+Ergebnis: 63 / 73 / 73 Prüfungen, insgesamt 209, bestanden. Die Prüfung wartet beim
+Wiederöffnen auf den tatsächlichen Objekteditor nach dessen Cookie-Weiterleitung.
+Frühere Stände werden auf ihre vorhandenen Sperrverbraucher geprüft, nicht auf erst
+später ergänzte Koordination. Nach der letzten Anwendungskorrektur läuft noch die
+abschliessende gemeinsame Regression; dies ist kein vierter zusätzlicher Suchlauf.
