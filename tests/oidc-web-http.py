@@ -79,6 +79,8 @@ try:
     for endpoint in ['languagecodes.php','countblockelements.php?n=oidcpublic','formdata2.php?n=oidcpublic']:
         status,headers,body=admin.request(BASE+'/u5admin/'+endpoint)
         check(status==200 and b'Login could not be completed' not in body,'backend bootstrap works without output buffering: '+endpoint)
+        if endpoint.startswith('formdata2.php'):
+            check(b'</html>' in body.lower(), 'unfiltered backend data view completes after its early HTTP 200')
     status,headers,body=admin.request(BASE+'/u5admin/acc0.php')
     check(b'Current backend users' in body,'mapped administrator retains higher rights')
     for endpoint in ['reset.php','reset2.php','sendintranetlogin.php','u5admin/pwd.php','u5admin/pwd2.php']:
