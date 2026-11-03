@@ -15,7 +15,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.dismiss());
    await context.addCookies(['i1_p','i2_p','i1_l','i2_l'].map(name=>({name,value:name.endsWith('_p')?'textareatest':'1',url:base})));
    await page.goto(base+'/u5admin/index.php',{waitUntil:'domcontentloaded'});
-   await page.waitForFunction(()=>['i1','i2'].every(name=>{const el=document.querySelector('iframe[name='+name+']');return el && el.contentWindow && el.contentWindow.u5TextareaActions;}));
+   await page.waitForFunction(()=>['i1','i2'].every(name=>{const el=document.querySelector('iframe[name='+name+']');return el && el.contentWindow && el.contentWindow.u5TextareaActions;})).catch(async error=>{console.error('Editor initialization diagnostics',JSON.stringify({mode,checks,errors,frames:await Promise.all(page.frames().map(async f=>({url:f.url(),body:(await f.locator('body').innerText().catch(()=>'' )).slice(0,3000)})))}));throw error;});
    const left=page.frame({name:'i1'}),right=page.frame({name:'i2'});
    for(const f of [left,right])await f.waitForFunction(()=>window.u5TextareaActions && document.form1.page.value==='textareatest');
    const ta=left.locator('#ta1');
@@ -40,9 +40,15 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    equal(await ta.evaluate(el=>el.selectionEnd),11,mode+': closing returns the selection end');
    await left.evaluate(()=>{ta1.focus();ta1.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));ta1.value='first composing value';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.value='completed composition';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true}));});
    await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': an IME composition is one undo transaction');
-   await ta.press('End');await ta.press('x');const typed=await ta.inputValue();
-   await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': ordinary typing undo');
-   await ta.press('Control+y');equal(await ta.inputValue(),typed,mode+': ordinary typing redo');
+   await ta.press('End');await ta.press('x');const typed=initial+'x';
+   equal(await ta.inputValue(),typed,mode+': ordinary typing inserts the expected character');
+   await right.waitForFunction(value=>document.getElementById('ta1').value===value,typed);
+   const waitForValue=async value=>{
+    try {await left.waitForFunction(value=>document.getElementById('ta1').value===value,value,{timeout:2000});}
+    catch(error){console.error('Typing undo/redo diagnostics',JSON.stringify({mode,expected:value,left:await ta.inputValue(),right:await right.locator('#ta1').inputValue(),focused:await ta.evaluate(el=>el===el.ownerDocument.activeElement),errors}));throw error;}
+   };
+   await ta.press('Control+z');await waitForValue(initial);equal(await ta.inputValue(),initial,mode+': ordinary typing undo');
+   await ta.press('Control+y');await waitForValue(typed);equal(await ta.inputValue(),typed,mode+': ordinary typing redo');
    await ta.fill(initial);
    for(const raw of ['[textareatarget]','[$$$:textareatarget]','[human:textareatarget]','[:human:textareatarget]','[Time: 12:30:textareatarget?l=fr&x=2]']){
     await ta.fill('before '+raw+' after');
