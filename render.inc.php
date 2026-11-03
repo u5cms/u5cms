@@ -1051,7 +1051,8 @@ function renderspecial($name,$human) {
         ///                                                                                                                       ///
         /// See https://yuba.ch/index.php?l=en&c=u5erenderformdata#datcommand                                                     ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $dat=explode('|',$human);
+        $return='';
+        $dat=array_pad(explode('|',$human),14,'');
 
         //////////////////////////////////
         /// a: Name of fields
@@ -1265,6 +1266,9 @@ function renderspecial($name,$human) {
             for($f=0;$f<count($fields);$f++) {
                 $fields[$f]=trim($fields[$f]);
                 $position=array_search($fields[$f],$headcsv);
+                $systemField=str_replace('sent','humantime',substr(strtolower($fields[$f]),1));
+                if (!isset($row_a[$systemField])) $row_a[$systemField]='';
+                if (!isset($datacsv[$position])) $datacsv[$position]='';
                 //var_dump($position);
 
                 // SISSEL
@@ -1401,7 +1405,7 @@ function renderspecial($name,$human) {
             }
 
             $return=str_replace('$la',$lastmut,$return);
-            $rowaip=$row_a['ip'];
+            $rowaip=$row_a['ip'] ?? '';
             $rowaip=explode(' ',$rowaip);
             $rowaip=$rowaip[0];
             $return=str_replace('$ip',$rowaip,$return);
