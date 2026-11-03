@@ -40,9 +40,15 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    equal(await ta.evaluate(el=>el.selectionEnd),11,mode+': closing returns the selection end');
    await left.evaluate(()=>{ta1.focus();ta1.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));ta1.value='first composing value';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.value='completed composition';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true}));});
    await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': an IME composition is one undo transaction');
-   await ta.press('End');await ta.press('x');const typed=await ta.inputValue();
-   await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': ordinary typing undo');
-   await ta.press('Control+y');equal(await ta.inputValue(),typed,mode+': ordinary typing redo');
+   await ta.press('End');await ta.press('x');const typed=initial+'x';
+   equal(await ta.inputValue(),typed,mode+': ordinary typing inserts the expected character');
+   await right.waitForFunction(value=>document.getElementById('ta1').value===value,typed);
+   const waitForValue=async value=>{
+    try {await left.waitForFunction(value=>document.getElementById('ta1').value===value,value,{timeout:2000});}
+    catch(error){console.error('Typing undo/redo diagnostics',JSON.stringify({mode,expected:value,left:await ta.inputValue(),right:await right.locator('#ta1').inputValue(),focused:await ta.evaluate(el=>el===el.ownerDocument.activeElement),errors}));throw error;}
+   };
+   await ta.press('Control+z');await waitForValue(initial);equal(await ta.inputValue(),initial,mode+': ordinary typing undo');
+   await ta.press('Control+y');await waitForValue(typed);equal(await ta.inputValue(),typed,mode+': ordinary typing redo');
    await ta.fill(initial);
    for(const raw of ['[textareatarget]','[$$$:textareatarget]','[human:textareatarget]','[:human:textareatarget]','[Time: 12:30:textareatarget?l=fr&x=2]']){
     await ta.fill('before '+raw+' after');
