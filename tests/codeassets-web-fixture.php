@@ -1,4 +1,6 @@
 <?php
+if (strlen((string)getenv('U5CMS_FIXTURE_PASSWORD'))<32 || strlen((string)getenv('U5CMS_FIXTURE_BODY'))<32) throw new RuntimeException('Run the Python fixture driver; ephemeral test values are required.');
+
 require dirname(__DIR__).'/mysql.php';
 require dirname(__DIR__).'/u5admin/codeassets-migrate.inc.php';
 ini_set('mysqli.default_port',(string)(int)getenv('U5CMS_TEST_PORT'));
@@ -16,7 +18,7 @@ do { if ($result=mysqli_store_result($link)) mysqli_free_result($result); } whil
 if (mysqli_errno($link)) throw new RuntimeException(mysqli_error($link));
 u5CodeMigrationQuery('SET NAMES latin1');
 u5CodeMigrationQuery('ALTER TABLE resources MODIFY content_1 MEDIUMTEXT CHARACTER SET utf8mb4');
-u5CodeMigrationQuery("UPDATE accounts SET email='auditadmin',pw=".u5CodeMigrationValue('{SHA}'.base64_encode(sha1('audit-password',true))).',accadmin=1 WHERE id=1');
+u5CodeMigrationQuery("UPDATE accounts SET email='auditadmin',pw=".u5CodeMigrationValue('{SHA}'.base64_encode(sha1(getenv('U5CMS_FIXTURE_PASSWORD'),true))).',accadmin=1 WHERE id=1');
 $body=<<<'HTML'
 [h:]
 <img alt="fixture" width="1" height="1" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
