@@ -1,7 +1,13 @@
-# Correction review status — 3 November 2026
+# Correction contract review — checkpoint
 
-Status: in progress. Starting application commit: `45ab30b839988f8d4650092dacd5cb1552a4b243` on `12.12.4-Default-Design`.
+Status: in progress (2026-11-03).
 
-The authorised task reviews the previous correction commits themselves against their parents and original main. Preserve valid configuration, extension, identity, encoding, data and recovery contracts. Correct only reproduced defects in every affected development branch. Add repeatable automated GitHub checks. Main and production deployment are outside this task.
+Starting application: `45ab30b839988f8d4650092dacd5cb1552a4b243` on `12.12.4-Default-Design`.
 
-Current remote refs and development instructions were read; an isolated working copy has been created. No new defect is confirmed and no new test execution is claimed yet. Next: catalogue correction contracts, inspect test oracles and execute before/after boundary and integration cases. Detailed audit payload remains outside public GitHub pending its separate explicit disclosure approval.
+Authorized scope: review prior corrections against their parents and original Main; preserve valid configuration, extension, identity, encoding, data and recovery contracts; include the fresh `u5conference.sql` review workflow and documented `:dat` variants; correct reproduced faults on affected development branches and add repeatable CI. Main and production stay outside this task.
+
+Local checkpoint: 114 conference/Dat checks pass after narrowly scoped fixes for dynamic ordering, controlled query errors, restricted form-data mutations, authentication before output and explicit RFC import quote handling. HTTPS oracle mutation checks also reject removed detectors and the previous bool-only detector. A browser fixture is enlarged so centering is an asserted precondition instead of a font-dependent assumption. Original-reference and complete browser comparison are running; these are not yet claimed as passed.
+
+Changed implementation paths: `formsave.php`, `render.inc.php`, `u5admin/import2.php`, `u5admin/mass.php`, `u5admin/notesave.php`, `u5admin/statussave.php`. New/updated tests are in this commit. No CI result is claimed at this checkpoint.
+
+Next: finish independent before/after comparisons, validate branch-specific backports and publish the CI runner. This concise checkpoint contains no detailed earlier audit payload; its separate disclosure restriction remains in effect.

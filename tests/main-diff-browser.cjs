@@ -398,6 +398,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
     return rect.top+rect.height/2-middle;
    });
    const anchored=await centerOffset();
+   verify(Math.abs(anchored)<=1,'scroll fixture has enough rows to center its test object before changing previews: '+anchored);
    for(const preview of ['on','off']) {
     await list.locator('input[name=pvs_p][value='+preview+']').click();
     await list.waitForFunction(mode=>document.readyState!=='loading' && document.form1 && document.form1.pvs_p[1].checked===(mode==='on') && new URL(location.href).searchParams.get('pvs_p')===mode,preview);

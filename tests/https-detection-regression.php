@@ -16,6 +16,9 @@ function httpsDetectionValue($block,$configuration) {
     eval($block);
     return (bool)$httpsisinuse;
 }
+$requiredRoutes=json_decode(getenv('U5CMS_HTTPS_ROUTES') ?: '["connect.inc.php","u5admin/connect.inc.php"]',true);
+if (!is_array($requiredRoutes)) throw new RuntimeException('Invalid required HTTPS routes.');
+foreach ($requiredRoutes as $route) if (!is_file($root.'/'.$route)) throw new RuntimeException('Required HTTPS route missing: '.$route);
 foreach (array('connect.inc.php','u5admin/connect.inc.php','saml/login.php','oidc/bootstrap.inc.php') as $route) {
     $path=$root.'/'.$route;if (!is_file($path)) continue;
     $source=file_get_contents($path);
@@ -23,7 +26,7 @@ foreach (array('connect.inc.php','u5admin/connect.inc.php','saml/login.php','oid
         ? '/\$httpsisinuse\s*=\s*false;.*?(?=\s*if\s*\(!\$httpsisinuse\))/s'
         : '/\$httpsisinuse\s*=\s*false;.*?\$httpsisinuse\s*=\s*\(bool\)\s*\$httpsisinuse;/s';
     if (!preg_match($pattern,$source,$match)) {
-        if ($route==='connect.inc.php' || $route==='u5admin/connect.inc.php') throw new RuntimeException('HTTPS detector not found: '.$route);
+        if (in_array($route,$requiredRoutes,true) || $route==='oidc/bootstrap.inc.php' || strpos($source,'$evaluateifhttpsisinuse')!==false) throw new RuntimeException('HTTPS detector not found: '.$route);
         continue;
     }
     foreach ($profiles as $profile) {

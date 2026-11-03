@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__.'/request.inc.php';
 u5ValidateTextRequest($_GET,array('c','n'));
+require_once('connect.inc.php');
+require_once('render.inc.php');
+require_once('loginformsave.inc.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,9 +13,6 @@ u5ValidateTextRequest($_GET,array('c','n'));
 </head>
 <body>
 <?php
-require_once('connect.inc.php');
-require_once('render.inc.php');
-require_once('loginformsave.inc.php');
 if($requireturnstileonfrontendformsave=='yes') require('grc2.php');
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (count($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');

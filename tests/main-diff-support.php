@@ -17,7 +17,7 @@ elseif ($action==='large') {
 }
 elseif ($action==='scroll') {
     $names=array();
-    for ($number=1;$number<=60;$number++) {
+    for ($number=1;$number<=120;$number++) {
         $name='auditscroll'.sprintf('%03d',$number);$names[]=$name;
         $body='<p>Scroll fixture '.$number.'</p><img loading="lazy" height="350" src="r/auditprivate/portrait.jpg">';
         mainFixtureQuery("INSERT IGNORE INTO resources(name,typ,deleted,content_1,title_1,lastmut) VALUES('".$name."','p',0,'".mysql_real_escape_string($body)."','preview',1)");
