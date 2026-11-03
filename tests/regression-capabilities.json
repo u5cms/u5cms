@@ -24,7 +24,8 @@
     "request-compatibility-regression.php",
     "idn-identity-compatibility.php",
     "php9-core.php",
-    "php9-source-audit.php"
+    "php9-source-audit.php",
+    "database-backup-packet-regression.php"
   ],
   "node_tests": [
     "textarea-core.cjs",
@@ -38,7 +39,8 @@
     "mail-evolution-regression.py",
     "dependency-compatibility-regression.py",
     "mutation-recovery-http.py",
-    "editorial-journey-web.py"
+    "editorial-journey-web.py",
+    "mobiletools-web.py"
   ],
   "main_browser": true,
   "rename_browser": true,
@@ -54,9 +56,11 @@
     "tests/ci-requirements.txt",
     "tests/codeassets-regression.php",
     "tests/codeassets-web-regression.py",
+    "tests/conference-seed-reference.py",
     "tests/conference-workflow-browser.cjs",
     "tests/conference-workflow-regression.py",
     "tests/configuration-reference.py",
+    "tests/database-backup-packet-regression.php",
     "tests/dependency-compatibility-regression.py",
     "tests/editorial-journey-web.py",
     "tests/fixture-environment.cjs",
@@ -71,7 +75,9 @@
     "tests/main-reference-browser.cjs",
     "tests/main-reference-db.php",
     "tests/main-reference-regression.py",
+    "tests/mobiletools-browser.cjs",
     "tests/mobiletools-regression.php",
+    "tests/mobiletools-web.py",
     "tests/mutation-recovery-http.py",
     "tests/oidc-bindings-regression.php",
     "tests/oidc-regression.php",
@@ -93,6 +99,7 @@
     "tests/search-web-regression.py",
     "tests/textarea-core.cjs",
     "u5admin/connect.inc.php",
+    "u5admin/databasebackup.inc.php",
     "u5conference.sql",
     "u5standard.sql"
   ],
