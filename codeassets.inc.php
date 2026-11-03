@@ -294,7 +294,8 @@ function u5CodeAssetReferences($text,$map=array(),$depth=0,$format='html',$objec
         $part=u5CodeAssetQueryNames($part,$names,$code && stripos($part,'<script')===0);
         if ($code) $part=u5CodeAssetMarkupNames($part,$names,false);
         else {
-            $tags=preg_split('~(<(?:"[^"]*"|\'[^\']*\'|[^\'">])*>)~s',$part,-1,PREG_SPLIT_DELIM_CAPTURE);
+            // Disjoint, possessive tokens keep long attributes within normal PCRE limits.
+            $tags=preg_split('~(<(?:"[^"]*+"|\'[^\']*+\'|[^\'">]++)*+>)~s',$part,-1,PREG_SPLIT_DELIM_CAPTURE);
             if ($tags===false) throw new RuntimeException('Cannot parse code reference tags.');
             foreach ($tags as &$tag) $tag=u5CodeAssetMarkupNames($tag,$names,substr($tag,0,1)!=='<');
             unset($tag);$part=implode('',$tags);
