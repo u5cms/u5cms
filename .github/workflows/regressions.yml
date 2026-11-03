@@ -2,7 +2,7 @@ name: u5CMS regression contracts
 
 on:
   push:
-    branches: ['12.*', 'feature/**', 'fix/**', 'audit/correction-contracts-*']
+    branches: ['12.*', 'feature/**', 'fix/**', 'audit/correction-contracts-*', 'audit/acceptance-*']
   pull_request:
   workflow_dispatch:
 
