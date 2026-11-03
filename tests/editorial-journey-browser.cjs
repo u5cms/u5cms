@@ -1,4 +1,6 @@
 'use strict';
+const {fixturePassword,fixtureBody}=require('./fixture-environment.cjs');
+
 const fs=require('fs'),path=require('path'),assert=require('node:assert/strict'),{spawn}=require('child_process');
 const {launchBrowser}=require('./browser-runtime.cjs');
 const [base,site]=process.argv.slice(2);
@@ -22,12 +24,12 @@ async function locked(operation){
  try{
   for(const mode of ['basic','session']){
    fs.writeFileSync(config,Buffer.concat([original,Buffer.from("\n$usesessioninsteadofbasicauth='"+(mode==='basic'?'no':'yes')+"';\n")]));
-   const context=await browser.newContext(mode==='basic'?{httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}}:{});
+   const context=await browser.newContext(mode==='basic'?{httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}}:{});
    const errors=[];
    context.on('page',page=>{page.on('dialog',dialog=>dialog.type()==='beforeunload'?dialog.accept():dialog.dismiss());page.on('pageerror',error=>errors.push(error.message));});
    await context.route('**/*',route=>new URL(route.request().url()).origin===new URL(base).origin?route.continue():route.abort());
    try{
-    if(mode==='session')equal((await context.request.post(base+'/loginsave.php?u=u5admin/',{form:{u:'auditadmin',p:'audit-password'},maxRedirects:0})).status(),302,'actual cookie login');
+    if(mode==='session')equal((await context.request.post(base+'/loginsave.php?u=u5admin/',{form:{u:'auditadmin',p:fixturePassword},maxRedirects:0})).status(),302,'actual cookie login');
     equal((await context.request.get(base+'/u5admin/zr.php')).status(),200,'actual upgrade completes');
     const tokenResponse=await context.request.get(base+'/u5admin/new.php?typ=c');
     const token=(await tokenResponse.text()).match(/name="u5scrtytknfrfrms"[^>]*value="([^"]+)"/)[1];

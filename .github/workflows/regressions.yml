@@ -58,6 +58,9 @@ jobs:
           echo "NODE_PATH=$RUNNER_TEMP/u5-browser/node_modules" >> "$GITHUB_ENV"
           echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
           echo "COMPOSER_CACHE_DIR=$RUNNER_TEMP/u5-composer-cache" >> "$GITHUB_ENV"
+      - name: Configure the disposable database for the large-row restore fixture
+        run: |
+          php -r '$db=new mysqli("127.0.0.1",getenv("U5CMS_TEST_USER"),getenv("U5CMS_TEST_PASSWORD"),null,(int)getenv("U5CMS_TEST_PORT")); $db->query("SET GLOBAL max_allowed_packet=134217728"); if ((int)$db->query("SELECT @@GLOBAL.max_allowed_packet")->fetch_row()[0]<134217728) throw new RuntimeException("The 24 MiB restore fixture requires max_allowed_packet=128M.");'
       - name: Fetch locked upstream sources for the patch oracle
         if: hashFiles('patches/php9-return-types.json') != ''
         run: |
@@ -65,6 +68,8 @@ jobs:
           cp composer.json composer.lock "$RUNNER_TEMP/u5-upstream/"
           composer install --working-dir="$RUNNER_TEMP/u5-upstream" --no-scripts --ignore-platform-req=php --no-interaction --prefer-dist --no-progress
       - name: Configuration, conference and original-reference contracts
+        id: contracts
         run: python3 tests/run-regressions.py --group contracts
       - name: Declared feature, browser and recovery regressions
+        if: ${{ !cancelled() && (steps.contracts.outcome == 'success' || steps.contracts.outcome == 'failure') }}
         run: python3 tests/run-regressions.py --group features

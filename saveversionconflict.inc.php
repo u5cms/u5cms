@@ -1,4 +1,5 @@
 <?php
+$foundthisformerauthuser=$foundthisformerauthuser ?? '';
 if(strpos($foundthisformerauthuser,'@')>0)$rowaauthuser=$foundthisformerauthuser;
 else $rowaauthuser='someone else';
 

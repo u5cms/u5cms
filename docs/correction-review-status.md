@@ -18,7 +18,8 @@ also pass. Upload checks and mail-construction comparisons pass.
 
 Current implementation paths: `formsave.php`, `render.inc.php`,
 `u5admin/formdata.intro.php`, `u5admin/import2.php`, `u5admin/mass.php`,
-`u5admin/notesave.php`, `u5admin/statussave.php`. Branch backports also introduce
+`u5admin/notesave.php`, `u5admin/statussave.php`, `editformsave.php`,
+`delformsave.php`, `saveversionconflict.inc.php`. Branch backports also introduce
 only the shared request helper where required. Tests assert their own fixture
 preconditions, reject removed HTTPS detectors and read actual CSRF tokens.
 
@@ -30,3 +31,18 @@ completion state. Main is not modified and no production CMS is installed.
 
 This concise technical checkpoint excludes the detailed earlier audit payload;
 its separate disclosure restriction remains in effect.
+
+The readiness guard now covers the conference and original-reference HTTP
+fixtures on branches which declare that capability. Optional command arguments,
+missing display fields, empty results, nullable IP/owner values and optional
+form-mail metadata retain their historical empty-string behavior without masked
+native deprecations. The corrected conference sequence passes all 138 checks
+with that guard enabled. Automatic upload review has rejected publication of renderer variants, including
+the current cumulative variant. Consequently `render.inc.php` is withheld from
+this checkpoint on all 15 development branches and the audit branch. These
+branches retain their prior renderer bytes; the locally passing Dat corrections
+are not yet fully published. Other corrections and CI are being published with
+guarded ref updates. CI keeps the conference failure visible and runs independent
+feature checks even if the contract step fails. No production deployment or Main
+change is included. Explicit consent for the public renderer disclosure is still
+required by the automatic review.

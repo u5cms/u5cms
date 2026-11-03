@@ -5,6 +5,11 @@ branches and pull requests with PHP 8.3, 8.4 and 8.5, an isolated MariaDB 11.4,
 Chromium and disabled mail delivery. Actions are pinned to commit SHAs and the
 workflow has read-only repository permissions. It does not deploy or merge.
 
+The shared browser fixtures generate their credentials and protected sample
+contents afresh for every process group. Those values stay in the disposable
+test environment and are not committed. Standalone Python fixture drivers set
+them automatically; direct helper calls require the same environment.
+
 `tests/regression-capabilities.json` explicitly lists each branch's required
 tests and HTTPS routes. Missing declared files fail the run. Older branches do
 not acquire later application features just to run their tests. Adding a feature
@@ -21,6 +26,11 @@ disposable TCP database server, then run:
 ```sh
 python3 tests/run-regressions.py
 ```
+
+For the 24 MiB single-row backup/restore fixture, that disposable server needs
+`max_allowed_packet=128M`: the exported hex SQL statement is larger than its raw
+row. CI sets this explicitly, matching the local audit runtime. The PHP backup
+export itself is still tested with a 64 MiB memory limit.
 
 The runner refuses an implicit database port, creates randomized temporary
 databases, removes them, and exports the fixed original commit

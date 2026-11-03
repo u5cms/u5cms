@@ -63,9 +63,9 @@ $nt2me=array_map('trim',$nt2me);
 $nt2cu=explode(',',($_POST['nt2cu'] ?? ''));
 $nt2cu=array_map('trim',$nt2cu);
 
-$zendsubject=$_POST['thankssubject'];
+$zendsubject=$_POST['thankssubject'] ?? '';
 if (trim($zendsubject)=='') $zendsubject='Quittung/Receipt/Acquit: '.$_SERVER['HTTP_HOST'];
-$zendmessage=$_POST['thankstext']."\r\n\r\n";
+$zendmessage=($_POST['thankstext'] ?? '')."\r\n\r\n";
 $errors=0;
 $foundliving=0;
 

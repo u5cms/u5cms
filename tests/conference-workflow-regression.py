@@ -7,12 +7,13 @@ fixture/domain values, not output copied from the renderer under test.
 import argparse, base64, datetime, hashlib, html, importlib.util, json, os
 import pathlib, re, shutil, socket, subprocess, tempfile, time
 import urllib.error, urllib.parse, urllib.request
+from fixture_environment import fixture_password_for
 
 HERE=pathlib.Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('reference',HERE/'main-reference-regression.py')
 reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
 PHP=os.environ.get('U5_TEST_PHP','php')
-PASSWORD='conference-password'
+PASSWORD=fixture_password_for('conference')
 USERS=['author@example.invalid','reviewer-a@example.invalid','reviewer-b@example.invalid','outsider@example.invalid']
 
 class Conference(reference.Site):
@@ -37,7 +38,14 @@ class Conference(reference.Site):
         self.sql('UPDATE resources SET logins='+reference.literal(logins)+" WHERE logins!=''")
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));self.port=probe.getsockname()[1]
         self.log=(work/'server.log').open('w+')
-        self.server=subprocess.Popen([PHP,'-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],
+        capabilities=source/'tests/regression-capabilities.json'
+        strict=capabilities.is_file() and json.loads(capabilities.read_text())['php9']
+        prepend=[]
+        if strict:
+            guard=source/'tests/php9-guard.php'
+            if not guard.is_file():raise RuntimeError('Declared PHP readiness guard is missing.')
+            prepend=['-d','auto_prepend_file='+str(guard)]
+        self.server=subprocess.Popen([PHP]+prepend+['-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],
           '-d','sendmail_path=/bin/false','-S','127.0.0.1:'+str(self.port),'-t',str(self.root)],
           cwd=self.root,stdout=self.log,stderr=self.log)
         for _ in range(100):

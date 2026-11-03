@@ -5,6 +5,8 @@ Requires a disposable TCP MariaDB and installed PHP/Playwright dependencies.
 No deployment credentials, production database or mail transport are used.
 """
 import argparse,json,os,pathlib,subprocess,sys,tarfile,tempfile,time
+from fixture_environment import ensure_fixture_environment
+ensure_fixture_environment()
 ROOT=pathlib.Path(__file__).resolve().parent.parent
 PHP=os.environ.get('U5_TEST_PHP','php')
 
@@ -21,6 +23,7 @@ def main():
     env=os.environ.copy();env['U5CMS_HTTPS_ROUTES']=json.dumps(manifest['https_routes'])
     env['U5CMS_HTTPS_LEGACY_ROUTES']=json.dumps(manifest['legacy_https_routes'])
     env['U5CMS_TEST_PHP']=PHP
+    env['U5_REFERENCE_BROWSER']='1'
     env['U5CMS_PHP9_AUDIT']='1' if manifest['php9'] else ''
     env['U5CMS_MAIN_AUDIT']='1' if manifest['main_browser'] else ''
     env['U5CMS_RENAME_AUDIT']='1' if manifest['rename_browser'] else ''
@@ -37,7 +40,6 @@ def main():
         if manifest['https_routes'] or manifest['legacy_https_routes']:
             run([PHP,'tests/https-detection-regression.php'])
             run([sys.executable,'tests/regression-oracle-regression.py'])
-        run([sys.executable,'tests/conference-workflow-regression.py','--source',ROOT,'--output',out/'conference.json'])
         with tempfile.TemporaryDirectory(prefix='u5-original-') as temporary:
             baseline=args.baseline.resolve() if args.baseline else pathlib.Path(temporary)/'original'
             if not args.baseline:
@@ -48,6 +50,7 @@ def main():
                 command=[sys.executable,'tests/'+test,'--baseline',baseline,'--target','branch='+str(ROOT),'--output',out/(test.removesuffix('.py')+'.json')]
                 if test=='main-reference-regression.py' and manifest['php9']:command.append('--text-boundaries')
                 run(command)
+        run([sys.executable,'tests/conference-workflow-regression.py','--source',ROOT,'--output',out/'conference.json'])
     if args.group in ['features','all']:
         for name in manifest['php_tests']:run([PHP,'tests/'+name])
         for name in manifest['node_tests']:run(['node','tests/'+name])
