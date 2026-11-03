@@ -1,4 +1,6 @@
 <?php
+if (strlen((string)getenv('U5CMS_FIXTURE_PASSWORD'))<32) throw new RuntimeException('Ephemeral test values are required.');
+
 /* Only disposable fixtures created by codeassets-web-regression.py. */
 require dirname(__DIR__).'/mysql.php';
 $_SERVER['REQUEST_URI']='/fixture';$_SERVER['HTTP_HOST']='127.0.0.1';
@@ -16,5 +18,5 @@ foreach (array('textareatest'=>0,'textareatarget'=>0,'textareaarchive'=>2) as $n
 }
 if (!mysql_query("INSERT INTO resources(name,typ,deleted,hidden) VALUES('textareadoc','d',0,0)")) throw new RuntimeException(mysql_error());
 mkdir($root.'/r/textareadoc',0700,true);file_put_contents($root.'/r/textareadoc/textareadoc_de.txt','original document');
-if (!mysql_query("INSERT INTO accounts(email,pw,accadmin) VALUES('textareauser','{SHA}".base64_encode(sha1('textarea-password',true))."',0)")) throw new RuntimeException(mysql_error());
+if (!mysql_query("INSERT INTO accounts(email,pw,accadmin) VALUES('textareauser','{SHA}".base64_encode(sha1(hash_hmac('sha256','textarea-user',getenv('U5CMS_FIXTURE_PASSWORD')),true))."',0)")) throw new RuntimeException(mysql_error());
 echo "Textarea fixtures created.\n";

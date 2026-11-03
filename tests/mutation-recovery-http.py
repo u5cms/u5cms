@@ -86,7 +86,7 @@ def exercise(site):
         assert worker.returncode==0,'Lock worker failed'
     has_resumable=(site.root/'u5admin/resource-rename.inc.php').is_file()
     if has_resumable:
-        interruption='''$_SERVER['REQUEST_URI']='/';$_SERVER['HTTP_HOST']='fixture.invalid';$_SERVER['REMOTE_ADDR']='127.0.0.1';$_SERVER['PHP_AUTH_USER']='referenceadmin';$_SERVER['PHP_AUTH_PW']='reference-password';
+        interruption='''$_SERVER['REQUEST_URI']='/';$_SERVER['HTTP_HOST']='fixture.invalid';$_SERVER['REMOTE_ADDR']='127.0.0.1';$_SERVER['PHP_AUTH_USER']='referenceadmin';$_SERVER['PHP_AUTH_PW']=hash_hmac('sha256','reference',getenv('U5CMS_FIXTURE_PASSWORD'));
 function u5CodeMigrationTestCheckpoint($phase){if($phase==='rename:directory')throw new RuntimeException('ACTUAL-INTERRUPTION');}
 require 'connect.inc.php';require 'u5admin/resource-rename.inc.php';try{u5ResourceRename(__DIR__,'lock_source','lock_renamed');echo 'UNEXPECTED-COMPLETE';}catch(RuntimeException $e){echo $e->getMessage();}'''
         path=site.root/'interrupt-rename.php';path.write_text('<?php '+interruption)

@@ -1,3 +1,4 @@
+const {fixturePassword,fixtureBody,fixturePasswordFor}=require('./fixture-environment.cjs');
 const assert=require('node:assert/strict'),fs=require('fs'),path=require('path');
 const {launchBrowser}=require('./browser-runtime.cjs');
 (async()=>{
@@ -8,9 +9,9 @@ const {launchBrowser}=require('./browser-runtime.cjs');
  try {
   for(const mode of ['basic','session']){
    setMode(mode==='basic'?'no':'yes');
-   const context=await browser.newContext(mode==='basic'?{httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}}:{});
+   const context=await browser.newContext(mode==='basic'?{httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}}:{});
    await context.route('**/*',r=>new URL(r.request().url()).origin===new URL(base).origin?r.continue():r.abort());
-   if(mode==='session')equal((await context.request.post(base+'/loginsave.php?u=u5admin/',{form:{u:'auditadmin',p:'audit-password'},maxRedirects:0})).status(),302,'real session login');
+   if(mode==='session')equal((await context.request.post(base+'/loginsave.php?u=u5admin/',{form:{u:'auditadmin',p:fixturePassword},maxRedirects:0})).status(),302,'real session login');
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.dismiss());
    await context.addCookies(['i1_p','i2_p','i1_l','i2_l'].map(name=>({name,value:name.endsWith('_p')?'textareatest':'1',url:base})));
    await page.goto(base+'/u5admin/index.php',{waitUntil:'domcontentloaded'});
@@ -100,7 +101,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await context.close();
   }
   setMode('no');
-  const limited=await browser.newContext({httpCredentials:{username:'textareauser',password:'textarea-password',send:'always',origin:base}});
+  const limited=await browser.newContext({httpCredentials:{username:'textareauser',password:fixturePasswordFor('textarea-user'),send:'always',origin:base}});
   for(const object of ['accent!js','textareaarchive']){
    const data=await (await limited.request.get(base+'/u5admin/textarea-resource.php?object='+encodeURIComponent(object))).json();equal(data.edit,null,'higher-admin edit actions are not offered for '+object);equal(data.metadata,null,'restricted metadata action is not offered');
   }

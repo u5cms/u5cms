@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Additional pass 3: complete browser journeys in fresh branch-specific sites."""
 import argparse,json,os,pathlib,shutil,socket,subprocess,tempfile,time,urllib.request
+from fixture_environment import ensure_fixture_environment
+ensure_fixture_environment()
 HERE=pathlib.Path(__file__).resolve().parent
 PHP=os.environ.get('U5_TEST_PHP','php')
 def main():
