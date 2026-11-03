@@ -1,3 +1,13 @@
+# Latest additional acceptance completion — 3 November 2026
+
+The additional real-data pass found and corrected long-tag parsing and escaped-literal reference defects across all eleven affected development branches and both audit branches. All 39 final PHP 8.3/8.4/8.5 CI jobs and their required test output are verified. This branch's exact tested code is `3ab62bb6e7c11fec9923672bd8d5c9e546d22ed3`; this following checkpoint changes documentation only. Main and production are unchanged.
+
+[Completed additional pass, exact commits, initial CI observation and remaining acceptance boundaries](https://github.com/u5cms/u5cms/blob/f0774e4e79e01ff74e4c4d7203ff79164f8aba2a/docs/2026-11-03-installation-acceptance.md)
+
+No verification or background follow-up remains active. The earlier completion below retains its historical scope.
+
+---
+
 # Latest completion checkpoint — 3 November 2026
 
 The correction pass and the additionally authorized anti-regression review are
