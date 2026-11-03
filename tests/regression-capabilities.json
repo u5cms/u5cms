@@ -19,7 +19,8 @@
     "search-index-regression.php",
     "oidc-regression.php",
     "oidc-bindings-regression.php",
-    "login-host-regression.php"
+    "login-host-regression.php",
+    "database-backup-packet-regression.php"
   ],
   "node_tests": [
     "textarea-core.cjs",
@@ -29,7 +30,8 @@
     "codeassets-web-regression.py",
     "search-web-regression.py",
     "oidc-web-regression.py",
-    "image-upload-regression.py"
+    "image-upload-regression.py",
+    "mobiletools-web.py"
   ],
   "main_browser": true,
   "rename_browser": true,
@@ -44,9 +46,11 @@
     "tests/ci-requirements.txt",
     "tests/codeassets-regression.php",
     "tests/codeassets-web-regression.py",
+    "tests/conference-seed-reference.py",
     "tests/conference-workflow-browser.cjs",
     "tests/conference-workflow-regression.py",
     "tests/configuration-reference.py",
+    "tests/database-backup-packet-regression.php",
     "tests/fixture-environment.cjs",
     "tests/fixture_environment.py",
     "tests/formdata-transport-regression.php",
@@ -57,7 +61,9 @@
     "tests/main-reference-browser.cjs",
     "tests/main-reference-db.php",
     "tests/main-reference-regression.py",
+    "tests/mobiletools-browser.cjs",
     "tests/mobiletools-regression.php",
+    "tests/mobiletools-web.py",
     "tests/oidc-bindings-regression.php",
     "tests/oidc-regression.php",
     "tests/oidc-web-regression.py",
@@ -74,6 +80,7 @@
     "tests/search-web-regression.py",
     "tests/textarea-core.cjs",
     "u5admin/connect.inc.php",
+    "u5admin/databasebackup.inc.php",
     "u5conference.sql",
     "u5standard.sql"
   ],

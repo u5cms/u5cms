@@ -24,6 +24,46 @@ function u5BackupWriteLiteral($output,$value,$column) {
     for ($offset=0,$length=strlen($value);$offset<$length;$offset+=32768) $output->append(bin2hex(substr($value,$offset,32768)));
     $output->append($suffix);
 }
+function u5BackupBinaryExpression($expression,$column) {
+    list($prefix,$suffix)=u5BackupLiteralParts($column);
+    if (preg_match("/^_([a-z0-9]+) X'$/iD",$prefix,$match)) return 'CONVERT('.$expression.' USING '.$match[1].')';
+    if ($prefix==="CONVERT(X'") return 'CONVERT('.$expression.substr($suffix,1);
+    if ($prefix==="X'") return $expression;
+    throw new RuntimeException('Unsupported backup value expression.');
+}
+function u5BackupWriteLargeRow($output,$identifier,$fields,$columns,$row,$staging) {
+    // Ordinary tables retain fragments across resumed import connections.
+    // A temporary table or user variables would lose them on reconnect.
+    $output->append('TRUNCATE TABLE '.$staging.";\n");
+    $expressions=array();$index=0;$partId=1;
+    foreach ($columns as $column) {
+        $value=$row[$index];
+        if ($value!==null && strlen($value)>64) {
+            $parts=array();$length=strlen($value);
+            for ($offset=0;$offset<$length;$offset+=262144) {
+                $output->append('INSERT INTO '.$staging.' (`id`,`part`) VALUES ('.$partId.",X'");
+                $end=min($length,$offset+262144);
+                for ($part=$offset;$part<$end;$part+=32768) $output->append(bin2hex(substr($value,$part,min(32768,$end-$part))));
+                $output->append("');\n");
+                $parts[]='(SELECT `part` FROM '.$staging.' WHERE `id`='.$partId.')';$partId++;
+            }
+            $assembled=isset($parts[1]) ? 'CONCAT('.implode(',',$parts).')' : $parts[0];
+            // Oversized CONCAT can yield NULL with only a warning. A scalar
+            // subquery returning two rows instead forces an INSERT error.
+            $guarded='(SELECT `v` FROM (SELECT '.$assembled.' AS `v`) AS u5_backup_value CROSS JOIN (SELECT 1 AS n UNION ALL SELECT 2) AS u5_backup_guard WHERE n=1 OR COALESCE(OCTET_LENGTH(`v`),-1)<>'.$length.')';
+            $expressions[$index]=u5BackupBinaryExpression($guarded,$column);
+        }
+        $index++;
+    }
+    $output->append('INSERT INTO '.$identifier.' ('.$fields.') VALUES (');$index=0;
+    foreach ($columns as $column) {
+        if ($index) $output->append(',');
+        if (isset($expressions[$index])) $output->append($expressions[$index]);
+        else u5BackupWriteLiteral($output,$row[$index],$column);
+        $index++;
+    }
+    $output->append(");\nTRUNCATE TABLE ".$staging.";\n");
+}
 class U5DatabaseBackupOutput {
     private $temporary;
     private $handle;
@@ -74,11 +114,16 @@ function u5CreateDatabaseBackup($database,$directory,$compressed,$link) {
         if ($row[1]!=='BASE TABLE') throw new RuntimeException('This database contains views. Use a full server dump for these custom objects; previous backups have been kept.');
         $tables[]=$row[0];
     }
+    $engines=array();$result=u5BackupQuery('SHOW TABLE STATUS',$link);
+    while ($status=mysql_fetch_assoc($result)) $engines[$status['Name']]=$status['Engine'];
     $stamp=date('Y-m-d_His').'_'.bin2hex(random_bytes(4));$prefix=preg_replace('/[^a-zA-Z0-9_-]/','_',$database);
     $extension=$compressed ? '.sql.gz' : '.sql';
     $structure=new U5DatabaseBackupOutput($directory,$directory.'/'.$prefix.'_structure_'.$stamp.$extension,$compressed);
     $data=new U5DatabaseBackupOutput($directory,$directory.'/'.$prefix.'_data_'.$stamp.$extension,$compressed);
     $published=array();
+    $stagingName='u5backup_stage_'.bin2hex(random_bytes(10));
+    while (in_array(strtolower($stagingName),array_map('strtolower',$tables),true)) $stagingName='u5backup_stage_'.bin2hex(random_bytes(10));
+    $staging=u5BackupIdentifier($stagingName);$stagingUsed=false;
     try {
         $header="-- u5CMS database backup ".date('c')."\nSET NAMES utf8mb4;\nSET sql_mode='NO_AUTO_VALUE_ON_ZERO';\nSET FOREIGN_KEY_CHECKS=0;\nSET time_zone='+00:00';\n";
         $structure->append($header);$data->append($header);
@@ -100,6 +145,18 @@ function u5CreateDatabaseBackup($database,$directory,$compressed,$link) {
             if ($result===false) throw new RuntimeException('Cannot stream table '.$table);
             try {
                 while ($row=mysql_fetch_row($result)) {
+                    $wireSize=strlen($identifier)+strlen($fields)+64;
+                    foreach ($row as $value) $wireSize+=($value===null ? 4 : 2*strlen($value)+128);
+                    if ($wireSize>1048576) {
+                        if (!$stagingUsed) {
+                            $engine=$engines[$table] ?? '';
+                            if (!is_string($engine) || !preg_match('/^[a-z0-9_]+$/iD',$engine)) throw new RuntimeException('Cannot determine the large-row staging engine.');
+                            $data->append('DROP TABLE IF EXISTS '.$staging.";\nCREATE TABLE ".$staging.' (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `part` MEDIUMBLOB NOT NULL) ENGINE='.$engine.";\n");
+                            $stagingUsed=true;
+                        }
+                        u5BackupWriteLargeRow($data,$identifier,$fields,$columns,$row,$staging);
+                        continue;
+                    }
                     $data->append('INSERT INTO '.$identifier.' ('.$fields.') VALUES (');$index=0;
                     foreach ($columns as $column) {
                         if ($index) $data->append(',');
@@ -110,6 +167,7 @@ function u5CreateDatabaseBackup($database,$directory,$compressed,$link) {
                 if (mysql_errno($link)) throw new RuntimeException('The database connection failed while backing up '.$table);
             } finally { mysql_free_result($result); }
         }
+        if ($stagingUsed) $data->append('DROP TABLE '.$staging.";\n");
         $structure->append("\nSET FOREIGN_KEY_CHECKS=1;\n");$data->append("\nSET FOREIGN_KEY_CHECKS=1;\n");
         $structure->finish();$data->finish();
         $published[]=$structure->publish();$published[]=$data->publish();
