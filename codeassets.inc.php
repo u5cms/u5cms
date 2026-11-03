@@ -158,7 +158,7 @@ function u5CodeAssetQueryNames($text,$names,$quotedOnly=false) {
 }
 
 function u5CodeAssetMarkupNames($text,$names,$simple=true) {
-    return u5CodeAssetReplace('~\{\{\{([^{}\r\n]+)\}\}\}|\[([^\[\]\r\n]*)\]~',function($m) use($names,$simple) {
+    return u5CodeAssetReplace('~\[{2,4}[^\[\]]*\]{2,4}(*SKIP)(*F)|\{\{\{([^{}\r\n]+)\}\}\}|(?<!\[)\[([^\[\]\r\n]*)\](?!\])~',function($m) use($names,$simple) {
         if (isset($m[1]) && $m[1]!=='') {
             if (!$simple || (preg_match('/^[a-zA-Z0-9_!-]+$/D',$m[1]) && is_file(__DIR__.'/u5sys.'.$m[1].'.php'))) return $m[0];
             $key=strtolower($m[1]);return isset($names[$key]) ? '{{{'.$names[$key].'}}}' : $m[0];
@@ -283,7 +283,8 @@ function u5CodeAssetReferences($text,$map=array(),$depth=0,$format='html',$objec
         $part=u5CodeAssetQueryNames($part,$names,$code && stripos($part,'<script')===0);
         if ($code) $part=u5CodeAssetMarkupNames($part,$names,false);
         else {
-            $tags=preg_split('~(<(?:"[^"]*"|\'[^\']*\'|[^\'">])*>)~s',$part,-1,PREG_SPLIT_DELIM_CAPTURE);
+            // Disjoint, possessive tokens keep long attributes within normal PCRE limits.
+            $tags=preg_split('~(<(?:"[^"]*+"|\'[^\']*+\'|[^\'">]++)*+>)~s',$part,-1,PREG_SPLIT_DELIM_CAPTURE);
             if ($tags===false) throw new RuntimeException('Cannot parse code reference tags.');
             foreach ($tags as &$tag) $tag=u5CodeAssetMarkupNames($tag,$names,substr($tag,0,1)!=='<');
             unset($tag);$part=implode('',$tags);
