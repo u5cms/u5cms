@@ -1,3 +1,5 @@
+> A subsequent authorized installation-acceptance pass found and corrected two further parser/reference defects. [Read the newer completed pass and its new CI evidence](2026-11-03-installation-acceptance.md). The results below retain their exact earlier scope and tested commits.
+
 # u5CMS correction and anti-regression review — completed 3 November 2026
 
 All necessary corrections are published on the 15 development branches and the audit branch. The final 48-job GitHub matrix passed under PHP 8.3, 8.4 and 8.5. Every job log was checked for completion of both groups and execution of the newly required seed, mobile and backup tests. Main and production are unchanged.

@@ -1,3 +1,19 @@
+# Latest installation-acceptance completion — 3 November 2026
+
+The additionally authorized real-data and anti-regression pass is complete. Two
+further parser/reference defects are corrected in all eleven affected development
+branches and both audit branches. All 39 new PHP 8.3/8.4/8.5 CI jobs passed, and
+their required regression output was checked in every job log.
+
+[New exact scope, corrections, tested commits, CI and acceptance boundaries](2026-11-03-installation-acceptance.md)
+and [machine evidence](../tests/installation-acceptance-final-2026-11-03.json)
+supersede the earlier completion snapshot below for this additional assignment.
+Main remains `78cadbf87b7307203b8bd4ff96929b306af7d982`; production is unchanged.
+No check or follow-up remains running. A complete production clone was not
+available; the report distinguishes real data from supplied configuration/files.
+
+---
+
 # Latest completion checkpoint — 3 November 2026
 
 The correction pass and the additionally authorized anti-regression review are

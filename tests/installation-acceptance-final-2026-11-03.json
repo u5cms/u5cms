@@ -1,0 +1,1200 @@
+{
+  "date": "2026-11-03",
+  "status": "completed",
+  "repository": "https://github.com/u5cms/u5cms",
+  "starting_audit_sha": "2072296c8da5db161b26396faab36d3ef9909767",
+  "tested_acceptance_sha": "2c86c8e36682b698c92f0fca3e58c29d36a875f9",
+  "application_paths_changed": [
+    "codeassets.inc.php"
+  ],
+  "main_sha": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+  "production_deployed": false,
+  "affected_development_branches": 11,
+  "audit_branches": 2,
+  "findings": [
+    {
+      "name": "Long HTML attribute parsing",
+      "affected_development_profiles": 10,
+      "before_fix": "Published helper fails synthetic 16 KiB unquoted attribute with default PCRE JIT-stack exhaustion; actual real-data upgrade returned controlled HTTP 500.",
+      "correction": "Disjoint possessive tag tokens, preserving quoted delimiters and context; no global PCRE limit increase.",
+      "required_regression_checks": 52
+    },
+    {
+      "name": "Escaped CMS literal examples",
+      "affected_earlier_development_profiles": 7,
+      "before_fix": "The original earlier helper rewrites [[cssbase]] even though it is literal text.",
+      "correction": "Backport the existing later literal guard to matching older parsers; preserve actual includes.",
+      "required_regression_checks": 16
+    }
+  ],
+  "real_data_backup": {
+    "tables": 18,
+    "rows": 950272,
+    "schema_and_bytes_identical": true,
+    "source_unchanged": true
+  },
+  "real_data_reference": {
+    "baseline": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+    "candidate_application_blob": "fd7a34e782723b7165c3ad74bd415333e3234943",
+    "pages": 883,
+    "languages": 4,
+    "cases_per_installation": 4824,
+    "status_counts_per_installation": {
+      "200": 3536,
+      "401": 1288
+    },
+    "missing_cases": 0,
+    "fatal_or_incomplete_allowed_pages": 0,
+    "text_forms_fields_access_match": true,
+    "installation_bound_capability_cases": 12,
+    "capabilities_independently_resolved": 15,
+    "actual_synthetic_file_downloads": 144,
+    "binding_checks": 517,
+    "forged_and_cross_installation_tokens_denied": true,
+    "corrected_first_upgrade_seconds": 65.5
+  },
+  "additional_local_checks": {
+    "full_migration_suite": 1671,
+    "session_transition_per_installation": 117,
+    "session_transition_languages": [
+      "de",
+      "en",
+      "fr"
+    ],
+    "backup_schema": 17,
+    "helper_families": 5
+  },
+  "runtime": {
+    "local_php": "8.4.27",
+    "local_mariadb": "11.8.6",
+    "browser": "Chromium 156",
+    "ci_php": [
+      "8.3",
+      "8.4",
+      "8.5"
+    ],
+    "ci_database": "MariaDB 11.4"
+  },
+  "ci": {
+    "runs": 13,
+    "jobs": 39,
+    "all_succeeded": true,
+    "all_logs_attested": true,
+    "checked_at": "2026-11-03T20:20:41.674344+00:00",
+    "records": [
+      {
+        "branch": "feature/search-phrases-quotes-highlighting",
+        "sha": "943b77203957f0724894cea7a2579294440847b6",
+        "run_id": 41709414226,
+        "jobs": [
+          {
+            "id": 126173242970,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126173243422,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126173243586,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "audit/correction-contracts-20261103",
+        "sha": "3ab62bb6e7c11fec9923672bd8d5c9e546d22ed3",
+        "run_id": 41709367178,
+        "jobs": [
+          {
+            "id": 126173081955,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126173082397,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126173082415,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.12.4-Default-Design",
+        "sha": "ffa5399135ba5fd685a72c068cb5fec5238d4631",
+        "run_id": 41709245937,
+        "jobs": [
+          {
+            "id": 126172673486,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126172674141,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126172674171,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.12.3-PHP9-Compatibility",
+        "sha": "3323f9553e0bdce09f3931733b8ee2a5a67e6af7",
+        "run_id": 41709133567,
+        "jobs": [
+          {
+            "id": 126172279230,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126172279509,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126172279555,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.12.2-Textarea-Interactions",
+        "sha": "0748368ff64bba70e090945c185bc27179e62a9a",
+        "run_id": 41709095578,
+        "jobs": [
+          {
+            "id": 126177366395,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126177362561,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126177448370,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.12.1-General-Corrections",
+        "sha": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+        "run_id": 41709058077,
+        "jobs": [
+          {
+            "id": 126172010879,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126172011500,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126172011692,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.12.0-OIDC",
+        "sha": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+        "run_id": 41708909763,
+        "jobs": [
+          {
+            "id": 126171498970,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126171499613,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126171499906,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.11.4-Intranet-Login-Corrections",
+        "sha": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+        "run_id": 41708872523,
+        "jobs": [
+          {
+            "id": 126171367688,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126171368271,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126171368396,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.11.3-Private-File-Cache-Corrections",
+        "sha": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+        "run_id": 41708836949,
+        "jobs": [
+          {
+            "id": 126171241086,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126171241624,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126171241760,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.11.2-Backup-Restore-Corrections",
+        "sha": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+        "run_id": 41708742266,
+        "jobs": [
+          {
+            "id": 126170912669,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126170913280,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126170913336,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.11.1-Migration-Hardening",
+        "sha": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+        "run_id": 41708702417,
+        "jobs": [
+          {
+            "id": 126170775764,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126170776116,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126170776326,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "12.11.0-Code-Resource-Migration",
+        "sha": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+        "run_id": 41708666190,
+        "jobs": [
+          {
+            "id": 126170649963,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126170650294,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126170650303,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "branch": "audit/acceptance-20261103",
+        "sha": "2c86c8e36682b698c92f0fca3e58c29d36a875f9",
+        "run_id": 41708286989,
+        "jobs": [
+          {
+            "id": 126169353759,
+            "name": "regression (8.5)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126169354445,
+            "name": "regression (8.4)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 126169354531,
+            "name": "regression (8.3)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ],
+    "log_attestations": [
+      {
+        "branch": "12.11.4-Intranet-Login-Corrections",
+        "sha": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+        "run_id": 41708872523,
+        "job_id": 126171368271,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.3-Private-File-Cache-Corrections",
+        "sha": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+        "run_id": 41708836949,
+        "job_id": 126171241086,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.3-Private-File-Cache-Corrections",
+        "sha": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+        "run_id": 41708836949,
+        "job_id": 126171241624,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.3-Private-File-Cache-Corrections",
+        "sha": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+        "run_id": 41708836949,
+        "job_id": 126171241760,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.2-Backup-Restore-Corrections",
+        "sha": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+        "run_id": 41708742266,
+        "job_id": 126170912669,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.2-Backup-Restore-Corrections",
+        "sha": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+        "run_id": 41708742266,
+        "job_id": 126170913280,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.2-Backup-Restore-Corrections",
+        "sha": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+        "run_id": 41708742266,
+        "job_id": 126170913336,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.1-Migration-Hardening",
+        "sha": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+        "run_id": 41708702417,
+        "job_id": 126170775764,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": false,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.1-Migration-Hardening",
+        "sha": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+        "run_id": 41708702417,
+        "job_id": 126170776116,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": false,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.1-Migration-Hardening",
+        "sha": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+        "run_id": 41708702417,
+        "job_id": 126170776326,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": false,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.0-Code-Resource-Migration",
+        "sha": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+        "run_id": 41708666190,
+        "job_id": 126170649963,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": false,
+        "large52": true,
+        "backup17_required": false,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.0-Code-Resource-Migration",
+        "sha": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+        "run_id": 41708666190,
+        "job_id": 126170650294,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": false,
+        "large52": true,
+        "backup17_required": false,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.0-Code-Resource-Migration",
+        "sha": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+        "run_id": 41708666190,
+        "job_id": 126170650303,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": false,
+        "large52": true,
+        "backup17_required": false,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "audit/acceptance-20261103",
+        "sha": "2c86c8e36682b698c92f0fca3e58c29d36a875f9",
+        "run_id": 41708286989,
+        "job_id": 126169353759,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "audit/acceptance-20261103",
+        "sha": "2c86c8e36682b698c92f0fca3e58c29d36a875f9",
+        "run_id": 41708286989,
+        "job_id": 126169354445,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "audit/acceptance-20261103",
+        "sha": "2c86c8e36682b698c92f0fca3e58c29d36a875f9",
+        "run_id": 41708286989,
+        "job_id": 126169354531,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.4-Default-Design",
+        "sha": "ffa5399135ba5fd685a72c068cb5fec5238d4631",
+        "run_id": 41709245937,
+        "job_id": 126172673486,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.3-PHP9-Compatibility",
+        "sha": "3323f9553e0bdce09f3931733b8ee2a5a67e6af7",
+        "run_id": 41709133567,
+        "job_id": 126172279230,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.1-General-Corrections",
+        "sha": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+        "run_id": 41709058077,
+        "job_id": 126172010879,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.1-General-Corrections",
+        "sha": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+        "run_id": 41709058077,
+        "job_id": 126172011500,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.1-General-Corrections",
+        "sha": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+        "run_id": 41709058077,
+        "job_id": 126172011692,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.0-OIDC",
+        "sha": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+        "run_id": 41708909763,
+        "job_id": 126171499613,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.0-OIDC",
+        "sha": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+        "run_id": 41708909763,
+        "job_id": 126171499906,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.4-Intranet-Login-Corrections",
+        "sha": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+        "run_id": 41708872523,
+        "job_id": 126171367688,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.11.4-Intranet-Login-Corrections",
+        "sha": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+        "run_id": 41708872523,
+        "job_id": 126171368396,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "feature/search-phrases-quotes-highlighting",
+        "sha": "943b77203957f0724894cea7a2579294440847b6",
+        "run_id": 41709414226,
+        "job_id": 126173242970,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "feature/search-phrases-quotes-highlighting",
+        "sha": "943b77203957f0724894cea7a2579294440847b6",
+        "run_id": 41709414226,
+        "job_id": 126173243422,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "feature/search-phrases-quotes-highlighting",
+        "sha": "943b77203957f0724894cea7a2579294440847b6",
+        "run_id": 41709414226,
+        "job_id": 126173243586,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "audit/correction-contracts-20261103",
+        "sha": "3ab62bb6e7c11fec9923672bd8d5c9e546d22ed3",
+        "run_id": 41709367178,
+        "job_id": 126173081955,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "audit/correction-contracts-20261103",
+        "sha": "3ab62bb6e7c11fec9923672bd8d5c9e546d22ed3",
+        "run_id": 41709367178,
+        "job_id": 126173082397,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.4-Default-Design",
+        "sha": "ffa5399135ba5fd685a72c068cb5fec5238d4631",
+        "run_id": 41709245937,
+        "job_id": 126172674171,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.3-PHP9-Compatibility",
+        "sha": "3323f9553e0bdce09f3931733b8ee2a5a67e6af7",
+        "run_id": 41709133567,
+        "job_id": 126172279509,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.3-PHP9-Compatibility",
+        "sha": "3323f9553e0bdce09f3931733b8ee2a5a67e6af7",
+        "run_id": 41709133567,
+        "job_id": 126172279555,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.2-Textarea-Interactions",
+        "sha": "0748368ff64bba70e090945c185bc27179e62a9a",
+        "run_id": 41709095578,
+        "job_id": 126177366395,
+        "name": "regression (8.5)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.2-Textarea-Interactions",
+        "sha": "0748368ff64bba70e090945c185bc27179e62a9a",
+        "run_id": 41709095578,
+        "job_id": 126177448370,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.0-OIDC",
+        "sha": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+        "run_id": 41708909763,
+        "job_id": 126171498970,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "audit/correction-contracts-20261103",
+        "sha": "3ab62bb6e7c11fec9923672bd8d5c9e546d22ed3",
+        "run_id": 41709367178,
+        "job_id": 126173082415,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.4-Default-Design",
+        "sha": "ffa5399135ba5fd685a72c068cb5fec5238d4631",
+        "run_id": 41709245937,
+        "job_id": 126172674141,
+        "name": "regression (8.4)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      },
+      {
+        "branch": "12.12.2-Textarea-Interactions",
+        "sha": "0748368ff64bba70e090945c185bc27179e62a9a",
+        "run_id": 41709095578,
+        "job_id": 126177362561,
+        "name": "regression (8.3)",
+        "both_groups_completed": true,
+        "literal16": true,
+        "large52_required": true,
+        "large52": true,
+        "backup17_required": true,
+        "backup17": true,
+        "sessions_de_en_fr": true,
+        "seed_executed": true,
+        "passed": true
+      }
+    ],
+    "initial_failure_retained": {
+      "branch": "12.12.2-Textarea-Interactions",
+      "run_id": 41709095578,
+      "original_failed_job": 126172141186,
+      "name": "regression (8.3)",
+      "failure": "basic: Escape closes the keyboard dialog (1 !== 0)",
+      "application_changed_since_failure": false,
+      "test_assertions_changed": false,
+      "rerun_policy": "One unchanged rerun of the specific failed job after log inspection; retain original failure.",
+      "instrumented_local_reproduction": "161 checks passed, Basic and session Escape events reached the menu and closed it; no application or committed test changes.",
+      "root_cause": "Not established; initial browser assertion did not reproduce.",
+      "final_retry_jobs": [
+        {
+          "id": 126177366395,
+          "name": "regression (8.5)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 126177362561,
+          "name": "regression (8.3)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 126177448370,
+          "name": "regression (8.4)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  },
+  "published_backports": [
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "parent": "f8febcc608918a802f28cd03270d1854b3082ee1",
+      "sha": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+      "tree": "00e47fe4f9e4e48c73348808ee70eff8532eb0bd",
+      "fixes": [
+        "escaped literal examples"
+      ]
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "parent": "2596303ccce36486f6811cdc9eeb19112a06424c",
+      "sha": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+      "tree": "f8272fc288d579e6dc3dbbccae3699ad26dbdb7c",
+      "fixes": [
+        "long HTML attributes",
+        "escaped literal examples"
+      ]
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "parent": "92f090c9e8d06581f1df6ccc1dc31b1dc42f568c",
+      "sha": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+      "tree": "e6b69638670938a6d8f43a4c3a293b90b7dfc0df",
+      "fixes": [
+        "long HTML attributes",
+        "escaped literal examples"
+      ]
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "parent": "ad6d5ef9d12387799edd54e7e166bd1539ffc953",
+      "sha": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+      "tree": "61ce8488df23270e31d45678fea409317a937687",
+      "fixes": [
+        "long HTML attributes",
+        "escaped literal examples"
+      ]
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "parent": "6ea8d26640d269cb78082299fd6c0321b17dc28c",
+      "sha": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+      "tree": "dd66fbe01753bd550a0cea810b620f3a143744e1",
+      "fixes": [
+        "long HTML attributes",
+        "escaped literal examples"
+      ]
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "parent": "ccc88f9b384fd518d44da6d37264b50d69fb9821",
+      "sha": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+      "tree": "5d760b83426497acd35b5e2f481d0fb05f2ff12b",
+      "fixes": [
+        "long HTML attributes",
+        "escaped literal examples"
+      ]
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "parent": "4386f8a911bb9fa0a3f71809f25478d0e0e76540",
+      "sha": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+      "tree": "12522391f9300e2619761acab38d0c4a5c0ddd5b",
+      "fixes": [
+        "long HTML attributes"
+      ]
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "parent": "d9308be7691a822cadf2de5f995f3403a3c9e426",
+      "sha": "0748368ff64bba70e090945c185bc27179e62a9a",
+      "tree": "08c25735070c4e11e827185eb8a7d29dc7c0007d",
+      "fixes": [
+        "long HTML attributes"
+      ]
+    },
+    {
+      "branch": "12.12.3-PHP9-Compatibility",
+      "parent": "ba09d7c53df3c50149d49d4bb5c0f778dfed703f",
+      "sha": "3323f9553e0bdce09f3931733b8ee2a5a67e6af7",
+      "tree": "274d3335901d485e09f395837ba95307e89de7f4",
+      "fixes": [
+        "long HTML attributes"
+      ]
+    },
+    {
+      "branch": "12.12.4-Default-Design",
+      "parent": "68a9500a0e2a8aa1527075414858b40a699c8945",
+      "sha": "ffa5399135ba5fd685a72c068cb5fec5238d4631",
+      "tree": "370baab114282adbdf92dd71534a7d572bd01a27",
+      "fixes": [
+        "long HTML attributes"
+      ]
+    },
+    {
+      "branch": "audit/correction-contracts-20261103",
+      "parent": "2072296c8da5db161b26396faab36d3ef9909767",
+      "sha": "3ab62bb6e7c11fec9923672bd8d5c9e546d22ed3",
+      "tree": "4d4ecb2859b98a9e7e922aec80a60f6248198ac9",
+      "fixes": [
+        "long HTML attributes"
+      ]
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "parent": "7fb5fa789601d13f9cafabd4f94865fb4f55c722",
+      "sha": "943b77203957f0724894cea7a2579294440847b6",
+      "tree": "be6aa97f52c9ab7c068f16abeb6c4e19d01909f4",
+      "fixes": [
+        "long HTML attributes",
+        "escaped literal examples"
+      ]
+    }
+  ],
+  "unchanged_development_branches": [
+    "12.10.0-Multi-Optimizations-by-AI",
+    "12.10.1-Support-More-Image-Formats",
+    "12.9.6-Misc-Backend-Optimizations",
+    "fix/nosniff-script-mime-types"
+  ],
+  "boundaries": [
+    "Real database export only; original site configuration and complete site filesystem were not supplied.",
+    "Real-data page comparison uses equal neutral presentation and executephp=nowhere; 119 active pages contain site PHP that this comparison deliberately does not execute.",
+    "Private-upload binding checks use synthetic bytes under referenced names, not the original uploaded documents.",
+    "Real-data comparison covers current Main and latest application; other affected profiles use their required synthetic CI matrix.",
+    "No live external mail/payment/federation acceptance, actual PHP 9 certification, Main merge, release replacement or production installation.",
+    "The earlier restricted detailed audit payload is excluded; no private export, row content, filename or access token is published."
+  ]
+}
