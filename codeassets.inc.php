@@ -154,7 +154,7 @@ function u5CodeAssetReferences($text, $map=array(), $depth=0) {
     foreach ($names as $old=>$new) {
         if ($old===$new) continue;
         $quoted=preg_quote($old,'~');
-        $text=preg_replace_callback('~(?:(?<=[\[:])'.$quoted.'(?=[\]?])|(?<=\{\{\{)'.$quoted.'(?=\}\}\})|(?<=["\'])'.$quoted.'(?=["\'])|(?<=[?&])(?:name|c|n)='.$quoted.'(?=[&\#"\'\s]|$))~', function($m) use($old,$new) {
+        $text=preg_replace_callback('~\[{2,4}[^\[\]]*\]{2,4}(*SKIP)(*F)|(?:(?<=[\[:])'.$quoted.'(?=[\]?])|(?<=\{\{\{)'.$quoted.'(?=\}\}\})|(?<=["\'])'.$quoted.'(?=["\'])|(?<=[?&])(?:name|c|n)='.$quoted.'(?=[&\#"\'\s]|$))~', function($m) use($old,$new) {
             return substr($m[0],0,strlen($m[0])-strlen($old)).$new;
         },$text);
     }
