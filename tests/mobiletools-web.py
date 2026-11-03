@@ -2,6 +2,8 @@
 """Real disposable CMS/SQL/browser path for the mobile-controls backport."""
 from pathlib import Path
 import json, os, shutil, socket, subprocess, tempfile, time, urllib.request
+from fixture_environment import ensure_fixture_environment
+ensure_fixture_environment()
 repo=Path(__file__).resolve().parent.parent
 php=[os.environ.get('U5_TEST_PHP','php')]+json.loads(os.environ.get('U5_TEST_PHP_ARGS','[]'))
 with tempfile.TemporaryDirectory(prefix='u5-mobiletools-web-') as tmp:
