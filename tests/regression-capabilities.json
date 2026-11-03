@@ -15,7 +15,10 @@
     "search-distance-regression.php",
     "search-index-regression.php",
     "login-host-regression.php",
-    "database-backup-packet-regression.php"
+    "database-backup-packet-regression.php",
+    "codeassets-literal-markup-regression.php",
+    "codeassets-large-markup-regression.php",
+    "database-backup-schema-regression.php"
   ],
   "node_tests": [
     "search-normalization-parity.cjs"
@@ -23,7 +26,8 @@
   "http_browser_tests": [
     "codeassets-web-regression.py",
     "search-web-regression.py",
-    "image-upload-regression.py"
+    "image-upload-regression.py",
+    "conference-session-transition-regression.py"
   ],
   "main_browser": true,
   "rename_browser": false,
@@ -35,13 +39,18 @@
     "request.inc.php",
     "tests/browser-runtime.cjs",
     "tests/ci-requirements.txt",
+    "tests/codeassets-large-markup-regression.php",
+    "tests/codeassets-literal-markup-regression.php",
     "tests/codeassets-regression.php",
     "tests/codeassets-web-regression.py",
     "tests/conference-seed-reference.py",
+    "tests/conference-session-transition-browser.cjs",
+    "tests/conference-session-transition-regression.py",
     "tests/conference-workflow-browser.cjs",
     "tests/conference-workflow-regression.py",
     "tests/configuration-reference.py",
     "tests/database-backup-packet-regression.php",
+    "tests/database-backup-schema-regression.php",
     "tests/fixture-environment.cjs",
     "tests/fixture_environment.py",
     "tests/formdata-transport-regression.php",
