@@ -1,3 +1,19 @@
+# Latest completion checkpoint — 3 November 2026
+
+The correction pass and the additionally authorized anti-regression review are
+complete. All 15 development branches and the audit branch contain their
+necessary corrections. The final GitHub matrix passed all 48 PHP 8.3/8.4/8.5
+jobs, with each job log attested. The additional pass reproduced and corrected
+the large-row backup packet regression on every affected branch.
+
+[Final scope, exact tested commits, CI links and acceptance boundaries](correction-review-status.md)
+and [machine evidence](../tests/anti-regression-final-2026-11-03.json) supersede
+older completion snapshots below for this assignment. Main remains
+`78cadbf87b7307203b8bd4ff96929b306af7d982`; no merge or production installation
+was performed. There is no active verification or scheduled follow-up left.
+
+---
+
 # u5CMS development checkpoint
 
 ## Main review and all three additional investigation passes complete (2 November 2026)
