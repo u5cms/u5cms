@@ -11,3 +11,9 @@ The real database export is private test input and will not be committed, quoted
 Last completed: remote heads and clean starting checkout verified; real database export resolved. No new application defect is confirmed yet and no new acceptance test is claimed as executed.
 
 Next action: restore the private export into a disposable database and establish source/target conservation observations before exercising application paths. The earlier report and its 48 CI jobs remain historical evidence for their exact tested commits.
+
+## Confirmed finding and candidate correction
+
+The real-data upgrade returned controlled HTTP 500: `Cannot parse code reference tags.` The HTML-tag splitter consumes one regex stack step per unquoted attribute character. A synthetic 16 KiB attribute reproduces the published candidate's PCRE JIT-stack exhaustion. Disjoint possessive tokens retain the same delimiters and quoting rules with bounded backtracking. The candidate passes 52 synthetic conservation/idempotence checks under normal PCRE limits, with JIT both on and off. The old published helper fails the same new test. Only `codeassets.inc.php` changes in application code.
+
+New executed evidence so far: exact full real-export backup/restore (18 tables, 950,272 rows, unchanged source); 117 session-transition browser/database checks each on Main and the candidate in DE/EN/FR; 17 backup schema checks for generated/invisible columns, quoted Unicode identifiers, Aria/InnoDB, exact types and plain/gzip restore. Corrected real-data migration and complete page comparison are still pending.

@@ -25,7 +25,9 @@
     "idn-identity-compatibility.php",
     "php9-core.php",
     "php9-source-audit.php",
-    "database-backup-packet-regression.php"
+    "database-backup-packet-regression.php",
+    "codeassets-large-markup-regression.php",
+    "database-backup-schema-regression.php"
   ],
   "node_tests": [
     "textarea-core.cjs",
@@ -41,7 +43,8 @@
     "dependency-compatibility-regression.py",
     "mutation-recovery-http.py",
     "editorial-journey-web.py",
-    "mobiletools-web.py"
+    "mobiletools-web.py",
+    "conference-session-transition-regression.py"
   ],
   "main_browser": true,
   "rename_browser": true,
@@ -55,13 +58,17 @@
     "saml/login.php",
     "tests/browser-runtime.cjs",
     "tests/ci-requirements.txt",
+    "tests/codeassets-large-markup-regression.php",
     "tests/codeassets-regression.php",
     "tests/codeassets-web-regression.py",
     "tests/conference-seed-reference.py",
+    "tests/conference-session-transition-browser.cjs",
+    "tests/conference-session-transition-regression.py",
     "tests/conference-workflow-browser.cjs",
     "tests/conference-workflow-regression.py",
     "tests/configuration-reference.py",
     "tests/database-backup-packet-regression.php",
+    "tests/database-backup-schema-regression.php",
     "tests/default-design-web.py",
     "tests/dependency-compatibility-regression.py",
     "tests/editorial-journey-web.py",
