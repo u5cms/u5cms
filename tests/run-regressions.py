@@ -19,6 +19,7 @@ def main():
     for name in manifest['required_files']:
         if not (ROOT/name).is_file():raise RuntimeError('Required regression capability is missing: '+name)
     env=os.environ.copy();env['U5CMS_HTTPS_ROUTES']=json.dumps(manifest['https_routes'])
+    env['U5CMS_HTTPS_LEGACY_ROUTES']=json.dumps(manifest['legacy_https_routes'])
     env['U5CMS_TEST_PHP']=PHP
     env['U5CMS_PHP9_AUDIT']='1' if manifest['php9'] else ''
     env['U5CMS_MAIN_AUDIT']='1' if manifest['main_browser'] else ''
@@ -33,7 +34,7 @@ def main():
         (out/'summary.json').write_text(json.dumps(summary,indent=2))
         if result.returncode:raise RuntimeError('Regression failed: '+' '.join(command))
     if args.group in ['contracts','all']:
-        if manifest['https_routes']:
+        if manifest['https_routes'] or manifest['legacy_https_routes']:
             run([PHP,'tests/https-detection-regression.php'])
             run([sys.executable,'tests/regression-oracle-regression.py'])
         run([sys.executable,'tests/conference-workflow-regression.py','--source',ROOT,'--output',out/'conference.json'])
@@ -50,7 +51,17 @@ def main():
     if args.group in ['features','all']:
         for name in manifest['php_tests']:run([PHP,'tests/'+name])
         for name in manifest['node_tests']:run(['node','tests/'+name])
-        for name in manifest['http_browser_tests']:run([sys.executable,'tests/'+name])
+        for name in manifest['http_browser_tests']:
+            if name=='editorial-journey-web.py':run([sys.executable,'tests/'+name,'--source',ROOT]);continue
+            if name not in ['mail-evolution-regression.py','mutation-recovery-http.py']:run([sys.executable,'tests/'+name]);continue
+            with tempfile.TemporaryDirectory(prefix='u5-mail-original-') as temporary:
+                baseline=args.baseline.resolve() if args.baseline else pathlib.Path(temporary)/'original'
+                if not args.baseline:
+                    baseline.mkdir();archive=pathlib.Path(temporary)/'original.tar'
+                    subprocess.run(['git','archive',manifest['original_sha'],'--output='+str(archive)],cwd=ROOT,check=True)
+                    with tarfile.open(archive) as contents:contents.extractall(baseline,filter='data')
+                if name=='mail-evolution-regression.py':run([sys.executable,'tests/'+name,baseline])
+                else:run([sys.executable,'tests/'+name,'--baseline',baseline,'--target','branch='+str(ROOT),'--output',out/'mutation-recovery.json'])
     print('All declared regression commands passed.',flush=True)
 
 if __name__=='__main__':main()

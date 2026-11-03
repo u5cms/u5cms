@@ -37,7 +37,7 @@ class Conference(reference.Site):
         self.sql('UPDATE resources SET logins='+reference.literal(logins)+" WHERE logins!=''")
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));self.port=probe.getsockname()[1]
         self.log=(work/'server.log').open('w+')
-        self.server=subprocess.Popen([PHP,'-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],
+        self.server=subprocess.Popen([PHP,'-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],
           '-d','sendmail_path=/bin/false','-S','127.0.0.1:'+str(self.port),'-t',str(self.root)],
           cwd=self.root,stdout=self.log,stderr=self.log)
         for _ in range(100):
@@ -112,7 +112,7 @@ def exercise(site):
     check('restricted editor cannot change status',response['status']==403 and site.rows('!uploadabstract')==before)
     response=site.request('u5admin/notesave.php?id='+rid,{'note':'UNAUTHORIZED-ASSIGNMENT'},user='conferenceeditor')
     check('restricted editor cannot change assignments',response['status']==403 and site.rows('!uploadabstract')==before)
-    token=hashlib.sha1((site.settings['username']+site.settings['password']+'conferenceeditor'+PASSWORD+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')).encode()).hexdigest()
+    token=site.csrf_token('conferenceeditor')
     response=site.request('u5admin/mass.php?n=!uploadabstract',{'rowaid':rid,'newstatus':'4','u5scrtytknfrfrms':token},user='conferenceeditor')
     check('restricted editor cannot change status in bulk',response['status']==403 and site.rows('!uploadabstract')==before)
     site.sql('UPDATE formdata SET status=1,notes=\'\' WHERE id='+rid)
@@ -138,6 +138,7 @@ def exercise(site):
     response=site.request('monofill.php?n=!reviewscore&id='+rid,user=USERS[1])
     match=re.search(r"&o=([^']+)",response['body'])
     check('review edit identity token',match is not None)
+    check('review edit identity token value',match is not None and urllib.parse.unquote(match.group(1))==owner_token)
     action='formsave.php?n=!reviewscore&l=en&o='+urllib.parse.quote(owner_token,safe='')
     site.request(action,score,user=USERS[1])
     reviews=site.rows('!reviewscore')
@@ -166,6 +167,16 @@ def exercise(site):
     site.request('formsave.php?n=!registerforconf&l=en',registration,user=USERS[0])
     registrations=site.rows('!registerforconf')
     check('registration persisted',len(registrations)==1 and values(registrations[0]).get('Address_mandatory')==registration['Address_mandatory'])
+    for mode in ['basic','session']:
+        site.settings['usesessioninsteadofbasicauth']='no' if mode=='basic' else 'yes';site.write_config()
+        run=subprocess.run(['node',str(HERE/'conference-workflow-browser.cjs')],input=json.dumps({'base':'http://127.0.0.1:'+str(site.port),'mode':mode,'id':other,'user':USERS[2],'password':PASSWORD}),text=True,capture_output=True)
+        check('real browser review '+mode,run.returncode==0)
+        if run.returncode:failures.append('real browser review '+mode+': '+run.stdout+run.stderr)
+        else:
+            for number in range(json.loads(run.stdout)['checks']):check('browser '+mode+' assertion '+str(number+1),True)
+        current=[r for r in site.rows('!reviewscore') if r['status']=='1' and r['authuser']==USERS[2]]
+        check('browser review persisted '+mode,len(current)==1 and values(current[0]).get('comments')=='BROWSER-EDITED-'+mode)
+    site.settings['usesessioninsteadofbasicauth']='no';site.write_config()
     # Independent :dat matrix, including the optional/short documented forms.
     site.sql("DELETE FROM formdata WHERE formname='dattest'")
     data=[('Alpha','one',1,'public-alpha ||| private-alpha',USERS[0]),('Beta','two',1,'('+USERS[1]+')',USERS[1]),('Gamma','zero',4,'public-gamma',USERS[0])]
@@ -217,7 +228,7 @@ def exercise(site):
     # The documented RFC quote mode is distinct from the historical import.
     if b'csv_escape' in (site.root/'u5admin/import2.php').read_bytes():
         import csv,io
-        token=hashlib.sha1((site.settings['username']+site.settings['password']+'conferenceadmin'+PASSWORD+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')).encode()).hexdigest()
+        token=site.csrf_token('conferenceadmin')
         cases=['He said "hello"; C:\\work\\file','\\"quoted\\"','end\\','0','','Line one\r\nLine two']
         stream=io.StringIO(newline='');writer=csv.writer(stream,delimiter='\t',lineterminator='\r\n');writer.writerow(['Name','Comment'])
         for index,value in enumerate(cases):writer.writerow(['Row'+str(index),value])

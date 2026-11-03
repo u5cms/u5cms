@@ -64,7 +64,7 @@ class Site:
         # The snapshot endpoint is not part of the CMS and never goes into releases.
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));self.port=probe.getsockname()[1]
         self.log=(work/(label+'.server.log')).open('w')
-        self.server=subprocess.Popen([PHP,'-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-d','sendmail_path=/bin/false','-S','127.0.0.1:'+str(self.port),'-t',str(self.root)],cwd=self.root,stdout=self.log,stderr=self.log)
+        self.server=subprocess.Popen([PHP,'-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-d','sendmail_path=/bin/false','-S','127.0.0.1:'+str(self.port),'-t',str(self.root)],cwd=self.root,stdout=self.log,stderr=self.log)
         for attempt in range(100):
             try:
                 with socket.create_connection(('127.0.0.1',self.port),timeout=.2):break
@@ -110,6 +110,12 @@ class Site:
 
     def rows(self,name='refform'):
         return self.sql("SELECT id,formname,headcsv,datacsv,status,notes,authuser FROM formdata WHERE formname="+literal(name)+" ORDER BY id")['rows']
+
+    def csrf_token(self,user):
+        response=self.request('u5admin/new.php?typ=p',user=user)
+        match=re.search(r'name=["\']u5scrtytknfrfrms["\'][^>]*value=["\']([^"\']+)',response['body'])
+        if not match:raise AssertionError('Actual backend CSRF token missing.')
+        return match.group(1)
 
     def close(self):
         if self.server:self.server.terminate();self.server.wait(timeout=15)
@@ -179,8 +185,7 @@ def exercise(site):
     observations['form-export']=re.sub(r'\d{4}\.\d{2}\.\d{2} \d{2}:\d{2}:\d{2}','<TIME>',response['body'])
     # Import is tab-delimited Excel text. Include both standard escaped quotes and
     # literal backslashes, and keep exact original observations before comparison.
-    secret=os.environ.get('U5CMS_TEST_USER','root')+os.environ.get('U5CMS_TEST_PASSWORD','')+'referenceadmin'+'reference-password'
-    token=hashlib.sha1((secret+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')).encode()).hexdigest()
+    token=site.csrf_token('referenceadmin')
     payload={'u5scrtytknfrfrms':token,'csv':'Name\tComment\tEmpty\tZero\r\nAlice\t"He said ""hi"" C:\\path"\t\t0\r\nBob\tplain\\end\t\t0\r\n',
              'target':'refimport','h':'2','m':'1','n':'1','fixnotes':'fixed notes','fixauthuser':'importowner'}
     response=site.request('u5admin/import2.php',payload,user='referenceadmin')
@@ -240,7 +245,7 @@ def exercise_text_boundaries(site):
     require(response['status']==400,site.label+': real form route rejects n[]')
     response=site.request('f.php?f[]=bad')
     require(response['status']==400,site.label+': real file route rejects f[]')
-    token=hashlib.sha1((os.environ.get('U5CMS_TEST_USER','root')+os.environ.get('U5CMS_TEST_PASSWORD','')+'referenceadminreference-password'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')).encode()).hexdigest()
+    token=site.csrf_token('referenceadmin')
     payload={'u5scrtytknfrfrms':token,'csv':'Name\tComment\r\nAlice\t"trailing slash \\"\r\n','target':'refrfcimport','h':'2','m':'1','n':'1','fixnotes':'','fixauthuser':'','csv_escape':'rfc4180'}
     response=site.request('u5admin/import2.php',payload,user='referenceadmin')
     rows=site.rows('refrfcimport')

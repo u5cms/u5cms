@@ -8,6 +8,7 @@
   ],
   "php9": true,
   "php_tests": [
+    "formdata-transport-regression.php",
     "codeassets-regression.php",
     "rename-regression.php",
     "mobiletools-regression.php",
@@ -36,7 +37,9 @@
     "image-upload-regression.py",
     "default-design-web.py",
     "mail-evolution-regression.py",
-    "dependency-compatibility-regression.py"
+    "dependency-compatibility-regression.py",
+    "mutation-recovery-http.py",
+    "editorial-journey-web.py"
   ],
   "main_browser": true,
   "rename_browser": true,
@@ -52,10 +55,13 @@
     "tests/ci-requirements.txt",
     "tests/codeassets-regression.php",
     "tests/codeassets-web-regression.py",
+    "tests/conference-workflow-browser.cjs",
     "tests/conference-workflow-regression.py",
     "tests/configuration-reference.py",
     "tests/default-design-web.py",
     "tests/dependency-compatibility-regression.py",
+    "tests/editorial-journey-web.py",
+    "tests/formdata-transport-regression.php",
     "tests/formdata-view-reference.py",
     "tests/https-detection-regression.php",
     "tests/idn-identity-compatibility.php",
@@ -66,6 +72,7 @@
     "tests/main-reference-db.php",
     "tests/main-reference-regression.py",
     "tests/mobiletools-regression.php",
+    "tests/mutation-recovery-http.py",
     "tests/oidc-bindings-regression.php",
     "tests/oidc-regression.php",
     "tests/oidc-web-regression.py",
@@ -87,5 +94,6 @@
     "u5admin/connect.inc.php",
     "u5conference.sql",
     "u5standard.sql"
-  ]
+  ],
+  "legacy_https_routes": []
 }
