@@ -2,6 +2,8 @@
 """Import both real seeds and inspect their default desktop/mobile pages."""
 from pathlib import Path
 import json, os, shutil, socket, subprocess, tempfile, time, urllib.request
+from fixture_environment import ensure_fixture_environment
+ensure_fixture_environment()
 repo=Path(__file__).resolve().parent.parent
 php=[os.environ.get('U5_TEST_PHP','php')]+json.loads(os.environ.get('U5_TEST_PHP_ARGS','[]'))
 for seed in ['u5standard.sql','u5conference.sql']:

@@ -1,3 +1,4 @@
+const {fixturePassword,fixtureBody}=require('./fixture-environment.cjs');
 const fs=require('fs'),path=require('path'),os=require('os'),assert=require('node:assert/strict');
 const {spawnSync}=require('child_process');
 const {launchBrowser}=require('./browser-runtime.cjs');
@@ -12,7 +13,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
  const php=(args)=>spawnSync(process.env.U5_TEST_PHP || 'php',[...JSON.parse(process.env.U5_TEST_PHP_ARGS || '[]'),...args],{encoding:'utf8'});
  try {
   setMode('no');
-  const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}});
+  const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}});
   // Custom P/web applications own their extra query/cookie fields. The shared
   // bootstrap must preserve collections instead of rejecting the whole page.
   fs.writeFileSync(path.join(site,'fixture-application-request.php'),'<?php require __DIR__."/connect.inc.php";header("Content-Type: application/json");echo json_encode(array("selection"=>$_GET["selection"],"preferences"=>$_COOKIE["application"]));');
@@ -29,12 +30,12 @@ const {launchBrowser}=require('./browser-runtime.cjs');
   equal(new URL('https://fa\u00df.example/').hostname,'xn--fa-hia.example','browser URL host identity retains sharp-s');
   for(const endpoint of ['loginsave.php','u5admin/loginsave.php','saml/login.php','u5sys._login.php']) {
    for(const [host,target] of [['fass.example','https://fa\u00df.example/path'],['xn--fa-hia.example','https://fass.example/path']]) {
-    const denied=await context.request.post(base+'/'+endpoint+'?u='+encodeURIComponent(target),{headers:{Host:host},form:{u:'auditadmin',p:'audit-password'},maxRedirects:0});
+    const denied=await context.request.post(base+'/'+endpoint+'?u='+encodeURIComponent(target),{headers:{Host:host},form:{u:'auditadmin',p:fixturePassword},maxRedirects:0});
     verify((await denied.text()).includes('Redirect to a different domain is not allowed.'),endpoint+' rejects a distinct IDN host: '+denied.status()+' '+(await denied.text()).slice(0,400));
     verify(!denied.headers().location,endpoint+' publishes no cross-domain Location');
    }
   }
-  const idnLogin=await context.request.post(base+'/loginsave.php?u='+encodeURIComponent('https://fa\u00df.example/path'),{headers:{Host:'xn--fa-hia.example'},form:{u:'auditadmin',p:'audit-password'},maxRedirects:0});
+  const idnLogin=await context.request.post(base+'/loginsave.php?u='+encodeURIComponent('https://fa\u00df.example/path'),{headers:{Host:'xn--fa-hia.example'},form:{u:'auditadmin',p:fixturePassword},maxRedirects:0});
   equal(idnLogin.status(),302,'a legitimate Unicode/punycode login target is retained');
   // Direct entry must load the stylesheet helper before its first use.
   // Forbid password orders in this fixture so this check cannot send mail.
@@ -147,10 +148,10 @@ const {launchBrowser}=require('./browser-runtime.cjs');
   await context.close();
   for(const mode of ['basic','session']) {
    setMode(mode==='basic' ? 'no' : 'yes');
-   const ctx=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}} : {});
+   const ctx=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}} : {});
    await ctx.route('**/*',route=>new URL(route.request().url()).origin===new URL(base).origin ? route.continue() : route.abort());
    if(mode==='session') {
-    const login=await ctx.request.post(base+'/loginsave.php?u=u5admin',{form:{u:'auditadmin',p:'audit-password'},maxRedirects:0});
+    const login=await ctx.request.post(base+'/loginsave.php?u=u5admin',{form:{u:'auditadmin',p:fixturePassword},maxRedirects:0});
     equal(login.status(),302,'ordinary backend session login');
    }
    const form=await ctx.request.get(base+'/u5admin/new.php?typ=p');
@@ -255,9 +256,9 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    // Independent sessions submit the same revision concurrently.
    const racingName='mainrace'+mode;
    await ctx.request.post(base+'/u5admin/new2.php?typ=p',{form:{name:racingName,u5scrtytknfrfrms:csrf}});
-   const peer=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}} : {});
+   const peer=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}} : {});
    try {
-    if(mode==='session')equal((await peer.request.post(base+'/loginsave.php?u=u5admin',{form:{u:'auditadmin',p:'audit-password'},maxRedirects:0})).status(),302,'independent second session logs in');
+    if(mode==='session')equal((await peer.request.post(base+'/loginsave.php?u=u5admin',{form:{u:'auditadmin',p:fixturePassword},maxRedirects:0})).status(),302,'independent second session logs in');
     const peerForm=await peer.request.get(base+'/u5admin/new.php?typ=p');
     const peerToken=(await peerForm.text()).match(/name="u5scrtytknfrfrms"[^>]*value="([^"]+)"/)[1];
     const revision=(await snapshot(racingName)).rows[0].lastmut;
@@ -317,16 +318,16 @@ const {launchBrowser}=require('./browser-runtime.cjs');
     const firstMedia=await ctx.request.get(base+entry.url,{maxRedirects:0});
     if(mode==='basic') {equal(firstMedia.status(),302,'Basic media retains its Apache-protected static redirect');continue;}
     equal(firstMedia.status(),200,'session-protected media can be read after login');
-    equal(await firstMedia.text(),'private fixture bytes','protected media returns the original bytes');
+    equal(await firstMedia.text(),fixtureBody,'protected media returns the original bytes');
     equal(firstMedia.headers()['cache-control'],'private, no-cache','protected media is marked private and revalidated');
     const modified=firstMedia.headers()['last-modified'];
     equal((await ctx.request.get(base+entry.url,{headers:{'If-Modified-Since':modified}})).status(),304,'unchanged authorized media returns 304');
     const denied=await anonymous.request.get(base+entry.url,{headers:{'If-Modified-Since':modified},maxRedirects:0});
-    verify(denied.status()!==304 && !(await denied.text()).includes('private fixture bytes'),'conditional media requests cannot skip session access checks');
-    const real=path.join(site,entry.file);fs.writeFileSync(real,'changed private fixture bytes');fs.utimesSync(real,1700000010,1700000010);
+    verify(denied.status()!==304 && !(await denied.text()).includes(fixtureBody),'conditional media requests cannot skip session access checks');
+    const real=path.join(site,entry.file);fs.writeFileSync(real,fixtureBody+'-changed');fs.utimesSync(real,1700000010,1700000010);
     const changed=await ctx.request.get(base+entry.url,{headers:{'If-Modified-Since':modified}});
     equal(changed.status(),200,'a changed protected file is sent despite an older conditional date');
-    equal(await changed.text(),'changed private fixture bytes','changed protected file content is fresh');
+    equal(await changed.text(),fixtureBody+'-changed','changed protected file content is fresh');
    }
    for(const shape of ['portrait','landscape','square'])for(const parameter of ['w=19&sq=1','h=17&sq=1','w=1','h=1']) {
     const thumb=await ctx.request.get(base+'/thumb.php?f=r/auditprivate/'+shape+'.jpg&'+parameter);
@@ -398,6 +399,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
     return rect.top+rect.height/2-middle;
    });
    const anchored=await centerOffset();
+   verify(Math.abs(anchored)<=1,'scroll fixture has enough rows to center its test object before changing previews: '+anchored);
    for(const preview of ['on','off']) {
     await list.locator('input[name=pvs_p][value='+preview+']').click();
     await list.waitForFunction(mode=>document.readyState!=='loading' && document.form1 && document.form1.pvs_p[1].checked===(mode==='on') && new URL(location.href).searchParams.get('pvs_p')===mode,preview);

@@ -1,5 +1,6 @@
 <?php 
 require_once('connect.inc.php');
+if ($formdataRqHIADRI!='no') require('accadmin.inc.php');
 require('t2.php');
 $_POST['newstatus']=intval($_POST['newstatus']);
 $_POST['rowaid'] = trim(preg_replace('/[^0-9,]+/', '', ($_POST['rowaid'] ?? '')), ',');

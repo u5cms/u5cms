@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__.'/request.inc.php';
 u5ValidateTextRequest($_GET,array('c','n'));
+require_once('connect.inc.php');
+require_once('render.inc.php');
+require_once('loginformsave.inc.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,9 +13,6 @@ u5ValidateTextRequest($_GET,array('c','n'));
 </head>
 <body>
 <?php
-require_once('connect.inc.php');
-require_once('render.inc.php');
-require_once('loginformsave.inc.php');
 if($requireturnstileonfrontendformsave=='yes') require('grc2.php');
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (count($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
@@ -63,9 +63,9 @@ $nt2me=array_map('trim',$nt2me);
 $nt2cu=explode(',',($_POST['nt2cu'] ?? ''));
 $nt2cu=array_map('trim',$nt2cu);
 
-$zendsubject=$_POST['thankssubject'];
+$zendsubject=$_POST['thankssubject'] ?? '';
 if (trim($zendsubject)=='') $zendsubject='Quittung/Receipt/Acquit: '.$_SERVER['HTTP_HOST'];
-$zendmessage=$_POST['thankstext']."\r\n\r\n";
+$zendmessage=($_POST['thankstext'] ?? '')."\r\n\r\n";
 $errors=0;
 $foundliving=0;
 

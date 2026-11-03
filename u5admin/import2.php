@@ -158,7 +158,7 @@ $m=$_POST['m'];
 $n=$_POST['n'];
 
 for($i=0;$i<count($c);$i++) {
-$d=explode(';',$c[$i]);
+$d=$csvFormat==='rfc4180' ? str_getcsv($c[$i],';','"','') : explode(';',$c[$i]);
 $h=explode(';',$headcsv);
 
 //var_dump( $headcsv).'<hr>';
@@ -219,7 +219,7 @@ $datacsv.=str_replace("THS!S!M!HL!PRVT!LNBRK","\r\n",'·'.$d[$ii]).';';
 
 
 $datacsv=explode(';',$datacsv);
-for($iii=0;$iii<count($datacsv);$iii++) {
+if ($csvFormat==='legacy') for($iii=0;$iii<count($datacsv);$iii++) {
 if ($datacsv[$iii][1]=='"') {
 $datacsv[$iii]='·'.substr($datacsv[$iii],2);
 if ($datacsv[$iii][strlen($datacsv[$iii])-1]=='"') $datacsv[$iii]=substr($datacsv[$iii],0,-1);

@@ -1,4 +1,6 @@
 <?php
+if (strlen((string)getenv('U5CMS_FIXTURE_PASSWORD'))<32) throw new RuntimeException('Ephemeral test values are required.');
+
 /* CLI-only fixture management in the disposable web installation. */
 if (PHP_SAPI!=='cli') {http_response_code(404);exit;}
 $root=$argv[1];$action=$argv[2];$mode=$argv[3] ?? 'basic';
@@ -15,10 +17,10 @@ if ($action==='seed') {
         u5CodeMigrationQuery('INSERT INTO resources_log (`'.implode('`,`',$columns).'`) VALUES ('.implode(',',$values).')');
     }
     u5CodeMigrationQuery('INSERT INTO formdata (formname,datacsv) VALUES ('.u5CodeMigrationValue($old).','.u5CodeMigrationValue('submitted [label:'.$old.']').')');
-    u5CodeMigrationQuery('INSERT INTO accounts (email,pw,accadmin) VALUES (\'renamewriter\','.u5CodeMigrationValue('{SHA}'.base64_encode(sha1('writer-password',true))).',0) ON DUPLICATE KEY UPDATE accadmin=0');
+    u5CodeMigrationQuery('INSERT INTO accounts (email,pw,accadmin) VALUES (\'renamewriter\','.u5CodeMigrationValue('{SHA}'.base64_encode(sha1(hash_hmac('sha256','rename-writer',getenv('U5CMS_FIXTURE_PASSWORD')),true))).',0) ON DUPLICATE KEY UPDATE accadmin=0');
     mkdir($root.'/r/'.$old);file_put_contents($root.'/r/'.$old.'/'.$old.'_en.txt','original language bytes');
     file_put_contents($root.'/r/'.$old.'/'.$old.'_100.jpg','original album bytes');
-    file_put_contents($root.'/r/'.$old.'/.htpasswd','private-member:{SHA}opaque');
+    file_put_contents($root.'/r/'.$old.'/.htpasswd',getenv('U5CMS_FIXTURE_BODY'));
     file_put_contents($root.'/r/'.$old.'/.htaccess',"Deny from all\n");
 } elseif ($action==='archive') {
     u5CodeMigrationQuery('UPDATE resources SET deleted=2 WHERE name='.u5CodeMigrationValue($old));

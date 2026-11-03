@@ -8,10 +8,13 @@ All fixtures live in private temporary directories and databases and are removed
 """
 import argparse, base64, datetime, hashlib, json, os, pathlib, re, shutil
 import socket, subprocess, tempfile, time, urllib.error, urllib.parse, urllib.request
+from fixture_environment import fixture_password_for
 
 HERE=pathlib.Path(__file__).resolve().parent
 PHP=os.environ.get('U5_TEST_PHP','php')
 CHECKS=0
+REFERENCE_PASSWORD=fixture_password_for('reference')
+READER_PASSWORD=fixture_password_for('reference-reader')
 
 def require(condition,message):
     global CHECKS
@@ -39,7 +42,7 @@ class Site:
             'requireturnstileonfrontendformsave':'no',
         }
         self.write_config()
-        sha='{SHA}'+base64.b64encode(hashlib.sha1(b'reference-password').digest()).decode()
+        sha='{SHA}'+base64.b64encode(hashlib.sha1(REFERENCE_PASSWORD.encode()).digest()).decode()
         self.sql("UPDATE accounts SET email='referenceadmin',pw="+literal(sha)+",accadmin=1 WHERE id=1")
         self.sql("INSERT INTO accounts(email,pw,accadmin) VALUES('referenceeditor',"+literal(sha)+",0)")
         self.sql("UPDATE languages SET lan4na='it',lan5na='es',lan4name='Italiano',lan5name='Espanol'")
@@ -49,7 +52,8 @@ class Site:
         self.resource('refpage',[b'[h:]<div id="proof">REF-DE \xdcber \x80 &amp; [literal]</div>[:h]',b'[h:]<div id="proof">REF-EN</div>[:h]',b'',b'[h:]<div id="proof">REF-IT</div>[:h]',b''])
         self.resource('refphp',[b'[h:]<?php echo "EXECUTED-REFERENCE"; ?>[:h]'])
         self.resource('refarchive',[b'[h:]<?php echo "EXECUTED-ARCHIVE"; ?>[:h]'],deleted=2)
-        self.resource('refprivate',[b'[h:]<div>PRIVATE-REFERENCE</div>[:h]'],logins='?reader:reader-password;\n?readertwo:reader-password;')
+        reader_logins='?reader:'+READER_PASSWORD+';\n?readertwo:'+READER_PASSWORD+';'
+        self.resource('refprivate',[b'[h:]<div>PRIVATE-REFERENCE</div>[:h]'],logins=reader_logins)
         self.fields={'name_mandatory':'Anna','comment':'He said "hello"; C:\\new\\path\r\nLine two \xdcber \u20ac &amp; [literal]',
                      'optional':'','zero':'0','qv2bo':'off','in2my':'off','em2cu':'off','em2me':'off','thanks':'referenceDone()'}
         form='[h:]<form name="u5form" id="reference-form" action="formsave.php?n=refform&l=de" method="post" target="saveframe">'
@@ -58,13 +62,20 @@ class Site:
         form+='<button id="reference-submit" type="submit">Save</button></form><iframe name="saveframe"></iframe><script>function referenceDone(){window.referenceSaved=true}</script>[:h]'
         self.resource('refform',[form.encode('cp1252')])
         owned=form.replace('n=refform','n=refownerform')+'\n[h:]<!-- SELF_TOEDITITEMS_LOGINS_SAME_AS_[refprivate] SELF_TODELETEITEMS_LOGINS_SAME_AS_[refprivate] -->[:h]'
-        self.resource('refownerform',[owned.encode('cp1252')],logins='?reader:reader-password;\n?readertwo:reader-password;')
+        self.resource('refownerform',[owned.encode('cp1252')],logins=reader_logins)
         app=b'''<?php require __DIR__.'/connect.inc.php';header('Content-Type: application/json');echo json_encode(array('query'=>$_GET,'cookies'=>$_COOKIE));'''
         (self.root/'reference-app.php').write_bytes(app)
         # The snapshot endpoint is not part of the CMS and never goes into releases.
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));self.port=probe.getsockname()[1]
         self.log=(work/(label+'.server.log')).open('w')
-        self.server=subprocess.Popen([PHP,'-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-d','sendmail_path=/bin/false','-S','127.0.0.1:'+str(self.port),'-t',str(self.root)],cwd=self.root,stdout=self.log,stderr=self.log)
+        capabilities=source/'tests/regression-capabilities.json'
+        strict=capabilities.is_file() and json.loads(capabilities.read_text())['php9']
+        prepend=[]
+        if strict:
+            guard=source.resolve()/'tests/php9-guard.php'
+            if not guard.is_file():raise RuntimeError('Declared PHP readiness guard is missing.')
+            prepend=['-d','auto_prepend_file='+str(guard)]
+        self.server=subprocess.Popen([PHP]+prepend+['-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-d','sendmail_path=/bin/false','-S','127.0.0.1:'+str(self.port),'-t',str(self.root)],cwd=self.root,stdout=self.log,stderr=self.log)
         for attempt in range(100):
             try:
                 with socket.create_connection(('127.0.0.1',self.port),timeout=.2):break
@@ -97,7 +108,7 @@ class Site:
     def request(self,path,data=None,user=None,cookies=None):
         headers={}
         if user:
-            headers['Authorization']='Basic '+base64.b64encode((user+':'+('reader-password' if user in ['reader','readertwo'] else 'reference-password')).encode()).decode()
+            headers['Authorization']='Basic '+base64.b64encode((user+':'+(READER_PASSWORD if user in ['reader','readertwo'] else REFERENCE_PASSWORD)).encode()).decode()
         if cookies:headers['Cookie']=cookies
         if data is not None:
             if isinstance(data,dict):data=list(data.items())
@@ -110,6 +121,12 @@ class Site:
 
     def rows(self,name='refform'):
         return self.sql("SELECT id,formname,headcsv,datacsv,status,notes,authuser FROM formdata WHERE formname="+literal(name)+" ORDER BY id")['rows']
+
+    def csrf_token(self,user):
+        response=self.request('u5admin/new.php?typ=p',user=user)
+        match=re.search(r'name=["\']u5scrtytknfrfrms["\'][^>]*value=["\']([^"\']+)',response['body'])
+        if not match:raise AssertionError('Actual backend CSRF token missing.')
+        return match.group(1)
 
     def close(self):
         if self.server:self.server.terminate();self.server.wait(timeout=15)
@@ -179,8 +196,7 @@ def exercise(site):
     observations['form-export']=re.sub(r'\d{4}\.\d{2}\.\d{2} \d{2}:\d{2}:\d{2}','<TIME>',response['body'])
     # Import is tab-delimited Excel text. Include both standard escaped quotes and
     # literal backslashes, and keep exact original observations before comparison.
-    secret=os.environ.get('U5CMS_TEST_USER','root')+os.environ.get('U5CMS_TEST_PASSWORD','')+'referenceadmin'+'reference-password'
-    token=hashlib.sha1((secret+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')).encode()).hexdigest()
+    token=site.csrf_token('referenceadmin')
     payload={'u5scrtytknfrfrms':token,'csv':'Name\tComment\tEmpty\tZero\r\nAlice\t"He said ""hi"" C:\\path"\t\t0\r\nBob\tplain\\end\t\t0\r\n',
              'target':'refimport','h':'2','m':'1','n':'1','fixnotes':'fixed notes','fixauthuser':'importowner'}
     response=site.request('u5admin/import2.php',payload,user='referenceadmin')
@@ -240,7 +256,7 @@ def exercise_text_boundaries(site):
     require(response['status']==400,site.label+': real form route rejects n[]')
     response=site.request('f.php?f[]=bad')
     require(response['status']==400,site.label+': real file route rejects f[]')
-    token=hashlib.sha1((os.environ.get('U5CMS_TEST_USER','root')+os.environ.get('U5CMS_TEST_PASSWORD','')+'referenceadminreference-password'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')).encode()).hexdigest()
+    token=site.csrf_token('referenceadmin')
     payload={'u5scrtytknfrfrms':token,'csv':'Name\tComment\r\nAlice\t"trailing slash \\"\r\n','target':'refrfcimport','h':'2','m':'1','n':'1','fixnotes':'','fixauthuser':'','csv_escape':'rfc4180'}
     response=site.request('u5admin/import2.php',payload,user='referenceadmin')
     rows=site.rows('refrfcimport')
