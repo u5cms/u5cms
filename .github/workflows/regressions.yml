@@ -47,7 +47,7 @@ jobs:
           extensions: mysqli, mbstring, intl, iconv, ctype, curl, gd, zip, fileinfo, exif
           coverage: none
           tools: composer:v2
-          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable_cli=0
+          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable=0, opcache.enable_cli=0
       - name: Install isolated test dependencies
         run: |
           python3 -m venv "$RUNNER_TEMP/u5-python"
