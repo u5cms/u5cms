@@ -46,7 +46,7 @@ def main():
                 baseline.mkdir();archive=pathlib.Path(temporary)/'original.tar'
                 subprocess.run(['git','archive',manifest['original_sha'],'--output='+str(archive)],cwd=ROOT,check=True)
                 with tarfile.open(archive) as contents:contents.extractall(baseline,filter='data')
-            for test in ['main-reference-regression.py','configuration-reference.py','formdata-view-reference.py']:
+            for test in ['main-reference-regression.py','configuration-reference.py','formdata-view-reference.py','conference-seed-reference.py']:
                 command=[sys.executable,'tests/'+test,'--baseline',baseline,'--target','branch='+str(ROOT),'--output',out/(test.removesuffix('.py')+'.json')]
                 if test=='main-reference-regression.py' and manifest['php9']:command.append('--text-boundaries')
                 run(command)
