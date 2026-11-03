@@ -1,4 +1,6 @@
 <?php
+if (strlen((string)getenv('U5CMS_FIXTURE_PASSWORD'))<32 || strlen((string)getenv('U5CMS_FIXTURE_BODY'))<32) throw new RuntimeException('Run the Python fixture driver; ephemeral test values are required.');
+
 /* Test-only setup for disposable installations created by codeassets-web-regression.py. */
 $root=$argv[1];$action=$argv[2];
 $_SERVER['REQUEST_URI']='/';$_SERVER['HTTP_HOST']='fixture.invalid';$_SERVER['REMOTE_ADDR']='127.0.0.1';
@@ -17,7 +19,7 @@ elseif ($action==='large') {
 }
 elseif ($action==='scroll') {
     $names=array();
-    for ($number=1;$number<=60;$number++) {
+    for ($number=1;$number<=120;$number++) {
         $name='auditscroll'.sprintf('%03d',$number);$names[]=$name;
         $body='<p>Scroll fixture '.$number.'</p><img loading="lazy" height="350" src="r/auditprivate/portrait.jpg">';
         mainFixtureQuery("INSERT IGNORE INTO resources(name,typ,deleted,content_1,title_1,lastmut) VALUES('".$name."','p',0,'".mysql_real_escape_string($body)."','preview',1)");
@@ -26,11 +28,11 @@ elseif ($action==='scroll') {
     echo json_encode($names);
 }
 elseif ($action==='cache') {
-    $hash='{SHA}'.base64_encode(sha1('audit-password',true));
+    $hash='{SHA}'.base64_encode(sha1(getenv('U5CMS_FIXTURE_PASSWORD'),true));
     foreach (array('r/auditprivate','fileversions','fileversions/_dbbackup','fileversions/useruploads') as $directory) {
         if (!is_dir($root.'/'.$directory)) mkdir($root.'/'.$directory,0700,true);
         if ($directory==='r/auditprivate' || $directory==='fileversions') file_put_contents($root.'/'.$directory.'/.htpasswd','auditadmin:'.$hash."\n");
-        file_put_contents($root.'/'.$directory.'/auditsecret.txt','private fixture bytes');touch($root.'/'.$directory.'/auditsecret.txt',1700000000);
+        file_put_contents($root.'/'.$directory.'/auditsecret.txt',getenv('U5CMS_FIXTURE_BODY'));touch($root.'/'.$directory.'/auditsecret.txt',1700000000);
     }
     foreach (array('portrait'=>array(40,80),'landscape'=>array(80,40),'square'=>array(40,40)) as $name=>$size) {
         $image=imagecreatetruecolor($size[0],$size[1]);imagefill($image,0,0,imagecolorallocate($image,20,180,60));
