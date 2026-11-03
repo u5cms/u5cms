@@ -1,3 +1,4 @@
+const {fixturePassword,fixtureBody}=require('./fixture-environment.cjs');
 const fs=require('fs'),path=require('path'),os=require('os'),assert=require('node:assert/strict');
 const {spawnSync}=require('child_process');
 const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
@@ -12,7 +13,7 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
  const php=(args)=>spawnSync(process.env.U5_TEST_PHP || 'php',[...JSON.parse(process.env.U5_TEST_PHP_ARGS || '[]'),...args],{encoding:'utf8'});
  try {
   setMode('no');
-  const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}});
+  const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}});
   const tokenResponse=await context.request.get(base+'/u5admin/new.php?typ=p');
   const match=(await tokenResponse.text()).match(/name="u5scrtytknfrfrms"[^>]*value="([^"]+)"/);verify(match,'real backend CSRF token');
   const token=match[1];
@@ -100,10 +101,10 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
   await context.close();
   for(const mode of ['basic','session']) {
    setMode(mode==='basic' ? 'no' : 'yes');
-   const ctx=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}} : {});
+   const ctx=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}} : {});
    await ctx.route('**/*',route=>new URL(route.request().url()).origin===new URL(base).origin ? route.continue() : route.abort());
    if(mode==='session') {
-    const login=await ctx.request.post(base+'/loginsave.php?u=u5admin',{form:{u:'auditadmin',p:'audit-password'},maxRedirects:0});
+    const login=await ctx.request.post(base+'/loginsave.php?u=u5admin',{form:{u:'auditadmin',p:fixturePassword},maxRedirects:0});
     equal(login.status(),302,'ordinary backend session login');
    }
    const form=await ctx.request.get(base+'/u5admin/new.php?typ=p');
@@ -249,16 +250,16 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
     const firstMedia=await ctx.request.get(base+entry.url,{maxRedirects:0});
     if(mode==='basic') {equal(firstMedia.status(),302,'Basic media retains its Apache-protected static redirect');continue;}
     equal(firstMedia.status(),200,'session-protected media can be read after login');
-    equal(await firstMedia.text(),'private fixture bytes','protected media returns the original bytes');
+    equal(await firstMedia.text(),fixtureBody,'protected media returns the original bytes');
     equal(firstMedia.headers()['cache-control'],'private, no-cache','protected media is marked private and revalidated');
     const modified=firstMedia.headers()['last-modified'];
     equal((await ctx.request.get(base+entry.url,{headers:{'If-Modified-Since':modified}})).status(),304,'unchanged authorized media returns 304');
     const denied=await anonymous.request.get(base+entry.url,{headers:{'If-Modified-Since':modified},maxRedirects:0});
-    verify(denied.status()!==304 && !(await denied.text()).includes('private fixture bytes'),'conditional media requests cannot skip session access checks');
-    const real=path.join(site,entry.file);fs.writeFileSync(real,'changed private fixture bytes');fs.utimesSync(real,1700000010,1700000010);
+    verify(denied.status()!==304 && !(await denied.text()).includes(fixtureBody),'conditional media requests cannot skip session access checks');
+    const real=path.join(site,entry.file);fs.writeFileSync(real,fixtureBody+'-changed');fs.utimesSync(real,1700000010,1700000010);
     const changed=await ctx.request.get(base+entry.url,{headers:{'If-Modified-Since':modified}});
     equal(changed.status(),200,'a changed protected file is sent despite an older conditional date');
-    equal(await changed.text(),'changed private fixture bytes','changed protected file content is fresh');
+    equal(await changed.text(),fixtureBody+'-changed','changed protected file content is fresh');
    }
    for(const shape of ['portrait','landscape','square'])for(const parameter of ['w=19&sq=1','h=17&sq=1','w=1','h=1']) {
     const thumb=await ctx.request.get(base+'/thumb.php?f=r/auditprivate/'+shape+'.jpg&'+parameter);
@@ -328,6 +329,7 @@ const {chromium}=require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
     return rect.top+rect.height/2-middle;
    });
    const anchored=await centerOffset();
+   verify(Math.abs(anchored)<=1,'scroll fixture has enough rows to center its test object before changing previews: '+anchored);
    for(const preview of ['on','off']) {
     await list.locator('input[name=pvs_p][value='+preview+']').click();
     await list.waitForFunction(mode=>document.readyState!=='loading' && document.form1 && document.form1.pvs_p[1].checked===(mode==='on') && new URL(location.href).searchParams.get('pvs_p')===mode,preview);

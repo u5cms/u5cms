@@ -1,0 +1,75 @@
+name: u5CMS regression contracts
+
+on:
+  push:
+    branches: ['12.*', 'feature/**', 'fix/**', 'audit/correction-contracts-*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: u5-regression-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MARIADB_ROOT_HOST: '%'
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      U5CMS_TEST_PORT: '3306'
+      U5CMS_TEST_USER: root
+      U5CMS_TEST_PASSWORD: ''
+      U5_TEST_PHP: php
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # 2.37.0
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, mbstring, intl, iconv, ctype, curl, gd, zip, fileinfo, exif
+          coverage: none
+          tools: composer:v2
+          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable_cli=0
+      - name: Install isolated test dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/u5-python"
+          "$RUNNER_TEMP/u5-python/bin/pip" install -r tests/ci-requirements.txt
+          npm install --prefix "$RUNNER_TEMP/u5-browser" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+          node "$RUNNER_TEMP/u5-browser/node_modules/playwright/cli.js" install --with-deps chromium
+          echo "$RUNNER_TEMP/u5-python/bin" >> "$GITHUB_PATH"
+          echo "NODE_PATH=$RUNNER_TEMP/u5-browser/node_modules" >> "$GITHUB_ENV"
+          echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
+          echo "COMPOSER_CACHE_DIR=$RUNNER_TEMP/u5-composer-cache" >> "$GITHUB_ENV"
+      - name: Configure the disposable database for the large-row restore fixture
+        run: |
+          php -r '$db=new mysqli("127.0.0.1",getenv("U5CMS_TEST_USER"),getenv("U5CMS_TEST_PASSWORD"),null,(int)getenv("U5CMS_TEST_PORT")); $db->query("SET GLOBAL max_allowed_packet=134217728"); if ((int)$db->query("SELECT @@GLOBAL.max_allowed_packet")->fetch_row()[0]<134217728) throw new RuntimeException("The 24 MiB restore fixture requires max_allowed_packet=128M.");'
+      - name: Fetch locked upstream sources for the patch oracle
+        if: hashFiles('patches/php9-return-types.json') != ''
+        run: |
+          mkdir "$RUNNER_TEMP/u5-upstream"
+          cp composer.json composer.lock "$RUNNER_TEMP/u5-upstream/"
+          composer install --working-dir="$RUNNER_TEMP/u5-upstream" --no-scripts --ignore-platform-req=php --no-interaction --prefer-dist --no-progress
+      - name: Configuration, conference and original-reference contracts
+        id: contracts
+        run: python3 tests/run-regressions.py --group contracts
+      - name: Declared feature, browser and recovery regressions
+        if: ${{ !cancelled() && (steps.contracts.outcome == 'success' || steps.contracts.outcome == 'failure') }}
+        run: python3 tests/run-regressions.py --group features

@@ -1,3 +1,4 @@
+const {fixturePassword,fixtureBody}=require('./fixture-environment.cjs');
 const fs = require('fs');
 const path = require('path');
 const assert = require('node:assert/strict');
@@ -18,11 +19,11 @@ const { chromium } = require(process.env.U5_TEST_PLAYWRIGHT || 'playwright');
         const config=path.join(site,'config.php');
         fs.writeFileSync(config,fs.readFileSync(config).toString('latin1').replace(/\$usesessioninsteadofbasicauth\s*=\s*'no'/,"$usesessioninsteadofbasicauth='yes'"),'latin1');
       }
-      const context=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:'audit-password',send:'always',origin:base}} : {});
+      const context=await browser.newContext(mode==='basic' ? {httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}} : {});
       // Block unrelated external update/telemetry URLs in this disposable backend.
       await context.route('**/*',route=>new URL(route.request().url()).origin===new URL(base).origin ? route.continue() : route.abort());
       if (mode==='session') {
-        const login=await context.request.post(base+'/loginsave.php?u=u5admin/coding.php',{form:{u:'auditadmin',p:'audit-password'},maxRedirects:0});
+        const login=await context.request.post(base+'/loginsave.php?u=u5admin/coding.php',{form:{u:'auditadmin',p:fixturePassword},maxRedirects:0});
         equal(login.status(),302,'session login uses real cookie authentication');
         verify((await context.cookies()).some(cookie=>cookie.name==='p' && cookie.httpOnly),'session password cookie is set');
       }
