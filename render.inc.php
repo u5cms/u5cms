@@ -1051,7 +1051,8 @@ function renderspecial($name,$human) {
         ///                                                                                                                       ///
         /// See https://yuba.ch/index.php?l=en&c=u5erenderformdata#datcommand                                                     ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $dat=explode('|',$human);
+        $return='';
+        $dat=array_pad(explode('|',$human),14,'');
 
         //////////////////////////////////
         /// a: Name of fields
@@ -1118,13 +1119,14 @@ function renderspecial($name,$human) {
         /// i: Evoke an ORDER BY and optionally set a LIMIT
         $dat[8]=renderspecialphp(trim($dat[8]));
         $orderby='';
-        if(trim($dat[8][0])=='?' && strpos(($_GET['sort'] ?? ''),'ORDER BY')===0) {
-            $orderby.=mysql_real_escape_string($_GET['sort']);
-        }
-        if(trim($dat[8])!='' && strpos(trim(str_replace(' ','',str_replace('?','',$dat[8]))),'LIMIT')!==0) {
-            $orderby.='ORDER BY '.mysql_real_escape_string($dat[8]);
-        } else {
-            $orderby.=' '.mysql_real_escape_string(str_replace('?','',$dat[8]));
+        $orderSpec=trim($dat[8]);
+        if (substr($orderSpec,0,1)==='?') {
+            u5ValidateTextRequest($_GET,array('sort'));
+            if (strpos(($_GET['sort'] ?? ''),'ORDER BY')===0) $orderby=mysql_real_escape_string($_GET['sort']);
+            $limit=trim(substr($orderSpec,1));
+            if ($limit!=='') $orderby.=' '.mysql_real_escape_string($limit);
+        } elseif ($orderSpec!=='') {
+            $orderby=(strpos($orderSpec,'LIMIT')===0 ? '' : 'ORDER BY ').mysql_real_escape_string($orderSpec);
         }
 
         //////////////////////////////////////////////
@@ -1175,9 +1177,13 @@ function renderspecial($name,$human) {
             $rih=$rih[1];
         }
 
-        if ($id=='?' && $_GET['id']>0) $id=$_GET['id'];
+        if ($id=='?') {
+            u5ValidateTextRequest($_GET,array('id'));
+            if (($_GET['id'] ?? 0)>0) $id=$_GET['id'];
+        }
 
         if ($notes=='?') {
+            u5ValidateTextRequest($_GET,array('notes'));
             $notes=$_SERVER['QUERY_STRING'];
             $notes=str_replace('?','&',$notes);
             $notes=explode('&notes=',$notes);
@@ -1236,7 +1242,7 @@ function renderspecial($name,$human) {
         }
 
         //echo '<pre>';
-        $num_a = mysql_num_rows($result_a);
+        $num_a = $result_a===false ? 0 : mysql_num_rows($result_a);
         for ($i_a=0; $i_a<$num_a; $i_a++) {
             if($id=='?') $i_a=$num_a-1;
             $row_a = mysql_fetch_array($result_a);
@@ -1260,6 +1266,9 @@ function renderspecial($name,$human) {
             for($f=0;$f<count($fields);$f++) {
                 $fields[$f]=trim($fields[$f]);
                 $position=array_search($fields[$f],$headcsv);
+                $systemField=str_replace('sent','humantime',substr(strtolower($fields[$f]),1));
+                if (!isset($row_a[$systemField])) $row_a[$systemField]='';
+                if (!isset($datacsv[$position])) $datacsv[$position]='';
                 //var_dump($position);
 
                 // SISSEL
@@ -1396,7 +1405,7 @@ function renderspecial($name,$human) {
             }
 
             $return=str_replace('$la',$lastmut,$return);
-            $rowaip=$row_a['ip'];
+            $rowaip=$row_a['ip'] ?? '';
             $rowaip=explode(' ',$rowaip);
             $rowaip=$rowaip[0];
             $return=str_replace('$ip',$rowaip,$return);
