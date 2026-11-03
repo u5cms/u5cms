@@ -36,7 +36,6 @@ jobs:
       U5CMS_TEST_USER: root
       U5CMS_TEST_PASSWORD: ''
       U5_TEST_PHP: php
-      COMPOSER_CACHE_DIR: ${{ runner.temp }}/u5-composer-cache
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -58,6 +57,7 @@ jobs:
           echo "$RUNNER_TEMP/u5-python/bin" >> "$GITHUB_PATH"
           echo "NODE_PATH=$RUNNER_TEMP/u5-browser/node_modules" >> "$GITHUB_ENV"
           echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
+          echo "COMPOSER_CACHE_DIR=$RUNNER_TEMP/u5-composer-cache" >> "$GITHUB_ENV"
       - name: Fetch locked upstream sources for the patch oracle
         if: hashFiles('patches/php9-return-types.json') != ''
         run: |
