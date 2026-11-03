@@ -1,0 +1,52 @@
+{
+  "original_sha": "9d366253417822c279692767b89dcf1ff0388c5c",
+  "https_routes": [
+    "connect.inc.php",
+    "u5admin/connect.inc.php"
+  ],
+  "php9": false,
+  "php_tests": [
+    "formdata-transport-regression.php",
+    "codeassets-regression.php",
+    "mobiletools-regression.php",
+    "login-host-regression.php"
+  ],
+  "node_tests": [],
+  "http_browser_tests": [
+    "codeassets-web-regression.py",
+    "image-upload-regression.py"
+  ],
+  "main_browser": false,
+  "rename_browser": false,
+  "textarea_browser": false,
+  "required_files": [
+    ".github/workflows/regressions.yml",
+    "config.php.sample",
+    "connect.inc.php",
+    "request.inc.php",
+    "tests/browser-runtime.cjs",
+    "tests/ci-requirements.txt",
+    "tests/codeassets-regression.php",
+    "tests/codeassets-web-regression.py",
+    "tests/conference-workflow-browser.cjs",
+    "tests/conference-workflow-regression.py",
+    "tests/configuration-reference.py",
+    "tests/fixture-environment.cjs",
+    "tests/fixture_environment.py",
+    "tests/formdata-transport-regression.php",
+    "tests/formdata-view-reference.py",
+    "tests/https-detection-regression.php",
+    "tests/image-upload-regression.py",
+    "tests/login-host-regression.php",
+    "tests/main-reference-browser.cjs",
+    "tests/main-reference-db.php",
+    "tests/main-reference-regression.py",
+    "tests/mobiletools-regression.php",
+    "tests/regression-oracle-regression.py",
+    "tests/run-regressions.py",
+    "u5admin/connect.inc.php",
+    "u5conference.sql",
+    "u5standard.sql"
+  ],
+  "legacy_https_routes": []
+}
