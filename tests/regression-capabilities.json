@@ -23,6 +23,7 @@
     "request.inc.php",
     "tests/browser-runtime.cjs",
     "tests/ci-requirements.txt",
+    "tests/conference-seed-reference.py",
     "tests/conference-workflow-browser.cjs",
     "tests/conference-workflow-regression.py",
     "tests/configuration-reference.py",
