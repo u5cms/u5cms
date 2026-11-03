@@ -18,12 +18,12 @@ class Client:
         self.cookies=http.cookiejar.CookieJar()
         self.opener=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.cookies))
         if session:
-            self.request('loginsave.php?u=u5admin/',{'u':user,'p':'reference-password'})
+            self.request('loginsave.php?u=u5admin/',{'u':user,'p':reference.REFERENCE_PASSWORD})
             assert {'u','p'}.issubset({c.name for c in self.cookies}), 'Real session login did not issue credentials'
     def request(self,path,data=None,cookie=None):
         headers={}
         if self.user and not self.session:
-            headers['Authorization']='Basic '+base64.b64encode((self.user+':reference-password').encode()).decode()
+            headers['Authorization']='Basic '+base64.b64encode((self.user+':'+reference.REFERENCE_PASSWORD).encode()).decode()
         if cookie:headers['Cookie']=cookie
         payload=None if data is None else urllib.parse.urlencode(data).encode()
         req=urllib.request.Request('http://127.0.0.1:'+str(self.site.port)+'/'+path,data=payload,headers=headers)
