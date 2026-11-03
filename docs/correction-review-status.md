@@ -1,40 +1,75 @@
 # Correction and anti-regression review — 3 November 2026
 
-Status: specifically approved renderer publication in progress. A further complete
-anti-regression review is authorized after publication; no final completion is
-claimed by this checkpoint.
+Status: renderer corrections are published; the additional anti-regression pass
+has found and corrected one large-row backup regression. The new full CI matrix
+is still required. This checkpoint does not claim that final matrix has passed.
 
-Scope: all 15 development branches and `audit/correction-contracts-20261103`;
-compare original Main, each branch's prior state and intended workflows, including
-`u5conference.sql`, review assignment/creation/editing, registration/publication,
-and the documented Dat command. Correct reproduced regressions on every affected
-branch and verify the actual GitHub files and CI. Main and production are held.
+## Authorized scope and completed renderer phase
 
-Before renderer publication, all 48 independent feature jobs (PHP 8.3, 8.4, 8.5
-on 16 branches) succeeded. Only the contract step failed. The published renderer
-still lacked the locally tested Dat/nullable-value corrections at that point.
-The corrected local conference sequence passed 136 checks on older profiles and
-138 on explicit RFC-import profiles. Strict readiness is enabled only on branches
-which declare it. The strengthened typing/Undo/Redo browser test passes in CI.
+All 15 development branches plus `audit/correction-contracts-20261103` are in
+scope: compare original/current Main, prior branch states and intended workflows;
+correct confirmed findings and publish every affected branch without further
+routine confirmation. Main and production remain held.
 
-The user explicitly approved public renderer publication on these branches on
-3 November. All three exact prepared renderer blobs have now been accepted.
-Branch updates use expected-head guards and preserve the original CP1252 bytes.
-The earlier publication checkpoint verified 776 expected file states without
-mismatch, including unchanged renderer bytes while disclosure was held. That
-hold is now superseded by this explicit authorization; the separate restriction
-on the detailed earlier audit payload remains unaffected.
+The specifically approved three renderer variants were accepted and published
+with expected-head guards. All 16 tips/blobs were verified. Their 48 GitHub jobs
+(PHP 8.3/8.4/8.5) then succeeded, including conference/Dat and independent feature,
+browser and recovery suites. That earlier green matrix did not cover the smaller
+backup packet limit found by the additional independent pass.
 
-Published application corrections outside the renderer concern form-submit
-response/auth ordering, formdata write authorization, nullable text transport,
-explicit RFC-mode import, and optional first-review/form-mail metadata. Tests
-use per-run synthetic credentials and disposable local installations/databases.
-CI disables opcode caching for mutable PHP fixtures and permits 128 MiB database
-packets for the unchanged 24 MiB restore case. No mail transport is invoked.
+## Additional pass: executed evidence
 
-Next: publish the exact renderer variants; verify all branch tips/files and Main;
-then execute the newly authorized complete anti-regression review, inspect all
-actual PHP-matrix results, fix confirmed findings, and replace this checkpoint
-with the final evidence and remaining acceptance boundaries. A passing report
-must not be substituted for an actual CI result. No production installation,
-external mail/payment acceptance, merge or release replacement is included.
+A fresh comparison verified 17,816 application blobs and inventoried 1,005
+unique application diffs across original/current Main and previous states.
+The current-Main comparisons passed on all 15 branches: 576 behavioral checks,
+2,080 configuration and 672 complete-view observations, no differences. Against
+the pre-correction cumulative source, the two latest profiles passed 108 checks,
+390 configuration and 126 complete-view observations. These are new executions.
+
+The seed-reference pass checked 9,120 page/language/role combinations: original
+Main plus all 15 branches, 38 conference pages, three languages and five roles.
+Existing business-form actions/methods/targets/controls and access are retained.
+Positive abstract/registration controls and nine destructive oracle mutations
+prevent vacuous comparisons. The deliberately modernized navigation search has
+its own real-browser suite. Ten mobile profiles passed 84 checks each. Both
+rename implementations passed sparse/dense large-site comparisons with actual
+legacy SQL functions, conserving all 20 text columns and every file.
+
+## Confirmed backup finding and correction
+
+Original Main's actual exporter restores a 24 MiB row under a 32 MiB packet
+limit. The streaming hex exporter produced a 50,331,731-byte INSERT and failed
+under the same valid limit. Increasing the CI server's packet budget would not
+correct that application regression.
+
+The correction keeps lossless hexadecimal encoding and the existing small-row
+format. Oversized rows use bounded fragments in an internal staging table in
+the restore target. Fragments survive connection changes. An incomplete value
+raises an INSERT error even in non-strict mode; it cannot silently become NULL.
+The staging table is cleared between rows, dropped at completion and cleaned by
+a retry of the same dump. The database being backed up is not modified. Engine
+selection uses actual metadata, not text guessed from SHOW CREATE comments.
+This applies to nine development branches plus the audit branch.
+
+The dedicated regression has passed 28 checks on both current and historical
+PHP-helper profiles: real original control; 32 MiB restore; typed Unicode,
+Latin-1, binary, NULL, empty, numeric/time/JSON values; plain/gzip under a 1 MiB
+packet limit; verified fresh sessions during import; fail-before-write; retry;
+and staging cleanup on MyISAM and InnoDB. The strict real-browser editor/SQL/ZIP
+restore suite passed 507 checks, including a 24 MiB row exported under 64 MiB PHP.
+
+## Publication and final acceptance still required
+
+Publish the corrected backup and regression tests on affected branches. CI now
+also includes the independent multilingual/role conference reference everywhere
+and the mobile browser suite on every supported profile. The manifest requires
+the tests it declares. Recheck all actual matrix jobs and final remote bytes,
+then record completion. Local runtime: PHP 8.4.27, MariaDB 11.8.6, Chromium 156;
+CI uses PHP 8.3/8.4/8.5 and MariaDB 11.4 with disposable sites/databases.
+
+Main remains `78cadbf87b7307203b8bd4ff96929b306af7d982`. No production installation,
+merge or release replacement is performed. Mail transport is disabled; real
+external mail/payment/federation acceptance and an actual PHP 9 runtime are not
+certified here. The separate detailed earlier audit payload remains excluded.
+Operation, packet/session requirements, staging lifecycle and rollback are in
+`docs/regression-ci.md`; rollback uses each guarded commit's parent.
