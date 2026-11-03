@@ -14,7 +14,8 @@
     "search-suggestions-regression.php",
     "search-distance-regression.php",
     "search-index-regression.php",
-    "login-host-regression.php"
+    "login-host-regression.php",
+    "database-backup-packet-regression.php"
   ],
   "node_tests": [
     "search-normalization-parity.cjs"
@@ -36,9 +37,11 @@
     "tests/ci-requirements.txt",
     "tests/codeassets-regression.php",
     "tests/codeassets-web-regression.py",
+    "tests/conference-seed-reference.py",
     "tests/conference-workflow-browser.cjs",
     "tests/conference-workflow-regression.py",
     "tests/configuration-reference.py",
+    "tests/database-backup-packet-regression.php",
     "tests/fixture-environment.cjs",
     "tests/fixture_environment.py",
     "tests/formdata-transport-regression.php",
@@ -60,6 +63,7 @@
     "tests/search-suggestions-regression.php",
     "tests/search-web-regression.py",
     "u5admin/connect.inc.php",
+    "u5admin/databasebackup.inc.php",
     "u5conference.sql",
     "u5standard.sql"
   ],
