@@ -59,7 +59,7 @@ if (str_replace('name=','',$c[$i])!=$c[$i]) {
 if (str_replace($c[$i],'',$string)!=$string)
 {
 u5mail_native($mymail,'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
 echo '<script>alert("FATAL ERROR: Duplicate names in '.$row_a['name'].'");</script>';
 }
 ///
@@ -72,13 +72,13 @@ $tkn0=preg_replace('/[^A-Za-z]/', '', $tkn[0]);
 if($tkn!=$tknok)
 {
 u5mail_native($mymail,'ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
 echo '<script>alert("ERROR: Forbidden character(s) in name(s) in '.$row_a['name'].'");</script>';
 }
 if($tkn0=='')
 {
 u5mail_native($mymail,'ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
 echo '<script>alert("ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'].'");</script>';
 }
 ///
@@ -126,7 +126,7 @@ if (str_replace('name=','',$c[$i])!=$c[$i]) {
 if (str_replace($c[$i],'',$string)!=$string)
 {
 u5mail_native($mymail,'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
 echo '<script>alert("FATAL ERROR: Duplicate names in '.$row_a['name'].'");</script>';
 }
 ///
@@ -139,13 +139,13 @@ $tkn0=preg_replace('/[^A-Za-z]/', '', $tkn[0]);
 if($tkn!=$tknok)
 {
 u5mail_native($mymail,'ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
 echo '<script>alert("ERROR: Forbidden character(s) in name(s) in '.$row_a['name'].'");</script>';
 }
 if($tkn0=='')
 {
 u5mail_native($mymail,'ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
 echo '<script>alert("ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'].'");</script>';
 }
 ///
@@ -193,7 +193,7 @@ if (str_replace('name=','',$c[$i])!=$c[$i]) {
 if (str_replace($c[$i],'',$string)!=$string)
 {
 u5mail_native($mymail,'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
 echo '<script>alert("FATAL ERROR: Duplicate names in '.$row_a['name'].'");</script>';
 }
 ///
@@ -206,13 +206,13 @@ $tkn0=preg_replace('/[^A-Za-z]/', '', $tkn[0]);
 if($tkn!=$tknok)
 {
 u5mail_native($mymail,'ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
 echo '<script>alert("ERROR: Forbidden character(s) in name(s) in '.$row_a['name'].'");</script>';
 }
 if($tkn0=='')
 {
 u5mail_native($mymail,'ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
-u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
+u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
 echo '<script>alert("ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'].'");</script>';
 }
 ///
@@ -261,7 +261,7 @@ $string.=','.$c[$i].',';
             if (str_replace($c[$i],'',$string)!=$string)
             {
                 u5mail_native($mymail,'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
-                u5mail_native($_SERVER['PHP_AUTH_USER'],'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
+                u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
                 echo '<script>alert("FATAL ERROR: Duplicate names in '.$row_a['name'].'");</script>';
             }
 ///
@@ -274,13 +274,13 @@ $string.=','.$c[$i].',';
             if($tkn!=$tknok)
             {
                 u5mail_native($mymail,'ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
-                u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
+                u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
                 echo '<script>alert("ERROR: Forbidden character(s) in name(s) in '.$row_a['name'].'");</script>';
             }
             if($tkn0=='')
             {
                 u5mail_native($mymail,'ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
-                u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
+                u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
                 echo '<script>alert("ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'].'");</script>';
             }
 ///
@@ -329,7 +329,7 @@ $string.=','.$c[$i].',';
             if (str_replace($c[$i],'',$string)!=$string)
             {
                 u5mail_native($mymail,'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
-                u5mail_native($_SERVER['PHP_AUTH_USER'],'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
+                u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'FATAL ERROR: Duplicate names in '.$row_a['name'], 'FATAL ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' is used more than once.');
                 echo '<script>alert("FATAL ERROR: Duplicate names in '.$row_a['name'].'");</script>';
             }
 ///
@@ -342,13 +342,13 @@ $string.=','.$c[$i].',';
             if($tkn!=$tknok)
             {
                 u5mail_native($mymail,'ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
-                u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
+                u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden character(s).');
                 echo '<script>alert("ERROR: Forbidden character(s) in name(s) in '.$row_a['name'].'");</script>';
             }
             if($tkn0=='')
             {
                 u5mail_native($mymail,'ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
-                u5mail_native($_SERVER['PHP_AUTH_USER'],'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
+                u5mail_native(u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']),'SEVERE ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'], 'ERROR in '.str_replace(basename($scripturi),'',$scripturi).' '.$row_a['name'].': variable '.$c[$i].' contains forbidden 1st-character(s).');
                 echo '<script>alert("ERROR: Forbidden 1st-character(s) in name(s) in '.$row_a['name'].'");</script>';
             }
 ///

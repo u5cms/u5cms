@@ -72,4 +72,17 @@ $unsupported = false;
 try { u5mail_phpmailer(null, 'no'); }
 catch (RuntimeException $error) { $unsupported = strpos($error->getMessage(), 'SMTPUTF8') !== false; }
 emailCheck($unsupported, true, 'unverified native channel never accepts EAI');
+foreach (array('Müller@xn--strae-oqa.ch', '𠮷@example.ch', '"&szlig;"@example.ch', 'Anna+Privat@example.ch') as $address) {
+    $stored = u5mail_account_storage($address);
+    emailCheck((bool) preg_match('/\A(?:&#[0-9]+;)+\z/', $stored), true, 'account storage is ASCII entities');
+    emailCheck(u5mail_address($stored), $address, 'account delivery roundtrip');
+    emailCheck(u5mail_account_address(array('email'=>'old@example.ch', 'email_delivery'=>$stored)), $stored, 'account destination uses preserved address');
+}
+emailCheck(u5mail_account_address(array('email'=>'old@example.ch')), 'old@example.ch', 'old account needs no metadata');
+emailCheck(u5mail_account_address(array('email'=>'old@example.ch', 'email_delivery'=>null)), 'old@example.ch', 'nullable account metadata');
+emailCheck(u5mail_account_recovery_address(array('email'=>'anna@example.ch'), 'Anna@example.ch'), 'anna@example.ch', 'legacy case-insensitive recovery remains');
+$ambiguous = false;
+try { u5mail_account_recovery_address(array('email'=>'info@strasse.ch'), 'info@stra&szlig;e.ch'); }
+catch (RuntimeException $error) { $ambiguous = true; }
+emailCheck($ambiguous, true, 'historically lost sharp S domain is never guessed');
 echo json_encode(array('php'=>PHP_VERSION,'checks'=>$checks,'native_intl'=>extension_loaded('intl'))), "\n";

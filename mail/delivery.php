@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/addresses.php';
+require_once __DIR__.'/accounts.php';
 
 function u5mail_phpmailer($options, $useSmtp, $requiresUtf8 = true) {
     require_once __DIR__.'/phpmailer/src/Exception.php';

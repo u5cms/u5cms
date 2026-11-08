@@ -39,11 +39,12 @@ function genRandomString() {
     return $string;
 }
 $p=genRandomString();
+$u5mail_reset_delivery = u5mail_account_address($row_a);
 $hash=rand(1000000000,9999999999).rand(1000000000,9999999999);
-if($doublepasswordmailing!='no')u5mail_duplicate($row_a['email'],"Your new u5CMS backend user password","Your new u5CMS backend user password is $p");
+if($doublepasswordmailing!='no')u5mail_duplicate($u5mail_reset_delivery,"Your new u5CMS backend user password","Your new u5CMS backend user password is $p");
 $zendfrom=$mymail;
 $zendname=$mymail;
-$zendto=$row_a['email'];
+$zendto=$u5mail_reset_delivery;
 $zendsubject='Your new u5CMS backend user password';
 $zendmessage="Your new u5CMS backend user password is $p";
 include('zendmail.php');
@@ -80,6 +81,9 @@ exit;
 
 file_put_contents('fileversions/lastreset.txt',time());
 
+$u5mail_reset_requested = $_POST['e'];
+try { $u5mail_reset_delivery = u5mail_account_storage(u5mail_address($u5mail_reset_requested)); }
+catch (Throwable $error) { u5mail_error($error); exit; }
 $e=str_replace(' ','',trim($_POST['e']));
 require_once('u5admin/u5idn.inc.php');
 $e=u5flatidn($e);
@@ -97,11 +101,13 @@ $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
 
 if ($num_a>0) {
+try { $u5mail_reset_delivery = u5mail_account_recovery_address($row_a, $u5mail_reset_requested); }
+catch (Throwable $error) { u5mail_error($error); exit; }
 
-if($doublepasswordmailing!='no')u5mail_duplicate($e,"Link to reset your u5CMS backend user password","Please click this link to reset your u5CMS backend user password:\n\n".str_replace(basename($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id']);
+if($doublepasswordmailing!='no')u5mail_duplicate($u5mail_reset_delivery,"Link to reset your u5CMS backend user password","Please click this link to reset your u5CMS backend user password:\n\n".str_replace(basename($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id']);
 $zendfrom=$mymail;
 $zendname=$mymail;
-$zendto=$e;
+$zendto=$u5mail_reset_delivery;
 $zendsubject='Link to reset your u5CMS backend user password';
 $zendmessage="Please click this link to reset your u5CMS backend user password:\n\n".str_replace(basename($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id'];
 include('zendmail.php');
@@ -113,10 +119,10 @@ trxlog('resetrq '.$e.' ('.$row_a['id'].')');
 
 else {
 
-if($dontmailyouarenotmemberalerttopwreseters!='yes')if($doublepasswordmailing!='no')u5mail_duplicate($e,"Sorry, $e is not an existing u5CMS backend username.","Sorry, $e is not an existing u5CMS backend username.");
+if($dontmailyouarenotmemberalerttopwreseters!='yes')if($doublepasswordmailing!='no')u5mail_duplicate($u5mail_reset_delivery,"Sorry, $e is not an existing u5CMS backend username.","Sorry, $e is not an existing u5CMS backend username.");
 $zendfrom=$mymail;
 $zendname=$mymail;
-$zendto=$e;
+$zendto=$u5mail_reset_delivery;
 $zendsubject="Sorry, $e is not an existing u5CMS backend username.";
 $zendmessage="Sorry, $e is not an existing u5CMS backend username.";
 if($dontmailyouarenotmemberalerttopwreseters!='yes')include('zendmail.php');
