@@ -110,53 +110,6 @@ function mynl2br($str) {
 }
 
 function xm($emails) {
-    $emails=u5toidn($emails);
-    $emails=str_replace("·",",",$emails);
-    $emails=str_replace(" ",",",$emails);
-    $emails=str_replace(";",",",$emails);
-    $emails=str_replace(":",",",$emails);
-    $emails=str_replace("!",",",$emails);
-    $emails=str_replace("?",",",$emails);
-    $emails=str_replace('"',",",$emails);
-    $emails=str_replace("'",",",$emails);
-    $emails=str_replace("%",",",$emails);
-    $emails=str_replace("/",",",$emails);
-    $emails=str_replace("\\",",",$emails);
-    $emails=str_replace(">",",",$emails);
-    $emails=str_replace("<",",",$emails);
-    $emails=str_replace("|",",",$emails);
-    $emails=str_replace("¦",",",$emails);
-    $emails=str_replace("#",",",$emails);
-    $emails=str_replace("(",",",$emails);
-    $emails=str_replace("[",",",$emails);
-    $emails=str_replace("{",",",$emails);
-    $emails=str_replace(")",",",$emails);
-    $emails=str_replace("]",",",$emails);
-    $emails=str_replace("}",",",$emails);
-    $emails=str_replace("=",",",$emails);
-
-    $emails=str_replace("\n",",",$emails);
-    $emails=str_replace("\r",",",$emails);
-    $emails=str_replace("\t",",",$emails);
-
-    $emails=str_replace(",,",",",$emails);
-    $emails=str_replace(",,",",",$emails);
-    $emails=str_replace(",,",",",$emails);
-
-    $emailsa=explode(',',$emails);
-    $emails='';
-
-    for ($i=0;$i<count($emailsa);$i++) {
-        if($i<count($emailsa)-1) {
-            $comma=',';
-        } else {
-            $comma='';
-        }
-
-        if (strpos($emailsa[$i],'@')>0 && strpos($emailsa[$i],'.')>0 && str_replace($emailsa[$i].',','',$emails)==$emails) {
-            $emails.=$emailsa[$i].$comma;
-        }
-    }
-    return($emails);
-
+    require_once __DIR__.'/../mail/addresses.php';
+    return u5mail_extract($emails);
 }
