@@ -4,6 +4,7 @@
 require('connect.inc.php');
 require_once('u5idn.inc.php');
 if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
+$u5mail_backup_delivery = u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']);
 
 // Pfad zum Backup
 $backup_dir=U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . '_dbbackup';
@@ -262,7 +263,7 @@ ALTER TABLE trxlog ENGINE = MyISAM, DEFAULT CHARSET=utf8;
 //Backup per Email senden
 if ($backup_send_mail) {
     $from = $mymail;
-    $to = $_SERVER['PHP_AUTH_USER'];
+    $to = $u5mail_backup_delivery;
     $subject = sprintf("%s db backup %s", preg_replace("/[^a-z0-9]/", "", strtolower($db)), $cur_date);
     $text = sprintf("db backup (dump) generated on: %s\n\n\nFor a full restore or a new installation you further need the u5CMS source (get it at http://www.yuba.ch/u5cms/) and the folders 'r' and 'fileversions/useruploads' containing your and your customers uploaded files (you got them zipped via the backup function of your u5CMS or backuped by (s)ftp).", $cur_date . ' ' . $cur_time);
     if (!mail_att($to, $from, $subject, $text, $backup_files))

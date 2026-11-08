@@ -85,4 +85,9 @@ $ambiguous = false;
 try { u5mail_account_recovery_address(array('email'=>'info@strasse.ch'), 'info@stra&szlig;e.ch'); }
 catch (RuntimeException $error) { $ambiguous = true; }
 emailCheck($ambiguous, true, 'historically lost sharp S domain is never guessed');
+emailCheck(u5mail_address(u5mail_browser_escapes('%uD842%uDFB7@example.ch')), '𠮷@example.ch', 'browser astral local-part');
+emailCheck(u5mail_address(u5mail_browser_escapes('info@%u6F22%u5B57.ch')), 'info@xn--p8s937b.ch', 'browser BMP domain');
+$invalidSurrogate = false;
+try { u5mail_browser_escapes('%uD842@example.ch'); } catch (InvalidArgumentException $error) { $invalidSurrogate = true; }
+emailCheck($invalidSurrogate, true, 'reject unpaired browser surrogate');
 echo json_encode(array('php'=>PHP_VERSION,'checks'=>$checks,'native_intl'=>extension_loaded('intl'))), "\n";

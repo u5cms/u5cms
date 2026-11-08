@@ -20,9 +20,9 @@ try {
         'subject'=>u5mail_utf8($zendsubject ?? ''),
         'body'=>u5mail_utf8($zendmessage ?? '')
     ), false, array(), $mail);
-} catch (Throwable $e) {
+} catch (Throwable $u5mail_exception) {
     if (u5mail_duplicate_delivered($zendto ?? '', $zendsubject ?? '', $zendmessage ?? '')) {
         $u5mail_sent = true;
-        error_log('u5CMS primary mail failed; the matching native duplicate was accepted: '.$e->getMessage());
-    } else u5mail_error($e);
+        error_log('u5CMS primary mail failed; the matching native duplicate was accepted: '.$u5mail_exception->getMessage());
+    } else u5mail_error($u5mail_exception);
 }

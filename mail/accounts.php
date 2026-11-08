@@ -13,6 +13,11 @@ function u5mail_account_storage($address) {
     return mb_encode_numericentity($address, array(0, 0x10ffff, 0, 0x1fffff), 'UTF-8');
 }
 
+function u5mail_account_needs_delivery($address, $key) {
+    try { return $address !== u5mail_address($key); }
+    catch (InvalidArgumentException $error) { return true; }
+}
+
 function u5mail_account_delivery_column($required) {
     $columns = mysql_query("SHOW COLUMNS FROM accounts LIKE 'email_delivery'");
     if ($columns !== false && mysql_num_rows($columns) > 0) return true;

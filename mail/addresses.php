@@ -101,6 +101,15 @@ function u5mail_address_decoded($address) {
     return u5mail_address(str_replace('&', '&amp;', $address), 'utf8');
 }
 
+/* Legacy backend JavaScript uses escape(), including UTF-16 surrogate pairs. */
+function u5mail_browser_escapes($input) {
+    return preg_replace_callback('/%u([dD][89aAbB][0-9a-fA-F]{2})%u([dD][c-fC-F][0-9a-fA-F]{2})|%u([0-9a-fA-F]{4})/', function ($match) {
+        $point = $match[1] !== '' ? 0x10000 + ((hexdec($match[1]) - 0xd800) << 10) + hexdec($match[2]) - 0xdc00 : hexdec($match[3]);
+        if ($point >= 0xd800 && $point <= 0xdfff) throw new InvalidArgumentException('Unpaired UTF-16 surrogate in email input.');
+        return '&#'.$point.';';
+    }, $input);
+}
+
 function u5mail_extract($input) {
     $input = u5mail_utf8($input);
     $local = '[a-zA-Z0-9!#$%&\x27*+\/=?^_`{|}~.\-\x{80}-\x{10FFFF}]+';

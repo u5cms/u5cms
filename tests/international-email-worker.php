@@ -15,6 +15,7 @@ $mysmtpoptions = new Laminas\Mail\Transport\SmtpOptions(array('name'=>'cms.examp
     'port'=>$case['port'], 'connection_class'=>!empty($case['auth'])?$case['auth']:'smtp','connection_config'=>$config));
 function cmsBytes($value) { return $value === '' ? '' : html_entity_decode(u5allnument($value), ENT_QUOTES, 'Windows-1252'); }
 ob_start();
+$e = 'unchanged-account-key'; // Included senders must not overwrite controller variables.
 try {
     if ($case['kind']==='backup') {
         $source = file_get_contents(dirname(__DIR__).'/u5admin/backupdb.php');
@@ -48,4 +49,5 @@ try {
     $result=array('ok'=>$ok);
 } catch (Throwable $e) { $result=array('ok'=>false,'error'=>$e->getMessage()); }
 $result['output']=ob_get_clean();
+$result['caller_key']=$e;
 echo json_encode($result, JSON_INVALID_UTF8_SUBSTITUTE), "\n";

@@ -81,7 +81,7 @@ exit;
 
 file_put_contents('fileversions/lastreset.txt',time());
 
-$u5mail_reset_requested = $_POST['e'];
+$u5mail_reset_requested = $_POST['e'] ?? '';
 try { $u5mail_reset_delivery = u5mail_account_storage(u5mail_address($u5mail_reset_requested)); }
 catch (Throwable $error) { u5mail_error($error); exit; }
 $e=str_replace(' ','',trim($_POST['e']));
@@ -125,7 +125,7 @@ $zendname=$mymail;
 $zendto=$u5mail_reset_delivery;
 $zendsubject="Sorry, $e is not an existing u5CMS backend username.";
 $zendmessage="Sorry, $e is not an existing u5CMS backend username.";
-if($dontmailyouarenotmemberalerttopwreseters!='yes')include('zendmail.php');
+if($dontmailyouarenotmemberalerttopwreseters!='yes') { include('zendmail.php'); if (!$u5mail_sent) exit; }
 
 if($dontmailyouarenotmemberalerttoadmin!='yes')if($doublepasswordmailing!='no')u5mail_duplicate($mymail,"Sorry, $e is not an existing u5CMS backend username.","Sorry, $e is not an existing u5CMS backend username.");
 $zendfrom=$mymail;

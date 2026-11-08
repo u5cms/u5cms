@@ -113,6 +113,7 @@ if __name__ == "__main__":
         check(result['ok'],('TLS',result));check('STARTTLS' in result['commands'],'STARTTLS configured');check(sum(c.startswith('EHLO') for c in result['commands'])==2,'EHLO repeated after TLS')
         result=run(dict(kind='plain',to='Müller@example.ch'),utf8=False)
         check(not result['ok'],'unsupported UTF8 denied');check(not result['messages'],'no DATA when unsupported');check(not any(c.startswith('MAIL ') for c in result['commands']),'no MAIL when unsupported')
+        check(result['caller_key']=='unchanged-account-key','included failure leaves account variables unchanged')
         result=run(dict(kind='plain',to='Anna@example.ch'),utf8=False)
         check(result['ok'],'ordinary mail works without SMTPUTF8')
         result=run(dict(kind='plain',to='Müller@example.ch'),reject=True)

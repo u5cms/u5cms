@@ -3,13 +3,8 @@
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
 <?php
 require_once('u5idn.inc.php');
-  $_GET['e'] = preg_replace_callback(
-    '/%u(.{4})/',
-    function($match){
-      return "&#".hexdec("x".$match[1]).";";
-    },
-    $_GET['e']
-  );
+try { $_GET['e'] = u5mail_browser_escapes($_GET['e'] ?? ''); }
+catch (Throwable $error) { u5mail_error($error); exit; }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,10 +14,12 @@ require_once('u5idn.inc.php');
 <body><div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',str_replace('&amp;#','&#',htmlentities($_GET['e']))))?></div>
 <?php 
 if ($invitebackendusersRqHIADRI!='no') require_once('accadmin.inc.php');
-try { $u5mail_invite_address = u5mail_address($_GET['e']); }
+$u5mail_invite_input = htmlspecialchars_decode($_GET['e'], ENT_COMPAT | ENT_HTML401);
+try { $u5mail_invite_address = u5mail_address($u5mail_invite_input); }
 catch (Throwable $error) { u5mail_error($error); exit; }
 $u5mail_invite_delivery = u5mail_account_storage($u5mail_invite_address);
-$e=mysql_real_escape_string(str_replace(' ','',u5flatidnlower($_GET['e'])));
+$u5mail_invite_key = str_replace(' ','',u5flatidnlower($u5mail_invite_input));
+$e=mysql_real_escape_string($u5mail_invite_key);
 if (strpos($e,'.')<1 || strpos($e,'@')<1 || strpos($_GET[','],'.')>0  || strpos($_GET[';'],'.')>0) die('<script>alert("E-mail address is invalid.")</script>');
 
 $sql_a="SELECT * FROM accounts WHERE email='".$e."'";
@@ -37,7 +34,7 @@ $num_a = mysql_num_rows($result_a);
 if ($num_a>0) die('<script>alert(document.getElementById("e").innerHTML+" already is user. If he or she has forgotten the password it can be recovered on '.str_replace(basename($_SERVER['SCRIPT_URI']),'',$_SERVER['SCRIPT_URI']).'reset.php")</script>');
 
 try {
-    $u5mail_delivery_column = u5mail_account_delivery_column($u5mail_invite_address !== u5mail_address(str_replace(' ','',u5flatidnlower($_GET['e']))));
+    $u5mail_delivery_column = u5mail_account_delivery_column(u5mail_account_needs_delivery($u5mail_invite_address, $u5mail_invite_key));
 } catch (Throwable $error) { u5mail_error($error); exit; }
 
 $hash=rand(1000000000,9999999999).rand(1000000000,9999999999);
@@ -69,14 +66,14 @@ exit;
 }
 if($doublepasswordmailing!='no') {
     if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
-        u5mail_duplicate($u5mail_invite_delivery,'Your u5CMS backend user login',"Username: $e Password: $p");
+        u5mail_duplicate($u5mail_invite_delivery,'Your u5CMS backend user login',"Username: $u5mail_invite_key Password: $p");
     }
 }
 $zendfrom=$mymail;
 $zendname=$mymail;
 $zendto=$u5mail_invite_delivery;
 $zendsubject='Your u5CMS backend user login';
-$zendmessage="Username: $e Password: $p";
+$zendmessage="Username: $u5mail_invite_key Password: $p";
 if(!(isset($u5samlsalt)&&$u5samlsalt!='')) { include('../zendmail.php'); if (!$u5mail_sent) exit; }
 if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
 ?>
