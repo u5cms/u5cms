@@ -36,7 +36,7 @@ $zendmessage=$zendsubject;
 if($mailalerttoadmin=='yes')include('zendmail.php');
 
 $zendfrom=$mymail;
-$zendto=$_SERVER['PHP_AUTH_USER'];
+$zendto=u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']);
 if($mailalerttouser=='yes')include('zendmail.php');
 
 $sql_a="UPDATE loginattempts SET mailed=".time()." WHERE username='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."' AND ip='".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."'";
