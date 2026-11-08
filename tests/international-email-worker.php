@@ -1,5 +1,6 @@
 <?php
 /* Called by the loopback SMTP regression. All credentials and domains synthetic. */
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 $_SERVER['REQUEST_URI'] = '/mail-fixture';
 require dirname(__DIR__).'/myfunctions.inc.php';
 require dirname(__DIR__).'/u5admin/u5idn.inc.php';
@@ -12,15 +13,29 @@ if (!empty($case['auth'])) { $config['username']='fixture'; $config['password']=
 if (!empty($case['tls'])) { $config['ssl']='tls'; $config['stream_context_options']=array('ssl'=>array('verify_peer'=>false,'verify_peer_name'=>false)); }
 $mysmtpoptions = new Laminas\Mail\Transport\SmtpOptions(array('name'=>'cms.example','host'=>'127.0.0.1',
     'port'=>$case['port'], 'connection_class'=>!empty($case['auth'])?$case['auth']:'smtp','connection_config'=>$config));
-function cmsBytes($value) { return html_entity_decode(u5allnument($value), ENT_QUOTES, 'Windows-1252'); }
+function cmsBytes($value) { return $value === '' ? '' : html_entity_decode(u5allnument($value), ENT_QUOTES, 'Windows-1252'); }
 ob_start();
 try {
-    if ($case['kind']==='plain') {
+    if ($case['kind']==='backup') {
+        $source = file_get_contents(dirname(__DIR__).'/u5admin/backupdb.php');
+        $start = strpos($source, 'function mail_att(');
+        $end = strpos($source, "\n}\n", $start) + 3;
+        eval(substr($source, $start, $end - $start));
+        $file = tempnam(sys_get_temp_dir(), 'u5-mail-attachment-');
+        file_put_contents($file, "Backup fixture\x00\xFF\r\n");
+        try { $ok=mail_att(cmsBytes($case['to']), cmsBytes('sender@straße.ch'), 'Backup fixture', 'Backup body', array($file)); }
+        finally { unlink($file); }
+    } elseif ($case['kind']==='duplicate') {
+        $ok=u5mail_duplicate(cmsBytes($case['to']), 'Duplicate fixture', 'Duplicate body');
+    } elseif ($case['kind']==='native') {
+        $ok=u5mail_native(cmsBytes($case['to']), 'Native fixture', 'Native body');
+    } elseif ($case['kind']==='plain' || $case['kind']==='plain-with-duplicate') {
         $zendfrom=cmsBytes(isset($case['from'])?$case['from']:'sender@example.ch');
         $zendto=cmsBytes($case['to']);
         $zendname=cmsBytes('Jörg Müller – €');
         $zendsubject=cmsBytes('Grüsse & Nachrichten 2026');
         $zendmessage=cmsBytes('Plain body: Grüsse – été, &amp; entity.');
+        if ($case['kind']==='plain-with-duplicate') u5mail_duplicate($zendto,$zendsubject,$zendmessage);
         include dirname(__DIR__).'/zendmail.php';
         $ok=$u5mail_sent;
     } else {

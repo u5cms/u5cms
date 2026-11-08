@@ -3,7 +3,7 @@
 import base64, email, email.policy, json, os, pathlib, socket, ssl, subprocess, tempfile, threading
 
 ROOT=pathlib.Path(__file__).resolve().parent.parent
-PHP=json.loads(os.environ.get('U5_MAIL_TEST_PHP','["php"]'))
+PHP=json.loads(os.environ['U5_MAIL_TEST_PHP']) if 'U5_MAIL_TEST_PHP' in os.environ else [os.environ.get('U5_TEST_PHP','php')]+json.loads(os.environ.get('U5_TEST_PHP_ARGS','[]'))
 
 class Peer:
     def __init__(self, utf8=True, reject=False, tls=False, cert=None):
@@ -42,7 +42,9 @@ class Peer:
                     elif method==b'CRAM-MD5':reply('334 '+base64.b64encode(b'<fixture@example>').decode());stream.readline()
                     reply('235 Authentication successful')
                 elif verb==b'MAIL':reply('250 Sender accepted')
-                elif verb==b'RCPT':reply('550 Recipient rejected' if self.reject else '250 Recipient accepted')
+                elif verb==b'RCPT':
+                    rejected=self.reject is True or (isinstance(self.reject,str) and self.reject.encode() in line)
+                    reply('550 Recipient rejected' if rejected else '250 Recipient accepted')
                 elif verb==b'DATA':
                     reply('354 Send data');message=[]
                     while True:
@@ -78,43 +80,54 @@ def check(condition,label):
     checks+=1
     if not condition:raise AssertionError(label)
 
-checks=0;summary=[]
-with tempfile.TemporaryDirectory(prefix='u5-mail-tls-') as temp:
-    cert=pathlib.Path(temp)/'cert.pem';key=pathlib.Path(temp)/'key.pem'
-    subprocess.run(['openssl','req','-x509','-newkey','rsa:2048','-nodes','-keyout',str(key),'-out',str(cert),'-days','1','-subj','/CN=localhost'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True)
-    for to,expected,utf8 in [
-        ('Anna+Privat@example.ch','Anna+Privat@example.ch',False),
-        ('info@straße.ch','info@xn--strae-oqa.ch',False),
-        ('info@STRAẞE.CH','info@xn--strae-oqa.ch',False),
-        ('info@日本.jp','info@xn--wgv71a.jp',False),
-        ('Müller@straße.ch','Müller@xn--strae-oqa.ch',True),
-        ('漢字@例子.中国','漢字@xn--fsqu00a.xn--fiqs8s',True),
-        ('𠮷@example.ch','𠮷@example.ch',True),
-        ('&Auml;nne@stra&#223;e.ch','Änne@xn--strae-oqa.ch',True)]:
-        result=run(dict(kind='plain',to=to))
-        check(result['ok'],(to,result))
-        check('RCPT TO:<'+expected+'>' in result['commands'],(to,result['commands']))
-        check(any('SMTPUTF8' in c for c in result['commands'] if c.startswith('MAIL '))==utf8,('SMTPUTF8 envelope',to))
-        check(len(result['messages'])==1,('exactly one message',to))
+if __name__ == "__main__":
+    checks=0;summary=[]
+    with tempfile.TemporaryDirectory(prefix='u5-mail-tls-') as temp:
+        cert=pathlib.Path(temp)/'cert.pem';key=pathlib.Path(temp)/'key.pem'
+        subprocess.run(['openssl','req','-x509','-newkey','rsa:2048','-nodes','-keyout',str(key),'-out',str(cert),'-days','1','-subj','/CN=localhost'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True)
+        for to,expected,utf8 in [
+            ('Anna+Privat@example.ch','Anna+Privat@example.ch',False),
+            ('info@straße.ch','info@xn--strae-oqa.ch',False),
+            ('info@STRAẞE.CH','info@xn--strae-oqa.ch',False),
+            ('info@日本.jp','info@xn--wgv71a.jp',False),
+            ('Müller@straße.ch','Müller@xn--strae-oqa.ch',True),
+        ('ẞ@example.ch','ẞ@example.ch',True),
+        ('"Müller Name"@example.ch','"Müller Name"@example.ch',True),
+            ('漢字@例子.中国','漢字@xn--fsqu00a.xn--fiqs8s',True),
+            ('𠮷@example.ch','𠮷@example.ch',True),
+            ('&Auml;nne@stra&#223;e.ch','Änne@xn--strae-oqa.ch',True)]:
+            result=run(dict(kind='plain',to=to))
+            check(result['ok'],(to,result))
+            check('RCPT TO:<'+expected+'>' in result['commands'],(to,result['commands']))
+            check(any('SMTPUTF8' in c for c in result['commands'] if c.startswith('MAIL '))==utf8,('SMTPUTF8 envelope',to))
+            check(len(result['messages'])==1,('exactly one message',to))
+            parsed=email.message_from_bytes(result['messages'][0],policy=email.policy.default)
+            check(expected in str(parsed['To']),('To header',to,parsed['To']))
+            check('Grüsse' in str(parsed['Subject']),('Subject encoding',to,parsed['Subject']))
+            check('Grüsse' in parsed.get_content(),('Body encoding',to))
+            summary.append({'to':to,'ok':True,'smtputf8':utf8})
+        for auth in ['login','plain','crammd5']:
+            result=run(dict(kind='plain',to='Müller@example.ch',auth=auth))
+            check(result['ok'],('auth',auth,result));check(any(c.startswith('AUTH ') for c in result['commands']),auth)
+        result=run(dict(kind='plain',to='Müller@example.ch',auth='login',tls=True),tls=True,cert=(str(cert),str(key)))
+        check(result['ok'],('TLS',result));check('STARTTLS' in result['commands'],'STARTTLS configured');check(sum(c.startswith('EHLO') for c in result['commands'])==2,'EHLO repeated after TLS')
+        result=run(dict(kind='plain',to='Müller@example.ch'),utf8=False)
+        check(not result['ok'],'unsupported UTF8 denied');check(not result['messages'],'no DATA when unsupported');check(not any(c.startswith('MAIL ') for c in result['commands']),'no MAIL when unsupported')
+        result=run(dict(kind='plain',to='Anna@example.ch'),utf8=False)
+        check(result['ok'],'ordinary mail works without SMTPUTF8')
+        result=run(dict(kind='plain',to='Müller@example.ch'),reject=True)
+        check(not result['ok'],'recipient rejection reported');check(not result['messages'],'rejected message never accepted')
+        result=run(dict(kind='serial',to='Müller@example.ch',cc='rejected@example.ch'),reject='rejected@example.ch')
+        check(not result['ok'],'partial recipient rejection reported');check(not result['messages'],'partial rejection aborts before DATA')
+        result=run(dict(kind='plain',to='reader@example.ch',**{'from':'Müller@straße.ch'}))
+        check(result['ok'],'Unicode sender supported');check('MAIL FROM:<Müller@xn--strae-oqa.ch> SMTPUTF8' in result['commands'],'Unicode sender envelope preserved')
+        result=run(dict(kind='serial',to='reader@example.ch',cc='Müller@example.ch'))
+        check(result['ok'],'Unicode Cc supported');check(any('SMTPUTF8' in c for c in result['commands'] if c.startswith('MAIL ')),'Unicode Cc requires SMTPUTF8')
+        result=run(dict(kind='serial',to='User+ü@example.ch,user+ü@example.ch'))
+        check(result['ok'],'case-distinct recipients supported');check('RCPT TO:<User+ü@example.ch>' in result['commands'] and 'RCPT TO:<user+ü@example.ch>' in result['commands'],'case-distinct local-parts both retained')
+        result=run(dict(kind='serial',to='漢字@example.ch',cc='Müller@example.ch,cc@example.ch',bcc='hidden@example.ch'))
+        check(result['ok'],('serial',result));check(len(result['messages'])==1,'serial message count')
         parsed=email.message_from_bytes(result['messages'][0],policy=email.policy.default)
-        check(expected in str(parsed['To']),('To header',to,parsed['To']))
-        check('Grüsse' in str(parsed['Subject']),('Subject encoding',to,parsed['Subject']))
-        check('Grüsse' in parsed.get_content(),('Body encoding',to))
-        summary.append({'to':to,'ok':True,'smtputf8':utf8})
-    for auth in ['login','plain','crammd5']:
-        result=run(dict(kind='plain',to='Müller@example.ch',auth=auth))
-        check(result['ok'],('auth',auth,result));check(any(c.startswith('AUTH ') for c in result['commands']),auth)
-    result=run(dict(kind='plain',to='Müller@example.ch',auth='login',tls=True),tls=True,cert=(str(cert),str(key)))
-    check(result['ok'],('TLS',result));check('STARTTLS' in result['commands'],'STARTTLS configured');check(sum(c.startswith('EHLO') for c in result['commands'])==2,'EHLO repeated after TLS')
-    result=run(dict(kind='plain',to='Müller@example.ch'),utf8=False)
-    check(not result['ok'],'unsupported UTF8 denied');check(not result['messages'],'no DATA when unsupported');check(not any(c.startswith('MAIL ') for c in result['commands']),'no MAIL when unsupported')
-    result=run(dict(kind='plain',to='Anna@example.ch'),utf8=False)
-    check(result['ok'],'ordinary mail works without SMTPUTF8')
-    result=run(dict(kind='plain',to='Müller@example.ch'),reject=True)
-    check(not result['ok'],'recipient rejection reported');check(not result['messages'],'rejected message never accepted')
-    result=run(dict(kind='serial',to='漢字@example.ch',cc='Müller@example.ch,cc@example.ch',bcc='hidden@example.ch'))
-    check(result['ok'],('serial',result));check(len(result['messages'])==1,'serial message count')
-    parsed=email.message_from_bytes(result['messages'][0],policy=email.policy.default)
-    check(parsed.get_content_type()=='multipart/alternative','serial MIME type');check(len(list(parsed.iter_parts()))==2,'plain and HTML alternatives')
-    check(parsed.get('Bcc') is None,'Bcc absent from wire headers');check('RCPT TO:<hidden@example.ch>' in result['commands'],'Bcc envelope recipient retained')
-print(json.dumps({'checks':checks,'php':PHP,'cases':summary},ensure_ascii=False))
+        check(parsed.get_content_type()=='multipart/alternative','serial MIME type');check(len(list(parsed.iter_parts()))==2,'plain and HTML alternatives')
+        check(parsed.get('Bcc') is None,'Bcc absent from wire headers');check('RCPT TO:<hidden@example.ch>' in result['commands'],'Bcc envelope recipient retained')
+    print(json.dumps({'checks':checks,'php':PHP,'cases':summary},ensure_ascii=False))

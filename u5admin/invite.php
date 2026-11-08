@@ -61,7 +61,7 @@ echo 'SQL_a-Query failed!...!<p>';
 }
 if($doublepasswordmailing!='no') {
     if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
-        u5mail_native($e,'Your u5CMS backend user login',"Username: $e Password: $p");
+        u5mail_duplicate($e,'Your u5CMS backend user login',"Username: $e Password: $p");
     }
 }
 $zendfrom=$mymail;

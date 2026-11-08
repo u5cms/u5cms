@@ -1,6 +1,8 @@
 <?php
 /* Delivery addresses only. Historical CMS account keys use u5idn.inc.php. */
 function u5mail_utf8($text, $encoding = 'cms') {
+    if ($text === null) $text = '';
+    if (is_scalar($text)) $text = (string) $text;
     if (!is_string($text)) throw new InvalidArgumentException('Email text must be a string.');
     if ($encoding === 'cms') $text = mb_convert_encoding($text, 'UTF-8', 'Windows-1252');
     elseif ($encoding !== 'utf8') throw new InvalidArgumentException('Unknown email input encoding.');
@@ -42,8 +44,9 @@ function u5mail_domain($domain) {
 }
 
 function u5mail_address($input, $encoding = 'cms') {
-    $address = trim(u5mail_utf8($input, $encoding));
+    $address = u5mail_utf8($input, $encoding);
     if (preg_match('/[\x00-\x1f\x7f]/', $address)) throw new InvalidArgumentException('Control characters in email address.');
+    $address = trim($address);
     $at = strrpos($address, '@');
     if ($at === false) throw new InvalidArgumentException('Email address must contain @.');
     $local = substr($address, 0, $at);
@@ -56,10 +59,11 @@ function u5mail_address($input, $encoding = 'cms') {
     return $address;
 }
 
-function u5mail_addresses($input, $encoding = 'cms') {
+function u5mail_addresses($input, $encoding = 'cms', &$names = null) {
+    if ($names === null) $names = array();
     if (is_array($input)) {
         $out = array();
-        foreach ($input as $value) foreach (u5mail_addresses($value, $encoding) as $address) if (!in_array($address, $out, true)) $out[] = $address;
+        foreach ($input as $value) foreach (u5mail_addresses($value, $encoding, $names) as $address) if (!in_array($address, $out, true)) $out[] = $address;
         return $out;
     }
     $input = u5mail_utf8($input, $encoding);
@@ -76,9 +80,18 @@ function u5mail_addresses($input, $encoding = 'cms') {
     $out = array();
     foreach ($parts as $part) {
         if (trim($part) === '') continue;
+        $name = '';
+        if (preg_match('/\A\s*(.*?)\s*<([^<>]+)>\s*\z/usD', $part, $match)) {
+            $name = trim($match[1]);
+            if (strlen($name) >= 2 && $name[0] === '"' && substr($name, -1) === '"') {
+                $name = preg_replace('/\\\\(.)/us', '$1', substr($name, 1, -1));
+            }
+            if (preg_match('/[\x00-\x1f\x7f]/', $name)) throw new InvalidArgumentException('Control characters in email display name.');
+            $part = $match[2];
+        }
         // Already decoded: do not decode a second time (literal ampersands).
         $address = u5mail_address_decoded($part);
-        if (!in_array($address, $out, true)) $out[] = $address;
+        if (!in_array($address, $out, true)) { $out[] = $address; if ($name !== '') $names[$address] = $name; }
     }
     return $out;
 }
@@ -109,5 +122,10 @@ function u5mail_requires_utf8(array $addresses) {
 
 function u5mail_error($error) {
     error_log('u5CMS mail delivery failed: '.$error->getMessage());
-    echo '<div role="alert" style="color:#a00000;background:#fff0f0;padding:0.75em">Email could not be sent. '.htmlspecialchars($error->getMessage(), ENT_QUOTES, 'UTF-8').' Please contact the website administrator.</div>';
+    $message = 'Email could not be sent. Please contact the website administrator.';
+    if (strpos($error->getMessage(), 'SMTPUTF8') !== false) $message = 'Email could not be sent. The configured mail server does not support the international characters before @ in this address. Please contact the website administrator.';
+    echo '<div role="alert" style="color:#a00000;background:#fff0f0;padding:0.75em">'.htmlspecialchars($message, ENT_QUOTES, 'UTF-8').'</div>';
+    // Form/PayPal completion can navigate away from an iframe; show the failure
+    // before that navigation without interrupting an already saved transaction.
+    if (PHP_SAPI !== 'cli') echo '<script>alert('.json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT).');</script>';
 }

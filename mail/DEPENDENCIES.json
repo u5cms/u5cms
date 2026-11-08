@@ -2,7 +2,7 @@
   {
     "path": "mail/phpmailer/src/PHPMailer.php",
     "upstream_sha256": "007a9d0e5445162c4ae15374605c8287f129432bdb545322d7075ef81c4660d4",
-    "sha256": "3c8d5d14391ee06e8ca6e84975ee9a8654ab0e570f0c54a18d05f81c23fb67c4"
+    "sha256": "93a78d5241701d79a6d215f8d3763fd3096433b8adad72185c102e2bb647e509"
   },
   {
     "path": "mail/phpmailer/src/SMTP.php",

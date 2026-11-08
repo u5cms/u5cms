@@ -186,7 +186,7 @@ if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
             'name'=>$zendname,
             'subject'=>$zendsubject,
             'body'=>$zendmessage
-        ), true);
+        ), true, array(), $mail);
     } catch (Throwable $e) {
         u5mail_error($e);
         $countsentmails--;

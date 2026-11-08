@@ -1,5 +1,6 @@
 <?php
 /* Independent delivery expectations. No transport or database is invoked. */
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 $_SERVER['REQUEST_URI'] = '/international-email-test';
 require dirname(__DIR__).'/myfunctions.inc.php';
 require dirname(__DIR__).'/u5admin/u5idn.inc.php';
@@ -41,12 +42,13 @@ foreach ($cases as $input=>$expected) {
     emailCheck(u5mail_address($input), $expected, $input);
     emailCheck(u5mail_addresses($input), array($expected), 'list '.$input);
     emailCheck(u5mail_address_decoded($expected), $expected, 'idempotent '.$input);
+    emailCheck(u5toidn($input), $expected, 'public delivery API '.$input);
 }
 $invalid = array('info@stra&Szlig;e.ch', 'info@stra&SZLIG;e.ch', 'not-email', '@example.ch',
     'x@@example.ch', 'x@', 'a..b@example.ch', '.a@example.ch', 'a.@example.ch',
     'x@a..ch', 'x@-bad.ch', 'x@bad-.ch', 'x@bad_domain.ch',
     "x@example.ch\r\nBcc: other@example.ch", 'x@example.ch&#10;Bcc:other@example.ch',
-    'x@example.ch&#0;', 'x@&lt;example.ch&gt;', str_repeat('a',65).'@example.ch');
+    'x@example.ch&#0;', 'x@example.ch&#10;', 'x@example.ch&NewLine;', 'x@&lt;example.ch&gt;', str_repeat('a',65).'@example.ch');
 foreach ($invalid as $input) {
     $failed = false;
     try { u5mail_address($input); } catch (InvalidArgumentException $e) { $failed = true; }
@@ -58,4 +60,16 @@ emailCheck(u5mail_extract('People: Anna+Privat@example.ch; &Auml;nne@stra&#223;e
 emailCheck(array('idn'=>function_exists('idn_to_ascii'), 'mb'=>mb_internal_encoding()), $before, 'no global identity/profile changes');
 emailCheck(u5mail_requires_utf8(array('info@xn--strae-oqa.ch')), false, 'IDN needs no SMTPUTF8');
 emailCheck(u5mail_requires_utf8(array("M\xC3\xBCller@example.ch")), true, 'Unicode local-part needs SMTPUTF8');
+emailCheck(u5mail_utf8(null), '', 'legacy empty optional text');
+emailCheck(u5mail_utf8(0), '0', 'legacy numeric text');
+emailCheck(u5TOidnREMOTEPART('stra&szlig;e.ch'), 'xn--strae-oqa.ch', 'public domain API sharp S');
+emailCheck(u5TOidnREMOTEPART('STRA&#7838;E.CH'), 'xn--strae-oqa.ch', 'public domain API capital sharp S');
+emailCheck(u5TOidnREMOTEPART('&#26085;&#26412;.jp'), 'xn--wgv71a.jp', 'public domain API Kanji');
+$names = array();
+emailCheck(u5mail_addresses('"M&uuml;ller, Anna" <reader@example.ch>', 'cms', $names), array('reader@example.ch'), 'named recipient address');
+emailCheck($names, array('reader@example.ch'=>"M\xC3\xBCller, Anna"), 'named recipient text');
+$unsupported = false;
+try { u5mail_phpmailer(null, 'no'); }
+catch (RuntimeException $error) { $unsupported = strpos($error->getMessage(), 'SMTPUTF8') !== false; }
+emailCheck($unsupported, true, 'unverified native channel never accepts EAI');
 echo json_encode(array('php'=>PHP_VERSION,'checks'=>$checks,'native_intl'=>extension_loaded('intl'))), "\n";

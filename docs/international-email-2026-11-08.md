@@ -16,3 +16,11 @@ Status: implementation in progress; no passing implementation tests or deploymen
 Independent delivery parser and private namespaced IDNA/normalization fallback are implemented. SMTPUTF8 messages use namespaced PHPMailer 7.2.0; ordinary messages retain Laminas. Global identity APIs and account data are unchanged. Plain/serial, native duplicate and backup entry points are connected. Initial address checks: 96 on PHP 7.4, 8.4 and PHP 7.4 without intl. Actual loopback SMTP checks: 77 on each native runtime, including LOGIN/PLAIN/CRAM-MD5, STARTTLS, UTF8 refusal, recipient refusal, alternatives and Bcc. These are preliminary checks, not final branch acceptance.
 
 Next: native/MIME parity, actual CMS endpoint and identity comparisons, all 19 branch candidates and the additional collateral-damage pass.
+
+## Additional collateral-damage pass
+
+All 19 branch candidates passed 47 runtime profiles (native PHP 8.4 everywhere; PHP 7.4 and PHP 7.4 without intl on the 14 compatible branches). Each profile checks 130 address/API/encoding expectations, 99 loopback SMTP expectations, 15 native/backup/fallback expectations, original-vs-target identity observations and changed-file syntax. Ordinary native MIME/header/body semantics are compared separately. The five >=PHP-8.2 branches keep their existing floor and additionally pass their PHP readiness/source/request contracts.
+
+Actual HTTP routes with MariaDB 11.8.6 pass on main and the cumulative branch: form save and unsupported-server notification, backend invitation, password reset success and refusal (no password mutation on failure), serial MIME, Bcc and database status/log. A broader original-vs-candidate CMS reference pass is being repeated over all 19 branches before publication.
+
+Follow-up corrections include explicit U+1E9E handling in the private IDN fallback, retained NULL/number text inputs, a guard against partial recipient delivery, exact-case EAI recipient identity, native duplicate success receipts, To display-name handling and preservation of the included message object. These are covered by focused repeat checks. Publication to the 19 starting branches remains pending final evidence.
