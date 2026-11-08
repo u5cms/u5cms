@@ -1,0 +1,1837 @@
+{
+  "date": "2026-11-08",
+  "branches": 19,
+  "runtime_profiles": 61,
+  "address_checks_per_profile": 156,
+  "smtp_checks_per_profile": 100,
+  "native_backup_checks_per_profile": 15,
+  "identity_observations_per_profile": 20,
+  "mime_comparison_profiles": 47,
+  "syntax_checks": 2257,
+  "final_account_refresh_additional_syntax": 244,
+  "final_account_refresh_identity_observations": 732,
+  "cms_reference_checks": 680,
+  "http_email_routes": {
+    "checks": 47,
+    "php": "8.4.23",
+    "database": "MariaDB 11.8.6",
+    "routes": [
+      "form save success/failure",
+      "invitation",
+      "password reset success/failure",
+      "serial MIME/Bcc/database log"
+    ]
+  },
+  "http_accounts": {
+    "checks": 726,
+    "profiles": [
+      {
+        "label": "main-php74",
+        "checks": 169
+      },
+      {
+        "label": "main-php84",
+        "checks": 164
+      },
+      {
+        "label": "modern-php84",
+        "checks": 164
+      },
+      {
+        "label": "branch-0",
+        "checks": 12
+      },
+      {
+        "label": "branch-1",
+        "checks": 12
+      },
+      {
+        "label": "branch-2",
+        "checks": 12
+      },
+      {
+        "label": "branch-3",
+        "checks": 12
+      },
+      {
+        "label": "branch-4",
+        "checks": 12
+      },
+      {
+        "label": "branch-5",
+        "checks": 12
+      },
+      {
+        "label": "branch-6",
+        "checks": 12
+      },
+      {
+        "label": "branch-7",
+        "checks": 12
+      },
+      {
+        "label": "branch-8",
+        "checks": 12
+      },
+      {
+        "label": "branch-9",
+        "checks": 12
+      },
+      {
+        "label": "branch-10",
+        "checks": 12
+      },
+      {
+        "label": "branch-11",
+        "checks": 12
+      },
+      {
+        "label": "branch-12",
+        "checks": 12
+      },
+      {
+        "label": "branch-13",
+        "checks": 12
+      },
+      {
+        "label": "branch-14",
+        "checks": 12
+      },
+      {
+        "label": "branch-15",
+        "checks": 12
+      },
+      {
+        "label": "branch-16",
+        "checks": 12
+      },
+      {
+        "label": "branch-17",
+        "checks": 12
+      },
+      {
+        "label": "branch-18",
+        "checks": 12
+      }
+    ],
+    "php": [
+      "7.4.33",
+      "8.4.23"
+    ],
+    "database": "MariaDB 11.8.6"
+  },
+  "http_accounts_php73": {
+    "checks": 170,
+    "profiles": [
+      {
+        "label": "main-php73",
+        "checks": 169
+      }
+    ],
+    "php": [
+      "7.3.33"
+    ],
+    "mb_internal_encoding": "Windows-1252 (explicit legacy CMS profile)",
+    "database": "MariaDB 11.8.6"
+  },
+  "standalone_without_intl_and_mbstring": "156 checks; PHP 7.4.33",
+  "profiles": [
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "base": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "base": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "base": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "base": "5c094930e21e16eaef32bc725b813ec6ea6ddec7",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "base": "5c094930e21e16eaef32bc725b813ec6ea6ddec7",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "base": "5c094930e21e16eaef32bc725b813ec6ea6ddec7",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "base": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "base": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "base": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "base": "bc68a7596da29032812fa86eddcf6626760ed4fd",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "base": "bc68a7596da29032812fa86eddcf6626760ed4fd",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "base": "bc68a7596da29032812fa86eddcf6626760ed4fd",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "base": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "base": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "base": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "base": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "base": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "base": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "base": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "base": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "base": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "base": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "base": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "base": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "base": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "base": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "base": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "base": "0748368ff64bba70e090945c185bc27179e62a9a",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "base": "0748368ff64bba70e090945c185bc27179e62a9a",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "base": "0748368ff64bba70e090945c185bc27179e62a9a",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.4-Default-Design",
+      "base": "ffa5399135ba5fd685a72c068cb5fec5238d4631",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "php9-core.php": "PHP readiness behavior checks: 135 passed on 8.4.23.",
+        "php9-source-audit.php": "PHP source readiness: 912 files, no named deprecated native calls/constants on 8.4.23.",
+        "request-compatibility-regression.php": "Request extension compatibility: 22 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.3-PHP9-Compatibility",
+      "base": "3323f9553e0bdce09f3931733b8ee2a5a67e6af7",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "php9-core.php": "PHP readiness behavior checks: 135 passed on 8.4.23.",
+        "php9-source-audit.php": "PHP source readiness: 911 files, no named deprecated native calls/constants on 8.4.23.",
+        "request-compatibility-regression.php": "Request extension compatibility: 22 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "base": "256d4e86c9cdae25c55b2e847bdbb42d10550c90",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "base": "256d4e86c9cdae25c55b2e847bdbb42d10550c90",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "base": "256d4e86c9cdae25c55b2e847bdbb42d10550c90",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "audit/acceptance-20261103",
+      "base": "f0774e4e79e01ff74e4c4d7203ff79164f8aba2a",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "php9-core.php": "PHP readiness behavior checks: 135 passed on 8.4.23.",
+        "php9-source-audit.php": "PHP source readiness: 912 files, no named deprecated native calls/constants on 8.4.23.",
+        "request-compatibility-regression.php": "Request extension compatibility: 22 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "audit/correction-contracts-20261103",
+      "base": "c4dec0938806dd2960f457f3526e55dca6a5e6c7",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "php9-core.php": "PHP readiness behavior checks: 135 passed on 8.4.23.",
+        "php9-source-audit.php": "PHP source readiness: 912 files, no named deprecated native calls/constants on 8.4.23.",
+        "request-compatibility-regression.php": "Request extension compatibility: 22 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "audit/evolution-20261102-evening",
+      "base": "82e829753eff3cb0085bf936f5e6c1d97dd47be4",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "php9-core.php": "PHP readiness behavior checks: 135 passed on 8.4.23.",
+        "php9-source-audit.php": "PHP source readiness: 907 files, no named deprecated native calls/constants on 8.4.23.",
+        "request-compatibility-regression.php": "Request extension compatibility: 22 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "base": "943b77203957f0724894cea7a2579294440847b6",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "base": "943b77203957f0724894cea7a2579294440847b6",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "base": "943b77203957f0724894cea7a2579294440847b6",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "base": "1d3501d3e458048f1e66a4904ad628473a7eb42d",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "base": "1d3501d3e458048f1e66a4904ad628473a7eb42d",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "base": "1d3501d3e458048f1e66a4904ad628473a7eb42d",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "main",
+      "base": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+      "profile": "8.4",
+      "tests": {
+        "addresses": {
+          "php": "8.4.23",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "login_hosts": "Login host policy: 40 checks passed on 8.4.23.",
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "main",
+      "base": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+      "profile": "7.4",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "main",
+      "base": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+      "profile": "7.4-no-intl",
+      "tests": {
+        "addresses": {
+          "php": "7.4.33",
+          "checks": 156,
+          "native_intl": false
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "base": "33d3bfd18e9cf051de85b26922ca6df786135e3e",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "base": "bc68a7596da29032812fa86eddcf6626760ed4fd",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "base": "3576f59d078f8978d4b9110d031e5dd45e77eb59",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "base": "5c094930e21e16eaef32bc725b813ec6ea6ddec7",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "base": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "base": "8dfece91cc4e6f78c3983e3f905f0344050e1b29",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "base": "f4678f8e530c78ce9b0d81cdf52de284027687c8",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "base": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "base": "724c15f1f29402d5140c422a0e3c77750c6171bb",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "base": "0748368ff64bba70e090945c185bc27179e62a9a",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "base": "943b77203957f0724894cea7a2579294440847b6",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "base": "256d4e86c9cdae25c55b2e847bdbb42d10550c90",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "base": "1d3501d3e458048f1e66a4904ad628473a7eb42d",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    },
+    {
+      "branch": "main",
+      "base": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+      "profile": "7.3",
+      "tests": {
+        "addresses": {
+          "php": "7.3.33-35+0~20261021.144+debian13~1.gbpecf76f",
+          "checks": 156,
+          "native_intl": true
+        },
+        "identity_comparisons": 20,
+        "smtp": 100,
+        "native_backup": 15,
+        "mime_parity": "International mail parity: 31 checks passed, ordinary headers/body/MIME preserved; CRLF rejected; no transport invoked.",
+        "syntax": 37,
+        "final_account_refresh": {
+          "address_checks": 156,
+          "additional_syntax": 4,
+          "additional_identity_observations": 12
+        }
+      }
+    }
+  ],
+  "starting_refs": [
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "sha": "5c094930e21e16eaef32bc725b813ec6ea6ddec7"
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "sha": "bc68a7596da29032812fa86eddcf6626760ed4fd"
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "sha": "33d3bfd18e9cf051de85b26922ca6df786135e3e"
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "sha": "3576f59d078f8978d4b9110d031e5dd45e77eb59"
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "sha": "90cfe5ad09b9832a591f91b5c1068081b9dd6e12"
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "sha": "8dfece91cc4e6f78c3983e3f905f0344050e1b29"
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "sha": "adca1ae9cabb6fa2d7d87c884f6ff59cdd151892"
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "sha": "f4678f8e530c78ce9b0d81cdf52de284027687c8"
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "sha": "724c15f1f29402d5140c422a0e3c77750c6171bb"
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "sha": "0748368ff64bba70e090945c185bc27179e62a9a"
+    },
+    {
+      "branch": "12.12.3-PHP9-Compatibility",
+      "sha": "3323f9553e0bdce09f3931733b8ee2a5a67e6af7"
+    },
+    {
+      "branch": "12.12.4-Default-Design",
+      "sha": "ffa5399135ba5fd685a72c068cb5fec5238d4631"
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "sha": "256d4e86c9cdae25c55b2e847bdbb42d10550c90"
+    },
+    {
+      "branch": "audit/acceptance-20261103",
+      "sha": "f0774e4e79e01ff74e4c4d7203ff79164f8aba2a"
+    },
+    {
+      "branch": "audit/correction-contracts-20261103",
+      "sha": "c4dec0938806dd2960f457f3526e55dca6a5e6c7"
+    },
+    {
+      "branch": "audit/evolution-20261102-evening",
+      "sha": "82e829753eff3cb0085bf936f5e6c1d97dd47be4"
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "sha": "943b77203957f0724894cea7a2579294440847b6"
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "sha": "1d3501d3e458048f1e66a4904ad628473a7eb42d"
+    },
+    {
+      "branch": "main",
+      "sha": "78cadbf87b7307203b8bd4ff96929b306af7d982"
+    }
+  ],
+  "mail_tree_sha": "17bec4de43c1c9f25aac3278a1c493d07847a850",
+  "source_files": {
+    "12.10.0-Multi-Optimizations-by-AI": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "ce2ea924f0eba4f8b8fb24b5ff322587e03c8401b4701eafa4ce2bec060425d5",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "6604dffa78f73dbdfb330b78dec1db1b6b32e65466bf7e5976692f9bfb8bcdaf",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "590524557c3dc7e1293dc2324cab1b8036d064cb664b86b9614f07e77fbc65c6",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.10.1-Support-More-Image-Formats": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "ce2ea924f0eba4f8b8fb24b5ff322587e03c8401b4701eafa4ce2bec060425d5",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "6604dffa78f73dbdfb330b78dec1db1b6b32e65466bf7e5976692f9bfb8bcdaf",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "590524557c3dc7e1293dc2324cab1b8036d064cb664b86b9614f07e77fbc65c6",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.11.0-Code-Resource-Migration": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "73ef68c26a45caf2c2d28024adcd3439d187a448b557fab7fdeae06cad97777c",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "590524557c3dc7e1293dc2324cab1b8036d064cb664b86b9614f07e77fbc65c6",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.11.1-Migration-Hardening": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "73ef68c26a45caf2c2d28024adcd3439d187a448b557fab7fdeae06cad97777c",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "590524557c3dc7e1293dc2324cab1b8036d064cb664b86b9614f07e77fbc65c6",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.11.2-Backup-Restore-Corrections": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "73ef68c26a45caf2c2d28024adcd3439d187a448b557fab7fdeae06cad97777c",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "827caf8c45ad45ecf868857a0165924e824a3de3945d4a46a46755feb5797d18",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.11.3-Private-File-Cache-Corrections": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "73ef68c26a45caf2c2d28024adcd3439d187a448b557fab7fdeae06cad97777c",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "827caf8c45ad45ecf868857a0165924e824a3de3945d4a46a46755feb5797d18",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.11.4-Intranet-Login-Corrections": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "919e03f879f37e91ceb6d074adf5d94bd55d4fed4d2dccdf2a332474e6c416f7",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "827caf8c45ad45ecf868857a0165924e824a3de3945d4a46a46755feb5797d18",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.12.0-OIDC": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "9ea37d920ec0f063cf8369c968c4a1037a4a77c91eb0dee173852c7a576ce0e9",
+      "sendintranetlogin.php": "6d46180e0c8a69fa7aabf1505207cfbd7b54d61999b41df8670de43adc095460",
+      "u5admin/invite.php": "12748b10b5ea543ba983ef14b93cc1a84ab445fe246eb999b71868ed1ef884d0",
+      "u5admin/backupdb.php": "827caf8c45ad45ecf868857a0165924e824a3de3945d4a46a46755feb5797d18",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.12.1-General-Corrections": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "9ea37d920ec0f063cf8369c968c4a1037a4a77c91eb0dee173852c7a576ce0e9",
+      "sendintranetlogin.php": "6d46180e0c8a69fa7aabf1505207cfbd7b54d61999b41df8670de43adc095460",
+      "u5admin/invite.php": "12748b10b5ea543ba983ef14b93cc1a84ab445fe246eb999b71868ed1ef884d0",
+      "u5admin/backupdb.php": "28ac41ef88710489383435ea8af921e9d5763ec3b59db9641c8504a94814e9cb",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.12.2-Textarea-Interactions": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "9ea37d920ec0f063cf8369c968c4a1037a4a77c91eb0dee173852c7a576ce0e9",
+      "sendintranetlogin.php": "6d46180e0c8a69fa7aabf1505207cfbd7b54d61999b41df8670de43adc095460",
+      "u5admin/invite.php": "12748b10b5ea543ba983ef14b93cc1a84ab445fe246eb999b71868ed1ef884d0",
+      "u5admin/backupdb.php": "28ac41ef88710489383435ea8af921e9d5763ec3b59db9641c8504a94814e9cb",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "12.12.3-PHP9-Compatibility": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "5b3e434773627bcc3371cfc0d06f5fcd4848d3e3f35c8fc5ce9cb8c2701b41f7",
+      "reset2.php": "b3a5e9079b1cbf78eaad175a4e7f4d4e104f7e9869a76b3e6683fa4b3a706e7f",
+      "sendintranetlogin.php": "1268b6f27a4e16c1ecaabfbcb8fb7b9d3ffc4f7c827c8e1a6c8af0a272773e57",
+      "u5admin/invite.php": "315de06b4a22d6e1805680e7167527a2131f4fbcb8667a661e526140b3fe545c",
+      "u5admin/backupdb.php": "28ac41ef88710489383435ea8af921e9d5763ec3b59db9641c8504a94814e9cb",
+      "u5admin/mailsend.php": "3c016d34b52c0be73e0f9243de0cf069db473a69cc454755854e88c31e4a7204",
+      "u5admin/mailrenderfunctions.inc.php": "d173a801f7f61ed3f0ce962d78a4cdc2e66d978a840fa51a304f6236d6839715",
+      "u5admin/uniquenames.php": "01668c06df81cc17c8d4b7b6a90bbb27233f56e24df074f90d2acc358791b65d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bad50ad485c22473543904f14efbe471c3e8b8d89da26357b3cee0f48b87df43"
+    },
+    "12.12.4-Default-Design": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "5b3e434773627bcc3371cfc0d06f5fcd4848d3e3f35c8fc5ce9cb8c2701b41f7",
+      "reset2.php": "b3a5e9079b1cbf78eaad175a4e7f4d4e104f7e9869a76b3e6683fa4b3a706e7f",
+      "sendintranetlogin.php": "1268b6f27a4e16c1ecaabfbcb8fb7b9d3ffc4f7c827c8e1a6c8af0a272773e57",
+      "u5admin/invite.php": "315de06b4a22d6e1805680e7167527a2131f4fbcb8667a661e526140b3fe545c",
+      "u5admin/backupdb.php": "28ac41ef88710489383435ea8af921e9d5763ec3b59db9641c8504a94814e9cb",
+      "u5admin/mailsend.php": "3c016d34b52c0be73e0f9243de0cf069db473a69cc454755854e88c31e4a7204",
+      "u5admin/mailrenderfunctions.inc.php": "d173a801f7f61ed3f0ce962d78a4cdc2e66d978a840fa51a304f6236d6839715",
+      "u5admin/uniquenames.php": "01668c06df81cc17c8d4b7b6a90bbb27233f56e24df074f90d2acc358791b65d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bad50ad485c22473543904f14efbe471c3e8b8d89da26357b3cee0f48b87df43"
+    },
+    "12.9.6-Misc-Backend-Optimizations": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "3f7852da4362bbfc1cdfdda981c64919bf987bff3ce2823f6403fa422b4cca22",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "6604dffa78f73dbdfb330b78dec1db1b6b32e65466bf7e5976692f9bfb8bcdaf",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "590524557c3dc7e1293dc2324cab1b8036d064cb664b86b9614f07e77fbc65c6",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "audit/acceptance-20261103": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "5b3e434773627bcc3371cfc0d06f5fcd4848d3e3f35c8fc5ce9cb8c2701b41f7",
+      "reset2.php": "b3a5e9079b1cbf78eaad175a4e7f4d4e104f7e9869a76b3e6683fa4b3a706e7f",
+      "sendintranetlogin.php": "1268b6f27a4e16c1ecaabfbcb8fb7b9d3ffc4f7c827c8e1a6c8af0a272773e57",
+      "u5admin/invite.php": "315de06b4a22d6e1805680e7167527a2131f4fbcb8667a661e526140b3fe545c",
+      "u5admin/backupdb.php": "28ac41ef88710489383435ea8af921e9d5763ec3b59db9641c8504a94814e9cb",
+      "u5admin/mailsend.php": "3c016d34b52c0be73e0f9243de0cf069db473a69cc454755854e88c31e4a7204",
+      "u5admin/mailrenderfunctions.inc.php": "d173a801f7f61ed3f0ce962d78a4cdc2e66d978a840fa51a304f6236d6839715",
+      "u5admin/uniquenames.php": "01668c06df81cc17c8d4b7b6a90bbb27233f56e24df074f90d2acc358791b65d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bad50ad485c22473543904f14efbe471c3e8b8d89da26357b3cee0f48b87df43"
+    },
+    "audit/correction-contracts-20261103": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "5b3e434773627bcc3371cfc0d06f5fcd4848d3e3f35c8fc5ce9cb8c2701b41f7",
+      "reset2.php": "b3a5e9079b1cbf78eaad175a4e7f4d4e104f7e9869a76b3e6683fa4b3a706e7f",
+      "sendintranetlogin.php": "1268b6f27a4e16c1ecaabfbcb8fb7b9d3ffc4f7c827c8e1a6c8af0a272773e57",
+      "u5admin/invite.php": "315de06b4a22d6e1805680e7167527a2131f4fbcb8667a661e526140b3fe545c",
+      "u5admin/backupdb.php": "28ac41ef88710489383435ea8af921e9d5763ec3b59db9641c8504a94814e9cb",
+      "u5admin/mailsend.php": "3c016d34b52c0be73e0f9243de0cf069db473a69cc454755854e88c31e4a7204",
+      "u5admin/mailrenderfunctions.inc.php": "d173a801f7f61ed3f0ce962d78a4cdc2e66d978a840fa51a304f6236d6839715",
+      "u5admin/uniquenames.php": "01668c06df81cc17c8d4b7b6a90bbb27233f56e24df074f90d2acc358791b65d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bad50ad485c22473543904f14efbe471c3e8b8d89da26357b3cee0f48b87df43"
+    },
+    "audit/evolution-20261102-evening": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "5b3e434773627bcc3371cfc0d06f5fcd4848d3e3f35c8fc5ce9cb8c2701b41f7",
+      "reset2.php": "b3a5e9079b1cbf78eaad175a4e7f4d4e104f7e9869a76b3e6683fa4b3a706e7f",
+      "sendintranetlogin.php": "1268b6f27a4e16c1ecaabfbcb8fb7b9d3ffc4f7c827c8e1a6c8af0a272773e57",
+      "u5admin/invite.php": "315de06b4a22d6e1805680e7167527a2131f4fbcb8667a661e526140b3fe545c",
+      "u5admin/backupdb.php": "28ac41ef88710489383435ea8af921e9d5763ec3b59db9641c8504a94814e9cb",
+      "u5admin/mailsend.php": "3c016d34b52c0be73e0f9243de0cf069db473a69cc454755854e88c31e4a7204",
+      "u5admin/mailrenderfunctions.inc.php": "d173a801f7f61ed3f0ce962d78a4cdc2e66d978a840fa51a304f6236d6839715",
+      "u5admin/uniquenames.php": "01668c06df81cc17c8d4b7b6a90bbb27233f56e24df074f90d2acc358791b65d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bad50ad485c22473543904f14efbe471c3e8b8d89da26357b3cee0f48b87df43"
+    },
+    "feature/search-phrases-quotes-highlighting": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "e45d7e8d3dc33b72f257e50ece97bbbb6adc2688d900b7fd99bb93cf66b2391e",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "919e03f879f37e91ceb6d074adf5d94bd55d4fed4d2dccdf2a332474e6c416f7",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "827caf8c45ad45ecf868857a0165924e824a3de3945d4a46a46755feb5797d18",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "fix/nosniff-script-mime-types": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "ce2ea924f0eba4f8b8fb24b5ff322587e03c8401b4701eafa4ce2bec060425d5",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "6604dffa78f73dbdfb330b78dec1db1b6b32e65466bf7e5976692f9bfb8bcdaf",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "590524557c3dc7e1293dc2324cab1b8036d064cb664b86b9614f07e77fbc65c6",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    },
+    "main": {
+      "attempt.php": "e3037139d137f4a456e8db8e0e3aee2836c03c724415b99139c178e0b3868487",
+      "myfunctions.inc.php": "3f7852da4362bbfc1cdfdda981c64919bf987bff3ce2823f6403fa422b4cca22",
+      "reset2.php": "4fb7e665f8e3935d2f98574b681fdae440a6c0463255c00bd8a8a40ab94a3c08",
+      "sendintranetlogin.php": "6604dffa78f73dbdfb330b78dec1db1b6b32e65466bf7e5976692f9bfb8bcdaf",
+      "u5admin/invite.php": "1024d3e66469c6be39e4328aa02043a01b72bce6fa2c893341cf8e0fd606e7fe",
+      "u5admin/backupdb.php": "590524557c3dc7e1293dc2324cab1b8036d064cb664b86b9614f07e77fbc65c6",
+      "u5admin/mailsend.php": "6dc0aebbd6f67def6634152138968496bb320a0230cf4d283a4acb096573e1cc",
+      "u5admin/mailrenderfunctions.inc.php": "a09b7b7b908a83228772acf866094f2129b9f438ada01dd0cdfcb61ca06186b6",
+      "u5admin/uniquenames.php": "5aa6d0c5c7a16123b070a672315c4d15885c829545a3808e2c40e85c4b2ae31d",
+      "zendmail.php": "aa504a86fef91aeea06b09e70e56b57af102476e56b0f46087c7f8992b79c64d",
+      "u5admin/u5idn.inc.php": "bd0854b1371b0adeeaaf30a54ebd572eb5c8eb287a3df09bc0ec62abe8bf6fc9"
+    }
+  },
+  "limits": [
+    "Local tests with disposable MariaDB 11.8.6 and loopback SMTP; no real recipient delivery.",
+    "No production deployment and no certification of production SMTP providers or a future PHP 9.",
+    "International local-parts require configured SMTPUTF8.",
+    "Historical login keys and global IDN/mbstring capability profiles remain unchanged.",
+    "Full PHP 7.3 account HTTP profile explicitly uses Windows-1252 mbstring encoding; original UTF-8 legacy-key inconsistency is not rekeyed."
+  ]
+}
