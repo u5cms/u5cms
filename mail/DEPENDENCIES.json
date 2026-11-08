@@ -1,0 +1,129 @@
+[
+  {
+    "path": "mail/phpmailer/src/PHPMailer.php",
+    "upstream_sha256": "007a9d0e5445162c4ae15374605c8287f129432bdb545322d7075ef81c4660d4",
+    "sha256": "93a78d5241701d79a6d215f8d3763fd3096433b8adad72185c102e2bb647e509"
+  },
+  {
+    "path": "mail/phpmailer/src/SMTP.php",
+    "upstream_sha256": "4d46dda61291216905257a63086842a41c39c958828417820c42baf8219c1240",
+    "sha256": "b65d276ce79c1c1a3d0217d4e959def2280febecf918114c25deb9ea31956786"
+  },
+  {
+    "path": "mail/phpmailer/src/Exception.php",
+    "upstream_sha256": "22ab858ae438d98f58f41f38ad2191d1b0d59570aebea0463a7948cfae1021b7",
+    "sha256": "7cbf4cc2562fbb78a16d3b803a09604936cead467a14edc906344d8918a8e9fe"
+  },
+  {
+    "path": "mail/phpmailer/src/OAuthTokenProvider.php",
+    "upstream_sha256": "f2318ea1b2841b2481b636e205c281a733f9de944a71ae403e0b59fa71219572",
+    "sha256": "e66a2db4ab148f9b96a7421a5993bbc21c74fd0af52e6264d174509126002b40"
+  },
+  {
+    "path": "mail/phpmailer/LICENSE",
+    "upstream_sha256": "a1a33180d02960ab1c5de36cf20b1a2f0fe9888d83826ad263da5db52f1b183b",
+    "sha256": "a1a33180d02960ab1c5de36cf20b1a2f0fe9888d83826ad263da5db52f1b183b"
+  },
+  {
+    "path": "mail/phpmailer/SMTPUTF8.md",
+    "upstream_sha256": "eb3409266849cdb958db6d939b70a31097767f87e0e1003353528a746423a013",
+    "sha256": "eb3409266849cdb958db6d939b70a31097767f87e0e1003353528a746423a013"
+  },
+  {
+    "path": "mail/idn/Info.php",
+    "upstream_sha256": "92bb7f4240fbec226637cee39f4895184fef4f4c4e7bef7f35c1bb5c6497c095",
+    "sha256": "f70493625c11d820b0079555827df1172c3ac4e353344258311bf70d22e19305"
+  },
+  {
+    "path": "mail/idn/Idn.php",
+    "upstream_sha256": "d83e473902eb95f6b155a7d5c1a5eb6cb9b3d53a7c2d3989e0d8dc02ad01dfe4",
+    "sha256": "c4b65df3a7c39b5a4dbab25b048d8e09e7f438a2494cf6ec8c0eecfe69b56c54"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/mapped.php",
+    "upstream_sha256": "8bac58f0d71c7d30ff9f9400b281647ae114a52eedc9588b7f3a8d0622744a4b",
+    "sha256": "8bac58f0d71c7d30ff9f9400b281647ae114a52eedc9588b7f3a8d0622744a4b"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/disallowed_STD3_valid.php",
+    "upstream_sha256": "7afc76f69129190acdd6a5ea0e74520fd99159cd5c8c152388a733307848bfdd",
+    "sha256": "7afc76f69129190acdd6a5ea0e74520fd99159cd5c8c152388a733307848bfdd"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/ignored.php",
+    "upstream_sha256": "a8feb976e2b2275eefbc5d25fb9d52970bd5a966a88cf1d27395cdd70f2ab78a",
+    "sha256": "a8feb976e2b2275eefbc5d25fb9d52970bd5a966a88cf1d27395cdd70f2ab78a"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/virama.php",
+    "upstream_sha256": "136c161169ba3bba05298cc751b98d4481143c875b5ae0af31ea09ff3e5878d7",
+    "sha256": "136c161169ba3bba05298cc751b98d4481143c875b5ae0af31ea09ff3e5878d7"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/DisallowedRanges.php",
+    "upstream_sha256": "d51ac53504a05cb8a3f0d559e9651b7dd217305f0dc726aa790884cdaa966331",
+    "sha256": "ae4158dde9bd560343ed2b78b46ba4c154e15f8f4cc43da9a28b231b330f6511"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/disallowed_STD3_mapped.php",
+    "upstream_sha256": "4b0c8682d28c96a7c9d7543d7f2177569d66cb2a47749090ac67ad48359111d3",
+    "sha256": "4b0c8682d28c96a7c9d7543d7f2177569d66cb2a47749090ac67ad48359111d3"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/deviation.php",
+    "upstream_sha256": "99a5e49efead1d6ee1780af3023d1f5fef26c7febb693e1ff9531c40c9dd63a3",
+    "sha256": "99a5e49efead1d6ee1780af3023d1f5fef26c7febb693e1ff9531c40c9dd63a3"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/disallowed.php",
+    "upstream_sha256": "1fd2115a03d5cf31fed318fffb19a0a41e0caff9526a7f0b6d73037ecc1393d6",
+    "sha256": "1fd2115a03d5cf31fed318fffb19a0a41e0caff9526a7f0b6d73037ecc1393d6"
+  },
+  {
+    "path": "mail/idn/Resources/unidata/Regex.php",
+    "upstream_sha256": "bca6a982cc8596c922a6a5040f8a9612320c06282138ec98d5e7bc853065f6da",
+    "sha256": "e910c68b1fe1e74978f33a8933c2155ecb652475a177ac90f8a1fa7642b627ed"
+  },
+  {
+    "path": "mail/idn/LICENSE",
+    "upstream_sha256": "718d02a093edb2e5e3f6bd9ddf16417b27b66c4af62bee7b8aba64ebebfa6da0",
+    "sha256": "718d02a093edb2e5e3f6bd9ddf16417b27b66c4af62bee7b8aba64ebebfa6da0"
+  },
+  {
+    "path": "mail/normalizer/Normalizer.php",
+    "upstream_sha256": "e7bcb7d13e17e4efad1d337b9ad9f72f025ae23aa8ea051f18d074e027c769fc",
+    "sha256": "6847776c116d4990e6cb74e4ff23e1395f80ca7a60ce4ac7e4f568ffed578ec5"
+  },
+  {
+    "path": "mail/normalizer/Resources/unidata/canonicalDecomposition.php",
+    "upstream_sha256": "1bc87057e04a900531aed8819fb59e7aa8321a9ac62a38b1672759f6464ecc62",
+    "sha256": "1bc87057e04a900531aed8819fb59e7aa8321a9ac62a38b1672759f6464ecc62"
+  },
+  {
+    "path": "mail/normalizer/Resources/unidata/combiningClass.php",
+    "upstream_sha256": "f98aaf043ea59c470359e1fef1792f95ed34a2111fd7781744df926ceea8f2d7",
+    "sha256": "f98aaf043ea59c470359e1fef1792f95ed34a2111fd7781744df926ceea8f2d7"
+  },
+  {
+    "path": "mail/normalizer/Resources/unidata/canonicalComposition.php",
+    "upstream_sha256": "d05e3b74aebcb4331dfed345c77d096a7036a6d7360f0ff8da288890fa7397f5",
+    "sha256": "d05e3b74aebcb4331dfed345c77d096a7036a6d7360f0ff8da288890fa7397f5"
+  },
+  {
+    "path": "mail/normalizer/Resources/unidata/compatibilityDecomposition.php",
+    "upstream_sha256": "8fdf5cb56ec0a8021db5b090b981fff9250ced89dc2c8bfbaee0fe80b5b644a8",
+    "sha256": "8fdf5cb56ec0a8021db5b090b981fff9250ced89dc2c8bfbaee0fe80b5b644a8"
+  },
+  {
+    "path": "mail/normalizer/LICENSE",
+    "upstream_sha256": "eaa5d6e59ff1d5322ae36d3ab9124460df72d2d0c8af60a99222e8a90dcbdf31",
+    "sha256": "eaa5d6e59ff1d5322ae36d3ab9124460df72d2d0c8af60a99222e8a90dcbdf31"
+  },
+  {
+    "upstream_commits": {
+      "PHPMailer": "f5eb50148734d03bbbb81825c722c1889636d51a",
+      "SymfonyIdn": "9614ac4d8061dc257ecc64cba1b140873dce8ad3",
+      "SymfonyNormalizer": "3833d7255cc303546435cb650316bff708a1c75c"
+    }
+  }
+]
