@@ -74,7 +74,7 @@ $zendname=$mymail;
 $zendto=$u5mail_invite_delivery;
 $zendsubject='Your u5CMS backend user login';
 $zendmessage="Username: $u5mail_invite_key Password: $p";
-if(!(isset($u5samlsalt)&&$u5samlsalt!='')) { include('../zendmail.php'); if (!$u5mail_sent) exit; }
+if(!(isset($u5samlsalt)&&$u5samlsalt!='')){ include('../zendmail.php'); if (!$u5mail_sent) exit; }
 if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
 ?>
 <script>

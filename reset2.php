@@ -104,6 +104,7 @@ if ($num_a>0) {
 try { $u5mail_reset_delivery = u5mail_account_recovery_address($row_a, $u5mail_reset_requested); }
 catch (Throwable $error) { u5mail_error($error); exit; }
 
+
 if($doublepasswordmailing!='no')u5mail_duplicate($u5mail_reset_delivery,"Link to reset your u5CMS backend user password","Please click this link to reset your u5CMS backend user password:\n\n".str_replace(basename($scripturi),'',$scripturi)."reset2.php?c=".$row_a['hash']."&i=".$row_a['id']);
 $zendfrom=$mymail;
 $zendname=$mymail;

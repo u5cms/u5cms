@@ -175,6 +175,7 @@ function mail_att($to, $from, $subject, $message, $attachments = array())
             $from = $deliveryFrom;
         } catch (Throwable $e) { u5mail_error($e); return false; }
 
+
         $mime_boundary = "-----=" . md5(uniqid(rand(), 1));
 
         $header = "From: " . $from . "\r\n";
