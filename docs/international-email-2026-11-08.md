@@ -10,3 +10,9 @@ Last completed: current branch/source inventory, two helper generations and nati
 Next: implement, then compare ordinary mail and legacy identities against each starting branch; exercise real disposable SMTP peers with/without SMTPUTF8, failures and TLS/auth, CMS plain/serial/native/backup routes, malformed addresses and entity encodings. Publish each branch with an expected-head guard only after the required checks pass.
 
 Status: implementation in progress; no passing implementation tests or deployment are claimed by this checkpoint.
+
+## Implementation checkpoint
+
+Independent delivery parser and private namespaced IDNA/normalization fallback are implemented. SMTPUTF8 messages use namespaced PHPMailer 7.2.0; ordinary messages retain Laminas. Global identity APIs and account data are unchanged. Plain/serial, native duplicate and backup entry points are connected. Initial address checks: 96 on PHP 7.4, 8.4 and PHP 7.4 without intl. Actual loopback SMTP checks: 77 on each native runtime, including LOGIN/PLAIN/CRAM-MD5, STARTTLS, UTF8 refusal, recipient refusal, alternatives and Bcc. These are preliminary checks, not final branch acceptance.
+
+Next: native/MIME parity, actual CMS endpoint and identity comparisons, all 19 branch candidates and the additional collateral-damage pass.

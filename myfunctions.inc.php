@@ -5,6 +5,7 @@ define('U5ROOT_PATH', __DIR__);
 define('U5ADMIN_PATH', U5ROOT_PATH . DIRECTORY_SEPARATOR . 'u5admin');
 
 include __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/mail/delivery.php';
 
 use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 use Laminas\Mail\Transport\Smtp as SmtpTransport;

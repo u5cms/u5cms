@@ -87,8 +87,9 @@ Password:
 '.$p.'
 
 ';
-if($doublepasswordmailing!='no')mail($zendto,$zendsubject,$zendmessage);
+if($doublepasswordmailing!='no')u5mail_native($zendto,$zendsubject,$zendmessage);
 include('zendmail.php');
+if (!$u5mail_sent) exit;
 }
 
 else {
@@ -97,7 +98,7 @@ $zendname=$mymail;
 $zendto=$_POST['email'];
 $zendsubject='ERROR: Intranet Login '.str_replace(basename($scripturi),'',$scripturi);
 $zendmessage=$zendsubject."\n\n".'Unfortunately your e-mail address '.$_POST['email'].' is not registered as a member. Please try again with exactly that e-mail address you registered with in our institution.';
-if($dontmailyouarenotintranetmemberalerttocustomers!='yes')if($doublepasswordmailing!='no')mail($zendto,$zendsubject,$zendmessage);
+if($dontmailyouarenotintranetmemberalerttocustomers!='yes')if($doublepasswordmailing!='no')u5mail_native($zendto,$zendsubject,$zendmessage);
 if($dontmailyouarenotintranetmemberalerttocustomers!='yes')include('zendmail.php');
 
 $zendfrom=$mymail;
@@ -105,7 +106,7 @@ $zendname=$mymail;
 $zendto=$mymail;
 $zendsubject='ERROR: Intranet Login '.str_replace(basename($scripturi),'',$scripturi);
 $zendmessage=$zendsubject."\n\n".'Unfortunately your e-mail address '.$_POST['email'].' is not registered as a member. Please try again with exactly that e-mail address you registered with in our institution.';
-if($dontmailyouarenotintranetmemberalerttoadmin!='yes')if($doublepasswordmailing!='no')mail($zendto,$zendsubject,$zendmessage);
+if($dontmailyouarenotintranetmemberalerttoadmin!='yes')if($doublepasswordmailing!='no')u5mail_native($zendto,$zendsubject,$zendmessage);
 if($dontmailyouarenotintranetmemberalerttoadmin!='yes')include('zendmail.php');
 }
 }

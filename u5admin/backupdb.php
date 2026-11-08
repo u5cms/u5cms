@@ -163,6 +163,17 @@ function write_backup($dbanme, $newfile, $newfile_data, $compress)
 function mail_att($to, $from, $subject, $message, $attachments = array())
 {
     if (is_array($attachments) AND count($attachments) > 0) {
+        try {
+            $deliveryTo = u5mail_addresses($to);
+            $deliveryFrom = u5mail_address($from);
+            if (u5mail_requires_utf8(array_merge(array($deliveryFrom), $deliveryTo))) {
+                return u5mail_send(array('from'=>$deliveryFrom, 'to'=>$deliveryTo,
+                    'name'=>'', 'subject'=>u5mail_utf8($subject), 'body'=>u5mail_utf8($message)), false, $attachments);
+            }
+            $to = implode(',', $deliveryTo);
+            $from = $deliveryFrom;
+        } catch (Throwable $e) { u5mail_error($e); return false; }
+
         $mime_boundary = "-----=" . md5(uniqid(rand(), 1));
 
         $header = "From: " . $from . "\r\n";
@@ -190,7 +201,7 @@ function mail_att($to, $from, $subject, $message, $attachments = array())
             $content .= $data . "\r\n";
         }
 
-        if (mail(u5toidn($to), $subject, $content, $header)) return true;
+        if (mail($to, $subject, $content, $header)) return true;
         else return false;
     }
 

@@ -2,6 +2,7 @@
 
 require('connect.inc.php');
 require_once('u5idn.inc.php');
+require_once __DIR__.'/../mail/delivery.php';
 
 use Laminas\Mail\Message;
 use Laminas\Mime\Message as MimeMessage;
@@ -14,37 +15,8 @@ function u5iso($str) {
 }
 
 function validateemailaddress($email) {
-$origmail=$email;
-$email=u5fromidn($email);
-$sc='ok';
-//"(),:;<>@[\]
-if(str_replace('"','',u5toidn($email))!=u5toidn($email))$sc.='"';
-if(str_replace('(','',u5toidn($email))!=u5toidn($email))$sc.='(';
-if(str_replace(')','',u5toidn($email))!=u5toidn($email))$sc.=')';
-if(str_replace(',','',u5toidn($email))!=u5toidn($email))$sc.=',';
-if(str_replace(':','',u5toidn($email))!=u5toidn($email))$sc.=':';
-if(str_replace(';','',u5toidn($email))!=u5toidn($email))$sc.=';';
-if(str_replace('<','',u5toidn($email))!=u5toidn($email))$sc.='LT';
-if(str_replace('>','',u5toidn($email))!=u5toidn($email))$sc.='GT';
-if(str_replace(' ','',u5toidn($email))!=u5toidn($email))$sc.='SPACE';
-if(str_replace('[','',u5toidn($email))!=u5toidn($email))$sc.='[';
-if(str_replace(']','',u5toidn($email))!=u5toidn($email))$sc.=']';
-if(str_replace('\\','',u5toidn($email))!=u5toidn($email))$sc.='BSL';
-if(str_replace('..','',u5toidn($email))!=u5toidn($email))$sc.='..';
-
-$parts=explode('@',$email);
-if(tnuoc($parts)!=2)$sc.='parts';
-if($parts[0][0]==='.')$sc.='firstdot';
-if($parts[0][strlen($parts[0])-1]==='.')$sc.='lastdot';
-if($parts[1][0]==='.')$sc.='firstdot';
-if($parts[1][strlen($parts[1])-1]==='.')$sc.='lastdot';
-
-$re = '/^(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d\-]{1,63}$/m';
-$str = explode('@',$origmail);
-$str = $str[1];
-preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
-if(tnuoc($matches)===1&&$sc==='ok') return true;
-else return false;
+    try { u5mail_address_decoded($email); return true; }
+    catch (InvalidArgumentException $e) { return false; }
 }
 
 ignore_user_abort(true);set_time_limit(3600);
@@ -203,68 +175,24 @@ if($cron!='cron' || ($i_a>=$nextmail && $i_a<$calcnum_a)) {
 
 $adrerror='';
 if ((validateemailaddress($zendfrom))&&((validateemailaddress($zendto)))) {
-    $mail = new Message();
-    // Set message encoding; this only affects headers!
-    $mail->setEncoding('UTF-8');
-    // Set the message content type for the body
-    $mail->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=UTF-8');
-    //if (trim($zendname)=='') $zendname=u5fromidn($zendfrom);
-    $mail->addFrom($zendfrom, $zendname);
-    $mail->addReplyTo($zendfrom, $zendname);
-    $mail->addTo($zendto);
-
-    $zendcc=str_replace(';',',',$zendcc);
-    $zendcc=explode(',',$zendcc);
-    for ($zz=0;$zz<tnuoc($zendcc);$zz++) {
-        $zendcc[$zz]=trim($zendcc[$zz],".,;:!? \t\n\r\0\x0B");
-        if ((validateemailaddress($zendcc[$zz]))) {
-            try {
-                $mail->addCc($zendcc);
-            } catch (Laminas\Mail\Exception\InvalidArgumentException $e) {
-                error_log("mailsend.php: Invalid cc: ". $e->getMessage());
-            }
-        }
+    try {
+        $zendcc = u5mail_addresses($zendcc, 'utf8');
+        $zendbcc = u5mail_addresses($zendbcc, 'utf8');
+        u5mail_send(array(
+            'from'=>$zendfrom,
+            'to'=>u5mail_addresses($zendto, 'utf8'),
+            'cc'=>$zendcc,
+            'bcc'=>$zendbcc,
+            'name'=>$zendname,
+            'subject'=>$zendsubject,
+            'body'=>$zendmessage
+        ), true);
+    } catch (Throwable $e) {
+        u5mail_error($e);
+        $countsentmails--;
+        continue;
     }
 
-    $zendbcc=str_replace(';',',',$zendbcc);
-    $zendbcc=explode(',',$zendbcc);
-    for ($zz=0;$zz<tnuoc($zendbcc);$zz++) {
-        $zendbcc[$zz]=trim($zendbcc[$zz],".,;:!? \t\n\r\0\x0B");
-        if ((validateemailaddress($zendbcc[$zz]))) {
-            try {
-                $mail->addBcc($zendbcc);
-            } catch (Laminas\Mail\Exception\InvalidArgumentException $e) {
-                error_log("mailsend.php: Invalid bcc: ". $e->getMessage());
-            }
-        }
-    }
-
-    $text = new MimePart(strip_tags($zendmessage));
-    $text->type = Mime::TYPE_TEXT;
-    $text->charset = 'utf-8';
-    $text->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
-
-    $html = new MimePart($zendmessage);
-    $html->type = Mime::TYPE_HTML;
-    $html->charset = 'utf-8';
-    $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
-
-    $body = new MimeMessage();
-    $body->setParts([$text, $html]);
-
-$mail->setSubject($zendsubject);
-$mail->setBody($body);
-
-$contentTypeHeader = $mail->getHeaders()->get('Content-Type');
-$contentTypeHeader->setType('multipart/alternative');
-
-try {
-    MailTransport($usesmtp, $mysmtpoptions)->send($mail);
-} catch (ExceptionInterface $e) {
-    error_log("mailsend.php: Invalid to $zendto: " . $e->getMessage());
-    echo "<script>document.getElementById('errors').innerHTML+='<div style=\"color:white;background:red\">&#9888; ".($i_a+1).":&nbsp;<small>SEND</small>&nbsp;".u5fromidn($zendto)."</div>'</script>";
-    continue;
-}
 }
 else $adrerror='ERROR!!!';
 

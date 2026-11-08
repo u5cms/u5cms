@@ -1,29 +1,21 @@
 <?php
-require_once('u5admin/u5idn.inc.php');
-
-if ($zendname == $zendfrom) {
-    $zendname = explode('@', $zendname);
-    $zendnamefirstpart = explode('.', $zendname[0]);
-    $zendnamesecondpart = explode('.', $zendname[1]);
-    $zendnamefirstpart = strtoupper($zendnamefirstpart[0]);
-    $zendnamesecondpart = strtoupper($zendnamesecondpart[0]);
-    $zendname = $zendnamefirstpart . ' ' . $zendnamesecondpart;
-}
-
-use Laminas\Mail\Message;
-use Laminas\Mail\Transport\Exception\ExceptionInterface;
-
-$mail = new Message();
-$mail->setEncoding('UTF-8');
-$mail->getHeaders()->addHeaderLine('Content-Type', 'text/plain; charset=UTF-8');
-$mail->addFrom(u5toidn($zendfrom), u5toutf8($zendname));
-$mail->addTo(u5toidn($zendto));
-$mail->setSubject(u5toutf8($zendsubject));
-$mail->setBody(u5toutf8($zendmessage));
-$mail->addReplyTo(u5toidn($zendfrom), u5toutf8($zendname));
-
+require_once __DIR__.'/u5admin/u5idn.inc.php';
+require_once __DIR__.'/mail/delivery.php';
+$u5mail_sent = false;
 try {
-    MailTransport($usesmtp, $mysmtpoptions)->send($mail);
-} catch (ExceptionInterface $e) {
-    error_log("Error sending mail to $zendto: " . $e->getMessage());
+    if ($zendname == $zendfrom && strpos($zendfrom, '@') !== false) {
+        $parts = explode('@', $zendfrom, 2);
+        $first = explode('.', $parts[0]);
+        $second = explode('.', $parts[1]);
+        $zendname = strtoupper($first[0]).' '.strtoupper($second[0]);
+    }
+    $u5mail_sent = u5mail_send(array(
+        'from'=>u5mail_address($zendfrom),
+        'to'=>u5mail_addresses($zendto),
+        'name'=>u5mail_utf8($zendname),
+        'subject'=>u5mail_utf8($zendsubject),
+        'body'=>u5mail_utf8($zendmessage)
+    ));
+} catch (Throwable $e) {
+    u5mail_error($e);
 }
