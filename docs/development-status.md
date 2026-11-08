@@ -1,5 +1,13 @@
 # Latest additional acceptance completion — 3 November 2026
 
+## Internationale E-Mail-Adressen (8. November 2026)
+
+Autorisiert: IDN-Domains und SMTPUTF8-Local-Parts in allen 19 bestehenden Branches, danach zusaetzliche Tiefenpruefung und automatische Korrektur von Kollateralschaeden.
+
+Dieser Branch wurde ab `c4dec0938806dd2960f457f3526e55dca6a5e6c7` gesondert fortgefuehrt. Geaendert: Versandgrenzen in myfunctions/zendmail, Einladung/Wiederherstellung, kontobezogene Benachrichtigungen, Serienmail/Extraktion und Backup-Mail; gemeinsamer Ordner mail/ und zugehoerige Regressionen. Branch-eigene Funktionen, Versionen, Konfigurationen und historische Kontoschluessel bleiben erhalten. Neue Einladungen behalten bei Bedarf eine separate Versandadresse in accounts.email_delivery (automatische, optionale Feldergaenzung).
+
+Abgeschlossen: 61 Laufzeitprofile, 680 Original-/CMS-Vergleiche, 943 weitere HTTP-Mail-/Kontopruefungen; [Umfang, Betrieb, Grenzen und Nachweise](international-email-2026-11-08.md). Die aeltesten vollstaendigen PHP-7.3-Kontotests verwenden ausdruecklich mbstring.internal_encoding=Windows-1252. Keine produktive Installation. Die naechste fachliche Aktion ist das separate Einspielen des vollstaendigen Branch-Updates bei Bedarf.
+
 The additional real-data pass found and corrected long-tag parsing and escaped-literal reference defects across all eleven affected development branches and both audit branches. All 39 final PHP 8.3/8.4/8.5 CI jobs and their required test output are verified. This branch's exact tested code is `3ab62bb6e7c11fec9923672bd8d5c9e546d22ed3`; this following checkpoint changes documentation only. Main and production are unchanged.
 
 [Completed additional pass, exact commits, initial CI observation and remaining acceptance boundaries](https://github.com/u5cms/u5cms/blob/f0774e4e79e01ff74e4c4d7203ff79164f8aba2a/docs/2026-11-03-installation-acceptance.md)
