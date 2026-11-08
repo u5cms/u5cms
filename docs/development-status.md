@@ -1,5 +1,13 @@
 # u5CMS development checkpoint
 
+## Internationale E-Mail-Adressen (8. November 2026)
+
+Autorisiert: IDN-Domains und SMTPUTF8-Local-Parts in allen 19 bestehenden Branches, danach zusaetzliche Tiefenpruefung und automatische Korrektur von Kollateralschaeden.
+
+Dieser Branch wurde ab `0748368ff64bba70e090945c185bc27179e62a9a` gesondert fortgefuehrt. Geaendert: Versandgrenzen in myfunctions/zendmail, Einladung/Wiederherstellung, kontobezogene Benachrichtigungen, Serienmail/Extraktion und Backup-Mail; gemeinsamer Ordner mail/ und zugehoerige Regressionen. Branch-eigene Funktionen, Versionen, Konfigurationen und historische Kontoschluessel bleiben erhalten. Neue Einladungen behalten bei Bedarf eine separate Versandadresse in accounts.email_delivery (automatische, optionale Feldergaenzung).
+
+Abgeschlossen: 61 Laufzeitprofile, 680 Original-/CMS-Vergleiche, 943 weitere HTTP-Mail-/Kontopruefungen; [Umfang, Betrieb, Grenzen und Nachweise](international-email-2026-11-08.md). Die aeltesten vollstaendigen PHP-7.3-Kontotests verwenden ausdruecklich mbstring.internal_encoding=Windows-1252. Keine produktive Installation. Die naechste fachliche Aktion ist das separate Einspielen des vollstaendigen Branch-Updates bei Bedarf.
+
 ## Branch-Namen und Versionsabstufung (31. Oktober 2026)
 
 Aktuelle Branch-Bezeichnung: `12.12.2-Textarea-Interactions`, Versionskommentar 12.12.2. Die vollständige aktuelle Zuordnung steht in [BRANCHES.md](../BRANCHES.md). Die fünf rein numerischen 12.11-Branches haben beschreibende Namenszusätze erhalten; Textarea, PHP-Kompatibilität und Standarddesign werden als 12.12.2, 12.12.3 und 12.12.4 fortgeführt. Prüfberichte behalten ihre historischen Dateinamen und tatsächlichen Validierungsstände. Die nachfolgende frühere Momentaufnahme ist unter Berücksichtigung dieser Umbenennung zu lesen; ihre SHA-Angaben bleiben historische Anwendungsstände.
