@@ -4,6 +4,7 @@
 require('connect.inc.php');
 require_once('u5idn.inc.php');
 if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
+$u5mail_backup_delivery = u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']);
 
 // Pfad zum Backup
 $backup_dir=U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . '_dbbackup';
@@ -49,6 +50,18 @@ if ($u5BackupError) { echo '<p>'.htmlspecialchars($u5BackupError->getMessage(),E
 function mail_att($to, $from, $subject, $message, $attachments = array())
 {
     if (is_array($attachments) AND count($attachments) > 0) {
+        try {
+            $deliveryTo = u5mail_addresses($to);
+            $deliveryFrom = u5mail_address($from);
+            if (u5mail_requires_utf8(array_merge(array($deliveryFrom), $deliveryTo))) {
+                return u5mail_send(array('from'=>$deliveryFrom, 'to'=>$deliveryTo,
+                    'name'=>'', 'subject'=>u5mail_utf8($subject), 'body'=>u5mail_utf8($message)), false, $attachments);
+            }
+            $to = implode(',', $deliveryTo);
+            $from = $deliveryFrom;
+        } catch (Throwable $e) { u5mail_error($e); return false; }
+
+
         $mime_boundary = "-----=" . md5(uniqid(rand(), 1));
 
         $header = "From: " . $from . "\r\n";
@@ -76,7 +89,7 @@ function mail_att($to, $from, $subject, $message, $attachments = array())
             $content .= $data . "\r\n";
         }
 
-        if (mail(u5toidn($to), $subject, $content, $header)) return true;
+        if (mail($to, $subject, $content, $header)) return true;
         else return false;
     }
 
@@ -87,7 +100,7 @@ function mail_att($to, $from, $subject, $message, $attachments = array())
 //Backup per Email senden
 if ($backup_send_mail) {
     $from = $mymail;
-    $to = $_SERVER['PHP_AUTH_USER'];
+    $to = $u5mail_backup_delivery;
     $subject = sprintf("%s db backup %s", preg_replace("/[^a-z0-9]/", "", strtolower($db)), $cur_date);
     $text = sprintf("db backup (dump) generated on: %s\n\n\nFor a full restore or a new installation you further need the u5CMS source (get it at http://www.yuba.ch/u5cms/) and the folders 'r' and 'fileversions/useruploads' containing your and your customers uploaded files (you got them zipped via the backup function of your u5CMS or backuped by (s)ftp).", $cur_date . ' ' . $cur_time);
     if (!mail_att($to, $from, $subject, $text, $backup_files))

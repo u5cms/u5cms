@@ -18,7 +18,8 @@
     "database-backup-packet-regression.php",
     "codeassets-literal-markup-regression.php",
     "codeassets-large-markup-regression.php",
-    "database-backup-schema-regression.php"
+    "database-backup-schema-regression.php",
+    "international-email.php"
   ],
   "node_tests": [
     "search-normalization-parity.cjs"
@@ -27,7 +28,9 @@
     "codeassets-web-regression.py",
     "search-web-regression.py",
     "image-upload-regression.py",
-    "conference-session-transition-regression.py"
+    "conference-session-transition-regression.py",
+    "international-email-smtp.py",
+    "international-email-native.py"
   ],
   "main_browser": true,
   "rename_browser": false,
@@ -74,7 +77,40 @@
     "u5admin/connect.inc.php",
     "u5admin/databasebackup.inc.php",
     "u5conference.sql",
-    "u5standard.sql"
+    "u5standard.sql",
+    "mail/smtp.php",
+    "mail/header.php",
+    "mail/addresses.php",
+    "mail/message.php",
+    "mail/delivery.php",
+    "mail/idn/Info.php",
+    "mail/idn/Idn.php",
+    "mail/normalizer/Normalizer.php",
+    "mail/phpmailer/src/PHPMailer.php",
+    "mail/phpmailer/src/OAuthTokenProvider.php",
+    "mail/phpmailer/src/SMTP.php",
+    "mail/phpmailer/src/Exception.php",
+    "mail/idn/Resources/unidata/mapped.php",
+    "mail/idn/Resources/unidata/disallowed_STD3_valid.php",
+    "mail/idn/Resources/unidata/ignored.php",
+    "mail/idn/Resources/unidata/virama.php",
+    "mail/idn/Resources/unidata/DisallowedRanges.php",
+    "mail/idn/Resources/unidata/disallowed_STD3_mapped.php",
+    "mail/idn/Resources/unidata/deviation.php",
+    "mail/idn/Resources/unidata/disallowed.php",
+    "mail/idn/Resources/unidata/Regex.php",
+    "mail/normalizer/Resources/unidata/canonicalDecomposition.php",
+    "mail/normalizer/Resources/unidata/combiningClass.php",
+    "mail/normalizer/Resources/unidata/canonicalComposition.php",
+    "mail/normalizer/Resources/unidata/compatibilityDecomposition.php",
+    "mail/DEPENDENCIES.json",
+    "tests/international-email-smtp.py",
+    "tests/international-email-worker.php",
+    "tests/international-email-parity.py",
+    "tests/international-email.php",
+    "tests/international-email-native.py",
+    "mail/accounts.php",
+    "tests/international-email-evidence-2026-11-08.json"
   ],
   "legacy_https_routes": []
 }

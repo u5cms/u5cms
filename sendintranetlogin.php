@@ -50,7 +50,7 @@ file_put_contents('fileversions/lastintrapworder.txt',time());
 
 echo '<span style="font-size:130%;font-family:Arial, Helvetica, sans-serif;color:green">OK &rarr; E-Mail Inbox<br><small>'.str_replace('&amp;','&',htmlXspecialchars($_POST['email'])).'</small></span><iframe src="autointranet.php" frameborder="0" width="0" height="0"></iframe><script>if(parent.donescript)parent.donescript();document.getElementById(\'form\').style.display=\'block\';document.getElementById(\'spinner\').style.display=\'none\';</script>';
 
-$sql_a="SELECT email FROM accounts WHERE email='".mysql_real_escape_string($_POST['email'])."'";
+$sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string(u5mail_account_key($_POST['email']))."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $isadmin = mysql_num_rows($result_a);
@@ -70,12 +70,13 @@ $zendto=$_POST['email'];
 $zendsubject='Intranet Login '.str_replace(basename($scripturi),'',$scripturi);
 $p=floor(crc32(u5flatidnlower($_POST['email']).$salt));
 
-$sql_a="SELECT email FROM accounts WHERE email='".mysql_real_escape_string(u5flatidn($_POST['email']))."'";
+$sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string(u5mail_account_key($_POST['email']))."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 
+if ($num_a>0) $zendto=u5mail_account_address(mysql_fetch_array($result_a));
 if ($num_a>0) $p='The system does not send an intranet password to you because you already have a password for the u5CMS backend. Please use your u5CMS backend password also for the intranet. If you have forgotten it, recover it on '.str_replace(basename($scripturi),'',$scripturi).'reset.php';
 if(isset($u5samlsalt)&&$u5samlsalt!='')$p='The system does not send an intranet password to you because this u5CMS is SAML-integrated to an IAM-system. In other words, your credentials are managed in that IAM-system.';
 
@@ -88,8 +89,9 @@ Password:
 '.$p.'
 
 ';
-if($doublepasswordmailing!='no')mail($zendto,$zendsubject,$zendmessage);
+if($doublepasswordmailing!='no')u5mail_duplicate($zendto,$zendsubject,$zendmessage);
 include('zendmail.php');
+if (!$u5mail_sent) exit;
 }
 
 else {
@@ -98,7 +100,7 @@ $zendname=$mymail;
 $zendto=$_POST['email'];
 $zendsubject='ERROR: Intranet Login '.str_replace(basename($scripturi),'',$scripturi);
 $zendmessage=$zendsubject."\n\n".'Unfortunately your e-mail address '.$_POST['email'].' is not registered as a member. Please try again with exactly that e-mail address you registered with in our institution.';
-if($dontmailyouarenotintranetmemberalerttocustomers!='yes')if($doublepasswordmailing!='no')mail($zendto,$zendsubject,$zendmessage);
+if($dontmailyouarenotintranetmemberalerttocustomers!='yes')if($doublepasswordmailing!='no')u5mail_duplicate($zendto,$zendsubject,$zendmessage);
 if($dontmailyouarenotintranetmemberalerttocustomers!='yes')include('zendmail.php');
 
 $zendfrom=$mymail;
@@ -106,7 +108,7 @@ $zendname=$mymail;
 $zendto=$mymail;
 $zendsubject='ERROR: Intranet Login '.str_replace(basename($scripturi),'',$scripturi);
 $zendmessage=$zendsubject."\n\n".'Unfortunately your e-mail address '.$_POST['email'].' is not registered as a member. Please try again with exactly that e-mail address you registered with in our institution.';
-if($dontmailyouarenotintranetmemberalerttoadmin!='yes')if($doublepasswordmailing!='no')mail($zendto,$zendsubject,$zendmessage);
+if($dontmailyouarenotintranetmemberalerttoadmin!='yes')if($doublepasswordmailing!='no')u5mail_duplicate($zendto,$zendsubject,$zendmessage);
 if($dontmailyouarenotintranetmemberalerttoadmin!='yes')include('zendmail.php');
 }
 }
