@@ -1,5 +1,13 @@
 # u5CMS development checkpoint
 
+## Internationale E-Mail-Adressen (8. November 2026)
+
+Autorisiert: IDN-Domains und SMTPUTF8-Local-Parts in allen 19 bestehenden Branches, danach zusaetzliche Tiefenpruefung und automatische Korrektur von Kollateralschaeden.
+
+Dieser Branch wurde ab `ffa5399135ba5fd685a72c068cb5fec5238d4631` gesondert fortgefuehrt. Geaendert: Versandgrenzen in myfunctions/zendmail, Einladung/Wiederherstellung, kontobezogene Benachrichtigungen, Serienmail/Extraktion und Backup-Mail; gemeinsamer Ordner mail/ und zugehoerige Regressionen. Branch-eigene Funktionen, Versionen, Konfigurationen und historische Kontoschluessel bleiben erhalten. Neue Einladungen behalten bei Bedarf eine separate Versandadresse in accounts.email_delivery (automatische, optionale Feldergaenzung).
+
+Abgeschlossen: 61 Laufzeitprofile, 680 Original-/CMS-Vergleiche, 943 weitere HTTP-Mail-/Kontopruefungen; [Umfang, Betrieb, Grenzen und Nachweise](international-email-2026-11-08.md). Die aeltesten vollstaendigen PHP-7.3-Kontotests verwenden ausdruecklich mbstring.internal_encoding=Windows-1252. Keine produktive Installation. Die naechste fachliche Aktion ist das separate Einspielen des vollstaendigen Branch-Updates bei Bedarf.
+
 ## Main review and all three additional investigation passes complete (2 November 2026)
 
 The main review plus exactly three additional investigation passes are complete.
