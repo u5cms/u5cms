@@ -10,6 +10,7 @@ define('U5ADMIN_PATH', U5ROOT_PATH . DIRECTORY_SEPARATOR . 'u5admin');
 // keys on installations where that capability was absent before autoloading.
 define('U5CMS_IDN_AVAILABLE_BEFORE_AUTOLOAD', function_exists('idn_to_ascii') && function_exists('idn_to_utf8'));
 include __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/mail/delivery.php';
 
 use Laminas\Mail\Transport\Sendmail as SendmailTransport;
 use Laminas\Mail\Transport\Smtp as SmtpTransport;
