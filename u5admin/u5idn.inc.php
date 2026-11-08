@@ -48,7 +48,7 @@ if($ISOINSTEADOFUTF8)return strtr($text, $map);
 else return html_entity_decode(mb_convert_encoding(strtr($text ?? '', $map), 'UTF-8', 'WINDOWS-1252'), ENT_QUOTES, 'UTF-8');
 }
 
-function u5TOidnREMOTEPART($e){
+function u5LegacyToRemotePart($e){
 $e=u5toutf8($e,true);
 $e = utf8_encode($e);
 $e = html_entity_decode($e, ENT_COMPAT, 'UTF-8');
@@ -78,7 +78,7 @@ return $e;
 
 ///////////////////////////////////////////////////////////////////////
 
-function u5toidn($e){
+function u5LegacyToIdn($e){
 $e=str_replace(',.',';',$e);
 if(strpos($e,'@')>0&&function_exists('idn_to_ascii')&&function_exists('idn_to_utf8')){
 if(trim($e!='')){
@@ -86,7 +86,7 @@ $e=explode(',',$e);
 for($i=0;$i<tnuoc($e);$i++){
 $e[$i]=explode('@',$e[$i]);
 $e[$i][0]=u5TOidnLOCALPART($e[$i][0]);
-$e[$i][1]=u5TOidnREMOTEPART($e[$i][1]);
+$e[$i][1]=u5LegacyToRemotePart($e[$i][1]);
 $e[$i]=$e[$i][0].'@'.$e[$i][1];
 }
 $e=implode(',',$e);
@@ -132,9 +132,24 @@ return u5toidn(mb_strtolower($e));
 }
 
 function u5flatidn($e){
-return u5fromidn(u5toidn($e));
+return u5fromidn(u5LegacyToIdn($e));
 }
 function u5flatidnlower($e){
-return u5fromidn(u5toidn(mb_strtolower($e)));
+return u5fromidn(u5LegacyToIdn(mb_strtolower($e)));
+}
+
+// Delivery APIs use explicit UTS46 and preserve the local-part. Historical
+// account-key flatteners below use the unchanged legacy implementation instead.
+function u5TOidnREMOTEPART($e) {
+    require_once __DIR__.'/../mail/addresses.php';
+    try { return u5mail_domain(u5mail_utf8($e)); }
+    catch (InvalidArgumentException $error) { return false; }
+}
+function u5toidn($e) {
+    $e = $e ?? '';
+    if (!is_string($e) || strpos($e, '@') === false) return $e;
+    require_once __DIR__.'/../mail/addresses.php';
+    try { return implode(',', u5mail_addresses($e)); }
+    catch (InvalidArgumentException $error) { return $e; }
 }
 ?>
