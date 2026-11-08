@@ -5,6 +5,8 @@ $_SERVER['REQUEST_URI'] = '/international-email-test';
 require dirname(__DIR__).'/myfunctions.inc.php';
 require dirname(__DIR__).'/u5admin/u5idn.inc.php';
 ini_set('default_charset', 'Windows-1252');
+// Historical identity comparisons intentionally execute the preserved old APIs.
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 $checks = 0;
 function emailCheck($actual, $expected, $label) {
     global $checks;
@@ -90,4 +92,11 @@ emailCheck(u5mail_address(u5mail_browser_escapes('info@%u6F22%u5B57.ch')), 'info
 $invalidSurrogate = false;
 try { u5mail_browser_escapes('%uD842@example.ch'); } catch (InvalidArgumentException $error) { $invalidSurrogate = true; }
 emailCheck($invalidSurrogate, true, 'reject unpaired browser surrogate');
+foreach (array('Anna@example.ch', 'info@stra&szlig;e.ch', 'M&#252;ller@example.ch') as $input) {
+    emailCheck(u5mail_account_key($input), u5flatidn($input), 'successful historical account key unchanged');
+    emailCheck(u5mail_account_key($input, true), u5flatidnlower($input), 'successful historical lower account key unchanged');
+}
+$capitalKey = @u5flatidnlower('info@STRA&#7838;E.CH');
+$capitalDomain = substr($capitalKey, strrpos($capitalKey, '@') + 1);
+emailCheck(u5mail_account_key('info@STRA&#7838;E.CH', true), in_array($capitalDomain, array('', '&#0;'), true) ? u5flatidnlower('info@stra&#223;e.ch') : $capitalKey, 'retry rejected capital sharp S domain only');
 echo json_encode(array('php'=>PHP_VERSION,'checks'=>$checks,'native_intl'=>extension_loaded('intl'))), "\n";

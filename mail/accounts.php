@@ -18,6 +18,24 @@ function u5mail_account_needs_delivery($address, $key) {
     catch (InvalidArgumentException $error) { return true; }
 }
 
+function u5mail_account_key($input, $lower = false) {
+    $flatten = $lower ? 'u5flatidnlower' : 'u5flatidn';
+    $key = @$flatten($input); // Old empty-IDNA results can emit notices before this retry.
+    // PHP 7.3 defaults to IDNA2003, which can return an empty domain for U+1E9E.
+    // Keep every successful historical key; retry only this rejected spelling.
+    $keyAt = strrpos($key, '@');
+    if ($keyAt === false || !in_array(substr($key, $keyAt + 1), array('', '&#0;'), true)) return $key;
+    $decoded = u5mail_utf8($input);
+    $at = strrpos($decoded, '@');
+    if ($at === false || strpos(substr($decoded, $at + 1), "\xE1\xBA\x9E") === false) return $key;
+    $decoded = substr($decoded, 0, $at + 1).str_replace("\xE1\xBA\x9E", "\xC3\x9F", substr($decoded, $at + 1));
+    $cms = preg_replace_callback('/[^\x00-\x7f]/u', function ($match) {
+        $point = unpack('N', mb_convert_encoding($match[0], 'UTF-32BE', 'UTF-8'));
+        return '&#'.$point[1].';';
+    }, $decoded);
+    return $flatten($cms);
+}
+
 function u5mail_account_delivery_column($required) {
     $columns = mysql_query("SHOW COLUMNS FROM accounts LIKE 'email_delivery'");
     if ($columns !== false && mysql_num_rows($columns) > 0) return true;

@@ -18,7 +18,7 @@ $u5mail_invite_input = htmlspecialchars_decode($_GET['e'], ENT_COMPAT | ENT_HTML
 try { $u5mail_invite_address = u5mail_address($u5mail_invite_input); }
 catch (Throwable $error) { u5mail_error($error); exit; }
 $u5mail_invite_delivery = u5mail_account_storage($u5mail_invite_address);
-$u5mail_invite_key = str_replace(' ','',u5flatidnlower($u5mail_invite_input));
+$u5mail_invite_key = str_replace(' ','',u5mail_account_key($u5mail_invite_input, true));
 $e=mysql_real_escape_string($u5mail_invite_key);
 if (strpos($e,'.')<1 || strpos($e,'@')<1 || strpos($_GET[','],'.')>0  || strpos($_GET[';'],'.')>0) die('<script>alert("E-mail address is invalid.")</script>');
 

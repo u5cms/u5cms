@@ -49,7 +49,7 @@ file_put_contents('fileversions/lastintrapworder.txt',time());
 
 echo '<span style="font-size:130%;font-family:Arial, Helvetica, sans-serif;color:green">OK &rarr; E-Mail Inbox<br><small>'.str_replace('&amp;','&',htmlXspecialchars($_POST['email'])).'</small></span><iframe src="autointranet.php" frameborder="0" width="0" height="0"></iframe><script>if(parent.donescript)parent.donescript();document.getElementById(\'form\').style.display=\'block\';document.getElementById(\'spinner\').style.display=\'none\';</script>';
 
-$sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string(u5flatidn($_POST['email']))."'";
+$sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string(u5mail_account_key($_POST['email']))."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $isadmin = mysql_num_rows($result_a);
@@ -69,7 +69,7 @@ $zendto=$_POST['email'];
 $zendsubject='Intranet Login '.str_replace(basename($scripturi),'',$scripturi);
 $p=floor(crc32(u5flatidnlower($_POST['email']).$salt));
 
-$sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string(u5flatidn($_POST['email']))."'";
+$sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string(u5mail_account_key($_POST['email']))."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';

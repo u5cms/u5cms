@@ -86,7 +86,7 @@ try { $u5mail_reset_delivery = u5mail_account_storage(u5mail_address($u5mail_res
 catch (Throwable $error) { u5mail_error($error); exit; }
 $e=str_replace(' ','',trim($_POST['e']));
 require_once('u5admin/u5idn.inc.php');
-$e=u5flatidn($e);
+$e=u5mail_account_key($e);
 
 if (strpos($e,'@')<1 || strpos($e,'.')<1) die('<script type="text/javascript">alert("You have to enter a valid e-mail address!");location.href="reset.php"</script>');
 $sql_a="SELECT * FROM accounts WHERE email='".mysql_real_escape_string($e)."'";
