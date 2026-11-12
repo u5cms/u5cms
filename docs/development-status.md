@@ -1,5 +1,21 @@
 # u5CMS development checkpoint
 
+## Autorisierte Tiefenprüfung (12. November 2026)
+
+Neuer Auftrag: vertiefte Prüfung des Responsive-Branches, Korrekturen wo nötig.
+Start und verifizierter Remote-HEAD: `feade4b35ce34c049611c98de9d36044cede4d6e`.
+Ziel bleibt `12.13.0-Responsive-Design`; keine produktive Installation oder Änderung
+an main. Arbeitsbaum zu Beginn sauber. Vergleich mit aktuellem main
+`bf6863337cd6dd64284cf429f65da986d821d741`: 923 geänderte Pfade einschliesslich
+Bibliotheken und Nachweisen. Die geerbten Änderungen werden über ihre Verträge
+und Abhängigkeiten in die Prüfung einbezogen.
+
+Prüfschwerpunkte: alle Renderaufrufer und Include-Pfade nach der Aufteilung,
+frei dimensionierte Bilder/Medien, Template-Erkennung, Browser-/Tastaturverhalten,
+dat und alte Datenbank-/Template-Varianten. Nächster Schritt: zusätzliche
+unabhängige Fehlerreproduktionen; danach gezielte Korrekturen und Regressionen.
+Der bisherige Abschlussbericht unten beschreibt den vorherigen Stand.
+
 ## Responsive-Branch (12. November 2026)
 
 Autorisiert: separater kumulativer Branch mit echtem Responsive Design, neuer
