@@ -28,6 +28,13 @@ const {launchBrowser}=require('./browser-runtime.cjs');
     check(geometry.columns===(width>1088?3:width>768?2:1),'column breakpoint '+width);
     check(geometry.video.w>0&&Math.abs(geometry.video.w/geometry.video.h-geometry.video.ratio)<.02,'configured YouTube aspect ratio preserved '+width+' '+JSON.stringify(geometry.video));
     check(await page.locator('#dat-grid tbody').innerText()==='Anna\t42','dat table values/structure preserved');
+    for(const id of ['freeboth','freewidth','freeheight']) {
+     const box=await page.locator('#'+id).evaluate(n=>{const img=n.querySelector('img'),dl=n.querySelector('dl'),dd=n.querySelector('dd'),r=img.getBoundingClientRect(),d=dl.getBoundingClientRect(),caption=dd.getBoundingClientRect();return {w:r.width,h:r.height,ratio:img.naturalWidth/img.naturalHeight,bottom:d.bottom,captionBottom:caption.bottom,available:document.getElementById('content').clientWidth};});
+     check(box.w>0&&box.w<=box.available+.5,'free image fits '+id+' '+width+' '+JSON.stringify(box));
+     check(Math.abs(box.w/box.h-(id==='freeboth'?2:box.ratio))<.02,'free image preserves intended ratio '+id+' '+width+' '+JSON.stringify(box));
+     check(box.bottom>=box.captionBottom-.5,'free image wrapper contains caption '+id+' '+width+' '+JSON.stringify(box));
+    }
+
     check(await page.locator('#wide-grid td').last().innerText()==='End','wide table end retained');
     check(await page.locator('.albumhorizontal img').first().evaluate(n=>Math.abs(n.getBoundingClientRect().height-Number(n.getAttribute('height')))<1),'horizontal album keeps configured height '+width);
     check(await page.locator('.dlAlbumLarge > dt > div').first().evaluate(n=>n.getBoundingClientRect().width<=document.getElementById('content').clientWidth),'album scrolls within content '+width);

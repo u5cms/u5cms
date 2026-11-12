@@ -34,7 +34,8 @@
     document.addEventListener('click', function (event) {
         var link = event.target.closest && event.target.closest('a[href]');
         if (!link) return;
-        var url = new URL(link.href, location.href);
+        var url;
+        try { url = new URL(link.href, location.href); } catch (_) { return; }
         if (url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search || !url.hash) return;
         var target;
         try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))) || document.getElementsByName(decodeURIComponent(url.hash.slice(1)))[0]; } catch (_) { return; }

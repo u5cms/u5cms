@@ -93,7 +93,7 @@ echo 'seeded';
   for a,b in zip(old,new):
    assert a==b,(a['name'],'legacy output mismatch',base64.b64decode(a['html']),base64.b64decode(b['html']))
   for a,b in zip(old,responsive):
-   if not a['name'].startswith(('resource-responsive-youtube-','resource-testmp3-','seed-page-')):
+   if not a['name'].startswith(('resource-responsive-youtube-','resource-testmp3-','resource-responsive-free-','seed-page-')):
     assert a==b,(a['name'],'responsive changed syntax/dat output')
   # Independent expected effects: a comparison alone could preserve a broken fixture.
   outputs={a['name']:base64.b64decode(a['html']).decode('cp1252') for a in new}
@@ -126,7 +126,7 @@ echo 'seeded';
     assert expected.encode() in r.stdout,(name,'expected denial absent',r.stdout,r.stderr)
     responses.append(r.stdout)
    assert responses[0]==responses[1]==responses[2],(name,'denial changed')
-  report={'baseline':str(args.baseline),'cases':len(cases),'legacy_byte_comparisons':len(cases),'responsive_syntax_dat_comparisons':sum(not x['name'].startswith(('resource-responsive-youtube-','resource-testmp3-','seed-page-')) for x in cases),'expected_effects':13,'denial_cases':len(boundaries),'passed':True,'names':[x['name'] for x in cases]}
+  report={'baseline':str(args.baseline),'cases':len(cases),'legacy_byte_comparisons':len(cases),'responsive_syntax_dat_comparisons':sum(not x['name'].startswith(('resource-responsive-youtube-','resource-testmp3-','resource-responsive-free-','seed-page-')) for x in cases),'expected_effects':13,'denial_cases':len(boundaries),'passed':True,'names':[x['name'] for x in cases]}
   if args.output:args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(report,indent=2))
   print(json.dumps({k:v for k,v in report.items() if k!='names'}))
  finally:subprocess.run([PHP,str(ROOT/'tests/codeassets-web-fixture.php'),'cleanup',db],check=True)

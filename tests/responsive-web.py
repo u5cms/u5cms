@@ -25,7 +25,10 @@ $row=mysql_fetch_array(mysql_query("SELECT content_1 FROM resources WHERE name='
 $normalize=function($s){return trim(preg_replace('/\?u5v=[0-9]+/','',$s));};
 if($normalize($row['content_1'])!==$normalize(file_get_contents('r/htmltemplate!html.tpl')))throw new RuntimeException('Seed/reset template mismatch');
 if($normalize($row['content_1'])!==$normalize(file_get_contents('r/htmltemplate.html')))throw new RuntimeException('Seed/export template mismatch');
-foreach(array('responsive-image'=>'i','responsive-youtube'=>'y','responsive-album'=>'a') as $name=>$type){q('INSERT INTO resources(name,typ,deleted,hidden,title_1,desc_1,content_1) VALUES('.v($name).','.v($type).",0,0,'Example image',".v($type==='y'?'fixture-video':'A caption').",'Video caption')");@mkdir('r/'.$name);copy('r/logo/logo_en.jpg','r/'.$name.'/'.$name.'_en.jpg');}
+foreach(array('responsive-image'=>'i','responsive-youtube'=>'y','responsive-album'=>'a','responsive-free'=>'f','responsive-freewidth'=>'f','responsive-freeheight'=>'f') as $name=>$type){q('INSERT INTO resources(name,typ,deleted,hidden,title_1,desc_1,content_1) VALUES('.v($name).','.v($type).",0,0,'Example image',".v($type==='y'?'fixture-video':'A caption').",'Video caption')");@mkdir('r/'.$name);copy('r/logo/logo_en.jpg','r/'.$name.'/'.$name.'_en.jpg');}
+q("UPDATE resources SET key_1='800',key_2='400' WHERE name='responsive-free'");
+q("UPDATE resources SET key_1='800',key_2='' WHERE name='responsive-freewidth'");
+q("UPDATE resources SET key_1='',key_2='600' WHERE name='responsive-freeheight'");
 q("INSERT INTO formdata(formname,headcsv,datacsv,status) VALUES ('responsivegrid',_latin1 0xb76e616d653bb76e756d6265723b,_latin1 0xb7416e6e613bb734323b,1)");
 $content=<<<'HTML'
 [[Responsive fixture]]
@@ -33,7 +36,14 @@ A long word: ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
 [:::::responsive-image]
 [::responsive-youtube]
 [::responsive-album]
-[h:]
+[h:]<div style="clear:both"></div><section id="freeboth">[:h]
+[::responsive-free]
+[h:]</section><div style="clear:both"></div><section id="freewidth">[:h]
+[::responsive-freewidth]
+[h:]</section><div style="clear:both"></div><section id="freeheight">[:h]
+[::responsive-freeheight]
+[h:]</section>
+
 <div style="clear:both"></div>
 <table id="dat-grid"><caption>Data table</caption><thead><tr><th>Name</th><th>Number</th></tr></thead><tbody>
 [name,number|responsivegrid|ALL||1|<tr><td>|</td></tr>|</td><td>:dat]

@@ -24,6 +24,12 @@ foreach (array(
     '<body data-u5-layout="responsive-later">' => false,
     '<body data-u5-layout>' => false,
     '<body data-u5-layout="responsive"' => false,
+    '<body-example data-u5-layout="responsive"></body-example><body>' => false,
+    '<meta content="<body data-u5-layout=\'responsive\'>"><body>' => false,
+    '<textarea><body data-u5-layout="responsive"></textarea><body>' => false,
+    '<template><body data-u5-layout="responsive"></template><body>' => false,
+    '<body data-u5-layout="&#114;esponsive">' => true,
+    '<!-- unfinished > <body data-u5-layout="responsive">' => false,
 ) as $template => $expected) {
     responsiveCheck(u5RenderUseTemplate($template), $expected, $template);
     responsiveCheck(u5RenderIsResponsive(), $expected, 'request state');
@@ -32,8 +38,12 @@ responsiveCheck(u5RenderUseTemplate(null), false, 'missing template');
 // A failed regular expression must not opt an old/custom template in.
 $limit = ini_get('pcre.backtrack_limit');
 ini_set('pcre.backtrack_limit', '100');
-responsiveCheck(u5RenderUseTemplate('<!--'.str_repeat('x', 1000).'--><body data-u5-layout="responsive">'), false, 'regex budget fails closed');
+responsiveCheck(u5RenderUseTemplate('<!--'.str_repeat('x', 1000).'--><body data-u5-layout="responsive">'), true, 'long comment within small regex budget');
+ini_set('pcre.backtrack_limit', '1');
+responsiveCheck(u5RenderUseTemplate('<body data-u5-layout="responsive">'), false, 'exhausted regex budget fails closed');
 ini_set('pcre.backtrack_limit', $limit);
+responsiveCheck(u5RenderUseTemplate('<body title="'.str_repeat('x', 200000).'" data-u5-layout="responsive">'), true, 'large attribute');
+responsiveCheck(u5RenderUseTemplate('<body data-example='.str_repeat('x', 200000).' data-u5-layout="responsive">'), true, 'large unquoted attribute');
 u5RenderUseTemplate('<body>');
 responsiveCheck(u5RenderMediaStyle(640, 480, 'video'), 'width:640px;height:480px', 'legacy bytes');
 responsiveCheck(u5RenderFrameAttributes(640, 480), '', 'legacy frame');
@@ -44,4 +54,12 @@ foreach (array(array(0, 480), array(640, 0), array(-1, 480), array('auto', 480))
     responsiveCheck(u5RenderFrameAttributes($size[0], $size[1]), '', 'invalid frame dimensions preserve legacy');
     responsiveCheck(u5RenderMediaStyle($size[0], $size[1], 'video'), 'width:'.$size[0].'px;height:'.$size[1].'px', 'invalid media dimensions preserve legacy');
 }
+u5RenderUseTemplate('<body>');
+responsiveCheck(u5RenderFreeImageStyles('0800', '400', ''), array('width:0800px;height:400px;', 'width:0800px;height:400px;'), 'legacy F-object bytes');
+u5RenderUseTemplate('<body data-u5-layout="responsive">');
+responsiveCheck(u5RenderFreeImageStyles(800, 400, ''), array('width:min(100%,800px);height:auto;', 'width:min(100%,800px);height:auto;aspect-ratio:800/400'), 'configured F-object ratio');
+responsiveCheck(u5RenderFreeImageStyles(800, '', '')[1], 'width:min(100%,800px);height:auto;', 'width-only F-object');
+responsiveCheck(u5RenderFreeImageStyles('', 600, dirname(__DIR__).'/r/logo/logo_en.jpg')[1], 'width:min(100%,800px);height:auto;aspect-ratio:800/600', 'height-only F-object preserves preferred size');
+responsiveCheck(u5RenderFreeImageStyles('', 600, '/missing-u5-fixture')[1], 'max-width:100%;height:auto;max-height:600px;', 'missing metadata has bounded fallback');
+responsiveCheck(u5RenderFreeImageStyles(0, 400, '')[1], 'width:0px;height:400px;', 'explicit zero is preserved');
 echo 'Responsive layout boundary checks: '.$checks." passed.\n";

@@ -35,7 +35,8 @@ Legacy render output is compared byte-for-byte with the immutable base renderer,
 including a corpus of stored pages. Responsive output differs intentionally in
 renderer-owned video/audio geometry: configured widths become preferred maximum
 sizes, video proportions remain unchanged and audio controls keep their height.
-Images scale through CSS; horizontal albums retain their configured image height
+Images scale through CSS; F-objects additionally retain their configured aspect
+ratio when shrinking, and their frames contain the captions. Horizontal albums retain their configured image height
 and scroll within the content width. Arbitrary `[h:]` markup is not rewritten.
 
 The documented dat parameters a–n, including all expanded explanation sections,
@@ -117,7 +118,14 @@ output contract for it. There is no responsive data migration to reverse. For a
 full application downgrade, restore the matched database/files backup; migrations
 inherited from earlier releases are separate from this feature.
 
-## Validation
+## Additional deep review
+
+The follow-up [deep review](responsive-deep-review.md) corrects free-image geometry,
+false template opt-ins and malformed-link handling. It adds full Chromium, Firefox
+and WebKit coverage and records 49 successful declared test commands. These are
+the latest results; the initial implementation run below remains historical.
+
+## Initial validation
 
 Executed locally on PHP 8.4.24, MariaDB 11.8.6 and Chromium Headless Shell
 150.0.7871.181 with Playwright. Only disposable databases/installations were used;
@@ -149,7 +157,7 @@ The responsive reference SHA is pinned in `tests/regression-capabilities.json`.
 Detailed execution evidence is recorded in `tests/responsive-validation.json`.
 These are local results, not a claim about a GitHub Actions execution.
 
-Limits: this run validates PHP 8.4 and Chromium, not actual PHP 9, Safari, Firefox,
+Limits of the initial run: PHP 8.4 and Chromium were validated, not actual PHP 9, Safari, Firefox,
 physical devices, screen readers, external identity providers or live mail delivery.
 No live private database or every individual site's custom HTML/CSS was tested.
 Such installations need their own acceptance after deliberate template conversion.

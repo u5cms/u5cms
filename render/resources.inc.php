@@ -253,9 +253,7 @@ function u5RenderResources($stringa) {
                 ///////////////////////////////////
                 if ($row_a['typ'] == 'f') {
 
-                    $fowihi='';
-                    if(is_numeric($row_a['key_1'])) $fowihi.='width:'.$row_a['key_1'].'px;';
-                    if(is_numeric($row_a['key_2'])) $fowihi.='height:'.$row_a['key_2'].'px;';
+
 
                     $title = '';
                     if (def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5']) != '') $title = 'title="' . ehtml(def($row_a['title_1'], $row_a['title_2'], $row_a['title_3'], $row_a['title_4'], $row_a['title_5'])) . '"';
@@ -265,6 +263,7 @@ function u5RenderResources($stringa) {
 
 
                     require('getfile.inc.php');
+                    list($fowihi, $foimgstyle) = u5RenderFreeImageStyles($row_a['key_1'], $row_a['key_2'], 'r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5));
 
                     $fastart='';$faend='';
 
@@ -283,16 +282,16 @@ function u5RenderResources($stringa) {
 
 
                     if (str_replace('[::', '', $stringa[$i]) != $stringa[$i]) {
-                        $stringa[$i] = '<dl class="freeImgCenter" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
+                        $stringa[$i] = '<dl class="freeImgCenter" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$foimgstyle.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
 
                     }
 
                     else if (str_replace('[:', '', $stringa[$i]) != $stringa[$i]) {
-                        $stringa[$i] = '<dl class="freeImgRight" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
+                        $stringa[$i] = '<dl class="freeImgRight" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$foimgstyle.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
                     }
 
                     else {
-                        $stringa[$i] = '<dl class="freeImgLeft" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$fowihi.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
+                        $stringa[$i] = '<dl class="freeImgLeft" style="'.$fowihi.'"><dt>'.$fastart.'<img style="'.$foimgstyle.'" '.$title.' '.$alt.' src="r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.@filemtime('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5)).'" />' . $faend . '</dt><dd>' . render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) . '</dd></dl>';
                     }
 
                 }

@@ -59,6 +59,7 @@ def main():
                 subprocess.run(['git','archive',manifest['responsive']['baseline_sha'],'--output='+str(archive)],cwd=ROOT,check=True)
                 with tarfile.open(archive) as contents:contents.extractall(baseline,filter='data')
                 run([sys.executable,'tests/responsive-render-regression.py','--baseline',baseline,'--output',out/'responsive-render.json'])
+                run([sys.executable,'tests/responsive-backend-regression.py','--baseline',baseline,'--output',out/'responsive-backend.json'])
             run([sys.executable,'tests/responsive-web.py'])
         for name in manifest['php_tests']:run([PHP,'tests/'+name])
         for name in manifest['node_tests']:run(['node','tests/'+name])

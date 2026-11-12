@@ -10,10 +10,21 @@ an main. Arbeitsbaum zu Beginn sauber. Vergleich mit aktuellem main
 Bibliotheken und Nachweisen. Die geerbten Änderungen werden über ihre Verträge
 und Abhängigkeiten in die Prüfung einbezogen.
 
-Prüfschwerpunkte: alle Renderaufrufer und Include-Pfade nach der Aufteilung,
-frei dimensionierte Bilder/Medien, Template-Erkennung, Browser-/Tastaturverhalten,
-dat und alte Datenbank-/Template-Varianten. Nächster Schritt: zusätzliche
-unabhängige Fehlerreproduktionen; danach gezielte Korrekturen und Regressionen.
+Abgeschlossen: drei reproduzierte Fehler korrigiert (F-Objekt-Geometrie/Legenden,
+Template-Erkennung und ungültige Inhaltslinks im Navigationshandler). Der vollständige
+Lauf gegen den aktuellen main-Stand besteht mit 49 Kommandos. Zusätzlich bestehen
+je 323 Browserprüfungen pro Seed in Chromium 150, Firefox 153 und WebKit 26.5 sowie
+je 11 Navigationsprüfungen. 186 Legacy-Rendervergleiche, 126 unveränderte responsive
+Syntax/dat-Vergleiche, 13 Wirkungsprüfungen und vier Ablehnungsfälle bestehen.
+68 Layout-Grenzfälle bestehen mit und ohne PCRE-JIT. Der tatsächliche Backend-
+Blockelementprüfer stimmt mit dem alten Renderer überein; dat bleibt byteidentisch.
+
+[Abschluss der Tiefenprüfung](responsive-deep-review.md) und
+[maschineller Nachweis](../tests/responsive-deep-review.json). Die geprüften
+Korrekturen und dieser Bericht werden gemeinsam auf dem Zielbranch veröffentlicht.
+Kein bestätigter Fehler im geprüften Umfang offen. Kein noch laufender Folgejob.
+Nächster fachlicher Schritt bei gewünschter Übernahme: Abnahme einer Site-Kopie
+mit ihren individuellen Templates; keine produktive Installation oder Main-Merge.
 Der bisherige Abschlussbericht unten beschreibt den vorherigen Stand.
 
 ## Responsive-Branch (12. November 2026)

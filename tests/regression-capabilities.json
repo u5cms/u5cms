@@ -34,7 +34,8 @@
   ],
   "node_tests": [
     "textarea-core.cjs",
-    "search-normalization-parity.cjs"
+    "search-normalization-parity.cjs",
+    "responsive-navigation-regression.cjs"
   ],
   "http_browser_tests": [
     "codeassets-web-regression.py",
@@ -163,7 +164,9 @@
     "tests/responsive-render-worker.php",
     "tests/responsive-render-regression.py",
     "tests/fixtures/legacy-htmltemplate.html",
-    "tests/responsive-layout-regression.php"
+    "tests/responsive-layout-regression.php",
+    "tests/responsive-navigation-regression.cjs",
+    "tests/responsive-backend-regression.py"
   ],
   "legacy_https_routes": [],
   "responsive": {

@@ -23,7 +23,8 @@ die bisherige JavaScript-Umwandlung der Seite entfällt im neuen Template.
 
 **Einordnung:** Neuer kumulativer Entwicklungsbranch; keine produktive Installation.
 
-[Architektur, Übernahme, Rückweg und genaue Prüfung](docs/responsive-design.md) ·
+[Architektur, Übernahme und Rückweg](docs/responsive-design.md) ·
+[Tiefenprüfung und Korrekturen](docs/responsive-deep-review.md) ·
 [Alle Branches](BRANCHES.md) · [Entwicklungsstatus](docs/development-status.md)
 <!-- u5cms-branch-description:end -->
 
