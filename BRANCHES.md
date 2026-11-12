@@ -1,8 +1,8 @@
 # u5CMS – Branches und Neuerungen
 
-Stand: 31. Oktober 2026. Die Beschreibungen beziehen sich auf die veröffentlichten Anwendungsstände; sie belegen keine produktive Installation.
+Stand: 12. November 2026 (neuer Responsive-Branch; historische Einträge bleiben erhalten). Die Beschreibungen beziehen sich auf die veröffentlichten Anwendungsstände; sie belegen keine produktive Installation.
 
-Der aktuelle kumulative Entwicklungsstand ist **[12.12.4-Default-Design](https://github.com/u5cms/u5cms/tree/12.12.4-Default-Design)**. `main` enthält weiterhin den Anwendungsstand 12.9.5. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
+Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält weiterhin den Anwendungsstand 12.9.5. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
 
 ## Aktuelle Branches
 
@@ -24,6 +24,7 @@ Der aktuelle kumulative Entwicklungsstand ist **[12.12.4-Default-Design](https:/
 | [12.12.2-Textarea-Interactions](https://github.com/u5cms/u5cms/tree/12.12.2-Textarea-Interactions) | 12.12.2 | Formatieren markierter Quelltexte, kontextabhängige Objektaktionen, P-Objekt-Edit im neuen Tab sowie synchronisiertes Undo/Redo. |
 | [12.12.3-PHP9-Compatibility](https://github.com/u5cms/u5cms/tree/12.12.3-PHP9-Compatibility) | 12.12.3 | Rückbau von tnuoc, saubere Typ- und Encodingbehandlung, aktualisierte Bibliotheken und Vorbereitung auf bekannte kommende PHP-Änderungen. |
 | [12.12.4-Default-Design](https://github.com/u5cms/u5cms/tree/12.12.4-Default-Design) | 12.12.4 | Verfeinertes Standarddesign für Typografie, Navigation, Formulare und Tabellen, synchron in beiden SQL-Seeds, CSS-Exporten und TPL-Reset-Vorlagen. |
+| [12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design) | 12.13.0 | CSS-gesteuertes responsives Standardtemplate ohne mobile DOM-Umschreibung; neuer Renderaufbau bei unveränderter Syntax und dat-Verarbeitung. Alte Datenbanken und individuelle Templates bleiben unterstützt. |
 
 ## Integration und Nachträge
 
@@ -37,6 +38,8 @@ Der aktuelle kumulative Entwicklungsstand ist **[12.12.4-Default-Design](https:/
 | Neue PHP-Kompatibilitätslösung | Ab 12.12.3-PHP9-Compatibility; PHP >= 8.2, ausgeführte Prüfungen auf PHP 8.3 und 8.5. Keine tatsächliche PHP-9-Laufzeit zertifiziert. |
 | Überarbeitete mobile Laschen | Nachträglich in allen neun nummerierten Branches von 12.11.0 bis 12.12.3 enthalten; in 12.12.4 weitergeführt. Die historischen Arbeitsbranches wurden nicht mit diesem späteren Backport aktualisiert. |
 | Dezentes Standarddesign | Ab 12.12.4-Default-Design; beide SQL-Seeds, CSS-Exporte und TPL-Reset-Vorlagen synchron. |
+
+Responsive Layouts werden ab 12.13.0 vom jeweiligen Template aktiviert. Ein normales Update ersetzt keine individuellen Templates; [Übernahme und Rückweg](docs/responsive-design.md). Die älteren mobilen Scripts bleiben für solche Templates verfügbar.
 
 Die Versionskommentare von 12.10.1 und des darauf aufbauenden nosniff-Arbeitsbranches wurden auf 12.10.1 berichtigt. Der Such-Arbeitsbranch trägt die Basisversion 12.11.4; Arbeitsbranch und nummerierte Folgeveröffentlichung bleiben unterscheidbar.
 

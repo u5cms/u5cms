@@ -18,7 +18,9 @@ body.u5-responsive { margin: 0; padding: clamp(0px, 1.5vw, 24px); min-width: 0; 
 .u5-responsive #navTop > ul > li { display: block; margin: 0; }
 .u5-responsive #navLeftSubTop { padding-top: 0; }
 .u5-responsive #u5-navigation-toggle { display: none; }
-.u5-responsive #content img:not(.formdataimg), .u5-responsive #news img, .u5-responsive #footer img { max-width: 100%; height: auto; }
+.u5-responsive #u5-navigation-toggle::after { content: ""; float: right; width: .5em; height: .5em; margin: .2em .25em 0 .75em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+.u5-responsive #u5-navigation-toggle[aria-expanded="true"]::after { transform: rotate(225deg); margin-top: .45em; }
+.u5-responsive #content img:not(.formdataimg):not(.albumhorizontal img), .u5-responsive #news img, .u5-responsive #footer img { max-width: 100%; height: auto; }
 .u5-responsive :is(.imgBoxLeft,.imgBoxRight,.imgBoxCenter,.freeImgLeft,.freeImgRight,.freeImgCenter) { box-sizing: border-box; max-width: 100%; }
 .u5-responsive :is(.imgBoxLeft,.imgBoxRight,.imgBoxCenter,.freeImgLeft,.freeImgRight,.freeImgCenter) dt { max-width: 100%; }
 .u5-responsive .dlAlbumLarge > dt > div { max-width: 100%; }

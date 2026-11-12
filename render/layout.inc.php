@@ -1,8 +1,18 @@
 <?php
 /** Explicit, request-local presentation. Standalone render() callers stay legacy. */
 function u5RenderUseTemplate($template) {
-    $template = preg_replace('/<!--.*?-->/s', '', $template);
-    $responsive = preg_match('/<body\b[^>]*\bdata-u5-layout\s*=\s*([\'"])responsive\1/i', $template) === 1;
+    $responsive = false;
+    // Ignore examples in comments/scripts and tokenize attributes, so a quoted
+    // attribute value or data-example-data-u5-layout never becomes an opt-in.
+    $template = preg_replace('~<!--.*?-->|<(script|style)\b[^>]*>.*?</\1\s*>~is', '', $template ?? '');
+    if ($template !== null && preg_match('~<body\b((?:[^>\'"]|"[^"]*"|\'[^\']*\')*)>~i', $template, $body) === 1) {
+        preg_match_all('~\s+([^\s=/>]+)(?:\s*=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s>]+)))?~', $body[1], $attributes, PREG_SET_ORDER);
+        foreach ($attributes as $attribute) {
+            if (strtolower($attribute[1]) !== 'data-u5-layout') continue;
+            $responsive = ($attribute[2] ?? '') === 'responsive' || ($attribute[3] ?? '') === 'responsive' || ($attribute[4] ?? '') === 'responsive';
+            break;
+        }
+    }
     $GLOBALS['u5RenderResponsive'] = $responsive;
     return $responsive;
 }

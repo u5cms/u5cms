@@ -26,7 +26,7 @@ $normalize=function($s){return trim(preg_replace('/\?u5v=[0-9]+/','',$s));};
 if($normalize($row['content_1'])!==$normalize(file_get_contents('r/htmltemplate!html.tpl')))throw new RuntimeException('Seed/reset template mismatch');
 if($normalize($row['content_1'])!==$normalize(file_get_contents('r/htmltemplate.html')))throw new RuntimeException('Seed/export template mismatch');
 foreach(array('responsive-image'=>'i','responsive-youtube'=>'y','responsive-album'=>'a') as $name=>$type){q('INSERT INTO resources(name,typ,deleted,hidden,title_1,desc_1,content_1) VALUES('.v($name).','.v($type).",0,0,'Example image',".v($type==='y'?'fixture-video':'A caption').",'Video caption')");@mkdir('r/'.$name);copy('r/logo/logo_en.jpg','r/'.$name.'/'.$name.'_en.jpg');}
-q("INSERT INTO formdata(formname,headcsv,datacsv,status) VALUES ('responsive-grid',_latin1 0xb76e616d653bb76e756d6265723b,_latin1 0xb7416e6e613bb734323b,1)");
+q("INSERT INTO formdata(formname,headcsv,datacsv,status) VALUES ('responsivegrid',_latin1 0xb76e616d653bb76e756d6265723b,_latin1 0xb7416e6e613bb734323b,1)");
 $content=<<<'HTML'
 [[Responsive fixture]]
 A long word: ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
@@ -36,11 +36,11 @@ A long word: ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
 [h:]
 <div style="clear:both"></div>
 <table id="dat-grid"><caption>Data table</caption><thead><tr><th>Name</th><th>Number</th></tr></thead><tbody>
-[name,number|responsive-grid|ALL||1|<tr><td>|</td></tr>|</td><td>:dat]
+[name,number|responsivegrid|ALL||1|<tr><td>|</td></tr>|</td><td>:dat]
 </tbody></table>
 <table id="wide-grid" style="width:1400px;min-width:1400px"><caption>Wide data remains available</caption><tr><th>First</th><th>Last</th></tr><tr><td>Start</td><td>End</td></tr></table>
 <pre>very_long_unbroken_preformatted_line_preserves_its_text_and_horizontal_scrolling_012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789</pre>
-<form id="responsive-form" name="u5form" method="post" action="formsave.php?n=responsive-fixture&amp;l=en" target="responsive-save">
+<form id="responsive-form" name="u5form" method="post" action="formsave.php?n=responsivefixture&amp;l=en" target="responsive-save">
 <fieldset><legend>A long form legend that needs to wrap on a narrow screen without clipping</legend>
 <label for="responsive-name">Name</label><input id="responsive-name" name="name_mandatory" required>
 <label for="responsive-comment">Comment</label><textarea id="responsive-comment" name="comment"></textarea>
@@ -52,9 +52,9 @@ A long word: ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ01234
 <script>window.responsiveForm=document.getElementById('responsive-form');window.responsiveEvents=0;window.responsiveForm.addEventListener('proof',function(){window.responsiveEvents++});function responsiveSaved(){window.responsiveWasSaved=true;}</script>
 [:h]
 HTML;
-q("INSERT INTO resources(name,typ,deleted,hidden,content_1) VALUES ('responsive-fixture','p',0,0,".v($content).")");
+q("INSERT INTO resources(name,typ,deleted,hidden,content_1) VALUES ('responsivefixture','p',0,0,".v($content).")");
 $nav=mysql_fetch_array(mysql_query("SELECT content_1 FROM resources WHERE name='navigation'"));
-q("UPDATE resources SET content_1=".v($nav['content_1']."\n#[Responsive:responsive-fixture]")." WHERE name='navigation'");
+q("UPDATE resources SET content_1=".v($nav['content_1']."\n#[Responsive:responsivefixture]")." WHERE name='navigation'");
 echo "Imported template/exports/reset parity and fixture data OK.\n";
 ''')
   try:
@@ -75,7 +75,7 @@ require 'connect.inc.php';$path=u5CodeTemplatePath();$s=file_get_contents($path)
     server=subprocess.Popen(php+['-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],cwd=site,stdout=log,stderr=log)
     try:
      for i in range(100):
-      try:urllib.request.urlopen(base+'/?c=responsive-fixture',timeout=2).close();break
+      try:urllib.request.urlopen(base+'/?c=responsivefixture',timeout=2).close();break
       except OSError:time.sleep(.05)
      else:raise RuntimeError('CMS did not start')
      subprocess.run(['node',str(repo/'tests/responsive-browser.cjs'),base,seed,str(site)],check=True)

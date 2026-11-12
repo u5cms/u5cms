@@ -12,26 +12,34 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await context.route('**/*',r=>{requests.push(r.request().url());return new URL(r.request().url()).origin===new URL(base).origin?r.continue():r.abort();});
    const page=await context.newPage();page.on('pageerror',e=>errors.push(String(e)));
    await context.addCookies([{url:base,name:'u5cmsfrcthsvw',value:'desktop'}]);
-   let response=await page.goto(base+'/?c=responsive-fixture&l=en',{waitUntil:'networkidle'});
+   let response=await page.goto(base+'/?c=responsivefixture&l=en',{waitUntil:'networkidle'});
    check(response.status()===200,'real CMS responsive page');
+   if(shots){fs.writeFileSync(path.join(shots,seed+'-initial.html'),await page.content());await page.screenshot({path:path.join(shots,seed+'-initial.png'),fullPage:true});}
+   check(await page.locator('#responsive-name').count()===1,'fixture form exists: '+(await page.locator('#content').innerText()).slice(-1200));
    if(javascript){
     await page.locator('#responsive-name').fill('Anna');await page.locator('#responsive-comment').fill('Keep my text');await page.locator('#responsive-checkbox').check();
     await page.evaluate(()=>{window.keptFrame=document.getElementById('responsive-save');window.keptMedia=document.querySelector('.u5-video-frame');window.keptNavigation=document.getElementById('navLeft');});
    }
    for(const width of [1440,1024,800,768,375,320,1920,320]) {
     await page.setViewportSize({width,height:1000});
-    const geometry=await page.evaluate(()=>({vw:innerWidth,doc:document.documentElement.scrollWidth,main:document.getElementById('main').getBoundingClientRect().width,columns:getComputedStyle(document.getElementById('outer')).gridTemplateColumns.split(' ').length,content:document.getElementById('content').getBoundingClientRect(),video:(()=>{const r=document.querySelector('.u5-video-frame').getBoundingClientRect();return {w:r.width,h:r.height}})()}));
+    const geometry=await page.evaluate(()=>({vw:innerWidth,doc:document.documentElement.scrollWidth,main:document.getElementById('main').getBoundingClientRect().width,columns:getComputedStyle(document.getElementById('outer')).gridTemplateColumns.split(' ').length,content:document.getElementById('content').getBoundingClientRect(),video:(()=>{const r=document.querySelector('.u5-video-frame').getBoundingClientRect();return {w:r.width,h:r.height,ratio:Number(document.querySelector('.u5-video-frame').getAttribute('width'))/Number(document.querySelector('.u5-video-frame').getAttribute('height'))}})()}));
     check(geometry.doc<=width+1,'page fits '+width+' JS='+javascript+' '+JSON.stringify(geometry));
     check(geometry.main<=1330&&geometry.main<=width,'fluid capped main '+width);
     check(geometry.columns===(width>1088?3:width>768?2:1),'column breakpoint '+width);
-    check(geometry.video.w>0&&Math.abs(geometry.video.w/geometry.video.h-480/360)<.02,'configured YouTube aspect ratio preserved '+width+' '+JSON.stringify(geometry.video));
+    check(geometry.video.w>0&&Math.abs(geometry.video.w/geometry.video.h-geometry.video.ratio)<.02,'configured YouTube aspect ratio preserved '+width+' '+JSON.stringify(geometry.video));
     check(await page.locator('#dat-grid tbody').innerText()==='Anna\t42','dat table values/structure preserved');
     check(await page.locator('#wide-grid td').last().innerText()==='End','wide table end retained');
+    check(await page.locator('.albumhorizontal img').first().evaluate(n=>Math.abs(n.getBoundingClientRect().height-Number(n.getAttribute('height')))<1),'horizontal album keeps configured height '+width);
+    check(await page.locator('.dlAlbumLarge > dt > div').first().evaluate(n=>n.getBoundingClientRect().width<=document.getElementById('content').clientWidth),'album scrolls within content '+width);
     if(javascript){
      check(await page.evaluate(()=>window.responsiveForm===document.getElementById('responsive-form')&&window.keptFrame===document.getElementById('responsive-save')&&window.keptMedia===document.querySelector('.u5-video-frame')&&window.keptNavigation===document.getElementById('navLeft')),'nodes unchanged on resize '+width);
      check(await page.locator('#responsive-name').inputValue()==='Anna'&&await page.locator('#responsive-comment').inputValue()==='Keep my text'&&await page.locator('#responsive-checkbox').isChecked(),'form values unchanged '+width);
     } else check(await page.locator('#navigation').isVisible(),'navigation available without JS');
-    if(shots&&[1440,375].includes(width))await page.screenshot({path:path.join(shots,seed+'-'+width+'-'+javascript+'.png'),fullPage:true});
+    if(shots&&[1440,375].includes(width)){
+     // Fixed off-screen skip links must be captured relative to the page top.
+     await page.evaluate(()=>scrollTo(0,0));
+     await page.screenshot({path:path.join(shots,seed+'-'+width+'-'+javascript+'.png'),fullPage:true});
+    }
    }
    if(javascript){
     await page.locator('#responsive-form').dispatchEvent('proof');check(await page.evaluate(()=>window.responsiveEvents===1),'original event handler retained');
@@ -57,7 +65,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
     check(await page.evaluate(()=>window.uploadNodes.every((n,i)=>n===document.querySelectorAll('iframe[name^="iuserupload"]')[i])),'upload iframe identity preserved');
     assert.deepEqual(await page.locator('input[id^="userupload"]').evaluateAll(ns=>ns.map(n=>n.value)),values);checks++;
     for(const [lang,label] of [['de','Navigation'],['fr','Navigation'],['it','Navigazione'],['rm','Navigaziun'],['en','Navigation']]){
-     await page.goto(base+'/?c=responsive-fixture&l='+lang,{waitUntil:'domcontentloaded'});check(await toggle.textContent()===label,'navigation language '+lang);
+     await page.goto(base+'/?c=responsivefixture&l='+lang,{waitUntil:'domcontentloaded'});check(await toggle.textContent()===label,'navigation language '+lang);
     }
     await page.goto(base+'/?c=_search&l=en&q=Responsive',{waitUntil:'networkidle'});check(await page.locator('#frm_Search2').isVisible(),'responsive actual search page');
     check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'search fits phone');
@@ -67,7 +75,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
   }
   const context=await browser.newContext({viewport:{width:375,height:1000}}),page=await context.newPage();
   await context.route('**/*',r=>new URL(r.request().url()).origin===new URL(base).origin?r.continue():r.abort());
-  await page.goto(base+'/fixture-split.php');await page.goto(base+'/?c=responsive-fixture&l=en',{waitUntil:'networkidle'});
+  await page.goto(base+'/fixture-split.php');await page.goto(base+'/?c=responsivefixture&l=en',{waitUntil:'networkidle'});
   check(await page.locator('#navTop').isVisible(),'split top navigation visible');
   await page.locator('#u5-navigation-toggle').click();check(await page.locator('#navLeftSubTop > ul > li > a').first().isVisible(),'split root navigation available on phone');
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'split navigation fits');

@@ -52,6 +52,14 @@ def main():
                 run(command)
         run([sys.executable,'tests/conference-workflow-regression.py','--source',ROOT,'--output',out/'conference.json'])
     if args.group in ['features','all']:
+        if manifest.get('responsive'):
+            with tempfile.TemporaryDirectory(prefix='u5-render-original-') as temporary:
+                baseline=pathlib.Path(temporary)/'original';baseline.mkdir()
+                archive=pathlib.Path(temporary)/'original.tar'
+                subprocess.run(['git','archive',manifest['responsive']['baseline_sha'],'--output='+str(archive)],cwd=ROOT,check=True)
+                with tarfile.open(archive) as contents:contents.extractall(baseline,filter='data')
+                run([sys.executable,'tests/responsive-render-regression.py','--baseline',baseline,'--output',out/'responsive-render.json'])
+            run([sys.executable,'tests/responsive-web.py'])
         for name in manifest['php_tests']:run([PHP,'tests/'+name])
         for name in manifest['node_tests']:run(['node','tests/'+name])
         for name in manifest['http_browser_tests']:

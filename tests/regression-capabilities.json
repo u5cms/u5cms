@@ -8,6 +8,7 @@
   ],
   "php9": true,
   "php_tests": [
+    "responsive-layout-regression.php",
     "formdata-transport-regression.php",
     "codeassets-regression.php",
     "rename-regression.php",
@@ -148,7 +149,24 @@
     "tests/international-email.php",
     "tests/international-email-native.py",
     "mail/accounts.php",
-    "tests/international-email-evidence-2026-11-08.json"
+    "tests/international-email-evidence-2026-11-08.json",
+    "render/layout.inc.php",
+    "render/markup.inc.php",
+    "render/resources.inc.php",
+    "render/output.inc.php",
+    "render/dat.inc.php",
+    "css/u5-responsive.css",
+    "js/u5-responsive.js",
+    "u5sys.responsivecontrols.php",
+    "tests/responsive-web.py",
+    "tests/responsive-browser.cjs",
+    "tests/responsive-render-worker.php",
+    "tests/responsive-render-regression.py",
+    "tests/fixtures/legacy-htmltemplate.html",
+    "tests/responsive-layout-regression.php"
   ],
-  "legacy_https_routes": []
+  "legacy_https_routes": [],
+  "responsive": {
+    "baseline_sha": "3b9b8054473d41ae3bdd046257db154770942987"
+  }
 }

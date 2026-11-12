@@ -1,5 +1,38 @@
 # u5CMS development checkpoint
 
+## Responsive-Branch (12. November 2026)
+
+Autorisiert: separater kumulativer Branch mit echtem Responsive Design, neuer
+Renderstruktur und Erhalt alter Datenbanken, Syntax und dat-Wirkung.
+Basis nach Vergleich aller 19 Remote-Heads: `12.12.4-Default-Design`,
+`3b9b8054473d41ae3bdd046257db154770942987`.
+Ziel: `12.13.0-Responsive-Design`. Remote-Implementierungscheckpoint:
+`e08ed9c9df8a838f5ca3baf62141c200502baa26`; anschliessende Korrekturen werden
+bewacht auf denselben Branch veröffentlicht. Keine Änderung an main/Produktion.
+
+Geändert: render.inc.php und neue render/-Module, index.php, responsive CSS/JS und
+Navigationssteuerung, beide Standardtemplates und deren SQL-Seed-Objekte sowie
+Regressionen und Dokumentation. dat samt Hilfsfunktionen ist byteidentisch
+verschoben; Schema und individuelle Templates bleiben erhalten.
+
+Abgeschlossen: 186 bytegenaue Legacy-Rendervergleiche, 129 unveränderte responsive
+Syntax/dat-Vergleiche, 13 unabhängige Wirkungsprüfungen, vier Ablehnungsfälle,
+47 Layout-Grenzfälle und je 179 Browserprüfungen für beide SQL-Seeds.
+Alle Originalreferenzverträge und sämtliche deklarierten Featuregruppen bestehen,
+einschliesslich echter Schreibabbrüche/Wiederaufnahme und Backend-Workflows.
+Die lokale PHP-Umgebung wurde für Unterprozesse mit gemeinsamem INI,
+Sessionverzeichnis und Datenbankport vervollständigt; die betroffenen Prüfungen
+wurden erfolgreich wiederholt. PHP 8.4.24 / MariaDB 11.8.6 / Chromium Headless
+Shell 150.0.7871.181. [Maschineller Nachweis](../tests/responsive-validation.json).
+
+Der Abschlussstand wird mit dieser Dokumentation auf dem Zielbranch veröffentlicht;
+die genannten frühen Checkpoints sind keine Behauptung eines noch laufenden Jobs.
+Kein bestätigter offener Fehler im geprüften Umfang. Nächster fachlicher Schritt
+bei gewünschter Übernahme: Installation auf einer Site-Kopie und Abnahme der dort
+individuell angepassten Templates. Keine produktive Installation oder Main-Merge.
+[Architektur, Betrieb, Übernahme und Prüfgrenzen](responsive-design.md).
+
+
 ## Internationale E-Mail-Adressen (8. November 2026)
 
 Autorisiert: IDN-Domains und SMTPUTF8-Local-Parts in allen 19 bestehenden Branches, danach zusaetzliche Tiefenpruefung und automatische Korrektur von Kollateralschaeden.

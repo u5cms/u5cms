@@ -1,22 +1,30 @@
 <!-- u5cms-branch-description:start -->
-# u5CMS · Dezent überarbeitetes Standarddesign
+# u5CMS · Echtes Responsive Design
 
-**Branch:** `12.12.4-Default-Design`  
-**Version in `index.php`:** 12.12.4  
-**Basis:** Abgeschlossener 12.12.3-Stand mit Mobile-Korrekturen cb876c924af9193a243e01edaacdfc773a4637c7.
+**Branch:** `12.13.0-Responsive-Design`
 
-Verfeinertes Standarddesign für Typografie, Navigation, Formulare und Tabellen, synchron in beiden SQL-Seeds, CSS-Exporten und TPL-Reset-Vorlagen.
+**Version in `index.php`:** 12.13.0
 
-- Verbessert Typografie, neutrale Hintergründe, Schatten, Trennlinien, Navigation, Formulare, Tabellen und sichtbaren Tastaturfokus.
-- Behält das feste Desktoplayout und die bestehende mobile Umwandlung per Script; führt keine CSS-Responsivität oder Ersatz-Mobildarstellung ein.
-- Synchronisiert u5standard.sql, u5conference.sql, r/*.css und r/*!css.tpl. Bestehende individuelle Layouts werden durch normale Updates erhalten; die Übernahme des neuen Standarddesigns erfolgt gezielt.
+**Basis:** `12.12.4-Default-Design`, Commit `3b9b8054473d41ae3bdd046257db154770942987`.
 
-**Einordnung:** Aktueller kumulativer Entwicklungsstand dieser Bestandsaufnahme. Die Änderungen sind als Quellstand veröffentlicht; daraus folgt keine produktive Installation.
+Das Standardtemplate passt sich per CSS an die verfügbare Breite an. Navigation,
+Formulare und Medien bleiben beim Verkleinern und Vergrössern dieselben Elemente;
+die bisherige JavaScript-Umwandlung der Seite entfällt im neuen Template.
 
-[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md) · [Standarddesign, Übernahme und Prüfung](docs/12.15.0-default-design.md) · [Entwicklungsstatus](docs/development-status.md)
-[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
-[Neue Prüfung der gesamten Evolution seit main](docs/12.12.3-main-evolution-audit.md)
-[Zweite Prüfung mit ausführbarem Original-Main, Korrekturen und allen Branch-Vergleichen](docs/12.12.3-reference-evolution-audit.md)
+- Neuer Renderaufbau mit getrennten Stufen für Syntax, Ressourcen und Ausgabe;
+  die öffentliche Funktion `render()` bleibt erhalten.
+- Bestehende Datenbanken, Syntax und `dat`-Befehle bleiben kompatibel. Keine neue
+  Datenbankstruktur für das responsive Design.
+- Standard- und Conference-Neuinstallationen verwenden das responsive Template.
+  Bestehende individuelle Templates werden erhalten und können gezielt umgestellt
+  werden. Ihre bisherigen mobilen Scripts bleiben als Kompatibilitätsbestand verfügbar.
+- CSS bestimmt das Layout auch ohne JavaScript. Das optionale Script bedient
+  ausschliesslich das auf schmalen Ansichten einklappbare Navigationsmenü.
+
+**Einordnung:** Neuer kumulativer Entwicklungsbranch; keine produktive Installation.
+
+[Architektur, Übernahme, Rückweg und genaue Prüfung](docs/responsive-design.md) ·
+[Alle Branches](BRANCHES.md) · [Entwicklungsstatus](docs/development-status.md)
 <!-- u5cms-branch-description:end -->
 
 ---
@@ -25,7 +33,7 @@ https://yuba.ch/u5cms: A small, handy content management system for medium-sized
 u5CMS features
 Total 11 images (click the image)
 u5CMS features
-The out of the box template automatically renders as web app on mobile devices with better usability than typical responsive solutions.
+From version 12.13.0, the default template uses a fluid CSS layout at every viewport width. Older custom templates retain their existing mobile behaviour until deliberately migrated.
 Since version 6, full IDN support, serial mail engine compliant with Email Address Internationalization (EAI).
 
 u5CMS is especially suitable for audio and video embedding (both local data and Youtube channels) and form embedding as well as analyses of surveys. The data is displayed as a chart and is available both as an HTML table and as CSV export for Excel and SPSS. The pages created including forms work in all current browsers and are completely barrier-free. The forms have been successfully tested on either blind or visually impaired subjects.
