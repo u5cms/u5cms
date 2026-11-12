@@ -7,9 +7,10 @@
 <script src="js/jquery.js?u5v=121100"></script>
 <script src="js/jquery.fancybox.min.js?u5v=121100"></script>
 <script src="js/u5_scripts.js?u5v=121100" type="text/javascript"></script>
-<script src="r/mobile.js?u5v=121100"></script>
+<link rel="stylesheet" href="css/u5-responsive.css?u5v=121300" />
+<script src="js/u5-responsive.js?u5v=121300" defer></script>
 </head>
-<body id="body">
+<body id="body" class="u5-responsive" data-u5-layout="responsive">
   <nav class="skipLinks" aria-label="skip-links">
     {{{skiplinks}}}
   </nav>
@@ -30,6 +31,7 @@
     REMOVING HTML COMMENT TAG HERE = SWITCH SPLIT NAVIGATION ON. FURTHER: RENAME id="navLeft" TO id="navLeftSubTop" AND aria-label="navigation" TO aria-label="sub-navigation" AND INTRODUCE BOTH NAVIGATIONS IN THE BACKEND-P-OBJECT skiplinks!
     -->
 
+    {{{responsivecontrols}}}
     <div id="outer">
       <div id="navigation">
         <nav id="navLeft" aria-label="navigation">{{{navigation}}}</nav>
@@ -54,7 +56,6 @@
       if (location.href.indexOf('auto=1') > 0) location.reload();
     }
     setTimeout(autoequalsone, 2222);
-    if (typeof u5mkmobile === "function" && !document.getElementById('nevermobile')) u5mkmobile();
   </script>
 
 </body>

@@ -1,0 +1,66 @@
+/* u5CMS structural layout. Scoped opt-in keeps old/custom templates unchanged.
+   Preferred widths remain familiar; the viewport, never device detection, decides. */
+body.u5-responsive { margin: 0; padding: clamp(0px, 1.5vw, 24px); min-width: 0; }
+.u5-responsive #main { width: 100%; max-width: 1330px; margin-inline: auto; }
+.u5-responsive #header { box-sizing: border-box; width: 100%; min-height: 130px; height: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem; }
+.u5-responsive #slogan { padding: 0; min-width: 0; overflow-wrap: anywhere; }
+.u5-responsive #metanavi { float: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; order: 1; min-width: 0; max-width: 100%; }
+.u5-responsive #search, .u5-responsive #languages { float: none; margin: 0; min-width: 0; max-width: 100%; }
+.u5-responsive #search form { max-width: 100%; display: flex; align-items: center; flex-wrap: wrap; gap: .25rem; }
+.u5-responsive #search input { max-width: 100%; margin: 0; }
+.u5-responsive #outer { box-sizing: border-box; width: 100%; float: none; padding: clamp(.75rem, 2.25vw, 30px); display: grid; grid-template-columns: minmax(0,190px) minmax(0,1fr) minmax(0,190px); gap: 2rem; overflow: visible; }
+.u5-responsive #navigation, .u5-responsive #content, .u5-responsive #news, .u5-responsive #footer { box-sizing: border-box; min-width: 0; width: auto; max-width: 100%; margin: 0; padding: 0; float: none; overflow-wrap: anywhere; }
+.u5-responsive #content { min-height: 0; border: 0; }
+.u5-responsive #news { border-left: 1px solid #e1e5e9; padding-left: 1.25rem; }
+.u5-responsive #footer { grid-column: 2 / -1; padding-top: 1rem; }
+.u5-responsive #navTop { height: auto; padding: .5rem 1rem; }
+.u5-responsive #navTop > ul { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; padding: 0; }
+.u5-responsive #navTop > ul > li { display: block; margin: 0; }
+.u5-responsive #navLeftSubTop { padding-top: 0; }
+.u5-responsive #u5-navigation-toggle { display: none; }
+.u5-responsive #content img:not(.formdataimg), .u5-responsive #news img, .u5-responsive #footer img { max-width: 100%; height: auto; }
+.u5-responsive :is(.imgBoxLeft,.imgBoxRight,.imgBoxCenter,.freeImgLeft,.freeImgRight,.freeImgCenter) { box-sizing: border-box; max-width: 100%; }
+.u5-responsive :is(.imgBoxLeft,.imgBoxRight,.imgBoxCenter,.freeImgLeft,.freeImgRight,.freeImgCenter) dt { max-width: 100%; }
+.u5-responsive .dlAlbumLarge > dt > div { max-width: 100%; }
+.u5-responsive .albumhorizontal { max-width: none; }
+.u5-responsive .albumhorizontal img { max-width: none; }
+.u5-responsive .u5-video-frame { display: block; max-width: 100%; border: 0; }
+.u5-responsive #content :is(video,audio,iframe) { max-width: 100%; }
+.u5-responsive #content :is(form,fieldset,textarea,select,input) { box-sizing: border-box; max-width: 100%; min-width: 0; }
+.u5-responsive #content :is(textarea,select) { width: 100%; }
+.u5-responsive #content fieldset { min-inline-size: 0; padding: clamp(.75rem, 2vw, 25px); }
+.u5-responsive #content legend { max-width: 100%; margin-left: 0; box-sizing: border-box; white-space: normal; }
+.u5-responsive :is(.showblockdivinner,.showblock2divinner) { max-width: 100%; box-sizing: border-box; }
+/* Keep table semantics and author-supplied dat wrappers; scroll wide data locally. */
+.u5-responsive #content { overflow-x: auto; }
+.u5-responsive #content table { max-width: 100%; }
+.u5-responsive #content pre { max-width: 100%; overflow-x: auto; }
+.u5-responsive :focus-visible { outline: 3px solid #375f86; outline-offset: 2px; }
+@media (max-width: 68rem) {
+  .u5-responsive #outer { grid-template-columns: minmax(0,190px) minmax(0,1fr); gap: 1.5rem; }
+  .u5-responsive #news { grid-column: 2; border-left: 0; border-top: 1px solid #e1e5e9; padding: 1rem 0 0; }
+  .u5-responsive #footer { grid-column: 2; }
+}
+@media (max-width: 48rem) {
+  body.u5-responsive { padding: 0; }
+  .u5-responsive #main, .u5-responsive #header, .u5-responsive #outer { border-radius: 0; }
+  .u5-responsive #header { align-items: flex-start; min-height: 90px; }
+  .u5-responsive #metanavi { flex-basis: 100%; }
+  .u5-responsive #outer { grid-template-columns: minmax(0,1fr); gap: 1.5rem; }
+  .u5-responsive #news, .u5-responsive #footer { grid-column: 1; }
+  .u5-responsive[data-u5-nav-ready] #u5-navigation-toggle { display: block; box-sizing: border-box; width: calc(100% - 1.5rem); min-height: 44px; margin: .75rem; padding: .6rem 1rem; border: 1px solid #cbd2da; border-radius: 5px; background: #f4f6f8; color: #222b35; font: inherit; cursor: pointer; text-align: left; }
+  .u5-responsive[data-u5-nav-ready][data-u5-nav-open="false"] #navigation { display: none; }
+  /* The existing split navigation also remains usable on narrow screens. */
+  .u5-responsive #navLeftSubTop > ul > li { display: block; line-height: 1.6; }
+  .u5-responsive #navLeftSubTop > ul > li > a { display: block; padding: .5rem; }
+  .u5-responsive :is(#navLeft,#navLeftSubTop) a { min-height: 44px; box-sizing: border-box; padding-block: .5rem; }
+  .u5-responsive .stayright { margin-left: 0; }
+}
+@media print {
+  body.u5-responsive { padding: 0; }
+  .u5-responsive #main { max-width: none; box-shadow: none; }
+  .u5-responsive #outer { display: block; padding: 0; }
+  .u5-responsive #u5-navigation-toggle, .u5-responsive #navigation, .u5-responsive #navigationtop, .u5-responsive .skipLinks { display: none !important; }
+  .u5-responsive #content { overflow: visible; }
+  .u5-responsive #news, .u5-responsive #footer { margin-top: 1rem; }
+}

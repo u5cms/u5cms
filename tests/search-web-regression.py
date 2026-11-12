@@ -37,7 +37,8 @@ with tempfile.TemporaryDirectory(prefix='u5-search-web-') as temporary:
     work = Path(temporary)
     site = work / 'site'
     shutil.copytree(REPO, site, ignore=shutil.ignore_patterns('.git', 'tests'))
-    default_template = (site / 'r/htmltemplate.html').read_bytes()
+    # This suite retains the legacy mobile assertions; responsive search is tested separately.
+    default_template = (REPO / 'tests/fixtures/legacy-htmltemplate.html').read_bytes()
     default_templates = {name: default_template for name in ('htmltemplate.css', 'htmltemplate.html')}
     setup = json.loads(php_fixture(str(site)))
     database = setup['database']

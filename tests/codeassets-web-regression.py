@@ -4,6 +4,7 @@ from pathlib import Path
 import json, os, shutil, socket, subprocess, tempfile, time, urllib.request
 from fixture_environment import ensure_fixture_environment
 ensure_fixture_environment()
+os.environ['U5CMS_TEST_TEMPLATE']=str(Path(__file__).resolve().parent/'fixtures/legacy-htmltemplate.html')
 
 REPO = Path(__file__).resolve().parent.parent
 PHP = [os.environ.get('U5_TEST_PHP', 'php')] + json.loads(os.environ.get('U5_TEST_PHP_ARGS', '[]'))

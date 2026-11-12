@@ -12,8 +12,19 @@ The acceptance/correction audit heads have no additional application differences
 from this base; older releases retain their separate feature sets. No historical
 branch is merged, no production installation or main change is authorized.
 
-Current phase: architecture review and disposable runtime preparation.
-No application change has been implemented or validated yet.
+Current phase: first implementation and differential verification.
+The render() entry point now composes markup, resource and output stages; the
+existing dat implementation is moved byte-for-byte into its own module.
+Both SQL seeds and the distributed template opt into responsive CSS and optional
+navigation disclosure. Existing site templates/assets are not automatically
+replaced. No schema change was introduced.
+
+PHP 8.4.24 / MariaDB 11.8.6: 139 legacy byte comparisons, 126 responsive syntax/dat
+comparisons and 9 independent expected effects pass. This is an initial result,
+not completion. Native Chromium cannot launch in this execution environment
+because Unix sockets are unavailable; browser verification remains open.
+The documented dat parameters a-n were read in full on 12 November 2026,
+including the hidden explanation sections in the public page HTML.
 
 Compatibility contract:
 - Keep the public render() API, inserts, raw HTML escape regions, all PIDVESA
