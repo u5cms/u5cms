@@ -274,7 +274,7 @@ ns<input
 
             <td>
 <span title="[Ctrl+s] save changes (does save all three languages of the page in this editor area)">
-<button type="button" id="u5-textarea-trigger" hidden title="Text and object actions (Alt+Enter; Shift+right-click for browser menu)" aria-label="Text and object actions">&#8943;</button> <button id="savebutton" type="submit">s&nbsp;</button>
+<button id="savebutton" type="submit">s&nbsp;</button>
 </span>
                 </span>
             </td>
