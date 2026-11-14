@@ -1,5 +1,30 @@
 # u5CMS development checkpoint
 
+## Dreipunkte-Button entfernt (14. November 2026)
+
+Autorisiert: Den zusammen mit den Textarea-Aktionen eingefuehrten Dreipunkte-Button
+in allen betroffenen Branches entfernen. Rechtsklick und Tastaturwege erhalten.
+Branch: `12.12.3-PHP9-Compatibility`; exakter Ausgangscommit: `5f314cca8fab449b78056eb95cc92b73ac520a69`.
+Alle 21 Remote-Branches wurden geprueft; sieben enthalten die Schaltflaeche.
+
+Geaenderte Pfade: `u5admin/editor.php`, `u5admin/textarea-actions.js`, `tests/textarea-browser.cjs`, `docs/12.13.0-textarea.md`, `docs/development-status.md`.
+Abgeschlossen: Button-Markup und zugehoerige JavaScript-Anbindung entfernt;
+bestehende Browserpruefungen und Bedienungsbeschreibung angepasst. Die Korrektur
+wird auf dem jeweiligen Branch-Stand fortgefuehrt, ohne andere Branches zu mergen.
+
+Validierung: 748 Parser-/Transformationspruefungen und JavaScript-Syntaxpruefungen
+bestanden. Beide Editorvarianten bytegetreu geprueft: exakt ein Button entfernt,
+alle PHP-Bloecke und das uebrige Markup erhalten. Der JavaScript-Diff betrifft
+nur die Button-Anbindung und deren Ausnahme fuer Klicks ausserhalb des Menues.
+Browser-/HTTP-/Datenbank-Suiten wurden hier nicht neu ausgefuehrt: Chromium
+scheitert an der Socket-Beschraenkung, PHP/MariaDB sind nicht verfuegbar.
+[Umfang, Ausgangsrefs und Pruefgrenzen](12.13.0-textarea.md).
+
+Veroeffentlichung mit erwartetem Branch-Head und anschliessender Remotepruefung;
+kein produktives CMS geaendert. Fuer diesen eng begrenzten Branch-Auftrag ist
+keine weitere Implementierung offen. Ein allfaelliges Einspielen in Installationen
+ist ein separater Schritt.
+
 ## Internationale E-Mail-Adressen (8. November 2026)
 
 Autorisiert: IDN-Domains und SMTPUTF8-Local-Parts in allen 19 bestehenden Branches, danach zusaetzliche Tiefenpruefung und automatische Korrektur von Kollateralschaeden.
