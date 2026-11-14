@@ -18,7 +18,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    const left=page.frame({name:'i1'}),right=page.frame({name:'i2'});
    for(const f of [left,right])await f.waitForFunction(()=>window.u5TextareaActions && document.form1.page.value==='textareatest');
    const ta=left.locator('#ta1');
-   ok(await left.locator('#u5-textarea-trigger').isVisible(),mode+': compact trigger is visible');
+   for(const f of [left,right])equal(await f.locator('#u5-textarea-trigger').count(),0,mode+': no three-dot toolbar button in either editor');
    ok(await left.evaluate(()=>u5TextareaConfig.formats.some(x=>x.open==='[b]' && x.close==='[/]')),mode+': formats use real insert definitions');
    const initial='Lead sample text [textareatarget] tail';await ta.fill(initial);
    await left.evaluate(()=>{ta1.focus();ta1.setSelectionRange(5,11);});await ta.press('Alt+Enter');
@@ -29,12 +29,15 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await ta.press('Control+z');equal(await ta.inputValue(),initial,mode+': format undo');
    await ta.press('Control+Shift+z');ok((await ta.inputValue()).includes('[b]sample[/]'),mode+': format redo');
    await ta.press('Control+z');
-   // Mouse menu and compact toolbar keep the selected source unchanged until an action.
+   // Mouse and keyboard menus keep the selected source unchanged until an action.
    await left.evaluate(()=>{ta1.focus();ta1.setSelectionRange(5,11);ta1.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,cancelable:true,clientX:20,clientY:100}));});
    await left.getByRole('dialog',{name:'Text and object actions'}).press('Escape');
    equal(await left.locator('.u5-textarea-menu').count(),0,mode+': Escape closes the keyboard dialog');
-   await left.locator('#u5-textarea-trigger').click();await left.getByRole('button',{name:'Close text actions',exact:true}).click();
-   equal(await ta.inputValue(),initial,mode+': mouse and toolbar actions leave the source intact');
+   for(const key of ['ContextMenu','Shift+F10']){
+    await ta.press(key);await left.getByRole('dialog',{name:'Text and object actions'}).waitFor();
+    await left.getByRole('button',{name:'Close text actions',exact:true}).click();
+   }
+   equal(await ta.inputValue(),initial,mode+': mouse and keyboard actions leave the source intact');
    equal(await ta.evaluate(el=>el.selectionStart),5,mode+': closing returns the selection start');
    equal(await ta.evaluate(el=>el.selectionEnd),11,mode+': closing returns the selection end');
    await left.evaluate(()=>{ta1.focus();ta1.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));ta1.value='first composing value';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.value='completed composition';ta1.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertCompositionText',isComposing:true}));ta1.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true}));});
