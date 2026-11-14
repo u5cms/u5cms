@@ -333,17 +333,7 @@
                 ta.scrollTop=before.top;ta.scrollLeft=before.left;
                 record(ta, before, 'sync'); return true;
             }
-            var trigger = doc.getElementById('u5-textarea-trigger');
-            if (trigger) {
-                trigger.addEventListener('mousedown', function (e) { e.preventDefault(); });
-                trigger.addEventListener('click', function () {
-                    var ta = active && active.ta;
-                    if (!ta || !ta.offsetHeight) ta = areas.find(function (item) { return item.offsetHeight > 0; });
-                    if (ta) { var box = trigger.getBoundingClientRect(); show(ta, box.left, box.bottom); }
-                });
-                trigger.hidden = false;
-            }
-            doc.addEventListener('mousedown', function (e) { if (menu && !menu.contains(e.target) && e.target !== trigger) dismiss(false); });
+            doc.addEventListener('mousedown', function (e) { if (menu && !menu.contains(e.target)) dismiss(false); });
             win.addEventListener('blur', function () { if (menu) dismiss(false); });
             win.addEventListener('resize', function () { dismiss(false); });
             win.u5TextareaActions = { receive: receive, show: show, undo: undo, dismiss: dismiss };
