@@ -7,7 +7,7 @@
 
 Formatieren markierter Quelltexte, kontextabhängige Objektaktionen, P-Objekt-Edit im neuen Tab sowie synchronisiertes Undo/Redo.
 
-- Aktionsmenü in beiden Seiteneditoren und allen fünf Sprachfeldern, erreichbar per Kontextmenü, Tastatur und Schaltfläche.
+- Aktionsmenü in beiden Seiteneditoren und allen fünf Sprachfeldern, erreichbar per Kontextmenü und Tastatur.
 - Versteht einfache, beschriftete, $$$- und weitere Objektverweise; P-Objekte bieten Edit über edit.php im neuen Tab.
 - Bearbeiten, Vorschau, Metadaten, Original/Download, Ziel- und Linktextänderung, Suche, Verwendungen und Referenzaktionen berücksichtigen bestehende Rechte.
 - Formatierung und Undo/Redo sind mit Änderungsanzeige, zweitem Editor, Vorschau und Speichern verbunden; veraltete asynchrone Aktionen überschreiben keine neueren Eingaben.
