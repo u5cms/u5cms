@@ -1,23 +1,8 @@
-**Patch 12.9.5.2:** [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename) baut auf 12.9.5.1 auf und zieht die schnelle, wiederaufnehmbare Objektumbenennung vor. Bestehende Codeobjekte und Exporte bleiben erhalten. [Betrieb und Prüfnachweis](docs/rename-backport-12.9.5.2.md).
+# u5CMS 12.9.5.3
 
-<!-- u5cms-branch-description:start -->
-# u5CMS 12.9.5.2 — schnelles, wiederaufnehmbares Rename
+Auf Basis von 12.9.5.2 kann jede Installation für SELF-Formulardatensätze zwischen persönlicher und organisationsweiter Bearbeitung wählen. Die Anmeldung bleibt persönlich. Eine separate Liste in der Site-Konfiguration steuert den zentralen Verwaltungszugriff. Beide Einstellungen sind in [config.php.sample](config.php.sample) beschrieben.
 
-**Release-Tag** `v12.9.5.2`
-
-**Version in `index.php`:** 12.9.5.2
-
-**Basis:** vollständiger Release 12.9.5.1 (`e26dfb1`).
-
-Die speicherschonende Suche aus 12.9.5.1 bleibt erhalten. Rename führt
-Objekt, CMS-Verweise, Historien, Sprachdateien und Exporte vollständig nach,
-schont Überschriften und lässt sich nach Unterbrüchen wiederaufnehmen.
-Die bisherigen Codeobjekte und `.css`-Exporte bleiben erhalten.
-
-[Betrieb, Installation, Rückweg und Prüfnachweis](docs/rename-backport-12.9.5.2.md)
-
-[Alle Branches und Integrationsstände](BRANCHES.md)
-<!-- u5cms-branch-description:end -->
+Release-Tag `v12.9.5.3` · [Konfiguration und Übernahme](docs/onlymine.md) · [Branches](BRANCHES.md) · [Rename aus 12.9.5.2](docs/rename-backport-12.9.5.2.md)
 
 ---
 
