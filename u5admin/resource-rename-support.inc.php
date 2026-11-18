@@ -166,8 +166,11 @@ function u5RenameStorageApplyRow($change,$columns=null,$derivedFields=array()) {
     $before=$change['before']; $after=$change['after']; $table=u5RenameStorageIdentifier($change['table']);
     $derived=array_fill_keys($derivedFields,true);
     $beforeGuard=array_diff_key($before,$derived);$afterGuard=array_diff_key($after,$derived);
-    $set=array(); $compare=array();
-    foreach ($after as $field=>$value) if ($value!==$before[$field] || isset($derived[$field])) { $set[]=u5RenameStorageIdentifier($field).'='.u5RenameStorageColumnValue($value,$columns[$field]); $compare[$field]=$before[$field]; }
+    // The indexer owns these columns, including when resuming an older rename journal.
+    $set=array();
+    foreach ($afterGuard as $field=>$value) {
+        if ($value!==$beforeGuard[$field]) $set[]=u5RenameStorageIdentifier($field).'='.u5RenameStorageColumnValue($value,$columns[$field]);
+    }
     if (!$set) return;
     // Use the whole original row, including nulls, instead of a guessed primary key.
     // This also handles duplicate history rows in the legacy MyISAM tables.
