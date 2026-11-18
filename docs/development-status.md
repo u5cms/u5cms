@@ -1,5 +1,16 @@
 # u5CMS development checkpoint
 
+## Rename-Nachfuehrung abgeschlossen (18. November 2026)
+
+Branch `12.12.1-General-Corrections`, Ausgangs-SHA `493c174ddea42beedd51f1879f42e37ae1b00623`, Version 12.12.1.
+Autorisierter Umfang und geaenderte Pfade: [Rename-Bericht](rename-backport-12.9.5.2.md)
+und zugehoeriger JSON-Nachweis. 886 Rename- und 114 HTTP-Pruefungen bestehen;
+Version und Suchdateien sind bytegleich zum Ausgangsstand. Keine produktive
+Installation. Veroeffentlichung wird mit erwartetem Remote-Head bewacht; die
+abschliessende Remotepruefung bestaetigt den gespeicherten Commit.
+Naechste Aktion: keine weitere Implementierung fuer diesen Auftrag.
+
+
 ## Internationale E-Mail-Adressen (8. November 2026)
 
 Autorisiert: IDN-Domains und SMTPUTF8-Local-Parts in allen 19 bestehenden Branches, danach zusaetzliche Tiefenpruefung und automatische Korrektur von Kollateralschaeden.
