@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/onlymine.inc.php';
 
 function render($stringa) {
     global $mymail;
@@ -1206,7 +1207,7 @@ function renderspecial($name,$human) {
         } else {
             if(strpos($notes,' LIKE ')<1) {
                 if ($notes!='' && $notes!='SELF') $where.=" AND notes LIKE '%".mysql_real_escape_string($notes)."%'";
-                if ($notes=='SELF') $where.=" AND authuser ='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."'";
+                if ($notes=='SELF') $where.=u5onlymineSelfSql($table);
             } else {
                 $noteslike=explode(' LIKE ',$notes);
                 if ($notes!='' && $notes!='SELF')  {
@@ -1400,6 +1401,7 @@ function renderspecial($name,$human) {
             $return=str_replace('$hu',$row_a['humantime'],$return);
             $return=str_replace('$au',$row_a['authuser'],$return);
             $return=str_replace('$ah',md5(strtolower($row_a['authuser'])),$return);
+            if (u5onlymineUsesDomain()) $return=str_replace('$rh',u5onlymineDomainHash($row_a['authuser'] ?? ''),$return);
         }
         $inclbr=array('<br /><tr>','<tr><br />','<br /></tr>','</tr><br />','<br /><td>','</td><br />');
         $exclbr=array('<tr>'      ,'<tr>'      ,'</tr>'      ,'</tr>'      ,'<td>'      ,'</td>');
