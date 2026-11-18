@@ -1,5 +1,6 @@
 <?php require('iniset.inc.php');?>
-<?php require_once('connect.inc.php');require_once('t2.php'); ?>
+<?php require_once('connect.inc.php');
+require_once __DIR__.'/resource-mutation.inc.php';require_once('t2.php'); ?>
 <?php
 require('../config.php');
 if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'];
