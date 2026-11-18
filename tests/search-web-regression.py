@@ -92,6 +92,18 @@ readfile($file);
             else:
                 raise RuntimeError('PHP HTTP server did not start')
             status, _, body = request('/indexer.php')
+            # Follow the same continuation as the browser. Only the disposable site's
+            # clock is advanced, so CI can verify a complete multi-batch rebuild.
+            progress = site / 'fileversions/indexer-progress.php'
+            for batch in range(1000):
+                if 'u5indexcontinue=1' not in body:
+                    break
+                guard, state = progress.read_text().split('\n', 1)
+                state = json.loads(state)
+                state['next'] = 0
+                progress.write_text(guard + '\n' + json.dumps(state))
+                status, _, body = request('/indexer.php?u5indexcontinue=1')
+            check(not progress.exists(), 'Full index completed all bounded batches')
             check(status == 200 and 'doneaudio' in body, 'The real full indexer completes over HTTP')
             check((site / 'fileversions/search-index-v2.txt').read_text().strip() == '2', 'Full indexing publishes its format marker')
             check(not (site / 'fileversions/search-index-pending.txt').exists(), 'Full indexing clears pending state')
