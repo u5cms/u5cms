@@ -1,21 +1,22 @@
 **Patch 12.9.5.2:** [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename) baut auf 12.9.5.1 auf und zieht die schnelle, wiederaufnehmbare Objektumbenennung vor. Bestehende Codeobjekte und Exporte bleiben erhalten. [Betrieb und Pruefnachweis](docs/rename-backport-12.9.5.2.md).
 
 <!-- u5cms-branch-description:start -->
-# u5CMS · Stammbranch · u5CMS 12.9.5
+# u5CMS 12.9.5.2 — schnelles, wiederaufnehmbares Rename
 
-**Branch:** `main`  
-**Version in `index.php`:** 12.9.5  
-**Basis:** Vorheriger Stammstand; letzter Anwendungsschritt: reCAPTCHA durch Cloudflare Turnstile ersetzen.
+**Branch:** `12.9.5.2-Faster-Rename`
 
-u5CMS 12.9.5 mit Cloudflare Turnstile; Ausgangsstand der nachfolgenden Entwicklungsreihe.
+**Version in `index.php`:** 12.9.5.2
 
-- Cloudflare Turnstile ersetzt reCAPTCHA.
-- Die Beschreibung dieses GitHub-Branches belegt keine Installation oder Aktualisierung einer produktiven Website.
+**Basis:** vollständiger Release 12.9.5.1 (`e26dfb1`).
 
-**Einordnung:** Stammbranch. Die spätere Entwicklungsreihe bis 12.12.4 ist hier fachlich noch nicht integriert.
+Die speicherschonende Suche aus 12.9.5.1 bleibt erhalten. Rename führt
+Objekt, CMS-Verweise, Historien, Sprachdateien und Exporte vollständig nach,
+schont Überschriften und lässt sich nach Unterbrüchen wiederaufnehmen.
+Die bisherigen Codeobjekte und `.css`-Exporte bleiben erhalten.
 
-[Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
-[Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
+[Betrieb, Installation, Rückweg und Prüfnachweis](docs/rename-backport-12.9.5.2.md)
+
+[Alle Branches und Integrationsstände](BRANCHES.md)
 <!-- u5cms-branch-description:end -->
 
 ---

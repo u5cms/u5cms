@@ -16,7 +16,7 @@ Main remains the production baseline and is not a deployment target here.
 The search work in another workspace is active; its working tree is left alone.
 Shared remote heads will be refreshed before every publication.
 
-Implementation checkpoint: the 12.9.5.2 application backport is complete; branch propagation and final source verification are in progress. The modern Rename depends on typed-code migration,
+Implementation checkpoint: the 12.9.5.2 application backport is complete; branch propagation tests have passed; guarded publication and final source verification are in progress. The modern Rename depends on typed-code migration,
 row journals and coordinated writers. The backport must preserve the existing
 12.9.5 code-object format and templates, all five languages and configured
 reference policies. No automatic code-resource migration is authorised by this
@@ -38,7 +38,7 @@ available; it does not prevent the rename. No code/schema migration entry point
 is imported or invoked by the standalone legacy helpers.
 
 Executed locally: PHP 8.4.27 / MariaDB 11.8.6. 887 core/database checks (including
-all policy combinations and actual SIGKILL/resume); 94 actual HTTP checks
+all policy combinations and actual SIGKILL/resume); 114 actual HTTP checks
 (Basic/session, CSRF, archive rights before/after ownership moves, renderer,
 files, history, forced publication failure, blocked writes and exact retry).
 Two benchmark fixtures verify all 20 text columns and every file. Sparse:
@@ -55,6 +55,15 @@ JavaScript syntax is checked separately. Recorded earlier modern browser tests
 are not represented as new tests of this patch.
 
 Last completed: implementation and complete legacy DB/HTTP/benchmark validation.
-Next: backport to the eleven earlier cumulative development branches, preserving
-branch-specific versions, search generations and typed-code APIs; verify their
-current heads before publication. Main and installed CMSs remain unchanged.
+The complete 16-branch matrix passes: eleven earlier cumulative branches receive
+the ordinary Rename backport; five branches already containing Rename retain
+that implementation and gain the missing maintenance-writer guards. The
+historical audit snapshots, 12.9.5.1 patch/tag and main are not rewritten.
+All branch versions and search application bytes are preserved. The machine
+report records exact starting heads and changed-path inventories.
+Next: publish with expected-head guards and verify every resulting remote tree.
+Installed CMSs remain unchanged.
+
+The completed 12.9.5.1 release documentation and evidence at `e26dfb1` are retained as an additional merge parent. No inherited search application file changes.
+
+Inherited search validation on the patch: 45 streamed-memory checks (75,000,000 bytes under 16 MiB) and 55,990 legacy HTML excerpt comparisons (24 MiB input, 27,267,072-byte peak) pass.
