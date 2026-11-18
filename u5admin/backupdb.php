@@ -20,7 +20,7 @@ try {
     if (!$link) throw new RuntimeException('Cannot open a separate database backup connection.');
     $backup_files=u5CreateDatabaseBackup($db,$backup_dir,$backup_compress,$link);
 } catch (Throwable $error) {
-    http_response_code(500);
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
     $u5BackupError=$error;
 } finally {
     if ($link) mysql_close($link);
