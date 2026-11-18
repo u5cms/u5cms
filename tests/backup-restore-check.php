@@ -62,6 +62,8 @@ try {
         $count=mysql_result(backupQuery('SELECT COUNT(*) FROM resources_log'),0);
         mkdir($pairedRoot.'/u5admin',0700,true);file_put_contents($pairedRoot.'/u5admin/connect.inc.php','<?php');
         symlink($root.'/u5admin/codeassets-migrate.inc.php',$pairedRoot.'/u5admin/codeassets-migrate.inc.php');
+        copy($root.'/u5admin/resource-mutation.inc.php',$pairedRoot.'/u5admin/resource-mutation.inc.php');
+        symlink($root.'/u5admin/resource-rename-support.inc.php',$pairedRoot.'/u5admin/resource-rename-support.inc.php');
         $reset=file_get_contents($root.'/u5admin/reactivateinitialu5cmslayout.php');
         $reset=preg_replace('/^die\([^\n]+\);\n/m','',$reset,1,$removed);backupCheck($removed===1,'Test-only layout-reset guard was not found.');
         file_put_contents($pairedRoot.'/u5admin/restore-reset.php',$reset);$cssRqHIADRI='no';$_GET['iswear']='iknowthatthisoverwritesthecurrentlayout';
