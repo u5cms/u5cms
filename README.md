@@ -56,3 +56,6 @@ Development continuity: read [the saved implementation status, open boundaries a
 Version 12.12.2 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
 
 Version 12.12.3 removes the remaining reverse-named count workaround, establishes explicit text/encoding contracts and updates the bundled libraries with reproducible native interface return types. It requires PHP 8.2 or newer; executed compatibility checks cover PHP 8.3 and 8.5. See [scope, validation, dependency installation and rollback](docs/12.14.0-php9.md).
+
+
+Patch 12.9.5.2: [schnelles, wiederaufnehmbares Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename). Die eigene Branch-Version bleibt erhalten. [Nachfuehrung und Pruefungen](docs/rename-backport-12.9.5.2.md).
