@@ -14,14 +14,31 @@ numbered successor branches and both maintained feature/fix branches in
 the [branch matrix](rename-backport-12.9.5.2-branches.json). Their branch
 versions and search code were checked against their own pre-backport states.
 
-Nine successor branches pass all 92 browser checks with the committed test.
+All 16 branches passed the 92 Chromium checks, totalling 1,472 assertions.
 On the five 12.11.x branches, 12.12.0-OIDC and the search feature branch,
-the browser fixture hard-codes a legacy CSS filename when simulating a failed
-template export. These branches export HTML. All 92 checks pass on each
-when the fixture uses the existing `U5_RENAME_TEST_EXPORT` value from the test
-driver. This test-only adjustment was verified locally. The published fixtures
-on those seven branches still use the legacy filename. The application files
-used in every browser run match their published branches.
+the browser fixture now takes its template export filename from the test
+driver. This lets it exercise a failed publication against the actual HTML
+export. Each of these seven one-line changes affects only the browser test.
+The complete published trees were compared with the tested working trees.
+
+| Development branch | Verified commit | Browser assertions passed |
+| --- | --- | ---: |
+| `12.10.0-Multi-Optimizations-by-AI` | [`d88a53d24`](https://github.com/u5cms/u5cms/commit/d88a53d24e1bbe078d808e0bd7b3328f3460359c) | 92 |
+| `12.10.1-Support-More-Image-Formats` | [`27d5ab178`](https://github.com/u5cms/u5cms/commit/27d5ab178d36c405ca9f8be5564027eed6bc5e47) | 92 |
+| `12.11.0-Code-Resource-Migration` | [`1046798be`](https://github.com/u5cms/u5cms/commit/1046798be96f4ef0146c5f0b56cc5119241c673b) | 92 |
+| `12.11.1-Migration-Hardening` | [`a843c6854`](https://github.com/u5cms/u5cms/commit/a843c6854311267a849fec55fe94d22f5d40213b) | 92 |
+| `12.11.2-Backup-Restore-Corrections` | [`eb95d01f4`](https://github.com/u5cms/u5cms/commit/eb95d01f4e491120ccbdedbbb6929eff29ae4bf2) | 92 |
+| `12.11.3-Private-File-Cache-Corrections` | [`985a898df`](https://github.com/u5cms/u5cms/commit/985a898df58fc1a31766edf4107f2a846403a63d) | 92 |
+| `12.11.4-Intranet-Login-Corrections` | [`3184a8266`](https://github.com/u5cms/u5cms/commit/3184a826690344806f09f5654ea9b36f5df45da7) | 92 |
+| `12.12.0-OIDC` | [`60f29f518`](https://github.com/u5cms/u5cms/commit/60f29f5184fb71d78ecf39a50ce2ad481ff5980c) | 92 |
+| `12.12.1-General-Corrections` | [`fd3bc9b24`](https://github.com/u5cms/u5cms/commit/fd3bc9b240659c6f41304b37fff1402a64ddca2a) | 92 |
+| `12.12.2-Textarea-Interactions` | [`d02e46a71`](https://github.com/u5cms/u5cms/commit/d02e46a71a0348d917c31ea75aac9fe6c5da73c2) | 92 |
+| `12.12.3-PHP9-Compatibility` | [`a729857fc`](https://github.com/u5cms/u5cms/commit/a729857fc13c94457f2bdd072c63052e17eee10a) | 92 |
+| `12.12.4-Default-Design` | [`63728d31d`](https://github.com/u5cms/u5cms/commit/63728d31d7db837fb79d74c7eded87ed6a398a26) | 92 |
+| `12.13.0-Responsive-Design` | [`45d8d1aa4`](https://github.com/u5cms/u5cms/commit/45d8d1aa4007d7664d2c9d80dac8792137e846bc) | 92 |
+| `12.9.6-Misc-Backend-Optimizations` | [`64b22fe7d`](https://github.com/u5cms/u5cms/commit/64b22fe7d858c800a83a7efd62cbd94c82c869a2) | 92 |
+| `feature/search-phrases-quotes-highlighting` | [`a7563fe1d`](https://github.com/u5cms/u5cms/commit/a7563fe1dc0002a05b677c252a698b122edf373b) | 92 |
+| `fix/nosniff-script-mime-types` | [`b8d9166c6`](https://github.com/u5cms/u5cms/commit/b8d9166c613f118c4d557f2a59384600cadc4b27) | 92 |
 
 This patch applies to the 12.9.5.x line. Installations already on a newer
 development branch can use their corresponding updated branch. For a pending
