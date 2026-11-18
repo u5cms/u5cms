@@ -53,7 +53,7 @@ const {spawnSync}=require('node:child_process');const {launchBrowser}=require('.
   const conflict=await admin.request.get(base+'/u5admin/checkco.php?name=renameoldfailure&coco=100&changes=1');
   verify(!(await conflict.text()).includes('msgconflict='),'archived editor conflict poll ignores a newer deleted tombstone');
   form=await admin.request.get(base+'/u5admin/rename.php?name=renameoldfailure');token=(await form.text()).match(/name="u5scrtytknfrfrms"[^>]*value="([^"]+)"/)[1];
-  const exportPath=path.join(site,'r','htmltemplate.css'),savedExport=exportPath+'.fixture';fs.renameSync(exportPath,savedExport);fs.mkdirSync(exportPath);
+  const exportPath=path.join(site,'r',process.env.U5_RENAME_TEST_EXPORT),savedExport=exportPath+'.fixture';fs.renameSync(exportPath,savedExport);fs.mkdirSync(exportPath);
   try {
    response=await admin.request.post(base+'/u5admin/rename2.php?name=renameoldfailure',{form:{name:'renamenewfailure',ulinks:'yes',u5scrtytknfrfrms:token}});equal(response.status(),500,'publication failure is visible');verify((await response.text()).includes('Retry rename'),'failure offers the exact resumable operation');
    verify(support('snapshot','failure').resources.some(x=>x.name==='renamenewfailure'),'publication failure checkpoint covers a moved source');
