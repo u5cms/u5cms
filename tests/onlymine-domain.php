@@ -44,6 +44,11 @@ checkOnlymine(u5onlymineFormRules(), 'aabb', 'domain scope checks the record for
 checkOnlymine(u5onlymineHasMarker('SELF_test','SELF_'), true, 'marker at start');
 checkOnlymine(matchingIds(), array(1,2), 'exact domain list');
 checkOnlymine(u5onlymineOwnsRequestedRecord(), true, 'colleague record');
+foreach (array(2,3,4,5,6,7) as $status) {
+    mysql_query("UPDATE formdata SET status=$status WHERE id=2");
+    checkOnlymine(u5onlymineOwnsRequestedRecord(), $status<=4, 'SELF record status '.$status);
+}
+mysql_query('UPDATE formdata SET status=1 WHERE id=2');
 foreach (array(3,4,5,6,7) as $id) {
     $_GET['id']=(string)$id;
     checkOnlymine(u5onlymineOwnsRequestedRecord(), false, 'foreign, invalid, other form, or archived record '.$id);
@@ -72,6 +77,7 @@ checkOnlymine(matchingIds(), array(1,2,3,4,5), 'central administration');
 $_SERVER['PHP_AUTH_USER']='invalid';
 checkOnlymine(matchingIds(), array(), 'invalid identity');
 checkOnlymine(u5onlymineRemotepart('x@y@z'), '', 'invalid address');
+checkOnlymine(u5onlymineDomainMatchesLogin('xn--strae-oqa.ch','a@strasse.ch'), false, 'distinct domains must not share a legacy account key');
 if (function_exists('idn_to_ascii')) {
     checkOnlymine(u5onlymineRemotepart('a@b'.chr(252).'ro.example'), 'xn--bro-hoa.example', 'IDN stored bytes');
     checkOnlymine(u5onlymineDomainHash('a@b&#252;ro.example'), hash('sha256','xn--bro-hoa.example'), 'IDN template hash');
