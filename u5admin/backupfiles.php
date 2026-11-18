@@ -45,7 +45,7 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 $zip->write();
 } catch (Throwable $error) {
     unset($zip);
-    http_response_code(500);
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
     $u5BackupError=$error;
 } finally {
     if ($u5BackupRelease) $u5BackupRelease();
