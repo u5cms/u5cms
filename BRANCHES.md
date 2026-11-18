@@ -2,14 +2,15 @@
 
 Stand: 18. November 2026. Die Beschreibungen beziehen sich auf die veröffentlichten Anwendungsstände; sie belegen keine produktive Installation.
 
-Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält den Patch-Stand 12.9.5.3 auf der bisherigen 12.9.5-Linie. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
+Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält den Patch-Stand 12.9.5.4 auf der bisherigen 12.9.5-Linie. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
 
 ## Aktuelle Branches
 
 | Branch | Version in index.php | Neuerungen / Zweck |
 | --- | --- | --- |
 | [12.9.5.3-Onlymine](https://github.com/u5cms/u5cms/tree/12.9.5.3-Onlymine) | 12.9.5.3 | [Konfigurierbare SELF-Berechtigungen für Datensätze](docs/onlymine.md). |
-| [main](https://github.com/u5cms/u5cms/tree/main) | 12.9.5.3 | Konfigurierbare SELF-Berechtigungen.  Speicherschonende Suche und schnelle Objektumbenennung mit Wiederaufnahme nach einem Unterbruch. |
+| [main](https://github.com/u5cms/u5cms/tree/main) | 12.9.5.4 | Begrenzte und wiederaufnehmbare Vollindexierung mit Datenbank-Wartebudget, verlässlichem Indexdatum, speicherschonender Suche, korrigiertem Rename und optionalen SELF-Berechtigungen. |
+| [12.9.5.4-Indexer-Final](https://github.com/u5cms/u5cms/tree/12.9.5.4-Indexer-Final) | 12.9.5.4 | Geprüfter Release-Kandidat; [kumulative Abnahme gegenüber 12.9.5](docs/release-12.9.5.4.md). |
 | [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename) | 12.9.5.2 | Patchlinie ab 12.9.5.1: schnelle, wiederaufnehmbare Objektumbenennung mit Ueberschriften-, Referenz-, Historien- und Dateierhalt; bestehende Codeobjekte und Exporte bleiben erhalten. |
 | [12.9.6-Misc-Backend-Optimizations](https://github.com/u5cms/u5cms/tree/12.9.6-Misc-Backend-Optimizations) | 12.9.6 | Stabilere Scrollposition im Backendfilter und bereinigte Tooltips der Objektlisten. |
 | [12.10.0-Multi-Optimizations-by-AI](https://github.com/u5cms/u5cms/tree/12.10.0-Multi-Optimizations-by-AI) | 12.10.0 | Zuverlässigeres Speichern und Konflikthandling, schnellere Backendfilter sowie robustere Uploads, ZIP-Backups und Datei-Caches. |
@@ -29,6 +30,8 @@ Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](http
 | [12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design) | 12.13.0 | Kumulativer Entwicklungsstand mit echtem Responsive Design und erhaltener neuer Suche. |
 
 ## Integration und Nachträge
+
+Die allgemeine Datenbank-Wartebegrenzung und die korrigierte Indexdatumsanzeige aus 12.9.5.4 wurden auch auf allen 20 betroffenen Entwicklungsbranches nachgeführt. Die jeweiligen Anwendungs- und Versionsstände bleiben erhalten. [Exakte Ausgangs- und Folgecommits](docs/release-12.9.5.4-backports.json).
 
 | Änderung | Erster nummerierter Stand / Umfang |
 | --- | --- |

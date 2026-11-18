@@ -1,0 +1,136 @@
+[
+  {
+    "branch": "12.10.0-Multi-Optimizations-by-AI",
+    "base": "7293939124f9d4bd12960cd8d44c2c6a3a940301",
+    "sha": "0893208d0f0fe0ec5cd85ea5e627bd691be31c02",
+    "tree": "c0174e442828251e45e872ac4f8b92caa9a957a7"
+  },
+  {
+    "branch": "12.10.1-Support-More-Image-Formats",
+    "base": "1f088c9928cab568941bf92347e4a6e4aa23db2a",
+    "sha": "b6dba3e1f41a1f92f316248c287ed5bd8948f90a",
+    "tree": "639b88566d551365d7764dd18cc986f314c0673f"
+  },
+  {
+    "branch": "12.11.0-Code-Resource-Migration",
+    "base": "d53bf6d1b7be8f436811493eb08a77383353efab",
+    "sha": "f7ba37a31e193a5573d63a44b327eda7b271068c",
+    "tree": "8ac22dfdc548eb5017712aea2fb30e58b497bd64"
+  },
+  {
+    "branch": "12.11.1-Migration-Hardening",
+    "base": "0178a392ba74556d02220b5ff24bd80458995b8e",
+    "sha": "26952ad2ba2f2a6f09cba20a4855820e9754f72f",
+    "tree": "256bf20ee1c009d5a13e38be4dd414bdd97472e8"
+  },
+  {
+    "branch": "12.11.2-Backup-Restore-Corrections",
+    "base": "8874aed087669fb46fd98e8a11b563dea46b6dec",
+    "sha": "47b7f41fddbf33cab0594cb0dd41b2c2536600d7",
+    "tree": "97d0929e5c5d894b54e5983dced4dfef876c781c"
+  },
+  {
+    "branch": "12.11.3-Private-File-Cache-Corrections",
+    "base": "6a92450684b965dcff408a1726c631b242051660",
+    "sha": "d0b7d359edd4a3a2a3a406c541c7f3c154949d31",
+    "tree": "274cb2311d6c3e849487f0b0bcdf19b3d3301f6e"
+  },
+  {
+    "branch": "12.11.4-Intranet-Login-Corrections",
+    "base": "b553d2bb14993131b860fe9c44d912adf5589dd7",
+    "sha": "6bda63c135533759bcf864baf35e36dfb5e599e9",
+    "tree": "741751398f703fb77830ba2e8ef17f15fe3d506e"
+  },
+  {
+    "branch": "12.12.0-OIDC",
+    "base": "4f09d7a39b15192e210e8572b8b80e9b032ed7f5",
+    "sha": "8b5c00d15386265c05eb4fd4fc11cc702d74cc62",
+    "tree": "45aef23c3cc7c1985848c75e4db8d255e0f603d7",
+    "superseded_notice_sha": "a1f85d4d7e3b84bd994465ddfc297f1243054d82",
+    "format_notice_fix": true
+  },
+  {
+    "branch": "12.12.1-General-Corrections",
+    "base": "31fc500648eea69fd66f3eee1d38b67c00a4dcf4",
+    "sha": "701efd9b5bb56d2bf78d0e00b2a8fc5da6044134",
+    "tree": "2679a400e3e1eb0165df9383861a5a6fb1bcb7a2",
+    "superseded_notice_sha": "c281c09699c045507135d0e758ce019710d3c5c1",
+    "format_notice_fix": true
+  },
+  {
+    "branch": "12.12.2-Textarea-Interactions",
+    "base": "df83b03c92aa3d8c75eef215d97ea4f61b2f61bf",
+    "sha": "fb3c16156e69dea5e2269a16803710607ccf85b5",
+    "tree": "21316a2978dc4aa6c267955d396b2d0bef0560a0",
+    "superseded_notice_sha": "c17c7affa65abba04f430a1c3bed070c09a2f8c1",
+    "format_notice_fix": true
+  },
+  {
+    "branch": "12.12.3-PHP9-Compatibility",
+    "base": "b784fdf6bc9c8d7d4adcdaf39515c9d83668808c",
+    "sha": "17b369ce4c5b0d88d9438c0335b753ef64cd331f",
+    "tree": "cb11215f50bb192d1817cda2bb4b28e49650aef7",
+    "superseded_notice_sha": "4671c898e72a9077cebeba9f4a79312eefd23b55",
+    "format_notice_fix": true
+  },
+  {
+    "branch": "12.12.4-Default-Design",
+    "base": "ac18105a61f442823cbacc8e638f7ac55afedbf9",
+    "sha": "e58c23590b7f950c981e5194985fe3b004ecc23e",
+    "tree": "f54da91c9d8da7f04946fea747f2cc01b5b304e3",
+    "superseded_notice_sha": "11d80a034ae7f7462370faee54e13b4ddc04da94",
+    "format_notice_fix": true
+  },
+  {
+    "branch": "12.13.0-Responsive-Design",
+    "base": "ba4cfa866e5805888b8a680083d8e12dcd43a452",
+    "sha": "3e6d88b12c3fcaaaad87c51594d695799fa97562",
+    "tree": "3f3556c1e053677fc5f78ee07fe321fcf96dc3d3",
+    "superseded_notice_sha": "014a72d085211f0c19e4fa2d4a262931c8a5e5b5",
+    "format_notice_fix": true
+  },
+  {
+    "branch": "12.9.5.2-Faster-Rename",
+    "base": "dc45f8f69475294164a09ed28814ccec3afc557d",
+    "sha": "c4ebc844c8a53d02e204a545ea37e18524d4ed6d",
+    "tree": "860538745b489a9736b04669a5182b6d9c2d94ca"
+  },
+  {
+    "branch": "12.9.5.3-Onlymine",
+    "base": "947e78da93a24b0cde6632df120134dc88b3d13a",
+    "sha": "e329e679892d9e8420727479f4a4a18d906a5c26",
+    "tree": "e43f3e1ac328a18c23d9dd520457e685ec2f0da3"
+  },
+  {
+    "branch": "12.9.6-Misc-Backend-Optimizations",
+    "base": "d8ef807db2b40ed737ade676be34f712f8d91fce",
+    "sha": "2265a51c8ba4317ff367476d54fdf8769c008d31",
+    "tree": "55351639822acc3bc88f926cbf21275f75f801fd"
+  },
+  {
+    "branch": "feature/search-phrases-quotes-highlighting",
+    "base": "6b572b4c10e8e2b4464d51dd938b801c6a4d3081",
+    "sha": "3a6214ec9e44629613e7c9e850c4ba31f8b4a88d",
+    "tree": "679917837cbc0e0b4661974455dd056c0849a1e1",
+    "superseded_notice_sha": "bc15e429c856d1f5d8a5dac00c2d336a3358a81f",
+    "format_notice_fix": true
+  },
+  {
+    "branch": "fix/international-email-20261108",
+    "base": "9804fc9d73dcd1656169afaf8c3cf8551c0c1498",
+    "sha": "a83b97f986d3307ed46b2c28b1ac64eeeeb50a1e",
+    "tree": "1940b5eb09f0a5d93c9c7c8e924ca14b44438f0f"
+  },
+  {
+    "branch": "fix/nosniff-script-mime-types",
+    "base": "3006deeafe49df67c844e166294a531285e57f79",
+    "sha": "0e4957392884ceb94edac77320d0e4ee2005f0ff",
+    "tree": "eb488417a3b84b76b1c3ca80a5b76697127d9278"
+  },
+  {
+    "branch": "fix/search-memory-12.9.5.1",
+    "base": "f17f823e8e14f11f80396cb8c372ac458ccf051f",
+    "sha": "aceaa72db436e34eaccba4df424e201f3dbc27a5",
+    "tree": "e316390b47a11d39fa4272df800e76b1e3364854"
+  }
+]

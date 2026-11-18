@@ -1,5 +1,30 @@
 # u5CMS development checkpoint
 
+## 12.9.5.4 acceptance, 18 November 2026
+
+Authorised: finish and publish the patch release, review the full difference
+against v12.9.5, preserve cumulative development work, and send the requested
+change/evidence/confidence table to the user's BK address.
+Base: main cbadbd009d42c129e53111218ba3401a12984a3f.
+Candidate branch: 12.9.5.4-Indexer-Final, pull request 197.
+
+Implementation and cumulative acceptance are complete. The application code
+passed the stable GitHub acceptance workflow on PHP 8.3 and 8.4, including the
+92-check Chromium suite in each profile. The final test/documentation additions
+include a real SIGKILL regression and the published backport inventory; they do
+not alter the accepted application sources. Exact evidence and scope are in
+[the release report](release-12.9.5.4.md).
+
+The five-path backports to 20 development branches were tested. In the seven
+modern-search branches, the existing format/pending/running-status contract in
+the notice was restored. All 96 original index checks plus 15 notice checks
+pass on the corrected heads. The published final heads and their
+published heads and unchanged version/rendering sources were independently
+verified. Historical audit branches remain comparison references.
+The Policies-only November condition is excluded from all release sources.
+Publication uses the reviewed candidate through PR 197; a deployment to a
+particular production installation requires its own recorded verification.
+
 ## Freigabeprüfung 12.9.5.2 vom 18. November 2026
 
 Der Release-Kandidat bestand 887 Rename-, 114 HTTP- und 92 Chromium-Prüfungen.
