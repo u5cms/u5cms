@@ -1,4 +1,5 @@
-<?php require_once('connect.inc.php');require_once('t2.php');require_once('resourceupdate.inc.php'); ?>
+<?php require_once('connect.inc.php');
+require_once __DIR__.'/resource-mutation.inc.php';require_once('t2.php');require_once('resourceupdate.inc.php'); ?>
 <?php
 if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');
 if ($_POST['name']=='meta' || $_POST['name']=='search' || $_POST['name']=='languages' || $_POST['name']=='content' || $_POST['name']=='right') die('<script>alert("The following five words are reserved to be used in the htmltemplate between {{{ and }}}:\n\nmeta search languages content right\n\nPlease do not use these words for new pages or other content items.");history.go(-1)</script>');

@@ -1,4 +1,5 @@
-<?php require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php');
+require_once __DIR__.'/resource-mutation.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
