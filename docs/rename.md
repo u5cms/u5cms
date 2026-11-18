@@ -24,7 +24,7 @@ uses the disappearance of the old database name as proof of completion.
 | Protected files | Keeps membership hashes and access rules. Updates the moved directory's absolute `AuthUserFile` reference. Internal symbolic links follow renamed files. |
 | Intranet | Preserves membership when both names start with `!`. Clears the renamed page's membership only when leaving the intranet namespace, matching the original intent. |
 | Active/archive/deleted | Retains active/archived state. Leaves deleted history ownership under its old name while updating its references. Reused target tombstones are preserved in the guarded row backup before removal. |
-| Revisions and search | Marks each actually changed current resource once, advances its revision and invalidates derived search text. Marks the full rendered index pending because indirect dependants can also change. Heading-only matches do not change revision metadata. |
+| Revisions and search | Marks each actually changed current resource once, advances its revision and retains the last searchable text until the indexer refreshes it. Pages explicitly excluded from automatic indexing retain their existing search fields. Marks the full rendered index pending because indirect dependants can also change. Heading-only matches do not change revision metadata. |
 | Rights | Retains backend authentication, CSRF, archive HIADRI and code HIADRI checks, including retries after ownership has moved. |
 
 In 12.9.5.2 and the pre-12.11 development branches, C resources retain their
