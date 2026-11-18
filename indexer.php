@@ -9,6 +9,7 @@ try {
     if (!isset($_GET['n'])) {
         $u5Slice = new U5IndexSlice(__DIR__.'/fileversions',isset($_GET['u5indexcontinue']),isset($_GET['u5indexauto']),false);
         if (!$u5Slice->ready()) return;
+        define('U5CMS_FULL_INDEX_BATCH', true);
         foreach (array('default_socket_timeout','mysqlnd.net_read_timeout') as $u5Timeout) {
             $u5Seconds = ini_get($u5Timeout);
             if ($u5Seconds!==false && ((int)$u5Seconds<=0 || (int)$u5Seconds>10)) ini_set($u5Timeout,'10');
