@@ -2,6 +2,9 @@
 @set_time_limit(3600);
 
 require('connect.inc.php');
+require_once __DIR__.'/resource-rename-support.inc.php';
+$u5RenameBackupRelease=u5RenameStorageLock(dirname(__DIR__),null,true);
+register_shutdown_function($u5RenameBackupRelease);
 require_once('u5idn.inc.php');
 if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
 $u5mail_backup_delivery = u5mail_account_notification_address($_SERVER['PHP_AUTH_USER']);
