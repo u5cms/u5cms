@@ -57,6 +57,7 @@ jobs:
             php "tests/$test.php"
           done
           php tests/search-legacy-database-regression.php u5sys._searchsi.php
+          python3 tests/indexer-crash-regression.py
           python3 tests/indexer-database-lock-regression.py
           python3 tests/indexer-http-regression.py
           python3 tests/international-email-smtp.py

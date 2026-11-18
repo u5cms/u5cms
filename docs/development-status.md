@@ -1,20 +1,26 @@
 # u5CMS development checkpoint
 
-## 12.9.5.4 release preparation, 18 November 2026
+## 12.9.5.4 acceptance, 18 November 2026
 
-Authorised: finish and publish a tested patch release, compare the complete
-change set against v12.9.5, carry general fixes into affected development
-branches, and email the change/evidence/confidence table to the user's BK address.
+Authorised: finish and publish the patch release, review the full difference
+against v12.9.5, preserve cumulative development work, and send the requested
+change/evidence/confidence table to the user's BK address.
 Base: main cbadbd009d42c129e53111218ba3401a12984a3f.
-Candidate branch: 12.9.5.4-Indexer-Final.
-Applied: database lock-wait fix from PR 196; index-date notice now names the
-last completed full rebuild and avoids a premature scheduling promise.
-The local Policies November pause is excluded from release sources.
-Current phase: cumulative review and disposable runtime/database/HTTP tests.
-Publication and production deployment are not yet completed.
-Next action: run the candidate acceptance suite, record exact results and
-resolve any failures before creating the final release tag.
+Candidate branch: 12.9.5.4-Indexer-Final, pull request 197.
 
+Implementation and cumulative acceptance are complete. The application code
+passed the stable GitHub acceptance workflow on PHP 8.3 and 8.4, including the
+92-check Chromium suite in each profile. The final test/documentation additions
+include a real SIGKILL regression and the published backport inventory; they do
+not alter the accepted application sources. Exact evidence and scope are in
+[the release report](release-12.9.5.4.md).
+
+The five-path backports to 20 development branches were tested and their
+published heads and unchanged version/rendering sources were independently
+verified. Historical audit branches remain comparison references.
+The Policies-only November condition is excluded from all release sources.
+Publication uses the reviewed candidate through PR 197; a deployment to a
+particular production installation requires its own recorded verification.
 
 ## Freigabeprüfung 12.9.5.2 vom 18. November 2026
 

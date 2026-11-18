@@ -1,8 +1,10 @@
-# u5CMS 12.9.5.3
+# u5CMS 12.9.5.4
 
-Auf Basis von 12.9.5.2 kann jede Installation für SELF-Formulardatensätze zwischen persönlicher und organisationsweiter Bearbeitung wählen. Die Anmeldung bleibt persönlich. Eine separate Liste in der Site-Konfiguration steuert den zentralen Verwaltungszugriff. Beide Einstellungen sind in [config.php.sample](config.php.sample) beschrieben.
+Der Vollindex arbeitet in begrenzten, wiederaufnehmbaren Teilaufrufen. Datenbanksperren werden auf seiner eigenen Verbindung zeitlich begrenzt. Die Suchanzeige nennt den Indexstand des letzten erfolgreich abgeschlossenen Gesamtlaufs; laufende oder fehlgeschlagene Versuche setzen diesen Stand nicht vorzeitig hoch.
 
-Release-Tag `v12.9.5.3` · [Konfiguration und Übernahme](docs/onlymine.md) · [Branches](BRANCHES.md) · [Rename aus 12.9.5.2](docs/rename-backport-12.9.5.2.md)
+Enthalten sind die speicherschonende Suche, die korrigierte Objektumbenennung und die optionalen SELF-Berechtigungen aus der 12.9.5-Patchlinie. Bestehende Installationen behalten die persönliche Datensatzzuordnung, solange sie keinen Domainmodus konfigurieren.
+
+[Abnahme und vollständige Änderungstabelle gegenüber 12.9.5](docs/release-12.9.5.4.md) · [SELF-Konfiguration](docs/onlymine.md) · [Branches](BRANCHES.md)
 
 ---
 
