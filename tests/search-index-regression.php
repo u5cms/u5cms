@@ -123,19 +123,24 @@ $maxwordsindocumenttitle=7;
 class SearchIndexFixtureResult { public $rows; public $offset=0; function __construct($rows) { $this->rows=$rows; } }
 function mysql_query($sql) {
     $mode=getenv('U5_SEARCH_INDEX_TEST_MODE');
-    if (strpos($sql, 'SELECT * FROM resources') === 0) {
+    if (strpos($sql, 'SELECT HEX(CONVERT(name USING utf8mb4))') === 0) {
+        if ($mode === 'select-error') return false;
+        $names = isset($_GET['n']) || strpos($sql,'ORDER BY name DESC')!==false ? array('sample') : array('retained','sample');
+        return new SearchIndexFixtureResult(array_map(function ($name) {return array('resource_key'=>strtoupper(bin2hex($name)),'deleted'=>0);},$names));
+    }
+    if (strpos($sql, 'SELECT name,deleted,lastmut,typ,') === 0) {
         if ($mode === 'select-error') return false;
         $rows=array();
         foreach (array('sample','retained') as $name) {
-            $row=array('name'=>$name,'typ'=>'p');
+            $row=array('name'=>$name,'typ'=>'p','deleted'=>0,'lastmut'=>100,'u5_source_digest'=>str_repeat('a',64));
             for ($i=1; $i<=5; $i++) {
                 $row['content_'.$i]=$name==='sample' ? 'Such<b>begriff</b> &amp; &#128512;' : 'DoNotAutoIndexIfThisStringIsFoundInFinalPageContentLiterally REPLACEMENT';
                 $row['title_'.$i]=$name==='sample' ? '' : 'Retained title';
                 $row['search_'.$i]='MANUAL &#128512; & raw';
             }
-            $rows[]=$row;
+            if (strpos($sql,"UNHEX('".strtoupper(bin2hex($name))."')")!==false) $rows[]=$row;
         }
-        return new SearchIndexFixtureResult(isset($_GET['n']) ? array($rows[0]) : $rows);
+        return new SearchIndexFixtureResult($rows);
     }
     if (strpos($sql, 'UPDATE resources') === 0) {
         if ($mode === 'update-error') return false;
@@ -144,6 +149,8 @@ function mysql_query($sql) {
     }
     throw new RuntimeException('Unexpected fixture SQL.');
 }
+function mysql_free_result($result) { return true; }
+function mysql_fetch_assoc($result) { return $result->rows[$result->offset++] ?? false; }
 function mysql_num_rows($result) { return count($result->rows); }
 function mysql_fetch_array($result) { return $result->rows[$result->offset++]; }
 function mysql_real_escape_string($value) { return addslashes($value); }
@@ -166,6 +173,7 @@ PHP
         file_put_contents($fixture . '/fileversions/lastsave.txt', '100');
         file_put_contents($fixture . '/fileversions/lastindex.txt', '120');
         file_put_contents($fixture . '/fileversions/lasthtaccess.txt', '120');
+        @unlink($fixture . '/fileversions/indexer-progress.php');
         @unlink($fixture . '/fileversions/search-index-v2.txt');
         @unlink($fixture . '/fileversions/search-index-pending.txt');
         @unlink($fixture . '/updates.log');
@@ -188,7 +196,7 @@ PHP
     indexSame(file_get_contents($fixture . '/fileversions/lastindex.txt'), '120', 'failed manual full run retains known checkpoint');
     $reset();
     $result = indexProcess($fixture . '/run.php', array(), array('U5_SEARCH_INDEX_TEST_MODE'=>'refresh'));
-    indexCheck(strpos($result[1], 'src="indexer.php"') !== false, 'format upgrade schedules full indexing without content edits');
+    indexCheck(strpos($result[1], 'src="indexer.php?u5indexauto=1"') !== false, 'format upgrade schedules full indexing without content edits');
     $result = indexProcess($fixture . '/run.php', array(), array('U5_SEARCH_INDEX_TEST_MODE'=>'status'));
     indexCheck(strpos($result[1], 'not yet fully up to date') !== false, 'status reports missing index upgrade');
     $result = indexProcess($fixture . '/run.php', array(), array('U5_SEARCH_INDEX_TEST_MODE'=>'normal','U5_SEARCH_INDEX_TEST_ITEM'=>'1'));
@@ -207,7 +215,7 @@ PHP
     @unlink($fixture . '/updates.log');
     $result = indexProcess($fixture . '/run.php', array(), array('U5_SEARCH_INDEX_TEST_MODE'=>'normal','U5_SEARCH_INDEX_TEST_ITEM'=>''));
     $queries = explode('--QUERY--', file_get_contents($fixture . '/updates.log'));
-    foreach ($queries as $query) if (strpos($query, "name='retained'") !== false) {
+    foreach ($queries as $query) if (strpos($query, "UNHEX('".strtoupper(bin2hex('retained'))."')") !== false) {
         indexCheck(strpos($query, 'search_1=') === false, 'manual index reserialization is limited to format upgrade');
     }
     $reset();
