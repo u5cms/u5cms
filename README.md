@@ -55,3 +55,6 @@ See [the update and migration guide](docs/12.11.0-code-assets.md),
 Development continuity: read [the saved implementation status, open boundaries and recovery protocol](docs/development-status.md) before continuing work from another chat.
 
 Version 12.12.2 adds source-text formatting and object actions in both page-editor panes and all five language slots, including P-object Edit in a new tab, guarded target/label replacement, and synchronized undo/redo. See [operation and validation](docs/12.13.0-textarea.md).
+
+
+Patch 12.9.5.2: [schnelles, wiederaufnehmbares Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename). Die eigene Branch-Version bleibt erhalten. [Nachfuehrung und Pruefungen](docs/rename-backport-12.9.5.2.md).
