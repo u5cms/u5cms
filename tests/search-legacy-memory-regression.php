@@ -1,4 +1,5 @@
 <?php
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 /* No CMS/database changes. SQL doubles expose only a lazily generated row. */
 require_once dirname(__DIR__) . '/search-legacy-suggestions.inc.php';
 $checks = 0;
