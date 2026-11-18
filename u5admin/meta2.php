@@ -1,5 +1,6 @@
 <?php
 require_once('connect.inc.php');
+require_once __DIR__.'/resource-mutation.inc.php';
 require_once('t2.php');
 require_once('resourceupdate.inc.php');
 try {
