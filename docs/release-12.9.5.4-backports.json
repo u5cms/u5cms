@@ -44,38 +44,50 @@
   {
     "branch": "12.12.0-OIDC",
     "base": "4f09d7a39b15192e210e8572b8b80e9b032ed7f5",
-    "sha": "a1f85d4d7e3b84bd994465ddfc297f1243054d82",
-    "tree": "b5adcac583af33bc946aa7032e366cf8139f1fed"
+    "sha": "8b5c00d15386265c05eb4fd4fc11cc702d74cc62",
+    "tree": "45aef23c3cc7c1985848c75e4db8d255e0f603d7",
+    "superseded_notice_sha": "a1f85d4d7e3b84bd994465ddfc297f1243054d82",
+    "format_notice_fix": true
   },
   {
     "branch": "12.12.1-General-Corrections",
     "base": "31fc500648eea69fd66f3eee1d38b67c00a4dcf4",
-    "sha": "c281c09699c045507135d0e758ce019710d3c5c1",
-    "tree": "8015e3e05696841da2a33f307f76672847797d69"
+    "sha": "701efd9b5bb56d2bf78d0e00b2a8fc5da6044134",
+    "tree": "2679a400e3e1eb0165df9383861a5a6fb1bcb7a2",
+    "superseded_notice_sha": "c281c09699c045507135d0e758ce019710d3c5c1",
+    "format_notice_fix": true
   },
   {
     "branch": "12.12.2-Textarea-Interactions",
     "base": "df83b03c92aa3d8c75eef215d97ea4f61b2f61bf",
-    "sha": "c17c7affa65abba04f430a1c3bed070c09a2f8c1",
-    "tree": "bfb0ea50c27424547c77534846b16ab1047262ee"
+    "sha": "fb3c16156e69dea5e2269a16803710607ccf85b5",
+    "tree": "21316a2978dc4aa6c267955d396b2d0bef0560a0",
+    "superseded_notice_sha": "c17c7affa65abba04f430a1c3bed070c09a2f8c1",
+    "format_notice_fix": true
   },
   {
     "branch": "12.12.3-PHP9-Compatibility",
     "base": "b784fdf6bc9c8d7d4adcdaf39515c9d83668808c",
-    "sha": "4671c898e72a9077cebeba9f4a79312eefd23b55",
-    "tree": "a387f9aa33cd28246ce6d08db714e6e82e80f9fc"
+    "sha": "17b369ce4c5b0d88d9438c0335b753ef64cd331f",
+    "tree": "cb11215f50bb192d1817cda2bb4b28e49650aef7",
+    "superseded_notice_sha": "4671c898e72a9077cebeba9f4a79312eefd23b55",
+    "format_notice_fix": true
   },
   {
     "branch": "12.12.4-Default-Design",
     "base": "ac18105a61f442823cbacc8e638f7ac55afedbf9",
-    "sha": "11d80a034ae7f7462370faee54e13b4ddc04da94",
-    "tree": "3dc71c9d64fcef2ef4ebb93277dd4aaafd641375"
+    "sha": "e58c23590b7f950c981e5194985fe3b004ecc23e",
+    "tree": "f54da91c9d8da7f04946fea747f2cc01b5b304e3",
+    "superseded_notice_sha": "11d80a034ae7f7462370faee54e13b4ddc04da94",
+    "format_notice_fix": true
   },
   {
     "branch": "12.13.0-Responsive-Design",
     "base": "ba4cfa866e5805888b8a680083d8e12dcd43a452",
-    "sha": "014a72d085211f0c19e4fa2d4a262931c8a5e5b5",
-    "tree": "734df6ccbeaf184c7ca449c87985dcb7371982d5"
+    "sha": "3e6d88b12c3fcaaaad87c51594d695799fa97562",
+    "tree": "3f3556c1e053677fc5f78ee07fe321fcf96dc3d3",
+    "superseded_notice_sha": "014a72d085211f0c19e4fa2d4a262931c8a5e5b5",
+    "format_notice_fix": true
   },
   {
     "branch": "12.9.5.2-Faster-Rename",
@@ -98,8 +110,10 @@
   {
     "branch": "feature/search-phrases-quotes-highlighting",
     "base": "6b572b4c10e8e2b4464d51dd938b801c6a4d3081",
-    "sha": "bc15e429c856d1f5d8a5dac00c2d336a3358a81f",
-    "tree": "3329db5c2db1d71401de075f0eaed1630c1ee8f4"
+    "sha": "3a6214ec9e44629613e7c9e850c4ba31f8b4a88d",
+    "tree": "679917837cbc0e0b4661974455dd056c0849a1e1",
+    "superseded_notice_sha": "bc15e429c856d1f5d8a5dac00c2d336a3358a81f",
+    "format_notice_fix": true
   },
   {
     "branch": "fix/international-email-20261108",

@@ -15,7 +15,10 @@ include a real SIGKILL regression and the published backport inventory; they do
 not alter the accepted application sources. Exact evidence and scope are in
 [the release report](release-12.9.5.4.md).
 
-The five-path backports to 20 development branches were tested and their
+The five-path backports to 20 development branches were tested. In the seven
+modern-search branches, the existing format/pending/running-status contract in
+the notice was restored. All 96 original index checks plus 15 notice checks
+pass on the corrected heads. The published final heads and their
 published heads and unchanged version/rendering sources were independently
 verified. Historical audit branches remain comparison references.
 The Policies-only November condition is excluded from all release sources.
