@@ -34,6 +34,13 @@ $num_a = mysql_num_rows($result_a);
 
 $row_a = mysql_fetch_array($result_a);
 
+$storedFormName = $row_a['name'] ?? $_GET['n'];
+$useSiteWriter = u5FormUsesSiteWriter($row_a);
+if ($useSiteWriter && $storedFormName !== $_GET['n']) {
+    http_response_code(400);
+    exit('Invalid form name.');
+}
+
 include('ob.php');
 $pexcheck = $ob;
 
@@ -137,6 +144,7 @@ $isliving=0;
 if (str_replace(trim('living_mandatory'),'',$pexcheck)!=$pexcheck) $isliving=1;
 /////////////////////////////////////////////////////////////
 
+if (!u5FormRunSiteWriter($storedFormName, $useSiteWriter)) {
 $sql_a="SELECT id FROM formdata ORDER BY id DESC LIMIT 0,1";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
@@ -176,6 +184,7 @@ if($head!=''||$data!='') {
 $result_a=mysql_query($sql_a);
 if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
+} // Default form storage
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
 
