@@ -8,7 +8,8 @@ if ($blockautoincluderefresherforhtaccessandindex != 'yes' && !isset($_COOKIE['p
         && !($u5HtaccessRunning > 0 && $u5HtaccessRunning > time() - 60 * 5)) {
         echo '<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="htaccess.php"></iframe>\')</script>';
     } elseif (u5SearchIndexNeedsUpdate() && !u5SearchIndexIsRunning()
+        && (!is_file(__DIR__.'/fileversions/indexer-progress.php') || filemtime(__DIR__.'/fileversions/indexer-progress.php') <= time())
         && $u5LastSave < time() - $waitsecondstillindexingsincelastsave) {
-        echo '<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="indexer.php"></iframe>\')</script>';
+        echo '<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="indexer.php?u5indexauto=1"></iframe>\')</script>';
     }
 }
