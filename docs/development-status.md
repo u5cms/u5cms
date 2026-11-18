@@ -19,5 +19,9 @@ Legacy-Codeobjekte, Exporte und Suchfunktionen bleiben erhalten.
 Suchspeicher-/Textauszugstests. Browsergrenze und genaue Umgebung sind im Bericht
 festgehalten. Keine produktive Installation und kein Main-Merge.
 
-Der Abschluss erfolgt mit erwarteten Remote-Heads und Vergleich der gespeicherten
-Git-Bäume. Keine weitere Implementierung für diesen Auftrag vorgesehen.
+Abgeschlossen: alle 17 Remote-Heads und gespeicherten Git-Bäume stimmen mit den
+geprüften Ständen überein; [Commit-/Baumnachweis](rename-backport-12.9.5.2-publication.json).
+Patch-Anwendungsstand: `a66b274b59240ab26c04a6e0c00ac9e1c189367b`.
+Dieser Abschlussnachweis ändert nur Dokumentation. Keine weitere Implementierung
+für diesen Auftrag vorgesehen. Main bleibt separat bei 12.9.5.1; die Übernahme
+des Patch-Branches wird als Pull Request bereitgestellt.

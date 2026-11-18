@@ -16,7 +16,7 @@ Main remains the production baseline and is not a deployment target here.
 The search work in another workspace is active; its working tree is left alone.
 Shared remote heads will be refreshed before every publication.
 
-Implementation checkpoint: the 12.9.5.2 application backport is complete; branch propagation tests have passed; guarded publication and final source verification are in progress. The modern Rename depends on typed-code migration,
+Implementation checkpoint: the 12.9.5.2 application backport is complete; complete: implementation, branch propagation, guarded publication and remote verification have passed. The modern Rename depends on typed-code migration,
 row journals and coordinated writers. The backport must preserve the existing
 12.9.5 code-object format and templates, all five languages and configured
 reference policies. No automatic code-resource migration is authorised by this
@@ -61,9 +61,11 @@ that implementation and gain the missing maintenance-writer guards. The
 historical audit snapshots, 12.9.5.1 patch/tag and main are not rewritten.
 All branch versions and search application bytes are preserved. The machine
 report records exact starting heads and changed-path inventories.
-Next: publish with expected-head guards and verify every resulting remote tree.
+Published and verified: all seventeen remote heads and complete Git trees match the tested snapshots. [Commit/tree proof](rename-backport-12.9.5.2-publication.json). No further implementation is pending for this scope.
 Installed CMSs remain unchanged.
 
 The completed 12.9.5.1 release documentation and evidence at `e26dfb1` are retained as an additional merge parent. No inherited search application file changes.
 
 Inherited search validation on the patch: 45 streamed-memory checks (75,000,000 bytes under 16 MiB) and 55,990 legacy HTML excerpt comparisons (24 MiB input, 27,267,072-byte peak) pass.
+
+The patch application snapshot is `a66b274b59240ab26c04a6e0c00ac9e1c189367b`; subsequent completion/proof changes contain documentation only. Main is still the separate 12.9.5.1 release. No production CMS was changed.

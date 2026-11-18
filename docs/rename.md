@@ -83,6 +83,8 @@ large media use size/mtime and the guarded directory identity under the shared
 mutation lock, so renaming a multi-GB video does not read its complete contents.
 The tests independently compare the complete bytes/SHA-256 after moving files.
 
+Complete an unfinished Rename with its current system files before switching CMS versions. Keep its database, files and guarded plans together in the recovery backup.
+
 ## Retry and recovery
 
 1. Keep the original rename window open until its result arrives. Successful
