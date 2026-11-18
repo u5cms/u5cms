@@ -27,6 +27,13 @@ if ($disableformsourcenamecheck!='yes'&&$num_a==0) die('ERROR: Source form does 
 
 $row_a = mysql_fetch_array($result_a);
 
+$storedFormName = $row_a['name'] ?? $_GET['n'];
+$useSiteWriter = u5FormUsesSiteWriter($row_a);
+if ($useSiteWriter && $storedFormName !== $_GET['n']) {
+    http_response_code(400);
+    exit('Invalid form name.');
+}
+
 include('ob.php');
 $pexcheck = $ob;
 
@@ -137,6 +144,7 @@ if (str_replace(trim('living_mandatory'),'',$pexcheck)!=$pexcheck) $isliving=1;
 if ($foundliving==0 && $isliving==1) die('ERROR!<script>alert("ERROR!");</script>');
 /////////////////////////////////////////////////////////////
 
+if (!u5FormRunSiteWriter($storedFormName, $useSiteWriter)) {
 $sql_a="INSERT INTO formdata
 (
 formname,headcsv,datacsv,time,ip,authuser,humantime,lastmut
@@ -208,6 +216,7 @@ if($head!=''||$data!='') {
 $result_a=mysql_query($sql_a);
 if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
+} // Default form storage
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
 
