@@ -149,6 +149,12 @@ use Laminas\Mail\Transport\SmtpOptions;
    $replacewiththisinhttpsurl=''; // Idem. E. g. 'https://secure.maarsen.ch'. The search-replace-parameters are necessary if your provider offers https only as subdomain (as shown in the e.g.'s);
 
 // Login configuration
+   // SELF record ownership: 'user' compares the complete login (default).
+   // 'domain' groups authenticated mail identities by their exact, normalized domain.
+   $u5onlyminescope = 'user';
+   // Optional full-access domains for SELF records in domain mode. Lowercase DNS A-labels.
+   $u5onlymineadmindomains = array();
+
    $usesessioninsteadofbasicauth = 'yes'; // $usesessioninsteadofbasicauth = 'yes'; is recommended. However, basic auth may be necessary if you offer very large files behind the login (intranet).
    $sessioncookiehashsalt = '1234'; // Any string. Changing this string cancels all open sessions and forces all users to log-in again; (obsolete if $usesessioninsteadofbasicauth = 'no';)
    $sticksessiontoip = 'no'; // $sticksessiontoip='yes' forces re-login if ip changes (obsolete if $usesessioninsteadofbasicauth = 'no';)
