@@ -7,7 +7,7 @@ require_once('getinserts.inc.php');
 if(!isset($_GET['n'])) {
 if(file_exists('fileversions/indexerrunning.txt') && file_get_contents('fileversions/indexerrunning.txt')!=0 && file_get_contents('fileversions/indexerrunning.txt')>time()-60*15)die('<script>top.document.title="_"+top.document.title</script>');
 file_put_contents('fileversions/indexerrunning.txt',time());
-file_put_contents('fileversions/lastindex.txt',time());
+$u5IndexStarted=time();
 }
 
 function sanitize_content($content) {
@@ -47,8 +47,9 @@ if(isset($_GET['n'])) {
 else $oneitemonly='';
 
 $sql_ii = "SELECT * FROM resources WHERE $oneitemonly deleted!=1 ORDER BY lastmut DESC";
+$u5IndexSucceeded=true;
 $result_ii = mysql_query($sql_ii);
-if ($result_ii == false) echo 'SQL_ii-Query failed!...!<p>';
+if ($result_ii == false) { if (isset($u5IndexStarted)) file_put_contents('fileversions/indexerrunning.txt',0); http_response_code(500); exit('Search index query failed.'); }
 $num_ii = mysql_num_rows($result_ii);
 
 for ($i_ii = 0;$i_ii < $num_ii;$i_ii++) {
@@ -128,7 +129,7 @@ search_4='" . mysql_real_escape_string($content_4) . "',
 search_5='" . mysql_real_escape_string($content_5) . "' 
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
-if ($result_i == false)  echo 'SQL_i-Query failed!...!<p>';
+if ($result_i == false) { $u5IndexSucceeded=false; http_response_code(500); }
 }
 }
 else {
@@ -142,7 +143,7 @@ title_4='" . mysql_real_escape_string($title_4) ."',
 title_5='" . mysql_real_escape_string($title_5) ."'
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
-if ($result_i == false)  echo 'SQL_i-Query failed!...!<p>';
+if ($result_i == false) { $u5IndexSucceeded=false; http_response_code(500); }
 }
 }
 if($row_ii['typ']!='p') {
@@ -155,7 +156,7 @@ search_4='" . mysql_real_escape_string($content_4) . "',
 search_5='" . mysql_real_escape_string($content_5) . "' 
 WHERE deleted!=1 AND name='" . (mysql_real_escape_string($row_ii['name'])) . "'";
 $result_i = mysql_query($sql_i);
-if ($result_i == false)  echo 'SQL_i-Query failed!...!<p>';
+if ($result_i == false) { $u5IndexSucceeded=false; http_response_code(500); }
 }
 }
 
@@ -181,8 +182,13 @@ function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l='') {
   }
 }
 if(!isset($_GET['n'])) {
-echo '<audio id="doneaudio" src="u5admin/indexingdone.mp3" autoplay />';
+if ($u5IndexSucceeded) {
+    // Conservatively revisit saves made in the same second as this snapshot.
+    file_put_contents('fileversions/lastindex.txt',$u5IndexStarted-1);
+}
 file_put_contents('fileversions/indexerrunning.txt',0);
+if (!$u5IndexSucceeded) exit('Search index update failed.');
+echo '<audio id="doneaudio" src="u5admin/indexingdone.mp3" autoplay />';
 ?>
 <script>var audio = document.getElementById("doneaudio");audio.volume = 0.05;</script>
 <script>top.document.title=';'+top.document.title</script>
