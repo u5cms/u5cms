@@ -1,4 +1,5 @@
 <?php
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 /* Real legacy suchen()/leven(), real SQL, isolated disposable database.
  * Run each entry point in a separate PHP process. No installed CMS is changed.
  */
