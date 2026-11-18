@@ -33,6 +33,12 @@ function u5onlymineRemotepart($identity) {
     return $domain;
 }
 
+// Legacy account and record keys can fold distinct IDNs on older ICU versions.
+function u5onlymineDomainMatchesLogin($originalDomain,$login) {
+    return $originalDomain!=='' && u5onlymineRemotepart($login)===$originalDomain
+        && u5onlymineRemotepart(u5flatidnlower($login))===$originalDomain;
+}
+
 function u5onlymineDomainHash($identity) {
     $domain = u5onlymineRemotepart($identity);
     return $domain === '' ? '' : hash('sha256', $domain);
@@ -98,7 +104,7 @@ function u5onlymineOwnsRequestedRecord() {
         || !is_string($_GET['n'] ?? null) || $_GET['n'] === ''
         || !preg_match('/\A[1-9][0-9]{0,9}\z/D', $_GET['id'])) return false;
     $result = mysql_query("SELECT authuser FROM formdata WHERE id='" . mysql_real_escape_string($_GET['id'])
-        . "' AND formname='" . mysql_real_escape_string($_GET['n']) . "' AND status=1");
+        . "' AND formname='" . mysql_real_escape_string($_GET['n']) . "' AND status IN (1,2,3,4)");
     if ($result === false || mysql_num_rows($result) !== 1) return false;
     $record = mysql_fetch_array($result);
     mysql_free_result($result);

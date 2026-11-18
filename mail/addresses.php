@@ -112,6 +112,9 @@ function u5mail_browser_escapes($input) {
 
 function u5mail_extract($input) {
     $input = u5mail_utf8($input);
+    // The CMS template grammar also uses punctuation as field and label separators.
+    $input = str_replace("\xC2\xA6", ' ', $input);
+    $input = strtr($input, array_fill_keys(str_split("!?'\"%/|#{}="), ' '));
     $local = '[a-zA-Z0-9!#$%&\x27*+\/=?^_`{|}~.\-\x{80}-\x{10FFFF}]+';
     $domain = '[a-zA-Z0-9\-\x{80}-\x{10FFFF}]+(?:\.[a-zA-Z0-9\-\x{80}-\x{10FFFF}]+)+';
     preg_match_all('/'.$local.'@'.$domain.'/u', $input, $matches);
