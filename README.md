@@ -1,19 +1,20 @@
 <!-- u5cms-branch-description:start -->
-# u5CMS · Stammbranch · u5CMS 12.9.5
+# u5CMS · Stammbranch · u5CMS 12.9.5.1
 
-**Branch:** `main`  
-**Version in `index.php`:** 12.9.5  
-**Basis:** Vorheriger Stammstand; letzter Anwendungsschritt: reCAPTCHA durch Cloudflare Turnstile ersetzen.
+**Branch:** `main`
+**Version in `index.php`:** 12.9.5.1
+**Basis:** Bisheriger Main-Stand `bf6863337cd6dd64284cf429f65da986d821d741`.
 
-u5CMS 12.9.5 mit Cloudflare Turnstile; Ausgangsstand der nachfolgenden Entwicklungsreihe.
+Patch-Release für die Suche auf grossen Websites: gestreamte Tippfehlerkorrektur,
+gezielte Auswahl der Trefferfelder und speicherschonende Textauszüge. Keine
+Datenbankmigration; vorhandene Sprach- und Suchoptionen bleiben erhalten.
 
-- Cloudflare Turnstile ersetzt reCAPTCHA.
-- Die Beschreibung dieses GitHub-Branches belegt keine Installation oder Aktualisierung einer produktiven Website.
-
-**Einordnung:** Stammbranch. Die spätere Entwicklungsreihe bis 12.12.4 ist hier fachlich noch nicht integriert.
-
+[Änderungen, Tests, Installation und Rückweg](docs/search-memory-2026-11-18.md)
 [Alle Branches, Neuerungen und Integrationsstände](BRANCHES.md)
 [Gemeinsame Login-Domain- und Pfadkorrektur](docs/login-host-policy.md)
+
+Die Entwicklungsreihe 12.9.6 bis 12.13.0 bleibt separat. Ihre neue Suche wird
+durch diesen Patch nicht in Main übernommen oder auf einen älteren Stand gesetzt.
 <!-- u5cms-branch-description:end -->
 
 ---
