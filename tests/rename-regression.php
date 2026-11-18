@@ -76,6 +76,7 @@ function renameTreeRemove($root) {if (is_link($root) || !is_dir($root)) {@unlink
 try {
     $root=renameFixture('full');
     $source=renameRow('demo');foreach (range(1,5) as $l) foreach (array('content','title','desc','key') as $field) $source[$field.'_'.$l]='[[demo]] [Label:demo] |2br*,.-;:_+/ts|';
+    foreach (range(1,5) as $language) $source['search_'.$language]='indexed language '.$language;
     renameInsert('resources',$source);renameInsert('resources_log',$source);renameInsert('resources_log',$source);renameInsert('resources_log',renameRow('demo','p',1,'[demo]'));
     renameInsert('resources',renameRow('newdemo','p',1,'target tombstone must remain recoverable'));
     renameInsert('resources',renameRow('unrelated','p',0,'[[demo]] no actual reference'));
@@ -93,7 +94,8 @@ try {
     $plan=u5ResourceRename($root,'demo','newdemo',$options);
     $actual=renameOne('resources',"name='newdemo' AND deleted=0");
     foreach (range(1,5) as $l) foreach (array('content','title','desc','key') as $field) renameSame($actual[$field.'_'.$l],'[[demo]] [Label:newdemo] |2br*,.-;:_+/ts|','all 20 reference columns');
-    renameSame($actual['operator'],'R original','one revision marker per changed resource');renameCheck((int)$actual['lastmut']>100,'revision changes for all ownership mutations');renameSame($actual['search_1'],null,'changed search cache invalidated');
+    renameSame($actual['operator'],'R original','one revision marker per changed resource');renameCheck((int)$actual['lastmut']>100,'revision changes for all ownership mutations');
+    foreach (range(1,5) as $language) renameSame($actual['search_'.$language],$source['search_'.$language],'existing language index survives rename');
     renameSame(renameOne('resources',"name='unrelated'"),$unrelated,'heading-only resources retain revision and bytes');
     renameSame(renameOne('resources',"name='freeimage'")['content_1'],'newdemo','free image link follows target');
     renameSame(renameOne('resources',"name='".$template."'")['content_1'],'{{{newdemo}}} [_newdemo_] [newdemo]','active template source follows target');
@@ -192,7 +194,13 @@ try {
     $race=function(){u5RenameStorageQuery("UPDATE resources SET search_1='fresh derived cache' WHERE name='demo'");};
     u5ResourceRename($root,'demo','newdemo',$options);
     renameSame(renameOne('resources')['content_1'],'[newdemo]','background index refresh does not block rename');
-    renameSame(renameOne('resources')['search_1'],null,'changed rendered text always invalidates concurrent derived cache');
+    renameSame(renameOne('resources')['search_1'],'fresh derived cache','concurrent index refresh survives rename');
+    // A journal saved by an earlier build can still request a NULL index.
+    $before=renameOne('resources');
+    $after=$before; $after['operator']='resumed'; $after['search_1']=null;
+    u5RenameStorageApplyRow(array('table'=>'resources','before'=>$before,'after'=>$after),null,array('search_1'));
+    renameSame(renameOne('resources')['search_1'],'fresh derived cache','resuming an old journal preserves current search data');
+    renameSame(renameOne('resources')['operator'],'resumed','source change from the same journal is applied');
     $root=renameFixture('capacity');renameInsert('resources',renameRow('demo'));renameInsert('resources',renameRow('dependent','p',0));
     u5RenameStorageQuery("ALTER TABLE resources MODIFY key_1 VARCHAR(6)");u5RenameStorageQuery("UPDATE resources SET key_1='[demo]' WHERE name='dependent'");
     $before=renameOne('resources',"name='demo'");$failed=false;

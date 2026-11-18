@@ -1,4 +1,5 @@
 <?php
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 /* Execute the actual redirect guards, without database/authentication side
  * effects. Expected pairs follow DNS/URL host identity, not IDNA migration. */
 $root=getenv('U5CMS_SOURCE_ROOT') ?: dirname(__DIR__);

@@ -2,8 +2,12 @@
 @set_time_limit(3600);
 require('connect.inc.php');
 require_once __DIR__.'/resource-rename-support.inc.php';
-$u5RenameBackupRelease=u5RenameStorageLock(dirname(__DIR__),null,true);
-register_shutdown_function($u5RenameBackupRelease);
+try {
+    register_shutdown_function(u5RenameStorageLock(dirname(__DIR__),null,true));
+} catch (U5ResourceBusyException $error) {
+    http_response_code(409);
+    exit('Another CMS operation is in progress. Retry the backup once it finishes.');
+}
 
 use U5cms\Zipper;
 
