@@ -124,7 +124,6 @@ function u5RenameRow($table,$before,$old,$new,$options) {
         if ($table==='resources' && $after!==$before) {
             $after['lastmut']=(string)max(time(),(int)$before['lastmut']+1);
             $after['operator']='R '.($before['operator'] ?? '');
-            foreach (range(1,5) as $language) if (array_key_exists('search_'.$language,$before)) $after['search_'.$language]=null;
         }
     }
     return $after;

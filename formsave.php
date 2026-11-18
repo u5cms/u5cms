@@ -140,6 +140,20 @@ if (str_replace(trim('living_mandatory'),'',$pexcheck)!=$pexcheck) $isliving=1;
 if ($foundliving==0 && $isliving==1) die('ERROR!<script>alert("ERROR!");</script>');
 /////////////////////////////////////////////////////////////
 
+if ($_POST['ed2cu']=='on'||$ismformfs==1) {
+if ($_POST['id_mandatory']>0) $isid="AND datacsv LIKE '_". mysql_real_escape_string($_POST['id_mandatory']).";%'";
+else $isid='';
+$sql_b="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' $isauthuser $isid ORDER BY id DESC LIMIT 0,1";
+$result_b=mysql_query($sql_b);
+if ($result_b==false) echo 'SQL_b-Query failed!...!<p>';
+$num_b = mysql_num_rows($result_b);
+$row_b = mysql_fetch_array($result_b);
+
+$foundthisformerauthuser=$row_b['authuser'];
+$foundthisformerlastmut=$row_b['lastmut'];
+require('saveversionconflict.inc.php');
+}
+
 if (!u5FormRunSiteWriter($storedFormName, $useSiteWriter)) {
 $sql_a="INSERT INTO formdata
 (
@@ -159,17 +173,6 @@ formname,headcsv,datacsv,time,ip,authuser,humantime,lastmut
 //////////
 
 if ($_POST['ed2cu']=='on'||$ismformfs==1) {
-if ($_POST['id_mandatory']>0) $isid="AND datacsv LIKE '_". mysql_real_escape_string($_POST['id_mandatory']).";%'";
-else $isid='';
-$sql_b="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' $isauthuser $isid ORDER BY id DESC LIMIT 0,1";
-$result_b=mysql_query($sql_b);
-if ($result_b==false) echo 'SQL_b-Query failed!...!<p>';
-$num_b = mysql_num_rows($result_b);
-$row_b = mysql_fetch_array($result_b);
-
-$foundthisformerauthuser=$row_b['authuser'];
-$foundthisformerlastmut=$row_b['lastmut'];
-require('saveversionconflict.inc.php');
 
 if ($num_b>0&&$_POST['ed2cu']=='on') {
 
