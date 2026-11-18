@@ -59,6 +59,8 @@ foreach ($invalid as $input) {
 emailCheck(u5mail_addresses('one@example.ch;two@stra&szlig;e.ch'), array('one@example.ch','two@xn--strae-oqa.ch'), 'separators after entity decoding');
 emailCheck(u5mail_addresses('"space;name"@example.ch,one@example.ch'), array('"space;name"@example.ch','one@example.ch'), 'quoted separator');
 emailCheck(u5mail_extract('People: Anna+Privat@example.ch; &Auml;nne@stra&#223;e.ch'), "Anna+Privat@example.ch,\xC3\x84nne@xn--strae-oqa.ch", 'template extraction');
+emailCheck(u5mail_extract('Team|anna@example.ch Mail/beat@example.ch'), 'anna@example.ch,beat@example.ch', 'template label separators');
+emailCheck(u5mail_address('one/two@example.ch'), 'one/two@example.ch', 'explicit mailbox keeps its local-part');
 emailCheck(array('idn'=>function_exists('idn_to_ascii'), 'mb'=>mb_internal_encoding()), $before, 'no global identity/profile changes');
 emailCheck(u5mail_requires_utf8(array('info@xn--strae-oqa.ch')), false, 'IDN needs no SMTPUTF8');
 emailCheck(u5mail_requires_utf8(array("M\xC3\xBCller@example.ch")), true, 'Unicode local-part needs SMTPUTF8');
