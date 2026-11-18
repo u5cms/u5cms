@@ -78,7 +78,8 @@ def test_site(site):
     (site / 'responses').mkdir()
     for name in ['sendfile.php', 'sendfile2.php', 'sendfilea.php', 'sendfilea2.php',
                  'extendedimage.inc.php', 'image-upload-limits.inc.php', 'image-upload.js',
-                 'image-upload-worker.js', 'publishupload.inc.php', 't1.php', 't2.php',
+                 'image-upload-worker.js', 'publishupload.inc.php', 'resource-mutation.inc.php',
+                 'resource-rename-support.inc.php', 't1.php', 't2.php',
                  'archivecheck.inc.php', 'shortcut.js']:
         shutil.copy2(REPO / 'u5admin' / name, admin / name)
     shutil.copytree(REPO / 'u5admin/image-formats', admin / 'image-formats')
