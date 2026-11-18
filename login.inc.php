@@ -26,7 +26,11 @@ $_SERVER['PHP_AUTH_USER']=html_entity_decode($_SERVER['PHP_AUTH_USER'], ENT_COMP
 $_SERVER['PHP_AUTH_PW']=u5allnument($_SERVER['PHP_AUTH_PW']);
 $_SERVER['PHP_AUTH_PW']=html_entity_decode($_SERVER['PHP_AUTH_PW'], ENT_COMPAT,'WINDOWS-1252');
 }
+require_once __DIR__.'/onlymine.inc.php';
+$u5DomainLogin=u5onlymineUsesDomain() && strpos($_SERVER['PHP_AUTH_USER'],'@')!==false;
+$u5LoginDomain=$u5DomainLogin ? u5onlymineRemotepart($_SERVER['PHP_AUTH_USER']) : '';
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
+
 
 if (!isset($_GET['c'])) $_GET['c'] = '';
 if (!isset($_GET['n'])) $_GET['n'] = '';
@@ -38,6 +42,10 @@ $result = mysql_query($sql);
 $num = @mysql_num_rows($result);
 
 if ($num > 0) {
+if ($u5DomainLogin && !u5onlymineDomainMatchesLogin($u5LoginDomain,$_SERVER['PHP_AUTH_USER'])) {
+    http_response_code(403);
+    exit('The account domain cannot be verified from its stored login name.');
+}
 
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
         $sql = "SELECT name, logins FROM resources WHERE name='" . mysql_real_escape_string($thatpage) . "'";
@@ -53,7 +61,12 @@ if ($num > 0) {
         }
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-    $sql_a = "SELECT email, pw FROM accounts";
+    $accountFields = 'email, pw';
+    if ($u5DomainLogin) {
+        require_once __DIR__.'/mail/accounts.php';
+        if (u5mail_account_delivery_column(false)) $accountFields .= ', email_delivery';
+    }
+    $sql_a = "SELECT $accountFields FROM accounts";
     $result_a = mysql_query($sql_a);
     if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 
@@ -61,6 +74,7 @@ if ($num > 0) {
 
     for ($i_a = 0; $i_a < $num_a; $i_a++) {
         $row_a = mysql_fetch_array($result_a);
+        if ($u5DomainLogin && u5onlymineRemotepart(u5mail_account_address($row_a))!==$u5LoginDomain) continue;
         if ($usesessioninsteadofbasicauth != 'no') {
             if (u5flatidnlower($_SERVER['PHP_AUTH_USER']) == u5flatidnlower($row_a['email']) && $_SERVER['PHP_AUTH_PW'] == pwdcookieget($row_a['pw'])) $unknown = 'ok';
         } else {
