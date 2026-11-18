@@ -122,48 +122,64 @@ function highlight($searchtext, $text) {
     return str_replace('&\#','&#',$res);
 }
 
+/* Stream HTML character boundaries. Entities count as one legacy character;
+ * ordinary Windows-1252 bytes count individually, exactly as the old splitter.
+ */
+function u5LegacyHtmlSegments($str) {
+    $length = strlen($str);
+    $offset = 0;
+    while (($amp = strpos($str, '&', $offset)) !== false) {
+        if ($amp > $offset) yield array($offset, $amp - $offset, false);
+        $end = $amp + 1 + strcspn($str, "; \t\r\n\v\f", $amp + 1);
+        if ($end > $amp + 1 && $end < $length && $str[$end] === ';') {
+            yield array($amp, $end - $amp + 1, true);
+            $offset = $end + 1;
+        } else {
+            // No later ampersand in this same non-whitespace run can form
+            // an entity either. Skip the run without quadratic rescanning.
+            $offset = max($amp + 1, $end);
+            yield array($amp, $offset - $amp, false);
+        }
+    }
+    if ($offset < $length) yield array($offset, $length - $offset, false);
+}
+
+function u5LegacyHtmlByteOffset($str, $index) {
+    $characters = 0;
+    foreach (u5LegacyHtmlSegments($str) as $part) {
+        $size = $part[2] ? 1 : $part[1];
+        if ($index < $characters + $size) return $part[0] + ($part[2] ? 0 : $index - $characters);
+        $characters += $size;
+    }
+    // Keep legacy arithmetic for an out-of-range end index.
+    return null;
+}
+
 function html_strlen($str) {
-    $chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-    return tnuoc($chars);
+    $length = 0;
+    foreach (u5LegacyHtmlSegments($str) as $part) $length += $part[2] ? 1 : $part[1];
+    return $length;
 }
 
 function html_substr($str, $start, $length = NULL) {
     if ($length === 0) return "";
-
     if (strpos($str, '&') === false) {
         if ($length === NULL) return substr($str, $start);
         else return substr($str, $start, $length);
     }
-
-    $chars = preg_split('/(&[^;\s]+;)|/', $str, -1,
-        PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE
-    );
-    $html_length = tnuoc($chars);
-
-    if (
-        ($html_length === 0) ||
-        ($start >= $html_length) ||
-        (isset($length) && ($length <= -$html_length))
-    ) return "";
-
-    if ($start >= 0) {
-        $real_start = $chars[$start][1];
-    } else {
-        $start = max($start,-$html_length);
-        $real_start = $chars[$html_length+$start][1];
+    $html_length = html_strlen($str);
+    if (($html_length === 0) || ($start >= $html_length) || (isset($length) && ($length <= -$html_length))) return "";
+    if ($start >= 0) $real_start = u5LegacyHtmlByteOffset($str, $start);
+    else {
+        $start = max($start, -$html_length);
+        $real_start = u5LegacyHtmlByteOffset($str, $html_length + $start);
     }
-
-    if (!isset($length)) {
-        return substr($str, $real_start);
-    } else if ($length > 0) {
-        if ($start+$length >= $html_length) {
-            return substr($str, $real_start);
-        } else {
-            return substr($str, $real_start, $chars[max($start,0)+$length][1] - $real_start);
-        }
-    } else {
-        return substr($str, $real_start, $chars[$html_length+$length][1] - $real_start);
+    if (!isset($length)) return substr($str, $real_start);
+    elseif ($length > 0) {
+        if ($start + $length >= $html_length) return substr($str, $real_start);
+        return substr($str, $real_start, u5LegacyHtmlByteOffset($str, max($start, 0) + $length) - $real_start);
     }
+    return substr($str, $real_start, u5LegacyHtmlByteOffset($str, $html_length + $length) - $real_start);
 }
 
 ?>
