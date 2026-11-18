@@ -1,3 +1,5 @@
+**Patch 12.9.5.2:** [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename) baut auf 12.9.5.1 auf und zieht die schnelle, wiederaufnehmbare Objektumbenennung vor. Bestehende Codeobjekte und Exporte bleiben erhalten. [Betrieb und Pruefnachweis](docs/rename-backport-12.9.5.2.md).
+
 <!-- u5cms-branch-description:start -->
 # u5CMS · Stammbranch · u5CMS 12.9.5
 

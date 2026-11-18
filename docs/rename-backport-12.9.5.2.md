@@ -16,16 +16,45 @@ Main remains the production baseline and is not a deployment target here.
 The search work in another workspace is active; its working tree is left alone.
 Shared remote heads will be refreshed before every publication.
 
-Implementation in progress. The modern Rename depends on typed-code migration,
+Implementation checkpoint: the 12.9.5.2 application backport is complete; branch propagation and final source verification are in progress. The modern Rename depends on typed-code migration,
 row journals and coordinated writers. The backport must preserve the existing
 12.9.5 code-object format and templates, all five languages and configured
 reference policies. No automatic code-resource migration is authorised by this
 release. Runtime PHP 8.4.27 is available; an isolated disposable database and
 actual request/retry validation will be prepared before release.
 
-Last completed: read remote refs, source Rename, regression fixtures and project
-requirements; created an isolated checkout from the search-fix branch.
-Next: isolate the generic Rename/journal helpers from typed migration and map
-all legacy writer, export, backup and restore entry points.
+Implemented: isolated generic parsers, byte-preserving streamed row reads,
+capacity checks, guarded chunked journals and conflict-checked writes from the
+12.12.1 Rename. The existing legacy exporter and `htmltemplate.css` remain in
+use. Flat export URLs and relative CSS imports (including reset templates) follow legacy code objects while identifiers and backup paths remain literal. The source Rename dialog waits for complete publication; retries preserve
+archive/code HIADRI and configuration after ownership has moved. The retired
+history GET endpoint returns 410. Coordinated writers return 409 while pending;
+backups can still acquire the recovery lock and include row journals and plans.
 
-No new application tests have run at this checkpoint. No production CMS changed.
+Old databases have no history-name index. The first rename attempts to add a
+nonunique `(name prefix,lastmut,deleted)` lookup index if none starts with name.
+Failure to acquire ALTER privileges leaves the correct, slower guarded path
+available; it does not prevent the rename. No code/schema migration entry point
+is imported or invoked by the standalone legacy helpers.
+
+Executed locally: PHP 8.4.27 / MariaDB 11.8.6. 887 core/database checks (including
+all policy combinations and actual SIGKILL/resume); 94 actual HTTP checks
+(Basic/session, CSRF, archive rights before/after ownership moves, renderer,
+files, history, forced publication failure, blocked writes and exact retry).
+Two benchmark fixtures verify all 20 text columns and every file. Sparse:
+5,000 resources/25,000 history rows/955 files, 20.8101s legacy vs 0.3566s complete
+new Rename, 58.35x. Dense: 2,000/5,000/955, 7.1521s vs 3.7186s, 1.92x.
+Peak PHP allocation 4/6 MiB. The preliminary no-index dense run was slower
+(32.04s), establishing the need for the guarded optional history index.
+See `rename-backport-12.9.5.2-benchmark.json` for the final indexed measurements.
+
+Chromium was attempted but cannot create its UNIX singleton socket in this
+execution environment (EPERM). No new browser execution is claimed; the HTTP
+suite uses the actual PHP application, credentials, forms, CSRF and renderer.
+JavaScript syntax is checked separately. Recorded earlier modern browser tests
+are not represented as new tests of this patch.
+
+Last completed: implementation and complete legacy DB/HTTP/benchmark validation.
+Next: backport to the eleven earlier cumulative development branches, preserving
+branch-specific versions, search generations and typed-code APIs; verify their
+current heads before publication. Main and installed CMSs remain unchanged.

@@ -1,6 +1,9 @@
 <?php
 @set_time_limit(3600);
 require('connect.inc.php');
+require_once __DIR__.'/resource-rename-support.inc.php';
+$u5RenameBackupRelease=u5RenameStorageLock(dirname(__DIR__),null,true);
+register_shutdown_function($u5RenameBackupRelease);
 
 use U5cms\Zipper;
 
@@ -47,6 +50,10 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 } else {
     $zip->addFile(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'config.php');
 }
+
+// Interrupted Rename plans and their row backups must travel with the matching database.
+foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $u5RenameBackup) $zip->addFile($u5RenameBackup);
+foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*-rows-*',GLOB_ONLYDIR) as $u5RenameBackup) $zip->addFolder($u5RenameBackup);
 
 $zip->write();
 

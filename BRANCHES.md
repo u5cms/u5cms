@@ -1,14 +1,15 @@
 # u5CMS – Branches und Neuerungen
 
-Stand: 31. Oktober 2026. Die Beschreibungen beziehen sich auf die veröffentlichten Anwendungsstände; sie belegen keine produktive Installation.
+Stand: 18. November 2026. Die Beschreibungen beziehen sich auf die veröffentlichten Anwendungsstände; sie belegen keine produktive Installation.
 
-Der aktuelle kumulative Entwicklungsstand ist **[12.12.4-Default-Design](https://github.com/u5cms/u5cms/tree/12.12.4-Default-Design)**. `main` enthält weiterhin den Anwendungsstand 12.9.5. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
+Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält weiterhin den Anwendungsstand 12.9.5. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
 
 ## Aktuelle Branches
 
 | Branch | Version in index.php | Neuerungen / Zweck |
 | --- | --- | --- |
 | [main](https://github.com/u5cms/u5cms/tree/main) | 12.9.5 | u5CMS 12.9.5 mit Cloudflare Turnstile; Ausgangsstand der nachfolgenden Entwicklungsreihe. |
+| [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename) | 12.9.5.2 | Patchlinie ab 12.9.5.1: speicherschonende Suche und schnelle, wiederaufnehmbare Objektumbenennung mit Ueberschriften-, Referenz-, Historien- und Dateierhalt; bestehende Codeobjekte/Exporte bleiben erhalten. |
 | [12.9.6-Misc-Backend-Optimizations](https://github.com/u5cms/u5cms/tree/12.9.6-Misc-Backend-Optimizations) | 12.9.6 | Stabilere Scrollposition im Backendfilter und bereinigte Tooltips der Objektlisten. |
 | [12.10.0-Multi-Optimizations-by-AI](https://github.com/u5cms/u5cms/tree/12.10.0-Multi-Optimizations-by-AI) | 12.10.0 | Zuverlässigeres Speichern und Konflikthandling, schnellere Backendfilter sowie robustere Uploads, ZIP-Backups und Datei-Caches. |
 | [12.10.1-Support-More-Image-Formats](https://github.com/u5cms/u5cms/tree/12.10.1-Support-More-Image-Formats) | 12.10.1 | Uploads für HEIC, HEIF, HIF, TIF und TIFF mit lokaler Browserkonvertierung, Originalarchivierung und Schutz bestehender Bilder bei Fehlern. |
@@ -24,6 +25,8 @@ Der aktuelle kumulative Entwicklungsstand ist **[12.12.4-Default-Design](https:/
 | [12.12.2-Textarea-Interactions](https://github.com/u5cms/u5cms/tree/12.12.2-Textarea-Interactions) | 12.12.2 | Formatieren markierter Quelltexte, kontextabhängige Objektaktionen, P-Objekt-Edit im neuen Tab sowie synchronisiertes Undo/Redo. |
 | [12.12.3-PHP9-Compatibility](https://github.com/u5cms/u5cms/tree/12.12.3-PHP9-Compatibility) | 12.12.3 | Rückbau von tnuoc, saubere Typ- und Encodingbehandlung, aktualisierte Bibliotheken und Vorbereitung auf bekannte kommende PHP-Änderungen. |
 | [12.12.4-Default-Design](https://github.com/u5cms/u5cms/tree/12.12.4-Default-Design) | 12.12.4 | Verfeinertes Standarddesign für Typografie, Navigation, Formulare und Tabellen, synchron in beiden SQL-Seeds, CSS-Exporten und TPL-Reset-Vorlagen. |
+
+| [12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design) | 12.13.0 | Kumulative Entwicklung mit echtem Responsive Design und Erhalt individueller Legacy-Templates. |
 
 ## Integration und Nachträge
 
