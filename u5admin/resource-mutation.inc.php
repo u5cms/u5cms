@@ -1,8 +1,8 @@
 <?php
 // Coordinate page, metadata and file mutations with rename, publication and backups.
-require_once dirname(__DIR__).'/codeassets.inc.php';
+require_once __DIR__.'/resource-rename-support.inc.php';
 try {
-    $u5ResourceMutationRelease=u5CodeMigrationLock(dirname(__DIR__));
+    $u5ResourceMutationRelease=u5RenameStorageLock(dirname(__DIR__));
     register_shutdown_function($u5ResourceMutationRelease);
 } catch (RuntimeException $error) {
     http_response_code(409);
