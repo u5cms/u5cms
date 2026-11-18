@@ -6,7 +6,7 @@
 </head>
 <body>
 <?php
-$sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT operator,ip,lastmut FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['name'])."'";
 
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
