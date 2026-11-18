@@ -1,4 +1,5 @@
 <?php
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 require_once dirname(__DIR__) . '/alloc.inc.php';
 function tnuoc($value) { return count($value); }
 function referenceHtmlSubstr($str, $start, $length = null) {
