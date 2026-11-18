@@ -1,5 +1,16 @@
 # u5CMS development checkpoint
 
+## Rename-Nachfuehrung abgeschlossen (18. November 2026)
+
+Branch `12.13.0-Responsive-Design`, Ausgangs-SHA `a28ebd87208645bc88bbe49da4281e38d97bc1eb`, Version 12.13.0.
+Autorisierter Umfang und geaenderte Pfade: [Rename-Bericht](rename-backport-12.9.5.2.md)
+und zugehoeriger JSON-Nachweis. 886 Rename- und 114 HTTP-Pruefungen bestehen;
+Version und Suchdateien sind bytegleich zum Ausgangsstand. Keine produktive
+Installation. Veroeffentlichung wird mit erwartetem Remote-Head bewacht; die
+abschliessende Remotepruefung bestaetigt den gespeicherten Commit.
+Naechste Aktion: keine weitere Implementierung fuer diesen Auftrag.
+
+
 ## Dreipunkte-Button entfernt (14. November 2026)
 
 Autorisiert: Den zusammen mit den Textarea-Aktionen eingefuehrten Dreipunkte-Button
