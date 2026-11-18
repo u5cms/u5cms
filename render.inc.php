@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/onlymine.inc.php';
 require_once __DIR__.'/request.inc.php';
 require_once __DIR__.'/render/layout.inc.php';
 require_once __DIR__.'/render/markup.inc.php';
