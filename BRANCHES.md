@@ -2,13 +2,13 @@
 
 Stand: 18. November 2026. Die Beschreibungen beziehen sich auf die veröffentlichten Anwendungsstände; sie belegen keine produktive Installation.
 
-Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält den Patch-Stand 12.9.5.1 auf der bisherigen 12.9.5-Linie. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
+Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält den Patch-Stand 12.9.5.2 auf der bisherigen 12.9.5-Linie. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
 
 ## Aktuelle Branches
 
 | Branch | Version in index.php | Neuerungen / Zweck |
 | --- | --- | --- |
-| [main](https://github.com/u5cms/u5cms/tree/main) | 12.9.5.1 | Bisheriger Main mit speicherschonender Suche, Tippfehlerkorrektur und Textauszügen. |
+| [main](https://github.com/u5cms/u5cms/tree/main) | 12.9.5.2 | Speicherschonende Suche und schnelle Objektumbenennung mit Wiederaufnahme nach einem Unterbruch. |
 | [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename) | 12.9.5.2 | Patchlinie ab 12.9.5.1: schnelle, wiederaufnehmbare Objektumbenennung mit Ueberschriften-, Referenz-, Historien- und Dateierhalt; bestehende Codeobjekte und Exporte bleiben erhalten. |
 | [12.9.6-Misc-Backend-Optimizations](https://github.com/u5cms/u5cms/tree/12.9.6-Misc-Backend-Optimizations) | 12.9.6 | Stabilere Scrollposition im Backendfilter und bereinigte Tooltips der Objektlisten. |
 | [12.10.0-Multi-Optimizations-by-AI](https://github.com/u5cms/u5cms/tree/12.10.0-Multi-Optimizations-by-AI) | 12.10.0 | Zuverlässigeres Speichern und Konflikthandling, schnellere Backendfilter sowie robustere Uploads, ZIP-Backups und Datei-Caches. |

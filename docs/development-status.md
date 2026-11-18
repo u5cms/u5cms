@@ -1,6 +1,11 @@
 # u5CMS development checkpoint
 
-## 12.9.5.2 Rename (18. November 2026)
+## Freigabeprüfung 12.9.5.2 vom 18. November 2026
+
+Der Release-Kandidat bestand 887 Rename-, 114 HTTP- und 92 Chromium-Prüfungen.
+Die 16 betroffenen Entwicklungsbranches sind im [Freigabebericht](rename-backport-12.9.5.2.md#release-verification) aufgeführt. Er dokumentiert auch die Testanpassung für sieben Branches mit HTML-Export.
+
+## Stand bei Eröffnung von Pull Request 190
 
 Autorisierter Auftrag: 12.9.5.2 mit besserem Rename und konsistente Nachführung
 aller betroffenen Entwicklungsbranches. Ziel: `12.9.5.2-Faster-Rename`.

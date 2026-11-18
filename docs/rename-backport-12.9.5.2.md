@@ -1,5 +1,35 @@
 # u5CMS 12.9.5.2: resumable rename backport
 
+## Release verification
+
+The application in `v12.9.5.2` was validated with PHP 8.4.27, MariaDB 11.8.6
+and Chromium Headless Shell. The release candidate passed 887 Rename checks,
+114 HTTP checks and 92 browser checks through the real backend. The browser
+suite covers both login modes, all five languages, rendered headings and links,
+history, file ownership, failed publication and retry. The inherited search
+suites passed 45 memory checks and 55,990 excerpt comparisons.
+
+The published application trees match the validated snapshots for all 14
+numbered successor branches and both maintained feature/fix branches in
+the [branch matrix](rename-backport-12.9.5.2-branches.json). Their branch
+versions and search code were checked against their own pre-backport states.
+
+Nine successor branches pass all 92 browser checks with the committed test.
+On the five 12.11.x branches, 12.12.0-OIDC and the search feature branch,
+the browser fixture hard-codes a legacy CSS filename when simulating a failed
+template export. These branches export HTML. All 92 checks pass on each
+when the fixture uses the existing `U5_RENAME_TEST_EXPORT` value from the test
+driver. This test-only adjustment was verified locally. The published fixtures
+on those seven branches still use the legacy filename. The application files
+used in every browser run match their published branches.
+
+This patch applies to the 12.9.5.x line. Installations already on a newer
+development branch can use their corresponding updated branch. For a pending
+Rename, complete or recover it on the installed version before an update.
+The [operator guide](rename.md#retry-and-recovery) covers retry and rollback.
+
+## Backport history before the release
+
 Authorised by Stefan Minder on 18 November 2026: release 12.9.5.2 with the
 improved Rename and carry the necessary changes through the branch series.
 
