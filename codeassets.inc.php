@@ -1,4 +1,5 @@
 <?php
+if (!class_exists('U5ResourceBusyException',false)) {class U5ResourceBusyException extends RuntimeException {}}
 /* Code resources are static assets. The LAST exclamation mark is the suffix separator. */
 function u5CodeAssetDefaults() {
     return array(

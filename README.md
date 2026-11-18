@@ -43,3 +43,6 @@ It is very easy to build a web application yourself with u5CMS. Let users log in
 Version 12.11.0 introduces typed code resource names such as `mobile!js` and
 `base!css`, bundled mobile code, and an automatic migration for existing sites.
 See [the update and migration guide](docs/12.11.0-code-assets.md).
+
+
+Patch 12.9.5.2: [schnelles, wiederaufnehmbares Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename). Die eigene Branch-Version bleibt erhalten. [Nachfuehrung und Pruefungen](docs/rename-backport-12.9.5.2.md).
