@@ -1,6 +1,7 @@
 <?php 
 require_once('connect.inc.php');
 require_once('alloc.inc.php');
+require_once __DIR__ . '/search-legacy-suggestions.inc.php';
 require_once('PIDVESAexcludes.inc.php');
 require_once('indexupdate.inc.php');
 
@@ -15,7 +16,6 @@ require_once('loginsi.inc.php');
 
 $nointranet='';
 if ($doeshideintranetcontenttopublic=="yes") $nointranet="AND name NOT LIKE '!%'";
-$turn=-7; // the lower this value is below zero, the more memory is allocated for levenshtein anti misstyping searches. if you get a fatal memory error, increase this value towards zero.
 if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searchenginesqladditionalbooland;
 
 if (!function_exists('u5SearchUnicodeEntities')) {
@@ -83,11 +83,11 @@ suchen(str_replace('  ',' ',str_replace('  ',' ',str_replace('  ',' ',str_replac
 
 $getq=$_GET['q'];
 
-function suchen($sfor) {
+function suchen($sfor, $allowSuggestions = true, $allowPartial = false) {
+global $leven;
 global $nointranet;
 global $doesfindpasswordprotectedcontent;
 global $doesshowpreviewofsuchcontent;
-global $turn;
 global $getq;
 $getq=$sfor;
 
@@ -200,8 +200,7 @@ $andhit_5.' <strong id="terms">'.mkltgt($terms).'</strong>'
 
 
 //wenn null search abfragen mit or, antwortstring abfüllen 
-$eins=0;
-if ($turn>0) $eins=1;
+$eins = $allowPartial ? 1 : 0;
 if ($num_a<$eins) {
 
 	
@@ -244,125 +243,27 @@ $orhit_5.' <strong id="terms">'.mkltgt($terms).'</strong>'
 if($num_a>0){if(str_replace(' ','',$terms)!='')ausgabe($hits,$result_a,$num_a,$terms,$alloc);}
 else {
 	if(strpos('x'.$_GET['q'],'"')>0)die('<script>location.href=location.href.split("&q=")[0]+"&q='.str_replace('"','',$_GET['q']).'"</script>');	
-	else leven($sfor);    
+	else if ($allowSuggestions) leven($sfor);
+    else echo $leven;
     }
 }
 
 //wenn null levenshtein erstellen und abfragen antwortstring abfüllen
 
 function leven($sfor) {
-    global $nointranet;
-    global $doesfindpasswordprotectedcontent;
-    global $leven;
-    global $turn;
-    global $nohit_1;
-    global $nohit_2;
-    global $nohit_3;
-    global $nohit_4;
-    global $nohit_5;
-
-
-    $leven=def($nohit_1,$nohit_2,$nohit_3,$nohit_4,$nohit_5).'<br />';
-    for ($liii=0; $liii<tnuoc($sfor); $liii++) {
-
-    if ($doesfindpasswordprotectedcontent == 'yes') $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." ";
-    else $sql_la="SELECT * FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes." AND logins NOT LIKE '%:%'";
-
-    $result_la=mysql_query($sql_la);
-
-    if ($result_la==false) {
-    echo 'SQL_la-Query failed!...!<p>';
+    global $nointranet, $doesfindpasswordprotectedcontent, $leven;
+    global $nohit_1, $nohit_2, $nohit_3, $nohit_4, $nohit_5;
+    $leven = def($nohit_1,$nohit_2,$nohit_3,$nohit_4,$nohit_5).'<br />';
+    $field = def('search_1','search_2','search_3','search_4','search_5');
+    $sql = "SELECT ".$field." FROM resources WHERE deleted!=1 $nointranet AND hidden=0 AND typ!='c' ".PIDVESAexcludes;
+    if ($doesfindpasswordprotectedcontent != 'yes') $sql .= " AND logins NOT LIKE '%:%'";
+    $candidate = u5LegacySearchClosest($sfor, $sql, $field);
+    if (!is_string($candidate) || trim($candidate) === '') {
+        echo $leven;
+        return;
     }
-
-    $num_la = mysql_num_rows($result_la);
-
-    $all="";
-    for ($li_a=0; $li_a<$num_la; $li_a++) {
-        $row_la = mysql_fetch_array($result_la);
-
-        $that=def('search_1','search_2','search_3','search_4','search_5');
-        $all.=($row_la[$that]);
-    }
-
-    $all=str_replace("\n"," ",$all);
-    $all=str_replace("\r"," ",$all);
-    $all=str_replace("\t"," ",$all);
-    $all=str_replace("("," ",$all);
-    $all=str_replace(")"," ",$all);
-    $all=str_replace("<"," ",$all);
-    $all=str_replace(">"," ",$all);
-    $all=str_replace(","," ",$all);
-    $all=str_replace("."," ",$all);
-    //$all=str_replace(";"," ",$all);
-    $all=str_replace(":"," ",$all);
-    $all=str_replace("!"," ",$all);
-    $all=str_replace("?"," ",$all);
-
-
-    $all=str_replace("'"," ",$all);
-    $all=str_replace("´"," ",$all);
-    $all=str_replace("["," ",$all);
-    $all=str_replace("]"," ",$all);
-    $all=str_replace("="," ",$all);
-    $all=str_replace("/"," ",$all);
-
-    //die(var_dump($all));
-
-
-
-    $all=explode(' ',$all);
-
-    $turn++;
-
-    //echo ','.$turn;
-
-    $input=$sfor[$liii];
-
-
-    ///////////
-
-
-
-
-    // no shortest distance found, yet
-    $shortest = -1;
-
-    // loop through words to find the closest
-    foreach ($all as $word) {
-
-    // calculate the distance between the input word,
-    // and the current word
-    $lev = levenshtein(strtolower($input), strtolower($word));
-
-    // check for an exact match
-    if ($lev == 0) {
-
-        // closest word is this one (exact match)
-        $closest = $word;
-        $shortest = 0;
-
-        // break out of the loop; we've found an exact match
-        break;
-    }
-
-    // if this distance is less than the next found shortest
-    // distance, OR if a next shortest word has not yet been found
-    if ($lev <= $shortest || $shortest < 0) {
-        // set the closest match, and shortest distance
-        $closest  = $word;
-        $shortest = $lev;
-    }
-    }
-
-    $aclosest.=$closest.' ';
-
-    ////////
-
-
-}
-
-suchen(trim(($aclosest)));
-
+    // One correction attempt. A repeated/missing candidate cannot recurse.
+    suchen($candidate, false, true);
 }
 
 function ausgabe($hits,$result_a,$num_a,$terms,$alloc) {
@@ -465,7 +366,7 @@ return newstr;
 
 document.fsearch2.q.focus();
 function hglgtsrts2(){
-if(document.getElementById('search_Input')){
+if(document.getElementById('search_Input') && document.getElementById('terms')){
 document.getElementById('search_Input').value=document.getElementById('terms').innerHTML; 
 document.getElementById('search_Input').value=replace(document.getElementById('search_Input').value,'&lt;','<');
 document.getElementById('search_Input').value=replace(document.getElementById('search_Input').value,'&gt;','>');
