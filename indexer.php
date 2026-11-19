@@ -19,8 +19,7 @@ try {
         $u5NamedRelease=u5IndexNamedLock(__DIR__);
         if (!$u5NamedRelease) { u5IndexDeferNamed();return; }
     }
-    // Same lock order for named/full indexing: index mutex, then nonblocking
-    // source mutex. A pending Rename must never be rendered as finished data.
+    // Index work yields to live writes/Rename, never to idle recovery records.
     try { $u5MutationRelease=u5IndexMutationLock(__DIR__); }
     catch (U5ResourceBusyException $busy) {
         if ($u5Slice) { http_response_code(409);header('Retry-After: 10');$u5Slice->pause(); }

@@ -14,7 +14,10 @@
   "http_browser_tests": [
     "international-email-smtp.py",
     "international-email-native.py",
-    "index-save-regression.py"
+    "index-save-regression.py",
+    "resource-activity-regression.py",
+    "audit-save-during-index.py",
+    "backup-write-regression.py"
   ],
   "main_browser": false,
   "rename_browser": false,
@@ -78,7 +81,10 @@
     "mail/accounts.php",
     "tests/international-email-evidence-2026-11-08.json",
     "index-work.inc.php",
-    "tests/index-save-regression.py"
+    "tests/index-save-regression.py",
+    "tests/resource-activity-regression.py",
+    "tests/audit-save-during-index.py",
+    "tests/backup-write-regression.py"
   ],
   "legacy_https_routes": []
 }

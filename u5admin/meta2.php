@@ -5,9 +5,9 @@ require_once('t2.php');
 require_once('resourceupdate.inc.php');
 try {
 $name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
-$row=u5ResourceForUpdate($name);
-if ($archiveRqHIADRI!='no' && $row['deleted']==2) require('accadmin.inc.php');
-if ($cssRqHIADRI!='no' && $row['typ']=='c') require('accadmin.inc.php');
+$u5EditorRecord=u5ResourceForUpdate($name);
+if ($archiveRqHIADRI!='no' && $u5EditorRecord['deleted']==2) require('accadmin.inc.php');
+if ($cssRqHIADRI!='no' && $u5EditorRecord['typ']=='c') require('accadmin.inc.php');
 $changes=array();
 for ($language=1;$language<=5;$language++) foreach (array('content','title','desc','key') as $field) {
 $column=$field.'_'.$language;
@@ -22,9 +22,9 @@ if (isset($_POST['logins'])) {
 if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource logins.');
 $changes['logins']=trim($_POST['logins']);
 }
-$changes['typ']=isset($_GET['typ']) && is_string($_GET['typ']) && $_GET['typ']!=='' ? $_GET['typ'] : $row['typ'];
+$changes['typ']=isset($_GET['typ']) && is_string($_GET['typ']) && $_GET['typ']!=='' ? $_GET['typ'] : $u5EditorRecord['typ'];
 
-$result=u5UpdateResource($name,$changes,$row,$_POST['coco'] ?? null);
+$result=u5UpdateResource($name,$changes,$u5EditorRecord,$_POST['coco'] ?? null);
 u5LogResourceAttempt($result);
 trxlog('meta'.($result['saved'] ? '' : '(!)').' '.$name);
 } catch (RuntimeException $error) {
