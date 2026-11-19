@@ -1,5 +1,19 @@
 # u5CMS development checkpoint
 
+## Save coordination and large Rename rows, 19 November 2026
+
+Authorised: carry the .7 correction into this branch while retaining its version,
+rendering, search, configuration and migration APIs. Previous branch head: `6d943fdb0b721756a0352d240fd718e4677491ee`.
+Ordinary saves share only the live Rename gate; no index/backup wait or idle-plan
+blocker is introduced. Large Rename guards use byte digests; new large values are
+staged in connection-local binary variables before one conditional row UPDATE.
+Both resource and code Rename storage APIs are covered where present.
+Local PHP 8.4.24 / MariaDB 11.8.6 passed the actual five-language/current/history
+packet regression (58 assertions at 4 MiB), plus this line's applicable source,
+concurrency, index, Rename and code-migration suites. Tested packet tree: `541752a38ca67f87e8ffde035f0166491ba4327d`.
+Next: complete the required full branch CI, then consult the final .7 branch
+receipt and release report on main. No production deployment by this work.
+
 ## .7 save/Rename correction in progress, 19 November 2026
 
 Authorised: preserve this branch's cumulative work and forward-port .7.

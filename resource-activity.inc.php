@@ -174,3 +174,36 @@ function u5ResourceBackupPublish($staged,$target) {
     }
     @rmdir(dirname($staged));
 }
+
+function u5ResourceSqlDigestGuard($identifier,$value) {
+    if (!is_string($value) || strlen($value)<8192) return null;
+    // Compare the same raw bytes without repeating large original fields in
+    // every SELECT/UPDATE predicate. NULL retains its existing separate guard.
+    return 'SHA2(CAST('.$identifier.' AS BINARY),256)=\''.hash('sha256',$value).'\'';
+}
+
+function u5ResourceSqlStageValue($value,$query,&$state) {
+    if (!is_string($value) || strlen($value)<65536) return null;
+    if (!$state) {
+        $row=mysql_fetch_assoc($query('SELECT @@max_allowed_packet AS u5_packet'));
+        $state=array('variables'=>array(),'chunk'=>max(1,min(65536,(int)(((int)$row['u5_packet']-512)/2))));
+    }
+    $variable='@u5rename_value_'.bin2hex(random_bytes(8)).'_'.count($state['variables']);
+    $state['variables'][]=$variable;
+    // Connection-local binary variables stage the new values in bounded
+    // packets. The source row is still changed by one conditional UPDATE.
+    for ($offset=0,$length=strlen($value);$offset<$length;$offset+=$state['chunk']) {
+        $literal="X'".bin2hex(substr($value,$offset,$state['chunk']))."'";
+        $query('SET '.$variable.'='.($offset ? 'CONCAT('.$variable.','.$literal.')' : $literal));
+    }
+    $row=mysql_fetch_assoc($query('SELECT OCTET_LENGTH('.$variable.') AS u5_length'));
+    if ((int)$row['u5_length']!==strlen($value)) throw new RuntimeException('Cannot stage the complete Rename value within the database packet limit. The current row was not updated. Completed steps remain in the saved plan; check max_allowed_packet and retry this Rename.');
+    return $variable;
+}
+
+function u5ResourceSqlStageClear($state,$query) {
+    if (empty($state['variables'])) return;
+    $terms=array();foreach ($state['variables'] as $variable) $terms[]=$variable.'=NULL';
+    try {$query('SET '.implode(',',$terms));}
+    catch (Throwable $error) {error_log('u5CMS: Cannot clear connection-local Rename staging: '.$error->getMessage());}
+}

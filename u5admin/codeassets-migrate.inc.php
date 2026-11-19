@@ -254,7 +254,10 @@ function u5CodeMigrationEachRow($table,$columns,$callback,$tail='') {
 
 function u5CodeMigrationWhere($row) {
     $terms=array();
-    foreach ($row as $field=>$value) $terms[]='BINARY '.u5CodeMigrationIdentifier($field).' <=> '.u5CodeMigrationValue($value);
+    foreach ($row as $field=>$value) {
+        $digest=u5ResourceSqlDigestGuard(u5CodeMigrationIdentifier($field),$value);
+        $terms[]=$digest ?? ('BINARY '.u5CodeMigrationIdentifier($field).' <=> '.u5CodeMigrationValue($value));
+    }
     return implode(' AND ',$terms);
 }
 
@@ -559,8 +562,15 @@ function u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks) {
 
 function u5CodeMigrationApplyRow($change) {
     $before=$change['before']; $after=$change['after']; $table=u5CodeMigrationIdentifier($change['table']);
+    $u5SqlStage=array();
+    try {
     $set=array(); $compare=array();
-    foreach ($after as $field=>$value) if ($value!==$before[$field]) { $set[]=u5CodeMigrationIdentifier($field).'='.u5CodeMigrationValue($value); $compare[$field]=$before[$field]; }
+    foreach ($after as $field=>$value) {
+        if ($value===$before[$field]) continue;
+        $expression=u5ResourceSqlStageValue($value,'u5CodeMigrationQuery',$u5SqlStage);
+        $set[]=u5CodeMigrationIdentifier($field).'='.($expression ?? u5CodeMigrationValue($value));
+        $compare[$field]=$before[$field];
+    }
     if (!$set) return;
     // Use the whole original row, including nulls, instead of a guessed primary key.
     // This also handles duplicate history rows in the legacy MyISAM tables.
@@ -572,6 +582,7 @@ function u5CodeMigrationApplyRow($change) {
     }
     u5CodeMigrationQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5CodeMigrationWhere($before));
     if (mysql_affected_rows()!==(int)$count[0]['n']) throw new RuntimeException('A row changed while applying migration in '.$change['table']);
+    } finally {u5ResourceSqlStageClear($u5SqlStage,'u5CodeMigrationQuery');}
 }
 
 function u5CodeMigrationInsert($table,$row) {
