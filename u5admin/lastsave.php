@@ -1,4 +1,5 @@
 <?php
 require('connect.inc.php');
-file_put_contents('../fileversions/lastsave.txt',time());
+require_once dirname(__DIR__).'/index-work.inc.php';
+u5IndexMarkDirty(dirname(__DIR__));
 ?>
