@@ -1,0 +1,36 @@
+[
+    {
+        "fixture": "sparse",
+        "resources": 5000,
+        "history": 25000,
+        "dependency_stride": 100,
+        "files": 955,
+        "legacy_reference_sql_seconds": 28.766,
+        "legacy_file_seconds": 0.5929,
+        "legacy_queries": 868,
+        "legacy_file_probes": 858845,
+        "new_complete_seconds": 0.319,
+        "new_queries": 614,
+        "changed_rows": 300,
+        "speedup": 92.04,
+        "peak_php_bytes": 6291456,
+        "conservation": "all 20 resource\/history text columns and every file verified"
+    },
+    {
+        "fixture": "dense",
+        "resources": 2000,
+        "history": 5000,
+        "dependency_stride": 1,
+        "files": 955,
+        "legacy_reference_sql_seconds": 7.2231,
+        "legacy_file_seconds": 0.5074,
+        "legacy_queries": 868,
+        "legacy_file_probes": 858845,
+        "new_complete_seconds": 3.9174,
+        "new_queries": 14014,
+        "changed_rows": 7000,
+        "speedup": 1.97,
+        "peak_php_bytes": 6291456,
+        "conservation": "all 20 resource\/history text columns and every file verified"
+    }
+]

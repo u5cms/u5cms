@@ -1,4 +1,5 @@
-<?php require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php');
+if (u5OidcEnabled()) die('Credentials for this website are managed by its OIDC identity provider.'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

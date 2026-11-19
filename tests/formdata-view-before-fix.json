@@ -1,0 +1,1504 @@
+{
+  "method": "Execute original first; compare complete HTTP views, actual row selections and installation hook.",
+  "results": [
+    {
+      "label": "12.12.3-PHP9-Compatibility",
+      "cases": 42,
+      "differences": {
+        "formdata2.php/authuser-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001",
+              "97002",
+              "97003",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/empty-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/empty-form": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/field-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003",
+              "97001",
+              "97002",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/missing-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/notes-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-1": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-2": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97002"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-3": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-4": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-5": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97005"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-6": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97007"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-7": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97008"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/whitespace-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/authuser-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001",
+              "97002",
+              "97003",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/empty-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/empty-form": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/field-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003",
+              "97001",
+              "97002",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/missing-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/notes-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-1": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-2": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97002"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-3": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-4": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-5": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97005"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-6": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97007"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-7": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97008"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/whitespace-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        }
+      }
+    },
+    {
+      "label": "12.12.4-Default-Design",
+      "cases": 42,
+      "differences": {
+        "formdata2.php/authuser-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001",
+              "97002",
+              "97003",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/empty-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/empty-form": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/field-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003",
+              "97001",
+              "97002",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/missing-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/notes-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-1": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-2": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97002"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-3": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-4": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-5": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97005"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-6": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97007"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/status-7": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97008"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdata2.php/whitespace-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/authuser-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001",
+              "97002",
+              "97003",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/empty-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/empty-form": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/field-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003",
+              "97001",
+              "97002",
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/missing-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/notes-order": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-1": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-2": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97002"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-3": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97003"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-4": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-5": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97005"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-6": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97007"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/status-7": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97008"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        },
+        "formdatamail.php/whitespace-filter": {
+          "original": {
+            "status": 200,
+            "complete": true,
+            "extension": true,
+            "rows": [
+              "97004",
+              "97003",
+              "97002",
+              "97001"
+            ],
+            "fatal_output": false
+          },
+          "target": {
+            "status": 200,
+            "complete": false,
+            "extension": false,
+            "rows": [],
+            "fatal_output": false
+          }
+        }
+      }
+    },
+    {
+      "label": "main",
+      "cases": 42,
+      "differences": {}
+    }
+  ],
+  "original": {
+    "formdata2.php/missing-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/empty-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/whitespace-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/quote-only-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [],
+      "fatal_output": false
+    },
+    "formdata2.php/single-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/or-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/and-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/negative-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97002"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/no-results": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [],
+      "fatal_output": false
+    },
+    "formdata2.php/notes-order": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/authuser-order": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97001",
+        "97002",
+        "97003",
+        "97004"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/field-order": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003",
+        "97001",
+        "97002",
+        "97004"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/status-1": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/status-2": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97002"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/status-3": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/status-4": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/status-5": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97005"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/status-6": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97007"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/status-7": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97008"
+      ],
+      "fatal_output": false
+    },
+    "formdata2.php/empty-form": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [],
+      "fatal_output": false
+    },
+    "formdata2.php/denied": {
+      "denied": true,
+      "rows": [],
+      "extension": false
+    },
+    "formdatamail.php/missing-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/empty-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/whitespace-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/quote-only-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [],
+      "fatal_output": false
+    },
+    "formdatamail.php/single-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/or-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/and-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/negative-filter": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97002"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/no-results": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [],
+      "fatal_output": false
+    },
+    "formdatamail.php/notes-order": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004",
+        "97003",
+        "97002",
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/authuser-order": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97001",
+        "97002",
+        "97003",
+        "97004"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/field-order": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003",
+        "97001",
+        "97002",
+        "97004"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/status-1": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97001"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/status-2": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97002"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/status-3": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97003"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/status-4": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97004"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/status-5": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97005"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/status-6": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97007"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/status-7": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [
+        "97008"
+      ],
+      "fatal_output": false
+    },
+    "formdatamail.php/empty-form": {
+      "status": 200,
+      "complete": true,
+      "extension": true,
+      "rows": [],
+      "fatal_output": false
+    },
+    "formdatamail.php/denied": {
+      "denied": true,
+      "rows": [],
+      "extension": false
+    }
+  },
+  "original_sha": "9d366253417822c279692767b89dcf1ff0388c5c",
+  "candidate_source_shas": {
+    "12.12.3-PHP9-Compatibility": "5df1713084563438e168cc67857208296d839125",
+    "12.12.4-Default-Design": "2008920e2cee0016cb052d6a7c4f4028b09a57a7",
+    "main": "78cadbf87b7307203b8bd4ff96929b306af7d982"
+  }
+}

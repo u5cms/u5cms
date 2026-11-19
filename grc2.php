@@ -32,7 +32,7 @@ if (function_exists('curl_init')) {
         CURLOPT_SSL_VERIFYHOST=>2
     ));
     $response = curl_exec($request);
-    curl_close($request);
+    unset($request);
 } else {
     $context = stream_context_create(array('http'=>array(
         'method'=>'POST',

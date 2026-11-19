@@ -9,4 +9,4 @@ if($_GET['k']!=sha1(date('Ymd').$password.$sessioncookiehashsalt)&&$_GET['k']!=s
 ?>
 if (typeof uupldctr === "undefined") uupldctr=0;
 uupldctr++;
-document.write('<input type="hidden" readonly="readonly" name="userupload'+uupldctr+'" id="userupload'+uupldctr+'"/><iframe src="upload/upload.php?i='+uupldctr+'&k=<?php echo htmlspecialchars($_GET['k']) ?>" width="100%" height="30" frameborder="0" scrolling="no" name="iuserupload'+uupldctr+'"></iframe>');
+document.write('<input type="hidden" readonly="readonly" name="userupload'+uupldctr+'" id="userupload'+uupldctr+'"/><iframe src="upload/upload.php?i='+uupldctr+'&k=<?php echo htmlspecialchars(($_GET['k'] ?? '')) ?>" width="100%" height="30" frameborder="0" scrolling="no" name="iuserupload'+uupldctr+'"></iframe>');

@@ -1,4 +1,5 @@
-<?php $_GET['f']=strip_tags($_GET['f']); ?>
+<?php
+require_once __DIR__.'/../request.inc.php'; $_GET['f']=strip_tags(($_GET['f'] ?? '')); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +38,7 @@ width="640"
 height="480"
 allowscriptaccess="always" 
 allowfullscreen="true" 
-flashvars="width=640&height=480&autostart=true&file=../<?php echo htmlspecialchars($_GET['f']) ?>" 
+flashvars="width=640&height=480&autostart=true&file=../<?php echo htmlspecialchars(($_GET['f'] ?? '')) ?>"
 />  </p>
   <p class="Stil1"><a href="javascript:self.close();">close</a></p>
 </center>

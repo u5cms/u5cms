@@ -1,0 +1,297 @@
+status	path	previous_path	review_area	validation_or_review
+A	AGENTS.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+M	Pupload/index.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	Pupload/upload.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	Pupload/uploaddone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	Pupload/uploadstilldone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	Pupload_mandatory/index.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	Pupload_mandatory/upload.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	Pupload_mandatory/uploaddone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	Pupload_mandatory/uploadstilldone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	README.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+M	___readme_howtoinstall_and_license.txt		documentation	configuration/operation/rollback/provenance and reported evidence review
+M	alloc.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	authuser.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+A	codeassets.inc.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	config.php.sample		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	connect.inc.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	df.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+A	docs/12.11.0-code-assets.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/12.11.1-audit.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/12.11.2-audit.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/12.11.3-audit.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/12.11.4-main-audit.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/12.12.0-oidc-validation.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/12.12.1-general-corrections.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/12.12.1-rename-benchmark.json		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/oidc.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/rename.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	docs/search.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+M	f.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	ff.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	fff.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	ffff.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+A	filecache.inc.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	formdatadel.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	formdataedit.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	formdatainsert.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	ft.idn.inc.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	getauthuser.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	htaccessandindexer.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	index.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	indexer.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	indexupdate.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	js/search-highlight.js		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	login.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	loginformsave.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	loginsave.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	loginsi.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	logout.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	myfunctions.inc.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	mysql.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+A	oidc.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/bootstrap.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/callback.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/check.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/composer.json		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/composer.lock		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/enroll.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/loggedout.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/login.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/logout.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/schema.sql		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	oidc/vendor/autoload.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/ClassLoader.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/InstalledVersions.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/LICENSE		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/autoload_classmap.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/autoload_namespaces.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/autoload_psr4.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/autoload_real.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/autoload_static.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/installed.json		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/installed.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/composer/platform_check.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/CHANGELOG.md		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/LICENSE		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/README.md		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/VERSION		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/composer.json		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/BeforeValidException.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/CachedKeySet.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/ExpiredException.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/JWK.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/JWT.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/JWTExceptionWithPayloadInterface.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/Key.php		vendor	upstream provenance/license/hash/lock review; integration tests
+A	oidc/vendor/firebase/php-jwt/src/SignatureInvalidException.php		vendor	upstream provenance/license/hash/lock review; integration tests
+M	preview.inc.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+R094	r/authuser!css.tpl	r/cssauthuser.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R058	r/authuser.css	r/cssauthuser.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	r/base!css.tpl		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	r/base.css		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+D	r/cssbase.css		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+D	r/cssbase.tpl		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R095	r/form!css.tpl	r/cssform.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R094	r/form.css	r/cssform.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R095	r/hot!css.tpl	r/csshot.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R061	r/hot.css	r/csshot.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R090	r/htmltemplate!html.tpl	r/htmltemplate.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R078	r/htmltemplate.html	r/htmltemplate.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R099	r/layout!css.tpl	r/csslayout.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R099	r/layout.css	r/csslayout.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R099	r/mobile!js.tpl	r/jsmobilespecific.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R098	r/mobile.js	r/jsmobilespecific.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	r/mobilebase!js.tpl		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	r/mobilebase.js		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R099	r/navleft!css.tpl	r/cssnavleft.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R099	r/navleft.css	r/cssnavleft.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R100	r/navleftsubtop!css.tpl	r/cssnavleftsubtop.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R099	r/navleftsubtop.css	r/cssnavleftsubtop.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R091	r/navtop!css.tpl	r/cssnavtop.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R091	r/navtop.css	r/cssnavtop.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	r/runonce.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R092	r/style!css.tpl	r/cssstyle.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R090	r/style.css	r/cssstyle.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R099	r/table!css.tpl	r/csstable.css	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+R098	r/table.css	r/csstable.tpl	code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	render.inc.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	reset.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	reset2.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	san.inc.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+A	search-core.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-index.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-normalization.json		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-page.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-request.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-results.css		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-service.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-suggestions.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+A	search-ui.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	search.onchange.inc.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	sendintranetlogin.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	src/Oidc/Bindings.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	src/Oidc/Client.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+A	src/Oidc/Session.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	src/Zipper.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+A	tests/backup-restore-check.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/browser-runtime.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/codeassets-audit.inc.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/codeassets-backend.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/codeassets-browser.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/codeassets-kill-worker.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/codeassets-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/codeassets-web-fixture.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/codeassets-web-regression.py		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/image-upload-regression.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/image-upload-regression.py		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/main-diff-audit.inc.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/main-diff-browser.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/main-diff-support.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/oidc-bindings-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/oidc-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/oidc-web-browser.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/oidc-web-fixture.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/oidc-web-http.py		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/oidc-web-regression.py		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/rename-benchmark.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/rename-browser.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/rename-crash-worker.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/rename-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/rename-web-support.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-alloc-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-core-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-distance-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-highlight-browser.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-index-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-normalization-parity.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-service-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-suggestions-regression.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-web-browser.cjs		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-web-fixture.php		tests	expected-result and isolated-fixture review; executed applicable suites
+A	tests/search-web-regression.py		tests	expected-result and isolated-fixture review; executed applicable suites
+M	thumb.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+A	tools/generate-search-normalization.py		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	u5admin/acc0.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5admin/accadmin.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/accadminnoclose.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/accadminquery.inc.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/albumsort.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/archiveunarchive2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/backupdb.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/backupfiles.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/c.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/checkco.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/cleanbackups.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+A	u5admin/codeassets-journal.inc.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	u5admin/codeassets-migrate.inc.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	u5admin/codeassets-schema.inc.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	u5admin/codeassets-usage.inc.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	u5admin/coding.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/coding2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/connect.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/copy.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/copy2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/countblockelements.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+A	u5admin/databasebackup.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/delete2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/deletefile.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/deletefilea.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/done.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/editor.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/endrunonce.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+A	u5admin/extendedimage.inc.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/fileandtextversions.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/fileandtextversions0.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/filesa.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/filter2.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/freeimginstructions.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/iblank.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+A	u5admin/image-formats/README.md		documentation	configuration/operation/rollback/provenance and reported evidence review
+A	u5admin/image-formats/vendor/GPL-3.0.txt		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/SHA256SUMS		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/UTIF-LICENSE.txt		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/UTIF.js		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/heic-to-LICENSE.txt		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/heic-to.js		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/pako-LICENSE.txt		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/pako.min.js		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/source/heic-to-1.6.6.tgz		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/source/libde265-1.0.16.tar.gz		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-formats/vendor/source/libheif-1.23.6.tar.gz		vendor	upstream provenance/license/hash/lock review; integration tests
+A	u5admin/image-upload-limits.inc.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+A	u5admin/image-upload-worker.js		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+A	u5admin/image-upload.js		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/index.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/invite.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5admin/jpginstructions.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/languagecodes.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/localize.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/loginsave.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5admin/logout.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5admin/maildelete.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/mailsave.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/meta.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/meta2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/metad.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/metae.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/metaf.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/metai.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/metaiorig.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/metay.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/nc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/new.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/new2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/orphan.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/orphan.js.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/orphan.src.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/orphan.write.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/p1.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/p2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/patches.js		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/pidvesadiv.end.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/pidvesanavi.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/pidvesasubnavi.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+A	u5admin/publishupload.inc.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/putcss.inc.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	u5admin/pwd.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5admin/pwd2.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5admin/reactivateinitialu5cmslayout.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	u5admin/rename.php		rename	rename core/MariaDB/browser/SIGKILL; conservation benchmark
+M	u5admin/rename2.php		rename	rename core/MariaDB/browser/SIGKILL; conservation benchmark
+M	u5admin/rename3.php		rename	rename core/MariaDB/browser/SIGKILL; conservation benchmark
+M	u5admin/renaming.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+A	u5admin/resource-mutation.inc.php		rename	rename core/MariaDB/browser/SIGKILL; conservation benchmark
+A	u5admin/resource-rename.inc.php		rename	rename core/MariaDB/browser/SIGKILL; conservation benchmark
+A	u5admin/resourcesave.js		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+A	u5admin/resourceupdate.inc.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/s1.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/s2_c.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/s2_p.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/savepage.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/selectpage.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/sendfile.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/sendfile2.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/sendfilea.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/sendfilea2.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/t2.php		backend	main-diff browser; code-asset backend; save/metadata/concurrency/permissions
+M	u5admin/upload.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/uploada.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	u5admin/usercheck.inc.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5admin/zr.php		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	u5conference.sql		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	u5standard.sql		code-assets	seed/migration/code-asset core/MariaDB/browser/restore/SIGKILL
+M	u5sys._login.php		oidc	OIDC core/bindings; real HTTPS provider/RP; browser; configuration policies
+M	u5sys._search.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	u5sys._searchsi.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	u5sys.content.php		integration	bootstrap/entry-point/reference review; relevant runtime regression suites
+M	u5sys.search.php		search	query/reference suites; search HTTP/MariaDB/browser/theme/indexer
+M	upload/index.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	upload/upload.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	upload/uploaddone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	upload/uploadstilldone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	upload_mandatory/index.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	upload_mandatory/upload.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	upload_mandatory/uploaddone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+M	upload_mandatory/uploadstilldone.php		media	main-diff cache/path checks; image/upload browser and original-byte inspection
+A	docs/12.12.1-main-review.tsv		documentation	configuration/operation/rollback/provenance and reported evidence review

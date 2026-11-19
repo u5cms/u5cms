@@ -1,9 +1,10 @@
 <?php
 // do not include myfunctions.inc.php here
+    if (function_exists('u5OidcPrivateCredentials')) u5OidcPrivateCredentials($passwd);
     $concatlogins = '';
     $passwd = nl2br($passwd);
     $logins1 = explode('<br />', $passwd);
-    for ($ii = 0; $ii < tnuoc($logins1); $ii++) {
+    for ($ii = 0; $ii < count($logins1); $ii++) {
         $logins1[$ii] = trim($logins1[$ii]);
         $logins2 = explode(':', $logins1[$ii]);
         if($usesessioninsteadofbasicauth!='no'){
@@ -17,11 +18,12 @@
     $passwd = $concatlogins;
 
     if ($usesessioninsteadofbasicauth != 'no') {
+    u5ValidateTextRequest($_COOKIE,array('u','p'));
         $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'] ?? '';
         $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'] ?? '';
     }
-    $_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
-    $_SERVER['PHP_AUTH_PW'] = trim($_SERVER['PHP_AUTH_PW']);
+    $_SERVER['PHP_AUTH_USER'] = trim(($_SERVER['PHP_AUTH_USER'] ?? ''));
+    $_SERVER['PHP_AUTH_PW'] = trim(($_SERVER['PHP_AUTH_PW'] ?? ''));
     $unknown = 'unknown';
 
     if ($usesessioninsteadofbasicauth != 'no'){
@@ -31,7 +33,7 @@
 	}
     else {
 	$_SERVER['PHP_AUTH_PW']=u5allnument($_SERVER['PHP_AUTH_PW']);
-	$_SERVER['PHP_AUTH_PW']=html_entity_decode($_SERVER['PHP_AUTH_PW'], ENT_COMPAT,'WINDOWS-1252');
+	$_SERVER['PHP_AUTH_PW']=html_entity_decode(($_SERVER['PHP_AUTH_PW'] ?? ''), ENT_COMPAT,'WINDOWS-1252');
 	$search = '?'.$_SERVER['PHP_AUTH_USER'] . ':' . pwdhsh($_SERVER['PHP_AUTH_PW']).';';
     }
 

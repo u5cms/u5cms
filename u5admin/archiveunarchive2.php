@@ -11,7 +11,7 @@ require_once('resource-mutation.inc.php'); ?>
 require('../config.php'); 
 if($archiveRqHIADRI!='no') require('accadmin.inc.php');
 
-if ($_GET['name']!=md5($_POST['name'])) {
+if ($_GET['name']!=md5(($_POST['name'] ?? ''))) {
 echo('<script>document.getElementById("body").style.background="red";
 if(opener)if(opener.parent)if(opener.parent.save)opener.parent.save.location.href="notdone.php?n=wrong name, not (un)archived '.$_POST['name'].'";
 self.close();

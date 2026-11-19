@@ -2,7 +2,7 @@
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 require_once('connect.inc.php'); require_once('../san.inc.php');
 require('../config.php');
-$_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
+$_GET['f']=htmlXspecialchars(trim(strip_tags(($_GET['f'] ?? ''))));
 if ($formdataRqHIADRI!='no') require('accadmin.inc.php');
 
 $sql_a="SET NAMES utf8";
@@ -24,14 +24,14 @@ if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);
     '/%u(.{4})/',
     function($match){      return "&#".hexdec("x".$match[1]).",.";
     },
-    $_GET['f']
+    ($_GET['f'] ?? '')
   );
 
 //xxxxxxxxxxxxxxxxx
 if ($_GET['f']!='') {
 
 
-$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim($_GET['f'])))));
+$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim(($_GET['f'] ?? ''))))));
 
 
 
@@ -58,14 +58,14 @@ $andfilter="AnD ( (";
 $orand='oR';
 if ($_COOKIE['fdbool']=='and') $orand='anD';
 
-for ($k=0;$k<tnuoc($keywords);$k++) {
+for ($k=0;$k<count($keywords);$k++) {
 $andfilter.="datacsv='' ";
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR notes LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR humantime LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
-if ($k==tnuoc($keywords)-1) $andfilter.=')';
+if ($k==count($keywords)-1) $andfilter.=')';
 else $andfilter.=") $orand (";
 
 }
@@ -92,12 +92,12 @@ $oldhead='';
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
 
-$row_a['headcsv']=str_replace('_mandatory','*',$row_a['headcsv']);
-if ($oldhead!=$row_a['headcsv']) echo 'Status;Notes;Authuser;'.str_replace('·','',$row_a['headcsv']).'Sent'.';'.'IP'."\r\n";
+$row_a['headcsv']=str_replace('_mandatory','*',($row_a['headcsv'] ?? ''));
+if ($oldhead!=$row_a['headcsv']) echo 'Status;Notes;Authuser;'.str_replace('·','',($row_a['headcsv'] ?? '')).'Sent'.';'.'IP'."\r\n";
 $oldhead=$row_a['headcsv'];
 
-$data=explode(';',(str_replace('·','',$row_a['datacsv'])));
-for ($i=0;$i<tnuoc($data);$i++) {
+$data=explode(';',(str_replace('·','',($row_a['datacsv'] ?? ''))));
+for ($i=0;$i<count($data);$i++) {
 $data[$i]=str_replace(',.',';',$data[$i]);
 $data[$i]=str_replace('"','&#8243;',$data[$i]);
 $data[$i]=html_entity_decode((($data[$i])), ENT_QUOTES, 'UTF-8');
@@ -105,8 +105,8 @@ $data[$i]=str_replace(';',',.',$data[$i]);
 }
 $row_a['datacsv']=implode(';',$data);
 
-$data=explode(';',(str_replace('·','',$row_a['notes'])));
-for ($i=0;$i<tnuoc($data);$i++) {
+$data=explode(';',(str_replace('·','',($row_a['notes'] ?? ''))));
+for ($i=0;$i<count($data);$i++) {
 $data[$i]=str_replace(',.',';',$data[$i]);
 $data[$i]=str_replace('"','&#8243;',$data[$i]);
 $data[$i]=html_entity_decode((($data[$i])), ENT_QUOTES, 'UTF-8');
@@ -114,8 +114,8 @@ $data[$i]=str_replace(';',',.',$data[$i]);
 }
 $row_a['notes']=implode(';',$data);
 
-$row_a['datacsv']=str_replace('fileversions/useruploads/','ffff.php?c=',$row_a['datacsv']);
+$row_a['datacsv']=str_replace('fileversions/useruploads/','ffff.php?c=',($row_a['datacsv'] ?? ''));
 
-echo $row_a['status'].';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['notes']))))).';'.str_replace(';',',.',$row_a['authuser']).';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['datacsv']))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip'].';'."\r\n";
+echo $row_a['status'].';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br(($row_a['notes'] ?? '')))))).';'.str_replace(';',',.',($row_a['authuser'] ?? '')).';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br(($row_a['datacsv'] ?? '')))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip'].';'."\r\n";
 }
 ?>

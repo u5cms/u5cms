@@ -8,10 +8,8 @@ use Serializable;
 use UnexpectedValueException;
 
 use function array_key_exists;
-use function get_class;
-use function gettype;
+use function get_debug_type;
 use function is_array;
-use function is_object;
 use function serialize;
 use function sprintf;
 use function unserialize;
@@ -23,6 +21,10 @@ use const PHP_INT_MAX;
  *
  * Also, provides predictable heap order for datums added with the same priority
  * (i.e., they will be emitted in the same order they are enqueued).
+ *
+ * @template TValue
+ * @template TPriority of int
+ * @extends \SplPriorityQueue<TPriority, TValue>
  */
 class SplPriorityQueue extends \SplPriorityQueue implements Serializable
 {
@@ -35,16 +37,17 @@ class SplPriorityQueue extends \SplPriorityQueue implements Serializable
      * Utilizes {@var $serial} to ensure that values of equal priority are
      * emitted in the same order in which they are inserted.
      *
-     * @param  mixed $datum
-     * @param  mixed $priority
+     * @param  TValue    $value
+     * @param  TPriority $priority
      * @return void
      */
-    public function insert($datum, $priority)
+    public function insert($value, $priority): true
     {
         if (! is_array($priority)) {
             $priority = [$priority, $this->serial--];
         }
-        parent::insert($datum, $priority);
+
+        return parent::insert($value, $priority);
     }
 
     /**
@@ -52,7 +55,7 @@ class SplPriorityQueue extends \SplPriorityQueue implements Serializable
      *
      * Array will be priority => data pairs
      *
-     * @return array
+     * @return list<TValue>
      */
     public function toArray()
     {
@@ -78,7 +81,7 @@ class SplPriorityQueue extends \SplPriorityQueue implements Serializable
      *
      * @return array
      */
-    public function __serialize()
+    public function __serialize(): array
     {
         $clone = clone $this;
         $clone->setExtractFlags(self::EXTR_BOTH);
@@ -112,10 +115,10 @@ class SplPriorityQueue extends \SplPriorityQueue implements Serializable
     /**
      * Magic method used to rebuild an instance.
      *
-     * @param array $data Data array.
+     * @param array<array-key, mixed> $data Data array.
      * @return void
      */
-    public function __unserialize($data)
+    public function __unserialize($data): void
     {
         $this->serial = PHP_INT_MAX;
 
@@ -124,7 +127,7 @@ class SplPriorityQueue extends \SplPriorityQueue implements Serializable
                 throw new UnexpectedValueException(sprintf(
                     'Cannot deserialize %s instance: corrupt item; expected array, received %s',
                     self::class,
-                    is_object($item) ? get_class($item) : gettype($item)
+                    get_debug_type($item)
                 ));
             }
 

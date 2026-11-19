@@ -1,6 +1,10 @@
 # u5CMS development branches
 
-## V14 · 14.0.0 development candidate
+## V15 · 15.0.0 development candidate
+
+The first parent is the published V14 commit `5667e955190a74a96757128433d83bd59cda50a3`. The integration covers the search feature line and the changes through 12.12.3. Acceptance covers search from query to destination, optional OpenID Connect, local login, editor behaviour and PHP dependencies. Earlier migration, editing and recovery contracts continue to apply. The PHP versions that passed the test matrix will be recorded in the release notes.
+
+## V14 · published 14.0.0
 
 The first parent is the accepted V13 release at `c664f91cd8ef28cb309554cdb04213075daa7f8c`. The changes from 12.11.0 through 12.11.4 introduce typed code resources, resumable migration, archive and restore changes, private cache controls and intranet login corrections. The page, metadata and code editors retain the V13 check on the original editable field bytes. The test programme includes interruption, recovery, preservation of customised templates and mixed database encodings, as well as the inherited save, indexing, permissions and upload contracts.
 

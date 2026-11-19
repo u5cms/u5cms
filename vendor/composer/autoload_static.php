@@ -4,39 +4,37 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb86961490993680c8b002cdc6655f062
+class ComposerStaticInit2175cf52e15afb78abf7f43a3dcd7e91
 {
     public static $files = array (
-        '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+        'c9d07b32a2e02bc0fc582d4f0c1b56cc' => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src/autoload.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'W' => 
+        'W' =>
         array (
             'Webmozart\\Assert\\' => 17,
         ),
-        'U' => 
+        'U' =>
         array (
             'U5cms\\' => 6,
         ),
-        'T' => 
-        array (
-            'TrueBV\\' => 7,
-        ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
         ),
-        'P' => 
+        'P' =>
         array (
+            'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
-        'L' => 
+        'L' =>
         array (
-            'Laminas\\ZendFrameworkBridge\\' => 28,
             'Laminas\\Validator\\' => 18,
             'Laminas\\Stdlib\\' => 15,
             'Laminas\\ServiceManager\\' => 23,
@@ -44,81 +42,74 @@ class ComposerStaticInitb86961490993680c8b002cdc6655f062
             'Laminas\\Mail\\' => 13,
             'Laminas\\Loader\\' => 15,
         ),
-        'I' => 
-        array (
-            'Interop\\Container\\' => 18,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Webmozart\\Assert\\' => 
+        'Webmozart\\Assert\\' =>
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
-        'U5cms\\' => 
+        'U5cms\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'TrueBV\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/true/punycode/src',
-        ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' =>
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
         ),
-        'Psr\\Container\\' => 
+        'Symfony\\Polyfill\\Intl\\Idn\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
+        ),
+        'Psr\\Http\\Message\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Laminas\\ZendFrameworkBridge\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src',
-        ),
-        'Laminas\\Validator\\' => 
+        'Laminas\\Validator\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-validator/src',
         ),
-        'Laminas\\Stdlib\\' => 
+        'Laminas\\Stdlib\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-stdlib/src',
         ),
-        'Laminas\\ServiceManager\\' => 
+        'Laminas\\ServiceManager\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src',
         ),
-        'Laminas\\Mime\\' => 
+        'Laminas\\Mime\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-mime/src',
         ),
-        'Laminas\\Mail\\' => 
+        'Laminas\\Mail\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-mail/src',
         ),
-        'Laminas\\Loader\\' => 
+        'Laminas\\Loader\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-loader/src',
-        ),
-        'Interop\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
         ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb86961490993680c8b002cdc6655f062::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb86961490993680c8b002cdc6655f062::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitb86961490993680c8b002cdc6655f062::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2175cf52e15afb78abf7f43a3dcd7e91::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2175cf52e15afb78abf7f43a3dcd7e91::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2175cf52e15afb78abf7f43a3dcd7e91::$classMap;
 
         }, null, ClassLoader::class);
     }

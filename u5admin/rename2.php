@@ -8,33 +8,32 @@ $u5RawRenameOld=$_GET['name'];$u5RawRenameNew=$_POST['name'];
 // Bound database-side lock waits before authentication or resource reads.
 define('U5CMS_RESOURCE_RENAME_REQUEST', true);
 require_once('connect.inc.php');
-http_response_code(403);require_once('t2.php');http_response_code(200);
+require_once('t2.php');
 require_once('resource-rename.inc.php');
-
+require_once('resourceupdate.inc.php');
 $old=$u5RawRenameOld;$new=$u5RawRenameNew;$updateLinks=($_POST['ulinks'] ?? '')==='yes';
 $u5RenameError=null;$u5RenamePlan=null;
 try {
     u5RenameName($old,true);
     if (!is_string($new) || strlen($new)<4 || $old===$new) throw new RuntimeException('Choose a different valid resource name.');
-    $source=u5RenameStorageRows('SELECT typ,deleted FROM resources WHERE BINARY name='.u5RenameStorageValue($old).' AND deleted!=1 LIMIT 1');
+    $source=u5CodeMigrationRows('SELECT typ,deleted FROM resources WHERE BINARY name='.u5CodeMigrationValue($old).' AND deleted!=1 LIMIT 1');
     $pending=u5RenameBase(dirname(__DIR__),$old,$new).'.pending.php';
     if (!$source && is_file($pending)) {
-        $saved=u5RenameStorageReadGuarded($pending);$source=array(array('typ'=>$saved['typ'],'deleted'=>$saved['deleted']));
+        $saved=u5CodeMigrationReadGuarded($pending);$source=array(array('typ'=>$saved['typ'],'deleted'=>$saved['deleted']));
     }
     $codeCheckpoint='../fileversions/codeasset-rename-'.sha1($old."\0".$new).'.pending.php';
     $codePending=is_file($codeCheckpoint);
     if (!$source && $codePending) {
-        $saved=u5RenameStorageReadJournal($codeCheckpoint);
-        u5RenameStorageEachChange(dirname(__DIR__),$saved['updates'],function($change) use(&$source,$old) {
+        $saved=u5CodeMigrationReadJournal($codeCheckpoint);
+        u5CodeMigrationEachChange(dirname(__DIR__),$saved['updates'],function($change) use(&$source,$old) {
             $before=$change['before'];
             if (!$source && $change['table']==='resources' && ($before['name'] ?? null)===$old && ($before['deleted'] ?? '1')!=1) $source=array(array('typ'=>$before['typ'],'deleted'=>$before['deleted']));
         });
     }
-    $u5RenameAdmin=($archiveRqHIADRI!='no' && ($source[0]['deleted'] ?? '')==2) || ($cssRqHIADRI!='no' && strtolower((string)($source[0]['typ'] ?? ''))==='c');
-    if ($u5RenameAdmin) {http_response_code(403);require('accadmin.inc.php');http_response_code(200);}
-    $u5RenameCode=function_exists('u5CodeAssetsRename') && (strtolower((string)($source[0]['typ'] ?? ''))==='c' || $codePending);
+    if ($archiveRqHIADRI!='no' && ($source[0]['deleted'] ?? '')==2) require('accadmin.inc.php');
+    $u5RenameCode=strtolower((string)($source[0]['typ'] ?? ''))==='c' || $codePending;
     if ($u5RenameCode) {
-        if (!$u5RenameAdmin && $cssRqHIADRI!='no') {http_response_code(403);require('accadmin.inc.php');http_response_code(200);}
+        if ($cssRqHIADRI!='no') require('accadmin.inc.php');
         u5CodeAssetsRename(dirname(__DIR__),$old,$new,$updateLinks);
     } else {
         $u5RenamePlan=u5ResourceRename(dirname(__DIR__),$old,$new,u5RenameOptions($updateLinks));
@@ -62,7 +61,7 @@ try {
 <p>Renamed <?php echo htmlXspecialchars($old); ?> to <?php echo htmlXspecialchars($new); ?>. Files, references and history have completed.</p>
 <script>
 (function(){
- var oldName=<?php echo u5RenameJsString($old); ?>,newName=<?php echo u5RenameJsString($new); ?>;
+ var oldName=<?php echo u5ResourceJsString($old); ?>,newName=<?php echo u5ResourceJsString($new); ?>;
  if(opener && !opener.closed) {
   var host=opener.parent;
   if(host && host.save)host.save.location.href='done.php?n='+encodeURIComponent('renamed '+oldName+' to '+newName);

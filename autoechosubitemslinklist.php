@@ -42,7 +42,7 @@ $currentIndex = null;
 $currentLevel = null;
 
 foreach ($navitems as $index => $navitem) {
-    if (preg_match('/:\\s*' . preg_quote($_GET['c'], '/') . '\\s*\\]\\s*$/', $navitem)) {
+    if (preg_match('/:\\s*' . preg_quote(($_GET['c'] ?? ''), '/') . '\\s*\\]\\s*$/', $navitem)) {
         $currentIndex = $index;
         $currentLevel = navGetLevel($navitem);
         break;

@@ -8,9 +8,9 @@ $active=u5ResourceRenameStatus(dirname(__DIR__));
 try {
     if ($old==='' && $new==='') {
         foreach (glob(dirname(__DIR__).'/fileversions/resource-rename-*.pending.php') as $path) {
-            $saved=u5RenameStorageReadGuarded($path);
+            $saved=u5CodeMigrationReadGuarded($path);
             u5RenameName($saved['old'] ?? '',true);u5RenameName($saved['new'] ?? '');
-            if (($saved['version'] ?? '')!=='12.9.5.2'
+            if (($saved['version'] ?? '')!=='12.12.1'
                 || u5RenameBase(dirname(__DIR__),$saved['old'],$saved['new']).'.pending.php'!==$path
                 || !isset($saved['options']['links'])) throw new RuntimeException('Invalid resource rename checkpoint.');
             $recoveries[]=$saved;

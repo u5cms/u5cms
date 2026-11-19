@@ -1,5 +1,4 @@
-<?php require_once('connect.inc.php');
-require_once __DIR__.'/resource-mutation.inc.php'; ?>
+<?php require_once('connect.inc.php');require_once('resource-mutation.inc.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +23,7 @@ if($_GET['t']<1)$t=1;
 else $t=$_GET['t'];
 
 $old=explode('_',$f);
-$old=$old[tnuoc($old)-1];
+$old=$old[count($old)-1];
 $old=explode('.',$old);
 $old=$old[0];
 

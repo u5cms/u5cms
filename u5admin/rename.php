@@ -35,7 +35,7 @@ shortcut.add("Ctrl+S",function() {
 <?php include('az90.php'); ?>
 function check() {
 if (nc.document.form1.ok.value=='ok') {
-// Wait for complete files, references and history.
+// The POST returns only after files, references and history have completed.
 document.getElementById('spinner').innerHTML='<img src="../upload/spinner.gif" />';
 document.getElementById('form1').style.display='none';
 return true;

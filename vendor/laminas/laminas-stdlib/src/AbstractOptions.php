@@ -7,8 +7,11 @@ namespace Laminas\Stdlib;
 use Traversable;
 
 use function array_shift;
+use function assert;
+use function get_object_vars;
 use function is_array;
 use function is_callable;
+use function is_string;
 use function method_exists;
 use function preg_replace_callback;
 use function sprintf;
@@ -16,6 +19,11 @@ use function str_replace;
 use function strtolower;
 use function ucwords;
 
+/**
+ * @template TValue
+ * @implements ParameterObjectInterface<string, TValue>
+ * @psalm-no-seal-properties This class has __get() magic. It exposes protected props when there is a matching method
+ */
 abstract class AbstractOptions implements ParameterObjectInterface
 {
     // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore,WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCapsProperty
@@ -33,7 +41,7 @@ abstract class AbstractOptions implements ParameterObjectInterface
     /**
      * Constructor
      *
-     * @param  array|Traversable|null $options
+     * @param  iterable<string, TValue>|AbstractOptions<TValue>|null $options
      */
     public function __construct($options = null)
     {
@@ -45,7 +53,7 @@ abstract class AbstractOptions implements ParameterObjectInterface
     /**
      * Set one or more configuration properties
      *
-     * @param  array|Traversable|AbstractOptions $options
+     * @param  iterable<string, TValue>|AbstractOptions<TValue> $options
      * @throws Exception\InvalidArgumentException
      * @return AbstractOptions Provides fluent interface
      */
@@ -77,23 +85,25 @@ abstract class AbstractOptions implements ParameterObjectInterface
     /**
      * Cast to array
      *
-     * @return array
+     * @return array<string, TValue>
      */
     public function toArray()
     {
         $array = [];
 
-        /** @param string[] $letters */
-        $transform = function (array $letters): string {
+        $transform = static function (array $letters): string {
+            /** @var list<string> $letters */
             $letter = array_shift($letters);
-            return '_' . strtolower($letter);
+            return '_' . strtolower((string) $letter);
         };
 
-        foreach ($this as $key => $value) {
+        /** @psalm-var TValue $value */
+        foreach (get_object_vars($this) as $key => $value) {
             if ($key === '__strictMode__') {
                 continue;
             }
-            $normalizedKey         = preg_replace_callback('/([A-Z])/', $transform, $key);
+            $normalizedKey = preg_replace_callback('/([A-Z])/', $transform, $key);
+            assert(is_string($normalizedKey));
             $array[$normalizedKey] = $value;
         }
 
@@ -106,7 +116,7 @@ abstract class AbstractOptions implements ParameterObjectInterface
      * @see ParameterObject::__set()
      *
      * @param string $key
-     * @param mixed $value
+     * @param TValue|null $value
      * @throws Exception\BadMethodCallException
      * @return void
      */
@@ -137,7 +147,7 @@ abstract class AbstractOptions implements ParameterObjectInterface
      *
      * @param string $key
      * @throws Exception\BadMethodCallException
-     * @return mixed
+     * @return TValue
      */
     public function __get($key)
     {

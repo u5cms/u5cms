@@ -7,7 +7,6 @@ namespace Laminas\Stdlib;
 use Countable;
 use Exception;
 use Iterator;
-use ReturnTypeWillChange;
 
 use function array_map;
 use function current;
@@ -16,6 +15,11 @@ use function next;
 use function reset;
 use function uasort;
 
+/**
+ * @template TKey of string
+ * @template TValue of mixed
+ * @template-implements Iterator<TKey, TValue>
+ */
 class PriorityList implements Iterator, Countable
 {
     public const EXTR_DATA     = 0x00000001;
@@ -25,14 +29,14 @@ class PriorityList implements Iterator, Countable
     /**
      * Internal list of all items.
      *
-     * @var array[]
+     * @var array<TKey, array{data: TValue, priority: int, serial: positive-int|0}>
      */
     protected $items = [];
 
     /**
      * Serial assigned to items to preserve LIFO.
      *
-     * @var int
+     * @var positive-int|0
      */
     protected $serial = 0;
 
@@ -64,12 +68,12 @@ class PriorityList implements Iterator, Countable
     /**
      * Insert a new item.
      *
-     * @param  string  $name
-     * @param  mixed   $value
-     * @param  int     $priority
+     * @param TKey   $name
+     * @param TValue $value
+     * @param int    $priority
      * @return void
      */
-    public function insert($name, $value, $priority = 0)
+    public function insert($name, mixed $value, $priority = 0)
     {
         if (! isset($this->items[$name])) {
             $this->count++;
@@ -85,7 +89,7 @@ class PriorityList implements Iterator, Countable
     }
 
     /**
-     * @param string $name
+     * @param TKey   $name
      * @param int    $priority
      * @return $this
      * @throws Exception
@@ -105,7 +109,7 @@ class PriorityList implements Iterator, Countable
     /**
      * Remove a item.
      *
-     * @param  string $name
+     * @param  TKey $name
      * @return void
      */
     public function remove($name)
@@ -133,8 +137,8 @@ class PriorityList implements Iterator, Countable
     /**
      * Get a item.
      *
-     * @param  string $name
-     * @return mixed
+     * @param  TKey $name
+     * @return TValue|null
      */
     public function get($name)
     {
@@ -162,7 +166,6 @@ class PriorityList implements Iterator, Countable
      * Compare the priority of two items.
      *
      * @param  array $item1,
-     * @param  array $item2
      * @return int
      */
     protected function compare(array $item1, array $item2)
@@ -195,8 +198,7 @@ class PriorityList implements Iterator, Countable
     /**
      * {@inheritDoc}
      */
-    #[ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         $this->sort();
         reset($this->items);
@@ -205,8 +207,7 @@ class PriorityList implements Iterator, Countable
     /**
      * {@inheritDoc}
      */
-    #[ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         $this->sorted || $this->sort();
         $node = current($this->items);
@@ -217,8 +218,7 @@ class PriorityList implements Iterator, Countable
     /**
      * {@inheritDoc}
      */
-    #[ReturnTypeWillChange]
-    public function key()
+    public function key(): mixed
     {
         $this->sorted || $this->sort();
         return key($this->items);
@@ -227,19 +227,17 @@ class PriorityList implements Iterator, Countable
     /**
      * {@inheritDoc}
      */
-    #[ReturnTypeWillChange]
-    public function next()
+    public function next(): void
     {
         $node = next($this->items);
 
-        return $node ? $node['data'] : false;
+        $node ? $node['data'] : false; return;
     }
 
     /**
      * {@inheritDoc}
      */
-    #[ReturnTypeWillChange]
-    public function valid()
+    public function valid(): bool
     {
         return current($this->items) !== false;
     }
@@ -255,8 +253,7 @@ class PriorityList implements Iterator, Countable
     /**
      * {@inheritDoc}
      */
-    #[ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return $this->count;
     }
@@ -276,9 +273,7 @@ class PriorityList implements Iterator, Countable
         }
 
         return array_map(
-            function ($item) use ($flag) {
-                return $flag === PriorityList::EXTR_PRIORITY ? $item['priority'] : $item['data'];
-            },
+            static fn($item) => $flag === self::EXTR_PRIORITY ? $item['priority'] : $item['data'],
             $this->items
         );
     }

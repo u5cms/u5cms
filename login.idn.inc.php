@@ -1,12 +1,12 @@
 <?php
             if ($usesessioninsteadofbasicauth != 'no') {
                 $concatlogins = '';
-                $row['logins']=str_replace('&#140;','&oelig;',$row['logins']);
-                $row['logins']=str_replace('&#156;','&oelig;',$row['logins']);
+                $row['logins']=str_replace('&#140;','&oelig;',($row['logins'] ?? ''));
+                $row['logins']=str_replace('&#156;','&oelig;',($row['logins'] ?? ''));
 				$row['logins']=u5toutf8($row['logins']);
-				$logins1 = explode(';', $row['logins']);
+				$logins1 = explode(';', ($row['logins'] ?? ''));
 
-                for ($ii = 0; $ii < tnuoc($logins1); $ii++) {
+                for ($ii = 0; $ii < count($logins1); $ii++) {
 					$logins1[$ii]=u5allnument(trim($logins1[$ii]));
                     $logins1[$ii]=html_entity_decode(html_entity_decode(($logins1[$ii]), ENT_COMPAT,'WINDOWS-1252'), ENT_COMPAT,'WINDOWS-1252');
 					$logins2 = explode(':', $logins1[$ii]);

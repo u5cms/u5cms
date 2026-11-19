@@ -53,10 +53,9 @@ jobs:
       - name: PHP, search, ownership, Rename and mail contracts
         run: |
           set -e
-          for test in indexer-batch-regression index-update-notice search-legacy-memory-regression search-legacy-html-regression search-legacy-database-regression onlymine-domain rename-regression international-email login-host-regression; do
+          for test in indexer-batch-regression index-update-notice search-legacy-memory-regression search-core-regression search-service-regression search-suggestions-regression search-index-regression onlymine-domain rename-regression international-email login-host-regression; do
             php "tests/$test.php"
           done
-          php tests/search-legacy-database-regression.php u5sys._searchsi.php
           python3 tests/indexer-crash-regression.py
           python3 tests/indexer-database-lock-regression.py
           python3 tests/indexer-http-regression.py

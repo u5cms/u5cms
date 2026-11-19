@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__.'/request.inc.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-if ($_SERVER['QUERY_STRING']!=str_replace('c=_search','',$_SERVER['QUERY_STRING'])) header("Location: ./?".$_SERVER['QUERY_STRING']);
-setcookie('dgets', $_GET['s'], time()+3600*24*365*10,'/');
-setcookie('dgetf', $_GET['f'], time()+3600*24*365*10,'/');
+if ($_SERVER['QUERY_STRING']!=str_replace('c=_search','',($_SERVER['QUERY_STRING'] ?? ''))) header("Location: ./?".$_SERVER['QUERY_STRING']);
+setcookie('dgets', ($_GET['s'] ?? ''), time()+3600*24*365*10,'/');
+setcookie('dgetf', ($_GET['f'] ?? ''), time()+3600*24*365*10,'/');
 require('connect.inc.php');
 require_once('u5admin/usercheck.inc.php');
 require('u5admin/backendcss.php');
@@ -16,14 +17,14 @@ if ($_GET['s']==5) $andstatus.=' AND lastmut>'.(time()-$toolate*24*60*60);
     function($match){
 		return "&#".hexdec("x".$match[1]).",.";
     },
-    $_GET['f']
+    ($_GET['f'] ?? '')
   );
 
 //xxxxxxxxxxxxxxxxx
 if ($_GET['f']!='') {
 
 
-$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim($_GET['f'])))));
+$keywords=((str_replace('  ',' ',str_replace(' ',' ',trim(($_GET['f'] ?? ''))))));
 
 
 
@@ -52,7 +53,7 @@ $keywords=explode(' ',trim($keywords));
 
 $andfilter="AND (datacsv='' ";
 
-for ($k=0;$k<tnuoc($keywords);$k++) {
+for ($k=0;$k<count($keywords);$k++) {
 $andfilter.="OR datacsv LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR authuser LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
 $andfilter.="OR ip LIKE '%".mysql_real_escape_string(str_replace(';',',.',$keywords[$k]))."%' ";
@@ -100,12 +101,12 @@ document.u5form.submit();
 <body style="background:#f3f3f3">
 <h1><?php echo $_GET['n'].' '.$_GET['id']?> generic formdata editor</h1>
 <iframe style="visibility:hidden" width="0" height="0" frameborder="0" name="fvifr" src="fv.php"></iframe>
-<form class="unibeform" name="u5form" action="<?php echo 'editformsave.php?a='.$_GET['a'].'&amp;id='.$_GET['id'].'&amp;ti='.$row_a['time'].'&amp;hu='.rawurlencode($row_a['humantime']).'&amp;st='.$row_a['status'].'&amp;n='.$_GET['n']?>" method="post" target="fvifr">
+<form class="unibeform" name="u5form" action="<?php echo 'editformsave.php?a='.$_GET['a'].'&amp;id='.$_GET['id'].'&amp;ti='.$row_a['time'].'&amp;hu='.rawurlencode(($row_a['humantime'] ?? '')).'&amp;st='.$row_a['status'].'&amp;n='.$_GET['n']?>" method="post" target="fvifr">
 <input type="submit" value="save" /><p>
 <input type="hidden" name="thanks" value="thanks" />
 <?php
-$h=explode(';',$row_a['headcsv']);
-for($i=0;$i<tnuoc($h)-1;$i++) {
+$h=explode(';',($row_a['headcsv'] ?? ''));
+for($i=0;$i<count($h)-1;$i++) {
 gen($h[$i]);
 }
 ?>

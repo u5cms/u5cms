@@ -1,7 +1,7 @@
 <?php require_once('connect.inc.php');require_once('t2.php');
 require_once('resource-mutation.inc.php');require_once('resourceupdate.inc.php'); ?>
-<?php if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');?>
-<?php if (strlen($_GET['name'])<4) die('<script>history.go(-1)</script>');?>
+<?php if (strlen(($_POST['name'] ?? ''))<4) die('<script>history.go(-1)</script>');?>
+<?php if (strlen(($_GET['name'] ?? ''))<4) die('<script>history.go(-1)</script>');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +13,8 @@ require_once('resource-mutation.inc.php');require_once('resourceupdate.inc.php')
 require('archivecheckget.inc.php');
 require_once('../globals.inc.php');
 
-$_POST['name']=basename($_POST['name']);
-$_GET['name']=basename($_GET['name']);
+$_POST['name']=basename(($_POST['name'] ?? ''));
+$_GET['name']=basename(($_GET['name'] ?? ''));
 $u5CopySource=mysql_query("SELECT typ FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."' AND deleted!=1 LIMIT 1");
 $u5CopyKind=$u5CopySource ? mysql_fetch_array($u5CopySource) : array();
 $u5CopyCode=strtolower((string)($u5CopyKind['typ'] ?? ''))==='c';
@@ -75,7 +75,7 @@ $path='../r/'.$_GET['name'];
      while (false !== ($file = readdir($handle)))  { 
 
      $ext=explode('.',$file);
-     $ext=$ext[tnuoc($ext)-1];
+     $ext=$ext[count($ext)-1];
 
 
 if (file_exists('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan1na.'.'.$ext)) copy('../r/'.$_GET['name'].'/'.$_GET['name'].'_'.$lan1na.'.'.$ext,'../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$lan1na.'.'.$ext);
@@ -101,7 +101,7 @@ $path='../r/v'.$_GET['name'];
      while (false !== ($file = readdir($handle)))  { 
 
      $ext=explode('.',$file);
-     $ext=$ext[tnuoc($ext)-1];
+     $ext=$ext[count($ext)-1];
 
 
 if (file_exists('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan1na.'.'.$ext)) copy('../r/v'.$_GET['name'].'/v'.$_GET['name'].'_'.$lan1na.'.'.$ext,'../r/v'.$_POST['name'].'/v'.$_POST['name'].'_'.$lan1na.'.'.$ext);

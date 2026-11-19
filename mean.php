@@ -14,7 +14,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED)
 
 $debug = $_GET['debug'] ?? false;
 
-$tuples = explode ('!,!',$_GET['m']);
+$tuples = explode ('!,!',($_GET['m'] ?? ''));
 array_pop($tuples);
 $doStats = true;
 $nominations = array();

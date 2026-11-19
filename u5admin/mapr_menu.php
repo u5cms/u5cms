@@ -1,5 +1,6 @@
-<?php 
-setcookie('fd2p', $_GET['p'], time()+3600*24*365*10,'/');
+<?php
+require_once __DIR__.'/../request.inc.php';
+setcookie('fd2p', ($_GET['p'] ?? ''), time()+3600*24*365*10,'/');
 require_once('connect.inc.php');
 ?>
 <!DOCTYPE html>
@@ -9,9 +10,9 @@ require_once('connect.inc.php');
 <?php require('backendcss.php'); ?></head>
 <body id="body" style="font-size:14px">
 &nbsp;&nbsp;&nbsp;&nbsp;&#9993;&nbsp;&nbsp;&nbsp;&nbsp;
-<button onclick="location.replace('?p=<?php echo (htmlspecialchars($_GET['p'])-1) ?>')">&lt;</button>
-<input onchange="location.replace('?p='+this.value)" type="text" size="4" id="pos" value="<?php echo htmlspecialchars($_GET['p']) ?>" /> / <span id="num"></span>
-<button onclick="location.replace('?p=<?php echo (htmlspecialchars($_GET['p'])+1) ?>')">&gt;</button>
+<button onclick="location.replace('?p=<?php echo (htmlspecialchars(($_GET['p'] ?? ''))-1) ?>')">&lt;</button>
+<input onchange="location.replace('?p='+this.value)" type="text" size="4" id="pos" value="<?php echo htmlspecialchars(($_GET['p'] ?? '')) ?>" /> / <span id="num"></span>
+<button onclick="location.replace('?p=<?php echo (htmlspecialchars(($_GET['p'] ?? ''))+1) ?>')">&gt;</button>
 <script>
 if(parent && parent.parent && parent.parent.me && parent.parent.me.document.getElementById('loaded')) parent.parent.me.evokepreview();
 </script>

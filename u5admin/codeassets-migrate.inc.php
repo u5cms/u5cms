@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__DIR__).'/codeassets.inc.php';
-require_once __DIR__.'/mobiletools-migrate.inc.php';
 require_once __DIR__.'/codeassets-journal.inc.php';
 require_once __DIR__.'/codeassets-schema.inc.php';
+require_once __DIR__.'/mobiletools-migrate.inc.php';
 
 // The updater receives only r/runonce.php from r/. Keep the common mobile fallback here.
 function u5CodeMigrationMobileSource() {
@@ -436,7 +436,7 @@ function u5CodeMigrationBuildPlan($root,$previousMap=array(),$previousBackup=arr
     $nameRows=$resources;$currentCode=array();$historicalAliases=array();$nonCode=array();
     foreach ($resources as $row) {
         if (strtolower((string)$row['typ'])==='c') $currentCode[$row['name']]=true;
-        elseif ((int)$row['deleted']!==1) $nonCode[strtolower($row['name'])]=true;
+        elseif ((int)$row['deleted']!==1) $nonCode[strtolower(($row['name'] ?? ''))]=true;
     }
     $seen=$currentCode;
     // Historical C objects have their own namespace even when a current P object reused that name.
@@ -461,7 +461,7 @@ function u5CodeMigrationBuildPlan($root,$previousMap=array(),$previousBackup=arr
     foreach ($defaults as $old=>$standard) {
         $target=$map[$old] ?? $standard; $active=false;
         foreach ($resources as $row) if (strtolower((string)$row['typ'])==='c' && (int)$row['deleted']!==1 &&
-            (strcasecmp($row['name'],$old)===0 || strcasecmp($row['name'],$target)===0)) $active=true;
+            (strcasecmp(($row['name'] ?? ''),$old)===0 || strcasecmp(($row['name'] ?? ''),$target)===0)) $active=true;
         if ($active) continue;
         // Deleted/history-only code remains deleted. Its retained file is migrated separately.
         if (isset(array_change_key_case($seen,CASE_LOWER)[$old]) && $old!=='jsmobilegeneral') continue;
@@ -703,29 +703,31 @@ function u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks) {
     return array('version'=>'12.11.0','files'=>$files,'sources'=>$sources,'remove'=>$remove);
 }
 
-function u5CodeMigrationApplyRow($change,$columns=null) {
+function u5CodeMigrationApplyRow($change,$columns=null,$derivedFields=array()) {
     if ($columns===null) $columns=u5CodeMigrationColumns($change['table']);
     $before=$change['before']; $after=$change['after']; $table=u5CodeMigrationIdentifier($change['table']);
+    $derived=array_fill_keys($derivedFields,true);
+    $beforeGuard=array_diff_key($before,$derived);$afterGuard=array_diff_key($after,$derived);
+    // The indexer owns these columns, including when resuming an older rename journal.
     $u5SqlStage=array();
     try {
-    $set=array(); $compare=array();
-    foreach ($after as $field=>$value) {
-        if ($value===$before[$field]) continue;
+    $set=array();
+    foreach ($afterGuard as $field=>$value) {
+        if ($value===$beforeGuard[$field]) continue;
         $expression=u5ResourceSqlStageValue($value,'u5CodeMigrationQuery',$u5SqlStage);
         if ($expression!==null && strtolower($columns[$field]['Type'])==='json') $expression='CONVERT('.$expression.' USING utf8mb4)';
         $set[]=u5CodeMigrationIdentifier($field).'='.($expression ?? u5CodeMigrationColumnValue($value,$columns[$field]));
-        $compare[$field]=$before[$field];
     }
     if (!$set) return;
     // Use the whole original row, including nulls, instead of a guessed primary key.
     // This also handles duplicate history rows in the legacy MyISAM tables.
-    $count=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($before,$columns));
+    $count=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($beforeGuard,$columns));
     if ((int)$count[0]['n']===0) {
-        $done=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($after,$columns));
+        $done=u5CodeMigrationRows('SELECT COUNT(*) AS n FROM '.$table.' WHERE '.u5CodeMigrationWhere($afterGuard,$columns));
         if ((int)$done[0]['n']>0) return;
         throw new RuntimeException('A database row changed during migration in '.$change['table'].'. The checkpoint was kept; no concurrent edit was overwritten.');
     }
-    u5CodeMigrationQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5CodeMigrationWhere($before,$columns));
+    u5CodeMigrationQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5CodeMigrationWhere($beforeGuard,$columns));
     if (mysql_affected_rows()!==(int)$count[0]['n']) throw new RuntimeException('A row changed while applying migration in '.$change['table']);
     } finally {u5ResourceSqlStageClear($u5SqlStage,'u5CodeMigrationQuery');}
 }

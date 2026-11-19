@@ -48,9 +48,9 @@ if ($_GET['s']==5) echo '<br><hr><center><small>Items are automatically removed 
 
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
-$head=explode(';',$row_a['headcsv']);
+$head=explode(';',($row_a['headcsv'] ?? ''));
 
-for ($i=0;$i<tnuoc($head);$i++) {
+for ($i=0;$i<count($head);$i++) {
 
     $fieldname = trim(substr($head[$i],1,strlen($head[$i])-1));
 
@@ -63,12 +63,12 @@ mysql_data_seek ($result_a , 0 );
 
 $row_a = mysql_fetch_array($result_a);
 
-$head=explode(';',$row_a['headcsv']);
-$data=explode(';',$row_a['datacsv']);
+$head=explode(';',($row_a['headcsv'] ?? ''));
+$data=explode(';',($row_a['datacsv'] ?? ''));
 
 echo '<div id="u5transportcontainer" style="display:none">';
 
-for ($i=0;$i<tnuoc($head);$i++) {
+for ($i=0;$i<count($head);$i++) {
 
     $fieldname = trim(substr($head[$i],1,strlen($head[$i])-1));
     $value = substr($data[$i],1);
@@ -80,7 +80,7 @@ for ($i=0;$i<tnuoc($head);$i++) {
 }
 echo '</div>';
 
-for ($i=0;$i<tnuoc($head);$i++) {
+for ($i=0;$i<count($head);$i++) {
 
     $fieldname = trim(substr($head[$i],1,strlen($head[$i])-1));
 
@@ -94,7 +94,7 @@ for ($i=0;$i<tnuoc($head);$i++) {
         $geti=explode('_',$geti[1]);
         $geti=$geti[0];
         $ext=explode('.',$fpart[1]);
-        $ext=$ext[tnuoc($ext)-1];
+        $ext=$ext[count($ext)-1];
         if (file_exists('fileversions/'.$fpart[1])) echo '
 <script>
 if("'.$head[$i].'".indexOf("_mandatory")>0)  setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'upload_mandatory/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.sha1(date('Ymd').$password.$sessioncookiehashsalt).'\'",1);
@@ -109,7 +109,7 @@ else setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.hr
         $geti=explode('_',$geti[1]);
         $geti=$geti[0];
         $ext=explode('.',$fpart[1]);
-        $ext=$ext[tnuoc($ext)-1];
+        $ext=$ext[count($ext)-1];
         if (file_exists('r/'.$fpart[1])) echo '
 <script>
 if("'.$head[$i].'".indexOf("_mandatory")>0)  setTimeout("parent.i'.substr($head[$i],1,strlen($head[$i])-1).'.location.href=\'Pupload_mandatory/uploadstilldone.php?e='.$ext.'&i='.$geti.'&k='.sha1(date('Ymd').$password.$sessioncookiehashsalt).'\'",1);

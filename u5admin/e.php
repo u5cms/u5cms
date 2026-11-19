@@ -20,7 +20,7 @@ require_once('connect.inc.php');
     $orderby = 'name';
     if ($_GET['pvs_s'] == 'date') $orderby = 'lastmut DESC';
 
-    $sql_a = "SELECT * FROM resources WHERE typ='$pidvesa' AND name LIKE '" . mysql_real_escape_string(str_replace('*', '%', $_GET['f'])) . "' AND deleted=$delstatus ORDER by $orderby";
+    $sql_a = "SELECT * FROM resources WHERE typ='$pidvesa' AND name LIKE '" . mysql_real_escape_string(str_replace('*', '%', ($_GET['f'] ?? ''))) . "' AND deleted=$delstatus ORDER by $orderby";
     $result_a = mysql_query($sql_a);
 
     if ($result_a == false) {
@@ -55,23 +55,23 @@ require_once('connect.inc.php');
         if ($lngpnd_5 == '5' || $lngpnd_5 == '50') $lngpnd_5 = '';
 
 
-        if (str_replace(' ', '', $row_a['ishomepage']) == 1) $pend .= ' <span title="homepage (as defined in S of the PIDVESA-Navigation)" style="background:yellow">&nbsp;&larr;&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['logins']) != '') $pend .= ' <span title="closed user group (logins)" style="color:white;background:green">&nbsp;c&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == 1) $pend .= ' <span title="hidden (offline)" style="color:white;background:black">&nbsp;H&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
-        if (str_replace(' ', '', $row_a['hidden']) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
+        if (str_replace(' ', '', ($row_a['ishomepage'] ?? '')) == 1) $pend .= ' <span title="homepage (as defined in S of the PIDVESA-Navigation)" style="background:yellow">&nbsp;&larr;&nbsp;</span>';
+        if (str_replace(' ', '', ($row_a['logins'] ?? '')) != '') $pend .= ' <span title="closed user group (logins)" style="color:white;background:green">&nbsp;c&nbsp;</span>';
+        if (str_replace(' ', '', ($row_a['hidden'] ?? '')) == 1) $pend .= ' <span title="hidden (offline)" style="color:white;background:black">&nbsp;H&nbsp;</span>';
+        if (str_replace(' ', '', ($row_a['hidden'] ?? '')) == -1) $pend .= ' <span title="indexing off (search engines)" style="color:white;background:orange">&nbsp;i&nbsp;</span>';
+        if (str_replace(' ', '', ($row_a['hidden'] ?? '')) == 2) $pend .= ' <span title="hidden (htaccess forcer only)" style="color:white;background:black">&nbsp;h&nbsp;</span>';
 
-        if (str_replace(' ', '', $row_a['title_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' link-text missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
-        if (str_replace(' ', '', $row_a['title_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' link-text missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
-        if (str_replace(' ', '', $row_a['title_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' link-text missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
-        if (str_replace(' ', '', $row_a['title_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' link-text missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
-        if (str_replace(' ', '', $row_a['title_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' link-text missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
+        if (str_replace(' ', '', ($row_a['title_1'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' link-text missing in metadata" style="color:red">' . $lngpnd_1 . '</span>';
+        if (str_replace(' ', '', ($row_a['title_2'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' link-text missing in metadata" style="color:red">' . $lngpnd_2 . '</span>';
+        if (str_replace(' ', '', ($row_a['title_3'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' link-text missing in metadata" style="color:red">' . $lngpnd_3 . '</span>';
+        if (str_replace(' ', '', ($row_a['title_4'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' link-text missing in metadata" style="color:red">' . $lngpnd_4 . '</span>';
+        if (str_replace(' ', '', ($row_a['title_5'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' link-text missing in metadata" style="color:red">' . $lngpnd_5 . '</span>';
 
-        if (str_replace(' ', '', $row_a['desc_1']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_2']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_3']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_4']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
-        if (str_replace(' ', '', $row_a['desc_5']) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
+        if (str_replace(' ', '', ($row_a['desc_1'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_1 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_1) . '</span>';
+        if (str_replace(' ', '', ($row_a['desc_2'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_2 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_2) . '</span>';
+        if (str_replace(' ', '', ($row_a['desc_3'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_3 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_3) . '</span>';
+        if (str_replace(' ', '', ($row_a['desc_4'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_4 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_4) . '</span>';
+        if (str_replace(' ', '', ($row_a['desc_5'] ?? '')) == '' && $row_a['typ']!='c') $pend .= ' <span title="' . $lngpnd_5 . ' URL missing in metadata" style="color:red">' . strtoupper($lngpnd_5) . '</span>';
 
 
         $lspan1 = '<span id="o_' . $row_a['name'] . '">';
@@ -93,7 +93,7 @@ require_once('connect.inc.php');
 <td style="background:#ffcc66" id="tdR_' . $row_a['name'] . '"><a title="insert in right editor" href="javascript:void(0)" onclick="parent.i2.doteleins(\'linktext:' . $row_a['name'] . '\')">&lt;</a>
 </td>
 
-<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['desc_1'], 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
+<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr(($row_a['desc_1'] ?? ''), 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
 </td>
 
 
@@ -111,7 +111,7 @@ require_once('connect.inc.php');
 </td>
 
 <td>
-<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5($row_a['name']) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
+<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5(($row_a['name'] ?? '')) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
 </td>
 
 <td>
@@ -124,8 +124,8 @@ require_once('connect.inc.php');
 
         if ($_GET['pvs_p'] == 'on') {
             echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#FFFFCC"><td colspan="8" style="word-break:break-all">';
-            echo '<a onmouseover="this.style.fontSize=\'100%\'" href="' . ehtml($row_a['desc_1'], 0, 3000) . '" target="_blank">' . ehtml(substr($row_a['desc_1'], 0, 40)) . '</a>';
-            if (strlen(trim($row_a['desc_1'])) > 40) echo '&hellip;';
+            echo '<a onmouseover="this.style.fontSize=\'100%\'" href="' . ehtml($row_a['desc_1'], 0, 3000) . '" target="_blank">' . ehtml(substr(($row_a['desc_1'] ?? ''), 0, 40)) . '</a>';
+            if (strlen(trim(($row_a['desc_1'] ?? ''))) > 40) echo '&hellip;';
             echo '<hr></td></tr>';
         } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="9"></td></tr>';
     }

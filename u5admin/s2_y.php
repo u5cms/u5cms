@@ -7,7 +7,7 @@
 <td style="background:#ffcc66" id="tdR_' . $row_a['name'] . '"><a title="insert in right editor" href="javascript:void(0)" onclick="parent.i2.doteleins(\'' . $row_a['name'] . '\')">&lt;</a>
 </td>
 
-<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['desc_1'], 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
+<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr(($row_a['desc_1'] ?? ''), 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
 </td>
 
 
@@ -25,7 +25,7 @@
 </td>
 
 <td>
-<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5($row_a['name']) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
+<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5(($row_a['name'] ?? '')) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
 </td>
 
 <td>
@@ -37,10 +37,10 @@
 </td></tr>';
         if ($_GET['pvs_p'] == 'on') {
 if($videoportalegyoutubeembedurl=='')$videoportalegyoutubeembedurl='//www.youtube-nocookie.com/embed/';
-$row_a_desc_d0=explode('?',$row_a['desc_1']);
+$row_a_desc_d0=explode('?',($row_a['desc_1'] ?? ''));
 			echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#FFFFCC"><td colspan="9" style="word-break:break-all">
 <iframe width="150" height="80" src="' . $videoportalegyoutubeembedurl . ehtml($row_a_desc_d0[0]) . '" frameborder="0" allowfullscreen></iframe>
-<a onmouseover="this.style.fontSize=\'100%\'" href="http://youtu.be/' . ehtml($row_a['desc_1'], 0, 180) . '" target="_blank">' . ehtml(substr($row_a['desc_1'], 0, 180)) . '</a><hr></td></tr>';
+<a onmouseover="this.style.fontSize=\'100%\'" href="http://youtu.be/' . ehtml($row_a['desc_1'], 0, 180) . '" target="_blank">' . ehtml(substr(($row_a['desc_1'] ?? ''), 0, 180)) . '</a><hr></td></tr>';
 		}
         else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="9"></td></tr>';
 ?>

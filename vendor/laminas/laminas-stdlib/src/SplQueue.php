@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Stdlib;
 
-use ReturnTypeWillChange;
 use Serializable;
 use UnexpectedValueException;
 
@@ -15,13 +14,17 @@ use function unserialize;
 
 /**
  * Serializable version of SplQueue
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @extends \SplQueue<TValue>
  */
 class SplQueue extends \SplQueue implements Serializable
 {
     /**
      * Return an array representing the queue
      *
-     * @return array
+     * @return list<TValue>
      */
     public function toArray()
     {
@@ -37,8 +40,7 @@ class SplQueue extends \SplQueue implements Serializable
      *
      * @return string
      */
-    #[ReturnTypeWillChange]
-    public function serialize()
+    public function serialize(): string
     {
         return serialize($this->__serialize());
     }
@@ -46,10 +48,9 @@ class SplQueue extends \SplQueue implements Serializable
     /**
      * Magic method used for serializing of an instance.
      *
-     * @return array
+     * @return list<TValue>
      */
-    #[ReturnTypeWillChange]
-    public function __serialize()
+    public function __serialize(): array
     {
         return $this->toArray();
     }
@@ -60,8 +61,7 @@ class SplQueue extends \SplQueue implements Serializable
      * @param  string $data
      * @return void
      */
-    #[ReturnTypeWillChange]
-    public function unserialize($data)
+    public function unserialize($data): void
     {
         $toUnserialize = unserialize($data);
         if (! is_array($toUnserialize)) {
@@ -77,11 +77,10 @@ class SplQueue extends \SplQueue implements Serializable
    /**
     * Magic method used to rebuild an instance.
     *
-    * @param array $data Data array.
+    * @param array<array-key, TValue> $data Data array.
     * @return void
     */
-    #[ReturnTypeWillChange]
-    public function __unserialize($data)
+    public function __unserialize($data): void
     {
         foreach ($data as $item) {
             $this->push($item);

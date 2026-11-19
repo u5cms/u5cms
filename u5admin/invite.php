@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/connect.inc.php'; ?>
 <?php ignore_user_abort(true);set_time_limit(36000);file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); ?>
 <script>setTimeout("parent.main.location.reload()",777)</script>
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
@@ -11,7 +12,7 @@ catch (Throwable $error) { u5mail_error($error); exit; }
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 <?php require('backendcss.php'); ?></head>
-<body><div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',str_replace('&amp;#','&#',htmlentities($_GET['e']))))?></div>
+<body><div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',str_replace('&amp;#','&#',htmlentities(($_GET['e'] ?? '')))))?></div>
 <?php 
 if ($invitebackendusersRqHIADRI!='no') require_once('accadmin.inc.php');
 $u5mail_invite_input = htmlspecialchars_decode($_GET['e'], ENT_COMPAT | ENT_HTML401);
@@ -20,7 +21,7 @@ catch (Throwable $error) { u5mail_error($error); exit; }
 $u5mail_invite_delivery = u5mail_account_storage($u5mail_invite_address);
 $u5mail_invite_key = str_replace(' ','',u5mail_account_key($u5mail_invite_input, true));
 $e=mysql_real_escape_string($u5mail_invite_key);
-if (strpos($e,'.')<1 || strpos($e,'@')<1 || strpos($_GET[','],'.')>0  || strpos($_GET[';'],'.')>0) die('<script>alert("E-mail address is invalid.")</script>');
+if (strpos($e,'.')<1 || strpos($e,'@')<1 || strpos(($_GET[','] ?? ''),'.')>0  || strpos(($_GET[';'] ?? ''),'.')>0) die('<script>alert("E-mail address is invalid.")</script>');
 
 $sql_a="SELECT * FROM accounts WHERE email='".$e."'";
 $result_a=mysql_query($sql_a);
@@ -31,7 +32,7 @@ echo 'SQL_a-Query failed!...!<p>';
 
 $num_a = mysql_num_rows($result_a);
 
-if ($num_a>0) die('<script>alert(document.getElementById("e").innerHTML+" already is user. If he or she has forgotten the password it can be recovered on '.str_replace(basename($_SERVER['SCRIPT_URI']),'',$_SERVER['SCRIPT_URI']).'reset.php")</script>');
+if ($num_a>0) die('<script>alert(document.getElementById("e").innerHTML+" already is user. If he or she has forgotten the password it can be recovered on '.str_replace(basename(($_SERVER['SCRIPT_URI'] ?? '')),'',($_SERVER['SCRIPT_URI'] ?? '')).'reset.php")</script>');
 
 try {
     $u5mail_delivery_column = u5mail_account_delivery_column(u5mail_account_needs_delivery($u5mail_invite_address, $u5mail_invite_key));
@@ -65,7 +66,7 @@ u5mail_error(new RuntimeException('The invited account could not be created.'));
 exit;
 }
 if($doublepasswordmailing!='no') {
-    if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
+    if(!u5OidcEnabled() && !(isset($u5samlsalt)&&$u5samlsalt!='')) {
         u5mail_duplicate($u5mail_invite_delivery,'Your u5CMS backend user login',"Username: $u5mail_invite_key Password: $p");
     }
 }
@@ -74,8 +75,8 @@ $zendname=$mymail;
 $zendto=$u5mail_invite_delivery;
 $zendsubject='Your u5CMS backend user login';
 $zendmessage="Username: $u5mail_invite_key Password: $p";
-if(!(isset($u5samlsalt)&&$u5samlsalt!='')){ include('../zendmail.php'); if (!$u5mail_sent) exit; }
-if(!(isset($u5samlsalt)&&$u5samlsalt!='')) {
+if(!u5OidcEnabled() && !(isset($u5samlsalt)&&$u5samlsalt!='')){ include('../zendmail.php'); if (!$u5mail_sent) exit; }
+if(!u5OidcEnabled() && !(isset($u5samlsalt)&&$u5samlsalt!='')) {
 ?>
 <script>
 alert('Username '+document.getElementById('e').innerHTML+' and password <?php echo $p ?> sent.\n\n\WRITE IT DOWN IN CASE THE EMAIL GETS LOST!\n\nYou can now give Higher Admin Rights to him/her by changing this property in the current user table on the page at hand.');

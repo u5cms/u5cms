@@ -11,7 +11,7 @@
 <td style="background:#ffcc66" id="tdR_' . $row_a['name'] . '"><a title="insert in right editor" href="javascript:void(0)" onclick="parent.i2.doteleins(\'' . $row_a['name'] . '\')">&lt;</a>
 </td>
 
-<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr($row_a['desc_1'], 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
+<td width="99%" style="word-break:break-all" title="' . date('Ymd Hi', $row_a['lastmut']) . ' ' . $row_a['operator'] . ' ' . ehtml(substr(($row_a['desc_1'] ?? ''), 0, 150)) . '"><a href="javascript:void(0)" style="color:black;cursor:text" id="a_' . $row_a['name'] . '">' . $row_a['name'] . '</a>' . $pend . '
 </td>
 
 
@@ -29,7 +29,7 @@
 </td>
 
 <td>
-<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5($row_a['name']) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
+<a title="delete or define archive status" href="javascript:void(0)" onclick="f1=window.open(\'delete.php?name=' . md5(($row_a['name'] ?? '')) . '\',\'_blank\',\'toolbar=0,location=0,status=1,menubar=0,scrollbars=1,resizable=1,width=800,height=999\');">D</a>
 </td>
 
 <td>
@@ -49,8 +49,8 @@
             echo '<img border="0" width="100" align="left" src="../thumb.php?w=100&t=' . @filemtime('../r/' . $row_a['name'] . '/' . ($file_1)) . '&f=r/' . $row_a['name'] . '/' . ($file_1) . '" />';
             if (file_exists('../r/' . $row_a['name'] . '/' . ($file_1))) echo '</a>';
 
-            echo ehtml(substr(trim($row_a['desc_1']), 0, 80));
-            if (strlen(trim($row_a['desc_1'])) > 80) echo '&hellip;';
+            echo ehtml(substr(trim(($row_a['desc_1'] ?? '')), 0, 80));
+            if (strlen(trim(($row_a['desc_1'] ?? ''))) > 80) echo '&hellip;';
             echo '<hr></td></tr>';
 
         } else echo '<tr id="tr2_' . $row_a['name'] . '" bgcolor="#ffffff" style="display:none"><td colspan="9"></td></tr>';

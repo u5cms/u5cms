@@ -140,14 +140,14 @@ $authusers.='.,!,.'.$row_a['authuser'].'.,!,.';
 
 $rowaid.=$row_a['id'].',';
 
-$row_a['headcsv']=str_replace('_mandatory','*',$row_a['headcsv']);
+$row_a['headcsv']=str_replace('_mandatory','*',($row_a['headcsv'] ?? ''));
 if ($oldhead!=$row_a['headcsv']) $csv.='<small>N°</small><br>ID;Status;Notes;Authuser;'.$row_a['headcsv'].'Sent;IP'."\r\n";
 if($i_a==0) $lasthead=$csv;
 $oldhead=$row_a['headcsv'];
 
-$datacsv=explode(';',$row_a['datacsv']);
+$datacsv=explode(';',($row_a['datacsv'] ?? ''));
 
-for ($dwi=0;$dwi<tnuoc($datacsv);$dwi++) {
+for ($dwi=0;$dwi<count($datacsv);$dwi++) {
 $datacsv[$dwi]=dowords($datacsv[$dwi]);
 
 if (strpos($datacsv[$dwi],'@')>0) {
@@ -171,7 +171,7 @@ $csv.='<a title="edit: Click here or Alt+Click anywhere" id="i'.$row_a['id'].'" 
 $dnummer=date("YmdHis");
 $echo = str_replace(',.',';',str_replace('<tr '.$trattribs.'><td ondblclick="dbl(this)"><b>','<tr '.$trattribs.' style="font-weight:bold"><td ondblclick="dbl(this)"><b>','<table><tr '.$trattribs.'><td ondblclick="dbl(this)">'.str_replace(';','</td><td ondblclick="dbl(this)">',str_replace('<br />','</td></tr><tr '.$trattribs.'><td ondblclick="dbl(this)">',nl2br($csv))).'</tr></table>'));
 
-for ($k=0;$k<tnuoc($keywords);$k++) {
+for ($k=0;$k<count($keywords);$k++) {
 $keyword = trim($keywords[$k]);
 if ($keyword!='') $echo = highlight_all_visible_text($keyword, $echo);
 }
@@ -242,7 +242,7 @@ global $scripturi;
 $scripturix=str_replace(basename($scripturi),'',$scripturi);
 $scripturix=str_replace('/u5admin','',$scripturix);
 $phrase=htmlspecialchars($phrase);$ext=explode('.',$phrase);
-$ext=$ext[tnuoc($ext)-1];
+$ext=$ext[count($ext)-1];
 $title=str_replace($scripturix,'',$phrase);
 $title=str_replace('fileversions/useruploads/','',$title);
 if (str_replace(' ','',trim($ext))=='' || $_COOKIE['fdtrunc']=='off') return '·'.str_replace('·','',':<:a href="'.str_replace('fileversions/useruploads/','ffff.php?f=',$phrase).'" title="'.$title.'" target="_blank":>:'.$title.':<:/a:>:');
@@ -256,9 +256,9 @@ global $rrr;
 $phrase=explode(' ',$phrase);
 
 $newphrase='';
-for ($i=0;$i<tnuoc($phrase);$i++) {
+for ($i=0;$i<count($phrase);$i++) {
 $newphrase.=$phrase[$i].' ';
-if ($i==10 && tnuoc($phrase)>20) {
+if ($i==10 && count($phrase)>20) {
 $rr='rr'.$rrr++;
 $newphrase.=' :<:span title="show more" onclick="this.style.display=\'none\',.document.getElementById(\'id'.$rr.'\').style.display=\'inline\'":>::<:a href="javascript:void(0)":>:&hellip,.:<:/a:>::<:/span:>: :<:span id="id'.$rr.'" style="display:none":>: ';
 }
@@ -285,22 +285,22 @@ include('../u5sys.content.php');
 ?>
 
 <script>
-<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>X=0;
-<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>Y=0;
-if (document.cookie.indexOf('<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>X=')>-1){ 
-<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>X=('; '+document.cookie).split('; <?php
- echo 'i'.str_replace('!','_',$_GET['n']) ?>X=')[1].split(';')[0];
+<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>X=0;
+<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>Y=0;
+if (document.cookie.indexOf('<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>X=')>-1){
+<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>X=('; '+document.cookie).split('; <?php
+ echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>X=')[1].split(';')[0];
 }
-if (document.cookie.indexOf('<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>Y=')>-1){ 
-<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>Y=('; '+document.cookie).split('; <?php
-echo 'i'.str_replace('!','_',$_GET['n']) ?>Y=')[1].split(';')[0];
+if (document.cookie.indexOf('<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>Y=')>-1){
+<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>Y=('; '+document.cookie).split('; <?php
+echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>Y=')[1].split(';')[0];
 }
-if(<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>X!=''||<?php
- echo 'i'.str_replace('!','_',$_GET['n']) ?>Y!='')window.scroll(<?php
- echo 'i'.str_replace('!','_',$_GET['n']) ?>X-0,<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>Y-0);
+if(<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>X!=''||<?php
+ echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>Y!='')window.scroll(<?php
+ echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>X-0,<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>Y-0);
 document.getElementById('body').onscroll=function(){
-document.cookie='<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>X='+escape(window.pageXOffset)+';'
-document.cookie='<?php echo 'i'.str_replace('!','_',$_GET['n']) ?>Y='+escape(window.pageYOffset)+';'
+document.cookie='<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>X='+escape(window.pageXOffset)+';'
+document.cookie='<?php echo 'i'.str_replace('!','_',($_GET['n'] ?? '')) ?>Y='+escape(window.pageYOffset)+';'
 };
 
 if (document.cookie.indexOf('fd2y=')>-1){ 

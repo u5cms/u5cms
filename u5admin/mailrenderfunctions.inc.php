@@ -3,6 +3,7 @@
 require_once('u5idn.inc.php');
 
 function render($s) {
+    $s = $s ?? '';
 
     global $mynl2br;
     global $headcsv;
@@ -15,7 +16,7 @@ function render($s) {
 
     $s=explode('|_-|-_|',$s);
 
-    for($i=0;$i<tnuoc($s);$i++) {
+    for($i=0;$i<count($s);$i++) {
         if(strpos('x'.$s[$i],'!_-!-_!')>0) {
 
             $s[$i]=str_replace('!_-!-_!','',$s[$i]);

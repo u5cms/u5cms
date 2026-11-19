@@ -3,49 +3,39 @@
 namespace Laminas\Mail\Storage;
 
 use RecursiveIterator;
-use ReturnTypeWillChange;
+use Stringable;
 
-class Folder implements RecursiveIterator
+use function current;
+use function key;
+use function next;
+use function reset;
+
+class Folder implements RecursiveIterator, Stringable
 {
     /**
-     * subfolders of folder array(localName => \Laminas\Mail\Storage\Folder folder)
-     * @var array
-     */
-    protected $folders;
-
-    /**
-     * local name (name of folder in parent folder)
-     * @var string
-     */
-    protected $localName;
-
-    /**
      * global name (absolute name of folder)
+     *
      * @var string
      */
     protected $globalName;
 
     /**
-     * folder is selectable if folder is able to hold messages, otherwise it is a parent folder
-     * @var bool
-     */
-    protected $selectable = true;
-
-    /**
      * create a new mail folder instance
      *
-     * @param string $localName  name of folder in current subdirectory
+     * @param string $localName  local name (name of folder in parent folder)
      * @param string $globalName absolute name of folder
      * @param bool $selectable if true folder holds messages, if false it's
      *     just a parent for subfolders (Default: true)
-     * @param array $folders init with given instances of Folder as subfolders
+     * @param array<string, Folder> $folders subfolders of
+     *     folder array(localName => \Laminas\Mail\Storage\Folder folder)
      */
-    public function __construct($localName, $globalName = '', $selectable = true, array $folders = [])
-    {
-        $this->localName  = $localName;
-        $this->globalName = $globalName ? $globalName : $localName;
-        $this->selectable = $selectable;
-        $this->folders    = $folders;
+    public function __construct(
+        protected $localName,
+        $globalName = '',
+        protected $selectable = true,
+        protected array $folders = []
+    ) {
+        $this->globalName = $globalName ?: $localName;
     }
 
     /**
@@ -53,8 +43,7 @@ class Folder implements RecursiveIterator
      *
      * @return bool current element has children
      */
-    #[ReturnTypeWillChange]
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         $current = $this->current();
         return $current && $current instanceof self && ! $current->isLeaf();
@@ -63,10 +52,9 @@ class Folder implements RecursiveIterator
     /**
      * implements RecursiveIterator::getChildren()
      *
-     * @return \Laminas\Mail\Storage\Folder same as self::current()
+     * @return Folder same as self::current()
      */
-    #[ReturnTypeWillChange]
-    public function getChildren()
+    public function getChildren(): ?\RecursiveIterator
     {
         return $this->current();
     }
@@ -76,8 +64,7 @@ class Folder implements RecursiveIterator
      *
      * @return bool check if there's a current element
      */
-    #[ReturnTypeWillChange]
-    public function valid()
+    public function valid(): bool
     {
         return key($this->folders) !== null;
     }
@@ -85,8 +72,7 @@ class Folder implements RecursiveIterator
     /**
      * implements Iterator::next()
      */
-    #[ReturnTypeWillChange]
-    public function next()
+    public function next(): void
     {
         next($this->folders);
     }
@@ -96,8 +82,7 @@ class Folder implements RecursiveIterator
      *
      * @return string key/local name of current element
      */
-    #[ReturnTypeWillChange]
-    public function key()
+    public function key(): mixed
     {
         return key($this->folders);
     }
@@ -105,10 +90,9 @@ class Folder implements RecursiveIterator
     /**
      * implements Iterator::current()
      *
-     * @return \Laminas\Mail\Storage\Folder current folder
+     * @return Folder current folder
      */
-    #[ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return current($this->folders);
     }
@@ -116,8 +100,7 @@ class Folder implements RecursiveIterator
     /**
      * implements Iterator::rewind()
      */
-    #[ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->folders);
     }
@@ -127,7 +110,7 @@ class Folder implements RecursiveIterator
      *
      * @param  string $name wanted subfolder
      * @throws Exception\InvalidArgumentException
-     * @return \Laminas\Mail\Storage\Folder folder named $folder
+     * @return Folder folder named $folder
      */
     public function __get($name)
     {
@@ -142,7 +125,7 @@ class Folder implements RecursiveIterator
      * add or replace subfolder named $name
      *
      * @param string $name local name of subfolder
-     * @param \Laminas\Mail\Storage\Folder $folder instance for new subfolder
+     * @param Folder $folder instance for new subfolder
      */
     public function __set($name, self $folder)
     {
@@ -164,7 +147,7 @@ class Folder implements RecursiveIterator
      *
      * @return string global name of folder
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getGlobalName();
     }

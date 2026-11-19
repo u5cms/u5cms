@@ -1,7 +1,7 @@
 <?php require_once('connect.inc.php');require_once('t2.php');
 require_once('resource-mutation.inc.php');require_once('resourceupdate.inc.php'); ?>
 <?php
-if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');
+if (strlen(($_POST['name'] ?? ''))<4) die('<script>history.go(-1)</script>');
 if (strtolower((string)($_GET['typ'] ?? ''))==='c') {
     if ($cssRqHIADRI!='no') require('accadmin.inc.php');
     try {

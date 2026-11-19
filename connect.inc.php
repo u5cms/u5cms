@@ -19,7 +19,8 @@ if ($forcehttpsonfrontend=='yes' && !$httpsisinuse) {
     echo "<script>location.href='$url'</script>";
     exit;
 }
-if (isset($_GET['l']) && !is_null($_GET['l'])) $_GET['l']=htmlspecialchars($_GET['l']);
+u5ValidateTextRequest($_GET,array('l'));
+if (isset($_GET['l']) && !is_null($_GET['l'])) $_GET['l']=htmlspecialchars(($_GET['l'] ?? ''));
 if ($quotehandling=='on') include('quotehandling.inc.php');
 
 function connect_to_db() {
@@ -57,6 +58,8 @@ echo 'SQL_a-Query failed!...!<p>';
 
 }
 connect_to_db();
+require_once __DIR__.'/oidc.inc.php';
+u5OidcApplyCredentials();
 include('u5admin/trxlog.inc.php');
 require_once('globals.inc.php');
 

@@ -108,7 +108,7 @@ function assetFixture($dump,$label) {
     copy(dirname(__DIR__).'/u5admin/resource-mutation.inc.php',$root.'/u5admin/resource-mutation.inc.php');
     symlink(dirname(__DIR__).'/index-work.inc.php',$root.'/index-work.inc.php');
     symlink(dirname(__DIR__).'/resource-activity.inc.php',$root.'/resource-activity.inc.php');
-    symlink(dirname(__DIR__).'/u5admin/resource-rename-support.inc.php',$root.'/u5admin/resource-rename-support.inc.php');
+    symlink(dirname(__DIR__).'/codeassets.inc.php',$root.'/codeassets.inc.php');
     foreach (glob(dirname(__DIR__).'/r/*.tpl') as $source) copy($source,$root.'/r/'.basename($source));
     return $root;
 }
@@ -421,7 +421,7 @@ try {
     checkAsset(strpos($response,'was not completed')!==false,'backend reports failed update');
     $response=runBackendAssetUpdate($root);
     checkAsset(!is_file($root.'/r/runonce.php'),'backend removes runonce only after success: '.substr(strip_tags($response),-1800));
-    checkAsset(strpos($response,'updated to 12.11.4')!==false,'backend reports successful update');
+    checkAsset(strpos($response,'updated to 12.12.1')!==false,'backend reports successful update');
     assertAssetInstallation($root,'backend update');
 
     $root=assetFixture($legacy,'older-schema');oldAssetFiles($root);

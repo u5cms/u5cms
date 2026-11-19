@@ -1,10 +1,15 @@
 <?php
-if($blockautoincluderefresherforhtaccessandindex!='yes') {
-if(!isset($_COOKIE['p'])) {
-if(!isset($waitsecondstillindexingsincelastsave))$waitsecondstillindexingsincelastsave=60*60*0.5;
-if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lasthtaccess.txt') && !(file_exists('fileversions/htarunning.txt') && file_get_contents('fileversions/htarunning.txt')!=0 && file_get_contents('fileversions/htarunning.txt')>time()-60*5))echo'<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="htaccess.php"></iframe>\')</script>'; 
-
-else if(file_get_contents('fileversions/lastsave.txt')>file_get_contents('fileversions/lastindex.txt') && !(file_exists('fileversions/indexerrunning.txt') && file_get_contents('fileversions/indexerrunning.txt')!=0 && file_get_contents('fileversions/indexerrunning.txt')>time()-60*5) && (!is_file('fileversions/indexer-progress.php') || filemtime('fileversions/indexer-progress.php')<=time()) && file_get_contents('fileversions/lastsave.txt')<time()-$waitsecondstillindexingsincelastsave)echo'<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="indexer.php?u5indexauto=1"></iframe>\')</script>';
+require_once __DIR__ . '/search-index.inc.php';
+if ($blockautoincluderefresherforhtaccessandindex != 'yes' && !isset($_COOKIE['p'])) {
+    if (!isset($waitsecondstillindexingsincelastsave)) $waitsecondstillindexingsincelastsave = 60 * 60 * 0.5;
+    $u5LastSave = u5SearchIndexFileTime(__DIR__ . '/fileversions/lastsave.txt');
+    $u5HtaccessRunning = u5SearchIndexFileTime(__DIR__ . '/fileversions/htarunning.txt');
+    if ($u5LastSave > u5SearchIndexFileTime(__DIR__ . '/fileversions/lasthtaccess.txt')
+        && !($u5HtaccessRunning > 0 && $u5HtaccessRunning > time() - 60 * 5)) {
+        echo '<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="htaccess.php"></iframe>\')</script>';
+    } elseif (u5SearchIndexNeedsUpdate() && !u5SearchIndexIsRunning()
+        && (!is_file(__DIR__.'/fileversions/indexer-progress.php') || filemtime(__DIR__.'/fileversions/indexer-progress.php') <= time())
+        && $u5LastSave < time() - $waitsecondstillindexingsincelastsave) {
+        echo '<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="indexer.php?u5indexauto=1"></iframe>\')</script>';
+    }
 }
-}
-?>

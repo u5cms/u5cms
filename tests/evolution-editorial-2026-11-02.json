@@ -1,0 +1,128 @@
+{
+  "pass": "Additional 3: complete real browser failure/retry/conflict/reopen journeys",
+  "checks_total": 209,
+  "runs": [
+    {
+      "label": "journey-12.11.1-Migration-Hardening",
+      "returncode": 0,
+      "seconds": 5.33
+    },
+    {
+      "label": "journey-12.12.3-PHP9-Compatibility",
+      "returncode": 0,
+      "seconds": 5.71
+    },
+    {
+      "label": "journey-12.12.4-Default-Design",
+      "returncode": 0,
+      "seconds": 5.96
+    }
+  ],
+  "by_branch": {
+    "journey-12.11.1-Migration-Hardening": "basic: real lock, retained input, retry, peer conflict and reopen completed\nsession: real lock, retained input, retry, peer conflict and reopen completed\nEditorial journey browser checks: 63 passed.\n",
+    "journey-12.12.3-PHP9-Compatibility": "basic: real lock, retained input, retry, peer conflict and reopen completed\nsession: real lock, retained input, retry, peer conflict and reopen completed\nEditorial journey browser checks: 73 passed.\n",
+    "journey-12.12.4-Default-Design": "basic: real lock, retained input, retry, peer conflict and reopen completed\nsession: real lock, retained input, retry, peer conflict and reopen completed\nEditorial journey browser checks: 73 passed.\n"
+  },
+  "source_patch": [
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.10.0-Multi-Optimizations-by-AI",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.10.1-Support-More-Image-Formats",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.11.0-Code-Resource-Migration",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.11.1-Migration-Hardening",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.11.2-Backup-Restore-Corrections",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.11.3-Private-File-Cache-Corrections",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.11.4-Intranet-Login-Corrections",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.12.0-OIDC",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.12.1-General-Corrections",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.12.2-Textarea-Interactions",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.12.3-PHP9-Compatibility",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.12.3-PHP9-Compatibility",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "12.12.4-Default-Design",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/12.12.4-Default-Design",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/feature__search-phrases-quotes-highlighting",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "source": "/workspace/scratch/91c46662ae2d/audit-sources/fix__nosniff-script-mime-types",
+      "path": "u5admin/resourcesave.js",
+      "before_sha256": "502565e607be1772e8dca205c6afeb2e1cbffcd3422ee4e74e1b11356d645337",
+      "after_sha256": "f213323651c77d13878fcf2774ab8ad71e134c78156b8eb34bc0b3eed9816711"
+    }
+  ],
+  "before_fix_excerpt": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#savebutton')\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"submit\" id=\"savebutton\" value=\"save [Ctrl + S]\" onclick=\"this.style.background='lightyellow';document.getElementById('bodyid').style.background='lightyellow'\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div id=\"u5resource_status\">Save failed. Your editor contents have been kept.\u2026</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div id=\"u5resource_status\">Save failed. Your editor contents have been kept.\u2026</div> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div id=\"u5resource_status\">Save failed. Your editor contents have been kept.\u2026</div> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at /workspace/scratch/91c46662ae2d/u5cms-audit/tests/editorial-journey-browser.cjs:53:41 {\n  log: [\n    \"  - waiting for locator('#savebutton')\",\n    `    - locator resolved to <input type=\"submit\" id=\"savebutton\" value=\"save [Ctrl + S]\" onclick=\"this.style.background='lightyellow';document.getElementById('bodyid').style.background='lightyellow'\"/>`,\n    '  - attempting click action',\n    '    2 \u00d7 waiting for element to be visible, enabled and stable',\n    '      - element is visible, enabled and stable',\n    '      - scrolling into view if needed',\n    '      - done scrolling',\n    '      - <div id=\"u5resource_status\">Save failed. Your editor contents have been kept.\u2026</div> intercepts pointer events',\n    '    - retrying click action',\n    '    - waiting 20ms',\n    '    2 \u00d7 waiting for element to be visible, enabled and stable',\n    '      - element is visible, enabled and stable',\n    '      - scrolling into view if needed',\n    '      - done scrolling',\n    '      - <div id=\"u5resource_status\">Save failed. Your editor contents have been kept.\u2026</div> intercepts pointer events',\n    '    - retrying click action',\n    '      - waiting 100ms',\n    '    58 \u00d7 waiting for element to be visible, enabled and stable',\n    '       - element is visible, enabled and stable',\n    '       - scrolling into view if needed',\n    '       - done scrolling',\n    '       - <div id=\"u5resource_status\">Save failed. Your editor contents have been kept.\u2026</div> intercepts pointer events',\n    '     - retrying click action',\n    '       - waiting 500ms'\n  ],\n  name: 'TimeoutError'\n}\n[Sun Nov  1 23:05:21 2026] PHP 8.3.6 Development Server (http://127.0.0.1:56529) started\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55496 Accepted\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55496 Closed without sending a request; it was probably just an unused speculative preconnection\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55496 Closing\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55512 Accepted\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55512 [200]: GET /u5admin/zr.php\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55512 Closing\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55528 Accepted\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55528 [200]: GET /u5admin/new.php?typ=c\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55528 Closing\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55530 Accepted\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55530 [200]: POST /u5admin/new2.php?typ=c\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55530 Closing\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55534 Accepted\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55534 [200]: POST /u5admin/new2.php?typ=p\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55534 Closing\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55542 Accepted\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55542 [401]: GET /u5admin/coding.php?name=journey-basic!js\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55542 Closing\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55558 Accepted\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55558 [200]: GET /u5admin/coding.php?name=journey-basic!js\n[Sun Nov  1 23:05:21 2026] 127.0.0.1:55558 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55566 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55566 [200]: GET /u5admin/shortcut.js\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55566 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55580 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55580 [200]: GET /u5admin/resourcesave.js\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55580 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55590 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55590 [200]: GET /u5admin/coding.php?name=journey-basic!js\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55590 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55606 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55610 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55606 [200]: GET /u5admin/shortcut.js\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55610 [200]: GET /u5admin/resourcesave.js\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55606 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55610 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55614 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55614 [200]: GET /fixture-snapshot.php?asset=journey-basic!js\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55614 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55626 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55626 [409]: POST /u5admin/coding2.php?typ=c\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55626 Closing\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55634 Accepted\n[Sun Nov  1 23:05:22 2026] 127.0.0.1:55634 [200]: GET /f",
+  "harness_notes": "Wait for the actual object editor URL after its cookie-driven redirect, not its initial blank frame. Existing same-page pane synchronization is preserved; independent pane checks use distinct pages. Conflicts use separate editor windows. Real mouse clicks are never forced."
+}

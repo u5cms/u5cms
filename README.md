@@ -1,6 +1,6 @@
-# u5CMS 14.0.0 development candidate
+# u5CMS 15.0.0 development candidate
 
-V14 builds on the published 13.0.0 release. This line introduces typed JavaScript, CSS and HTML resources. Existing installations must carry their customised database content, generated files and backups through the migration. The changes also cover private-file caching and intranet login handling. See the [branch guide](BRANCHES.md) for the predecessor and acceptance status.
+V15 builds on the published 14.0.0 release. Search supports quoted phrases, accent-tolerant matching and highlighting on the destination page. The backend adds text-editing actions and optional OpenID Connect alongside the existing authentication modes. PHP compatibility and dependency changes are included in this line. See the [branch guide](BRANCHES.md) for its acceptance status.
 
 ---
 

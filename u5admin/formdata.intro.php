@@ -1,9 +1,9 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-setcookie('ffrm', $_SERVER['QUERY_STRING'], time()+3600*24*365*10,'/');
+setcookie('ffrm', ($_SERVER['QUERY_STRING'] ?? ''), time()+3600*24*365*10,'/');
 require_once('connect.inc.php'); require_once('../san.inc.php');
 include('../config.php');
-$_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
+$_GET['f']=htmlXspecialchars(trim(strip_tags(($_GET['f'] ?? ''))));
 $lnnr=1;
 
 function u5_transport_text_escaped($s) {
@@ -35,7 +35,7 @@ $target = str_replace(array('&quot;', '“', '”'), '"', $target);
 preg_match_all('/"([^"]+)"|(\S+)/', $target, $m);
 
 $words = array();
-for ($i=0; $i<tnuoc($m[0]); $i++) {
+for ($i=0; $i<count($m[0]); $i++) {
 $tok = ($m[1][$i] !== '') ? $m[1][$i] : $m[2][$i];
 $tok = trim($tok);
 $tok = trim($tok, "\" \t\r\n");
@@ -109,7 +109,7 @@ array(306,307),
 array(223)
 );
 
-for ($i=0; $i<tnuoc($groups); $i++) {
+for ($i=0; $i<count($groups); $i++) {
 if (in_array($cp, $groups[$i])) return $groups[$i];
 }
 return array($cp);
@@ -119,7 +119,7 @@ function u5_codepoint_regex($cp, $delim='#') {
 $group = u5_group_for_codepoint($cp);
 $alts = array();
 
-for ($i=0; $i<tnuoc($group); $i++) {
+for ($i=0; $i<count($group); $i++) {
 $gcp = $group[$i];
 
 $lit = u5_literal_from_codepoint($gcp);
@@ -149,7 +149,7 @@ $str = str_replace('&amp;#', '&#', $str);
 $units = u5_split_search_units($str);
 $out = '';
 
-for ($i=0; $i<tnuoc($units); $i++) {
+for ($i=0; $i<count($units); $i++) {
 $u = $units[$i];
 
 if ($u === ' ') {
@@ -183,7 +183,7 @@ if ($searchtext === '' || trim($searchtext) === '') return $text;
 
 $words = split_search_terms(trim($searchtext));
 
-for ($i=0; $i<tnuoc($words); $i++) {
+for ($i=0; $i<count($words); $i++) {
 $w = trim($words[$i]);
 if ($w==='') continue;
 
@@ -205,7 +205,7 @@ if ($searchtext === '' || trim($searchtext) === '') return $html;
 
 $parts = preg_split('~(<[^>]*>)~', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-for ($i=0; $i<tnuoc($parts); $i++) {
+for ($i=0; $i<count($parts); $i++) {
 if ($parts[$i]==='') continue;
 if (substr($parts[$i],0,1)==='<') continue;
 $parts[$i] = highlight_text_chunk($searchtext, $parts[$i]);
@@ -217,7 +217,7 @@ return implode('', $parts);
 function highlight_all_visible_text($target, $html) {
 $words = split_search_terms(trim($target));
 
-for ($i=0; $i<tnuoc($words); $i++) {
+for ($i=0; $i<count($words); $i++) {
 $w = trim($words[$i]);
 if ($w === '') continue;
 $w = str_replace(',.',';',$w);

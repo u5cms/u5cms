@@ -31,7 +31,7 @@ if ($result_d==false) echo 'SQL_d-Query failed!...!<p>';
 $row_d = mysql_fetch_array($result_d);
 $_GET['id']=$row_d['mailingid'];
 echo 'Mailjob &#19904;'.$_GET['id'];
-$sql_a=base64_decode($row_d['sqla']);
+$sql_a=base64_decode(($row_d['sqla'] ?? ''));
 $nextmail=$row_d['nextmail'];
 if($row_d['lastcall']+$minimumwaitingbetweenserialmailcroncallinseconds>time())die(' next sending possible in '.(-1*(time()-($row_d['lastcall']+$minimumwaitingbetweenserialmailcroncallinseconds))).' seconds');
 }
@@ -67,7 +67,7 @@ if($_GET['t']!='' || $cron=='cron') {
 $h=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].$_GET['t']);
 if($h!=$_GET['h'] && $cron!='cron')die('<script>alert("forbidden")</script>');
 
-if($cron!='cron')$sql_a=base64_decode($_GET['t']);
+if($cron!='cron')$sql_a=base64_decode(($_GET['t'] ?? ''));
 
 $sql_a='SELECT * FROM formdata WHERE'.str_replace('SELECT * FROM formdata WHERE','',$sql_a);
 $result_a=mysql_query($sql_a);
@@ -114,18 +114,18 @@ for ($i_a=0; $i_a<$num_a; $i_a++) {
 
 $row_a = mysql_fetch_array($result_a);
 
-$notespart=explode('|||',$row_a['notes']);
+$notespart=explode('|||',($row_a['notes'] ?? ''));
 $row_a['notes']=$notespart[0];
 
-$headcsv=explode(';',$row_a['headcsv']);
+$headcsv=explode(';',($row_a['headcsv'] ?? ''));
 array_walk($headcsv,'subone');
 
-$datacsv=explode(';',$row_a['datacsv']);
+$datacsv=explode(';',($row_a['datacsv'] ?? ''));
 array_walk($datacsv,'subone');
 
 
 if(strpos('x'.$row_b['mailfrom'],'<')>0) {
-$zendfrom=explode('<',$row_b['mailfrom']);
+$zendfrom=explode('<',($row_b['mailfrom'] ?? ''));
 $zendname=$zendfrom[0];
 $zendfrom=$zendfrom[1];
 $zendfrom=explode('>',$zendfrom);

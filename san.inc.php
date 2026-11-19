@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__.'/request.inc.php';
+require_once __DIR__ . '/search-request.inc.php';
+u5SearchCaptureRequest();
 if (!function_exists('u5qCodepointEscape')) {
 function u5qCodepointEscape($cp) {
     $cp = (int) $cp;
@@ -85,7 +88,7 @@ function u5map($v) {
 }
 $filterChars = array('\r', '\n', ';', '<', '>', '(', ')');
 if (isset($_GET['q']) && is_string($_GET['q'])) {
-    $_GET['q'] = str_replace($filterChars, '', $_GET['q']);
+    $_GET['q'] = str_replace($filterChars, '', ($_GET['q'] ?? ''));
 }
 $_GET = array_map("u5map", $_GET);
 $_COOKIE = array_map("u5map", $_COOKIE);

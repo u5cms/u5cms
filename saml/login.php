@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/../request.inc.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 ignore_user_abort(true);set_time_limit(36000);
 
@@ -41,6 +42,11 @@ if (isset($_GET['u'])) {
 $debug = (isset($_COOKIE['u5debug']) && $_COOKIE['u5debug']) == 'yes' ? true : false;
 $debug = (isset($_GET['u5debug'])) ? true : false;
 require('../config.php');
+$httpsisinuse=false;
+$u5HttpsResult=eval($evaluateifhttpsisinuse);
+if ($u5HttpsResult!==null) $httpsisinuse=(bool)$u5HttpsResult;
+$httpsisinuse=(bool)$httpsisinuse;
+
 
 /*
 ********************** SAML INTEGRATION ***************************3
@@ -126,10 +132,10 @@ if ($debug) {
 // Finally redirect back to the CMS
 if ($u5samlautointranetenrollment == 'yes') echo '<script>
 function loginsave() {
-location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"
+location.href="../loginsave.php?u='.rawurlencode(($_GET['u'] ?? '')).'"
 }
 setTimeout("loginsave()",5*60*1000);
 </script>';
 
-else echo '<script>location.href="../loginsave.php?u='.rawurlencode($_GET['u']).'"</script>';
+else echo '<script>location.href="../loginsave.php?u='.rawurlencode(($_GET['u'] ?? '')).'"</script>';
 ?>

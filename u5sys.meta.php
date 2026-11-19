@@ -10,7 +10,7 @@ if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
 
-if ($num_a==0 || str_replace(' ','',$row_a['name'])=='') {
+if ($num_a==0 || str_replace(' ','',($row_a['name'] ?? ''))=='') {
 	$sql_a = "SELECT * FROM resources WHERE deleted!=1 AND ishomepage=1";
 	$result_a = mysql_query($sql_a);
 	if ($result_a == false) echo 'SQL_a-Query failed!...!<p>';
@@ -42,7 +42,7 @@ if (str_replace(' ','',ehtml(def($row_a['key_1'],$row_a['key_2'],$row_a['key_3']
 <?php
 if(strpos($canonicalprotocolanddomain,'http://')===0 || strpos($canonicalprotocolanddomain,'https://')===0) {
 	if(($num_a==0||$row_a['ishomepage']==1)&&$_GET['c']!='_search'&&$_GET['c']!='_sitemap')$canonicalcalculatedurl=$canonicalprotocolanddomain;
-	else $canonicalcalculatedurl=$canonicalprotocolanddomain.str_replace('index.php','',$_SERVER['REQUEST_URI']);
+	else $canonicalcalculatedurl=$canonicalprotocolanddomain.str_replace('index.php','',($_SERVER['REQUEST_URI'] ?? ''));
 	if(strpos($canonicalcalculatedurl,'?')<1)$canonicalcalculatedurl.='?';
 	if(strpos($canonicalcalculatedurl,'?l=')<1 && strpos($canonicalcalculatedurl,'&l')<1)$canonicalcalculatedurl.='&l='.$lancode;
 	$canonicalcalculatedurl=str_replace('//?','/?',str_replace('?&','?',$canonicalcalculatedurl));

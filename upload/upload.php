@@ -1,6 +1,7 @@
 <?php
+require_once __DIR__.'/../request.inc.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
-$_GET['i']=htmlspecialchars($_GET['i'], ENT_QUOTES);$_GET['e']=htmlspecialchars($_GET['e'], ENT_QUOTES);
+$_GET['i']=htmlspecialchars(($_GET['i'] ?? ''), ENT_QUOTES);$_GET['e']=htmlspecialchars(($_GET['e'] ?? ''), ENT_QUOTES);
 require_once '../myfunctions.inc.php';
 require_once '../config.php';
 if(function_exists('UPLOADexec'))UPLOADexec();
@@ -27,7 +28,7 @@ $h=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$_GET['i'].date(
 </head>
 
 <body style="font-family:Arial, Helvetica, sans-serif">
-<form name="form1" enctype="multipart/form-data" action="uploaddone.php?i=<?php echo $_GET['i'] ?>&h=<?php echo $h ?>&k=<?php echo htmlspecialchars($_GET['k']) ?>"
+<form name="form1" enctype="multipart/form-data" action="uploaddone.php?i=<?php echo $_GET['i'] ?>&h=<?php echo $h ?>&k=<?php echo htmlspecialchars(($_GET['k'] ?? '')) ?>"
       method="post">
     <!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
     <img height="16" valign="middle" src="spinner.gif" id="spinnergif" style="display:none"/><input

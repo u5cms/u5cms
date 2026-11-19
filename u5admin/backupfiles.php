@@ -34,6 +34,7 @@ foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*') as $state) {
     if (is_dir($state)) $zip->addFolder($state);else $zip->addFile($state);
 }
 foreach (glob(U5ROOT_PATH.'/fileversions/codeasset-rename-*.pending.php') as $state) $zip->addFile($state);
+foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $state) $zip->addFile($state);
 
 // write a backup config and add it to the zip
 require_once('backupconfigwrite.php');
@@ -43,8 +44,6 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
     $zip->addFile(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'config.php');
 }
 
-foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $u5RenameBackup) $zip->addFile($u5RenameBackup);
-foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*-rows-*',GLOB_ONLYDIR) as $u5RenameBackup) $zip->addFolder($u5RenameBackup);
 $zip->write();
 u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
 u5ResourceBackupPublish($u5BackupStaged,$targetfile);

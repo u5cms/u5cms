@@ -32,38 +32,5 @@ else $echo=def($notpub_1,$notpub_2,$notpub_3,$notpub_4,$notpub_5);
 if ($executephp=='onallpages' || ($executephp=='inarchiveonly' && $row_a['deleted']==2)) echo eval('?>'.$echo);
 else echo $echo;
 
-if (trim($_GET['q'])!='') {
-
-$q=$_GET['q'];
-
-  $q = preg_replace_callback(
-    '/%u(.{4})/',
-    function($match){
-      return "&#".hexdec("x".$match[1]).";";
-    },
-    $q
-  );
-
-?>
-<script type="text/javascript" src="js/jquery-highlight1.js"></script>
-<script type="text/javascript">
-function hglgtsrts() {
-sela=document.getElementById('search_Input').value.split('"');
-tem='';
-for(i=0;i<sela.length;i++) {
-if(Math.abs(i % 2) == 1) {
-tem+=' '+sela[i].replace(/ /g,'_')+' ';	
-}
-else tem+=tem+=' '+sela[i]+' ';
-}	
-tem=tem.replace(/  /,' ').replace(/  /,' ').replace(/  /,' ');	
-	
-for(i=0;i<tem.split(' ').length;i++) {
-if(tem.split(' ')[i].replace(/ /g,'')!='')jQuery("body").highlight(tem.split(' ')[i].replace(/_/g,' '), true);
-}
-}
-jQuery(document).ready(function() {
-if(document.getElementById('search_Input'))hglgtsrts();
-});
-</script>
-<?php } ?>
+require_once __DIR__ . '/search-ui.inc.php';
+u5SearchRenderHighlightScript();

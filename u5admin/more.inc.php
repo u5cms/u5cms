@@ -17,7 +17,7 @@ $xt=array
 $noshow1=array('+','%u202F_%u202F',' ','%u202F');
 $noshow2=array('','','','ns');
 
-for ($xi=0;$xi<tnuoc($xc);$xi++) {
+for ($xi=0;$xi<count($xc);$xi++) {
 $mu8='';
 if (strpos($xc[$xi],'+')>0) $mu8='&nbsp;<span title="simile" style="font-size:80%;color:white;background:black;cursor:pointer" onclick="document.getElementById(\'mutf8'.$lanhere.'\').src=\'chr.php?l='.$lanhere.'&c='.$xc[$xi].'\';document.getElementById(\'ut8div'.$lanhere.'\').style.display=\'block\';">+</span>';
 echo '<a style="cursor:pointer;color:blue" title="'.$xt[$xi].'" onclick="doins(\''.$lanhere.'\',\''.str_replace('+','',$xc[$xi]).'\')"><script>document.write(unescape(\''.str_replace($noshow1,$noshow2,$xc[$xi]).'\'))</script></a>'.$mu8;

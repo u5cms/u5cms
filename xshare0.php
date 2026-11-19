@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252" />
 
 <?php
-$url0 = (isset($_GET['link']) && preg_match('/^https?:\/\//', $_GET['link'])) ? st($_GET['link']) : '';
+$url0 = (isset($_GET['link']) && preg_match('/^https?:\/\//', ($_GET['link'] ?? ''))) ? st($_GET['link']) : '';
 $url=$scripturi.'?'.$_SERVER['QUERY_STRING'];
 $title=st($_GET['name']);
 $description=st($_GET['description']);
@@ -34,7 +34,7 @@ else location.href="https://www.facebook.com/sharer/sharer.php?s=100&p[title]=<?
 </script>
 <?php
 function htmlY($s) {
-$s=htmlXspecialchars(utf8_decode($s));
+$s=htmlXspecialchars(mb_convert_encoding($s ?? '', 'ISO-8859-1', 'UTF-8'));
 $s=str_replace('&amp;#','&#',$s);
 return $s;
 }

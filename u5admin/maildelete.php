@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/connect.inc.php'; ?>
 <?php ignore_user_abort(true);set_time_limit(3600); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +9,7 @@
 <span id="wait">deleting, please wait...</span>
 <div id="recipients"></div>
 <?php 
-require('connect.inc.php');
+require_once('connect.inc.php');
 
 $_GET['id']=intval($_GET['id']);
 $sql_b="UPDATE mailing SET maildeleted=1 WHERE id=".mysql_real_escape_string($_GET['id']);

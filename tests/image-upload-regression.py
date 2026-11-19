@@ -78,11 +78,11 @@ def test_site(site):
     (site / 'responses').mkdir()
     for name in ['sendfile.php', 'sendfile2.php', 'sendfilea.php', 'sendfilea2.php',
                  'extendedimage.inc.php', 'image-upload-limits.inc.php', 'image-upload.js',
-                 'image-upload-worker.js', 'publishupload.inc.php', 'resource-mutation.inc.php',
-                 'resource-rename-support.inc.php', 't1.php', 't2.php',
+                 'image-upload-worker.js', 'publishupload.inc.php', 'resource-mutation.inc.php', 't1.php', 't2.php',
                  'archivecheck.inc.php', 'shortcut.js']:
         shutil.copy2(REPO / 'u5admin' / name, admin / name)
     shutil.copytree(REPO / 'u5admin/image-formats', admin / 'image-formats')
+    shutil.copy2(REPO / 'codeassets.inc.php', site / 'codeassets.inc.php')
     shutil.copy2(REPO / 'index-work.inc.php', site / 'index-work.inc.php')
     shutil.copy2(REPO / 'resource-activity.inc.php', site / 'resource-activity.inc.php')
     shutil.copy2(REPO / 'configallowedfileextensions.php', site / 'configallowedfileextensions.php')
@@ -93,7 +93,6 @@ def test_site(site):
     (admin / 'connect.inc.php').write_text('''<?php
 require_once(__DIR__.'/../config.php');
 if ($_SERVER['REQUEST_METHOD']==='POST') ob_start(function($body) { file_put_contents(__DIR__.'/../responses/'.basename($_POST['name']).'.html',$body);return $body; });
-function tnuoc($a) { return is_array($a)?count($a):0; }
 function mysql_real_escape_string($s) { return addslashes($s); }
 function mysql_query($s) { file_put_contents(__DIR__.'/../queries.log',$s."\\n",FILE_APPEND); return true; }
 function mysql_fetch_array($a) { return array('deleted'=>'0','typ'=>'i'); }
@@ -124,7 +123,8 @@ def main():
         for name in ['image-upload.js', 'image-upload-worker.js']:
             subprocess.run(['node', '--check', str(REPO / 'u5admin' / name)], check=True)
         with (work / 'server.log').open('w+') as log:
-            # The isolated PHP/browser archive fixtures share an explicit UTC clock.
+            # The browser builds archive-day failure fixtures in UTC. Give the
+            # isolated PHP server the same clock, independently of host php.ini.
             server = subprocess.Popen(php + ['-d','date.timezone=UTC','-d','upload_max_filesize=24M','-d','post_max_size=64M','-d','memory_limit=256M',
                                             '-S','127.0.0.1:'+str(port),'-t',str(site)], stdout=log, stderr=log)
             try:

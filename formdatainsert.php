@@ -22,7 +22,7 @@ $template = str_replace('</html>','',str_replace('</body>','<div style="width:30
 
 $i_i_item=explode('{{{',$template);
 
-for ($i_i_i=0;$i_i_i<tnuoc($i_i_item);$i_i_i++) {
+for ($i_i_i=0;$i_i_i<count($i_i_item);$i_i_i++) {
 
    if (strpos($i_i_item[$i_i_i],'}}}')>1) {
 
@@ -53,6 +53,6 @@ else echo $i_i_part[1];
 ?>
 <div id="genericformdataeditorlinkdiv" style="display:none;position:absolute;z-index:2147483647;top:0px;margin-left:40%;height:100px;width:200px;background:lightgreen;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:bold">
 <div style="float:right;color:white;background:black;cursor:pointer" onclick="this.parentNode.style.display='none'">×</div>
-<div style="padding:5px"><span style="color:red">Read carefully:</span> If this page does not display an appropriate form to edit your data (no form, missing fields, wrong fields), go to the <a style="color:blue;text-decoration:underline" href="formdataeditgen.php?<?php echo str_replace('c=','n=',$_SERVER['QUERY_STRING'])?>">generic formdata editor</a>.</div>
+<div style="padding:5px"><span style="color:red">Read carefully:</span> If this page does not display an appropriate form to edit your data (no form, missing fields, wrong fields), go to the <a style="color:blue;text-decoration:underline" href="formdataeditgen.php?<?php echo str_replace('c=','n=',($_SERVER['QUERY_STRING'] ?? ''))?>">generic formdata editor</a>.</div>
 </div>
 <script>if(location.href.indexOf('a=1')>0)document.getElementById('genericformdataeditorlinkdiv').style.display='block';</script>

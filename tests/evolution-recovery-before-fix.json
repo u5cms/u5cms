@@ -1,0 +1,537 @@
+{
+  "pass": "Additional 2: actual lock and interruption recovery",
+  "results": [
+    {
+      "label": "12.12.1-General-Corrections",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [
+        "active-lock/code: busy operation returns 500 instead of a controlled 409",
+        "active-lock/new: busy operation returns 500 instead of a controlled 409",
+        "active-lock/copy: busy operation returns 500 instead of a controlled 409",
+        "active-lock/archive: busy operation returns 500 instead of a controlled 409",
+        "active-lock/delete: busy operation returns 500 instead of a controlled 409",
+        "active-lock/rename: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/code: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/new: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/copy: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/archive: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/delete: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/rename: busy operation returns 500 instead of a controlled 409"
+      ],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.2-Textarea-Interactions",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [
+        "active-lock/code: busy operation returns 500 instead of a controlled 409",
+        "active-lock/new: busy operation returns 500 instead of a controlled 409",
+        "active-lock/copy: busy operation returns 500 instead of a controlled 409",
+        "active-lock/archive: busy operation returns 500 instead of a controlled 409",
+        "active-lock/delete: busy operation returns 500 instead of a controlled 409",
+        "active-lock/rename: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/code: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/new: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/copy: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/archive: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/delete: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/rename: busy operation returns 500 instead of a controlled 409"
+      ],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.3-PHP9-Compatibility",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [
+        "active-lock/code: busy operation returns 500 instead of a controlled 409",
+        "active-lock/new: busy operation returns 500 instead of a controlled 409",
+        "active-lock/copy: busy operation returns 500 instead of a controlled 409",
+        "active-lock/archive: busy operation returns 500 instead of a controlled 409",
+        "active-lock/delete: busy operation returns 500 instead of a controlled 409",
+        "active-lock/rename: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/code: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/new: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/copy: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/archive: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/delete: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/rename: busy operation returns 500 instead of a controlled 409"
+      ],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    },
+    {
+      "label": "12.12.4-Default-Design",
+      "writers": [
+        {
+          "phase": "active-lock",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "active-lock",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "active-lock",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "page",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "metadata",
+          "status": 409,
+          "state_preserved": true,
+          "explanation": true
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "code",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "new",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "copy",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "archive",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "delete",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": false
+        },
+        {
+          "phase": "interrupted-rename",
+          "action": "rename",
+          "status": 500,
+          "state_preserved": true,
+          "explanation": true
+        }
+      ],
+      "issues": [
+        "active-lock/code: busy operation returns 500 instead of a controlled 409",
+        "active-lock/new: busy operation returns 500 instead of a controlled 409",
+        "active-lock/copy: busy operation returns 500 instead of a controlled 409",
+        "active-lock/archive: busy operation returns 500 instead of a controlled 409",
+        "active-lock/delete: busy operation returns 500 instead of a controlled 409",
+        "active-lock/rename: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/code: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/new: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/copy: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/archive: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/delete: busy operation returns 500 instead of a controlled 409",
+        "interrupted-rename/rename: busy operation returns 500 instead of a controlled 409"
+      ],
+      "actual_interruption_resumed": true,
+      "normal_write_after_release": true
+    }
+  ]
+}

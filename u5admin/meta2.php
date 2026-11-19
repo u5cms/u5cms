@@ -1,14 +1,13 @@
 <?php
 require_once('connect.inc.php');
-require_once __DIR__.'/resource-mutation.inc.php';
-require_once('t2.php');
+require_once('t2.php');require_once('resource-mutation.inc.php');
 require_once('resourceupdate.inc.php');
 try {
 $name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
 $u5MetaRecord=u5ResourceForUpdate($name);
 $u5MetaIsCode=strtolower((string)$u5MetaRecord['typ'])==='c';
 if ($u5MetaIsCode) {
-    require_once('codeassets-migrate.inc.php');$u5MetaRelease=u5CodeMigrationLock(dirname(__DIR__));register_shutdown_function($u5MetaRelease);
+    require_once('codeassets-migrate.inc.php');
     $u5MetaRecord=u5ResourceForUpdate($name,true);
 }
 if ($archiveRqHIADRI!='no' && $u5MetaRecord['deleted']==2) require('accadmin.inc.php');
@@ -26,7 +25,7 @@ $changes[$column]=$u5MetaIsCode && $field==='content' ? $_POST[$column] : trim($
 }
 if (isset($_POST['logins'])) {
 if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource logins.');
-$changes['logins']=trim($_POST['logins']);
+$changes['logins']=trim(($_POST['logins'] ?? ''));
 }
 if (isset($_GET['typ']) && $_GET['typ']!=='' && $_GET['typ']!==$u5MetaRecord['typ']) throw new RuntimeException('The requested type does not match the actual resource.');
 $changes['typ']=$u5MetaRecord['typ'];
@@ -49,7 +48,7 @@ exit;
 <?php require('backendcss.php'); ?></head>
 <body id="body" bgcolor="#339900" text="#FFFFFF">
 <?php
-$nonce=isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',$_POST['u5resourceid']) ? $_POST['u5resourceid'] : '';
+$nonce=isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && preg_match('/^[a-zA-Z0-9_]{1,80}$/',($_POST['u5resourceid'] ?? '')) ? $_POST['u5resourceid'] : '';
 $current=$result['current'];
 $message='CONFLICT: The current resource was kept. Your submitted content is in text versions. Latest editor: '.($current ? $current['operator'] : 'unknown').'. Merge your changes manually; your editor contents remain available.';
 ?>

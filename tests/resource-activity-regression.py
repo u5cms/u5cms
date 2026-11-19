@@ -39,7 +39,7 @@ echo json_encode($r===true ? true : $r->fetch_all(MYSQLI_ASSOC));
     router.write_text('''<?php
 $path=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
 if ($path==='/u5admin/rename2.php') {
- function u5RenameStorageTestCheckpoint($phase) {
+ function u5CodeMigrationTestCheckpoint($phase) {
   $control=getenv('U5_ACTIVITY_CONTROL');
   if ($phase!=='rename:templates' || !is_file($control.'/hold')) return;
   file_put_contents($control.'/ready',(string)getmypid());

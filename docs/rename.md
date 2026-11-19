@@ -1,4 +1,4 @@
-# Resource renaming in 12.9.5.2 and later development branches
+# Resource renaming in 12.12.1
 
 The Rename form finishes the object, files, references, histories and publication
 before reporting success. It no longer navigates away after three seconds or
@@ -27,17 +27,10 @@ uses the disappearance of the old database name as proof of completion.
 | Revisions and search | Marks each actually changed current resource once, advances its revision and retains the last searchable text until the indexer refreshes it. Pages explicitly excluded from automatic indexing retain their existing search fields. Marks the full rendered index pending because indirect dependants can also change. Heading-only matches do not change revision metadata. |
 | Rights | Retains backend authentication, CSRF, archive HIADRI and code HIADRI checks, including retries after ownership has moved. |
 
-In 12.9.5.2 and the pre-12.11 development branches, C resources retain their
-legacy names and `.css` output format, including `htmltemplate.css`. Generic
-Rename helpers are isolated from code-resource migrations. In the typed-code
-branches, code renames keep their established code-asset API, role maps,
-static-extension restrictions and migration/checkpoint identifiers. The shared
-bracket parser also protects literal headings there.
-
-An optional nonunique history-name lookup index is added on first ordinary
-Rename if the table has no name-leading index. Without ALTER privileges,
-Rename remains available with slower guarded history writes. No content
-schema, code-object namespace or template format is migrated by this backport.
+Typed C resources retain the established resumable code-asset rename, role maps,
+static-extension checks and reset-template handling. Their bracket parser now
+also protects title delimiters. Existing 12.11 migration and rename checkpoints
+keep their identifiers and remain readable.
 
 This rewrites the CMS's recognized dependency syntax. Configuration PHP,
 external bookmarks, already sent emails and arbitrary application identifiers
@@ -144,9 +137,7 @@ runtime variables (`U5_TEST_PHP`, `U5_TEST_PHP_ARGS`, `U5_TEST_PLAYWRIGHT`,
 ```sh
 U5CMS_TEST_PORT=3307 php tests/rename-regression.php
 U5CMS_TEST_PORT=3307 php tests/rename-benchmark.php
-U5CMS_TEST_PORT=3307 python3 tests/rename-web-regression.py
-# Explicit HTTP-only alternative when no browser is available:
-U5CMS_TEST_PORT=3307 U5CMS_RENAME_HTTP_ONLY=1 python3 tests/rename-web-regression.py
+U5CMS_TEST_PORT=3307 U5CMS_RENAME_AUDIT=1 python3 tests/codeassets-web-regression.py
 ```
 
 The benchmark loads the actual legacy functions from the committed OIDC parent
@@ -155,5 +146,3 @@ legacy directory processing against the **complete** new ordinary rename.
 It verifies all 20 resource/history text columns and every file, rather than
 accepting elapsed time alone. Both sparse and dense dependency cases are
 included. See the release audit for measured results and environment limits.
-
-For backport-specific provenance, measurements, branch scope and validation limits, see [the 12.9.5.2 report](rename-backport-12.9.5.2.md).

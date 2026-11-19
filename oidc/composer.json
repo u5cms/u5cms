@@ -1,0 +1,16 @@
+{
+    "name": "u5cms/oidc-support",
+    "description": "Optional, isolated JWT validation dependency for u5CMS OIDC",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php": "^8.0",
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "firebase/php-jwt": "^7.2"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": false
+    }
+}

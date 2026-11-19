@@ -37,7 +37,7 @@ if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';
 $row_a = mysql_fetch_array($result_a);
 $lastmut=$row_a['lastmut'];
 
-$_GET['name']=basename($_GET['name']);
+$_GET['name']=basename(($_GET['name'] ?? ''));
 $totalsizes=0;
 $i=0;
 $echo='';
@@ -210,7 +210,7 @@ if(document.form1.content_5.value.indexOf('[:ca]')>-1)document.getElementById('e
 statics=document.getElementById('pro_1').value.trim()+document.getElementById('pro_2').value.trim()+document.getElementById('pro_3').value.trim()+document.getElementById('pro_4').value.trim()+document.getElementById('pro_5').value.trim();
 statics+=document.getElementById('epi_1').value.trim()+document.getElementById('epi_2').value.trim()+document.getElementById('epi_3').value.trim()+document.getElementById('epi_4').value.trim()+document.getElementById('epi_5').value.trim();
 
-fixedparts='Edit the fixed parts of <?php echo htmlentities($_GET['name']) ?>\'s captions in its metadata section (cf. textarea «long caption» there). Access the metadata section by clicking the M link at the top of the page at hand.\n\nNOTICE: If a language contains fixed parts but no per-image-captions, these empty per-image-captions won\'t fall back to filled per-image-captions of another language!\n\nWHAT ARE FIXED PARTS? In the aforementioned metadata section\'s textarea «long caption», per-image-captions are represented as pieces of text between the syntax elements [ca:] and [:ca]. Characters outside of [ca:] ... [:ca] are so called fixed parts: they will be part of the caption of EVERY image of the respective album. If the very first character of the capion is the number sign #, this will be replaced by image number slash total images.';
+fixedparts='Edit the fixed parts of <?php echo htmlentities(($_GET['name'] ?? '')) ?>\'s captions in its metadata section (cf. textarea «long caption» there). Access the metadata section by clicking the M link at the top of the page at hand.\n\nNOTICE: If a language contains fixed parts but no per-image-captions, these empty per-image-captions won\'t fall back to filled per-image-captions of another language!\n\nWHAT ARE FIXED PARTS? In the aforementioned metadata section\'s textarea «long caption», per-image-captions are represented as pieces of text between the syntax elements [ca:] and [:ca]. Characters outside of [ca:] ... [:ca] are so called fixed parts: they will be part of the caption of EVERY image of the respective album. If the very first character of the capion is the number sign #, this will be replaced by image number slash total images.';
 
 if(statics.trim()!='')document.write('<small><br>The system detected that your captions contain fixed parts; <a href="javascsript:void(0)" onclick="alert(fixedparts)">please read this info!</a></small>');
 

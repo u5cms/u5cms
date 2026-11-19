@@ -1,4 +1,5 @@
 <?php 
+u5ValidateTextRequest($_GET,array('c','n'));
 require_once __DIR__ . '/onlymine.inc.php';
 $cmdstring = u5onlymineFormRules();
 

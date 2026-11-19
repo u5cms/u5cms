@@ -1,0 +1,1290 @@
+{
+  "date": "2026-11-01",
+  "timezone": "Europe/Zurich",
+  "original_commit": "9d366253417822c279692767b89dcf1ff0388c5c",
+  "oracle": {
+    "upgrade": {
+      "status": 200,
+      "runonce_removed": true
+    },
+    "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+    "language-en": "REF-EN",
+    "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+    "language-it": "REF-IT",
+    "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+    "php-onallpages-refphp": true,
+    "php-onallpages-refarchive": true,
+    "php-inarchiveonly-refphp": false,
+    "php-inarchiveonly-refarchive": true,
+    "php-nowhere-refphp": false,
+    "php-nowhere-refarchive": false,
+    "private-denied": 401,
+    "private-allowed": true,
+    "application-array-c": {
+      "status": 200,
+      "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-n": {
+      "status": 200,
+      "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-p": {
+      "status": 200,
+      "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-u5prvldd": {
+      "status": 200,
+      "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-f": {
+      "status": 200,
+      "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-s": {
+      "status": 200,
+      "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-t": {
+      "status": 200,
+      "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-q": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-array-selection": {
+      "status": 200,
+      "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+    },
+    "application-cookie-array-u": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+    },
+    "application-cookie-array-p": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+    },
+    "application-cookie-array-hp": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+    },
+    "application-cookie-array-application": {
+      "status": 200,
+      "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+    },
+    "form-saved": {
+      "id": "2",
+      "formname": "refform",
+      "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+      "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+      "status": "1",
+      "notes": null,
+      "authuser": ""
+    },
+    "form-edited": {
+      "id": "2",
+      "formname": "refform",
+      "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+      "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+      "status": "1",
+      "notes": "",
+      "authuser": ""
+    },
+    "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+    "form-import": [
+      {
+        "id": "4",
+        "formname": "refimport",
+        "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+        "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+        "status": "7",
+        "notes": "fixed notes",
+        "authuser": "importowner"
+      },
+      {
+        "id": "5",
+        "formname": "refimport",
+        "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+        "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+        "status": "7",
+        "notes": "fixed notes",
+        "authuser": "importowner"
+      }
+    ],
+    "form-import-legacy": [
+      {
+        "id": "6",
+        "formname": "reflegacyimport",
+        "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+        "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+        "status": "7",
+        "notes": "fixed notes",
+        "authuser": "importowner"
+      }
+    ],
+    "export-low-rights-denied": true,
+    "export-low-rights-configured": true,
+    "owner-edited": [
+      {
+        "id": "7",
+        "formname": "refownerform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "1",
+        "notes": "",
+        "authuser": "reader"
+      },
+      {
+        "id": "8",
+        "formname": "refownerform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "6",
+        "notes": null,
+        "authuser": "reader"
+      }
+    ],
+    "owner-deleted": [
+      {
+        "id": "7",
+        "formname": "refownerform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "5",
+        "notes": "",
+        "authuser": "reader"
+      },
+      {
+        "id": "8",
+        "formname": "refownerform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "6",
+        "notes": null,
+        "authuser": "reader"
+      },
+      {
+        "id": "9",
+        "formname": "refownerform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "6",
+        "notes": "",
+        "authuser": "reader"
+      }
+    ],
+    "browser-form": {
+      "charset": "windows-1252",
+      "callback": true,
+      "errors": [],
+      "row": {
+        "id": "10",
+        "formname": "refform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "1",
+        "notes": null,
+        "authuser": ""
+      }
+    }
+  },
+  "sources": [
+    {
+      "label": "stage-00",
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "tested_commit": "29299b1964e939e15867a102c0b8b699c95af491"
+    },
+    {
+      "label": "stage-01",
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "tested_commit": "f40fbbf88e1501d7a44f64ac3939246faf64589e"
+    },
+    {
+      "label": "stage-02",
+      "branch": "12.11.0-Code-Resource-Migration",
+      "tested_commit": "27562965b5ae5878918efe3bca2868fa0128f43b"
+    },
+    {
+      "label": "stage-03",
+      "branch": "12.11.1-Migration-Hardening",
+      "tested_commit": "13c70fe9b593d49735844189f655cb69ee4b6a0a"
+    },
+    {
+      "label": "stage-04",
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "tested_commit": "34fdd7f1fcd2dd1202c8ec9c39014603007edaef"
+    },
+    {
+      "label": "stage-05",
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "tested_commit": "97b0337345f4ca53cb2e2c02345fa26ad09df5e2"
+    },
+    {
+      "label": "stage-06",
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "tested_commit": "d31a81810fb2ba70fd0e92811603e1e65d5d9e18"
+    },
+    {
+      "label": "stage-07",
+      "branch": "12.12.0-OIDC",
+      "tested_commit": "b157bbed261d468a68658ae6be13d63b86953693"
+    },
+    {
+      "label": "stage-08",
+      "branch": "12.12.1-General-Corrections",
+      "tested_commit": "245c77d33a88fd4fd592f6176d463ad5395a328c"
+    },
+    {
+      "label": "stage-09",
+      "branch": "12.12.2-Textarea-Interactions",
+      "tested_commit": "b9820bbce401253747bf3d3b9e86b3534ded777d"
+    },
+    {
+      "label": "stage-10",
+      "branch": "12.12.3-PHP9-Compatibility",
+      "tested_commit": "4298d06feba13a4e13ef7b2efe3a58d18f2ecb52"
+    },
+    {
+      "label": "stage-11",
+      "branch": "12.12.4-Default-Design",
+      "tested_commit": "4159972464e798eb3371cc2d15625fcaa1e9f35d"
+    },
+    {
+      "label": "stage-12",
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "tested_commit": "032970e4a2f00595f78c371f0a97e146a118f834"
+    },
+    {
+      "label": "stage-13",
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "tested_commit": "210571010525b10308e4869b8b08d105427a2277"
+    },
+    {
+      "label": "stage-14",
+      "branch": "fix/nosniff-script-mime-types",
+      "tested_commit": "0fdc9f921b2e9992bf627bf34118f06f9e4597b7"
+    },
+    {
+      "label": "stage-15",
+      "branch": "main",
+      "tested_commit": "78cadbf87b7307203b8bd4ff96929b306af7d982"
+    }
+  ],
+  "comparisons": [
+    {
+      "profile": "mb-no-intl",
+      "original_checks": 36,
+      "checks": 612,
+      "targets": [
+        {
+          "label": "stage-00",
+          "differences": {}
+        },
+        {
+          "label": "stage-01",
+          "differences": {}
+        },
+        {
+          "label": "stage-02",
+          "differences": {}
+        },
+        {
+          "label": "stage-03",
+          "differences": {}
+        },
+        {
+          "label": "stage-04",
+          "differences": {}
+        },
+        {
+          "label": "stage-05",
+          "differences": {}
+        },
+        {
+          "label": "stage-06",
+          "differences": {}
+        },
+        {
+          "label": "stage-07",
+          "differences": {}
+        },
+        {
+          "label": "stage-08",
+          "differences": {}
+        },
+        {
+          "label": "stage-09",
+          "differences": {}
+        },
+        {
+          "label": "stage-10",
+          "differences": {}
+        },
+        {
+          "label": "stage-11",
+          "differences": {}
+        },
+        {
+          "label": "stage-12",
+          "differences": {}
+        },
+        {
+          "label": "stage-13",
+          "differences": {}
+        },
+        {
+          "label": "stage-14",
+          "differences": {}
+        },
+        {
+          "label": "stage-15",
+          "differences": {}
+        }
+      ],
+      "original_matches_common_oracle": true,
+      "raw_output_sha256": "ff489f9f9d1a9678b338690b8ca423718c14106d6cf63d480a56d387b3ab3b3d"
+    },
+    {
+      "profile": "mb-intl",
+      "original_checks": 36,
+      "checks": 612,
+      "targets": [
+        {
+          "label": "stage-00",
+          "differences": {}
+        },
+        {
+          "label": "stage-01",
+          "differences": {}
+        },
+        {
+          "label": "stage-02",
+          "differences": {}
+        },
+        {
+          "label": "stage-03",
+          "differences": {}
+        },
+        {
+          "label": "stage-04",
+          "differences": {}
+        },
+        {
+          "label": "stage-05",
+          "differences": {}
+        },
+        {
+          "label": "stage-06",
+          "differences": {}
+        },
+        {
+          "label": "stage-07",
+          "differences": {}
+        },
+        {
+          "label": "stage-08",
+          "differences": {}
+        },
+        {
+          "label": "stage-09",
+          "differences": {}
+        },
+        {
+          "label": "stage-10",
+          "differences": {}
+        },
+        {
+          "label": "stage-11",
+          "differences": {}
+        },
+        {
+          "label": "stage-12",
+          "differences": {}
+        },
+        {
+          "label": "stage-13",
+          "differences": {}
+        },
+        {
+          "label": "stage-14",
+          "differences": {}
+        },
+        {
+          "label": "stage-15",
+          "differences": {}
+        }
+      ],
+      "original_matches_common_oracle": true,
+      "raw_output_sha256": "ff489f9f9d1a9678b338690b8ca423718c14106d6cf63d480a56d387b3ab3b3d"
+    },
+    {
+      "profile": "mb-intl-no-gd",
+      "original_checks": 36,
+      "checks": 612,
+      "targets": [
+        {
+          "label": "stage-00",
+          "differences": {}
+        },
+        {
+          "label": "stage-01",
+          "differences": {}
+        },
+        {
+          "label": "stage-02",
+          "differences": {}
+        },
+        {
+          "label": "stage-03",
+          "differences": {}
+        },
+        {
+          "label": "stage-04",
+          "differences": {}
+        },
+        {
+          "label": "stage-05",
+          "differences": {}
+        },
+        {
+          "label": "stage-06",
+          "differences": {}
+        },
+        {
+          "label": "stage-07",
+          "differences": {}
+        },
+        {
+          "label": "stage-08",
+          "differences": {}
+        },
+        {
+          "label": "stage-09",
+          "differences": {}
+        },
+        {
+          "label": "stage-10",
+          "differences": {}
+        },
+        {
+          "label": "stage-11",
+          "differences": {}
+        },
+        {
+          "label": "stage-12",
+          "differences": {}
+        },
+        {
+          "label": "stage-13",
+          "differences": {}
+        },
+        {
+          "label": "stage-14",
+          "differences": {}
+        },
+        {
+          "label": "stage-15",
+          "differences": {}
+        }
+      ],
+      "original_matches_common_oracle": true,
+      "raw_output_sha256": "ff489f9f9d1a9678b338690b8ca423718c14106d6cf63d480a56d387b3ab3b3d"
+    },
+    {
+      "profile": "mb-no-intl-no-gd",
+      "original_checks": 36,
+      "checks": 612,
+      "targets": [
+        {
+          "label": "stage-00",
+          "differences": {}
+        },
+        {
+          "label": "stage-01",
+          "differences": {}
+        },
+        {
+          "label": "stage-02",
+          "differences": {}
+        },
+        {
+          "label": "stage-03",
+          "differences": {}
+        },
+        {
+          "label": "stage-04",
+          "differences": {}
+        },
+        {
+          "label": "stage-05",
+          "differences": {}
+        },
+        {
+          "label": "stage-06",
+          "differences": {}
+        },
+        {
+          "label": "stage-07",
+          "differences": {}
+        },
+        {
+          "label": "stage-08",
+          "differences": {}
+        },
+        {
+          "label": "stage-09",
+          "differences": {}
+        },
+        {
+          "label": "stage-10",
+          "differences": {}
+        },
+        {
+          "label": "stage-11",
+          "differences": {}
+        },
+        {
+          "label": "stage-12",
+          "differences": {}
+        },
+        {
+          "label": "stage-13",
+          "differences": {}
+        },
+        {
+          "label": "stage-14",
+          "differences": {}
+        },
+        {
+          "label": "stage-15",
+          "differences": {}
+        }
+      ],
+      "original_matches_common_oracle": true,
+      "raw_output_sha256": "ff489f9f9d1a9678b338690b8ca423718c14106d6cf63d480a56d387b3ab3b3d"
+    }
+  ],
+  "total_paired_assertions": 2448,
+  "capability_runs": [
+    {
+      "profile": "polyfill-intl",
+      "method": "Capability-gain run against explicit prior successful original observations; original is not newly executed in this profile.",
+      "oracle_profile": "mb-no-intl",
+      "new_original_checks": 0,
+      "target_checks": 106,
+      "targets": [
+        {
+          "label": "php9",
+          "differences": {}
+        },
+        {
+          "label": "default",
+          "differences": {}
+        }
+      ]
+    },
+    {
+      "profile": "polyfill-no-intl-no-gd",
+      "method": "Capability-gain run against explicit prior successful original observations; original is not newly executed in this profile.",
+      "oracle_profile": "mb-no-intl",
+      "new_original_checks": 0,
+      "target_checks": 106,
+      "targets": [
+        {
+          "label": "php9",
+          "differences": {}
+        },
+        {
+          "label": "default",
+          "differences": {}
+        }
+      ]
+    }
+  ],
+  "original_polyfill_failure": {
+    "error": "original-main: actual backend bootstrap <style>\nbody {font-family:'Segoe UI', 'Arimo', sans-serif;;}\ntextarea {font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;line-height:20px;font-size:12px;}\ninput, select, button {font-family:'Arimo', sans-serif}\nh1 {font-weight:100}\nh2 {font-weight:100}\nh3 {font-weight:100}\nh4 {font-weight:100;margin-bottom:3px}\nth {font-weight:100;text-align:left}\n.blink_me {\nanimation: blinker 1s linear infinite;\n}\n@keyframes blinker {\n  50% {\n    opacity: 0;\n  }\n}\n.sblink {\ncolor:black;\nbackground:yellow;\nanimation: blinker 1s linear infinite;\n}\n@keyframes blinker {\n  50% {\n    opacity: 0;\n  }\n}\n#selfclose{position:fixed !important}\n</style><h1>Username and or password wrong</h1> Please <a href=\"index.php\" target=\"_top\">try again</a> or <a href=\"../reset.php\" target=\"_top\">reset password</a>.</p>",
+    "server_log": "[Sun Nov  1 03:55:18 2026] PHP 8.3.6 Development Server (http://127.0.0.1:58329) started\n[Sun Nov  1 03:55:18 2026] 127.0.0.1:43866 Accepted\n[Sun Nov  1 03:55:18 2026] 127.0.0.1:43866 Closed without sending a request; it was probably just an unused speculative preconnection\n[Sun Nov  1 03:55:18 2026] 127.0.0.1:43866 Closing\n[Sun Nov  1 03:55:18 2026] 127.0.0.1:43878 Accepted\n[Sun Nov  1 03:55:18 2026] 127.0.0.1:43878 [401]: GET /u5admin/zr.php\n[Sun Nov  1 03:55:18 2026] 127.0.0.1:43878 Closing\n",
+    "checks_before_failure": 1
+  },
+  "mbstring_profile_probe": [
+    {
+      "profile": "mb-intl",
+      "source": "/workspace/scratch/2ac252dfae51/u5cms-main-baseline",
+      "result": {
+        "numeric": "&#114;&#101;&#102;&#101;&#114;&#101;&#110;&#99;&#101;&#97;&#100;&#109;&#105;&#110;",
+        "utf8": "7265666572656e63652d70617373776f7264",
+        "mb": true,
+        "intl": true
+      }
+    },
+    {
+      "profile": "mb-intl",
+      "source": "/workspace/scratch/2ac252dfae51/u5cms",
+      "result": {
+        "numeric": "&#114;&#101;&#102;&#101;&#114;&#101;&#110;&#99;&#101;&#97;&#100;&#109;&#105;&#110;",
+        "utf8": "7265666572656e63652d70617373776f7264",
+        "mb": true,
+        "intl": true
+      }
+    },
+    {
+      "profile": "polyfill-intl",
+      "source": "/workspace/scratch/2ac252dfae51/u5cms-main-baseline",
+      "result": {
+        "numeric": "&#4294836224;&#1912602624;&#1694498816;&#1711276032;&#1694498816;&#1912602624;&#1694498816;&#1845493760;&#1660944384;&#1694498816;&#1627389952;&#1677721600;&#1828716544;&#1761607680;&#1845493760;",
+        "utf8": "7265666572656e63652d70617373776f7264",
+        "mb": false,
+        "intl": true
+      }
+    },
+    {
+      "profile": "polyfill-intl",
+      "source": "/workspace/scratch/2ac252dfae51/u5cms",
+      "result": {
+        "numeric": "&#114;&#101;&#102;&#101;&#114;&#101;&#110;&#99;&#101;&#97;&#100;&#109;&#105;&#110;",
+        "utf8": "7265666572656e63652d70617373776f7264",
+        "mb": false,
+        "intl": true
+      }
+    },
+    {
+      "profile": "polyfill-no-intl-no-gd",
+      "source": "/workspace/scratch/2ac252dfae51/u5cms-main-baseline",
+      "result": {
+        "numeric": "&#4294836224;&#1912602624;&#1694498816;&#1711276032;&#1694498816;&#1912602624;&#1694498816;&#1845493760;&#1660944384;&#1694498816;&#1627389952;&#1677721600;&#1828716544;&#1761607680;&#1845493760;",
+        "utf8": "7265666572656e63652d70617373776f7264",
+        "mb": false,
+        "intl": false
+      }
+    },
+    {
+      "profile": "polyfill-no-intl-no-gd",
+      "source": "/workspace/scratch/2ac252dfae51/u5cms",
+      "result": {
+        "numeric": "&#114;&#101;&#102;&#101;&#114;&#101;&#110;&#99;&#101;&#97;&#100;&#109;&#105;&#110;",
+        "utf8": "7265666572656e63652d70617373776f7264",
+        "mb": false,
+        "intl": false
+      }
+    }
+  ],
+  "matrices": {
+    "12.12.3-PHP9-Compatibility": [
+      {
+        "label": "migration-core",
+        "exit": 0,
+        "seconds": 16.93,
+        "output": "Core checks: 132 passed.\nCore and database checks: 1671 passed.\nFixtures: /tmp/u5-codeassets-b0a1c283701f\n"
+      },
+      {
+        "label": "rename-core",
+        "exit": 0,
+        "seconds": 1.83,
+        "output": "Rename core checks: 637 passed.\nRename database checks: 886 total passed.\n"
+      },
+      {
+        "label": "mobile-core",
+        "exit": 0,
+        "seconds": 3.99,
+        "output": "Mobile tools database: 69 checks passed (both seeds, charsets, custom sources/templates, history, interruptions, retry and concurrent edits).\n"
+      },
+      {
+        "label": "search-core",
+        "exit": 0,
+        "seconds": 0.66,
+        "output": "Search core: 7767 checks passed.\n"
+      },
+      {
+        "label": "search-alloc",
+        "exit": 0,
+        "seconds": 0.02,
+        "output": "Search alloc checks: 46 passed.\n"
+      },
+      {
+        "label": "search-service",
+        "exit": 0,
+        "seconds": 4.22,
+        "output": "Search service regression checks: 350 passed.\n"
+      },
+      {
+        "label": "search-suggestions",
+        "exit": 0,
+        "seconds": 3.22,
+        "output": "Search suggestion checks: 6491 passed.\n"
+      },
+      {
+        "label": "search-distance",
+        "exit": 0,
+        "seconds": 0.48,
+        "output": "Search distance reference checks: 20907 passed.\n"
+      },
+      {
+        "label": "search-index",
+        "exit": 0,
+        "seconds": 1.39,
+        "output": "Search index checks: 96 passed.\n"
+      },
+      {
+        "label": "oidc-core",
+        "exit": 0,
+        "seconds": 0.21,
+        "output": "OIDC core: 162 checks passed\n"
+      },
+      {
+        "label": "oidc-bindings",
+        "exit": 0,
+        "seconds": 0.07,
+        "output": "OIDC database bindings: 15 checks passed\n"
+      },
+      {
+        "label": "full-application-web",
+        "exit": 0,
+        "seconds": 67.09,
+        "output": "Textarea fixtures created.\nTextarea real editor/browser/HTTP checks: 159 passed.\nBrowser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).\nBackend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication).\nRename browser checks: 92 passed (forms, all languages, rendering, history, Basic/session, CSRF, HIADRI, failure/retry).\nMain-diff Browser checks: 504 passed (SQL/ZIP restore, full page editor, queued/failing saves, viewports and metadata).\n"
+      },
+      {
+        "label": "search-web",
+        "exit": 0,
+        "seconds": 23.59,
+        "output": "Search web browser checks: 222 passed.\nSearch default-theme presentation checks: 77 passed.\nSearch HTTP/MariaDB checks: 33 passed.\n"
+      },
+      {
+        "label": "oidc-web",
+        "exit": 0,
+        "seconds": 11.98,
+        "output": "OIDC HTTPS endpoints: 248 checks passed\nOIDC browser (chromium): 73 checks passed\nOIDC HTTPS provider: real TLS, PKCE and client authentication verified; no access-token persistence or secret logging\n"
+      },
+      {
+        "label": "image-uploads",
+        "exit": 0,
+        "seconds": 12.77,
+        "output": "PASS: 96 upload/archive/failure checks in Chromium 153.0.8010.0\nPASS: multipart/browser cases, original-byte checks, dimensions, TIFF orientations and image colors; 33 published images inspected.\n"
+      }
+    ],
+    "12.12.4-Default-Design": [
+      {
+        "label": "migration-core",
+        "exit": 0,
+        "seconds": 13.57,
+        "output": "Core checks: 132 passed.\nCore and database checks: 1671 passed.\nFixtures: /tmp/u5-codeassets-e37b493cda80\n"
+      },
+      {
+        "label": "rename-core",
+        "exit": 0,
+        "seconds": 1.78,
+        "output": "Rename core checks: 637 passed.\nRename database checks: 886 total passed.\n"
+      },
+      {
+        "label": "mobile-core",
+        "exit": 0,
+        "seconds": 3.62,
+        "output": "Mobile tools database: 69 checks passed (both seeds, charsets, custom sources/templates, history, interruptions, retry and concurrent edits).\n"
+      },
+      {
+        "label": "search-core",
+        "exit": 0,
+        "seconds": 0.72,
+        "output": "Search core: 7767 checks passed.\n"
+      },
+      {
+        "label": "search-alloc",
+        "exit": 0,
+        "seconds": 0.03,
+        "output": "Search alloc checks: 46 passed.\n"
+      },
+      {
+        "label": "search-service",
+        "exit": 0,
+        "seconds": 4.26,
+        "output": "Search service regression checks: 350 passed.\n"
+      },
+      {
+        "label": "search-suggestions",
+        "exit": 0,
+        "seconds": 3.2,
+        "output": "Search suggestion checks: 6491 passed.\n"
+      },
+      {
+        "label": "search-distance",
+        "exit": 0,
+        "seconds": 0.45,
+        "output": "Search distance reference checks: 20907 passed.\n"
+      },
+      {
+        "label": "search-index",
+        "exit": 0,
+        "seconds": 1.37,
+        "output": "Search index checks: 96 passed.\n"
+      },
+      {
+        "label": "oidc-core",
+        "exit": 0,
+        "seconds": 0.22,
+        "output": "OIDC core: 162 checks passed\n"
+      },
+      {
+        "label": "oidc-bindings",
+        "exit": 0,
+        "seconds": 0.09,
+        "output": "OIDC database bindings: 15 checks passed\n"
+      },
+      {
+        "label": "full-application-web",
+        "exit": 0,
+        "seconds": 63.61,
+        "output": "Textarea fixtures created.\nTextarea real editor/browser/HTTP checks: 159 passed.\nBrowser checks: 51 passed (real CMS, desktop/mobile, shared domain, 12 file uploads, nosniff enabled).\nBackend browser checks: 98 passed (real forms, iframe saves, Unicode, revisions, CSRF, new/copy/rename/archive/delete/reactivate, Basic and session authentication).\nRename browser checks: 92 passed (forms, all languages, rendering, history, Basic/session, CSRF, HIADRI, failure/retry).\nMain-diff Browser checks: 498 passed (SQL/ZIP restore, full page editor, queued/failing saves, viewports and metadata).\n"
+      },
+      {
+        "label": "search-web",
+        "exit": 0,
+        "seconds": 27.8,
+        "output": "Search web browser checks: 222 passed.\nSearch default-theme presentation checks: 77 passed.\nSearch HTTP/MariaDB checks: 33 passed.\n"
+      },
+      {
+        "label": "oidc-web",
+        "exit": 0,
+        "seconds": 16.53,
+        "output": "OIDC HTTPS endpoints: 248 checks passed\nOIDC browser (chromium): 73 checks passed\nOIDC HTTPS provider: real TLS, PKCE and client authentication verified; no access-token persistence or secret logging\n"
+      },
+      {
+        "label": "image-uploads",
+        "exit": 0,
+        "seconds": 19.23,
+        "output": "PASS: 96 upload/archive/failure checks in Chromium 153.0.8010.0\nPASS: multipart/browser cases, original-byte checks, dimensions, TIFF orientations and image colors; 33 published images inspected.\n"
+      }
+    ]
+  },
+  "pure": {
+    "83": {
+      "tests": [
+        {
+          "label": "php9-core",
+          "exit": 0,
+          "output": "PHP readiness behavior checks: 135 passed on 8.3.6.\n"
+        },
+        {
+          "label": "request-compatibility-regression",
+          "exit": 0,
+          "output": "Request extension compatibility: 22 checks passed on 8.3.6.\n"
+        },
+        {
+          "label": "idn-identity-compatibility",
+          "exit": 0,
+          "output": "IDN identity compatibility: 40 checks passed on 8.3.6.\n"
+        },
+        {
+          "label": "login-host-regression",
+          "exit": 0,
+          "output": "Login host policy: 40 checks passed on 8.3.6.\n"
+        },
+        {
+          "label": "php9-source-audit",
+          "exit": 0,
+          "output": "PHP source readiness: 877 files, no named deprecated native calls/constants on 8.3.6.\n"
+        },
+        {
+          "label": "dependency",
+          "exit": 0,
+          "output": "php83 cold locked-source installation, final hashes, idempotence and all-before-write rejection passed.\n52 dependency installation checks passed.\n"
+        },
+        {
+          "label": "mail",
+          "exit": 0,
+          "output": "Mail evolution: 20 semantic construction/denial checks passed; 11 actual plain/serial constructor cases; no transport invoked.\n"
+        },
+        {
+          "label": "mail-native-intl",
+          "exit": 0,
+          "output": "Mail evolution: 20 semantic construction/denial checks passed; 11 actual plain/serial constructor cases; no transport invoked.\n"
+        },
+        {
+          "label": "host-native-intl",
+          "exit": 0,
+          "output": "Login host policy: 40 checks passed on 8.3.6.\n"
+        }
+      ],
+      "syntax_files": 877
+    },
+    "85": {
+      "tests": [
+        {
+          "label": "php9-core",
+          "exit": 0,
+          "output": "PHP readiness behavior checks: 135 passed on 8.5.12.\n"
+        },
+        {
+          "label": "request-compatibility-regression",
+          "exit": 0,
+          "output": "Request extension compatibility: 22 checks passed on 8.5.12.\n"
+        },
+        {
+          "label": "idn-identity-compatibility",
+          "exit": 0,
+          "output": "IDN identity compatibility: 40 checks passed on 8.5.12.\n"
+        },
+        {
+          "label": "login-host-regression",
+          "exit": 0,
+          "output": "Login host policy: 40 checks passed on 8.5.12.\n"
+        },
+        {
+          "label": "php9-source-audit",
+          "exit": 0,
+          "output": "PHP source readiness: 877 files, no named deprecated native calls/constants on 8.5.12.\n"
+        },
+        {
+          "label": "dependency",
+          "exit": 0,
+          "output": "php cold locked-source installation, final hashes, idempotence and all-before-write rejection passed.\n52 dependency installation checks passed.\n"
+        },
+        {
+          "label": "mail",
+          "exit": 0,
+          "output": "Mail evolution: 20 semantic construction/denial checks passed; 11 actual plain/serial constructor cases; no transport invoked.\n"
+        }
+      ],
+      "syntax_files": 877,
+      "runtime": {
+        "version": "8.5.12",
+        "extensions": [
+          "Core",
+          "date",
+          "pcre",
+          "zlib",
+          "ctype",
+          "filter",
+          "hash",
+          "iconv",
+          "json",
+          "lexbor",
+          "mbstring",
+          "Zend OPcache",
+          "uri",
+          "SPL",
+          "session",
+          "random",
+          "Reflection",
+          "standard",
+          "tokenizer",
+          "Phar"
+        ]
+      }
+    }
+  },
+  "vendor": {
+    "packages": [
+      {
+        "package": "laminas/laminas-loader",
+        "version": "2.12.0",
+        "reference": "ec8cee33fb254ee4d9c8e8908c870e5c797e1272",
+        "files": 22,
+        "patched": [
+          "src/PluginClassLoader.php"
+        ]
+      },
+      {
+        "package": "laminas/laminas-mail",
+        "version": "2.25.1",
+        "reference": "110e04497395123998220e244cceecb167cc6dda",
+        "files": 110,
+        "patched": [
+          "src/AddressList.php",
+          "src/Headers.php",
+          "src/Storage/Part.php",
+          "src/Storage/AbstractStorage.php",
+          "src/Storage/Folder.php"
+        ]
+      },
+      {
+        "package": "laminas/laminas-mime",
+        "version": "2.12.0",
+        "reference": "08cc544778829b7d68d27a097885bd6e7130135e",
+        "files": 13,
+        "patched": []
+      },
+      {
+        "package": "laminas/laminas-servicemanager",
+        "version": "3.24.0",
+        "reference": "b172a0df568bf37ebdfb3658263156eefe3c1e8c",
+        "files": 38,
+        "patched": []
+      },
+      {
+        "package": "laminas/laminas-stdlib",
+        "version": "3.21.0",
+        "reference": "b1c81514cfe158aadf724c42b34d3d0a8164c096",
+        "files": 52,
+        "patched": [
+          "src/Parameters.php",
+          "src/SplQueue.php",
+          "src/SplPriorityQueue.php",
+          "src/PriorityQueue.php",
+          "src/SplStack.php",
+          "src/PriorityList.php",
+          "src/FastPriorityQueue.php",
+          "src/ArrayObject.php",
+          "src/ArrayStack.php"
+        ]
+      },
+      {
+        "package": "laminas/laminas-validator",
+        "version": "2.65.0",
+        "reference": "f0767ca83e0dd91a6f8ccdd4f0887eb132c0ea49",
+        "files": 130,
+        "patched": [
+          "src/ValidatorChain.php"
+        ]
+      },
+      {
+        "package": "psr/container",
+        "version": "1.1.2",
+        "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
+        "files": 7,
+        "patched": []
+      },
+      {
+        "package": "psr/http-message",
+        "version": "2.0",
+        "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+        "files": 13,
+        "patched": []
+      },
+      {
+        "package": "symfony/polyfill-intl-idn",
+        "version": "v1.43.0",
+        "reference": "533d68cf99c8f8ee2e8893c59ed59192e92cfd74",
+        "files": 16,
+        "patched": []
+      },
+      {
+        "package": "symfony/polyfill-intl-normalizer",
+        "version": "v1.43.0",
+        "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b",
+        "files": 13,
+        "patched": []
+      },
+      {
+        "package": "symfony/polyfill-mbstring",
+        "version": "v1.43.3",
+        "reference": "122889ed24dc000165bcbfd77ec412f15cbdfc6a",
+        "files": 13,
+        "patched": []
+      },
+      {
+        "package": "webmozart/assert",
+        "version": "1.12.1",
+        "reference": "9be6926d8b485f55b9229203f962b51ed377ba68",
+        "files": 8,
+        "patched": []
+      },
+      {
+        "package": "oidc/firebase/php-jwt",
+        "version": "v7.2.1",
+        "reference": "0501f5729b9e2448516674aff07c7d1727869b8e",
+        "files": 13,
+        "patched": []
+      }
+    ],
+    "files": 448,
+    "patch_files": 16,
+    "unexpected_changes": 0,
+    "installed_metadata_matches_lock": true
+  },
+  "source_validation": {
+    "12.12.3-PHP9-Compatibility": {
+      "tested_commit": "4298d06feba13a4e13ef7b2efe3a58d18f2ecb52",
+      "application_hashes": {
+        "connect.inc.php": "91816348cb79bc8ebd6f41b13aa8347ffd21f84b4be34f12dad304f05264633c",
+        "delformsave.php": "78a60866f5b0c4bdf4df8ca4450c232c85cf2fb3b32571c8c757f23ad4dca871",
+        "delreadrights.inc.php": "441026414ab586d0ae76e861d73f55855de08589c36085127e3f56ceed5996b5",
+        "df.php": "789a5f78a5922388465ac37f0addc18851d384f95b9d1007c58633510efae9e1",
+        "editformsave.php": "2cf2cb340a500310aee05e709b9de938280060f10763bb6796f9ba7f11a46282",
+        "editreadrights.inc.php": "4da513cd57480d747b472f65b3c852dbadbf6036c26f4747af6121d00d568bc1",
+        "formsave.php": "32ea8a717450f9af07b9b231e6475f26c1bfa45b5618334f08610e217a375e88",
+        "ft.idn.inc.inc.php": "b51143797bab955f0a090c4deb331024f9e9b82c969811d9724cbc71234e3f0b",
+        "getauthuser.inc.php": "58ca01d71b810f146992e432aa320e06b8d9061d5a5604e019190e1585718f2a",
+        "index.php": "1fd5240d4d69a30610db4ff25d230f727641723db340efa71ae39f50e0fe931a",
+        "login.inc.php": "a2e4c95cf98392e91058646de7b3bb25064e8da7d63d82d69917d7938256b216",
+        "loginformsave.inc.php": "209a49429a9ed547606864cbad45a3758988b84c4120cdad10b6298c7471c5f4",
+        "loginsi.inc.php": "68a10261e22dfbb2a8396f5fd136b7cfb327565839a1eb34db25fab24810fadb",
+        "render.inc.php": "df00bb72560547afc984eb4d72a2468e97316a99e0be1173b2bda2f2eef2130d",
+        "request.inc.php": "fddb39ef1cfa6cf59eec09c7979f1e3c389d858bde283c1f1b40f9460fa310dd",
+        "u5admin/connect.inc.php": "f49b5dfd6a62861cd823069fdb149a123476c6829fae1137a34eba8f4c4a3690",
+        "u5admin/import.php": "f0200bf14f621e3f1856a714c8a4e7805900c0a7bc04b68c63f4a818e32f960b",
+        "u5admin/import2.php": "59f4c96dd5a4c3adaca504a0a1e03690962eb78a559e48c6b3795d20a4e7cff9",
+        "u5admin/usercheck.inc.php": "6b0b2a1e855cb9d015ae2c89905607a47ad1d71de2751eaedccfa70f717b5826"
+      },
+      "source_encoding_non_ascii_bytes_preserved": true
+    },
+    "12.12.4-Default-Design": {
+      "tested_commit": "4159972464e798eb3371cc2d15625fcaa1e9f35d",
+      "application_hashes": {
+        "connect.inc.php": "91816348cb79bc8ebd6f41b13aa8347ffd21f84b4be34f12dad304f05264633c",
+        "delformsave.php": "78a60866f5b0c4bdf4df8ca4450c232c85cf2fb3b32571c8c757f23ad4dca871",
+        "delreadrights.inc.php": "441026414ab586d0ae76e861d73f55855de08589c36085127e3f56ceed5996b5",
+        "df.php": "789a5f78a5922388465ac37f0addc18851d384f95b9d1007c58633510efae9e1",
+        "editformsave.php": "2cf2cb340a500310aee05e709b9de938280060f10763bb6796f9ba7f11a46282",
+        "editreadrights.inc.php": "4da513cd57480d747b472f65b3c852dbadbf6036c26f4747af6121d00d568bc1",
+        "formsave.php": "32ea8a717450f9af07b9b231e6475f26c1bfa45b5618334f08610e217a375e88",
+        "ft.idn.inc.inc.php": "b51143797bab955f0a090c4deb331024f9e9b82c969811d9724cbc71234e3f0b",
+        "getauthuser.inc.php": "58ca01d71b810f146992e432aa320e06b8d9061d5a5604e019190e1585718f2a",
+        "index.php": "5cc8d55b7faaba7d969b384e4528b04114ffdcfeb5e56becb7ce418817281ada",
+        "login.inc.php": "a2e4c95cf98392e91058646de7b3bb25064e8da7d63d82d69917d7938256b216",
+        "loginformsave.inc.php": "209a49429a9ed547606864cbad45a3758988b84c4120cdad10b6298c7471c5f4",
+        "loginsi.inc.php": "68a10261e22dfbb2a8396f5fd136b7cfb327565839a1eb34db25fab24810fadb",
+        "render.inc.php": "df00bb72560547afc984eb4d72a2468e97316a99e0be1173b2bda2f2eef2130d",
+        "request.inc.php": "fddb39ef1cfa6cf59eec09c7979f1e3c389d858bde283c1f1b40f9460fa310dd",
+        "u5admin/connect.inc.php": "f49b5dfd6a62861cd823069fdb149a123476c6829fae1137a34eba8f4c4a3690",
+        "u5admin/import.php": "f0200bf14f621e3f1856a714c8a4e7805900c0a7bc04b68c63f4a818e32f960b",
+        "u5admin/import2.php": "59f4c96dd5a4c3adaca504a0a1e03690962eb78a559e48c6b3795d20a4e7cff9",
+        "u5admin/usercheck.inc.php": "6b0b2a1e855cb9d015ae2c89905607a47ad1d71de2751eaedccfa70f717b5826"
+      },
+      "source_encoding_non_ascii_bytes_preserved": true
+    }
+  },
+  "php85_build": {
+    "url": "https://www.php.net/distributions/php-8.5.12.tar.xz",
+    "sha256": "08bc2eba2a588654ade1357174aa646b761556c862dda0678345ee29ed481209",
+    "options": [
+      "./configure",
+      "--disable-all",
+      "--enable-cli",
+      "--disable-cgi",
+      "--enable-mbstring",
+      "--disable-mbregex",
+      "--enable-tokenizer",
+      "--enable-filter",
+      "--with-iconv",
+      "--enable-ctype",
+      "--enable-session",
+      "--enable-phar",
+      "--with-zlib",
+      "--prefix=/workspace/scratch/2ac252dfae51/u5-audit-runtime/php85-install"
+    ],
+    "build_environment": {
+      "ZLIB_CFLAGS": "-I/usr/include",
+      "ZLIB_LIBS": "-lz"
+    }
+  },
+  "final_harness_run": {
+    "assertions": 142,
+    "original_assertions": 36,
+    "differences": 0,
+    "harness_sha256": "759e4fa9a194201234246eccc0db5f5b083daf4f6acd948f036a130a29412ef7",
+    "literal_fixture_config_values": true
+  },
+  "branch_metadata_verification": [
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "head": "29299b1964e939e15867a102c0b8b699c95af491",
+      "index_version": "12.10.0",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "head": "f40fbbf88e1501d7a44f64ac3939246faf64589e",
+      "index_version": "12.10.1",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "head": "27562965b5ae5878918efe3bca2868fa0128f43b",
+      "index_version": "12.11.0",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "head": "13c70fe9b593d49735844189f655cb69ee4b6a0a",
+      "index_version": "12.11.1",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "head": "34fdd7f1fcd2dd1202c8ec9c39014603007edaef",
+      "index_version": "12.11.2",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "head": "97b0337345f4ca53cb2e2c02345fa26ad09df5e2",
+      "index_version": "12.11.3",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "head": "d31a81810fb2ba70fd0e92811603e1e65d5d9e18",
+      "index_version": "12.11.4",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "head": "b157bbed261d468a68658ae6be13d63b86953693",
+      "index_version": "12.12.0",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "head": "245c77d33a88fd4fd592f6176d463ad5395a328c",
+      "index_version": "12.12.1",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "head": "b9820bbce401253747bf3d3b9e86b3534ded777d",
+      "index_version": "12.12.2",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.12.3-PHP9-Compatibility",
+      "head": "4298d06feba13a4e13ef7b2efe3a58d18f2ecb52",
+      "index_version": "12.12.3",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.12.4-Default-Design",
+      "head": "4159972464e798eb3371cc2d15625fcaa1e9f35d",
+      "index_version": "12.12.4",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "head": "032970e4a2f00595f78c371f0a97e146a118f834",
+      "index_version": "12.9.6",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "head": "210571010525b10308e4869b8b08d105427a2277",
+      "index_version": "12.11.4",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "head": "0fdc9f921b2e9992bf627bf34118f06f9e4597b7",
+      "index_version": "12.10.1",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    },
+    {
+      "branch": "main",
+      "head": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+      "index_version": "12.9.5",
+      "readme_matches_branch": true,
+      "catalog_has_all_current_branches": true
+    }
+  ]
+}

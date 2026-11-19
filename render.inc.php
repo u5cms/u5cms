@@ -59,7 +59,8 @@ function render($stringa) {
     global $videoportalegyoutubeembedurl;
     if($videoportalegyoutubeembedurl=='')$videoportalegyoutubeembedurl='//www.youtube-nocookie.com/embed/';
 
-    $stringa = is_null($stringa) ? $stringa : trim($stringa);
+    // A missing database content field is empty source text, not a nullable function argument.
+    $stringa = trim($stringa ?? '');
 
     GLOBAL $result_b;
     GLOBAL $num_b;
@@ -72,7 +73,7 @@ function render($stringa) {
     $stringa = str_replace('[:h]', '<!--[:h]-->!_-q-_!', $stringa);
     $stringa = explode('!_-q-_!', $stringa);
 
-    for ($iii = 0;$iii < tnuoc($stringa);$iii++) {
+    for ($iii = 0;$iii < count($stringa);$iii++) {
 
         $string = $stringa[$iii];
 
@@ -86,27 +87,27 @@ function render($stringa) {
             for ($i_b = 0;$i_b < $num_b;$i_b++) {
 
                 $row_b = mysql_fetch_array($result_b);
-                $string = is_null($row_b['source1']) ? $string : str_replace($row_b['source1'], '!_-q-_!' . $row_b['source1'], $string);
-                $string = is_null($row_b['source2']) ? $string : str_replace($row_b['source2'], $row_b['source2'] . '!_-q-_!', $string);
+                $string = is_null($row_b['source1']) ? $string : str_replace(($row_b['source1'] ?? ''), '!_-q-_!' . $row_b['source1'], $string);
+                $string = is_null($row_b['source2']) ? $string : str_replace(($row_b['source2'] ?? ''), $row_b['source2'] . '!_-q-_!', $string);
                 $string = is_null($string) ? $string : explode('!_-q-_!', $string);
 
-                for ($ii = 0;$ii < tnuoc($string);$ii++) {
+                for ($ii = 0;$ii < count($string);$ii++) {
 
-                    if (str_replace($row_b['source1'], '', $string[$ii]) != $string[$ii]) {
-                        $betweensources = is_null($row_b['betweensources']) ? array() : explode(',', $row_b['betweensources']);
-                        $betweentargets = is_null($row_b['betweentargets']) ? array() : explode(',', $row_b['betweentargets']);
+                    if (str_replace(($row_b['source1'] ?? ''), '', $string[$ii]) != $string[$ii]) {
+                        $betweensources = is_null($row_b['betweensources']) ? array() : explode(',', ($row_b['betweensources'] ?? ''));
+                        $betweentargets = is_null($row_b['betweentargets']) ? array() : explode(',', ($row_b['betweentargets'] ?? ''));
                         //if (!is_null($betweensources) && ! is_null($betweentargets)) {
                         $string[$ii] = str_replace($betweensources, $betweentargets, $string[$ii]);
                         //}
                     }
 
-                    if (str_replace($row_b['source1'], '', $string[$ii]) != $string[$ii]) {
+                    if (str_replace(($row_b['source1'] ?? ''), '', $string[$ii]) != $string[$ii]) {
                         $nobr = '';
 
                         if ($row_b['isblockelement'] == 1) $nobr = '<!--nobr-->';
 
-                        $string[$ii] = is_null($row_b['source1']) ? $string[$ii] : str_replace($row_b['source1'], $nobr . $row_b['target1'], $string[$ii]);
-                        $string[$ii] = is_null($row_b['source2']) ? $string[$ii] : str_replace($row_b['source2'], $row_b['target2'] . $nobr, $string[$ii]);
+                        $string[$ii] = is_null($row_b['source1']) ? $string[$ii] : str_replace(($row_b['source1'] ?? ''), $nobr . $row_b['target1'], $string[$ii]);
+                        $string[$ii] = is_null($row_b['source2']) ? $string[$ii] : str_replace(($row_b['source2'] ?? ''), $row_b['target2'] . $nobr, $string[$ii]);
 
                         if (str_replace('id$$', '', $string[$ii]) != $string[$ii]) {
                             $string[$ii] = str_replace('id$$', 'id' . $ids++, $string[$ii]);
@@ -149,11 +150,11 @@ function render($stringa) {
     $stringa = str_replace(']!_-q-_!]!_-q-_!', ']]', $stringa);
     $stringa = explode('!_-q-_!', $stringa);
 
-    for ($i = 0;$i < tnuoc($stringa);$i++) {
+    for ($i = 0;$i < count($stringa);$i++) {
         if (strpos($stringa[$i], '[') === 0 && $stringa[$i] != '[h:]' && $stringa[$i] != '[:h]') {
 
             $tokens = explode(':',$stringa[$i]);
-            $name=$tokens[tnuoc($tokens)-1];
+            $name=$tokens[count($tokens)-1];
             $name = str_replace(']','',$name);
             $name = str_replace('[','',$name);
             $name = str_replace(':','',$name);
@@ -423,7 +424,7 @@ function render($stringa) {
                         $vfile_5=$vfile_5[0];
 
                         $ext=explode('.',def($file_1,$file_2,$file_3,$file_4,$file_5));
-                        $ext=$ext[tnuoc($ext)-1];
+                        $ext=$ext[count($ext)-1];
 
                         if ($ext=='mp3' || $ext=='ogg' ) {
                             $audiovideo='audio';
@@ -498,7 +499,7 @@ function render($stringa) {
                             $flashimage='';
                         }
 
-                        if (substr(def($file_1,$file_2,$file_3,$file_4,$file_5),strlen($row_a['name'])-1,1)!='!') {
+                        if (substr(def($file_1,$file_2,$file_3,$file_4,$file_5),strlen(($row_a['name'] ?? ''))-1,1)!='!') {
                             $stringa[$i].= '<'.$audiovideo.' preload="'.$audiovideopreload.'" style="width:'.$plwi.'px;height:'.$plhe.'px" '.$poster.' controls '.$html5autoplay.'>';
 
                             if (file_exists('r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5))) {
@@ -517,7 +518,7 @@ function render($stringa) {
                             $stringa[$i].= '<embed src="m/mediaplayer.swf" width="'.$plwi.'" height="'.$plhe.'" allowscriptaccess="always" allowfullscreen="true" flashvars="width='.$plwi.'&height='.$plhe.'&'.$flashautoplay.'&file='.$bugfix.'r/'.$row_a['name'].'/'.def($file_1,$file_2,$file_3,$file_4,$file_5).$flashimage.'" />';
                         }
 
-                        if (substr(def($file_1,$file_2,$file_3,$file_4,$file_5),strlen($row_a['name'])-1,1)!='!') {
+                        if (substr(def($file_1,$file_2,$file_3,$file_4,$file_5),strlen(($row_a['name'] ?? ''))-1,1)!='!') {
                             $stringa[$i].= '</'.$audiovideo.'>';
                         }
 
@@ -625,7 +626,7 @@ function render($stringa) {
                         sort($album);
                         $stringa[$i].= '<dl class="albumthumbnails"><dt>';
 
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if($recalculateonpagethumbs=='no') {
                                 $jpgsrc='r/'.$row_a['name'].'/'.$album[$ia].'?t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'];
                             } else {
@@ -652,7 +653,7 @@ function render($stringa) {
                         $album=explode(',',$album);
 
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if ($ia>1) {
                                 $notfirst='style="display:none"';
                                 $notfirst2='for';
@@ -671,7 +672,7 @@ function render($stringa) {
 
                         }
 
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5)
+                        $stringa[$i].= '</dt><dd>Total '.(count($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5)
                             .'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5']))
                             .'</div></dd></dl>';
 
@@ -693,7 +694,7 @@ function render($stringa) {
 
                         $album=explode(',',$album);
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if ($ia>1) {
                                 $notfirst='style="display:none"';
                                 $notfirst2='for';
@@ -710,7 +711,7 @@ function render($stringa) {
 
                             $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(count($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[:::::', '', $stringa[$i]) != $stringa[$i]) {
@@ -730,7 +731,7 @@ function render($stringa) {
 
                         $album=explode(',',$album);
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if($recalculateonpagejpgs!='yes') {
                                 $jpgsrc='r/'.$row_a['name'].'/'.$album[$ia].'?t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'];
                             } else {
@@ -759,7 +760,7 @@ function render($stringa) {
 
                         $album=explode(',',$album);
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if ($ia>1) {
                                 $notfirst='style="display:none"';
                                 $notfirst2='for';
@@ -776,7 +777,7 @@ function render($stringa) {
 
                             $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$smallimgC_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(count($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[:::', '', $stringa[$i]) != $stringa[$i]) {
@@ -797,7 +798,7 @@ function render($stringa) {
 
                         $album=explode(',',$album);
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if ($ia>1) {
                                 $notfirst='style="display:none"';
                                 $notfirst2='for';
@@ -815,7 +816,7 @@ function render($stringa) {
                             $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$smallimgR_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
 
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(count($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } elseif (str_replace('[::', '', $stringa[$i]) != $stringa[$i]) {
@@ -836,7 +837,7 @@ function render($stringa) {
 
                         $album=explode(',',$album);
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if($recalculateonpagejpgs!='yes') {
                                 $jpgsrc='r/'.$row_a['name'].'/'.$album[$ia].'?t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'];
                             } else {
@@ -866,7 +867,7 @@ function render($stringa) {
 
                         $album=explode(',',$album);
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if ($ia>1) {
                                 $notfirst='style="display:none"';
                                 $notfirst2='for';
@@ -884,7 +885,7 @@ function render($stringa) {
                             $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$largeimg_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
 
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(count($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:7px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
 
                     ////////////////////
                     } else {
@@ -904,7 +905,7 @@ function render($stringa) {
 
                         $album=explode(',',$album);
                         sort($album);
-                        for ($ia=1;$ia<tnuoc($album);$ia++) {
+                        for ($ia=1;$ia<count($album);$ia++) {
                             if ($ia>1) {
                                 $notfirst='style="display:none"';
                                 $notfirst2='for';
@@ -921,7 +922,7 @@ function render($stringa) {
 
                             $stringa[$i].= '<a '.$notfirst.' href="thumb.php?h='.$zoomedimg_h.'&w='.$zoomedimg_w.'&t='.@filemtime('r/'.$row_a['name'].'/'.$album[$ia]).'&s='.$row_a['lastmut'].'&f=r/'.$row_a['name'].'/'.$album[$ia].'" data-caption="'.u5xcap(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']),$album,$ia).'" data-fancybox="'.$row_a['name'].'_'.$i.'"><img title="'.def($morepics_1,$morepics_2,$morepics_3,$morepics_4,$morepics_5).'"  width="'.$smallimgL_w.'" '.$notfirst2.'="'.$jpgsrc.'" '.$alt.' /></a>';
                         }
-                        $stringa[$i].= '</dt><dd>Total '.(tnuoc($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
+                        $stringa[$i].= '</dt><dd>Total '.(count($album)-1).' '.def($picsfound_1,$picsfound_2,$picsfound_3,$picsfound_4,$picsfound_5).'<div style="padding-top:5px">'. render(def($row_a['desc_1'], $row_a['desc_2'], $row_a['desc_3'], $row_a['desc_4'], $row_a['desc_5'])) .'</div></dd></dl>';
                     }
                 }
 
@@ -1247,13 +1248,13 @@ function renderspecial($name,$human) {
             if($id=='?') $i_a=$num_a-1;
             $row_a = mysql_fetch_array($result_a);
 
-            $notespart=explode('|||',$row_a['notes']);
+            $notespart=explode('|||',($row_a['notes'] ?? ''));
             $row_a['notes']=$notespart[0];
 
-            $headcsv=explode(';',$row_a['headcsv']);
+            $headcsv=explode(';',($row_a['headcsv'] ?? ''));
             array_walk($headcsv,'subone');
 
-            $datacsv=explode(';',$row_a['datacsv']);
+            $datacsv=explode(';',($row_a['datacsv'] ?? ''));
             array_walk($datacsv,'subone');
 
             $return.= $htmlbefore;
@@ -1263,7 +1264,7 @@ function renderspecial($name,$human) {
             //var_dump($headcsv);
             //var_dump($fields);
             //var_dump($datacsv);
-            for($f=0;$f<tnuoc($fields);$f++) {
+            for($f=0;$f<count($fields);$f++) {
                 $fields[$f]=trim($fields[$f]);
                 $position=array_search($fields[$f],$headcsv);
                 $systemField=str_replace('sent','humantime',substr(strtolower($fields[$f]),1));
@@ -1290,6 +1291,7 @@ function renderspecial($name,$human) {
 
                     $file=basename($datacsv[$position]);
                     $ext = pathinfo($datacsv[$position], PATHINFO_EXTENSION);
+                    u5ValidateTextRequest($_COOKIE,array('u','p'));
                     if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'].$_COOKIE['u'].$_COOKIE['p'];
                     else $serverremoteaddr=$_COOKIE['u'].$_COOKIE['p'];
                     $filehash=sha1($mymail.$host.$username.$password.$db.$serverremoteaddr.$file.date('Ymd')).'_URL_NON_TRANSFERABLE_AND_TIME_LIMITED';
@@ -1380,11 +1382,11 @@ function renderspecial($name,$human) {
                 }
 
                 if(is_array($htmlbetween)) {
-                    if($f<tnuoc($fields)-1 && tnuoc($fields)>1) {
+                    if($f<count($fields)-1 && count($fields)>1) {
                         $return.=$htmlbetween[$f];
                     }
                 } else {
-                    if($f<tnuoc($fields)-1 && tnuoc($fields)>1) {
+                    if($f<count($fields)-1 && count($fields)>1) {
                         $return.=$htmlbetween;
                     }
                 }
@@ -1393,9 +1395,9 @@ function renderspecial($name,$human) {
 
             ///
             $return.=$htmlafter;
-            $return=str_replace('$id',$row_a['id'],$return);
-            $return=str_replace('$st',$row_a['status'],$return);
-            $return=str_replace('$se',$row_a['time'],$return);
+            $return=str_replace('$id',($row_a['id'] ?? ''),$return);
+            $return=str_replace('$st',($row_a['status'] ?? ''),$return);
+            $return=str_replace('$se',($row_a['time'] ?? ''),$return);
 
             if ($row_a['lastmut']<1) {
                 $lastmut='&mdash;';
@@ -1408,9 +1410,9 @@ function renderspecial($name,$human) {
             $rowaip=explode(' ',$rowaip);
             $rowaip=$rowaip[0];
             $return=str_replace('$ip',$rowaip,$return);
-            $return=str_replace('$hu',$row_a['humantime'],$return);
-            $return=str_replace('$au',$row_a['authuser'],$return);
-            $return=str_replace('$ah',md5(strtolower($row_a['authuser'])),$return);
+            $return=str_replace('$hu',($row_a['humantime'] ?? ''),$return);
+            $return=str_replace('$au',($row_a['authuser'] ?? ''),$return);
+            $return=str_replace('$ah',md5(strtolower(($row_a['authuser'] ?? ''))),$return);
             if (u5onlymineUsesDomain()) $return=str_replace('$rh',u5onlymineDomainHash($row_a['authuser'] ?? ''),$return);
         }
         $inclbr=array('<br /><tr>','<tr><br />','<br /></tr>','</tr><br />','<br /><td>','</td><br />');
@@ -1489,7 +1491,7 @@ function u5xcap($text,$album,$ia) {
 /*
          $title = '';
    if (def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']) != '') $title = 'data-caption="' . rawurlencode(render(def($row_a['content_1'], $row_a['content_2'], $row_a['content_3'], $row_a['content_4'], $row_a['content_5']))) . '"';
-str_replace('title="','title="('.$ia.'/'.(tnuoc($album)-1).') ',$title).'
+str_replace('title="','title="('.$ia.'/'.(count($album)-1).') ',$title).'
 }
  */
     $img=$album[$ia];
@@ -1525,7 +1527,7 @@ str_replace('title="','title="('.$ia.'/'.(tnuoc($album)-1).') ',$title).'
     $string=$intro.$middle.$outro;
     if($string[0]=='#'){
         $string=substr($string, 1);
-        $counter=$ia.'/'.(tnuoc($album)-1).' ';
+        $counter=$ia.'/'.(count($album)-1).' ';
     }
     return rawurlencode(render($counter.$string));
 }

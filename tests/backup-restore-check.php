@@ -65,7 +65,7 @@ try {
         copy($root.'/u5admin/resource-mutation.inc.php',$pairedRoot.'/u5admin/resource-mutation.inc.php');
         symlink($root.'/index-work.inc.php',$pairedRoot.'/index-work.inc.php');
         symlink($root.'/resource-activity.inc.php',$pairedRoot.'/resource-activity.inc.php');
-        symlink($root.'/u5admin/resource-rename-support.inc.php',$pairedRoot.'/u5admin/resource-rename-support.inc.php');
+        symlink($root.'/codeassets.inc.php',$pairedRoot.'/codeassets.inc.php');
         $reset=file_get_contents($root.'/u5admin/reactivateinitialu5cmslayout.php');
         $reset=preg_replace('/^die\([^\n]+\);\n/m','',$reset,1,$removed);backupCheck($removed===1,'Test-only layout-reset guard was not found.');
         file_put_contents($pairedRoot.'/u5admin/restore-reset.php',$reset);$cssRqHIADRI='no';$_GET['iswear']='iknowthatthisoverwritesthecurrentlayout';

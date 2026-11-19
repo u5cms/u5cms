@@ -4,12 +4,13 @@ ignore_user_abort(false);
 header('Cache-Control: no-store');
 $u5CpuLimit=(int)ini_get('max_execution_time');
 if ($u5CpuLimit===0 || $u5CpuLimit>30) set_time_limit(30);
+require_once __DIR__.'/search-index.inc.php';
 $u5Slice = null;
 $u5NamedRelease = null;
 $u5MutationRelease = null;
 try {
     if (!isset($_GET['n'])) {
-        $u5Slice = new U5IndexSlice(__DIR__.'/fileversions',isset($_GET['u5indexcontinue']),isset($_GET['u5indexauto']),false);
+        $u5Slice = new U5IndexSlice(__DIR__.'/fileversions',isset($_GET['u5indexcontinue']),isset($_GET['u5indexauto']),u5SearchIndexNeedsUpdate(__DIR__.'/fileversions'));
         if (!$u5Slice->ready()) return;
         define('U5CMS_FULL_INDEX_BATCH', true);
     }
@@ -31,10 +32,22 @@ try {
             $u5Seconds = ini_get($u5Timeout);
             if ($u5Seconds!==false && ((int)$u5Seconds<=0 || (int)$u5Seconds>10)) ini_set($u5Timeout,'10');
         }
-    require_once('connect.inc.php');
-    require_once('render.inc.php');
+require_once('connect.inc.php');
+require_once('render.inc.php');
+require_once('search-index.inc.php');
+    $u5IndexReportMode=null;
+    $u5IndexUpgrade=$u5Slice && !u5SearchIndexFormatCurrent(__DIR__.'/fileversions');
+    $u5IndexRun=$u5Slice ? array('directory'=>__DIR__.'/fileversions','handle'=>$u5Slice->handle(),'started'=>$u5Slice->started()) : null;
+    if ($u5Slice) u5SearchIndexMarkPending($u5IndexRun);
+    // SQL errors while rendering must abort this index run, not publish partial text.
+    if (function_exists('mysqli_report')) {
+        $u5IndexDriver = new mysqli_driver();
+        $u5IndexReportMode = $u5IndexDriver->report_mode;
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    }
     require_once('getinserts.inc.php');
-    if ($result_b===false) throw new RuntimeException('Cannot read inserts for indexing.');
+    if ($result_b === false) throw new RuntimeException('Cannot read inserts for indexing.');
+
 $u5Columns = 'name,deleted,lastmut,typ,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5';
 if (!empty($u5IndexUpgrade)) $u5Columns .= ',search_1,search_2,search_3,search_4,search_5';
 // Compare database bytes so a simultaneous save (including one within the same
@@ -78,47 +91,53 @@ $_GET['l']=$lan3na;$content_3=render(idef($row_ii['content_1'],$row_ii['content_
 $_GET['l']=$lan4na;$content_4=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'4'));
 $_GET['l']=$lan5na;$content_5=render(idef($row_ii['content_1'],$row_ii['content_2'],$row_ii['content_3'],$row_ii['content_4'],$row_ii['content_5'],'5'));
 
-$content_1 = sanitize_content($content_1);
-$content_2 = sanitize_content($content_2);
-$content_3 = sanitize_content($content_3);
-$content_4 = sanitize_content($content_4);
-$content_5 = sanitize_content($content_5);
+$content_1 = u5SearchIndexVisibleText($content_1);
+$content_2 = u5SearchIndexVisibleText($content_2);
+$content_3 = u5SearchIndexVisibleText($content_3);
+$content_4 = u5SearchIndexVisibleText($content_4);
+$content_5 = u5SearchIndexVisibleText($content_5);
 
-$autotitle_1=takeSomeWords($content_1);
-$autotitle_2=takeSomeWords($content_2);
-$autotitle_3=takeSomeWords($content_3);
-$autotitle_4=takeSomeWords($content_4);
-$autotitle_5=takeSomeWords($content_5);
+$autotitle_1=u5SearchIndexEncodeLegacy(takeSomeWords($content_1), false);
+$autotitle_2=u5SearchIndexEncodeLegacy(takeSomeWords($content_2), false);
+$autotitle_3=u5SearchIndexEncodeLegacy(takeSomeWords($content_3), false);
+$autotitle_4=u5SearchIndexEncodeLegacy(takeSomeWords($content_4), false);
+$autotitle_5=u5SearchIndexEncodeLegacy(takeSomeWords($content_5), false);
 
-if (trim($row_ii['title_1'])=='' || str_replace(' . . .','',$row_ii['title_1'])!=$row_ii['title_1']) {
+$content_1 = u5SearchIndexEncodeLegacy($content_1);
+$content_2 = u5SearchIndexEncodeLegacy($content_2);
+$content_3 = u5SearchIndexEncodeLegacy($content_3);
+$content_4 = u5SearchIndexEncodeLegacy($content_4);
+$content_5 = u5SearchIndexEncodeLegacy($content_5);
+
+if (trim(($row_ii['title_1'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_1'] ?? ''))!=$row_ii['title_1']) {
 $title_1=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'1').' . . .';
 }
 else {
 $title_1=$row_ii['title_1'];
 }
 
-if (trim($row_ii['title_2'])=='' || str_replace(' . . .','',$row_ii['title_2'])!=$row_ii['title_2']) {
+if (trim(($row_ii['title_2'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_2'] ?? ''))!=$row_ii['title_2']) {
 $title_2=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'2').' . . .';
 }
 else {
 $title_2=$row_ii['title_2'];
 }
 
-if (trim($row_ii['title_3'])=='' || str_replace(' . . .','',$row_ii['title_3'])!=$row_ii['title_3']) {
+if (trim(($row_ii['title_3'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_3'] ?? ''))!=$row_ii['title_3']) {
 $title_3=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'3').' . . .';
 }
 else {
 $title_3=$row_ii['title_3'];
 }
 
-if (trim($row_ii['title_4'])=='' || str_replace(' . . .','',$row_ii['title_4'])!=$row_ii['title_4']) {
+if (trim(($row_ii['title_4'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_4'] ?? ''))!=$row_ii['title_4']) {
 $title_4=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'4').' . . .';
 }
 else {
 $title_4=$row_ii['title_4'];
 }
 
-if (trim($row_ii['title_5'])=='' || str_replace(' . . .','',$row_ii['title_5'])!=$row_ii['title_5']) {
+if (trim(($row_ii['title_5'] ?? ''))=='' || str_replace(' . . .','',($row_ii['title_5'] ?? ''))!=$row_ii['title_5']) {
 $title_5=idef($autotitle_1,$autotitle_2,$autotitle_3,$autotitle_4,$autotitle_5,'5').' . . .';
 }
 else {
@@ -143,21 +162,29 @@ search_4='" . mysql_real_escape_string($content_4) . "',
 search_5='" . mysql_real_escape_string($content_5) . "'
 WHERE $u5Where";
 $result_i = mysql_query($sql_i);
-if (!$result_i) throw new RuntimeException('Cannot update a search index resource.');
+if ($result_i === false) throw new RuntimeException('Cannot update a search index resource.');
 }
 }
 else {
 if($row_ii['typ']=='p') {
+$retainedSearch = '';
+if ($u5IndexUpgrade) {
+    for ($indexLanguage = 1; $indexLanguage <= 5; $indexLanguage++) {
+        $field = 'search_' . $indexLanguage;
+        $stored = u5SearchIndexEncodeLegacy(u5SearchFromLegacy($row_ii[$field] ?? ''));
+        $retainedSearch .= ", " . $field . "='" . mysql_real_escape_string($stored) . "'";
+    }
+}
 $sql_i = "UPDATE resources
 SET
 title_1='" . mysql_real_escape_string($title_1) ."',
 title_2='" . mysql_real_escape_string($title_2) ."',
 title_3='" . mysql_real_escape_string($title_3) ."',
 title_4='" . mysql_real_escape_string($title_4) ."',
-title_5='" . mysql_real_escape_string($title_5) ."'
+title_5='" . mysql_real_escape_string($title_5) ."'" . $retainedSearch . "
 WHERE $u5Where";
 $result_i = mysql_query($sql_i);
-if (!$result_i) throw new RuntimeException('Cannot update a search index resource.');
+if ($result_i === false) throw new RuntimeException('Cannot update a search index resource.');
 }
 }
 if($row_ii['typ']!='p') {
@@ -170,42 +197,29 @@ search_4='" . mysql_real_escape_string($content_4) . "',
 search_5='" . mysql_real_escape_string($content_5) . "'
 WHERE $u5Where";
 $result_i = mysql_query($sql_i);
-if (!$result_i) throw new RuntimeException('Cannot update a search index resource.');
+if ($result_i === false) throw new RuntimeException('Cannot update a search index resource.');
 }
     if ($u5Slice) $u5Slice->processed($u5Key);
 }
-if ($u5Slice) {
-    if ($u5More) $u5Slice->pause();
-    else {
-        $u5Slice->complete();
-        echo '<audio id="doneaudio" src="u5admin/indexingdone.mp3" autoplay></audio><script>top.document.title=";"+top.document.title</script>';
+
+    if ($u5Slice && $u5More) $u5Slice->pause();
+    elseif ($u5Slice) {
+        $u5Slice->complete(function($started) use ($u5IndexRun) { $u5IndexRun['watermark']=max(0,$started-1); u5SearchIndexPublish($u5IndexRun); });
+        echo '<audio id="doneaudio" src="u5admin/indexingdone.mp3" autoplay />';
+        echo '<script>var audio=document.getElementById("doneaudio");audio.volume=0.05;top.document.title=";"+top.document.title;</script>';
     }
-}
 } catch (Throwable $error) {
     http_response_code(500);
-    error_log('u5CMS indexer: '.$error->getMessage());
-    echo 'The search index could not be updated.';
+    error_log('u5CMS search indexing failed: ' . $error->getMessage());
+    echo '<p>The search index could not be updated.</p>';
 } finally {
+    if (isset($u5IndexReportMode)) mysqli_report($u5IndexReportMode);
     if ($u5MutationRelease) $u5MutationRelease();
     if ($u5NamedRelease) $u5NamedRelease();
     if ($u5Slice) $u5Slice->release();
 }
-
 function sanitize_content($content) {
-    $content = str_replace(['<nobr>', '</nobr>'], '', $content);
-    $content = str_replace('&nbsp;', ' ', $content);
-    $content = preg_replace('/>(\S)/', '> $1', $content);
-    $content = preg_replace('/(\S)</', '$1 <', $content);
-    $content = preg_replace([
-        '/<script\b[^>]*>[\s\S]*?<\/script>/is',
-        '/<\?(php)?[\s\S]*?\?>/is',
-        '/<!--[\s\S]*?-->/',
-        '/<style\b[^>]*>[\s\S]*?<\/style>/is'
-    ], '', $content);
-    $content = strip_tags($content);
-	$content=htmlX_entity_decode($content);
-    $content = preg_replace('/\s+/', ' ', $content);
-    return trim($content);
+    return u5SearchIndexEncodeLegacy(u5SearchIndexVisibleText($content));
 }
 
 function takeSomeWords(string $input): string {
@@ -243,6 +257,7 @@ function idef($l1='',$l2='',$l3='',$l4='',$l5='',$l='') {
   else return $l1;
   }
 }
+
 
 // A request owns the kernel lock for one short batch. The PHP-guarded file
 // stores progress between requests. The lock file itself is never replaced.
@@ -338,6 +353,7 @@ final class U5IndexSlice {
         $this->save();
     }
     public function ready() { return $this->ready; }
+    public function handle() { return $this->lock; }
     public function started() { return $this->state['started']; }
     public function keys() {
         if (!isset($this->state['upper'])) {

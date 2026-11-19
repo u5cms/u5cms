@@ -1,5 +1,6 @@
 <?php
 require_once('connect.inc.php');
+u5ValidateTextRequest($_GET,array('n'));
 require_once('u5admin/u5idn.inc.php');
 
 if ($autoresolvefastcgiproblems == 'yes') {
@@ -8,21 +9,24 @@ if ($autoresolvefastcgiproblems == 'yes') {
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
+    u5ValidateTextRequest($_COOKIE,array('u','p'));
     $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'];
     $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'];
-    setcookie('u', $_SERVER['PHP_AUTH_USER'], 0, '/', '', $httpsisinuse, true);
-    setcookie('p', $_SERVER['PHP_AUTH_PW'], 0, '/', '', $httpsisinuse, true);
+    if (!u5OidcRequired()) {
+    setcookie('u', ($_SERVER['PHP_AUTH_USER'] ?? ''), 0, '/', '', $httpsisinuse, true);
+    setcookie('p', ($_SERVER['PHP_AUTH_PW'] ?? ''), 0, '/', '', $httpsisinuse, true);
+    }
 }
 
-$_SERVER['PHP_AUTH_USER'] = trim($_SERVER['PHP_AUTH_USER']);
-$_SERVER['PHP_AUTH_PW'] = trim($_SERVER['PHP_AUTH_PW']);
+$_SERVER['PHP_AUTH_USER'] = trim(($_SERVER['PHP_AUTH_USER'] ?? ''));
+$_SERVER['PHP_AUTH_PW'] = trim(($_SERVER['PHP_AUTH_PW'] ?? ''));
 $unknown = 'unknown';
 
 if ($usesessioninsteadofbasicauth == 'no') {
 $_SERVER['PHP_AUTH_USER']=u5allnument($_SERVER['PHP_AUTH_USER']);
-$_SERVER['PHP_AUTH_USER']=html_entity_decode($_SERVER['PHP_AUTH_USER'], ENT_COMPAT,'WINDOWS-1252');
+$_SERVER['PHP_AUTH_USER']=html_entity_decode(($_SERVER['PHP_AUTH_USER'] ?? ''), ENT_COMPAT,'WINDOWS-1252');
 $_SERVER['PHP_AUTH_PW']=u5allnument($_SERVER['PHP_AUTH_PW']);
-$_SERVER['PHP_AUTH_PW']=html_entity_decode($_SERVER['PHP_AUTH_PW'], ENT_COMPAT,'WINDOWS-1252');
+$_SERVER['PHP_AUTH_PW']=html_entity_decode(($_SERVER['PHP_AUTH_PW'] ?? ''), ENT_COMPAT,'WINDOWS-1252');
 }
 require_once __DIR__.'/onlymine.inc.php';
 $u5DomainLogin=u5onlymineUsesDomain() && strpos($_SERVER['PHP_AUTH_USER'],'@')!==false;
@@ -50,7 +54,7 @@ if ($u5DomainLogin && !u5onlymineDomainMatchesLogin($u5LoginDomain,$_SERVER['PHP
 
             $row = mysql_fetch_array($result);
             require('login.idn.inc.php');
-			if (str_replace('?' . u5flatidnlower($_SERVER['PHP_AUTH_USER']) . ':' . $_SERVER['PHP_AUTH_PW'] . ';', '', $row['logins']) != $row['logins']) $unknown = 'ok';
+			if (str_replace('?' . u5flatidnlower($_SERVER['PHP_AUTH_USER']) . ':' . $_SERVER['PHP_AUTH_PW'] . ';', '', ($row['logins'] ?? '')) != $row['logins']) $unknown = 'ok';
         }
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,6 +81,7 @@ if ($u5DomainLogin && !u5onlymineDomainMatchesLogin($u5LoginDomain,$_SERVER['PHP
 /////////////////////////////////////////////////////////////////////////////////////////////
 if($automaticallyskipintranetlogin!='yes' || $_GET['n'][0]!='!') {
     if ($unknown != 'ok' || $_SERVER['PHP_AUTH_USER'] == '' || $_SERVER['PHP_AUTH_PW'] == '') {
+        if (u5OidcRequired()) u5OidcLoginPrompt($_SERVER['REQUEST_URI'] ?? '');
         include('config.php');
         if ($usesessioninsteadofbasicauth == 'no') {
             if(!isset($u5cmsrealm))$u5cmsrealm='LOGIN';

@@ -1,5 +1,6 @@
 <?php
-require_once('connect.inc.php'); 
+require_once('connect.inc.php');
+if (u5OidcEnabled()) die('Credentials for this website are managed by its OIDC identity provider.');
 if(function_exists('PWRESETexec'))PWRESETexec();
 ?>
 <!DOCTYPE html>
@@ -41,7 +42,7 @@ function genRandomString() {
 $p=genRandomString();
 $u5mail_reset_delivery = u5mail_account_address($row_a);
 $hash=rand(1000000000,9999999999).rand(1000000000,9999999999);
-if($doublepasswordmailing!='no')u5mail_duplicate($u5mail_reset_delivery,"Your new u5CMS backend user password","Your new u5CMS backend user password is $p");
+if($doublepasswordmailing!='no')u5mail_duplicate(($row_a['email'] ?? ''),"Your new u5CMS backend user password","Your new u5CMS backend user password is $p");
 $zendfrom=$mymail;
 $zendname=$mymail;
 $zendto=$u5mail_reset_delivery;
@@ -84,7 +85,7 @@ file_put_contents('fileversions/lastreset.txt',time());
 $u5mail_reset_requested = $_POST['e'] ?? '';
 try { $u5mail_reset_delivery = u5mail_account_storage(u5mail_address($u5mail_reset_requested)); }
 catch (Throwable $error) { u5mail_error($error); exit; }
-$e=str_replace(' ','',trim($_POST['e']));
+$e=str_replace(' ','',trim(($_POST['e'] ?? '')));
 require_once('u5admin/u5idn.inc.php');
 $e=u5mail_account_key($e);
 

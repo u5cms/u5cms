@@ -100,7 +100,7 @@ foreach (glob('*.js') as $filename) {
            // field attributes go here
            array('style'       => 'width: 15em; color: #840; background-color: #ff8; border: 1px solid #000; text-align: center',
                  'name'        => 'date1',
-                 'value'       => strftime('%Y-%m-%d %I:%M %P', strtotime('now')))); ?>
+                 'value'       => date('Y-m-d h:i a'))); ?>
      </td>
      </tr>
      </table>

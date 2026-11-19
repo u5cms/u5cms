@@ -3,8 +3,8 @@
 require('connect.inc.php');
 
 $convmap = array(0x0100, 0xFFFF, 0, 0xFFFF);
-$encoded_utf8 = mb_encode_numericentity($_GET['y'], $convmap, 'UTF-8');
-$encoded_latin1 = utf8_decode($encoded_utf8);
+$encoded_utf8 = mb_encode_numericentity(($_GET['y'] ?? ''), $convmap, 'UTF-8');
+$encoded_latin1 = mb_convert_encoding($encoded_utf8, 'ISO-8859-1', 'UTF-8');
 $y=trim(mysql_real_escape_string($encoded_latin1));
 
 if ($y=='') {

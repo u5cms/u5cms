@@ -17,6 +17,8 @@ use function substr;
 
 /**
  * Validates IBAN Numbers (International Bank Account Numbers)
+ *
+ * @final
  */
 class Iban extends AbstractValidator
 {
@@ -153,6 +155,7 @@ class Iban extends AbstractValidator
         'MU' => 'MU[0-9]{2}[A-Z]{4}[0-9]{2}[0-9]{2}[0-9]{12}[0-9]{3}[A-Z]{3}',
         'NL' => 'NL[0-9]{2}[A-Z]{4}[0-9]{10}',
         'NO' => 'NO[0-9]{2}[0-9]{4}[0-9]{6}[0-9]{1}',
+        'UA' => 'UA[0-9]{2}[0-9]{6}[0-9]{19}',
         'PK' => 'PK[0-9]{2}[A-Z]{4}[A-Z0-9]{16}',
         'PL' => 'PL[0-9]{2}[0-9]{8}[0-9]{16}',
         'PS' => 'PS[0-9]{2}[A-Z]{4}[A-Z0-9]{21}',
@@ -194,6 +197,8 @@ class Iban extends AbstractValidator
     /**
      * Returns the optional country code by ISO 3166-1
      *
+     * @deprecated Since 2.61.0 - All option setters and getters will be removed in 3.0
+     *
      * @return string|null
      */
     public function getCountryCode()
@@ -204,7 +209,9 @@ class Iban extends AbstractValidator
     /**
      * Sets an optional country code by ISO 3166-1
      *
-     * @param  string|null $countryCode
+     * @deprecated Since 2.61.0 - All option setters and getters will be removed in 3.0
+     *
+     * @param string|null $countryCode
      * @return $this provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
@@ -227,6 +234,8 @@ class Iban extends AbstractValidator
     /**
      * Returns the optional allow non-sepa countries setting
      *
+     * @deprecated Since 2.61.0 - All option setters and getters will be removed in 3.0
+     *
      * @return bool
      */
     public function allowNonSepa()
@@ -237,7 +246,9 @@ class Iban extends AbstractValidator
     /**
      * Sets the optional allow non-sepa countries setting
      *
-     * @param  bool $allowNonSepa
+     * @deprecated Since 2.61.0 - All option setters and getters will be removed in 3.0
+     *
+     * @param bool $allowNonSepa
      * @return $this provides a fluent interface
      */
     public function setAllowNonSepa($allowNonSepa)
