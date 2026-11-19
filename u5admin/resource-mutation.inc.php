@@ -9,5 +9,6 @@ try {
     header('Retry-After: 2');
     echo '<p>'.htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252').'</p>';
     echo '<p>This request did not change the resource. Your editor contents have been kept. Retry after the active operation finishes; resume an interrupted rename using its original Retry rename button.</p>';
+    echo '<p><a href="renaming.php" target="_blank" rel="noopener">Open unfinished resource renames</a> to resume a saved operation if its original window is no longer available.</p>';
     exit;
 }
