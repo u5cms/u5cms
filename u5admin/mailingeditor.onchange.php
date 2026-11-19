@@ -1,1 +1,0 @@
-onchange="if(this.value.indexOf(';')>-1 || this.value.indexOf(',')>-1){this.value='';alert('Do not use commas or semicolons because you can only enter one e-mail address here. In the to, cc and bcc fields, the variables in square brackets (if they address e-mail addresses) can also be used (this is the usual practice for the to field).')}"

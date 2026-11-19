@@ -1,1 +1,0 @@
-<?php header('Location:../formdataedit.php?'.$_SERVER['QUERY_STRING']);?>

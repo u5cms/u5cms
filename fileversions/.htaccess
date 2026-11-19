@@ -1,4 +1,0 @@
-AuthName "LOGIN"
-AuthType Basic
-AuthUserFile "/var/www/html/u5cms/fileversions/.htpasswd"
-Require valid-user

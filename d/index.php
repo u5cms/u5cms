@@ -1,1 +1,0 @@
-<?php header('Location:../formdatadel.php?'.$_SERVER['QUERY_STRING']);?>

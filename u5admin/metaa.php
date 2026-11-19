@@ -1,1 +1,0 @@
-<?php header("Location: metai.php?".$_SERVER['QUERY_STRING']);?>

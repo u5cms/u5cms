@@ -1,1 +1,0 @@
-<script>location.href='defineloginglobals.php';</script>
