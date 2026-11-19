@@ -3,7 +3,15 @@
 require_once dirname(__DIR__).'/codeassets.inc.php';
 try {
     $u5ResourceMutationRelease=u5CodeMigrationLock(dirname(__DIR__));
-    register_shutdown_function($u5ResourceMutationRelease);
+    require_once dirname(__DIR__).'/index-work.inc.php';
+    // Mark before any write, and again before releasing the mutation mutex.
+    // Successful persistence no longer depends on a later browser iframe.
+    u5IndexMarkDirty(dirname(__DIR__));
+    register_shutdown_function(function() use($u5ResourceMutationRelease) {
+        try { u5IndexMarkDirty(dirname(__DIR__)); }
+        finally { $u5ResourceMutationRelease(); }
+    });
+
 } catch (RuntimeException $error) {
     http_response_code(409);
     header('Retry-After: 2');
