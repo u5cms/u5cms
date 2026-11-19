@@ -2,6 +2,7 @@
 /* Generic, bounded Rename helpers backported from 12.12.1. No schema or code migration runs here. */
 if (is_file(__DIR__.'/codeassets-migrate.inc.php')) require_once __DIR__.'/codeassets-migrate.inc.php';
 if (!class_exists('U5ResourceBusyException',false)) { class U5ResourceBusyException extends RuntimeException {} }
+require_once dirname(__DIR__).'/resource-activity.inc.php';
 
 function u5RenameSyntaxReplace($pattern,$callback,$source) {
     $result=preg_replace_callback($pattern,$callback,$source);
@@ -323,10 +324,6 @@ function u5RenameStorageLock($root,$renameCheckpoint=null,$allowPendingRename=fa
         if (!flock($handle,LOCK_EX|LOCK_NB)) {
             fclose($handle);
             throw new U5ResourceBusyException('Another code asset update is already running. Retry the backend when it has finished.');
-        }
-        foreach (glob($root.'/fileversions/resource-rename-*.pending.php') as $pending) if (!$allowPendingRename && $pending!==$renameCheckpoint) {
-            flock($handle,LOCK_UN);fclose($handle);
-            throw new U5ResourceBusyException('An interrupted resource rename must be resumed before another resource mutation or backup.');
         }
         if (fstat($handle)['size']===0) fwrite($handle,"<?php exit; ?>\n");
         $held[$key]=array('handle'=>$handle,'depth'=>1);
