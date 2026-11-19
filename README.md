@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.5
+# u5CMS 12.9.5.6
+
+Koordinierte Speicheraktionen markieren fällige Indexarbeit serverseitig. Einzel- und Vollindex teilen ihre Sperre, respektieren offene Rename-Pläne und begrenzen die Datenbank-Sperrwartezeiten.
 
 Der Vollindex arbeitet in begrenzten, wiederaufnehmbaren Teilaufrufen. Datenbanksperren werden auf seiner eigenen Verbindung zeitlich begrenzt. Die Suchanzeige nennt den Indexstand des letzten erfolgreich abgeschlossenen Gesamtlaufs; laufende oder fehlgeschlagene Versuche setzen diesen Stand nicht vorzeitig hoch.
 
@@ -6,7 +8,7 @@ Auch Rename begrenzt die Datenbank-Sperrwartezeiten auf seiner eigenen Verbindun
 
 Enthalten sind die speicherschonende Suche, die korrigierte Objektumbenennung und die optionalen SELF-Berechtigungen aus der 12.9.5-Patchlinie. Bestehende Installationen behalten die persönliche Datensatzzuordnung, solange sie keinen Domainmodus konfigurieren.
 
-[Rename-Sperrschutz und Abnahme 12.9.5.5](docs/release-12.9.5.5.md) · [Kumulative Änderungstabelle gegenüber 12.9.5](docs/release-12.9.5.4.md) · [SELF-Konfiguration](docs/onlymine.md) · [Branches](BRANCHES.md)
+[Speichern/Indexierung und kumulative Abnahme 12.9.5.6](docs/release-12.9.5.6.md) · [Rename-Sperrschutz und Abnahme 12.9.5.5](docs/release-12.9.5.5.md) · [Kumulative Änderungstabelle gegenüber 12.9.5](docs/release-12.9.5.4.md) · [SELF-Konfiguration](docs/onlymine.md) · [Branches](BRANCHES.md)
 
 ---
 

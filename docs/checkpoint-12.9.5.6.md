@@ -77,3 +77,18 @@ The identical real-save regression was run against an unchanged archive of
 v12.9.5.5 and failed exactly at the missing server-side dirty marker after
 a successful save without browser children. This reproduces the baseline
 defect; it is an expected failing test, not a passing acceptance run.
+
+
+## CI and branch architecture follow-up
+
+GitHub Actions 44481530011 passed complete stable acceptance on both PHP 8.3
+and PHP 8.4 at ac3e5821a37ae9ce8639e89f861c8202f9691676, including Chromium.
+The separate attempted local Chromium launch was blocked by the local socket
+sandbox before the browser started; it supplies no browser acceptance claim.
+
+Forward-port testing found an API distinction in 12.11.0: codeassets.inc.php
+exists there but does not yet declare u5CodeMigrationLock. The shared helper
+now checks the function and falls back to that branch's generic Rename lock.
+All branch tests are being rerun with this correction. Versions, renderer,
+modern search, and each branch's migration/journal sources remain unchanged.
+No future-branch changes have been published yet.

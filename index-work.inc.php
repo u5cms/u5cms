@@ -16,7 +16,7 @@ function u5IndexMarkDirty($root) {
 function u5IndexMutationLock($root) {
     if (is_file($root.'/codeassets.inc.php')) {
         require_once $root.'/codeassets.inc.php';
-        return u5CodeMigrationLock($root);
+        if (function_exists('u5CodeMigrationLock')) return u5CodeMigrationLock($root);
     }
     require_once $root.'/u5admin/resource-rename-support.inc.php';
     return u5RenameStorageLock($root);
