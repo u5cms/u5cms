@@ -1,5 +1,44 @@
 # u5CMS development checkpoint
 
+## Source acceptance for 12.9.5.7, 19 November 2026
+
+Authorised scope: finish .6 on GitHub without rollout or mail; remove the urgent
+production save blocker separately; implement and deeply accept .7, carry all
+maintained future branches forward, publish .7, and request its rollout ticket
+only at the end. Source acceptance does not deploy a production installation.
+Starting release: ac6e3bf059a365b2912a70429596dbdb6f08604d (v12.9.5.6).
+Cumulative comparison: 9d366253417822c279692767b89dcf1ff0388c5c (v12.9.5).
+
+Accepted application source: 8da363d84140adee59aab294f5f8d5de50101098.
+Candidate e069a3bd74dd27ccc00a25fc8f6580312c10f005 retains those exact application
+bytes and adds the English branch guide, complete packet regression and browser
+setup. Full stable PHP 8.3/8.4, MariaDB, native ZIP and actual Chromium acceptance
+passed in Actions 44522772559 and 44522763360.
+
+Ordinary saves use only the live Rename gate; index/backup work and idle recovery
+plans do not reserve source writes. Source updates retain permission/conflict
+policy, byte digests, atomic monotonic revisions and both submitted histories.
+Rename retains its streamed dependency/history/file pass and actual progress.
+Large rows use bounded byte guards and connection-local values before one
+conditional UPDATE. A killed owner releases its kernel gate; recovery data is
+retained and later source conflicts are never silently overwritten.
+
+The [release report](release-12.9.5.7.md) records the actual concurrent save,
+index, backup, large-packet, crash/recovery, SQL contention, encoding, ownership,
+login, mail, search and browser results. Final isolated Rename measurements:
+0.5246 s sparse and 5.2886 s dense, with all text/file conservation.
+The [branch receipt](release-12.9.5.7-backports.json) identifies all 21 maintained
+heads, exact application/test evidence and unchanged version/render/search blobs.
+All required branch workflows passed; lines without workflows have explicit
+current-tree local evidence. Future OIDC, responsive and migration APIs remain.
+
+This is an acceptance record. Verify publication using the actual GitHub Main,
+tag and Release objects rather than treating this checkpoint as a live process
+status. Operational next action: deploy the published complete .7 package under
+the separate rollout ticket, preserve configuration/data/local exceptions, and
+accept each installation. Keep matching recovery data for interrupted Rename.
+No .7 production deployment was performed by this source acceptance.
+
 ## 12.9.5.6 save/index acceptance, 19 November 2026
 
 Authorised: finish .6 after published .5, cumulative review from unchanged

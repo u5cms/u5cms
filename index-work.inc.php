@@ -14,12 +14,12 @@ function u5IndexMarkDirty($root) {
 }
 
 function u5IndexMutationLock($root) {
-    if (is_file($root.'/codeassets.inc.php')) {
-        require_once $root.'/codeassets.inc.php';
-        if (function_exists('u5CodeMigrationLock')) return u5CodeMigrationLock($root);
-    }
-    require_once $root.'/u5admin/resource-rename-support.inc.php';
-    return u5RenameStorageLock($root);
+    require_once $root.'/resource-activity.inc.php';
+    $release=u5ResourceActivityLock($root);$release();
+    if (u5ResourceWritesActive($root)) throw new U5ResourceBusyException('A source write is active; indexing yields.');
+    // Source-digest UPDATE guards protect races after this check. Do not keep
+    // a source lock while rendering: saves and Rename must remain responsive.
+    return function() {};
 }
 
 function u5IndexNamedLock($root) {

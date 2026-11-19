@@ -2,6 +2,7 @@
 /* Generic, bounded Rename helpers backported from 12.12.1. No schema or code migration runs here. */
 if (is_file(__DIR__.'/codeassets-migrate.inc.php')) require_once __DIR__.'/codeassets-migrate.inc.php';
 if (!class_exists('U5ResourceBusyException',false)) { class U5ResourceBusyException extends RuntimeException {} }
+require_once dirname(__DIR__).'/resource-activity.inc.php';
 
 function u5RenameSyntaxReplace($pattern,$callback,$source) {
     $result=preg_replace_callback($pattern,$callback,$source);
@@ -138,6 +139,8 @@ function u5RenameStorageWhere($row,$columns=array()) {
             $terms[]="BINARY JSON_EXTRACT(".u5RenameStorageIdentifier($field).",'$') <=> BINARY JSON_EXTRACT(".u5RenameStorageColumnValue($value,$column).",'$')";
             continue;
         }
+        $digest=u5ResourceSqlDigestGuard(u5RenameStorageIdentifier($field),$value);
+        if ($digest!==null) {$terms[]=$digest;continue;}
         // Preserve exact bytes, with a separate sargable predicate for row/index identity.
         if ($column && !preg_match('/^(?:float|double|real)/i',$column['Type']) && (($column['Key'] ?? '')!=='' || preg_match('/^(?:(?:tiny|small|medium|big)?int|year)\b/i',$column['Type']))) $terms[]=u5RenameStorageIdentifier($field).' <=> '.u5RenameStorageColumnValue($value,$column);
         $terms[]='BINARY '.u5RenameStorageIdentifier($field).' <=> '.u5RenameStorageValue($value);
@@ -167,9 +170,14 @@ function u5RenameStorageApplyRow($change,$columns=null,$derivedFields=array()) {
     $derived=array_fill_keys($derivedFields,true);
     $beforeGuard=array_diff_key($before,$derived);$afterGuard=array_diff_key($after,$derived);
     // The indexer owns these columns, including when resuming an older rename journal.
+    $u5SqlStage=array();
+    try {
     $set=array();
     foreach ($afterGuard as $field=>$value) {
-        if ($value!==$beforeGuard[$field]) $set[]=u5RenameStorageIdentifier($field).'='.u5RenameStorageColumnValue($value,$columns[$field]);
+        if ($value===$beforeGuard[$field]) continue;
+        $expression=u5ResourceSqlStageValue($value,'u5RenameStorageQuery',$u5SqlStage);
+        if ($expression!==null && strtolower($columns[$field]['Type'])==='json') $expression='CONVERT('.$expression.' USING utf8mb4)';
+        $set[]=u5RenameStorageIdentifier($field).'='.($expression ?? u5RenameStorageColumnValue($value,$columns[$field]));
     }
     if (!$set) return;
     // Use the whole original row, including nulls, instead of a guessed primary key.
@@ -182,6 +190,7 @@ function u5RenameStorageApplyRow($change,$columns=null,$derivedFields=array()) {
     }
     u5RenameStorageQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5RenameStorageWhere($beforeGuard,$columns));
     if (mysql_affected_rows()!==(int)$count[0]['n']) throw new RuntimeException('A row changed while applying migration in '.$change['table']);
+    } finally {u5ResourceSqlStageClear($u5SqlStage,'u5RenameStorageQuery');}
 }
 
 function u5RenameStorageEncodeJournal($value) {
@@ -323,10 +332,6 @@ function u5RenameStorageLock($root,$renameCheckpoint=null,$allowPendingRename=fa
         if (!flock($handle,LOCK_EX|LOCK_NB)) {
             fclose($handle);
             throw new U5ResourceBusyException('Another code asset update is already running. Retry the backend when it has finished.');
-        }
-        foreach (glob($root.'/fileversions/resource-rename-*.pending.php') as $pending) if (!$allowPendingRename && $pending!==$renameCheckpoint) {
-            flock($handle,LOCK_UN);fclose($handle);
-            throw new U5ResourceBusyException('An interrupted resource rename must be resumed before another resource mutation or backup.');
         }
         if (fstat($handle)['size']===0) fwrite($handle,"<?php exit; ?>\n");
         $held[$key]=array('handle'=>$handle,'depth'=>1);

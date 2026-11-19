@@ -1,12 +1,14 @@
 <?php
 @set_time_limit(3600);
+ob_start();
 require('connect.inc.php');
 require_once __DIR__.'/resource-rename-support.inc.php';
 try {
     register_shutdown_function(u5RenameStorageLock(dirname(__DIR__),null,true));
-} catch (U5ResourceBusyException $error) {
-    http_response_code(409);
-    exit('Another CMS operation is in progress. Retry the backup once it finishes.');
+    $u5BackupGeneration=u5ResourceBackupStart(dirname(__DIR__));
+} catch (RuntimeException $error) {
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
+    exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
 }
 
 use U5cms\Zipper;
@@ -39,7 +41,9 @@ $backupDirs = array(
 $instName = preg_replace("/[^a-z0-9]/", "", strtolower($db));
 $targetfile = U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . $instName . '_FilesExclCMSsys.zip';
 
-$zip = new Zipper($targetfile);
+try {
+$u5BackupStaged=u5ResourceBackupStage($targetfile);
+$zip = new Zipper($u5BackupStaged);
 $zip->setStripPath(U5ROOT_PATH);
 
 foreach ($backupDirs as $backupDir) {
@@ -60,6 +64,12 @@ foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $u5RenameBac
 foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*-rows-*',GLOB_ONLYDIR) as $u5RenameBackup) $zip->addFolder($u5RenameBackup);
 
 $zip->write();
+u5ResourceBackupFinish(dirname(__DIR__),$u5BackupGeneration);
+u5ResourceBackupPublish($u5BackupStaged,$targetfile);
+} catch (Throwable $error) {
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
+    exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
+}
 
 if (file_exists($targetfile)) {
 echo '<a href="../ff.php?f='.basename($targetfile).'&t='.filemtime($targetfile).'">' . basename($targetfile) . '</a> ' . ceil(filesize($targetfile) / 1024) . ' kB ' . date('Y-m-d H:i:s', filemtime($targetfile));

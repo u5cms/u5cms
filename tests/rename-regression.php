@@ -139,7 +139,7 @@ try {
         mkdir($root.'/r/demo');mkdir($root.'/r/newdemo');file_put_contents($root.'/r/demo/demo_en.jpg','original image');file_put_contents($root.'/r/newdemo/orphan','original orphan');file_put_contents($root.'/r/test!html.tpl','[demo]');
         $fault=$phase;$failed=false;try {u5ResourceRename($root,'demo','newdemo',$options);}catch(RuntimeException $error){$failed=strpos($error->getMessage(),'TEST INTERRUPTION')===0;}
         renameCheck($failed,'deterministic interruption '.$phase);renameCheck(is_file(u5RenameBase($root,'demo','newdemo').'.pending.php'),'interruption retains checkpoint '.$phase);
-        $blocked=false;try {$lock=u5RenameStorageLock($root);$lock();}catch(RuntimeException $error){$blocked=strpos($error->getMessage(),'interrupted resource rename')!==false;}renameCheck($blocked,'incompatible mutation blocked while pending');
+        $lock=u5RenameStorageLock($root);$lock();renameCheck(true,'idle recovery plan is not a persistent mutex');
         $lock=u5RenameStorageLock($root,null,true);$lock();renameCheck(true,'recovery backup can still lock pending installation');
         $retry=$options;$retry['links']=false;u5ResourceRename($root,'demo','newdemo',$retry);
         renameSame(renameOne('resources')['content_1'],'[newdemo]','resume uses immutable original policy '.$phase);renameSame(renameOne('resources_log')['content_1'],'[newdemo]','history resumes '.$phase);renameSame(renameOne('formdata')['formname'],'newdemo','form ownership resumes '.$phase);renameSame(file_get_contents($root.'/r/newdemo/newdemo_en.jpg'),'original image','file resumes '.$phase);
