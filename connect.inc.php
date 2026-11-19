@@ -41,11 +41,12 @@ include('config.php');
 
 // Limit database-side waits before the first CMS table read. A PHP socket
 // timeout alone can leave a blocked statement running on the database server.
-if (defined('U5CMS_FULL_INDEX_BATCH') && U5CMS_FULL_INDEX_BATCH) {
+if ((defined('U5CMS_INDEX_REQUEST') && U5CMS_INDEX_REQUEST)
+    || (defined('U5CMS_FULL_INDEX_BATCH') && U5CMS_FULL_INDEX_BATCH)) {
     $indexWaitSql = 'SET SESSION lock_wait_timeout = LEAST(@@SESSION.lock_wait_timeout, 5), '
                   . 'SESSION innodb_lock_wait_timeout = LEAST(@@SESSION.innodb_lock_wait_timeout, 5)';
     if (mysql_query($indexWaitSql) === false) {
-        throw new RuntimeException('Cannot limit database lock waits for full indexing.');
+        throw new RuntimeException('Cannot limit database lock waits for indexing.');
     }
 }
 

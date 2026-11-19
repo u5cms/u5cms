@@ -48,7 +48,8 @@
     "mobiletools-web.py",
     "conference-session-transition-regression.py",
     "international-email-smtp.py",
-    "international-email-native.py"
+    "international-email-native.py",
+    "index-save-regression.py"
   ],
   "main_browser": true,
   "rename_browser": true,
@@ -148,7 +149,9 @@
     "tests/international-email.php",
     "tests/international-email-native.py",
     "mail/accounts.php",
-    "tests/international-email-evidence-2026-11-08.json"
+    "tests/international-email-evidence-2026-11-08.json",
+    "index-work.inc.php",
+    "tests/index-save-regression.py"
   ],
   "legacy_https_routes": []
 }
