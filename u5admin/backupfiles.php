@@ -42,7 +42,8 @@ $instName = preg_replace("/[^a-z0-9]/", "", strtolower($db));
 $targetfile = U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEPARATOR . $instName . '_FilesExclCMSsys.zip';
 
 try {
-$zip = new Zipper($targetfile);
+$u5BackupStaged=u5ResourceBackupStage($targetfile);
+$zip = new Zipper($u5BackupStaged);
 $zip->setStripPath(U5ROOT_PATH);
 
 foreach ($backupDirs as $backupDir) {
@@ -61,12 +62,12 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $u5RenameBackup) $zip->addFile($u5RenameBackup);
 foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*-rows-*',GLOB_ONLYDIR) as $u5RenameBackup) $zip->addFolder($u5RenameBackup);
 $zip->write();
-$u5BackupCreated=true;
 u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
+u5ResourceBackupPublish($u5BackupStaged,$targetfile);
 } catch (Throwable $error) {
-    if (!empty($u5BackupCreated) && is_file($targetfile)) @unlink($targetfile);
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
     unset($zip);
-    echo '<p>Backup failed. The previous backup has been kept.</p>';
+    echo '<p>'.htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252').'</p><p>The previous backup has been kept.</p>';
     echo '<script>parent.document.title=parent.document.title.replace(/\.\.\./,"?");</script>';
     exit;
 }
