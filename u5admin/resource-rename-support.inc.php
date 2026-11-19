@@ -2,6 +2,7 @@
 /* Generic, bounded Rename helpers backported from 12.12.1. No schema or code migration runs here. */
 if (is_file(__DIR__.'/codeassets-migrate.inc.php')) require_once __DIR__.'/codeassets-migrate.inc.php';
 if (!class_exists('U5ResourceBusyException',false)) { class U5ResourceBusyException extends RuntimeException {} }
+require_once dirname(__DIR__).'/resource-activity.inc.php';
 
 function u5RenameSyntaxReplace($pattern,$callback,$source) {
     $result=preg_replace_callback($pattern,$callback,$source);
@@ -324,10 +325,6 @@ function u5RenameStorageLock($root,$renameCheckpoint=null,$allowPendingRename=fa
             fclose($handle);
             throw new U5ResourceBusyException('Another code asset update is already running. Retry the backend when it has finished.');
         }
-        foreach (glob($root.'/fileversions/resource-rename-*.pending.php') as $pending) if (!$allowPendingRename && $pending!==$renameCheckpoint) {
-            flock($handle,LOCK_UN);fclose($handle);
-            throw new U5ResourceBusyException('An interrupted resource rename must be resumed before another resource mutation or backup.');
-        }
         if (fstat($handle)['size']===0) fwrite($handle,"<?php exit; ?>\n");
         $held[$key]=array('handle'=>$handle,'depth'=>1);
     }
@@ -380,7 +377,12 @@ function u5RenameHistoryLookup() {
     $length=150;
     if (preg_match('/^(?:var)?char\((\d+)\)/i',$columns['name']['Type'],$match)) $length=min($length,(int)$match[1]);
     // A restricted installation can still rename safely without ALTER privileges.
-    mysql_query('ALTER TABLE resources_log ADD INDEX u5_rename_history_lookup (name('.$length.'),lastmut,deleted)');
+    $lookup=mysql_query('ALTER TABLE resources_log ADD INDEX u5_rename_history_lookup (name('.$length.'),lastmut,deleted)');
+    // A denied optional index can use the slower plan. A lock timeout or
+    // interrupted statement must stop here instead of waiting again in that plan.
+    if ($lookup===false && in_array(mysql_errno(),array(1205,1213,1317),true)) {
+        throw new RuntimeException('The history index is blocked. Retry the same resource rename after the database conflict is resolved.');
+    }
 }
 
 function u5RenameLegacyCodePaths($text,$names) {

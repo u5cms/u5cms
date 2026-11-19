@@ -1,5 +1,17 @@
 # u5CMS development checkpoint
 
+## .7 save/Rename correction in progress, 19 November 2026
+
+Authorised: preserve this branch's cumulative work and forward-port .7.
+Target: 12.9.5.4-Indexer-Final. Exact base: 3cda3d6d8e538565b1cd38ec080dbd39fe5c212e.
+Candidate: process-owned Rename gate, concurrent ordinary writes, index yielding,
+nonblocking recovery plans, real Rename phase/progress and crash recovery tests.
+This branch's renderer, version, search format, migration namespace and encoding
+remain distinct. Its existing monotonic resource update API is preserved where
+present. Tests and expected-head publication are still pending at this checkpoint.
+No production deployment or rollout email. Next: actual local HTTP/concurrency/
+Rename tests and this branch's comprehensive pipeline before release acceptance.
+
 ## Save/index coordination, 19 November 2026
 
 Base d0939356f17a0e67fa08a64a2a410d99048b9239. Target 12.9.5.4-Indexer-Final.
