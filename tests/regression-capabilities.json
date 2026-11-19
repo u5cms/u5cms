@@ -43,6 +43,7 @@
     "oidc-web-regression.py",
     "image-upload-regression.py",
     "default-design-web.py",
+    "sequential-upgrade.py",
     "mail-evolution-regression.py",
     "dependency-compatibility-regression.py",
     "mutation-recovery-http.py",

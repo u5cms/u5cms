@@ -29,5 +29,5 @@ sie wird auf ihre tatsächlich vorhandenen Abläufe geprüft.
 
 Testumgebung: PHP 8.3.6, MariaDB 10.11.14, Chrome Headless Shell 156.0.8078.80,
 ausschliesslich Einweginstallationen. Vollständige Werkzeuge und Nachweise:
-[Evolutionsbericht](https://github.com/u5cms/u5cms/blob/12.12.4-Default-Design/docs/2026-11-02-evolution-review.md).
+[Evolutionsbericht](https://github.com/u5cms/u5cms/blob/da687f5c58c560da0fcbdfa9cce357084ba3dba7/docs/2026-11-02-evolution-review.md).
 Keine produktive Installation und kein Merge wurden vorgenommen.

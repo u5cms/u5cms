@@ -24,6 +24,6 @@ Frontend- und 98 Backend-Browserprüfungen. Testumgebung: PHP 8.3.6, MariaDB
 
 Der vollständige Bericht, die gemeinsamen Testwerkzeuge und Vorher-/Nachher-
 Nachweise liegen auf der kumulativen Linie unter
-[2026-11-02-evolution-review.md](https://github.com/u5cms/u5cms/blob/12.12.4-Default-Design/docs/2026-11-02-evolution-review.md).
+[2026-11-02-evolution-review.md](https://github.com/u5cms/u5cms/blob/da687f5c58c560da0fcbdfa9cce357084ba3dba7/docs/2026-11-02-evolution-review.md).
 Dieser Stand ist veröffentlichtes Quellmaterial; eine produktive Installation
 oder ein Merge ist nicht erfolgt.
