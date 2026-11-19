@@ -5,9 +5,9 @@ require_once('t2.php');
 require_once('resourceupdate.inc.php');
 try {
 $name=isset($_POST['name']) && is_string($_POST['name']) ? $_POST['name'] : '';
-$row=u5ResourceForUpdate($name);
+$u5EditorRecord=u5ResourceForUpdate($name);
 u5CodeAssetFilename($name);
-if ($archiveRqHIADRI!='no' && $row['deleted']==2) require('accadmin.inc.php');
+if ($archiveRqHIADRI!='no' && $u5EditorRecord['deleted']==2) require('accadmin.inc.php');
 if ($cssRqHIADRI!='no') require('accadmin.inc.php');
 $changes=array();
 for ($language=1;$language<=5;$language++) foreach (array('content','title','desc','key') as $field) {
@@ -23,7 +23,7 @@ if (isset($_POST['logins'])) {
 if (!is_string($_POST['logins'])) throw new RuntimeException('Invalid resource logins.');
 $changes['logins']=trim($_POST['logins']);
 }
-$changes['typ']=isset($_GET['typ']) && is_string($_GET['typ']) && $_GET['typ']!=='' ? $_GET['typ'] : $row['typ'];
+$changes['typ']=isset($_GET['typ']) && is_string($_GET['typ']) && $_GET['typ']!=='' ? $_GET['typ'] : $u5EditorRecord['typ'];
 if (($_POST['name']=='htmltemplate' || $_POST['name']==u5CodeTemplateName())) {
 $teststr=$_POST['content_1'];
 $teststr=str_replace("\t",' ',$teststr);
@@ -38,7 +38,7 @@ if (strpos(strtolower('xxx'.$teststr),'<body id="body"')<1) die('<script>alert("
 }
 
 
-$result=u5UpdateResource($name,$changes,$row,$_POST['coco'] ?? null);
+$result=u5UpdateResource($name,$changes,$u5EditorRecord,$_POST['coco'] ?? null);
 u5LogResourceAttempt($result);
 trxlog('code'.($result['saved'] ? '' : '(!)').' '.$name);
 } catch (RuntimeException $error) {

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/resource-activity.inc.php';
 if (!class_exists('U5ResourceBusyException',false)) {class U5ResourceBusyException extends RuntimeException {}}
 /* Code resources are static assets. The LAST exclamation mark is the suffix separator. */
 function u5CodeAssetDefaults() {
@@ -231,10 +232,13 @@ function u5CodeAssetRowsToFiles($rows,$stamp) {
 }
 
 function u5CodeAssetExport($root) {
+    $release=u5ResourceActivityLock($root);
+    try {
     $result=mysql_query("SELECT * FROM resources WHERE typ='c' AND deleted!=1");
     if ($result===false) throw new RuntimeException('Cannot read code objects for export.');
     $rows=array(); while ($row=mysql_fetch_array($result,MYSQL_ASSOC)) $rows[]=$row;
     foreach (u5CodeAssetRowsToFiles($rows,time()) as $file=>$data) u5CodeAssetAtomicWrite($root.'/r/'.$file,$data);
+    } finally {$release();}
 }
 
 function u5CodeTemplateName($root=null) {

@@ -185,9 +185,8 @@ try:
                 check(len(pending) == 1, "Failure after file publication retained its immutable Rename plan")
                 check((site / "r" / new / (new + "_en.txt")).read_bytes() == b"original language bytes",
                       "Row lock was reached after the original file bytes had moved")
-                code, body = request("/u5admin/savepage.php", {"name": new, "page": new, "u5scrtytknfrfrms": token})
-                check(code == 409 and "did not change" in body and 'href="renaming.php"' in body,
-                      "An unfinished Rename protects source writers and links to recovery")
+                check(not (site / 'fileversions/resource-rename-active.php').exists(),
+                      "Failed Rename releases its active status as well as its process gate")
                 partial = support("snapshot", mode)
                 code, body = request("/u5admin/renaming.php")
                 check(code == 200 and "Retry rename" in body and "rename2.php?name=" + old in body,
