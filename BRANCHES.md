@@ -4,7 +4,9 @@
 
 `main` is the stable default. The cumulative development lines are `V13` (backend and uploads), `V14` (code migration), `V15` (search, authentication and editor), `V16` (standard design) and `V17` (responsive renderer). Each starts from its accepted predecessor. The [historical tip index](docs/17.0.0-historical-branches.md) lists all 31 former working heads and links to their fixed source trees.
 
-## V17 · 17.0.0 responsive renderer
+## V17 · published 17.0.0 responsive renderer
+
+[Release ancestry, archive checks and functional acceptance for V13 through V17](docs/17.0.0-release-acceptance.md).
 
 The first parent is the published V16 release at `9efde9baf42311a2f0a0f81ebfc332f3b8e1ed6b`. The historical responsive branch is retained at `6b771bc0e3ebe672abdaa0758420124d8b6977e3`. New installations use the responsive template. A customised template from an earlier installation continues to select the legacy presentation. Both modes share the renderer for markup, resources and database tables. The differential tests compare the new implementation with the published V16 renderer, including backend calls, database table output, multilingual resources and preview behaviour. Browser tests cover the responsive template as well as the legacy desktop and mobile layouts.
 
