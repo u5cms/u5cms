@@ -1,7 +1,7 @@
 <?php
 // Only a live Rename excludes ordinary writes. Indexing, backups and saved
 // recovery journals never reserve this gate exclusively.
-require_once __DIR__.'/resource-rename-support.inc.php';
+require_once dirname(__DIR__).'/resource-activity.inc.php';
 try {
     $u5ResourceMutationRelease=u5ResourceActivityLock(dirname(__DIR__));
 } catch (U5ResourceBusyException $error) {
