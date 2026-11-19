@@ -276,6 +276,8 @@ function u5CodeMigrationWhere($row,$columns=array()) {
             $terms[]="BINARY JSON_EXTRACT(".u5CodeMigrationIdentifier($field).",'$') <=> BINARY JSON_EXTRACT(".u5CodeMigrationColumnValue($value,$column).",'$')";
             continue;
         }
+        $digest=u5ResourceSqlDigestGuard(u5CodeMigrationIdentifier($field),$value);
+        if ($digest!==null) {$terms[]=$digest;continue;}
         // Preserve exact bytes, with a separate sargable predicate for row/index identity.
         if ($column && !preg_match('/^(?:float|double|real)/i',$column['Type']) && (($column['Key'] ?? '')!=='' || preg_match('/^(?:(?:tiny|small|medium|big)?int|year)\b/i',$column['Type']))) $terms[]=u5CodeMigrationIdentifier($field).' <=> '.u5CodeMigrationColumnValue($value,$column);
         $terms[]='BINARY '.u5CodeMigrationIdentifier($field).' <=> '.u5CodeMigrationValue($value);
@@ -707,9 +709,14 @@ function u5CodeMigrationApplyRow($change,$columns=null,$derivedFields=array()) {
     $derived=array_fill_keys($derivedFields,true);
     $beforeGuard=array_diff_key($before,$derived);$afterGuard=array_diff_key($after,$derived);
     // The indexer owns these columns, including when resuming an older rename journal.
+    $u5SqlStage=array();
+    try {
     $set=array();
     foreach ($afterGuard as $field=>$value) {
-        if ($value!==$beforeGuard[$field]) $set[]=u5CodeMigrationIdentifier($field).'='.u5CodeMigrationColumnValue($value,$columns[$field]);
+        if ($value===$beforeGuard[$field]) continue;
+        $expression=u5ResourceSqlStageValue($value,'u5CodeMigrationQuery',$u5SqlStage);
+        if ($expression!==null && strtolower($columns[$field]['Type'])==='json') $expression='CONVERT('.$expression.' USING utf8mb4)';
+        $set[]=u5CodeMigrationIdentifier($field).'='.($expression ?? u5CodeMigrationColumnValue($value,$columns[$field]));
     }
     if (!$set) return;
     // Use the whole original row, including nulls, instead of a guessed primary key.
@@ -722,6 +729,7 @@ function u5CodeMigrationApplyRow($change,$columns=null,$derivedFields=array()) {
     }
     u5CodeMigrationQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5CodeMigrationWhere($beforeGuard,$columns));
     if (mysql_affected_rows()!==(int)$count[0]['n']) throw new RuntimeException('A row changed while applying migration in '.$change['table']);
+    } finally {u5ResourceSqlStageClear($u5SqlStage,'u5CodeMigrationQuery');}
 }
 
 function u5CodeMigrationInsert($table,$row) {
