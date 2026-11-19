@@ -1,29 +1,9 @@
-# Vorübergehend blockierte Ressourcenänderungen
+# Temporary conflicts during resource changes
 
-Korrektur vom 2. November 2026. Betroffen sind zehn Branches ab
-12.11.1-Migration-Hardening, einschliesslich des Such-Arbeitsbranches.
+The historical correction of 2 November 2026 applied to ten branches from 12.11.1 onwards, including the search working branch. Several operations that already used file locks returned HTTP 500 during a conflicting update. A dedicated exception now distinguishes the expected conflict. The affected entry points return HTTP 409 with an explanation and a two-second Retry-After header. Other errors still take their own failure paths.
 
-Mehrere bereits durch Dateisperren geschützte Schreibaktionen lieferten bei einer
-laufenden Aktualisierung HTTP 500. Die Einstiege verwenden jetzt die gemeinsame
-Konfliktantwort: HTTP 409, Retry-After 2 Sekunden und eine Erklärung. Eine eigene
-Busy-Exception kennzeichnet diesen erwarteten Konflikt. Andere Fehler werden
-dadurch nicht als erfolgreiche Schreiboperation ausgegeben.
+The changes covered `codeassets.inc.php`, `new2.php`, `copy2.php`, `delete2.php`, `archiveunarchive2.php`, `coding2.php` and `rename2.php`. The six earlier affected branches also received `resource-mutation.inc.php`. The targeted edits preserved surrounding source bytes, database schemas and existing records.
 
-Geändert sind codeassets.inc.php, new2.php, copy2.php, delete2.php,
-archiveunarchive2.php, coding2.php und rename2.php. Die älteren sechs betroffenen
-Branches erhalten zusätzlich resource-mutation.inc.php. Vorhandene Quellbytes
-ausserhalb der gezielten ASCII-Änderungen bleiben erhalten. Datenbankschemas
-und bestehende gespeicherte Daten werden nicht migriert.
+The historical test made 100 blocked HTTP writes across the ten branches and checked that resources, history and files were intact. It resumed four interrupted renames and exercised duplicate requests and stale editors. Each corrected branch subsequently passed 51 frontend and 98 backend browser checks. These results describe the affected versions at that time. Current save and Rename behaviour is documented in the release notes for the installed version.
 
-Neue Ausführung: 100 echte blockierte HTTP-Schreibaktionen über alle zehn
-betroffenen Branches; unveränderte Ressourcen, Historien und Dateien. Vier echte
-unterbrochene Umbenennungen werden wiederaufgenommen, wiederholte Anfragen und
-veraltete Editoren geprüft. Auf jedem korrigierten Branch bestehen danach 51
-Frontend- und 98 Backend-Browserprüfungen. Testumgebung: PHP 8.3.6, MariaDB
-10.11.14, Chrome Headless Shell 156.0.8078.80, ausschliesslich Einweginstallationen.
-
-Der vollständige Bericht, die gemeinsamen Testwerkzeuge und Vorher-/Nachher-
-Nachweise liegen auf der kumulativen Linie unter
-[2026-11-02-evolution-review.md](https://github.com/u5cms/u5cms/blob/12.12.4-Default-Design/docs/2026-11-02-evolution-review.md).
-Dieser Stand ist veröffentlichtes Quellmaterial; eine produktive Installation
-oder ein Merge ist nicht erfolgt.
+The disposable installations used PHP 8.3.6, MariaDB 10.11.14 and Chrome Headless Shell 156.0.8078.80. The historical verification covered published source and did not involve a production installation or a merge. [Report, shared tools and before-and-after evidence](https://github.com/u5cms/u5cms/blob/da687f5c58c560da0fcbdfa9cce357084ba3dba7/docs/2026-11-02-evolution-review.md)
