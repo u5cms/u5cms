@@ -32,6 +32,7 @@ return false;
                     if server.poll() is not None:raise RuntimeError('PHP server stopped')
                     time.sleep(.05)
             else:raise RuntimeError('PHP server did not start')
+            subprocess.run([os.sys.executable,str(REPO/'tests/rename-database-lock-regression.py'),base,str(site)],check=True)
             if os.environ.get('U5CMS_RENAME_HTTP_ONLY'):
                 subprocess.run([os.sys.executable,str(REPO/'tests/rename-http.py'),base,str(site)],check=True)
             else:

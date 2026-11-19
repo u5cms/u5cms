@@ -1,5 +1,21 @@
 # u5CMS development checkpoint
 
+## Rename lock-wait guard, 19 November 2026
+
+Authorised follow-up: protect Rename from database lock waits, preserve recovery
+and existing wait-window behaviour, and review consistency after interruption.
+Base main: c7062c680deb29fcac70815eea929ad57ee3a5d2 (v12.9.5.4).
+Follow-up patch version: 12.9.5.5. No production deployment in this task.
+
+Implemented: Rename-only session lock-wait limits, preserved stricter limits,
+and immediate failure of an optional history-index operation on lock timeout,
+deadlock or cancellation. A partial Rename keeps its immutable recovery plan. Blocked writers link to an
+authenticated recovery overview, allowing exact retry without the original window.
+Local PHP 8.4.24/MariaDB 11.8.6: 83 new real HTTP/SQL/mutex/retry checks,
+893 Rename checks, 114 existing HTTP checks and both existing full-index HTTP
+and database-lock regressions passed. CI and forward-port verification pending.
+
+
 ## 12.9.5.4 acceptance, 18 November 2026
 
 Authorised: finish and publish the patch release, review the full difference
