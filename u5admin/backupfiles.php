@@ -19,7 +19,8 @@ $u5BackupRelease=null;$u5BackupError=null;
 try {
 $u5BackupRelease=u5CodeMigrationLock(U5ROOT_PATH,null,true);
     $u5BackupGeneration=u5ResourceBackupStart(U5ROOT_PATH);
-$zip = new Zipper($targetfile);
+$u5BackupStaged=u5ResourceBackupStage($targetfile);
+$zip = new Zipper($u5BackupStaged);
 $zip->setStripPath(U5ROOT_PATH);
 
 foreach ($backupDirs as $backupDir) {
@@ -44,10 +45,9 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 }
 
 $zip->write();
-$u5BackupCreated=true;
 u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
+u5ResourceBackupPublish($u5BackupStaged,$targetfile);
 } catch (Throwable $error) {
-    if (!empty($u5BackupCreated) && is_file($targetfile)) @unlink($targetfile);
     unset($zip);
     http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
     $u5BackupError=$error;
@@ -73,7 +73,7 @@ u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
 <?php
 
 if ($u5BackupError) {
-    echo '<p>Backup failed. The previous backup has been kept.</p>';
+    echo '<p>'.htmlspecialchars($u5BackupError->getMessage(),ENT_QUOTES,'Windows-1252').'</p><p>The previous backup has been kept.</p>';
     echo '<script>parent.document.title=parent.document.title.replace(/\.\.\./,"?");</script>';
     exit;
 }

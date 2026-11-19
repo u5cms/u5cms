@@ -19,10 +19,10 @@ try {
     $u5BackupGeneration=u5ResourceBackupStart(U5ROOT_PATH);
     $link=mysql_connect($host,$username,$password,true);
     if (!$link) throw new RuntimeException('Cannot open a separate database backup connection.');
-    $backup_files=u5CreateDatabaseBackup($db,$backup_dir,$backup_compress,$link);
-    u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
+    $backup_files=u5CreateDatabaseBackup($db,$backup_dir,$backup_compress,$link,function() use($u5BackupGeneration) {
+        u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
+    });
 } catch (Throwable $error) {
-    foreach (($backup_files ?? array()) as $file) if (is_file($file)) @unlink($file);
     http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
     $u5BackupError=$error;
 } finally {
