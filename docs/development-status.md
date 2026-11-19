@@ -1,5 +1,30 @@
 # u5CMS development checkpoint
 
+## 12.9.5.6 save/index acceptance, 19 November 2026
+
+Authorised: finish .6 after published .5, cumulative review from unchanged
+v12.9.5, all maintained future-branch corrections, verified Main/tag/release,
+then one authorised deployment-ticket email to Markus with Michael in Cc.
+No production deployment by this task. Branch: 12.9.5.6-Index-Save-Hardening;
+PR 199. Base: 8bcb09937999d4ebb51da293b06a113bda0940d8.
+
+The actual save/closed-confirmation marker failure was reproduced on .5.
+The implementation and 26 new HTTP/save/index checks pass. The final application
+candidate 88dab36c2ff3c422f4c6421df4652e9656a6622d passed full stable PHP 8.3/8.4
+with Chromium in Actions 44483223585. All 21 maintained target heads and source/
+test blobs have been read back and match the individually tested preparations;
+version/renderer/search/migration sources are preserved. Some comprehensive
+branch pipelines exposed isolated fixture dependencies; test-only follow-ups
+supply the actual helper without weakening expectations. All twelve local
+code-asset suites passed after those additions. Final branch CI is still
+being checked; do not infer release completion from this checkpoint.
+
+Next action: verify the latest comprehensive branch runs, complete the report/
+branch inventory, merge PR 199 with unchanged accepted application/test blobs,
+publish .6 and verify tag/Main/archive, then send the authorised deployment
+mail and pause the existing task. Never send the mail before verified release.
+
+
 ## Rename lock-wait guard, 19 November 2026
 
 Authorised follow-up: protect Rename from database lock waits, preserve recovery

@@ -76,8 +76,18 @@ Rename, SELF/Writer, Suchspeicher/SQL/Auszüge, 158 Adress- und 40 Hostprüfunge
 Die vollständige stabile CI auf PHP 8.3 und 8.4 mit MariaDB 11.4 und Chromium
 bestand zunächst bei `ac3e5821a37ae9ce8639e89f861c8202f9691676`
 ([Actions 44481530011](https://github.com/u5cms/u5cms/actions/runs/44481530011)).
-Der abschliessende Kandidatenstand und seine CI werden vor Freigabe zusätzlich
-festgehalten. Frühere Prüfergebnisse sind davon unterscheidbar.
+Der abschliessende Anwendungskandidat `88dab36c2ff3c422f4c6421df4652e9656a6622d`
+bestand dieselbe vollständige PHP-8.3-/8.4-Abnahme einschliesslich Chromium
+in [Actions 44483223585](https://github.com/u5cms/u5cms/actions/runs/44483223585).
+Die nachfolgenden Inventar-/Berichtsänderungen ändern diese Anwendungssourcen
+und stabilen Testdateien nicht.
+
+Alle 21 veröffentlichten Branch-Heads und sämtliche geänderten Programm-/
+Testdateien wurden unabhängig von GitHub zurückgelesen und bytegenau mit den
+geprüften lokalen Ständen verglichen. Die Versionen, Renderer sowie vorhandene
+Such-/Migrationsdateien wurden zusätzlich gegen die jeweiligen Ausgangs-Blobs
+verglichen. Das unveränderte .5-Quellarchiv enthält 1’185 Dateien und stimmt
+vollständig mit seinem Git-Tag überein.
 
 Die Nachführung bewahrt die jeweilige Branch-Version, Renderer, moderne Suche
 samt Format-/Pending-/Running-Verträgen sowie die vorhandenen Migrations- und
@@ -117,3 +127,30 @@ ist keine vollständige neue Zertifizierung alter PHP-/MySQL-Laufzeiten oder
 eines produktiven SMTP-Providers. Es wurden keine realen Testnachrichten an
 Dritte und keine Änderungen an produktiven Schalterdaten vorgenommen.
 Eine Produktionsausrollung oder Produktionsabnahme wird hier nicht behauptet.
+
+
+### Branch-Umfang und Prüffortsetzung
+
+Das [vollständige Nachführungsinventar](release-12.9.5.6-backports.json)
+enthält 21 Ausgangs-/Folgecommits, die geänderten Pfade und die ausdrücklich
+unveränderten Versions-/Renderer-/Such-/Migrations-Blobs. Pro Branch bestanden
+26 tatsächliche Save-/Indexprüfungen, zwölf Batchprüfungen und die passende
+Rename-Suite; vorhandene Ownership- und Anzeigeprüfungen bestanden ebenfalls.
+Auf den sieben modernen Suchständen bestanden alle 96 ursprünglichen
+Indexprüfungen. Zwei ältere Indexer-Arbeitsstände enthalten die spätere
+Anzeige-Suite noch nicht; das Inventar kennzeichnet dies als nicht vorhanden.
+
+Die umfassenden Branch-Pipelines erkannten zusätzlich fehlende neue
+Hilfsdateien in isolierten Layout-Reset-, Restore- und Upload-Fixtures. Diese
+Fixtures wurden um die echten Produktionsabhängigkeiten ergänzt. Erwartungen
+und Anwendungscode wurden dafür nicht gelockert oder geändert. Die vorhandenen
+Codeobjekt-/Datenbankprüfungen wurden lokal auf allen zwölf betreffenden
+Branchständen erneut ausgeführt und bestanden (1’210 bis 1’673 Prüfungen).
+Die endgültigen Pipeline-Ergebnisse werden vor Releasefreigabe kontrolliert.
+
+Die drei historischen audit/-Branches bleiben unveränderte Vergleichsstände.
+Die bereits integrierten isolierten Arbeitsstände fix/international-email-20261108,
+fix/search-memory-12.9.5.1 und fix/rename-database-lock-waits bleiben als
+historische Arbeitsreferenzen erhalten; ihre Änderungen sind in der
+kumulativen stabilen Linie und den weitergeführten Funktionsbranches enthalten.
+Es werden keine älteren Teilstände als neue Auslieferungsgrundlage ausgegeben.
