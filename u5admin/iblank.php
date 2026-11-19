@@ -6,7 +6,7 @@
 <body style="background:black;color:white;margin:0;padding:0">
 <div id="welcome" style="width:100%;height:77px">Welcome to u5CMS.<span id="cleanlog" style="display:none">.</span><span id="cleanbackups" style="display:none">.</span></div>
 <script>
-setTimeout("document.getElementById('welcome').style.display='none'",3333);
+setTimeout(function(){var welcome=document.getElementById('welcome');if(welcome)welcome.style.display='none';},3333);
 </script>
 <?php
 error_reporting(E_ALL);

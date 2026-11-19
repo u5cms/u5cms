@@ -6,7 +6,7 @@ require_once('connect.inc.php');
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
-<link rel="stylesheet" href="../r/csshot.css" type="text/css" title="base"/>
+<link rel="stylesheet" href="<?php echo htmlspecialchars(u5CodeAssetPublicPath('csshot','../r/'),ENT_QUOTES,'Windows-1252') ?>" type="text/css" title="base"/>
 <title>bye</title>
 <?php require 'backendcss.php' ?>
 <style>

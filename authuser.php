@@ -13,7 +13,7 @@ $_SERVER['PHP_AUTH_USER'] = str_replace('&amp;', '&', $_SERVER['PHP_AUTH_USER'])
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
-    <?php if (file_exists('r/cssauthuser.css')) echo '<link rel="stylesheet" href="r/cssauthuser.css?' . filemtime('r/cssauthuser.css') . '" type="text/css" title="base"/>' ?>
+    <?php $u5AuthStyle=u5CodeAssetPublicPath('cssauthuser'); if (is_file($u5AuthStyle)) echo '<link rel="stylesheet" href="'.htmlspecialchars($u5AuthStyle,ENT_QUOTES,'Windows-1252').'?'.filemtime($u5AuthStyle).'" type="text/css" />'; ?>
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"
       style="font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold">

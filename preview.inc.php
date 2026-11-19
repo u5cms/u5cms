@@ -77,5 +77,21 @@ document.formp.submit();
 <?php 
 if ($_GET['i']==1) echo 'setTimeout("pviewit()",777);';
 ?>
-if (parent.pframe2 && parent.pframe2.document.getElementById('body') && parent.pframe2.document.getElementById('body').innerHTML!=document.getElementById('body').innerHTML) parent.pframe2.document.getElementById('body').innerHTML=document.getElementById('body').innerHTML;
+function u5CopyPreviewBody() {
+var source=document.getElementById('body'),target=parent.pframe2;
+if (!source || !target) return;
+var html=source.innerHTML;
+function publish() {
+try {
+// Keep the target parser intact, and discard a render superseded meanwhile.
+if (parent.pframe && parent.pframe.document!==source.ownerDocument) return;
+var doc=target.document;
+if (doc.readyState==='loading') { doc.addEventListener('DOMContentLoaded',publish,{once:true});return; }
+var body=doc.getElementById('body');
+if (body && body.innerHTML!==html) body.innerHTML=html;
+} catch(error) {}
+}
+publish();
+}
+u5CopyPreviewBody();
 </script>

@@ -15,7 +15,7 @@ $delstatgetc=$row_a['deleted'];
 
 $row_a['name']='logo';
 include('getfile.inc.php');
-$template=str_replace('[_logo_]','r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.filemtime('r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5)),file_get_contents('r/htmltemplate.css'));
+$template=str_replace('[_logo_]','r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5).'?t='.filemtime('r/logo/'.def($file_1,$file_2,$file_3,$file_4,$file_5)),file_get_contents(u5CodeTemplatePath()));
 
 $template = str_replace('</html>','',str_replace('</body>','<div style="width:30px;height:30px;position:fixed;top:0;left:0;z-index:2147483647;" onclick="if (typeof clickycorner === \'undefined\') clickycorner=0;clickycorner++;if(clickycorner>1){window.open(\'edit.php?' . ehtml($_SERVER['QUERY_STRING']) . '\');clickycorner=0}"><img src="clickycorner.gif" /></div>',$template)).'</body>
 </html>';

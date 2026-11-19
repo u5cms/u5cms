@@ -1,7 +1,20 @@
-<?php require_once('connect.inc.php');
-require_once __DIR__.'/resource-mutation.inc.php';require_once('t2.php');require_once('resourceupdate.inc.php'); ?>
+<?php require_once('connect.inc.php');require_once('t2.php');
+require_once('resource-mutation.inc.php');require_once('resourceupdate.inc.php'); ?>
 <?php
 if (strlen($_POST['name'])<4) die('<script>history.go(-1)</script>');
+if (strtolower((string)($_GET['typ'] ?? ''))==='c') {
+    if ($cssRqHIADRI!='no') require('accadmin.inc.php');
+    try {
+        $u5NewFile='r/'.u5CodeAssetFilename($_POST['name']);
+        if (file_exists(dirname(__DIR__).'/'.$u5NewFile)) {
+            $u5Retained=mysql_query("SELECT name FROM resources WHERE typ='c' AND deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."' LIMIT 1");
+            if (!$u5Retained || !mysql_num_rows($u5Retained)) throw new RuntimeException('An independent file already occupies the target code filename.');
+            require_once('codeassets-migrate.inc.php');u5CodeMigrationBackupFile(dirname(__DIR__),$u5NewFile);
+        }
+    }
+    catch (RuntimeException $error) { die(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252')); }
+}
+
 if ($_POST['name']=='meta' || $_POST['name']=='search' || $_POST['name']=='languages' || $_POST['name']=='content' || $_POST['name']=='right') die('<script>alert("The following five words are reserved to be used in the htmltemplate between {{{ and }}}:\n\nmeta search languages content right\n\nPlease do not use these words for new pages or other content items.");history.go(-1)</script>');
 ?>
 <!DOCTYPE html>
@@ -66,6 +79,7 @@ if ($result_a==false) {
 die('SQL_a-Query failed!...!<p>');
 }
 }
+if (strtolower((string)($_GET['typ'] ?? ''))==='c') u5CodeAssetExport(dirname(__DIR__));
 trxlog('new '.$_POST['name']);
 ?>
 <script>

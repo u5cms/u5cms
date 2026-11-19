@@ -1,6 +1,6 @@
-# u5CMS 13.0.0 development candidate
+# u5CMS 14.0.0 development candidate
 
-V13 starts at the published 12.9.5.7 revision. It combines the backend and image-handling changes from the 12.9.6, 12.10.0 and 12.10.1 development branches. The application retains the existing five-language content, templates and storage layout. The [branch guide](BRANCHES.md) records the source revisions, the scope of the integration and its acceptance status. For the stable release and deployment instructions, see [12.9.5.7](docs/release-12.9.5.7.md).
+V14 builds on the published 13.0.0 release. This line introduces typed JavaScript, CSS and HTML resources. Existing installations must carry their customised database content, generated files and backups through the migration. The changes also cover private-file caching and intranet login handling. See the [branch guide](BRANCHES.md) for the predecessor and acceptance status.
 
 ---
 

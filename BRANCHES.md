@@ -1,6 +1,10 @@
 # u5CMS development branches
 
-## V13 · 13.0.0 development candidate
+## V14 · 14.0.0 development candidate
+
+The first parent is the accepted V13 release at `c664f91cd8ef28cb309554cdb04213075daa7f8c`. The changes from 12.11.0 through 12.11.4 introduce typed code resources, resumable migration, archive and restore changes, private cache controls and intranet login corrections. The page, metadata and code editors retain the V13 check on the original editable field bytes. The test programme includes interruption, recovery, preservation of customised templates and mixed database encodings, as well as the inherited save, indexing, permissions and upload contracts.
+
+## V13 · published 13.0.0
 
 The stable default branch is `main`. V13 starts at the published tag `v12.9.5.7` (commit `6c4e8c719a9f6aa74be3228c2aa58351ea393904`). The integration combines the backend work through `25fe02ce20d4e8c53d93ad17a9e1bba3cc2fd6ad` with the five application paths from the upload MIME correction at `78d9781912647d85b179865c71e01e2f0d23969a`.
 
@@ -8,7 +12,7 @@ The upload tools add browser-side conversion for HEIC, HEIF, HIF, TIF and TIFF a
 
 Editors retain their submitted content when an edit conflicts. The page, code and metadata save paths compare the original database field bytes as part of the update. A later write that uses the same timestamp can therefore still be detected. A retry rechecks the resource type and archive state. Index-only updates use separate fields. The changes retain the configured editor overwrite policy.
 
-The candidate is undergoing installation, upgrade and regression testing. The release tag, distributable archive and onward V14 branch follow acceptance. The inventory below records the legacy source lines and their functions.
+The 13.0.0 release passed regression testing on PHP 8.3–8.5 and a populated upgrade from 12.9.5.7. The published archive matched the accepted commit. The inventory below records the legacy source lines and their functions.
 
 ## Current branches
 

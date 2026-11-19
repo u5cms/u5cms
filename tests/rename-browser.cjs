@@ -38,7 +38,18 @@ const {spawnSync}=require('node:child_process');const {launchBrowser}=require('.
    equal(fs.readFileSync(path.join(site,'r',newName,newName+'_100.jpg'),'utf8'),'original album bytes','album file follows');
    equal(fs.readFileSync(path.join(site,'r',newName,'.htpasswd'),'utf8'),fixtureBody,'protected fixture bytes remain exact');
    equal(fs.readFileSync(path.join(site,'r',newName,'.htaccess'),'utf8'),'Deny from all\n','access protection remains exact');
-   const front=await context.newPage();await front.goto(base+'/?c='+ref+'&l=en');equal(await front.locator('h2').filter({hasText:old}).count(),1,'real renderer preserves title brackets');
+   const front=await context.newPage();
+   // The shared-template fixture references these two scripts on its canonical host.
+   // Render the exact fixture files without depending on the production website.
+   await front.route('**/*', async route => {
+    const url=new URL(route.request().url());
+    if (url.origin===new URL(base).origin) return route.continue();
+    if (url.origin==='https://info.agov.ch' && ['/r/mobile.js','/r/mobilebase.js'].includes(url.pathname)) {
+     return route.fulfill({contentType:'text/javascript; charset=utf-8',body:fs.readFileSync(path.join(site,url.pathname))});
+    }
+    return route.abort();
+   });
+   await front.goto(base+'/?c='+ref+'&l=en');equal(await front.locator('h2').filter({hasText:old}).count(),1,'real renderer preserves title brackets');
    verify(await front.locator('a[href*="c='+newName+'"]').count()>0,'real renderer resolves renamed dependency');await front.close();
    const snapshot=JSON.stringify(state);response=await context.request.post(base+'/u5admin/rename2.php?name='+old,{form:{name:newName,ulinks:'yes',u5scrtytknfrfrms:token}});equal(response.status(),200,'replayed completed request succeeds without a second mutation');equal(JSON.stringify(support('snapshot',mode)),snapshot,'repeat leaves database unchanged');
    await context.close();
@@ -53,7 +64,7 @@ const {spawnSync}=require('node:child_process');const {launchBrowser}=require('.
   const conflict=await admin.request.get(base+'/u5admin/checkco.php?name=renameoldfailure&coco=100&changes=1');
   verify(!(await conflict.text()).includes('msgconflict='),'archived editor conflict poll ignores a newer deleted tombstone');
   form=await admin.request.get(base+'/u5admin/rename.php?name=renameoldfailure');token=(await form.text()).match(/name="u5scrtytknfrfrms"[^>]*value="([^"]+)"/)[1];
-  const exportPath=path.join(site,'r','htmltemplate.css'),savedExport=exportPath+'.fixture';fs.renameSync(exportPath,savedExport);fs.mkdirSync(exportPath);
+  const exportPath=path.join(site,'r',process.env.U5_RENAME_TEST_EXPORT),savedExport=exportPath+'.fixture';fs.renameSync(exportPath,savedExport);fs.mkdirSync(exportPath);
   try {
    response=await admin.request.post(base+'/u5admin/rename2.php?name=renameoldfailure',{form:{name:'renamenewfailure',ulinks:'yes',u5scrtytknfrfrms:token}});equal(response.status(),500,'publication failure is visible');verify((await response.text()).includes('Retry rename'),'failure offers the exact resumable operation');
    verify(support('snapshot','failure').resources.some(x=>x.name==='renamenewfailure'),'publication failure checkpoint covers a moved source');

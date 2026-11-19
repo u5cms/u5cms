@@ -3,9 +3,16 @@ require_once('connect.inc.php');
 if ($_COOKIE['shrchv']=='1') $delstatus=2;
 else $delstatus=0;
 $squot="\'";
+$codeUsagePatterns=array();
+$codeUsageRows=mysql_query("SELECT name FROM resources WHERE typ='c' AND deleted!=1");
+if ($codeUsageRows!==false) while ($codeUsageRow=mysql_fetch_assoc($codeUsageRows)) {
+if (u5CodeAssetIsTyped($codeUsageRow['name'])) $codeUsagePatterns[$codeUsageRow['name']]=u5CodeAssetUsagePattern($codeUsageRow['name']);
+}
 ?>
 <script>
 var filterRowGroups=[];
+var codeUsagePatterns=<?php echo json_encode($codeUsagePatterns,JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_AMP|JSON_HEX_QUOT) ?>;
+for (var codeName in codeUsagePatterns) codeUsagePatterns[codeName]=new RegExp(codeUsagePatterns[codeName],'i');
 
 function compactFilterRows(group, filtered) {
 if (!group.spacers) {
@@ -94,6 +101,10 @@ var left=false, right=false;
 for (var p=0;p<patterns.length;p++) {
 if (ctL.indexOf(patterns[p])!==-1) left=true;
 if (ctR.indexOf(patterns[p])!==-1) right=true;
+}
+if (codeUsagePatterns[tid]) {
+if (codeUsagePatterns[tid].test(ctL.split(String.fromCharCode(92)+'/').join('/'))) left=true;
+if (codeUsagePatterns[tid].test(ctR.split(String.fromCharCode(92)+'/').join('/'))) right=true;
 }
 var doc=parent.document, form=doc.form1;
 highlight(doc.getElementById('tdL_'+tid),left);

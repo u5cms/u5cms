@@ -18,7 +18,7 @@ if ($filehash1 != $_GET['h'] && $filehash2 != $_GET['h']) die('<script>alert("ER
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=WINDOWS-1252"/>
-    <?php if (file_exists('../r/cssupload.css')) echo '<link rel="stylesheet" href="r/cssupload.css?' . filemtime('../r/cssupload.css') . '" type="text/css" title="base"/>' ?>
+    <?php $u5UploadStyle=u5CodeAssetPublicPath('cssupload','../r/'); if (is_file($u5UploadStyle)) echo '<link rel="stylesheet" href="'.htmlspecialchars($u5UploadStyle,ENT_QUOTES,'Windows-1252').'?'.filemtime($u5UploadStyle).'" type="text/css" />'; ?>
     <style type="text/css">
         body {
             margin-left: 0px;

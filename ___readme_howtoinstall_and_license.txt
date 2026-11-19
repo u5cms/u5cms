@@ -51,7 +51,7 @@ HOW TO INSTALL THE u5CMS (license see bottom of this page)
 
  12.
  If you want to change the look of the dummy homepage, alter the CSS's and the htmltemplate
- which you'll find in the CMS on 'S' of the PIDVESA-radiobuttons. 
+ which you'll find in the CMS on 'S' of the PIDVESA-radiobuttons (e.g. htmltemplate!html and base!css).
  There click the 'Code'-button. ATTENTION: You are only allowed to make changes there (in
  the CMS). From there files are exported to the r-folder; never touch the files directly!
 
@@ -83,8 +83,17 @@ HOW TO UPDATE AN EXISTING U5CMS INSTALLATION
 8. You must now log in to the backend of your (now updated) u5CMS installation via https://urltoyouru5cmsfrontend/u5admin for that the database will be updated too
 
 TROUBLE SHOOTING
-A) If the layout does not look right after having done step 8, go to https://urltoyouru5cmsfrontend/u5admin and open a css-object (e. g. csslayout) in PIDVESA's S special function's code (htmltemplate & css) section and safe it!
+A) If the layout does not look right after having done step 8, go to https://urltoyouru5cmsfrontend/u5admin and open a css-object (e.g. layout!css) in PIDVESA's S special function's code (HTML/CSS/JavaScript) section and safe it!
 B) If after A) the layout still does not look right, please consult https://yuba.ch/?c=u5cmsupdate
+C) Version 12.11.0 migrates code objects to name!extension (the LAST ! is the separator),
+   e.g. mobile!js exports to r/mobile.js and base!css to r/base.css. No MIME .htaccess rule is needed.
+   Upload all application files before opening the backend; from r/ upload only runonce.php.
+   Existing customized sources and references are migrated by r/runonce.php, with a resumable
+   checkpoint and report in fileversions/. If the update reports an error, keep runonce.php
+   and the checkpoint, fix the reported problem, and retry the backend.
+   Existing .tpl reset sources stay under r/ and are renamed with their references.
+   The common mobile fallback is embedded in the updater. No yuba.ch script download is needed.
+   For details, collision handling, and regression tests see docs/12.11.0-code-assets.md.
 
 
 
