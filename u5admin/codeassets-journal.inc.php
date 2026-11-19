@@ -104,10 +104,11 @@ function u5CodeMigrationAbortChanges($root,$journal) {
 
 function u5CodeMigrationApplyChanges($root,$journal) {
     $columns=array();
-    u5CodeMigrationEachChange($root,$journal,function($change,$index) use(&$columns) {
+    u5CodeMigrationEachChange($root,$journal,function($change,$index) use(&$columns,$root,$journal) {
         $table=$change['table'];
         if (!isset($columns[$table])) $columns[$table]=u5CodeMigrationColumns($table);
         u5CodeMigrationApplyRow($change,$columns[$table]);
         u5CodeMigrationCheckpoint('row:'.$index);
+        u5ResourceRenameProgress($root,'rows',$index+1,(int)($journal['count'] ?? count($journal)));
     });
 }

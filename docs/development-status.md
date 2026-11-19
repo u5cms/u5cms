@@ -1,5 +1,17 @@
 # u5CMS development checkpoint
 
+## .7 save/Rename correction in progress, 19 November 2026
+
+Authorised: preserve this branch's cumulative work and forward-port .7.
+Target: feature/search-phrases-quotes-highlighting. Exact base: 6738d5b2ec5d009794ea0b79a80957bf7c0f8880.
+Candidate: process-owned Rename gate, concurrent ordinary writes, index yielding,
+nonblocking recovery plans, real Rename phase/progress and crash recovery tests.
+This branch's renderer, version, search format, migration namespace and encoding
+remain distinct. Its existing monotonic resource update API is preserved where
+present. Tests and expected-head publication are still pending at this checkpoint.
+No production deployment or rollout email. Next: actual local HTTP/concurrency/
+Rename tests and this branch's comprehensive pipeline before release acceptance.
+
 ## Save/index coordination, 19 November 2026
 
 Base 684be743a66d072e033411f72f10d8f30a7842ed. Target feature/search-phrases-quotes-highlighting.
