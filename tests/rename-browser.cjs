@@ -57,8 +57,8 @@ const {spawnSync}=require('node:child_process');const {launchBrowser}=require('.
   try {
    response=await admin.request.post(base+'/u5admin/rename2.php?name=renameoldfailure',{form:{name:'renamenewfailure',ulinks:'yes',u5scrtytknfrfrms:token}});equal(response.status(),500,'publication failure is visible');verify((await response.text()).includes('Retry rename'),'failure offers the exact resumable operation');
    verify(support('snapshot','failure').resources.some(x=>x.name==='renamenewfailure'),'publication failure checkpoint covers a moved source');
-   const blocked=await admin.request.post(base+'/u5admin/meta2.php?typ=p',{form:{name:'renamenewfailure',u5scrtytknfrfrms:token}});equal(blocked.status(),409,'metadata writes cannot race an interrupted rename');
-   verify((await blocked.text()).includes('did not change the resource'),'blocked mutation explains preserved input');
+   const recovery=await admin.request.get(base+'/u5admin/renaming.php');equal(recovery.status(),200,'recovery overview remains available');
+   verify((await recovery.text()).includes('These are recovery plans, not locks'),'interrupted Rename is explained without a persistent save block');
   } finally {fs.rmdirSync(exportPath);fs.renameSync(savedExport,exportPath);}
   response=await admin.request.post(base+'/u5admin/rename2.php?name=renameoldfailure',{form:{name:'renamenewfailure',ulinks:'yes',u5scrtytknfrfrms:token}});equal(response.status(),200,'administrator resumes publication after failure');
   verify(!(await response.text()).includes('Rename has not completed'),'completed response has no error');equal(support('snapshot','failure').resources.find(x=>x.name==='renamenewfailure').deleted,'2','archive state survives retry');
