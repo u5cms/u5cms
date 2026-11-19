@@ -1,5 +1,18 @@
 # u5CMS development checkpoint
 
+## Additional large-Rename packet regression, 19 November 2026
+
+Full stable PHP 8.3/8.4 and Chromium passed at a48bc6ee, but a later
+4 MiB SQL-packet test reproduced a legitimate large multilingual Rename failure.
+The current change bounds original-row guards with byte digests and stages new
+large values in connection-local binary variables before one conditional UPDATE.
+No editor wait, additional global gate or journal-format change is introduced.
+44 real HTTP/data/history/recovery assertions pass locally. The change is adapted
+to all 21 maintained branches, including their own migration/storage APIs.
+Next: complete new packet, cumulative, concurrency, browser and benchmark checks;
+then publish final docs/Main/tag/release and send the single .7 ticket mail last.
+No .7 release or .7 production rollout has occurred.
+
 ## 12.9.5.7 in progress, 19 November 2026
 
 Authorised: publish .6 without deployment/mail; first remove production save

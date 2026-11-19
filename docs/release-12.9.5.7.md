@@ -58,3 +58,11 @@ The complete release replaces the temporary no-global-lock workaround. Install
 all newly added system helpers with the release before activating updated entry
 points; preserve configuration, data and installation-specific exceptions.
 Production rollout remains a separate operation from this code acceptance.
+
+An additional 4 MiB packet reproduction found that large five-language Rename
+rows duplicated their source in SQL guards and new-value literals. The accepted
+source at a48bc6ee predates this finding. The current candidate uses bounded
+byte-digest guards and connection-local staged values, retaining one conditional
+row UPDATE. The new actual HTTP regression passes 44 checks locally: large
+current/history text, round trip, one-byte conflict and exact guarded recovery.
+All maintained lines are adapted; complete acceptance is rerun for this change.
