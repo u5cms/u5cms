@@ -1,6 +1,6 @@
-# u5CMS 15.0.0 development candidate
+# u5CMS 15.0.0
 
-V15 builds on the published 14.0.0 release. Search supports quoted phrases, accent-tolerant matching and highlighting on the destination page. The backend adds text-editing actions and optional OpenID Connect alongside the existing authentication modes. PHP compatibility and dependency changes are included in this line. See the [branch guide](BRANCHES.md) for its acceptance status.
+V15 builds on the published 14.0.0 release. Search supports quoted phrases, accent-tolerant matching and highlighting on the destination page. The backend adds text-editing actions and optional OpenID Connect alongside the existing authentication modes. PHP compatibility and dependency changes are included in this line. See the [branch guide](BRANCHES.md) for the release history.
 
 ---
 
