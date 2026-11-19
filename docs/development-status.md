@@ -1,5 +1,19 @@
 # u5CMS development checkpoint
 
+## Save/index coordination, 19 November 2026
+
+Base 4931a5dc8dbe0115d61e59ec6860c1ac9a078245. Target 12.10.1-Support-More-Image-Formats.
+Bound named/full index work and server-side save invalidation; preserve this
+branch's version, renderer, index format and migration/Rename APIs.
+Local PHP 8.4.24/MariaDB 11.8.6: 26 real save/index checks and the branch's
+existing batch, notice (where present), Rename and ownership checks passed.
+Modern-search branches retain all 96 index expectations; only their isolated
+fixtures gain the actual new helper dependencies. The new test is registered
+in the existing capability manifest/workflow when present. This is targeted
+local verification, distinct from the branch's comprehensive Actions pipeline.
+No production deployment. Published ref must be checked against the new SHA.
+
+
 ## Rename SQL wait guard, 19 November 2026
 
 Authorised follow-up: bounded database lock waits for Rename and safe recovery
