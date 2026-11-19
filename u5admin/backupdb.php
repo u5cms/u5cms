@@ -266,16 +266,16 @@ ALTER TABLE sizes ENGINE = MyISAM, DEFAULT CHARSET=utf8;
 ALTER TABLE titlefixum ENGINE = MyISAM, DEFAULT CHARSET=utf8;
 ALTER TABLE trxlog ENGINE = MyISAM, DEFAULT CHARSET=utf8;
 ';
+    // The complete SQL snapshot is buffered. Validate it before touching
+    // either previously valid backup; later source saves cannot alter the buffers.
+    try {u5ResourceBackupFinish(dirname(__DIR__),$u5BackupGeneration);}
+    catch (U5ResourceBusyException $error) {
+        http_response_code(409);exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
+    }
     write_backup($dbname, $newfile.$myisam, $newfile_data, $backup_compress);
 } //End: while
 
 
-// Publish only if no source writer changed the snapshot while it was read.
-try {u5ResourceBackupFinish(dirname(__DIR__),$u5BackupGeneration);}
-catch (U5ResourceBusyException $error) {
-    foreach ($backup_files as $file) if (is_file($file)) @unlink($file);
-    http_response_code(409);exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
-}
 //Backup per Email senden
 if ($backup_send_mail) {
     $from = $mymail;
