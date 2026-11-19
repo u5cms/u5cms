@@ -60,6 +60,7 @@ jobs:
           python3 tests/indexer-crash-regression.py
           python3 tests/indexer-database-lock-regression.py
           python3 tests/indexer-http-regression.py
+          python3 tests/index-save-regression.py
           python3 tests/international-email-smtp.py
           python3 tests/international-email-native.py
           mkdir "$RUNNER_TEMP/u5-baseline"
