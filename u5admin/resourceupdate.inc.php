@@ -46,7 +46,7 @@ function u5UpdateResource($name, $changes, $row, $revision,$inputEncodings=array
             $set[]='`'.$field.'`='.u5ResourceSqlValue($value,in_array($field,array('operator','ip','lastmut'),true) ? 'latin1' : ($encodings[$field] ?? 'latin1'));
         }
         for ($language=1;$language<=5;$language++) $set[]='search_'.$language.'=NULL';
-        $previous=u5SaveDigestSql().'='.u5RenameStorageValue($row['edit_digest']);
+        $previous=u5SaveDigestSql().'='.u5CodeMigrationValue($row['edit_digest']);
         $sql="UPDATE resources SET ".implode(',',$set)." WHERE name='".mysql_real_escape_string($name)."' AND deleted=".(int)$original['deleted'].' AND '.$previous.' LIMIT 1';
         if (mysql_query($sql)===false) throw new RuntimeException('Update failed. The current resource has been kept.');
         if (mysql_affected_rows()==1) return array('saved'=>true,'stamp'=>$stamp,'record'=>$new,'current'=>$row);
