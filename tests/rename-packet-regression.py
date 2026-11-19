@@ -49,18 +49,29 @@ $c=new mysqli($host,$username,$password,$db);$c->set_charset('utf8mb4');$r=$c->q
         else:raise AssertionError('HTTP fixture did not start')
         token=re.search(r'name="u5scrtytknfrfrms"[^>]*value="([^"]+)"',form).group(1)
         def rename(old,new):return request('/u5admin/rename2.php?name='+old,{'name':new,'ulinks':'yes','u5scrtytknfrfrms':token})
-        def conserved(target):
+        def conserved(target,reference='packetref',expected_bodies=None,old='packetold'):
+            if expected_bodies is None:expected_bodies=bodies
             for table in ['resources','resources_log']:
                 fields=','.join('SHA2(CAST(content_'+str(n)+' AS BINARY),256) AS h'+str(n) for n in range(1,6))
-                rows=sql('SELECT '+fields+' FROM '+table+" WHERE name='packetref'")
+                rows=sql('SELECT '+fields+' FROM '+table+" WHERE name='"+reference+"'")
                 check(bool(rows),'large reference row retained in '+table)
                 for n in range(1,6):
-                    expected=hashlib.sha256(bodies[n].replace('[packetold] [[packetold]]','['+target+'] [[packetold]]').encode()).hexdigest()
+                    expected=hashlib.sha256(expected_bodies[n].replace('['+old+'] [['+old+']]','['+target+'] [['+old+']]').encode()).hexdigest()
                     check(all(row['h'+str(n)]==expected for row in rows),'exact large language '+str(n)+' source/history conservation in '+table)
         for old,new in [('packetold','packetnew'),('packetnew','packetold')]:
             code,body=rename(old,new)
             check(code==200 and 'has not completed' not in body,'actual large multilingual Rename succeeds: '+old+' to '+new+'; '+body[-500:])
             conserved(new)
+        if (site/'codeassets.inc.php').exists():
+            code_old='packetcssold!css';code_new='packetcssnew!css'
+            sql("INSERT INTO resources(name,typ,deleted,hidden,lastmut,operator,content_1) VALUES('"+code_old+"','c',0,0,100,'original','body{}'),('packetcref','p',0,0,100,'original','')")
+            code_bodies={n:'Code language '+str(n)+' '+('y'*350000)+' ['+code_old+'] [['+code_old+']] &amp; literal' for n in range(1,6)}
+            for n in range(1,6):sql("UPDATE resources SET content_"+str(n)+"=CONCAT('Code language "+str(n)+" ',REPEAT('y',350000),' ["+code_old+"] [["+code_old+"]] &amp; literal') WHERE name='packetcref'")
+            sql('INSERT INTO resources_log ('+fields+') SELECT '+fields+" FROM resources WHERE name='packetcref'")
+            code,body=rename(code_old,code_new)
+            check(code==200 and 'has not completed' not in body,'actual typed-code Rename updates large multilingual dependants')
+            conserved(code_new,'packetcref',code_bodies,code_old)
+            check((site/'r/packetcssnew.css').is_file(),'typed-code Rename publishes its matching file')
         # Inject a direct, uncoordinated database edit after the immutable plan
         # was saved. The large-value digest must reject even a one-byte change.
         flag=tmp/'interfere';flag.touch();path=site/'u5admin/resource-rename.inc.php';original=path.read_bytes()
