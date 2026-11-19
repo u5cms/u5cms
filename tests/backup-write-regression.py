@@ -1,7 +1,7 @@
 """Real backup endpoints yield to source changes; editor writes never wait."""
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
-import base64, http.cookiejar, json, os, re, shutil, signal, socket, subprocess, tempfile, time
+import base64, hashlib, http.cookiejar, json, os, re, shutil, signal, socket, subprocess, tempfile, time
 import urllib.error, urllib.parse, urllib.request
 from fixture_environment import ensure_fixture_environment
 
@@ -35,7 +35,7 @@ $c=new mysqli($host,$username,$password,$db);$r=$c->query($argv[2]);echo json_en
     sql("INSERT INTO resources(name,typ,deleted,lastmut,operator,content_1) VALUES('backuppage','p',0,100,'original','BEFORE')")
     log=(tmp/'server.log').open('w');servers=[];origins=[]
     # Two independent HTTP servers guarantee that the actual save runs while
-    # the actual backup endpoint is paused after creating its output.
+    # the actual backup endpoint is paused before publishing its new snapshot.
     for _ in range(2):
         with socket.socket() as probe:probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
         env=dict(os.environ);env.pop('PHP_CLI_SERVER_WORKERS',None)
@@ -79,10 +79,10 @@ $c=new mysqli($host,$username,$password,$db);$r=$c->query($argv[2]);echo json_en
             def outputs():
                 return list((output/'_dbbackup').glob('*')) if route=='backupdb.php' else list(output.glob('*_FilesExclCMSsys.zip'))
             check(bool(outputs()),'actual backup output exists: '+route)
-            for file in outputs():file.unlink()
+            previous={str(file):hashlib.sha256(file.read_bytes()).hexdigest() for file in outputs()}
             ready_file=tmp/'backup-ready';go_file=tmp/'backup-go'
             barrier=("file_put_contents("+repr(str(ready_file))+",'1');$u5Until=microtime(true)+10;while(microtime(true)<$u5Until){clearstatcache(true,"+repr(str(go_file))+");if(is_file("+repr(str(go_file))+"))break;usleep(10000);}").encode()
-            # Only the temporary fixture gets a deterministic post-copy barrier.
+            # Only the temporary fixture gets a deterministic pre-publication barrier.
             path.write_bytes(original.replace(b'u5ResourceBackupFinish(',barrier+b'u5ResourceBackupFinish(',1))
             try:
                 with ThreadPoolExecutor(max_workers=1) as pool:
@@ -98,12 +98,12 @@ $c=new mysqli($host,$username,$password,$db);$r=$c->query($argv[2]);echo json_en
                     check(sql("SELECT content_1 FROM resources WHERE name='backuppage'")[0]['content_1']==post['content_1'],'source change persisted during backup')
                     go_file.touch();code,body=future.result(timeout=15)
                 check(code==409 and 'Source content changed during the backup' in body,'changed backup explains refusal instead of publishing success')
-                check(not outputs(),'invalid mixed-generation backup is removed before offering download')
+                check(previous=={str(file):hashlib.sha256(file.read_bytes()).hexdigest() for file in outputs()},'rejected backup preserves every previous valid backup byte and publishes no mixed snapshot')
             finally:
                 path.write_bytes(original);ready_file.unlink(missing_ok=True);go_file.unlink(missing_ok=True)
             code,body=request('/u5admin/'+route)
             check(code==200 and bool(outputs()),'quiescent retry succeeds after source change: '+route)
-        print('Backup/write checks:',checks,'passed (actual database'+('/ZIP' if zip_available else '; ZIP unavailable locally')+' backup, concurrent authenticated save, invalid output removal and retry).')
+        print('Backup/write checks:',checks,'passed (actual database'+('/ZIP' if zip_available else '; ZIP unavailable locally')+' backup, concurrent authenticated save, previous backup preservation and retry).')
     except Exception:
         log.flush();print((tmp/'server.log').read_text()[-3500:]);raise
     finally:
