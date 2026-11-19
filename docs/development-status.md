@@ -1,5 +1,19 @@
 # u5CMS development checkpoint
 
+## Save/index coordination, 19 November 2026
+
+Base 5752177328b570b71761cda1f9e9f9995ff677a8. Target fix/indexer-db-lock-wait-12953.
+Bound named/full index work and server-side save invalidation; preserve this
+branch's version, renderer, index format and migration/Rename APIs.
+Local PHP 8.4.24/MariaDB 11.8.6: 26 real save/index checks and the branch's
+existing batch, notice (where present), Rename and ownership checks passed.
+Modern-search branches retain all 96 index expectations; only their isolated
+fixtures gain the actual new helper dependencies. The new test is registered
+in the existing capability manifest/workflow when present. This is targeted
+local verification, distinct from the branch's comprehensive Actions pipeline.
+No production deployment. Published ref must be checked against the new SHA.
+
+
 ## Freigabeprüfung 12.9.5.2 vom 18. November 2026
 
 Der Release-Kandidat bestand 887 Rename-, 114 HTTP- und 92 Chromium-Prüfungen.
