@@ -8,6 +8,7 @@
   ],
   "php9": true,
   "php_tests": [
+    "responsive-layout-regression.php",
     "formdata-transport-regression.php",
     "codeassets-regression.php",
     "rename-regression.php",
@@ -33,7 +34,8 @@
   ],
   "node_tests": [
     "textarea-core.cjs",
-    "search-normalization-parity.cjs"
+    "search-normalization-parity.cjs",
+    "responsive-navigation-regression.cjs"
   ],
   "http_browser_tests": [
     "codeassets-web-regression.py",
@@ -154,6 +156,22 @@
     "tests/international-email-native.py",
     "mail/accounts.php",
     "tests/international-email-evidence-2026-11-08.json",
+    "render/layout.inc.php",
+    "render/markup.inc.php",
+    "render/resources.inc.php",
+    "render/output.inc.php",
+    "render/dat.inc.php",
+    "css/u5-responsive.css",
+    "js/u5-responsive.js",
+    "u5sys.responsivecontrols.php",
+    "tests/responsive-web.py",
+    "tests/responsive-browser.cjs",
+    "tests/responsive-render-worker.php",
+    "tests/responsive-render-regression.py",
+    "tests/fixtures/legacy-htmltemplate.html",
+    "tests/responsive-layout-regression.php",
+    "tests/responsive-navigation-regression.cjs",
+    "tests/responsive-backend-regression.py",
     "index-work.inc.php",
     "tests/index-save-regression.py",
     "tests/resource-activity-regression.py",
@@ -161,5 +179,8 @@
     "tests/backup-write-regression.py",
     "tests/rename-packet-regression.py"
   ],
-  "legacy_https_routes": []
+  "legacy_https_routes": [],
+  "responsive": {
+    "baseline_sha": "9efde9baf42311a2f0a0f81ebfc332f3b8e1ed6b"
+  }
 }

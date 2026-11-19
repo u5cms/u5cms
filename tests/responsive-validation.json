@@ -1,0 +1,715 @@
+{
+  "date": "2026-11-12",
+  "branch": "12.13.0-Responsive-Design",
+  "base_sha": "3b9b8054473d41ae3bdd046257db154770942987",
+  "original_contract_sha": "9d366253417822c279692767b89dcf1ff0388c5c",
+  "runtime": {
+    "php": "8.4.24",
+    "mariadb": "11.8.6",
+    "chromium_headless_shell": "150.0.7871.181"
+  },
+  "scope": "Local disposable installations, not GitHub CI or production. External responsive resources blocked. Mail transport only local test doubles.",
+  "responsive": {
+    "renderer": {
+      "baseline": "3b9b8054473d41ae3bdd046257db154770942987",
+      "cases": 186,
+      "legacy_byte_comparisons": 186,
+      "responsive_syntax_dat_comparisons": 129,
+      "expected_effects": 13,
+      "denial_cases": 4,
+      "passed": true,
+      "names": [
+        "syntax-0",
+        "syntax-1",
+        "syntax-2",
+        "syntax-3",
+        "syntax-4",
+        "syntax-5",
+        "syntax-6",
+        "syntax-7",
+        "syntax-8",
+        "syntax-9",
+        "syntax-10",
+        "syntax-11",
+        "dat-mode-0",
+        "dat-mode-0!",
+        "dat-mode-1",
+        "dat-mode-1!",
+        "dat-mode-2",
+        "dat-mode-2!",
+        "dat-mode-3",
+        "dat-mode-3!",
+        "dat-mode-4",
+        "dat-mode-4!",
+        "dat-mode-5",
+        "dat-mode-5!",
+        "dat-fields-name*",
+        "dat-fields-name_mandatory",
+        "dat-fields-Name_mandatory",
+        "dat-fields-missing",
+        "dat-fields-comment",
+        "dat-fields-?notes",
+        "dat-fields-?id,?formname,?time,?ip,?status,?lastmut,?authuser,?humantime,?sent",
+        "dat-fields-?missing",
+        "dat-record-",
+        "dat-record-1",
+        "dat-record-2",
+        "dat-record-999999",
+        "dat-record-ALL",
+        "dat-record-?",
+        "dat-id-get",
+        "dat-filter-",
+        "dat-filter-review",
+        "dat-filter-(reader)",
+        "dat-filter-(authuser)",
+        "dat-filter-SELF",
+        "dat-filter-datacsv LIKE %Anna%",
+        "dat-filter-datacsv LIKE %·Anna;%",
+        "dat-filter-notes LIKE %review%",
+        "dat-filter-WHERE status=1 AND id>1",
+        "dat-filter-WHERE status=1 AND id!=1",
+        "dat-WHERE-raw",
+        "dat-SQL-error-hidden",
+        "dat-get-filter-datacsv LIKE %Anna%||%Bea%",
+        "dat-get-filter-datacsv LIKE %Anna%&&%alpha%",
+        "dat-get-filter-datacsv LIKE %·Anna;%",
+        "dat-get-filter-review",
+        "dat-get-filter-WHERE status=1",
+        "dat-status-",
+        "dat-status-1",
+        "dat-status-2",
+        "dat-status-0",
+        "dat-status-missing",
+        "dat-order-",
+        "dat-order-id DESC",
+        "dat-order-datacsv ASC",
+        "dat-order-id DESC LIMIT 0,2",
+        "dat-order-LIMIT 1,1",
+        "dat-order-?",
+        "dat-order-? LIMIT 0,1",
+        "dat-get-sort",
+        "dat-invalid-sort",
+        "dat-delimiter-",
+        "dat-delimiter-<br>",
+        "dat-delimiter-<em>,</em>",
+        "dat-delimiter-<br>@@<hr>",
+        "dat-delimiter- / @@ &amp; ",
+        "dat-newline-",
+        "dat-newline-<br>",
+        "dat-newline-<hr>",
+        "dat-newline- - ",
+        "dat-condition-Anna",
+        "dat-condition-unknown",
+        "dat-condition-",
+        "dat-placeholders",
+        "dat-whitespace",
+        "dat-absent-form",
+        "dat-uploads-",
+        "dat-uploads-!",
+        "dat-uploads-300x0",
+        "dat-uploads-0x100",
+        "dat-uploads-500x300",
+        "dat-uploads-500+300",
+        "dat-uploads-300x0!",
+        "dat-uploads-0x100!",
+        "dat-uploads-500x300!",
+        "php-policy-off",
+        "php-policy-onallpages",
+        "php-policy-inarchiveonly",
+        "languages-de",
+        "languages-en",
+        "languages-fr",
+        "languages-it",
+        "languages-es",
+        "resource-responsive-image-0",
+        "resource-responsive-image-1",
+        "resource-responsive-image-2",
+        "resource-responsive-image-3",
+        "resource-responsive-image-4",
+        "resource-responsive-image-5",
+        "resource-responsive-free-0",
+        "resource-responsive-free-1",
+        "resource-responsive-free-2",
+        "resource-responsive-youtube-0",
+        "resource-responsive-youtube-1",
+        "resource-responsive-youtube-2",
+        "resource-responsive-youtube-3",
+        "resource-responsive-youtube-4",
+        "resource-responsive-youtube-5",
+        "resource-testmp3-0",
+        "resource-testmp3-1",
+        "resource-testmp3-2",
+        "resource-testmp3-3",
+        "resource-testmp3-4",
+        "resource-testmp3-5",
+        "resource-testmp3-6",
+        "resource-responsive-album-0",
+        "resource-responsive-album-1",
+        "resource-responsive-album-2",
+        "resource-responsive-album-3",
+        "resource-responsive-album-4",
+        "resource-responsive-album-5",
+        "resource-responsive-album-6",
+        "resource-responsive-album-7",
+        "resource-responsive-album-8",
+        "resource-responsive-page-0",
+        "resource-responsive-page-1",
+        "resource-responsive-page-2",
+        "resource-responsive-doc-0",
+        "resource-responsive-doc-1",
+        "resource-responsive-link-0",
+        "resource-responsive-link-1",
+        "preview-1",
+        "preview-2",
+        "seed-page-trottinettvideo-1",
+        "seed-page-gotthardtunnel-1",
+        "seed-page-skiplinks-1",
+        "seed-page-skiplinks-2",
+        "seed-page-skiplinks-3",
+        "seed-page-thanks-1",
+        "seed-page-thanks-2",
+        "seed-page-thanks-3",
+        "seed-page-zumbeispielformate-1",
+        "seed-page-slogan-1",
+        "seed-page-plus1andlike-1",
+        "seed-page-!page02-1",
+        "seed-page-!intranetpnavi-1",
+        "seed-page-intranet-1",
+        "seed-page-intranet-2",
+        "seed-page-formular-1",
+        "seed-page-!page03-1",
+        "seed-page-!page01-1",
+        "seed-page-footer-1",
+        "seed-page-news-1",
+        "seed-page-sitemap-1",
+        "seed-page-sitemap-2",
+        "seed-page-sitemap-3",
+        "seed-page-trottinett-1",
+        "seed-page-trottinett-2",
+        "seed-page-trottinett-3",
+        "seed-page-questionnaire-1",
+        "seed-page-start-1",
+        "seed-page-start-2",
+        "seed-page-start-3",
+        "seed-page-navigation-1",
+        "seed-page-navigation-2",
+        "seed-page-navigation-3",
+        "seed-page-onemorepage-1",
+        "seed-page-onemorepage-2",
+        "seed-page-onemorepage-3",
+        "seed-page-formatexamples-1",
+        "seed-page-codefixture-1",
+        "seed-page-codefixture-2",
+        "seed-page-codefixture-3",
+        "seed-page-codefixture-4",
+        "seed-page-codefixture-5",
+        "seed-page-responsive-page-1",
+        "seed-page-responsive-page-2"
+      ]
+    },
+    "layout_boundary_checks": 47,
+    "browser": {
+      "u5standard.sql": 179,
+      "u5conference.sql": 179,
+      "viewports": [
+        320,
+        375,
+        768,
+        800,
+        1024,
+        1440,
+        1920
+      ],
+      "javascript": [
+        true,
+        false
+      ],
+      "screenshots_inspected": true
+    }
+  },
+  "contract_results": {
+    "main-reference-regression": {
+      "original_checks": 36,
+      "checks": 89,
+      "results": [
+        {
+          "label": "branch",
+          "differences": {}
+        }
+      ]
+    },
+    "configuration-reference": {
+      "profiles": [
+        "default",
+        "ordinary-open-data",
+        "ordinary-restricted-data",
+        "checked-form-edits",
+        "php-archive-only",
+        "php-disabled",
+        "quote-handling",
+        "cookie-session",
+        "fastcgi-auth",
+        "explicit-open-backend"
+      ],
+      "results": [
+        {
+          "label": "branch",
+          "cases": 130,
+          "differences": {}
+        }
+      ]
+    },
+    "formdata-view-reference": {
+      "results": [
+        {
+          "label": "branch",
+          "cases": 42,
+          "differences": {}
+        }
+      ]
+    },
+    "conference-seed-reference": {
+      "oracle_mutations": 9,
+      "original_cases": 570,
+      "seed_pages": 38,
+      "results": [
+        {
+          "label": "branch",
+          "cases": 570,
+          "differences": {}
+        }
+      ]
+    },
+    "conference": {
+      "checks": 138,
+      "failures": []
+    }
+  },
+  "recovery": {
+    "pass": "Additional 2: actual lock and interruption recovery",
+    "results": [
+      {
+        "label": "branch",
+        "writers": [
+          {
+            "phase": "active-lock",
+            "action": "page",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "active-lock",
+            "action": "metadata",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "active-lock",
+            "action": "code",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "active-lock",
+            "action": "new",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "active-lock",
+            "action": "copy",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "active-lock",
+            "action": "archive",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "active-lock",
+            "action": "delete",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "active-lock",
+            "action": "rename",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "page",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "metadata",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "code",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "new",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "copy",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "archive",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "delete",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          },
+          {
+            "phase": "interrupted-rename",
+            "action": "rename",
+            "status": 409,
+            "retry_after": "2",
+            "state_preserved": true,
+            "explanation": true
+          }
+        ],
+        "issues": [],
+        "actual_interruption_resumed": true,
+        "normal_write_after_release": true
+      }
+    ]
+  },
+  "successful_commands": [
+    {
+      "test": "tests/https-detection-regression.php",
+      "exit_code": 0,
+      "seconds": 0.07
+    },
+    {
+      "test": "tests/regression-oracle-regression.py",
+      "exit_code": 0,
+      "seconds": 0.66
+    },
+    {
+      "test": "tests/main-reference-regression.py",
+      "exit_code": 0,
+      "seconds": 8.08
+    },
+    {
+      "test": "tests/configuration-reference.py",
+      "exit_code": 0,
+      "seconds": 7.86
+    },
+    {
+      "test": "tests/formdata-view-reference.py",
+      "exit_code": 0,
+      "seconds": 6.38
+    },
+    {
+      "test": "tests/conference-seed-reference.py",
+      "exit_code": 0,
+      "seconds": 39.09
+    },
+    {
+      "test": "tests/conference-workflow-regression.py",
+      "exit_code": 0,
+      "seconds": 21.07
+    },
+    {
+      "test": "tests/responsive-render-regression.py",
+      "exit_code": 0,
+      "final_repeat": true
+    },
+    {
+      "test": "tests/responsive-web.py",
+      "exit_code": 0,
+      "seconds": 19.03
+    },
+    {
+      "test": "tests/formdata-transport-regression.php",
+      "exit_code": 0,
+      "seconds": 0.04
+    },
+    {
+      "test": "tests/codeassets-regression.php",
+      "exit_code": 0,
+      "seconds": 34.55
+    },
+    {
+      "test": "tests/rename-regression.php",
+      "exit_code": 0,
+      "seconds": 1.46
+    },
+    {
+      "test": "tests/mobiletools-regression.php",
+      "exit_code": 0,
+      "seconds": 6.37
+    },
+    {
+      "test": "tests/search-core-regression.php",
+      "exit_code": 0,
+      "seconds": 0.82
+    },
+    {
+      "test": "tests/search-service-regression.php",
+      "exit_code": 0,
+      "seconds": 1.57
+    },
+    {
+      "test": "tests/search-alloc-regression.php",
+      "exit_code": 0,
+      "seconds": 0.05
+    },
+    {
+      "test": "tests/search-suggestions-regression.php",
+      "exit_code": 0,
+      "seconds": 4.29
+    },
+    {
+      "test": "tests/search-distance-regression.php",
+      "exit_code": 0,
+      "seconds": 0.55
+    },
+    {
+      "test": "tests/search-index-regression.php",
+      "exit_code": 0,
+      "seconds": 1.8
+    },
+    {
+      "test": "tests/oidc-regression.php",
+      "exit_code": 0,
+      "seconds": 0.2
+    },
+    {
+      "test": "tests/oidc-bindings-regression.php",
+      "exit_code": 0,
+      "seconds": 0.19
+    },
+    {
+      "test": "tests/login-host-regression.php",
+      "exit_code": 0,
+      "seconds": 1.73
+    },
+    {
+      "test": "tests/request-compatibility-regression.php",
+      "exit_code": 0,
+      "seconds": 1.63
+    },
+    {
+      "test": "tests/idn-identity-compatibility.php",
+      "exit_code": 0,
+      "seconds": 0.69
+    },
+    {
+      "test": "tests/php9-core.php",
+      "exit_code": 0,
+      "seconds": 0.74
+    },
+    {
+      "test": "tests/php9-source-audit.php",
+      "exit_code": 0,
+      "seconds": 0.26
+    },
+    {
+      "test": "tests/database-backup-packet-regression.php",
+      "exit_code": 0,
+      "seconds": 4.44
+    },
+    {
+      "test": "tests/codeassets-literal-markup-regression.php",
+      "exit_code": 0,
+      "seconds": 0.05
+    },
+    {
+      "test": "tests/codeassets-large-markup-regression.php",
+      "exit_code": 0,
+      "seconds": 0.21
+    },
+    {
+      "test": "tests/database-backup-schema-regression.php",
+      "exit_code": 0,
+      "seconds": 0.42
+    },
+    {
+      "test": "tests/international-email.php",
+      "exit_code": 0,
+      "seconds": 0.05
+    },
+    {
+      "test": "tests/textarea-core.cjs",
+      "exit_code": 0,
+      "seconds": 0.09
+    },
+    {
+      "test": "tests/search-normalization-parity.cjs",
+      "exit_code": 0,
+      "seconds": 0.16
+    },
+    {
+      "test": "tests/codeassets-web-regression.py",
+      "exit_code": 0,
+      "seconds": 88.2
+    },
+    {
+      "test": "tests/search-web-regression.py",
+      "exit_code": 0,
+      "seconds": 32.81
+    },
+    {
+      "test": "tests/oidc-web-regression.py",
+      "exit_code": 0,
+      "seconds": 19.63
+    },
+    {
+      "test": "tests/image-upload-regression.py",
+      "exit_code": 0,
+      "seconds": 25.07
+    },
+    {
+      "test": "tests/default-design-web.py",
+      "exit_code": 0,
+      "seconds": 17.09
+    },
+    {
+      "test": "tests/mail-evolution-regression.py",
+      "exit_code": 0,
+      "seconds": 0.28
+    },
+    {
+      "test": "tests/dependency-compatibility-regression.py",
+      "exit_code": 0,
+      "seconds": 0.27
+    },
+    {
+      "test": "tests/mutation-recovery-http.py",
+      "exit_code": 0,
+      "seconds": 5.04
+    },
+    {
+      "test": "tests/editorial-journey-web.py",
+      "exit_code": 0,
+      "seconds": 10.47
+    },
+    {
+      "test": "tests/mobiletools-web.py",
+      "exit_code": 0,
+      "seconds": 22.74
+    },
+    {
+      "test": "tests/conference-session-transition-regression.py",
+      "exit_code": 0,
+      "seconds": 17.3
+    },
+    {
+      "test": "tests/international-email-smtp.py",
+      "exit_code": 0,
+      "seconds": 3.83
+    },
+    {
+      "test": "tests/international-email-native.py",
+      "exit_code": 0,
+      "seconds": 0.48
+    },
+    {
+      "test": "tests/responsive-layout-regression.php",
+      "exit_code": 0,
+      "checks": 47
+    }
+  ],
+  "initial_environment_failures": [
+    {
+      "test": "tests/oidc-regression.php",
+      "exit_code": 255
+    },
+    {
+      "test": "tests/mutation-recovery-http.py",
+      "exit_code": 1
+    }
+  ],
+  "environment_corrections": [
+    "PHP_BINARY subprocesses must inherit PHPRC so mysqli is loaded.",
+    "The extracted PHP runtime needs an existing session.save_path.",
+    "CLI interruption workers need mysqli.default_port matching the disposable TCP MariaDB.",
+    "A scratch resume driver needed tests/ on PYTHONPATH."
+  ],
+  "fixture_corrections": [
+    "Fixture resource names follow the actual CMS name sanitizer (no ordinary-name hyphens).",
+    "Browser video ratio is checked against configured width/height attributes.",
+    "GET sort is parameter i (index 8); explicit descending-order/limit assertions validate it.",
+    "Full WHERE with a literal greater-than is exercised inside [h:]; historical outside-[h:] SQL error and error-hiding policy are also asserted."
+  ],
+  "syntax_checks": {
+    "changed_php_files": 11,
+    "javascript_files": 2,
+    "git_diff_check": true
+  },
+  "application_sha256": {
+    "css/u5-responsive.css": "30d05031de378f1b0be7ae6566db47a7754e759dbb3ef0396c5f9bb942d03982",
+    "index.php": "88c8db27d915ebdff4be43139ec731f5e4a85ec40fe896abaf2bb576ba98b4e1",
+    "js/u5-responsive.js": "d408cdea0e925ed7e64b4ea865550cb2ef82e7f7bb298ada05d9bcd89cfae8d8",
+    "r/htmltemplate!html.tpl": "8abf62953a9d073fd5efeed7b2b23ccd0a62a3f7543abfcbcb61e1f8afd29b6a",
+    "r/htmltemplate.html": "f1039e645a36c83e0c52b3b2d0e9f842c3c578f9f3e558b5c6d1ad7021cb8f51",
+    "render.inc.php": "f1ab7389609f350972c3e7a114fec6f045048e785d3582c9fe04f83f2d8a48fc",
+    "render/dat.inc.php": "15a2e469ccdefb6f3ef288f9539bd5c6568d28cc89f9d2045476ad33dd75028e",
+    "render/layout.inc.php": "ae3d917f6defde58c55f0c2697a7da3246f369910e2b3c29297794639d92498d",
+    "render/markup.inc.php": "c9194b86e8ee62752e19e90da4e86203ca57066d1b9730f63b6b52ead93df765",
+    "render/output.inc.php": "c14e7275a33921cd08bb2ffd9691621e06cbccf7b9add8422403d53facfcada6",
+    "render/resources.inc.php": "bcbdad47e51c11271f54c706d3704333211f8a440949ba3e2f09fe5b84d97880",
+    "u5conference.sql": "31491c7d01bbee58a7e520f35bdd1e7775fd51be21e33f86731c1db811288c4d",
+    "u5standard.sql": "95242d81efe2c8af1f9e8515af75037ea95eb1c20476ce770de35345b3ae86d0",
+    "u5sys.responsivecontrols.php": "1981cf0a9cd528a601dd82c0d7a0ed7a2d937647da93272e0bfe791f8981edab"
+  },
+  "remaining_boundaries": [
+    "No actual PHP 9, Safari, Firefox, physical-device or screen-reader run.",
+    "No live private site database, external identity-provider or live mail-delivery acceptance.",
+    "Custom site HTML/CSS requires acceptance when deliberately converted."
+  ],
+  "passed": true
+}

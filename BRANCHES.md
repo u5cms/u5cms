@@ -1,6 +1,10 @@
 # u5CMS development branches
 
-## V16 · 16.0.0 standard design
+## V17 · 17.0.0 responsive renderer
+
+The first parent is the published V16 release at `9efde9baf42311a2f0a0f81ebfc332f3b8e1ed6b`. The historical responsive branch is retained at `6b771bc0e3ebe672abdaa0758420124d8b6977e3`. New installations use the responsive template. A customised template from an earlier installation continues to select the legacy presentation. Both modes share the renderer for markup, resources and database tables. The differential tests compare the new implementation with the published V16 renderer, including backend calls, database table output, multilingual resources and preview behaviour. Browser tests cover the responsive template as well as the legacy desktop and mobile layouts.
+
+## V16 · published 16.0.0
 
 The first parent is the published V15 release at `f2c3a8527dd5bf49228b1acfb454c9f764160d29`. The historical design work at `da687f5c58c560da0fcbdfa9cce357084ba3dba7` supplies the default styles for new standard and conference sites. The validation checks each of the eight style resources in the two SQL seeds, the exported stylesheets and the reset templates. Browser tests cover the fixed desktop layout, script-driven mobile navigation, form entry and keyboard focus. A populated upgrade has a separate check for locally customised styles.
 

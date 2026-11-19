@@ -1,0 +1,613 @@
+{
+  "date": "2026-11-12",
+  "starting_sha": "feade4b35ce34c049611c98de9d36044cede4d6e",
+  "target_branch": "12.13.0-Responsive-Design",
+  "current_main_reference": "bf6863337cd6dd64284cf429f65da986d821d741",
+  "renderer_reference": "3b9b8054473d41ae3bdd046257db154770942987",
+  "source_inventory": {
+    "command": "git diff --name-only --no-renames bf6863337cd6dd64284cf429f65da986d821d741 feade4b35ce34c049611c98de9d36044cede4d6e",
+    "paths_without_rename_folding": 948,
+    "groups": {
+      "tests-and-evidence": 129,
+      "application": 369,
+      "dependencies": 450
+    },
+    "tsv_sha256": "06a9221599b733f88a207b8b2e739036fb0d4f8a7e6e82ded05acf50ebd9b8f8"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "problem": "Fixed inline F-object frame height excluded captions; fixed image height could distort the authored ratio when width shrank.",
+      "reproduction": "Real seeded CMS: 800x400 F-object frame ended 29px before its caption bottom at 1440px.",
+      "correction": "Responsive-only image/frame geometry; configured ratio preserved, height-only raster objects use native dimensions, captions stay in flow. Legacy output unchanged."
+    },
+    {
+      "id": "F2",
+      "problem": "Template recognition could match body examples in attributes/raw text/inert templates or body-prefixed custom elements; HTML entities were not decoded. Large unquoted attributes exhausted the JIT stack.",
+      "reproduction": "body-example falsely enabled responsive mode; a valid 200000-byte unquoted attribute returned false with PCRE error 6.",
+      "correction": "Consume complete tags with disjoint possessive tokens; respect raw-text and template context, exact body names, attribute ownership and decoded values."
+    },
+    {
+      "id": "F3",
+      "problem": "A malformed authored URL threw from the global navigation click handler.",
+      "reproduction": "href=http://[ caused a TypeError during a prevented click.",
+      "correction": "Contain URL parsing failure; leave unrelated link handling alone."
+    }
+  ],
+  "runtime": {
+    "php": "8.4.24",
+    "mariadb": "11.8.6",
+    "chromium": "150.0.7871.181",
+    "firefox": "153.0",
+    "webkit": "26.5"
+  },
+  "responsive_browser_checks": {
+    "chromium": {
+      "u5standard.sql": 323,
+      "u5conference.sql": 323
+    },
+    "firefox": {
+      "u5standard.sql": 323,
+      "u5conference.sql": 323
+    },
+    "webkit": {
+      "u5standard.sql": 323,
+      "u5conference.sql": 323
+    }
+  },
+  "navigation_checks": {
+    "chromium": 11,
+    "firefox": 11,
+    "webkit": 11
+  },
+  "layout_boundary_checks": {
+    "jit_enabled": 68,
+    "jit_disabled": 68,
+    "note": "The combined runner passed 67 before the additional large-unquoted-attribute case; both final 68-case repeats passed."
+  },
+  "renderer": {
+    "baseline": "3b9b8054473d41ae3bdd046257db154770942987",
+    "cases": 186,
+    "legacy_byte_comparisons": 186,
+    "responsive_syntax_dat_comparisons": 126,
+    "expected_effects": 13,
+    "denial_cases": 4,
+    "passed": true,
+    "names": [
+      "syntax-0",
+      "syntax-1",
+      "syntax-2",
+      "syntax-3",
+      "syntax-4",
+      "syntax-5",
+      "syntax-6",
+      "syntax-7",
+      "syntax-8",
+      "syntax-9",
+      "syntax-10",
+      "syntax-11",
+      "dat-mode-0",
+      "dat-mode-0!",
+      "dat-mode-1",
+      "dat-mode-1!",
+      "dat-mode-2",
+      "dat-mode-2!",
+      "dat-mode-3",
+      "dat-mode-3!",
+      "dat-mode-4",
+      "dat-mode-4!",
+      "dat-mode-5",
+      "dat-mode-5!",
+      "dat-fields-name*",
+      "dat-fields-name_mandatory",
+      "dat-fields-Name_mandatory",
+      "dat-fields-missing",
+      "dat-fields-comment",
+      "dat-fields-?notes",
+      "dat-fields-?id,?formname,?time,?ip,?status,?lastmut,?authuser,?humantime,?sent",
+      "dat-fields-?missing",
+      "dat-record-",
+      "dat-record-1",
+      "dat-record-2",
+      "dat-record-999999",
+      "dat-record-ALL",
+      "dat-record-?",
+      "dat-id-get",
+      "dat-filter-",
+      "dat-filter-review",
+      "dat-filter-(reader)",
+      "dat-filter-(authuser)",
+      "dat-filter-SELF",
+      "dat-filter-datacsv LIKE %Anna%",
+      "dat-filter-datacsv LIKE %·Anna;%",
+      "dat-filter-notes LIKE %review%",
+      "dat-filter-WHERE status=1 AND id>1",
+      "dat-filter-WHERE status=1 AND id!=1",
+      "dat-WHERE-raw",
+      "dat-SQL-error-hidden",
+      "dat-get-filter-datacsv LIKE %Anna%||%Bea%",
+      "dat-get-filter-datacsv LIKE %Anna%&&%alpha%",
+      "dat-get-filter-datacsv LIKE %·Anna;%",
+      "dat-get-filter-review",
+      "dat-get-filter-WHERE status=1",
+      "dat-status-",
+      "dat-status-1",
+      "dat-status-2",
+      "dat-status-0",
+      "dat-status-missing",
+      "dat-order-",
+      "dat-order-id DESC",
+      "dat-order-datacsv ASC",
+      "dat-order-id DESC LIMIT 0,2",
+      "dat-order-LIMIT 1,1",
+      "dat-order-?",
+      "dat-order-? LIMIT 0,1",
+      "dat-get-sort",
+      "dat-invalid-sort",
+      "dat-delimiter-",
+      "dat-delimiter-<br>",
+      "dat-delimiter-<em>,</em>",
+      "dat-delimiter-<br>@@<hr>",
+      "dat-delimiter- / @@ &amp; ",
+      "dat-newline-",
+      "dat-newline-<br>",
+      "dat-newline-<hr>",
+      "dat-newline- - ",
+      "dat-condition-Anna",
+      "dat-condition-unknown",
+      "dat-condition-",
+      "dat-placeholders",
+      "dat-whitespace",
+      "dat-absent-form",
+      "dat-uploads-",
+      "dat-uploads-!",
+      "dat-uploads-300x0",
+      "dat-uploads-0x100",
+      "dat-uploads-500x300",
+      "dat-uploads-500+300",
+      "dat-uploads-300x0!",
+      "dat-uploads-0x100!",
+      "dat-uploads-500x300!",
+      "php-policy-off",
+      "php-policy-onallpages",
+      "php-policy-inarchiveonly",
+      "languages-de",
+      "languages-en",
+      "languages-fr",
+      "languages-it",
+      "languages-es",
+      "resource-responsive-image-0",
+      "resource-responsive-image-1",
+      "resource-responsive-image-2",
+      "resource-responsive-image-3",
+      "resource-responsive-image-4",
+      "resource-responsive-image-5",
+      "resource-responsive-free-0",
+      "resource-responsive-free-1",
+      "resource-responsive-free-2",
+      "resource-responsive-youtube-0",
+      "resource-responsive-youtube-1",
+      "resource-responsive-youtube-2",
+      "resource-responsive-youtube-3",
+      "resource-responsive-youtube-4",
+      "resource-responsive-youtube-5",
+      "resource-testmp3-0",
+      "resource-testmp3-1",
+      "resource-testmp3-2",
+      "resource-testmp3-3",
+      "resource-testmp3-4",
+      "resource-testmp3-5",
+      "resource-testmp3-6",
+      "resource-responsive-album-0",
+      "resource-responsive-album-1",
+      "resource-responsive-album-2",
+      "resource-responsive-album-3",
+      "resource-responsive-album-4",
+      "resource-responsive-album-5",
+      "resource-responsive-album-6",
+      "resource-responsive-album-7",
+      "resource-responsive-album-8",
+      "resource-responsive-page-0",
+      "resource-responsive-page-1",
+      "resource-responsive-page-2",
+      "resource-responsive-doc-0",
+      "resource-responsive-doc-1",
+      "resource-responsive-link-0",
+      "resource-responsive-link-1",
+      "preview-1",
+      "preview-2",
+      "seed-page-trottinettvideo-1",
+      "seed-page-gotthardtunnel-1",
+      "seed-page-skiplinks-1",
+      "seed-page-skiplinks-2",
+      "seed-page-skiplinks-3",
+      "seed-page-thanks-1",
+      "seed-page-thanks-2",
+      "seed-page-thanks-3",
+      "seed-page-zumbeispielformate-1",
+      "seed-page-slogan-1",
+      "seed-page-plus1andlike-1",
+      "seed-page-!page02-1",
+      "seed-page-!intranetpnavi-1",
+      "seed-page-intranet-1",
+      "seed-page-intranet-2",
+      "seed-page-formular-1",
+      "seed-page-!page03-1",
+      "seed-page-!page01-1",
+      "seed-page-footer-1",
+      "seed-page-news-1",
+      "seed-page-sitemap-1",
+      "seed-page-sitemap-2",
+      "seed-page-sitemap-3",
+      "seed-page-trottinett-1",
+      "seed-page-trottinett-2",
+      "seed-page-trottinett-3",
+      "seed-page-questionnaire-1",
+      "seed-page-start-1",
+      "seed-page-start-2",
+      "seed-page-start-3",
+      "seed-page-navigation-1",
+      "seed-page-navigation-2",
+      "seed-page-navigation-3",
+      "seed-page-onemorepage-1",
+      "seed-page-onemorepage-2",
+      "seed-page-onemorepage-3",
+      "seed-page-formatexamples-1",
+      "seed-page-codefixture-1",
+      "seed-page-codefixture-2",
+      "seed-page-codefixture-3",
+      "seed-page-codefixture-4",
+      "seed-page-codefixture-5",
+      "seed-page-responsive-page-1",
+      "seed-page-responsive-page-2"
+    ]
+  },
+  "backend_renderer": {
+    "actual_countblockelements_route": true,
+    "original_status": 200,
+    "current_status": 200,
+    "byte_identical": true
+  },
+  "contracts": {
+    "main-reference-regression": {
+      "original_checks": 36,
+      "checks": 89,
+      "results": [
+        {
+          "label": "branch",
+          "differences": {}
+        }
+      ]
+    },
+    "configuration-reference": {
+      "profiles": [
+        "default",
+        "ordinary-open-data",
+        "ordinary-restricted-data",
+        "checked-form-edits",
+        "php-archive-only",
+        "php-disabled",
+        "quote-handling",
+        "cookie-session",
+        "fastcgi-auth",
+        "explicit-open-backend"
+      ],
+      "results": [
+        {
+          "label": "branch",
+          "cases": 130,
+          "differences": {}
+        }
+      ]
+    },
+    "formdata-view-reference": {
+      "results": [
+        {
+          "label": "branch",
+          "cases": 42,
+          "differences": {}
+        }
+      ]
+    },
+    "conference-seed-reference": {
+      "oracle_mutations": 9,
+      "original_cases": 570,
+      "seed_pages": 38,
+      "results": [
+        {
+          "label": "branch",
+          "cases": 570,
+          "differences": {}
+        }
+      ]
+    },
+    "conference": {
+      "checks": 138,
+      "failures": []
+    },
+    "mutation-recovery": {
+      "results": [
+        {
+          "label": "branch",
+          "issues": [],
+          "actual_interruption_resumed": true,
+          "normal_write_after_release": true
+        }
+      ]
+    }
+  },
+  "commands": [
+    {
+      "test": "tests/https-detection-regression.php",
+      "exit_code": 0,
+      "seconds": 0.06
+    },
+    {
+      "test": "tests/regression-oracle-regression.py",
+      "exit_code": 0,
+      "seconds": 0.56
+    },
+    {
+      "test": "tests/main-reference-regression.py",
+      "exit_code": 0,
+      "seconds": 8.96
+    },
+    {
+      "test": "tests/configuration-reference.py",
+      "exit_code": 0,
+      "seconds": 7.91
+    },
+    {
+      "test": "tests/formdata-view-reference.py",
+      "exit_code": 0,
+      "seconds": 5.25
+    },
+    {
+      "test": "tests/conference-seed-reference.py",
+      "exit_code": 0,
+      "seconds": 39.69
+    },
+    {
+      "test": "tests/conference-workflow-regression.py",
+      "exit_code": 0,
+      "seconds": 15.06
+    },
+    {
+      "test": "tests/responsive-render-regression.py",
+      "exit_code": 0,
+      "seconds": 2.79
+    },
+    {
+      "test": "tests/responsive-backend-regression.py",
+      "exit_code": 0,
+      "seconds": 2.24
+    },
+    {
+      "test": "tests/responsive-web.py",
+      "exit_code": 0,
+      "seconds": 16.05
+    },
+    {
+      "test": "tests/responsive-layout-regression.php",
+      "exit_code": 0,
+      "seconds": 0.05
+    },
+    {
+      "test": "tests/formdata-transport-regression.php",
+      "exit_code": 0,
+      "seconds": 0.04
+    },
+    {
+      "test": "tests/codeassets-regression.php",
+      "exit_code": 0,
+      "seconds": 29.16
+    },
+    {
+      "test": "tests/rename-regression.php",
+      "exit_code": 0,
+      "seconds": 1.81
+    },
+    {
+      "test": "tests/mobiletools-regression.php",
+      "exit_code": 0,
+      "seconds": 6.77
+    },
+    {
+      "test": "tests/search-core-regression.php",
+      "exit_code": 0,
+      "seconds": 0.89
+    },
+    {
+      "test": "tests/search-service-regression.php",
+      "exit_code": 0,
+      "seconds": 1.43
+    },
+    {
+      "test": "tests/search-alloc-regression.php",
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "test": "tests/search-suggestions-regression.php",
+      "exit_code": 0,
+      "seconds": 4.35
+    },
+    {
+      "test": "tests/search-distance-regression.php",
+      "exit_code": 0,
+      "seconds": 0.68
+    },
+    {
+      "test": "tests/search-index-regression.php",
+      "exit_code": 0,
+      "seconds": 1.77
+    },
+    {
+      "test": "tests/oidc-regression.php",
+      "exit_code": 0,
+      "seconds": 0.21
+    },
+    {
+      "test": "tests/oidc-bindings-regression.php",
+      "exit_code": 0,
+      "seconds": 0.15
+    },
+    {
+      "test": "tests/login-host-regression.php",
+      "exit_code": 0,
+      "seconds": 1.89
+    },
+    {
+      "test": "tests/request-compatibility-regression.php",
+      "exit_code": 0,
+      "seconds": 0.99
+    },
+    {
+      "test": "tests/idn-identity-compatibility.php",
+      "exit_code": 0,
+      "seconds": 0.29
+    },
+    {
+      "test": "tests/php9-core.php",
+      "exit_code": 0,
+      "seconds": 0.29
+    },
+    {
+      "test": "tests/php9-source-audit.php",
+      "exit_code": 0,
+      "seconds": 0.27
+    },
+    {
+      "test": "tests/database-backup-packet-regression.php",
+      "exit_code": 0,
+      "seconds": 5.05
+    },
+    {
+      "test": "tests/codeassets-literal-markup-regression.php",
+      "exit_code": 0,
+      "seconds": 0.05
+    },
+    {
+      "test": "tests/codeassets-large-markup-regression.php",
+      "exit_code": 0,
+      "seconds": 0.22
+    },
+    {
+      "test": "tests/database-backup-schema-regression.php",
+      "exit_code": 0,
+      "seconds": 0.33
+    },
+    {
+      "test": "tests/international-email.php",
+      "exit_code": 0,
+      "seconds": 0.06
+    },
+    {
+      "test": "tests/textarea-core.cjs",
+      "exit_code": 0,
+      "seconds": 0.29
+    },
+    {
+      "test": "tests/search-normalization-parity.cjs",
+      "exit_code": 0,
+      "seconds": 0.19
+    },
+    {
+      "test": "tests/responsive-navigation-regression.cjs",
+      "exit_code": 0,
+      "seconds": 1.33
+    },
+    {
+      "test": "tests/codeassets-web-regression.py",
+      "exit_code": 0,
+      "seconds": 91.64
+    },
+    {
+      "test": "tests/search-web-regression.py",
+      "exit_code": 0,
+      "seconds": 29.34
+    },
+    {
+      "test": "tests/oidc-web-regression.py",
+      "exit_code": 0,
+      "seconds": 19.66
+    },
+    {
+      "test": "tests/image-upload-regression.py",
+      "exit_code": 0,
+      "seconds": 26.53
+    },
+    {
+      "test": "tests/default-design-web.py",
+      "exit_code": 0,
+      "seconds": 18.66
+    },
+    {
+      "test": "tests/mail-evolution-regression.py",
+      "exit_code": 0,
+      "seconds": 0.38
+    },
+    {
+      "test": "tests/dependency-compatibility-regression.py",
+      "exit_code": 0,
+      "seconds": 0.38
+    },
+    {
+      "test": "tests/mutation-recovery-http.py",
+      "exit_code": 0,
+      "seconds": 6.33
+    },
+    {
+      "test": "tests/editorial-journey-web.py",
+      "exit_code": 0,
+      "seconds": 10.81
+    },
+    {
+      "test": "tests/mobiletools-web.py",
+      "exit_code": 0,
+      "seconds": 23.69
+    },
+    {
+      "test": "tests/conference-session-transition-regression.py",
+      "exit_code": 0,
+      "seconds": 18.81
+    },
+    {
+      "test": "tests/international-email-smtp.py",
+      "exit_code": 0,
+      "seconds": 4.02
+    },
+    {
+      "test": "tests/international-email-native.py",
+      "exit_code": 0,
+      "seconds": 0.59
+    }
+  ],
+  "syntax_checks": {
+    "changed_php_files": 3,
+    "javascript_files": 3,
+    "git_diff_check": true
+  },
+  "compatibility": {
+    "dat_helper_source_byte_identical_to_renderer_reference": true,
+    "schema_changes": false,
+    "sql_seed_changes_in_this_review": false,
+    "custom_template_changes": false
+  },
+  "application_sha256": {
+    "js/u5-responsive.js": "9d18f7e3e076bc3e7116d279e15e30152ccffedde3470ff6b01ad2c07c33f5fb",
+    "render/layout.inc.php": "1875315fa131e704d895cb14e55b921f7c425f2252c0d7d45184a9a10f17e175",
+    "render/resources.inc.php": "9a140d0373c33b3cd21ac841df4cd57d51f894b61238b70ca72d2e64f41dfef9"
+  },
+  "execution_notes": [
+    "Only disposable installations and test databases; local mail test doubles, no production or external mail delivery.",
+    "Browser downloads are unmodified; the local WebKit launcher preserves LD_LIBRARY_PATH for extracted runtime libraries. Host dependency precheck was bypassed after those libraries were installed; the engine itself completed the tests.",
+    "These are local executions. The GitHub status query supplied no CI status results."
+  ],
+  "remaining_limits": [
+    "No Safari application on macOS/iOS or physical device execution; WebKit is the tested engine.",
+    "No screen-reader or actual PHP 9 runtime certification.",
+    "No acceptance of every private site database and custom HTML/CSS."
+  ],
+  "passed": true
+}

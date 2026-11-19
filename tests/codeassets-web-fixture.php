@@ -21,6 +21,13 @@ if (!mysqli_multi_query($link,file_get_contents(dirname(__DIR__).'/u5standard.sq
 do { if ($result=mysqli_store_result($link)) mysqli_free_result($result); } while (mysqli_more_results($link) && mysqli_next_result($link));
 if (mysqli_errno($link)) throw new RuntimeException(mysqli_error($link));
 u5CodeMigrationQuery('SET NAMES latin1');
+// Legacy suites explicitly select the pre-responsive template. New seed suites do not.
+if (getenv('U5CMS_TEST_TEMPLATE')) {
+    $fixtureTemplate=file_get_contents(getenv('U5CMS_TEST_TEMPLATE'));
+    u5CodeMigrationQuery("UPDATE resources SET content_1=".u5CodeMigrationValue($fixtureTemplate)." WHERE name='htmltemplate!html'");
+    file_put_contents($root.'/r/htmltemplate!html.tpl',$fixtureTemplate);
+}
+
 u5CodeMigrationQuery('ALTER TABLE resources MODIFY content_1 MEDIUMTEXT CHARACTER SET utf8mb4');
 u5CodeMigrationQuery("UPDATE accounts SET email='auditadmin',pw=".u5CodeMigrationValue('{SHA}'.base64_encode(sha1(getenv('U5CMS_FIXTURE_PASSWORD'),true))).',accadmin=1 WHERE id=1');
 $body=<<<'HTML'

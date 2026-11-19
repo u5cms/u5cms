@@ -1,6 +1,6 @@
-# u5CMS 16.0.0 · Standard design
+# u5CMS 17.0.0 · Responsive renderer
 
-V16 starts at the published V15 release. New standard and conference installations use the revised typography, navigation, tables, forms and keyboard focus indicators. The fixed desktop columns and mobile script are retained. A site with its own styles can upgrade its application code independently and choose which design changes to adopt. See the [branch guide](BRANCHES.md) for the development history and the [design notes](docs/12.15.0-default-design.md) for the eight style resources and reset procedure.
+New standard and conference sites use a responsive template. Navigation, forms and media adapt to the viewport. Existing sites retain their installed template and its mobile behaviour. The renderer continues to use the same page and database content in both modes. The [renderer documentation](docs/responsive-design.md) describes template selection, media sizing and the database table syntax. The [branch guide](BRANCHES.md) records the accepted predecessor and the comparison used to verify the new line.
 
 ---
 
