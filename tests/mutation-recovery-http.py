@@ -59,7 +59,7 @@ def probe_writers(site,phase,csrf,issues):
             continue
         before=snapshot(site);response=site.request(path,payload,user='referenceadmin');after=snapshot(site)
         kept=after==before
-        record={'phase':phase,'action':action,'status':response['status'],'retry_after':response['headers'].get('Retry-After'),'state_preserved':kept,'explanation':'Retry' in response['body'] or 'retry' in response['body']}
+        record={'phase':phase,'action':action,'status':response['status'],'retry_after':response['headers'].get('Retry-After'),'state_preserved':kept,'explanation':'Rename' in response['body'] or 'retry' in response['body']}
         observations.append(record)
         if not kept:raise AssertionError('Blocked '+action+' changed resource/history/file state')
         if response['status']!=409:issues.append(phase+'/'+action+': busy operation returns '+str(response['status'])+' instead of a controlled 409')
@@ -72,10 +72,11 @@ def exercise(site):
     site.resource('lock_parent',[b'Parent [lock_source]'],lastmut=1700000000,operator='referenceadmin')
     fields='name,typ,deleted,lastmut,operator,logins,content_1,content_2,content_3,content_4,content_5,title_1'
     site.sql('INSERT INTO resources_log('+fields+') SELECT '+fields+" FROM resources WHERE name IN ('lock_source','lock_parent')")
+    site.resource('free_page',[b'FREE-PAGE'],lastmut=1700000000,operator='referenceadmin')
     directory=site.root/'r/lock_source';directory.mkdir()
     original_bytes=b'\x00\xffRESOURCE-BYTES\r\n';(directory/'lock_source_de.txt').write_bytes(original_bytes)
     csrf=token(site);issues=[];observations=[]
-    code='require '+json.dumps(str(site.root/'codeassets.inc.php'))+';$release=u5CodeMigrationLock('+json.dumps(str(site.root))+');echo "READY\\n";flush();fgets(STDIN);$release();'
+    code='require '+json.dumps(str(site.root/'resource-activity.inc.php'))+';$release=u5ResourceActivityLock('+json.dumps(str(site.root))+',array(\"old\"=>\"lock_source\",\"new\"=>\"lock_renamed\"));echo "READY\\n";flush();fgets(STDIN);$release();'
     worker=subprocess.Popen([PHP,'-r',code],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
     try:
         ready=selectors.DefaultSelector();ready.register(worker.stdout,selectors.EVENT_READ)
@@ -93,7 +94,9 @@ require 'connect.inc.php';require 'u5admin/resource-rename.inc.php';try{u5Resour
         result=subprocess.run([PHP,str(path)],cwd=site.root,capture_output=True,text=True)
         assert result.returncode==0 and 'ACTUAL-INTERRUPTION' in result.stdout,result.stdout+result.stderr
         assert list((site.root/'fileversions').glob('resource-rename-*.pending.php')),'Real interrupted rename did not retain its checkpoint'
-        observations+=probe_writers(site,'interrupted-rename',csrf,issues)
+        free=changes('free_page',csrf);free['content_1']='SAVED-WITH-IDLE-PLAN'
+        response=site.request('u5admin/savepage.php?i=i1',free,user='referenceadmin')
+        assert response['status']==200 and site.sql("SELECT content_1 FROM resources WHERE name='free_page'")['rows'][0]['content_1']=='SAVED-WITH-IDLE-PLAN','Interrupted Rename blocked unrelated save'
         payload={'name':'lock_renamed','ulinks':'yes','u5scrtytknfrfrms':csrf}
         response=site.request('u5admin/rename2.php?name=lock_source',payload,user='referenceadmin')
         assert response['status']==200 and 'Renamed' in response['body'],response['body'][-1000:]

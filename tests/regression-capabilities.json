@@ -51,7 +51,10 @@
     "conference-session-transition-regression.py",
     "international-email-smtp.py",
     "international-email-native.py",
-    "index-save-regression.py"
+    "index-save-regression.py",
+    "resource-activity-regression.py",
+    "audit-save-during-index.py",
+    "backup-write-regression.py"
   ],
   "main_browser": true,
   "rename_browser": true,
@@ -169,7 +172,10 @@
     "tests/responsive-navigation-regression.cjs",
     "tests/responsive-backend-regression.py",
     "index-work.inc.php",
-    "tests/index-save-regression.py"
+    "tests/index-save-regression.py",
+    "tests/resource-activity-regression.py",
+    "tests/audit-save-during-index.py",
+    "tests/backup-write-regression.py"
   ],
   "legacy_https_routes": [],
   "responsive": {
