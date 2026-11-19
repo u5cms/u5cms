@@ -3,7 +3,7 @@
 ## 12.9.5.7 in progress, 19 November 2026
 
 Authorised: publish .6 without deployment/mail; first remove production save
-blocking (completed on all 84 Plesk installations); implement and deeply test .7,
+blocking (completed separately); implement and deeply test .7,
 carry all maintained future branches forward, publish the release, then email
 Markus with Michael in Cc for a .7 rollout ticket. No .7 production deployment.
 Base: ac6e3bf059a365b2912a70429596dbdb6f08604d (published v12.9.5.6).
@@ -11,15 +11,31 @@ Branch: 12.9.5.7-Nonblocking-Saves. Ordinary saves must not wait for index work,
 backup locks or recovery plans. Only an active Rename may briefly exclude writes.
 Rename must remain fast and complete and expose actual names, phase and progress.
 
-Implemented candidate, not yet accepted: separate process-owned Rename gate,
-concurrent source writes, indexer yielding without reserving source writes,
-nonblocking interrupted plans, real Rename status. A killed process cannot own a
-persistent gate. Existing conditional byte checks and immutable recovery data
-remain in place. Changed paths: resource-activity.inc.php, index-work.inc.php,
-indexer.php and the Rename/mutation handlers in u5admin.
-Next: meaningful concurrency/crash/recovery HTTP tests, full cumulative stable
-acceptance, branch-specific adaptations and tests before guarded publication.
-No .7 tests, future-branch publication or .7 release claimed at this checkpoint.
+Implemented: separate process-owned Rename gate, concurrent source writes,
+indexer yielding without reserving source writes, nonblocking interrupted plans,
+real Rename status, and atomic monotonic legacy page/code/metadata updates.
+The new HTTP activity suite passes 52 checks locally, including two independent
+HTTP writers, configured overwrite policies, extended revision capacity, names
+with accents and kernel-gate release after SIGKILL. 33
+save/index, 893 Rename, 115 HTTP and 83 real SQL-lock/recovery checks pass.
+Independent two-server indexing tests confirm all five source versions persist
+while indexing is already in progress. Full stable PHP 8.3/8.4 with Chromium
+passed at 9d8ca99e4429417da18eb10b989c87e45dd5cf3d in Actions 44498135371.
+Final versioned candidate acceptance remains to run.
+
+Large Rename measurements: 5,000/25,000 sparse resource/history rows and 955 files
+complete in 0.576 s; dense 2,000/5,000 rows and 955 files in 5.433 s. All text
+columns and file bytes conserved. Details: release-12.9.5.7.md.
+All 21 future-branch candidates are prepared in isolated worktrees, preserving
+version/render/search formats and code-migration APIs. Actual code saves found
+an inherited permission-include collision with $row in older future editors;
+the loaded resource now has its own variable, preserving rights checks.
+Added optimistic backup validation: a source edit wins and an inconsistent
+backup is discarded rather than blocking the editor. Final backup/branch
+acceptance is in progress.
+Current phase: per-branch actual concurrency/save/Rename/code-asset regressions,
+then guarded publication and comprehensive branch CI. No .7 release, future
+publication or rollout-ticket email is claimed yet. Next: complete that matrix.
 
 ## 12.9.5.6 save/index acceptance, 19 November 2026
 

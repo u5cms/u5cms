@@ -7,7 +7,7 @@ from contextlib import contextmanager
 import base64, fcntl, http.cookiejar, json, os, re, select, shutil, socket
 import subprocess, tempfile, time, urllib.error, urllib.parse, urllib.request
 import sys
-sys.path.insert(0,str(Path(os.environ['U5CMS_INDEX_SOURCE_ROOT']).resolve()/'tests'))
+sys.path.insert(0,str(Path(os.environ.get('U5CMS_INDEX_SOURCE_ROOT',str(Path(__file__).resolve().parent.parent))).resolve()/'tests'))
 from fixture_environment import ensure_fixture_environment
 
 ensure_fixture_environment()
@@ -97,7 +97,7 @@ if ($argv[2]==='hold') {
         finally: server2.terminate();server2.wait(timeout=10)
         returned=row()
         assert fields==[returned['content_'+str(n)] for n in range(1,6)]
-        expected=int(os.environ['U5_AUDIT_EXPECT_HTTP'])
+        expected=int(os.environ.get('U5_AUDIT_EXPECT_HTTP','200'))
         assert status==expected,(status,expected)
         assert all((fields[n-1]==post['content_'+str(n)])==(expected==200) for n in range(1,6))
         assert not list(state.glob('resource-rename-*.pending.php'))

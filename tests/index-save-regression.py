@@ -141,6 +141,21 @@ if ($argv[2]==='hold') {
         check(marker.read_text()=='100','failure retains full watermark')
         status,_=request('/indexer.php?n=saveindextest')
         check(status==200 and row()==indexed,'named retry is safe after SQL failure')
+        # Editing a populated multilingual page must fit into a normal SQL packet
+        # even when the existing text and the replacement are both substantial.
+        packet=int(sql('SELECT @@max_allowed_packet AS n')[0]['n'])
+        field_bytes=min(1150000,packet//12)
+        for generation in ['A','B']:
+            expected=[]
+            for n in range(1,6):
+                value=generation+str(n)
+                expected.append(value)
+                post['content_'+str(n)]=value+('x'*field_bytes)
+            post['coco']=sql("SELECT lastmut FROM resources WHERE name='saveindextest' AND deleted=0")[0]['lastmut']
+            status,body=request('/u5admin/savepage.php?i=i1',post)
+            columns=','.join('LEFT(content_'+str(n)+',2) AS lang'+str(n) for n in range(1,6))
+            actual=sql('SELECT '+columns+" FROM resources WHERE name='saveindextest' AND deleted=0")[0]
+            check(status==200 and 'saved saveindextest' in body and [actual['lang'+str(n)] for n in range(1,6)]==expected,'large five-language save '+generation)
         print('Save/index coordination checks:',checks,'passed (real save without child frames, five languages, competing kernel locks, pending Rename, bounded SQL wait and retry).')
     finally:
         server.terminate();server.wait(timeout=10)

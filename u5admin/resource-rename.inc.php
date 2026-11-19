@@ -317,6 +317,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         }
         u5RenameStorageValidateChanges($root,$plan['updates']);
         u5RenameStorageCheckpoint('rename:planned');
+        // A killed process can leave real file changes without reaching the
+        // final publication marker. Keep search work due before those changes.
+        u5RenameSyntaxAtomicWrite($root.'/fileversions/search-index-pending.txt',(string)time());
+        u5RenameSyntaxAtomicWrite($root.'/fileversions/lastsave.txt',(string)time());
         u5ResourceRenameProgress($root,'files');
         u5RenamePublishFiles($root,$plan);
         if ($plan['companionFiles']!==null) u5RenamePublishFiles($root,array('old'=>'v'.$old,'new'=>'v'.$new,'files'=>$plan['companionFiles']));

@@ -7,11 +7,12 @@ require_once __DIR__.'/resource-mutation.inc.php';require_once('t2.php'); ?>
 <?php require('backendcss.php'); ?></head>
 <body id="body" bgcolor="#339900" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php
-require('archivecheck.inc.php');
-require('delcheck.inc.php');
-
 require_once __DIR__.'/resource-save.inc.php';
-$row_a=u5SaveSnapshot($_POST['name']);
+$u5EditorSnapshot=u5SaveSnapshot($_POST['name']);
+require('archivecheck.inc.php');
+$deleted=$u5EditorSnapshot['deleted'];
+
+$row_a=$u5EditorSnapshot;
 $u5SaveRevision=u5SaveNextRevision($row_a);
 $u5SavePolicyConflict=$_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER']))));
 $conflict='';

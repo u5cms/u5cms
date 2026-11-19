@@ -2,14 +2,14 @@
 
 Stand: 19. November 2026. Die Beschreibungen beziehen sich auf die veröffentlichten Anwendungsstände; sie belegen keine produktive Installation.
 
-Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält den Patch-Stand 12.9.5.6 auf der bisherigen 12.9.5-Linie. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
+Der aktuelle kumulative Entwicklungsstand ist **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. `main` enthält den Patch-Stand 12.9.5.7 auf der bisherigen 12.9.5-Linie. Die nummerierte Entwicklungsreihe führt die vorherigen fachlichen Änderungen fort; spätere Beschreibungs- und Versionskommentare sind davon getrennt zu beurteilen.
 
 ## Aktuelle Branches
 
 | Branch | Version in index.php | Neuerungen / Zweck |
 | --- | --- | --- |
 | [12.9.5.3-Onlymine](https://github.com/u5cms/u5cms/tree/12.9.5.3-Onlymine) | 12.9.5.3 | [Konfigurierbare SELF-Berechtigungen für Datensätze](docs/onlymine.md). |
-| [main](https://github.com/u5cms/u5cms/tree/main) | 12.9.5.6 | Server-seitige Save-Markierung, koordinierte Einzel-/Vollindexierung und begrenzte Einzelindex-SQL-Wartezeiten. Begrenzte Datenbank-Sperrwartezeiten für Rename sowie wiederaufnehmbare Vollindexierung mit Datenbank-Wartebudget, verlässlichem Indexdatum, speicherschonender Suche, korrigiertem Rename und optionalen SELF-Berechtigungen. |
+| [main](https://github.com/u5cms/u5cms/tree/main) | 12.9.5.7 | Freie Saves ohne globale Index-/Backup-Sperre; schnelles Rename mit echtem Fortschritt und prozessgebundener Sperre. Server-seitige Save-Markierung, koordinierte Einzel-/Vollindexierung und begrenzte Einzelindex-SQL-Wartezeiten. Begrenzte Datenbank-Sperrwartezeiten für Rename sowie wiederaufnehmbare Vollindexierung mit Datenbank-Wartebudget, verlässlichem Indexdatum, speicherschonender Suche, korrigiertem Rename und optionalen SELF-Berechtigungen. |
 | [12.9.5.4-Indexer-Final](https://github.com/u5cms/u5cms/tree/12.9.5.4-Indexer-Final) | 12.9.5.4 | Geprüfter Release-Kandidat; [kumulative Abnahme gegenüber 12.9.5](docs/release-12.9.5.4.md). |
 | [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/12.9.5.2-Faster-Rename) | 12.9.5.2 | Patchlinie ab 12.9.5.1: schnelle, wiederaufnehmbare Objektumbenennung mit Ueberschriften-, Referenz-, Historien- und Dateierhalt; bestehende Codeobjekte und Exporte bleiben erhalten. |
 | [12.9.6-Misc-Backend-Optimizations](https://github.com/u5cms/u5cms/tree/12.9.6-Misc-Backend-Optimizations) | 12.9.6 | Stabilere Scrollposition im Backendfilter und bereinigte Tooltips der Objektlisten. |

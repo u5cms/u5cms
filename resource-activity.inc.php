@@ -48,12 +48,16 @@ function u5ResourceActivityLock($root,$rename=null) {
         }
         if (!flock($handle,($rename===null ? LOCK_SH : LOCK_EX)|LOCK_NB)) {
             fclose($handle);
-            if ($rename===null) throw new U5ResourceBusyException(u5ResourceRenameMessage(u5ResourceRenameStatus($root)));
+            if ($rename===null) {
+                $status=u5ResourceRenameStatus($root);
+                throw new U5ResourceBusyException($status ? u5ResourceRenameMessage($status) : 'Rename has just finished. Save again; your editor contents remain available.');
+            }
             $status=u5ResourceRenameStatus($root);
             throw new U5ResourceBusyException($status ? u5ResourceRenameMessage($status) : 'A resource save is finishing. Rename has not started; retry Rename when that save completes.');
         }
         $state->locks[$key]=array('handle'=>$handle,'depth'=>1,'exclusive'=>$rename!==null);
         if ($rename!==null) {
+            u5ResourceGenerationChange($root);
             $state->rename[$key]=$rename+array('started'=>microtime(true),'phase'=>'planning','done'=>0,'total'=>0,'written'=>0);
             u5ResourceRenameProgress($root,'planning',0,0,true);
         }
@@ -63,7 +67,7 @@ function u5ResourceActivityLock($root,$rename=null) {
         if ($released) return;$released=true;
         if (!isset($state->locks[$key])) return;
         if (--$state->locks[$key]['depth']===0) {
-            if ($state->locks[$key]['exclusive']) {@unlink($root.'/fileversions/resource-rename-active.php');unset($state->rename[$key]);}
+            if ($state->locks[$key]['exclusive']) {u5ResourceGenerationChange($root);@unlink($root.'/fileversions/resource-rename-active.php');unset($state->rename[$key]);}
             flock($state->locks[$key]['handle'],LOCK_UN);fclose($state->locks[$key]['handle']);unset($state->locks[$key]);
         }
     };
@@ -97,8 +101,10 @@ function u5ResourceWriteActivity($root) {
     if ($path===false) return function() {};
     $handle=@fopen($path,'r+');
     if (!$handle || !flock($handle,LOCK_EX|LOCK_NB)) {if ($handle) fclose($handle);@unlink($path);return function() {};}
-    $release=function() use(&$handle,$path) {
+    u5ResourceGenerationChange($root);
+    $release=function() use(&$handle,$path,$root) {
         if (!is_resource($handle)) return;
+        u5ResourceGenerationChange($root);
         @unlink($path);flock($handle,LOCK_UN);fclose($handle);$handle=null;
     };
     return $release;
@@ -112,4 +118,38 @@ function u5ResourceWritesActive($root) {
         fclose($handle);if (!$idle) return true;
     }
     return false;
+}
+
+function u5ResourceGenerationChange($root) {
+    $path=$root.'/fileversions/resource-write-generation.php';
+    $temporary=@tempnam(dirname($path),'.resource-generation-');
+    if ($temporary===false) {error_log('u5CMS: Cannot track source generation; check fileversions permissions.');return false;}
+    try {
+        $data="<?php exit; ?>\n".bin2hex(random_bytes(16));
+        if (@file_put_contents($temporary,$data)!==strlen($data) || !@chmod($temporary,0644) || !@rename($temporary,$path)) {
+            error_log('u5CMS: Cannot publish source generation; check fileversions permissions.');return false;
+        }
+        return true;
+    } catch (Throwable $error) {
+        error_log('u5CMS: Cannot track source generation: '.$error->getMessage());return false;
+    } finally {if (is_file($temporary)) @unlink($temporary);}
+}
+
+function u5ResourceBackupStart($root) {
+    if (u5ResourceWritesActive($root) || u5ResourceRenameStatus($root)) throw new U5ResourceBusyException('A source write or Rename is active. Retry the backup after it finishes; editing remains available.');
+    if (!u5ResourceGenerationChange($root)) throw new RuntimeException('Cannot track a consistent backup. Check fileversions permissions; editing remains available.');
+    $generation=@file_get_contents($root.'/fileversions/resource-write-generation.php');
+    if (!is_string($generation)) throw new RuntimeException('Cannot read the backup source generation.');
+    u5ResourceBackupFinish($root,$generation);
+    return $generation;
+}
+
+function u5ResourceBackupFinish($root,$generation) {
+    // Test owners before reading the final generation. A write which starts
+    // after that final read is beyond the completed backup's snapshot point.
+    if (u5ResourceWritesActive($root) || u5ResourceRenameStatus($root)
+        || !is_writable($root.'/fileversions')
+        || @file_get_contents($root.'/fileversions/resource-write-generation.php')!==$generation) {
+        throw new U5ResourceBusyException('Source content changed during the backup. This backup was not published. Retry the backup; ordinary saves remain available.');
+    }
 }

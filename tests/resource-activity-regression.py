@@ -60,18 +60,18 @@ return false;
     server=subprocess.Popen(php+['-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],env=env,stdout=log,stderr=log,start_new_session=True)
     opener=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
     opener.addheaders=[('Authorization','Basic '+base64.b64encode(('auditadmin:'+os.environ['U5CMS_FIXTURE_PASSWORD']).encode()).decode())]
-    def request(path,form=None):
-        req=urllib.request.Request(base+path,data=urllib.parse.urlencode(form).encode() if form is not None else None)
+    def request(path,form=None,origin=None):
+        req=urllib.request.Request((origin or base)+path,data=urllib.parse.urlencode(form,encoding='cp1252',errors='xmlcharrefreplace').encode() if form is not None else None)
         try:
             with opener.open(req,timeout=20) as response:return response.status,response.read().decode('cp1252')
         except urllib.error.HTTPError as error:return error.code,error.read().decode('cp1252')
-    def row():return sql("SELECT * FROM resources WHERE name='activitypage' AND deleted=0")[0]
-    def save(text,revision=None):
-        current=row();form={'page':'activitypage','coco':current['lastmut'] if revision is None else revision,'u5scrtytknfrfrms':token,'ishomepage':'0','hidden':'0','logins':''}
+    def row(name='activitypage'):return sql("SELECT * FROM resources WHERE name='"+name+"' AND deleted=0")[0]
+    def save(text,revision=None,path='/u5admin/savepage.php?i=i1',name='activitypage',origin=None):
+        current=row(name);form={'page':name,'name':name,'coco':current['lastmut'] if revision is None else revision,'u5scrtytknfrfrms':token,'ishomepage':'0','hidden':'0','logins':''}
         for language in range(1,6):
-            for field in ['content','title','desc','key']:form[field+'_'+str(language)]=current[field+'_'+str(language)]
+            for field in ['content','title','desc','key']:form[field+'_'+str(language)]=current[field+'_'+str(language)] or ''
         form['content_1']=text
-        started=time.monotonic();code,body=request('/u5admin/savepage.php?i=i1',form)
+        started=time.monotonic();code,body=request(path,form,origin)
         return code,body,time.monotonic()-started
     writer=None
     def reachable():
@@ -102,17 +102,29 @@ return false;
             code,body,_=save('POLICY_NONE',previous)
             check(code==200 and row()['content_1']=='POLICY_NONE','configured overwrite policy remains supported')
             config.write_bytes(original_config+b"\n$checksaveversionconflictinbackend='all';\n")
-            legacy=site/'u5admin/resource-save.inc.php'
-            save_impl=legacy if legacy.exists() else site/'u5admin/resourceupdate.inc.php'
+            page_impl=site/'u5admin/savepage.php';page_source=page_impl.read_bytes()
+            if b'resource-save.inc.php' in page_source:
+                save_impl=site/'u5admin/resource-save.inc.php';needle=b'$set=array();$guard=array();'
+            elif b'u5UpdateResource(' in page_source:
+                save_impl=site/'u5admin/resourceupdate.inc.php';needle=b'for ($attempt=0;$attempt<3;$attempt++) {'
+            else:
+                save_impl=page_impl;needle=b'for ($u5Attempt=0;$u5Attempt<3;$u5Attempt++) {'
             original_impl=save_impl.read_bytes()
-            needle=b'$set=array();$guard=array();' if legacy.exists() else b'for ($attempt=0;$attempt<3;$attempt++) {'
             barrier=b"$u5Control=getenv('U5_ACTIVITY_CONTROL');file_put_contents($u5Control.'/cas-ready-'.getmypid(),'1');$u5Until=microtime(true)+10;while(microtime(true)<$u5Until){clearstatcache(true,$u5Control.'/cas-go');if(is_file($u5Control.'/cas-go'))break;usleep(10000);}"
             check(original_impl.count(needle)==1,'actual source write barrier has one insertion point')
             save_impl.write_bytes(original_impl.replace(needle,barrier+needle))
+            with socket.socket() as second_probe:second_probe.bind(('127.0.0.1',0));second_port=second_probe.getsockname()[1]
+            second_env=dict(env);second_env.pop('PHP_CLI_SERVER_WORKERS',None)
+            second_server=subprocess.Popen(php+['-S','127.0.0.1:'+str(second_port),'-t',str(site),str(router)],env=second_env,stdout=log,stderr=log,start_new_session=True)
+            second_origin='http://127.0.0.1:'+str(second_port)
+            def second_ready():
+                try:return request('/u5admin/renaming.php',origin=second_origin)[0]==200
+                except OSError:return False
             try:
+                wait_for(second_ready,'independent second HTTP server')
                 revision=row()['lastmut']
                 with ThreadPoolExecutor(max_workers=2) as pool:
-                    jobs=[pool.submit(save,text,revision) for text in ['CONCURRENT_A','CONCURRENT_B']]
+                    jobs=[pool.submit(save,text,revision,origin=origin) for text,origin in [('CONCURRENT_A',base),('CONCURRENT_B',second_origin)]]
                     wait_for(lambda:len(list(control.glob('cas-ready-*')))==2,'two real writers read same revision')
                     (control/'cas-go').touch()
                     results=[job.result(timeout=10) for job in jobs]
@@ -120,8 +132,46 @@ return false;
                 check(sum('CONFLICT' in result[1] for result in results)==1,'atomic same-resource race reports exactly one conflict')
                 check(row()['content_1'] in ['CONCURRENT_A','CONCURRENT_B'],'one complete source version remains active')
                 check(len(sql("SELECT name FROM resources_log WHERE name='activitypage' AND content_1 IN ('CONCURRENT_A','CONCURRENT_B')"))==2,'both concurrent submissions survive in history')
-            finally:save_impl.write_bytes(original_impl)
+                for policy in ['none','foreign']:
+                    config.write_bytes(original_config+("\n$checksaveversionconflictinbackend='"+policy+"';\n").encode())
+                    for marker in control.glob('cas-ready-*'):marker.unlink()
+                    (control/'cas-go').unlink()
+                    revision=row()['lastmut'];values=['OVERWRITE_'+policy+'_A','OVERWRITE_'+policy+'_B']
+                    with ThreadPoolExecutor(max_workers=2) as pool:
+                        jobs=[pool.submit(save,text,revision,origin=origin) for text,origin in zip(values,[base,second_origin])]
+                        wait_for(lambda:len(list(control.glob('cas-ready-*')))==2,'concurrent configured overwrite policy')
+                        (control/'cas-go').touch();results=[job.result(timeout=10) for job in jobs]
+                    check(all(result[0]==200 and 'CONFLICT' not in result[1] for result in results),'concurrent '+policy+' policy preserves permitted overwrite behaviour')
+                    check(row()['content_1'] in values and len(sql("SELECT name FROM resources_log WHERE name='activitypage' AND content_1 IN ('"+values[0]+"','"+values[1]+"')"))==2,'both '+policy+' submissions persist in history with one complete active version')
+            finally:
+                save_impl.write_bytes(original_impl);second_server.terminate();second_server.wait(timeout=10)
+
         finally:config.write_bytes(original_config)
+        unicode_text='Grüezi € &amp; &#x1F600;'
+        code,body,_=save(unicode_text)
+        check(code==200 and row()['content_1']==unicode_text,'actual Windows-1252 form preserves accents, euro and entities in UTF-8 DB')
+        for table in ['resources','resources_log']:sql('ALTER TABLE '+table+' MODIFY content_2 MEDIUMTEXT CHARACTER SET latin1')
+        code,body,_=save(unicode_text,path='/u5admin/meta2.php?typ=p')
+        check(code==200 and row()['content_1']==unicode_text,'metadata save preserves real form bytes with mixed column charsets')
+        code_name='activity!css' if (site/'codeassets.inc.php').exists() else 'cssactivity'
+        sql("INSERT INTO resources(name,typ,deleted,lastmut,operator) VALUES('"+code_name+"','c',0,100,'original')")
+        css='body{color:red} /* '+unicode_text+' */'
+        code,body,_=save(css,path='/u5admin/coding2.php?typ=c',name=code_name)
+        check(code==200 and row(code_name)['content_1']==css,'actual code save and export retain bytes and do not require global write mutex: '+repr((code,row(code_name)['content_1'],body[-600:])))
+        sql("INSERT INTO resources(name,typ,deleted,lastmut,operator) VALUES('cafépage','p',0,100,'original')")
+        code,body,_=save('Legacy name: Grüezi',name='cafépage')
+        check(code==200 and row('cafépage')['content_1']=='Legacy name: Grüezi','non-ASCII legacy resource names retain connection-charset lookup and save')
+        for table in ['resources','resources_log']:sql('ALTER TABLE '+table+' MODIFY lastmut BIGINT')
+        sql("UPDATE resources SET lastmut=3000000000 WHERE name='cafépage'")
+        code,body,_=save('Configured revision capacity',name='cafépage')
+        check(code==200 and int(row('cafépage')['lastmut'])==3000000001,'save respects enlarged revision column without an artificial signed-INT gate')
+        dirty=state/'lastsave.txt';dirty.unlink(missing_ok=True);dirty.mkdir()
+        try:
+            code,body,_=save('SOURCE_SURVIVES_MARKER_ERROR')
+            check(code==200 and row()['content_1']=='SOURCE_SURVIVES_MARKER_ERROR','ancillary index marker failure does not reject real source save')
+        finally:dirty.rmdir()
+        code,body,_=save('SEARCH_MARKER_RESTORED')
+        check(code==200 and dirty.is_file(),'next save repairs index dirty tracking after marker path is restored')
         hold=tmp/'writer.php'
         hold.write_text("<?php require $argv[1].'/u5admin/resource-mutation.inc.php';echo \"ready\\n\";fflush(STDOUT);fgets(STDIN);")
         writer=subprocess.Popen(php+[str(hold),str(site)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -136,10 +186,12 @@ return false;
         for mode,crash in [('live',False),('crash',True)]:
             subprocess.run(php+[str(root/'tests/rename-web-support.php'),str(site),'seed',mode],check=True,capture_output=True)
             old='renameold'+mode;new='renamenew'+mode
+            (state/'lastsave.txt').write_text('100')
             (control/'hold').touch();(control/'ready').unlink(missing_ok=True)
             with ThreadPoolExecutor(max_workers=1) as pool:
                 future=pool.submit(request,'/u5admin/rename2.php?name='+old,{'name':new,'ulinks':'yes','u5scrtytknfrfrms':token})
                 wait_for(lambda:(control/'ready').is_file(),'actual Rename checkpoint')
+                check(int((state/'lastsave.txt').read_text())>100,'Rename marks search dirty before an interrupted publication can occur')
                 code,body=request('/u5admin/renaming.php')
                 check(code==200 and 'Rename in progress' in body and old in body and new in body and 'Elapsed:' in body,'live status names actual source/target and elapsed time')
                 before=row();code,body,elapsed=save('MUST_NOT_SAVE_DURING_RENAME')
@@ -152,6 +204,22 @@ return false;
                     result=future.result(timeout=10)
                     check(not crash and result[0]==200,'normal Rename completes successfully')
                 except (OSError,ValueError):check(crash,'killed Rename connection ends')
+            if crash:
+                with (state/'resource-rename.lock.php').open('r') as gate:
+                    fcntl.flock(gate,fcntl.LOCK_SH|fcntl.LOCK_NB)
+                    check(True,'kernel released killed Rename gate before any HTTP fixture restart')
+                # PHP's development-server parent also accepts requests. If it
+                # was the killed worker, restart this test HTTP pool only. Keep
+                # every CMS file, journal, lock inode and DB row untouched.
+                try:os.killpg(server.pid,signal.SIGTERM)
+                except ProcessLookupError:pass
+                server.wait(timeout=10)
+                wait_for(lambda:not reachable(),'old disposable HTTP pool stopping')
+                server=subprocess.Popen(php+['-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],env=env,stdout=log,stderr=log,start_new_session=True)
+                def replacement_ready():
+                    try:return request('/u5admin/renaming.php')[0]==200
+                    except OSError:return False
+                wait_for(replacement_ready,'replacement HTTP fixture after SIGKILL')
             code,body=request('/u5admin/renaming.php')
             check('Rename in progress' not in body,'finished or killed process cannot appear as live Rename')
             plans=list(state.glob('resource-rename-*.pending.php'))
@@ -170,5 +238,7 @@ return false;
         log.flush();print((tmp/'server.log').read_text()[-2500:]);raise
     finally:
         if writer:writer.kill();writer.wait(timeout=5)
-        os.killpg(server.pid,signal.SIGTERM);server.wait(timeout=10);log.close()
+        try:os.killpg(server.pid,signal.SIGTERM)
+        except ProcessLookupError:pass
+        server.wait(timeout=10);log.close()
         subprocess.run(php+[str(root/'tests/rename-web-fixture.php'),'cleanup',database],check=True)

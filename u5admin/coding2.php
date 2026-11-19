@@ -8,8 +8,10 @@ require_once __DIR__.'/resource-mutation.inc.php';require_once('t2.php'); ?>
 <body bgcolor="#339900" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php
 if ($cssRqHIADRI!='no') require('accadmin.inc.php');
+require_once __DIR__.'/resource-save.inc.php';
+$u5EditorSnapshot=u5SaveSnapshot($_POST['name']);
 require('archivecheck.inc.php');
-require('delcheck.inc.php');
+$deleted=$u5EditorSnapshot['deleted'];
 
 if ($_POST['name']=='htmltemplate') {
 $teststr=$_POST['content_1'];
@@ -24,8 +26,7 @@ if (strpos(strtolower('xxx'.$teststr),'<body id=\"body\"')>1) die('<script>alert
 if (strpos(strtolower('xxx'.$teststr),'<body id="body"')<1) die('<script>alert("ERROR: Cannot save htmltemplate because it is not containing a correct body tag. The body tag MUST have the id body as first attribute like this: <body id=\"body\">")</script>');
 }
 
-require_once __DIR__.'/resource-save.inc.php';
-$row_a=u5SaveSnapshot($_POST['name']);
+$row_a=$u5EditorSnapshot;
 $u5SaveRevision=u5SaveNextRevision($row_a);
 $u5SavePolicyConflict=$_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER']))));
 $conflict='';
