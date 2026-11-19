@@ -1,0 +1,2779 @@
+{
+  "release": "12.9.5.7",
+  "baseline": "9d366253417822c279692767b89dcf1ff0388c5c",
+  "stable_application_source": "8da363d84140adee59aab294f5f8d5de50101098",
+  "verified_at": "2026-11-19T12:35:15.868122+00:00",
+  "method": "Expected-head guarded publication; fetched remote heads and tree IDs compared to tested trees; additional fixture-only changes explicitly listed; existing version/render/search blobs checked byte-identical.",
+  "branches": [
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "base": "ae068dc5929938f0f65bf7a6bb79883160fafb4c",
+      "sha": "5bdad41f45b4637bddc6d5918230986729deb88e",
+      "tree": "2842435d351d193ccdd0a89790461f7fa142862f",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "4265baac231b831166c5492234d3884caa6a487a",
+      "preserved_blobs": {
+        "index.php": "75695f870fb011d609f59c36ac763ebcba095603",
+        "render.inc.php": "939bd274ae41574f2d487aac959f692217409b75",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "b2e5bf761f7375a00ba5592eb667d76fe4669425",
+      "packet_tested_tree": "55278ffb7565f98d9f6583b7411213944458d712",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 5.169,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44522926818,
+        "head_sha": "5bdad41f45b4637bddc6d5918230986729deb88e",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44522926818",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "fe7f81e7e6eecc42b2f7cc6cf768c10b7ee3a0fc",
+        "u5admin/coding2.php": "436ca5d65680690696e1a36ec30f9d99d81e7cbc",
+        "u5admin/meta2.php": "a8fc0b75848fa19cecdde796bf0690c6f959afad",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "base": "d3c248746f158df887e499fcfb088908969562a1",
+      "sha": "25fe02ce20d4e8c53d93ad17a9e1bba3cc2fd6ad",
+      "tree": "ef2fc9b17c5fc2e76c6fe9bc2835c0cb44897201",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "8bc41edd58fb3f8453a2d6c027b9d89b5174c9b1",
+      "preserved_blobs": {
+        "index.php": "18bfe4bc0db53a3120036e23be7b35103d6a870c",
+        "render.inc.php": "939bd274ae41574f2d487aac959f692217409b75",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "ae458f4bb715f51d5f125a54c5ed569941c1f3aa",
+      "packet_tested_tree": "46e9ae7390749ed1006bf3c9093f8f124ee5c546",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 4.03,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44522904698,
+        "head_sha": "25fe02ce20d4e8c53d93ad17a9e1bba3cc2fd6ad",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44522904698",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "fe7f81e7e6eecc42b2f7cc6cf768c10b7ee3a0fc",
+        "u5admin/coding2.php": "436ca5d65680690696e1a36ec30f9d99d81e7cbc",
+        "u5admin/meta2.php": "a8fc0b75848fa19cecdde796bf0690c6f959afad",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "base": "09d4d3cefc1dca8532b772555c524ec72d2324e9",
+      "sha": "5ddef85e405904f8d38646e870e1bafe4e6756a2",
+      "tree": "d78a0907e39fcb96f900aff389743bdb2b8f39da",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "b3b672f3faa98379de52bbb07a1ce003d1494aca",
+      "preserved_blobs": {
+        "index.php": "9c62e600b323d7c180d85500c24dc1ed03b8ac89",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "541752a38ca67f87e8ffde035f0166491ba4327d",
+      "packet_tested_tree": "541752a38ca67f87e8ffde035f0166491ba4327d",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 3.491,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/coding2.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44522859078,
+        "head_sha": "5ddef85e405904f8d38646e870e1bafe4e6756a2",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44522859078",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "0a091d902783971a96d4b3bb644a2b52574fe6a4",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "fe7f81e7e6eecc42b2f7cc6cf768c10b7ee3a0fc",
+        "u5admin/codeassets-migrate.inc.php": "bd8dcfb80a4bc55d4009248f397af2df4ada10e3",
+        "u5admin/coding2.php": "4801f6becd5c3d0df4b0be35d64ab8b381f0eb3f",
+        "u5admin/meta2.php": "a8fc0b75848fa19cecdde796bf0690c6f959afad",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "base": "bdaaac6d5167f8831fa5a42bee955c288867d4de",
+      "sha": "2a50a531248925eb035760546962d7508bf3ee68",
+      "tree": "a24bb70ff81a45bc663ca1355a1ea15dfbce4c90",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "630c61a0c1a86154e8468d22b1f32e7718e5c57e",
+      "preserved_blobs": {
+        "index.php": "ab8fdf5115d54f6d16862366a23c028d6664c408",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "52481df381612d461b7b51d036893ffa9b3c8945",
+      "packet_tested_tree": "52481df381612d461b7b51d036893ffa9b3c8945",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 2.996,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523056310,
+        "head_sha": "2a50a531248925eb035760546962d7508bf3ee68",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523056310",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "ca670c7c7546817b59239bb7903b888bce450a3e",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "fe7f81e7e6eecc42b2f7cc6cf768c10b7ee3a0fc",
+        "u5admin/codeassets-journal.inc.php": "19f93631ed4818205666ad00b2bd076a48c22a6e",
+        "u5admin/codeassets-migrate.inc.php": "57b39cb690fb53cac5d80e43feb1be25cf2d40cb",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "base": "e981623d86866ade66d1feb94546ab661b0c31a2",
+      "sha": "ac4a1b69e5197604f32c91fe189f0abcddf6c394",
+      "tree": "ca92c88b371a8b14ae71fc0162d02e8f1baf6acb",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "587cf044a427ea908c8215c623b556c77a52a5e9",
+      "preserved_blobs": {
+        "index.php": "beaea06eb39f7128859b0a77f95aeb34f317bdf8",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "0b2a218e95ea8eada8587142c08c5347942ed880",
+      "packet_tested_tree": "0b2a218e95ea8eada8587142c08c5347942ed880",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 3.785,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523076407,
+        "head_sha": "ac4a1b69e5197604f32c91fe189f0abcddf6c394",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523076407",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "cc57ba09b81e5a15650a9eefb2bcc537500851ad",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "6798df77d3e829ea464276a185c193e1311732fb",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "8a1df5d5110064d5a97293c1409f40a9cdf7e2b9",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "base": "aee3466f717390e34c262c1859f4d675fb5069ed",
+      "sha": "ebe5f8b51cf18acfe96a3febb739e33938ba41fb",
+      "tree": "fc5777abee2e4e33b7fc7d757f8ed35d040f539f",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "a2e277a87ecd85362315846f67ef1b80417a54b2",
+      "preserved_blobs": {
+        "index.php": "7d90870b92a1b47dcfe69a4952297e07b702944e",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "73cd71b8108899fe8c2754cfcd1a3b209fe2fb76",
+      "packet_tested_tree": "73cd71b8108899fe8c2754cfcd1a3b209fe2fb76",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 4.245,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523037356,
+        "head_sha": "ebe5f8b51cf18acfe96a3febb739e33938ba41fb",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523037356",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "cc57ba09b81e5a15650a9eefb2bcc537500851ad",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "6798df77d3e829ea464276a185c193e1311732fb",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "8a1df5d5110064d5a97293c1409f40a9cdf7e2b9",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "base": "445b7849221dd92db74fcc8a1319a71f4ea1bc57",
+      "sha": "aabeb4fb23b7c47db5c30039a4654a1676c651a6",
+      "tree": "40833241f372f55f45178ba5e77292ce2ec461a8",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "c8d21fec12da35273672cfc020aab003747f18a0",
+      "preserved_blobs": {
+        "index.php": "022760558708ebb52746e4ba0d8f1ea89faa5c44",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "e4fcfcd79032e089ff1b6ed01090e8f32b964d28",
+      "packet_tested_tree": "e4fcfcd79032e089ff1b6ed01090e8f32b964d28",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 4.269,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523180234,
+        "head_sha": "aabeb4fb23b7c47db5c30039a4654a1676c651a6",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523180234",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "cc57ba09b81e5a15650a9eefb2bcc537500851ad",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "6798df77d3e829ea464276a185c193e1311732fb",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "8a1df5d5110064d5a97293c1409f40a9cdf7e2b9",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "base": "4bfe7cfdc06f35a6743f2826635290dc36900049",
+      "sha": "0996561262e1f6efcf3d399e23a79fe02d90cad3",
+      "tree": "627e7fa0694e45345e7a0b1470d951289865d635",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "d45be47e321c0824957b5511dc947a5715c70ff2",
+      "preserved_blobs": {
+        "index.php": "38bbf14a46a17b580a783268a452b9f66bb61a0d",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "search-index.inc.php": "ee8115a69ed47fc41dbf3ebf99f524de88a5f89e",
+        "search-core.inc.php": "3de7f5312bbdf729c0bc6dd23ef861aa1df6b392",
+        "u5sys._search.php": "a4f5e5f57f4c5df11a7c721ca44c2c0a6c8c5a44",
+        "u5sys._searchsi.php": "0e1993a9e0856c6521430f8f45ef601f7ea9d379"
+      },
+      "local_tested_tree": "a9094e54fdc8a9c7c85e3461c1ef1487db81c152",
+      "packet_tested_tree": "a9094e54fdc8a9c7c85e3461c1ef1487db81c152",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 4.088,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "search-index-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "tests/search-index-regression.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523160872,
+        "head_sha": "0996561262e1f6efcf3d399e23a79fe02d90cad3",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523160872",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "cc57ba09b81e5a15650a9eefb2bcc537500851ad",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "cf39c223bfe7c6f1eccd8be2e12b449774e7432c",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "6798df77d3e829ea464276a185c193e1311732fb",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "8a1df5d5110064d5a97293c1409f40a9cdf7e2b9",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "base": "c35519fa17dd1869ef93698f1fe0cddeccd17e3a",
+      "sha": "ca5d606d7c9b13a8d4eb9f79a8ce386170ea4c33",
+      "tree": "b38184ed945d6ef57326f8ac2e16793780d111ad",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "364d078ff3b0f764ed4bba0679361b4d7cfb8890",
+      "preserved_blobs": {
+        "index.php": "80bb50fdede222f261bbb65b94f9e4cf6bc57d0e",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "search-index.inc.php": "ee8115a69ed47fc41dbf3ebf99f524de88a5f89e",
+        "search-core.inc.php": "3de7f5312bbdf729c0bc6dd23ef861aa1df6b392",
+        "u5sys._search.php": "a4f5e5f57f4c5df11a7c721ca44c2c0a6c8c5a44",
+        "u5sys._searchsi.php": "0e1993a9e0856c6521430f8f45ef601f7ea9d379"
+      },
+      "local_tested_tree": "e0a353eb1a786547f7d0f23b30c0e966084cf1d0",
+      "packet_tested_tree": "04c63ffc3b1fe62d8af41e0fd741658a01a0f037",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 4.13,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "search-index-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "tests/search-index-regression.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523132253,
+        "head_sha": "ca5d606d7c9b13a8d4eb9f79a8ce386170ea4c33",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523132253",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "cc57ba09b81e5a15650a9eefb2bcc537500851ad",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "cf39c223bfe7c6f1eccd8be2e12b449774e7432c",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "65646e5eca331c33158dd58dda8599e7374758a9",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "509ce16ba3011bf41877079548492fba334f93e6",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6fcdffec73dc0cad3dfe577015c4a1af61af16f8",
+        "u5admin/renaming.php": "971a3d7b44caeedbfe0bc814e672711d5f58090c",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename.inc.php": "505114f73ac8b4ed580d4cde561d24497da76605"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "base": "23359c2c906367921452f58743b6053a2e6e4978",
+      "sha": "2d6649b15cae41c695ddb9ada8ee687fa05988e1",
+      "tree": "651f2e9a1387ba1adc11e0fa9b480dc75e8fedbd",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "f96da117d52c8b4ba808e7458e1cfc737c094ff3",
+      "preserved_blobs": {
+        "index.php": "5fe7d9f6a50246c51360deec96c397e0c99f346d",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "search-index.inc.php": "ee8115a69ed47fc41dbf3ebf99f524de88a5f89e",
+        "search-core.inc.php": "3de7f5312bbdf729c0bc6dd23ef861aa1df6b392",
+        "u5sys._search.php": "a4f5e5f57f4c5df11a7c721ca44c2c0a6c8c5a44",
+        "u5sys._searchsi.php": "0e1993a9e0856c6521430f8f45ef601f7ea9d379"
+      },
+      "local_tested_tree": "a50bb0b32707e13ea8e19a13cb3617ba21a44841",
+      "packet_tested_tree": "a50bb0b32707e13ea8e19a13cb3617ba21a44841",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 4.493,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "search-index-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "tests/search-index-regression.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523780164,
+        "head_sha": "2d6649b15cae41c695ddb9ada8ee687fa05988e1",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523780164",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "cc57ba09b81e5a15650a9eefb2bcc537500851ad",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "cf39c223bfe7c6f1eccd8be2e12b449774e7432c",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "65646e5eca331c33158dd58dda8599e7374758a9",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "509ce16ba3011bf41877079548492fba334f93e6",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6fcdffec73dc0cad3dfe577015c4a1af61af16f8",
+        "u5admin/renaming.php": "971a3d7b44caeedbfe0bc814e672711d5f58090c",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename.inc.php": "505114f73ac8b4ed580d4cde561d24497da76605"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.12.3-PHP9-Compatibility",
+      "base": "0d6edde57c522bc25d890c0902a8852b76422fe6",
+      "sha": "28eb9aecff3b7c6c7ff0fa5a548f4e8edeade081",
+      "tree": "5eed80c100e840ad1b7f6c871d3e750984619030",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "736d4375d604876259f8460b70d6fac4a32cfbf4",
+      "preserved_blobs": {
+        "index.php": "615e7364cea6b29f19fdc21d9bbb3757d2dc096c",
+        "render.inc.php": "2f6d15a7334808a94feaf04ffbf91f3a96b500e2",
+        "search-index.inc.php": "ee8115a69ed47fc41dbf3ebf99f524de88a5f89e",
+        "search-core.inc.php": "3de7f5312bbdf729c0bc6dd23ef861aa1df6b392",
+        "u5sys._search.php": "a4f5e5f57f4c5df11a7c721ca44c2c0a6c8c5a44",
+        "u5sys._searchsi.php": "0e1993a9e0856c6521430f8f45ef601f7ea9d379"
+      },
+      "local_tested_tree": "d5d2cb2048b25cc6944f212570fbb9dbe25ca575",
+      "packet_tested_tree": "10a28abeaec181e3c22097bf5091b2d33aa0f994",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 4.337,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/editorial-journey-browser.cjs",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "search-index-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/editorial-journey-browser.cjs",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/mutation-recovery-http.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "tests/search-index-regression.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523749207,
+        "head_sha": "28eb9aecff3b7c6c7ff0fa5a548f4e8edeade081",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523749207",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "6d77488cbdf0a5e4f53267fc7fba0a2b8809e467",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "9033e3ed6c1bd4ece49e0515ee8238ad8e0d10fa",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "65646e5eca331c33158dd58dda8599e7374758a9",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "1e4b296882dae41fe07d623c1ef2c4cb696235c9",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6fcdffec73dc0cad3dfe577015c4a1af61af16f8",
+        "u5admin/renaming.php": "971a3d7b44caeedbfe0bc814e672711d5f58090c",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename.inc.php": "505114f73ac8b4ed580d4cde561d24497da76605"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.12.4-Default-Design",
+      "base": "aaca9550a348883cea0e1bf5a352d416ccaf86fe",
+      "sha": "da687f5c58c560da0fcbdfa9cce357084ba3dba7",
+      "tree": "4167103c7d1d51fe9d21bd55e4342b308e0727ee",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "598f244bffae2296593327f1c23f488f73e71e11",
+      "preserved_blobs": {
+        "index.php": "c6bb76c260dfb1c66d777222467cc581d098c939",
+        "render.inc.php": "2f6d15a7334808a94feaf04ffbf91f3a96b500e2",
+        "search-index.inc.php": "ee8115a69ed47fc41dbf3ebf99f524de88a5f89e",
+        "search-core.inc.php": "3de7f5312bbdf729c0bc6dd23ef861aa1df6b392",
+        "u5sys._search.php": "a4f5e5f57f4c5df11a7c721ca44c2c0a6c8c5a44",
+        "u5sys._searchsi.php": "0e1993a9e0856c6521430f8f45ef601f7ea9d379"
+      },
+      "local_tested_tree": "3684fa735131af70ec7d5b8c46b4dcacec904e9e",
+      "packet_tested_tree": "084d05ea07a3e85ecfb935caa2765a87d3add3b5",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 3.941,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/editorial-journey-browser.cjs",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "search-index-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/editorial-journey-browser.cjs",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/mutation-recovery-http.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "tests/search-index-regression.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523874139,
+        "head_sha": "da687f5c58c560da0fcbdfa9cce357084ba3dba7",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523874139",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "6d77488cbdf0a5e4f53267fc7fba0a2b8809e467",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "9033e3ed6c1bd4ece49e0515ee8238ad8e0d10fa",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "65646e5eca331c33158dd58dda8599e7374758a9",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "1e4b296882dae41fe07d623c1ef2c4cb696235c9",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6fcdffec73dc0cad3dfe577015c4a1af61af16f8",
+        "u5admin/renaming.php": "971a3d7b44caeedbfe0bc814e672711d5f58090c",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename.inc.php": "505114f73ac8b4ed580d4cde561d24497da76605"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.13.0-Responsive-Design",
+      "base": "a56769de498e16ba752e948b575c19164c85c859",
+      "sha": "6b771bc0e3ebe672abdaa0758420124d8b6977e3",
+      "tree": "0a3c843c13a296d6b992b85cb846abc213f29501",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "167f6a0058ff5d17c66c929765feacd7c7517dc3",
+      "preserved_blobs": {
+        "index.php": "37c7d215b04847a2a7dbf8cd1c2def56940c64f5",
+        "render.inc.php": "8c604cf8d68e2f3a9957b90c976a785478c68fd2",
+        "search-index.inc.php": "ee8115a69ed47fc41dbf3ebf99f524de88a5f89e",
+        "search-core.inc.php": "3de7f5312bbdf729c0bc6dd23ef861aa1df6b392",
+        "u5sys._search.php": "a4f5e5f57f4c5df11a7c721ca44c2c0a6c8c5a44",
+        "u5sys._searchsi.php": "0e1993a9e0856c6521430f8f45ef601f7ea9d379"
+      },
+      "local_tested_tree": "b11259ea62caf2fd42492a754513c1276de15630",
+      "packet_tested_tree": "85286e0f06b48687d75f0da26ca6ee2e3a655338",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 3.954,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/editorial-journey-browser.cjs",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "search-index-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/editorial-journey-browser.cjs",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/mutation-recovery-http.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "tests/search-index-regression.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523855820,
+        "head_sha": "6b771bc0e3ebe672abdaa0758420124d8b6977e3",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523855820",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "6d77488cbdf0a5e4f53267fc7fba0a2b8809e467",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "9033e3ed6c1bd4ece49e0515ee8238ad8e0d10fa",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "65646e5eca331c33158dd58dda8599e7374758a9",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "1e4b296882dae41fe07d623c1ef2c4cb696235c9",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6fcdffec73dc0cad3dfe577015c4a1af61af16f8",
+        "u5admin/renaming.php": "971a3d7b44caeedbfe0bc814e672711d5f58090c",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename.inc.php": "505114f73ac8b4ed580d4cde561d24497da76605"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.9.5.2-Faster-Rename",
+      "base": "fba0ff0e25e134807aad54e3f3c7e889db331239",
+      "sha": "4af9988febb075fb06e541257ee6f4d2a10d90c6",
+      "tree": "da439361ec8acf2407bfa08c66c63f7567f37792",
+      "paths": [
+        "docs/development-status.md",
+        "resource-activity.inc.php",
+        "tests/rename-packet-regression.py",
+        "u5admin/resource-rename-support.inc.php"
+      ],
+      "starting_sha": "1dd21d533727368a26b0810a5a21d4e58409eee6",
+      "preserved_blobs": {
+        "index.php": "e65a5cc33df8c45c65833a58541d563236a9a15d",
+        "render.inc.php": "92f5d2d096e2ac77785447e964bef0a01f96f031",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "196341c608f60450801370fc4f035499cff1d7c7",
+      "packet_tested_tree": "1d04640d114a2a3d99d8475289b7b92c5955ea00",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 2.576,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "maintenance compatibility",
+      "source_changed_paths": [
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/index-save-regression.py",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/archivecheck.inc.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php",
+        "u5admin/resource-save.inc.php",
+        "u5admin/savepage.php"
+      ],
+      "github_workflow": null,
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/archivecheck.inc.php": "ea873a1d1bff2795d94bd8acafbd7bdc7761e4f4",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "ef70d79c0fdc3d330eb9d81f529d8c82d952e9f8",
+        "u5admin/coding2.php": "63e12a8ff77de37a7919dc32ecfbfef0a6d30dcf",
+        "u5admin/meta2.php": "a0f3664f154f4165cd39c9df5a4f5bfad6a70739",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167",
+        "u5admin/resource-save.inc.php": "ee0f59db5e4d71479f0b2342dd6d470d5b65804a",
+        "u5admin/savepage.php": "5e7ca96435352acd3d69c1c5582cdb5ac7fee3e6"
+      },
+      "additional_current_tree_suites": [
+        {
+          "test": "tests/resource-activity-regression.py",
+          "exit_code": 0,
+          "summary": "Resource activity checks: 52 passed (real concurrent writers, background locks, live Rename, SIGKILL, status and exact recovery)."
+        },
+        {
+          "test": "tests/audit-save-during-index.py",
+          "exit_code": 0,
+          "summary": "{\"save_http\": 200, \"elapsed\": 0.013, \"five_saved\": true, \"rename_pending\": false}"
+        },
+        {
+          "test": "tests/index-save-regression.py",
+          "exit_code": 0,
+          "summary": "Save/index coordination checks: 33 passed (real save without child frames, five languages, competing kernel locks, pending Rename, bounded SQL wait and retry)."
+        },
+        {
+          "test": "tests/rename-regression.php",
+          "exit_code": 0,
+          "summary": "Rename backport core checks: 632 passed.\nRename database checks: 893 total passed."
+        },
+        {
+          "test": "tests/rename-web-regression.py",
+          "exit_code": 0,
+          "summary": "Rename database lock checks: 83 passed.\nRename HTTP checks: 115 passed (Basic/session, CSRF, HIADRI, real renderer, files/history, failure/retry)."
+        },
+        {
+          "test": "tests/indexer-batch-regression.php",
+          "exit_code": 0,
+          "summary": "Indexer batch checks: 12 passed."
+        },
+        {
+          "test": "tests/index-update-notice.php",
+          "exit_code": 0,
+          "summary": "Index date notice checks: 13 passed."
+        },
+        {
+          "test": "tests/login-host-regression.php",
+          "exit_code": 0,
+          "summary": "Login host policy: 40 checks passed on 8.4.24."
+        },
+        {
+          "test": "tests/international-email.php",
+          "exit_code": 0,
+          "summary": "{\"php\":\"8.4.24\",\"checks\":158,\"native_intl\":true}"
+        }
+      ],
+      "cumulative_contracts": {
+        "mail_and_login": "current-tree local regressions",
+        "self_onlymine": "not present on historical .2 feature level",
+        "search": "search sources preserved; stable cumulative search acceptance and current index/save tests",
+        "rename_and_recovery": "current-tree core, authenticated HTTP, SQL contention and SIGKILL activity",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; identical native-ZIP publication implementation accepted on stable/full branches",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.9.5.3-Onlymine",
+      "base": "341be7ae75b42e354d57f975ad1c23fbb42ca6e5",
+      "sha": "e19e5537b97b2a9ab7bfa0787f026af9b81a6488",
+      "tree": "aea726b51425c82c7f03976654f1c82201bd5cf5",
+      "paths": [
+        "docs/development-status.md",
+        "resource-activity.inc.php",
+        "tests/rename-packet-regression.py",
+        "u5admin/resource-rename-support.inc.php"
+      ],
+      "starting_sha": "b13a22783a1fce9eef50ae22bdb43874ba7462ae",
+      "preserved_blobs": {
+        "index.php": "34a8c617010d07b5c5390a6c108b0c4a265e079d",
+        "render.inc.php": "499a0c8e2e6c4b50a98a018e4b0a2fcca520ee05",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "6cd83cce046cf66a6f345bfb1cf54ccb58aa3222",
+      "packet_tested_tree": "acce7eccec3ad471543f584b2b54aa59b0845e26",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 2.468,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "maintenance compatibility",
+      "source_changed_paths": [
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/index-save-regression.py",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/archivecheck.inc.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php",
+        "u5admin/resource-save.inc.php",
+        "u5admin/savepage.php"
+      ],
+      "github_workflow": null,
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/archivecheck.inc.php": "ea873a1d1bff2795d94bd8acafbd7bdc7761e4f4",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "ef70d79c0fdc3d330eb9d81f529d8c82d952e9f8",
+        "u5admin/coding2.php": "63e12a8ff77de37a7919dc32ecfbfef0a6d30dcf",
+        "u5admin/meta2.php": "a0f3664f154f4165cd39c9df5a4f5bfad6a70739",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167",
+        "u5admin/resource-save.inc.php": "ee0f59db5e4d71479f0b2342dd6d470d5b65804a",
+        "u5admin/savepage.php": "5e7ca96435352acd3d69c1c5582cdb5ac7fee3e6"
+      },
+      "additional_current_tree_suites": [
+        {
+          "test": "tests/resource-activity-regression.py",
+          "exit_code": 0,
+          "summary": "Resource activity checks: 52 passed (real concurrent writers, background locks, live Rename, SIGKILL, status and exact recovery)."
+        },
+        {
+          "test": "tests/audit-save-during-index.py",
+          "exit_code": 0,
+          "summary": "{\"save_http\": 200, \"elapsed\": 0.011, \"five_saved\": true, \"rename_pending\": false}"
+        },
+        {
+          "test": "tests/index-save-regression.py",
+          "exit_code": 0,
+          "summary": "Save/index coordination checks: 33 passed (real save without child frames, five languages, competing kernel locks, pending Rename, bounded SQL wait and retry)."
+        },
+        {
+          "test": "tests/rename-regression.php",
+          "exit_code": 0,
+          "summary": "Rename backport core checks: 632 passed.\nRename database checks: 893 total passed."
+        },
+        {
+          "test": "tests/rename-web-regression.py",
+          "exit_code": 0,
+          "summary": "Rename database lock checks: 83 passed.\nRename HTTP checks: 115 passed (Basic/session, CSRF, HIADRI, real renderer, files/history, failure/retry)."
+        },
+        {
+          "test": "tests/indexer-batch-regression.php",
+          "exit_code": 0,
+          "summary": "Indexer batch checks: 12 passed."
+        },
+        {
+          "test": "tests/index-update-notice.php",
+          "exit_code": 0,
+          "summary": "Index date notice checks: 13 passed."
+        },
+        {
+          "test": "tests/onlymine-domain.php",
+          "exit_code": 0,
+          "summary": "Onlymine ownership and form dispatch passed."
+        },
+        {
+          "test": "tests/login-host-regression.php",
+          "exit_code": 0,
+          "summary": "Login host policy: 40 checks passed on 8.4.24."
+        },
+        {
+          "test": "tests/international-email.php",
+          "exit_code": 0,
+          "summary": "{\"php\":\"8.4.24\",\"checks\":158,\"native_intl\":true}"
+        }
+      ],
+      "cumulative_contracts": {
+        "mail_and_login": "current-tree local regressions",
+        "self_onlymine": "current-tree local regression",
+        "search": "search sources preserved; stable cumulative search acceptance and current index/save tests",
+        "rename_and_recovery": "current-tree core, authenticated HTTP, SQL contention and SIGKILL activity",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; identical native-ZIP publication implementation accepted on stable/full branches",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "base": "4863aef6ad9c57e62bc518d844f88c0a755cb1c9",
+      "sha": "f10b72bc3c2b07e83caf67af2d07758b91006e0e",
+      "tree": "678cf2935b3d18d6de0fce18ab3dd920af9f49a4",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "d4d7333bbad47e2aeb9811dcc5469ec34e8917d8",
+      "preserved_blobs": {
+        "index.php": "acc70f0c38c919ac20b6398ddb3a8ad76cc1d1c7",
+        "render.inc.php": "939bd274ae41574f2d487aac959f692217409b75",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "03aee9fcf68220131cb0499ea3b255b4980b4639",
+      "packet_tested_tree": "933d69b919ec212311f6b83c34a7eb509d59446a",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 2.53,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/archivecheck.inc.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php",
+        "u5admin/resource-save.inc.php",
+        "u5admin/savepage.php"
+      ],
+      "github_workflow": {
+        "id": 44523970823,
+        "head_sha": "f10b72bc3c2b07e83caf67af2d07758b91006e0e",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523970823",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/archivecheck.inc.php": "ea873a1d1bff2795d94bd8acafbd7bdc7761e4f4",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "5d9ca5fd00a395630d57570a9d75710d0f0c2ac3",
+        "u5admin/coding2.php": "63e12a8ff77de37a7919dc32ecfbfef0a6d30dcf",
+        "u5admin/meta2.php": "a0f3664f154f4165cd39c9df5a4f5bfad6a70739",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167",
+        "u5admin/resource-save.inc.php": "ee0f59db5e4d71479f0b2342dd6d470d5b65804a",
+        "u5admin/savepage.php": "5e7ca96435352acd3d69c1c5582cdb5ac7fee3e6"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "base": "a547731db1eaa053a0906a7737db0cf6db60b4cd",
+      "sha": "b54e17a713d6c4c5f20f91d163442bb68e9d021a",
+      "tree": "22e844aaa544c358b4f6a0fbf3d40b684325ba8d",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "6738d5b2ec5d009794ea0b79a80957bf7c0f8880",
+      "preserved_blobs": {
+        "index.php": "022760558708ebb52746e4ba0d8f1ea89faa5c44",
+        "render.inc.php": "2d9b28c99d4f8e6cb7922f6a63c7d2d739ffa039",
+        "search-index.inc.php": "ee8115a69ed47fc41dbf3ebf99f524de88a5f89e",
+        "search-core.inc.php": "3de7f5312bbdf729c0bc6dd23ef861aa1df6b392",
+        "u5sys._search.php": "a4f5e5f57f4c5df11a7c721ca44c2c0a6c8c5a44",
+        "u5sys._searchsi.php": "0e1993a9e0856c6521430f8f45ef601f7ea9d379"
+      },
+      "local_tested_tree": "8e1fc9baf6d16fa5714e74c2b454d3919791d75c",
+      "packet_tested_tree": "8e1fc9baf6d16fa5714e74c2b454d3919791d75c",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 3.99,
+          "output": "Rename packet checks: 58 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "codeassets-regression.php",
+          "exit_code": 0
+        },
+        {
+          "test": "search-index-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "codeassets.inc.php",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-restore-check.php",
+        "tests/backup-write-regression.py",
+        "tests/codeassets-regression.php",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "tests/search-index-regression.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/codeassets-journal.inc.php",
+        "u5admin/codeassets-migrate.inc.php",
+        "u5admin/databasebackup.inc.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44523953830,
+        "head_sha": "b54e17a713d6c4c5f20f91d163442bb68e9d021a",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44523953830",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "codeassets.inc.php": "cc57ba09b81e5a15650a9eefb2bcc537500851ad",
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "cf39c223bfe7c6f1eccd8be2e12b449774e7432c",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "5d0c0784e4be2ca12552b129eb456bae1e346d4e",
+        "u5admin/backupfiles.php": "6798df77d3e829ea464276a185c193e1311732fb",
+        "u5admin/codeassets-journal.inc.php": "c75beb6818fb29ab82463dcd0cbcb9e13191a518",
+        "u5admin/codeassets-migrate.inc.php": "9167ca57880a6093fa4a694eb1cf427122c1e3dc",
+        "u5admin/databasebackup.inc.php": "90f20c56e671e50de54d8911938438f73ef26b00",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "base": "a26d18bb46105c4b7fdd87d63a9fdfcf2aec6ba1",
+      "sha": "78d9781912647d85b179865c71e01e2f0d23969a",
+      "tree": "e4ea443a5b5d29a8a99c1b707c03f9935dee86c5",
+      "paths": [
+        ".github/workflows/regressions.yml"
+      ],
+      "starting_sha": "b3e6a18fe0cfb6b289951c2c296755ece3795a71",
+      "preserved_blobs": {
+        "index.php": "18bfe4bc0db53a3120036e23be7b35103d6a870c",
+        "render.inc.php": "939bd274ae41574f2d487aac959f692217409b75",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "c50b5e06d4d30a6c7d974b2a7cc080bd2e9772d2",
+      "packet_tested_tree": "0e51207f87c7d017299bf3d22d36f977ef5988b3",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 2.89,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "active future/development",
+      "source_changed_paths": [
+        ".github/workflows/regressions.yml",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/image-upload-regression.py",
+        "tests/index-save-regression.py",
+        "tests/regression-capabilities.json",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/resource-activity-regression.py",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php"
+      ],
+      "github_workflow": {
+        "id": 44524057519,
+        "head_sha": "78d9781912647d85b179865c71e01e2f0d23969a",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44524057519",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "fe7f81e7e6eecc42b2f7cc6cf768c10b7ee3a0fc",
+        "u5admin/coding2.php": "436ca5d65680690696e1a36ec30f9d99d81e7cbc",
+        "u5admin/meta2.php": "a8fc0b75848fa19cecdde796bf0690c6f959afad",
+        "u5admin/rename2.php": "6d325e7ba2ab1093c99880aaf04f01362dda17ed",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "12.9.5.4-Indexer-Final",
+      "base": "c7ac278c32195027cf8ea34416759070aa88ceb2",
+      "sha": "8a546600746672770799a6355ec9e087f83a1029",
+      "tree": "8b955f2d7af69050ca31f1ecc795b112e94108ce",
+      "paths": [
+        ".github/workflows/stable-release.yml"
+      ],
+      "starting_sha": "3cda3d6d8e538565b1cd38ec080dbd39fe5c212e",
+      "preserved_blobs": {
+        "index.php": "52992fe01eec7d6793ec0ef81fc73a60e1289dd4",
+        "render.inc.php": "499a0c8e2e6c4b50a98a018e4b0a2fcca520ee05",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "7c3c0ee62ccfabd19d0809d25e5cdf59f8075843",
+      "packet_tested_tree": "c0c0a4d8e61e63c5d20cbd4e471adc438ed21941",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 2.789,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        ".github/workflows/stable-release.yml",
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "maintenance compatibility",
+      "source_changed_paths": [
+        ".github/workflows/stable-release.yml",
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/index-save-regression.py",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/rename-web-regression.py",
+        "tests/resource-activity-regression.py",
+        "u5admin/archivecheck.inc.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/connect.inc.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php",
+        "u5admin/resource-save.inc.php",
+        "u5admin/savepage.php"
+      ],
+      "github_workflow": {
+        "id": 44524042109,
+        "head_sha": "8a546600746672770799a6355ec9e087f83a1029",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/u5cms/u5cms/actions/runs/44524042109",
+        "run_attempt": 1
+      },
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/archivecheck.inc.php": "ea873a1d1bff2795d94bd8acafbd7bdc7761e4f4",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "ef70d79c0fdc3d330eb9d81f529d8c82d952e9f8",
+        "u5admin/coding2.php": "63e12a8ff77de37a7919dc32ecfbfef0a6d30dcf",
+        "u5admin/connect.inc.php": "a9ae1941f28074990dc42232baaa9c26fe8bad26",
+        "u5admin/meta2.php": "a0f3664f154f4165cd39c9df5a4f5bfad6a70739",
+        "u5admin/rename2.php": "bed8db75b6f185c7fe04783b322ad8c819cf6f63",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167",
+        "u5admin/resource-save.inc.php": "ee0f59db5e4d71479f0b2342dd6d470d5b65804a",
+        "u5admin/savepage.php": "5e7ca96435352acd3d69c1c5582cdb5ac7fee3e6"
+      },
+      "cumulative_contracts": {
+        "mail_and_login": "full branch workflow",
+        "self_onlymine": "full branch workflow",
+        "search": "branch-specific source blobs preserved; existing search contracts passed in full workflow",
+        "rename_and_recovery": "current-tree local core plus live-process/SIGKILL activity and complete workflow",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; native ZIP in full workflow",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "fix/indexer-db-lock-wait-12952",
+      "base": "94c527b6100674d74211797a159d9d3dc1b90e20",
+      "sha": "894461bb793bd539a843a64743a9061f00db71b4",
+      "tree": "d4962d1378e5c0717bc23ee9b5b2c5eea77f9c97",
+      "paths": [
+        "docs/development-status.md",
+        "resource-activity.inc.php",
+        "tests/rename-packet-regression.py",
+        "u5admin/resource-rename-support.inc.php"
+      ],
+      "starting_sha": "e2cbcd60b01897a0fc9ce01eeee1d74e700f4fa2",
+      "preserved_blobs": {
+        "index.php": "e65a5cc33df8c45c65833a58541d563236a9a15d",
+        "render.inc.php": "92f5d2d096e2ac77785447e964bef0a01f96f031",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "63c7c17d919eb8b7069af3331de16f5c57433b0d",
+      "packet_tested_tree": "470e3ecd13c68692c3d6f737da27588afb729c14",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 2.78,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "maintenance compatibility",
+      "source_changed_paths": [
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/index-save-regression.py",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/rename-web-regression.py",
+        "tests/resource-activity-regression.py",
+        "u5admin/archivecheck.inc.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/connect.inc.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php",
+        "u5admin/resource-save.inc.php",
+        "u5admin/savepage.php"
+      ],
+      "github_workflow": null,
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/archivecheck.inc.php": "ea873a1d1bff2795d94bd8acafbd7bdc7761e4f4",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "ef70d79c0fdc3d330eb9d81f529d8c82d952e9f8",
+        "u5admin/coding2.php": "63e12a8ff77de37a7919dc32ecfbfef0a6d30dcf",
+        "u5admin/connect.inc.php": "a9ae1941f28074990dc42232baaa9c26fe8bad26",
+        "u5admin/meta2.php": "a0f3664f154f4165cd39c9df5a4f5bfad6a70739",
+        "u5admin/rename2.php": "bed8db75b6f185c7fe04783b322ad8c819cf6f63",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167",
+        "u5admin/resource-save.inc.php": "ee0f59db5e4d71479f0b2342dd6d470d5b65804a",
+        "u5admin/savepage.php": "5e7ca96435352acd3d69c1c5582cdb5ac7fee3e6"
+      },
+      "additional_current_tree_suites": [
+        {
+          "test": "tests/resource-activity-regression.py",
+          "exit_code": 0,
+          "summary": "Resource activity checks: 52 passed (real concurrent writers, background locks, live Rename, SIGKILL, status and exact recovery)."
+        },
+        {
+          "test": "tests/audit-save-during-index.py",
+          "exit_code": 0,
+          "summary": "{\"save_http\": 200, \"elapsed\": 0.016, \"five_saved\": true, \"rename_pending\": false}"
+        },
+        {
+          "test": "tests/index-save-regression.py",
+          "exit_code": 0,
+          "summary": "Save/index coordination checks: 33 passed (real save without child frames, five languages, competing kernel locks, pending Rename, bounded SQL wait and retry)."
+        },
+        {
+          "test": "tests/rename-regression.php",
+          "exit_code": 0,
+          "summary": "Rename backport core checks: 632 passed.\nRename database checks: 893 total passed."
+        },
+        {
+          "test": "tests/rename-web-regression.py",
+          "exit_code": 0,
+          "summary": "Rename database lock checks: 83 passed.\nRename HTTP checks: 115 passed (Basic/session, CSRF, HIADRI, real renderer, files/history, failure/retry)."
+        },
+        {
+          "test": "tests/indexer-batch-regression.php",
+          "exit_code": 0,
+          "summary": "Indexer batch checks: 12 passed."
+        },
+        {
+          "test": "tests/login-host-regression.php",
+          "exit_code": 0,
+          "summary": "Login host policy: 40 checks passed on 8.4.24."
+        },
+        {
+          "test": "tests/international-email.php",
+          "exit_code": 0,
+          "summary": "{\"php\":\"8.4.24\",\"checks\":158,\"native_intl\":true}"
+        }
+      ],
+      "cumulative_contracts": {
+        "mail_and_login": "current-tree local regressions",
+        "self_onlymine": "not present on historical .2 feature level",
+        "search": "search sources preserved; stable cumulative search acceptance and current index/save tests",
+        "rename_and_recovery": "current-tree core, authenticated HTTP, SQL contention and SIGKILL activity",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; identical native-ZIP publication implementation accepted on stable/full branches",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    },
+    {
+      "branch": "fix/indexer-db-lock-wait-12953",
+      "base": "a7064b4ddf04ef9010231e5d2922645b8779826b",
+      "sha": "da8f1cf6fa5735602ea9fe17ad844015b2db5810",
+      "tree": "2e8e7d86488e27999da2fd68de06c5bcfce92086",
+      "paths": [
+        "docs/development-status.md",
+        "resource-activity.inc.php",
+        "tests/rename-packet-regression.py",
+        "u5admin/resource-rename-support.inc.php"
+      ],
+      "starting_sha": "6295b528e5a77fb6b5dad42bce0fbaac947bb8fd",
+      "preserved_blobs": {
+        "index.php": "34a8c617010d07b5c5390a6c108b0c4a265e079d",
+        "render.inc.php": "499a0c8e2e6c4b50a98a018e4b0a2fcca520ee05",
+        "u5sys._search.php": "a93748b67b1b98e4b28aed4843f765e49e38c50a",
+        "u5sys._searchsi.php": "4262f8ed733486c0999128c15a884f0a02594af1"
+      },
+      "local_tested_tree": "8c997e988c0e5c01925c312b7179b39aeb98b41a",
+      "packet_tested_tree": "0935a36247ce712ba406854cbbaa99bcf5a00a42",
+      "packet_checks": [
+        {
+          "test": "rename-packet-regression.py",
+          "exit_code": 0,
+          "seconds": 3.052,
+          "output": "Rename packet checks: 44 passed (4 MiB SQL packets, five large languages, history, round trip, one-byte conflict and exact recovery).\n"
+        }
+      ],
+      "test_fixture_followups": [
+        "docs/development-status.md",
+        "tests/rename-packet-regression.py"
+      ],
+      "local_suites": [
+        {
+          "test": "resource-activity-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "backup-write-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "index-save-regression.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py",
+          "exit_code": 0
+        },
+        {
+          "test": "audit-save-during-index.py-after-read",
+          "exit_code": 0
+        },
+        {
+          "test": "rename-regression.php",
+          "exit_code": 0
+        }
+      ],
+      "scope": "maintenance compatibility",
+      "source_changed_paths": [
+        "docs/development-status.md",
+        "index-work.inc.php",
+        "indexer.php",
+        "resource-activity.inc.php",
+        "tests/audit-save-during-index.py",
+        "tests/backup-write-regression.py",
+        "tests/index-save-regression.py",
+        "tests/rename-browser.cjs",
+        "tests/rename-database-lock-regression.py",
+        "tests/rename-http.py",
+        "tests/rename-packet-regression.py",
+        "tests/rename-regression.php",
+        "tests/rename-web-regression.py",
+        "tests/resource-activity-regression.py",
+        "u5admin/archivecheck.inc.php",
+        "u5admin/backupdb.php",
+        "u5admin/backupfiles.php",
+        "u5admin/coding2.php",
+        "u5admin/connect.inc.php",
+        "u5admin/meta2.php",
+        "u5admin/rename2.php",
+        "u5admin/renaming.php",
+        "u5admin/resource-mutation.inc.php",
+        "u5admin/resource-rename-support.inc.php",
+        "u5admin/resource-rename.inc.php",
+        "u5admin/resource-save.inc.php",
+        "u5admin/savepage.php"
+      ],
+      "github_workflow": null,
+      "application_blobs": {
+        "index-work.inc.php": "7a1af854433b21200882895bbd568b7c108e23eb",
+        "indexer.php": "50ff11df53ad6bcf777a245d26152541bdfc1870",
+        "resource-activity.inc.php": "32871ad777497241be75edeabb025a83a770e3c2",
+        "u5admin/archivecheck.inc.php": "ea873a1d1bff2795d94bd8acafbd7bdc7761e4f4",
+        "u5admin/backupdb.php": "dd153c9227aea2b81fb55519352c1c6a3c645e12",
+        "u5admin/backupfiles.php": "ef70d79c0fdc3d330eb9d81f529d8c82d952e9f8",
+        "u5admin/coding2.php": "63e12a8ff77de37a7919dc32ecfbfef0a6d30dcf",
+        "u5admin/connect.inc.php": "a9ae1941f28074990dc42232baaa9c26fe8bad26",
+        "u5admin/meta2.php": "a0f3664f154f4165cd39c9df5a4f5bfad6a70739",
+        "u5admin/rename2.php": "bed8db75b6f185c7fe04783b322ad8c819cf6f63",
+        "u5admin/renaming.php": "bd69e31e6cc50ac7c403829fb6847936c12d1d6a",
+        "u5admin/resource-mutation.inc.php": "f4ffc6910ee4137c8761ed81efbe9ab869980593",
+        "u5admin/resource-rename-support.inc.php": "4da07ec97301dc294851640dc8376eb96760ef65",
+        "u5admin/resource-rename.inc.php": "26cd21ed9abd0fe8abd6f50f5032720bc8224167",
+        "u5admin/resource-save.inc.php": "ee0f59db5e4d71479f0b2342dd6d470d5b65804a",
+        "u5admin/savepage.php": "5e7ca96435352acd3d69c1c5582cdb5ac7fee3e6"
+      },
+      "additional_current_tree_suites": [
+        {
+          "test": "tests/resource-activity-regression.py",
+          "exit_code": 0,
+          "summary": "Resource activity checks: 52 passed (real concurrent writers, background locks, live Rename, SIGKILL, status and exact recovery)."
+        },
+        {
+          "test": "tests/audit-save-during-index.py",
+          "exit_code": 0,
+          "summary": "{\"save_http\": 200, \"elapsed\": 0.01, \"five_saved\": true, \"rename_pending\": false}"
+        },
+        {
+          "test": "tests/index-save-regression.py",
+          "exit_code": 0,
+          "summary": "Save/index coordination checks: 33 passed (real save without child frames, five languages, competing kernel locks, pending Rename, bounded SQL wait and retry)."
+        },
+        {
+          "test": "tests/rename-regression.php",
+          "exit_code": 0,
+          "summary": "Rename backport core checks: 632 passed.\nRename database checks: 893 total passed."
+        },
+        {
+          "test": "tests/rename-web-regression.py",
+          "exit_code": 0,
+          "summary": "Rename database lock checks: 83 passed.\nRename HTTP checks: 115 passed (Basic/session, CSRF, HIADRI, real renderer, files/history, failure/retry)."
+        },
+        {
+          "test": "tests/indexer-batch-regression.php",
+          "exit_code": 0,
+          "summary": "Indexer batch checks: 12 passed."
+        },
+        {
+          "test": "tests/onlymine-domain.php",
+          "exit_code": 0,
+          "summary": "Onlymine ownership and form dispatch passed."
+        },
+        {
+          "test": "tests/login-host-regression.php",
+          "exit_code": 0,
+          "summary": "Login host policy: 40 checks passed on 8.4.24."
+        },
+        {
+          "test": "tests/international-email.php",
+          "exit_code": 0,
+          "summary": "{\"php\":\"8.4.24\",\"checks\":158,\"native_intl\":true}"
+        }
+      ],
+      "cumulative_contracts": {
+        "mail_and_login": "current-tree local regressions",
+        "self_onlymine": "current-tree local regression",
+        "search": "search sources preserved; stable cumulative search acceptance and current index/save tests",
+        "rename_and_recovery": "current-tree core, authenticated HTTP, SQL contention and SIGKILL activity",
+        "save_index_backup": "current application local concurrency/index/DB-backup suites; identical native-ZIP publication implementation accepted on stable/full branches",
+        "version_renderer_migration": "version/render/search blobs unchanged; branch-specific code migration regressions and full workflow where available"
+      }
+    }
+  ],
+  "excluded_refs": "Completed .6/.7 task topics, the integrated documentation-only branch and historical audit/integrated fix refs are retained as references, not active future development lines.",
+  "boundary": "No production .7 deployment. Native ZIP and Chromium passed on GitHub, not on the local sandbox. Future PHP 8.5 coverage does not certify a PHP 9 runtime."
+}

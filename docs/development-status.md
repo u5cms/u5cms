@@ -1,54 +1,43 @@
 # u5CMS development checkpoint
 
-## Additional large-Rename packet regression, 19 November 2026
+## Source acceptance for 12.9.5.7, 19 November 2026
 
-Full stable PHP 8.3/8.4 and Chromium passed at a48bc6ee, but a later
-4 MiB SQL-packet test reproduced a legitimate large multilingual Rename failure.
-The current change bounds original-row guards with byte digests and stages new
-large values in connection-local binary variables before one conditional UPDATE.
-No editor wait, additional global gate or journal-format change is introduced.
-44 real HTTP/data/history/recovery assertions pass locally. The change is adapted
-to all 21 maintained branches, including their own migration/storage APIs.
-Next: complete new packet, cumulative, concurrency, browser and benchmark checks;
-then publish final docs/Main/tag/release and send the single .7 ticket mail last.
-No .7 release or .7 production rollout has occurred.
+Authorised scope: finish .6 on GitHub without rollout or mail; remove the urgent
+production save blocker separately; implement and deeply accept .7, carry all
+maintained future branches forward, publish .7, and request its rollout ticket
+only at the end. Source acceptance does not deploy a production installation.
+Starting release: ac6e3bf059a365b2912a70429596dbdb6f08604d (v12.9.5.6).
+Cumulative comparison: 9d366253417822c279692767b89dcf1ff0388c5c (v12.9.5).
 
-## 12.9.5.7 in progress, 19 November 2026
+Accepted application source: 8da363d84140adee59aab294f5f8d5de50101098.
+Candidate e069a3bd74dd27ccc00a25fc8f6580312c10f005 retains those exact application
+bytes and adds the English branch guide, complete packet regression and browser
+setup. Full stable PHP 8.3/8.4, MariaDB, native ZIP and actual Chromium acceptance
+passed in Actions 44522772559 and 44522763360.
 
-Authorised: publish .6 without deployment/mail; first remove production save
-blocking (completed separately); implement and deeply test .7,
-carry all maintained future branches forward, publish the release, then email
-Markus with Michael in Cc for a .7 rollout ticket. No .7 production deployment.
-Base: ac6e3bf059a365b2912a70429596dbdb6f08604d (published v12.9.5.6).
-Branch: 12.9.5.7-Nonblocking-Saves. Ordinary saves must not wait for index work,
-backup locks or recovery plans. Only an active Rename may briefly exclude writes.
-Rename must remain fast and complete and expose actual names, phase and progress.
+Ordinary saves use only the live Rename gate; index/backup work and idle recovery
+plans do not reserve source writes. Source updates retain permission/conflict
+policy, byte digests, atomic monotonic revisions and both submitted histories.
+Rename retains its streamed dependency/history/file pass and actual progress.
+Large rows use bounded byte guards and connection-local values before one
+conditional UPDATE. A killed owner releases its kernel gate; recovery data is
+retained and later source conflicts are never silently overwritten.
 
-Implemented: separate process-owned Rename gate, concurrent source writes,
-indexer yielding without reserving source writes, nonblocking interrupted plans,
-real Rename status, and atomic monotonic legacy page/code/metadata updates.
-The new HTTP activity suite passes 52 checks locally, including two independent
-HTTP writers, configured overwrite policies, extended revision capacity, names
-with accents and kernel-gate release after SIGKILL. 33
-save/index, 893 Rename, 115 HTTP and 83 real SQL-lock/recovery checks pass.
-Independent two-server indexing tests confirm all five source versions persist
-while indexing is already in progress. Full stable PHP 8.3/8.4 with Chromium
-passed at 9d8ca99e4429417da18eb10b989c87e45dd5cf3d in Actions 44498135371.
-Final versioned candidate acceptance remains to run.
+The [release report](release-12.9.5.7.md) records the actual concurrent save,
+index, backup, large-packet, crash/recovery, SQL contention, encoding, ownership,
+login, mail, search and browser results. Final isolated Rename measurements:
+0.5246 s sparse and 5.2886 s dense, with all text/file conservation.
+The [branch receipt](release-12.9.5.7-backports.json) identifies all 21 maintained
+heads, exact application/test evidence and unchanged version/render/search blobs.
+All required branch workflows passed; lines without workflows have explicit
+current-tree local evidence. Future OIDC, responsive and migration APIs remain.
 
-Large Rename measurements: 5,000/25,000 sparse resource/history rows and 955 files
-complete in 0.576 s; dense 2,000/5,000 rows and 955 files in 5.433 s. All text
-columns and file bytes conserved. Details: release-12.9.5.7.md.
-All 21 future-branch candidates are prepared in isolated worktrees, preserving
-version/render/search formats and code-migration APIs. Actual code saves found
-an inherited permission-include collision with $row in older future editors;
-the loaded resource now has its own variable, preserving rights checks.
-Added optimistic backup validation: a source edit wins and an inconsistent
-backup is discarded rather than blocking the editor. Final backup/branch
-acceptance is in progress.
-Current phase: per-branch actual concurrency/save/Rename/code-asset regressions,
-then guarded publication and comprehensive branch CI. No .7 release, future
-publication or rollout-ticket email is claimed yet. Next: complete that matrix.
+This is an acceptance record. Verify publication using the actual GitHub Main,
+tag and Release objects rather than treating this checkpoint as a live process
+status. Operational next action: deploy the published complete .7 package under
+the separate rollout ticket, preserve configuration/data/local exceptions, and
+accept each installation. Keep matching recovery data for interrupted Rename.
+No .7 production deployment was performed by this source acceptance.
 
 ## 12.9.5.6 save/index acceptance, 19 November 2026
 
