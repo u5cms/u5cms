@@ -1,14 +1,6 @@
-# u5CMS 12.9.5.7
+# u5CMS 13.0.0 development candidate
 
-Koordinierte Speicheraktionen markieren fällige Indexarbeit serverseitig. Einzel- und Vollindex teilen ihre Sperre, respektieren offene Rename-Pläne und begrenzen die Datenbank-Sperrwartezeiten.
-
-Der Vollindex arbeitet in begrenzten, wiederaufnehmbaren Teilaufrufen. Datenbanksperren werden auf seiner eigenen Verbindung zeitlich begrenzt. Die Suchanzeige nennt den Indexstand des letzten erfolgreich abgeschlossenen Gesamtlaufs; laufende oder fehlgeschlagene Versuche setzen diesen Stand nicht vorzeitig hoch.
-
-Auch Rename begrenzt die Datenbank-Sperrwartezeiten auf seiner eigenen Verbindung. Nach einem SQL-Konflikt bleibt ein bereits angelegter Wiederaufnahmeplan erhalten; die gleiche Umbenennung kann kontrolliert fertiggestellt werden.
-
-Enthalten sind die speicherschonende Suche, die korrigierte Objektumbenennung und die optionalen SELF-Berechtigungen aus der 12.9.5-Patchlinie. Bestehende Installationen behalten die persönliche Datensatzzuordnung, solange sie keinen Domainmodus konfigurieren.
-
-[Freies Speichern und schnelles Rename 12.9.5.7](docs/release-12.9.5.7.md) · [Speichern/Indexierung und kumulative Abnahme 12.9.5.6](docs/release-12.9.5.6.md) · [Rename-Sperrschutz und Abnahme 12.9.5.5](docs/release-12.9.5.5.md) · [Kumulative Änderungstabelle gegenüber 12.9.5](docs/release-12.9.5.4.md) · [SELF-Konfiguration](docs/onlymine.md) · [Branches](BRANCHES.md)
+V13 starts at the published 12.9.5.7 revision. It combines the backend and image-handling changes from the 12.9.6, 12.10.0 and 12.10.1 development branches. The application retains the existing five-language content, templates and storage layout. The [branch guide](BRANCHES.md) records the source revisions, the scope of the integration and its acceptance status. For the stable release and deployment instructions, see [12.9.5.7](docs/release-12.9.5.7.md).
 
 ---
 

@@ -1,7 +1,7 @@
 <?php 
 require_once('connect.inc.php');
 
-$sql_a="SELECT * FROM resources WHERE name='".mysql_real_escape_string($_GET['name'])."'";
+$sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -119,19 +119,17 @@ myField.scrollTop=keepscrolltop;
        </script>
 <script src="shortcut.js"></script>
 <script>
-shortcut.add("Ctrl+S",function() {
-	setTimeout("document.form1.submit()",777);
-	document.getElementById('savebutton').style.background='lightyellow';
-	document.getElementById('bodyid').style.background='lightyellow';
-})
+shortcut.add("Ctrl+S",function(){u5ResourceSave.submit();});
+shortcut.add("Meta+S",function(){u5ResourceSave.submit();});
 tov='';
 </script>
+<script src="resourcesave.js"></script>
 </head>
 <body bgcolor="#666666" id="bodyid">
 
-<form  name="form1" action="coding2.php?typ=c" method="post" target="saver"><input type="hidden" name="changes" id="changes" />
+<form onsubmit="return u5ResourceSave.begin(event)" name="form1" action="coding2.php?typ=c" method="post" target="saver"><input type="hidden" name="changes" id="changes" />
 <div style="margin-top:-15px;margin-left:-12;padding-top:3px;background:#666666;position:fixed;z-index:9;width:102%">
-<input type="hidden" name="coco" value="<?php echo time() ?>" />
+<input type="hidden" name="coco" value="<?php echo isset($row_a['lastmut']) ? (int)$row_a['lastmut'] : 0 ?>" />
 <?php 
 if($_COOKIE['shrchv'] == 1)$deletedvalue='deleted!=1';
 else $deletedvalue='deleted=0';

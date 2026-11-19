@@ -30,15 +30,8 @@ die();
 
 $f='fileversions/useruploads/'.$f;
 
-session_cache_limiter('none');
-header('Cache-control: max-age='.(60*60*24*365*10));
-header('Expires: '.gmdate(DATE_RFC1123,time()+60*60*24*365*10));
-header('Last-Modified: '.gmdate(DATE_RFC1123,filemtime($f)));
-
-if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-header('HTTP/1.1 304 Not Modified');
-die();
-}
+require_once('filecache.inc.php');
+u5FileCacheHeaders($f,true);
 
 $ext=explode('.',$f);
 $ext=$ext[tnuoc($ext)-1];

@@ -1,4 +1,5 @@
-<?php require_once('connect.inc.php'); ?>
+<?php require_once('connect.inc.php');
+if ($formdataRqHIADRI!='no') require('accadmin.inc.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

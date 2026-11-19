@@ -1,8 +1,14 @@
-# u5CMS branches and changes
+# u5CMS development branches
 
-As at 19 November 2026. This guide describes published source revisions. Deployment to a particular site is recorded separately.
+## V13 · 13.0.0 development candidate
 
-The latest cumulative development revision covered by this guide is **[12.13.0-Responsive-Design](https://github.com/u5cms/u5cms/tree/12.13.0-Responsive-Design)**. The mainline revision recorded here is 12.9.5.7 on the 12.9.5 series. Each numbered development stage carries forward the preceding functional changes. Later edits to descriptions and version comments are recorded separately.
+The stable default branch is `main`. V13 starts at the published tag `v12.9.5.7` (commit `6c4e8c719a9f6aa74be3228c2aa58351ea393904`). The integration combines the backend work through `25fe02ce20d4e8c53d93ad17a9e1bba3cc2fd6ad` with the five application paths from the upload MIME correction at `78d9781912647d85b179865c71e01e2f0d23969a`.
+
+The upload tools add browser-side conversion for HEIC, HEIF, HIF, TIF and TIFF and retain the source upload. The four existing JavaScript upload URLs now declare their script content type. Two historical mobile scripts keep their database-backed CSS filenames and receive the JavaScript content type through the Apache resource-directory configuration.
+
+Editors retain their submitted content when an edit conflicts. The page, code and metadata save paths compare the original database field bytes as part of the update. A later write that uses the same timestamp can therefore still be detected. A retry rechecks the resource type and archive state. Index-only updates use separate fields. The changes retain the configured editor overwrite policy.
+
+The candidate is undergoing installation, upgrade and regression testing. The release tag, distributable archive and onward V14 branch follow acceptance. The inventory below records the legacy source lines and their functions.
 
 ## Current branches
 

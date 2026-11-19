@@ -15,7 +15,7 @@ files.sacapre();
 <body onresize="resizer();" style="overflow-y:hidden"><?php require('uploading.inc.php'); ?>
 <h1 id="h1" style="margin-bottom:5px">Manage album <i><?php echo $_GET['name']?></i>
 <?php
-if ($_GET['typ']=='a') echo '<span style="font-size:40%">In albums only jpg images are allowed!</span>';
+if ($_GET['typ']=='a') echo '<span style="font-size:40%">JPG, PNG, GIF, WebP, BMP, AVIF, HEIC/HEIF/HIF and TIFF images are supported (published as JPG).</span>';
 ?>
 <br>
 <span style="font-size:40%"><?php include('iniget.inc.php')?>. Multifile upload: Max. <?php echo (ini_get('max_file_uploads')-1) ?> files with a total of <?php echo floor($post_max_size/1024/1024).'MB' ?> at once. </span></h1>

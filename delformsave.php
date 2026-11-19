@@ -52,9 +52,9 @@ if ($pexerror>0 && $disableformfieldchecker!='yes') die('ERROR: Data cannot be s
 $head='';
 $data='';
 $thanks='';
-$zendsubject=$_POST['thankssubject'];
+$zendsubject=$_POST['thankssubject'] ?? '';
 if (trim($zendsubject)=='') $zendsubject='Quittung/Receipt/Acquit: '.$_SERVER['HTTP_HOST'];
-$zendmessage=$_POST['thankstext']."\r\n\r\n";
+$zendmessage=($_POST['thankstext'] ?? '')."\r\n\r\n";
 $efound=0;
 $errors=0;
 $foundliving=0;

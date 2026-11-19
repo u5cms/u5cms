@@ -103,7 +103,7 @@ return false;
             check(code==200 and row()['content_1']=='POLICY_NONE','configured overwrite policy remains supported')
             config.write_bytes(original_config+b"\n$checksaveversionconflictinbackend='all';\n")
             page_impl=site/'u5admin/savepage.php';page_source=page_impl.read_bytes()
-            if b'resource-save.inc.php' in page_source:
+            if b'u5SaveResource(' in page_source:
                 save_impl=site/'u5admin/resource-save.inc.php';needle=b'$set=array();$guard=array();'
             elif b'u5UpdateResource(' in page_source:
                 save_impl=site/'u5admin/resourceupdate.inc.php';needle=b'for ($attempt=0;$attempt<3;$attempt++) {'
@@ -132,6 +132,17 @@ return false;
                 check(sum('CONFLICT' in result[1] for result in results)==1,'atomic same-resource race reports exactly one conflict')
                 check(row()['content_1'] in ['CONCURRENT_A','CONCURRENT_B'],'one complete source version remains active')
                 check(len(sql("SELECT name FROM resources_log WHERE name='activitypage' AND content_1 IN ('CONCURRENT_A','CONCURRENT_B')"))==2,'both concurrent submissions survive in history')
+                for marker in control.glob('cas-ready-*'):
+                    marker.unlink()
+                (control/'cas-go').unlink()
+                with ThreadPoolExecutor(max_workers=1) as pool:
+                    pending=pool.submit(save,'EDITOR_DRAFT',row()['lastmut'],origin=base)
+                    wait_for(lambda:any(control.glob('cas-ready-*')),'editor has read the original row')
+                    sql("UPDATE resources SET content_1='REVISED_TEXT' WHERE name='activitypage'")
+                    (control/'cas-go').touch()
+                    status,body,_=pending.result(timeout=10)
+                check(status==200 and 'CONFLICT' in body and row()['content_1']=='REVISED_TEXT',
+                      'an edit with the same timestamp survives a competing editor save')
                 for policy in ['none','foreign']:
                     config.write_bytes(original_config+("\n$checksaveversionconflictinbackend='"+policy+"';\n").encode())
                     for marker in control.glob('cas-ready-*'):marker.unlink()

@@ -487,7 +487,7 @@ else ametai.form1.content_3.value=document.getElementById('pro_3').value+documen
 
 ///
 lansym();
-ametai.form1.submit();
+if(ametai.u5ResourceSave)ametai.u5ResourceSave.submit();else ametai.form1.submit();
 }
 
 function setCookie(cname, cvalue, exdays) {

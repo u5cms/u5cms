@@ -38,6 +38,7 @@ $post_max_size = let_to_num(ini_get('post_max_size'));
 <body id="body" bgcolor="#009900" text="#FFFFFF"><script>parent.upend();</script>
 <?php
 require('archivecheck.inc.php');
+require_once('publishupload.inc.php');
 $_POST['name']=basename($_POST['name']);
 $moved=0;
 $nojpg=0;
@@ -47,7 +48,7 @@ $file_ary = reArrayFiles($_FILES['userfile']);
 
 if(tnuoc($file_ary)>ini_get('max_file_uploads')-1)die('<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded. Reason: You tried to upload more than '.(ini_get('max_file_uploads')-1).' files at once.");parent.location.href=parent.location.href</script>');
 
-foreach ($file_ary as $file) {
+foreach ($file_ary as $fileindex => $file) {
 
 $file['name']=str_replace(chr(0),'',$file['name']);
 $ext=explode('.',$file['name']);
@@ -57,6 +58,13 @@ $ext=str_replace('jpeg','jpg',$ext);
 
 $originalimagetmp='';
 $originalimageext='';
+require_once('extendedimage.inc.php');
+$conversionerror=u5PrepareExtendedImage($file, u5ConvertedAlbumImage($fileindex), $ext, $originalimagetmp, $originalimageext);
+if ($conversionerror!=='') {
+$nojpg++;
+echo '<p>'.htmlspecialchars($file['name'], ENT_QUOTES, 'ISO-8859-1').': '.htmlspecialchars($conversionerror, ENT_QUOTES, 'ISO-8859-1').'</p>';
+continue;
+}
 
 if($ext=='png' || $ext=='gif' || $ext=='webp' || $ext=='bmp' || $ext=='avif') {
 
@@ -103,18 +111,29 @@ $nojpg++;
 else $yesjpg++;
 
 if($ext=='jpg') {
+$filename='';
 for ($i=1000;$i>99;$i--) {
 if (!file_exists('../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$i.'.'.$ext)) $filename=$_POST['name'].'_'.$i.'.'.$ext;
 }
 
+if ($filename==='') {
+if($originalimagetmp!='') @unlink($originalimagetmp);
+echo '<p>Album is full. Existing files have been kept.</p>';
+continue;
+}
+if ($originalimagetmp!='' && !u5ArchiveImageOriginal($originalimagetmp, '../fileversions/'.date('Ymd').'-'.substr($filename,0,-4).'.'.$originalimageext)) {
+@unlink($originalimagetmp);
+$nojpg++;
+echo '<p>The original image could not be archived. No album image has been added.</p>';
+continue;
+}
 @mkdir('../r/'.$_POST['name'],0777);
-if (!move_uploaded_file($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
+if (!u5PublishUploadedFile($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
 if($originalimagetmp!='') @unlink($originalimagetmp);
 $ok='error';
 }
 else {
 if($originalimagetmp!='') {
-copy($originalimagetmp,'../fileversions/'.(date('Ymd')).'-'.substr($filename,0,-4).'.'.$originalimageext);
 @unlink($originalimagetmp);
 }
 else copy('../r/'.$_POST['name'].'/'.$filename,'../fileversions/'.(date('Ymd')).'-'.$filename);
@@ -123,7 +142,8 @@ $ok='ok';
 }
 trxlog('upload '.$_POST['name'].' '.$ok.' '.$filenames);
 
-$sql_a="UPDATE resources SET lastmut='".time()."' WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+if ($ok=='ok') {
+$sql_a="UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time().") WHERE name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
@@ -131,11 +151,12 @@ if ($result_a==false) {
 }
 }
 }
+}
 
-if(tnuoc($file_ary)>1) if ($nojpg>0) echo '<script>document.getElementById("body").style.background="lightblue";alert("Not all files were jpg-pictures!\n\nOnly the jpg-pictures have been saved ('.$yesjpg.' files).\n\nNon-jpg-files have been skipped ('.$nojpg.') files.")</script>';
+if(tnuoc($file_ary)>1) if ($nojpg>0) echo '<script>document.getElementById("body").style.background="lightblue";alert("Not all files were readable supported images!\n\nOnly supported images have been saved ('.$yesjpg.' files).\n\nUnsupported or unreadable images have been skipped ('.$nojpg.') files.")</script>';
 
 if($moved>0) echo '<script>parent.files.location.href=parent.files.location.href;if (parent && parent.opener && parent.opener.parent && parent.opener.parent.save) parent.opener.parent.save.location.href=\'done.php?n=uploaded '.$_POST['name'].$_GET['l'].'\'</script><b>ok</b><script>setTimeout("location.href=\'sendfilea.php?name='.$_POST['name'].'&l='.$_GET['l'].'&typ='.$_GET['typ'].'\'",111)</script>';
-else echo '<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded.\\n\\nIs the file too big? Max file size='.($max_upload_size/1024/1024).' MB\\n\\nIf multiple files, is the total too big? Post max size='.($post_max_size/1024/1024).' MB\\n\\nIf one file, was it a jpg-file?");parent.location.href=parent.location.href</script>';
+else echo '<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded.\\n\\nIs the file too big? Max file size='.($max_upload_size/1024/1024).' MB\\n\\nIf multiple files, is the total too big? Post max size='.($post_max_size/1024/1024).' MB\\n\\nWas it a readable supported image file?");parent.location.href=parent.location.href</script>';
 
 function reArrayFiles(&$file_post) {
 

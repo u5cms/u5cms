@@ -1,1 +1,12 @@
-<?php if($_POST['u5scrtytknfrfrms']!=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].date('Ymd'))&&$_POST['u5scrtytknfrfrms']!=sha1($username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'].date('Ymd',time()-60*60*24)))die('<script>alert("The transaction could not be executed, probably because the form from which the transaction originated has been open for far too long. In most cases, a simple re-save will not help, but you can proceed as follows: If you have done valuable work in the affected form and are now unable to save it, copy the form content into a local editor program and then reload the page.");history.go(-1)</script>') ?>
+<?php
+$token=$_POST['u5scrtytknfrfrms'] ?? null;
+$secret=$username.$password.$_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'];
+if (!is_string($token) || (!hash_equals(sha1($secret.date('Ymd')),$token) && !hash_equals(sha1($secret.date('Ymd',time()-60*60*24)),$token))) {
+    http_response_code(403);
+    $message='The transaction could not be executed because the form token is invalid or expired. Your editor contents have been kept. Copy valuable input before reloading the form.';
+    $async=(isset($_POST['u5saveid']) && is_string($_POST['u5saveid']) && $_POST['u5saveid']!=='') ||
+        (isset($_POST['u5resourceid']) && is_string($_POST['u5resourceid']) && $_POST['u5resourceid']!=='');
+    if ($async) die(htmlXspecialchars($message));
+    die('<script>alert("'.$message.'");history.go(-1)</script>');
+}
+?>

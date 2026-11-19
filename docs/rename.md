@@ -65,15 +65,12 @@ applied. A guarded immutable checkpoint records precisely how to finish it;
 it never reports completion at that intermediate point. This is recovery by
 resuming the same plan, not a claim of an atomic cross-filesystem transaction.
 
-CMS page, metadata, upload, album-sort and file-delete writers acquire a shared
-Rename gate. Ordinary writes can run together, including while the indexer or a
-backup owns its own mutex. Only an actual Rename holds that gate exclusively.
-A saved recovery plan never reserves it. Conflicting saves receive the actual
-old/new names, current phase, elapsed seconds and measured row progress, with an
-estimate only after enough real row work. They retain editor input; there is no
-save retry queue. Kernel ownership ends when the process exits, including SIGKILL.
-Recovery plans and their original data remain available for exact retry.
-
+CMS page, metadata, upload, album-sort and file-delete writers coordinate with
+the existing mutation lock. They return a visible conflict response while the
+rename is active or interrupted, keeping editor input. A different rename,
+creation, deletion, layout operation or migration cannot pass an unfinished
+ordinary rename. Backups can still acquire the lock for recovery and include
+the rename checkpoints and referenced row journals.
 
 A pre-existing target directory is moved to
 `r/NEW.before-rename-RANDOMTOKEN`; it is never overwritten. A different file
@@ -82,11 +79,9 @@ and linked access-control/reset files require explicit reconciliation before
 renaming, preventing accidental changes to shared external content. Avoid FTP,
 filesystem administration or non-CMS database edits during a rename. File moves
 retain the original bytes without copying. Small files have a SHA-256 guard;
-large media use size/mtime and the guarded directory identity under the live
-Rename gate, so renaming a multi-GB video does not read its complete contents.
+large media use size/mtime and the guarded directory identity under the shared
+mutation lock, so renaming a multi-GB video does not read its complete contents.
 The tests independently compare the complete bytes/SHA-256 after moving files.
-
-Complete an unfinished Rename with its current system files before switching CMS versions. Keep its database, files and guarded plans together in the recovery backup.
 
 ## Database lock waits and visibility
 
@@ -97,17 +92,19 @@ deadlocked or interrupted optional history-index creation stops the Rename
 instead of immediately falling through into another blocked query. A missing
 ALTER privilege retains the existing slower Rename path.
 
-A database wait failure releases the process Rename gate. If files or rows
-have already changed, the immutable pending plan remains. Ordinary saves and
-index work continue when no Rename process is active. Resumption compares saved
-source bytes and refuses to overwrite a conflicting subsequent edit. Resolve
-that reported conflict before retrying the affected plan; do not delete its data.
-The authenticated recovery overview distinguishes live work from idle plans.
-
+A database wait failure releases the process mutation lock. If files or rows
+have already changed, the immutable pending plan remains and other coordinated
+writers remain blocked until the exact Rename is resumed. This barrier does not
+expire by age: expiration could expose a partly applied operation to new writes.
+After resolving the cause, use the same Retry rename action. If its original
+window is lost, use the authenticated unfinished-Rename overview linked from
+blocked writers. It submits the saved ordinary Rename through the same CSRF-
+and permission-checked request; opening the overview does not change data. Actual process
+termination releases the operating-system lock independently of PHP cleanup.
 
 The five seconds limit one SQL lock wait, not the duration of the whole Rename,
 SQL execution, network I/O or filesystem operations. Frontend readers are not
-held behind the live Rename gate and can observe a transient state.
+held behind the backend mutation barrier and can observe a transient state.
 The result window reports completion only after files, references, histories
 and exports have completed; a caught failure displays the exact retry action.
 
@@ -120,7 +117,7 @@ and exports have completed; a caught failure displays the exact retry action.
    conflict and click **Retry rename** in that result. The retry uses the saved
    original names and policy, even after the source name has disappeared.
 3. Do not remove the pending checkpoint to force another operation through.
-   If a source row was edited after interruption or outside the coordinated writer paths, reconcile
+   If a source row was edited outside the coordinated writer paths, reconcile
    that row against its saved before/after versions first. The retry will never
    overwrite a different concurrent row merely to obtain success.
 4. Keep `fileversions/resource-rename-*.pending.php` while unfinished. Completed

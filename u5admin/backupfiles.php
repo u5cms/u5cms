@@ -59,16 +59,17 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
     $zip->addFile(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'config.php');
 }
 
-// Interrupted Rename plans and their row backups must travel with the matching database.
 foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $u5RenameBackup) $zip->addFile($u5RenameBackup);
 foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*-rows-*',GLOB_ONLYDIR) as $u5RenameBackup) $zip->addFolder($u5RenameBackup);
-
 $zip->write();
-u5ResourceBackupFinish(dirname(__DIR__),$u5BackupGeneration);
+u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
 u5ResourceBackupPublish($u5BackupStaged,$targetfile);
 } catch (Throwable $error) {
     http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
-    exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
+    unset($zip);
+    echo '<p>'.htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252').'</p><p>The previous backup has been kept.</p>';
+    echo '<script>parent.document.title=parent.document.title.replace(/\.\.\./,"?");</script>';
+    exit;
 }
 
 if (file_exists($targetfile)) {

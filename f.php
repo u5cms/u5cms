@@ -3,6 +3,7 @@ set_time_limit(3600);
 require_once('connect.inc.php');
 $_GET['f']=str_replace('r/../r/','r/',$_GET['f']);
 
+$t=isset($_GET['t']) && is_scalar($_GET['t']) ? (int)$_GET['t'] : 0;
 if(!isset($_GET['t'])){
 $t=explode('?t=',$_SERVER['QUERY_STRING']);
 $t=explode('&',$t[1]);
@@ -26,21 +27,14 @@ if($usesessioninsteadofbasicauth=='no') {
 	exit;
 }
 
-if ($t < 1) $t = time();
-session_cache_limiter('none');
-header('Cache-control: max-age=' . (60 * 60 * 24 * 365 * 10));
-header('Expires: ' . gmdate(DATE_RFC1123, time() + 60 * 60 * 24 * 365 * 10));
-header('Last-Modified: ' . gmdate(DATE_RFC1123, $t));
-if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-    header('HTTP/1.1 304 Not Modified');
-    die();
-}
+require_once('filecache.inc.php');
 ////////////////////////////////////////////////
 if (file_exists(dirname($f) . '/.htpasswd')) {
 require('ft.idn.inc.php');
 ////////////////////////////////////////////////
 
     if (!file_exists($f)) die('File ' . $f . ' does not exist.');
+    u5FileCacheHeaders($f,true);
     require_once('mime.inc.php');
     $ext = explode('.', basename($f));
     $ext = $ext[tnuoc($ext) - 1];
@@ -48,12 +42,14 @@ require('ft.idn.inc.php');
 	  header('Content-length: ' . filesize($f));
     header("Content-Disposition:inline;filename=" . basename($f));
     $file = @fopen($f,"rb");
+    if ($file===false) { http_response_code(404); exit; }
     while(!feof($file))
     {
 	   print(@fread($file, 1024*8));
 	   ob_flush();
 	   flush();
     }
+    fclose($file);
 } else {
     $s = $_GET['s'] ?? '';
     if ($t != '' && $s != '') $f .= '?t=' . $t . '&s=' . $s;

@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/javascript; charset=Windows-1252');
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_USER_DEPRECATED);
 require_once '../myfunctions.inc.php';
 require_once '../config.php';

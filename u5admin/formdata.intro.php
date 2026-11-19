@@ -7,7 +7,7 @@ $_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
 $lnnr=1;
 
 function u5_transport_text_escaped($s) {
-$s=str_replace('</div>','&lt;/div&gt;',$s);
+$s=str_replace('</div>','&lt;/div&gt;',$s ?? '');
 $s=str_replace("\r",'&#13;',$s);
 $s=str_replace("\n",'&#10;',$s);
 $s=str_replace("\t",'&#9;',$s);
@@ -15,7 +15,7 @@ return $s;
 }
 
 function u5_transport_text_raw($s) {
-$s=htmlspecialchars($s, ENT_QUOTES, 'WINDOWS-1252');
+$s=htmlspecialchars($s ?? '', ENT_QUOTES, 'WINDOWS-1252');
 $s=str_replace('</div>','&lt;/div&gt;',$s);
 $s=str_replace("\r",'&#13;',$s);
 $s=str_replace("\n",'&#10;',$s);
