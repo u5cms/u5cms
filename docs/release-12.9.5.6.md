@@ -48,7 +48,11 @@ Der bestehende Vergleich der Quellbytes bleibt zusätzlich erhalten.
 ## Kumulative Geschichte ab 12.9.5 ohne Suffix
 
 Die unveränderten Vergleichsstände wurden aus GitHub und einer frischen Kopie
-aufgelöst: v12.9.5 `fa6e8982e85d7ca9ec33683ab33d31eb86a31eb9`,
+aufgelöst: v12.9.5 führt als annotierter Tag vom Tagobjekt
+`fa6e8982e85d7ca9ec33683ab33d31eb86a31eb9` auf den tatsächlichen
+Vergleichscommit `9d366253417822c279692767b89dcf1ff0388c5c`
+(Baum `df8329eef819a7f8a2402df5f4fcfb7e606ec087`). Die Git-Vergleiche
+lösen diesen Tag auf denselben Commit/Baum auf. Die neueren Vergleichscommits sind
 v12.9.5.4 `c7062c680deb29fcac70815eea929ad57ee3a5d2`,
 v12.9.5.5 `8bcb09937999d4ebb51da293b06a113bda0940d8`.
 
@@ -146,7 +150,11 @@ Fixtures wurden um die echten Produktionsabhängigkeiten ergänzt. Erwartungen
 und Anwendungscode wurden dafür nicht gelockert oder geändert. Die vorhandenen
 Codeobjekt-/Datenbankprüfungen wurden lokal auf allen zwölf betreffenden
 Branchständen erneut ausgeführt und bestanden (1’210 bis 1’673 Prüfungen).
-Die endgültigen Pipeline-Ergebnisse werden vor Releasefreigabe kontrolliert.
+Alle 17 auf diesen finalen Branch-Heads vorhandenen umfassenden GitHub-
+Pipelines sind erfolgreich abgeschlossen. Das Inventar nennt je Branch den
+exakten getesteten Head, die Actions-URL und das Ergebnis. Die vier übrigen
+Wartungsstände besitzen dort keinen Workflow; ihre gezielten lokalen
+Save-/Index-/Rename-Nachweise sind ausdrücklich getrennt aufgeführt.
 
 Die drei historischen audit/-Branches bleiben unveränderte Vergleichsstände.
 Die bereits integrierten isolierten Arbeitsstände fix/international-email-20261108,

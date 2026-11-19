@@ -5,7 +5,8 @@ Authorised by Stefan on 19 November 2026: implement .6 after published .5, perfo
 Owner: foreground implementation in the original .6 conversation, workspace /workspace/scratch/68435f713f4a/u5cms-review. Do not duplicate implementation while a newer active checkpoint exists. Re-read current branch and open PRs before mutation. This initial checkpoint is not an implementation or acceptance result.
 
 Verified source refs obtained from GitHub and a fresh clone:
-- v12.9.5: fa6e8982e85d7ca9ec33683ab33d31eb86a31eb9
+- v12.9.5: commit 9d366253417822c279692767b89dcf1ff0388c5c;
+  annotated tag object fa6e8982e85d7ca9ec33683ab33d31eb86a31eb9.
 - v12.9.5.4: c7062c680deb29fcac70815eea929ad57ee3a5d2
 - v12.9.5.5/Main: 8bcb09937999d4ebb51da293b06a113bda0940d8
 - .5 release published 19 November 2026 06:54:55 UTC.
@@ -92,3 +93,22 @@ now checks the function and falls back to that branch's generic Rename lock.
 All branch tests are being rerun with this correction. Versions, renderer,
 modern search, and each branch's migration/journal sources remain unchanged.
 No future-branch changes have been published yet.
+
+
+## Final prepublication acceptance, 19 November 2026
+
+All 21 target heads have been published and independently read back. All 17
+declared comprehensive workflows at their final heads passed. The four
+remaining maintenance sources have no workflow, but passed their targeted
+local save/index, batch and Rename checks. Exact commits, preserved blobs,
+checks and workflow URLs are in release-12.9.5.6-backports.json.
+The final stable application candidate 88dab36c2ff3c422f4c6421df4652e9656a6622d
+passed PHP 8.3/8.4 with Chromium (Actions 44483223585). Subsequent source-branch
+changes contain documentation only. The initial v12.9.5 SHA is an annotated
+tag object; its actual commit is explicitly corrected above and in the report.
+Git source comparisons resolve to the same original tree.
+
+Next: expected-head merge of PR 199, create and publish v12.9.5.6, verify
+Main/tag/source archive and target heads, then the authorised single deployment
+email and private delivery proof. Release and email must not be inferred as
+already completed from this prepublication checkpoint.

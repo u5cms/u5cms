@@ -16,11 +16,11 @@ test blobs have been read back and match the individually tested preparations;
 version/renderer/search/migration sources are preserved. Some comprehensive
 branch pipelines exposed isolated fixture dependencies; test-only follow-ups
 supply the actual helper without weakening expectations. All twelve local
-code-asset suites passed after those additions. Final branch CI is still
-being checked; do not infer release completion from this checkpoint.
+code-asset suites passed after those additions. All 17 comprehensive workflows declared on the final target heads completed
+successfully. Four older maintenance sources have no declared workflow; their
+actual targeted local checks are recorded separately in the inventory.
 
-Next action: verify the latest comprehensive branch runs, complete the report/
-branch inventory, merge PR 199 with unchanged accepted application/test blobs,
+Next action: merge PR 199 with unchanged accepted application/test blobs,
 publish .6 and verify tag/Main/archive, then send the authorised deployment
 mail and pause the existing task. Never send the mail before verified release.
 
