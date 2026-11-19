@@ -76,6 +76,31 @@ large media use size/mtime and the guarded directory identity under the shared
 mutation lock, so renaming a multi-GB video does not read its complete contents.
 The tests independently compare the complete bytes/SHA-256 after moving files.
 
+## Database lock waits and visibility
+
+Starting with 12.9.5.5, the authenticated Rename request caps its own session's
+metadata/table and InnoDB row-lock waits at five seconds, retaining stricter
+server limits. Other backend sessions retain their server policy. A timed-out,
+deadlocked or interrupted optional history-index creation stops the Rename
+instead of immediately falling through into another blocked query. A missing
+ALTER privilege retains the existing slower Rename path.
+
+A database wait failure releases the process mutation lock. If files or rows
+have already changed, the immutable pending plan remains and other coordinated
+writers remain blocked until the exact Rename is resumed. This barrier does not
+expire by age: expiration could expose a partly applied operation to new writes.
+After resolving the cause, use the same Retry rename action. If its original
+window is lost, use the authenticated unfinished-Rename overview linked from
+blocked writers. It submits the saved ordinary Rename through the same CSRF-
+and permission-checked request; opening the overview does not change data. Actual process
+termination releases the operating-system lock independently of PHP cleanup.
+
+The five seconds limit one SQL lock wait, not the duration of the whole Rename,
+SQL execution, network I/O or filesystem operations. Frontend readers are not
+held behind the backend mutation barrier and can observe a transient state.
+The result window reports completion only after files, references, histories
+and exports have completed; a caught failure displays the exact retry action.
+
 ## Retry and recovery
 
 1. Keep the original rename window open until its result arrives. Successful

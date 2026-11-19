@@ -5,6 +5,8 @@ if (!isset($_GET['name'],$_POST['name']) || !is_string($_GET['name']) || !is_str
     http_response_code(400);die('Invalid rename request.');
 }
 $u5RawRenameOld=$_GET['name'];$u5RawRenameNew=$_POST['name'];
+// Bound database-side lock waits before authentication or resource reads.
+define('U5CMS_RESOURCE_RENAME_REQUEST', true);
 require_once('connect.inc.php');
 require_once('t2.php');
 require_once('resource-rename.inc.php');
