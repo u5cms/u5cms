@@ -50,7 +50,8 @@
     "mobiletools-web.py",
     "conference-session-transition-regression.py",
     "international-email-smtp.py",
-    "international-email-native.py"
+    "international-email-native.py",
+    "index-save-regression.py"
   ],
   "main_browser": true,
   "rename_browser": true,
@@ -166,7 +167,9 @@
     "tests/fixtures/legacy-htmltemplate.html",
     "tests/responsive-layout-regression.php",
     "tests/responsive-navigation-regression.cjs",
-    "tests/responsive-backend-regression.py"
+    "tests/responsive-backend-regression.py",
+    "index-work.inc.php",
+    "tests/index-save-regression.py"
   ],
   "legacy_https_routes": [],
   "responsive": {
