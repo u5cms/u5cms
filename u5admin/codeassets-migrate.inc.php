@@ -275,6 +275,8 @@ function u5CodeMigrationWhere($row,$columns=array()) {
             $terms[]="BINARY JSON_EXTRACT(".u5CodeMigrationIdentifier($field).",'$') <=> BINARY JSON_EXTRACT(".u5CodeMigrationColumnValue($value,$column).",'$')";
             continue;
         }
+        $digest=u5ResourceSqlDigestGuard(u5CodeMigrationIdentifier($field),$value);
+        if ($digest!==null) {$terms[]=$digest;continue;}
         // Preserve exact bytes, with a separate sargable predicate for row/index identity.
         if ($column && !preg_match('/^(?:float|double|real)/i',$column['Type']) && (($column['Key'] ?? '')!=='' || preg_match('/^(?:(?:tiny|small|medium|big)?int|year)\b/i',$column['Type']))) $terms[]=u5CodeMigrationIdentifier($field).' <=> '.u5CodeMigrationColumnValue($value,$column);
         $terms[]='BINARY '.u5CodeMigrationIdentifier($field).' <=> '.u5CodeMigrationValue($value);
@@ -703,8 +705,16 @@ function u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks) {
 function u5CodeMigrationApplyRow($change,$columns=null) {
     if ($columns===null) $columns=u5CodeMigrationColumns($change['table']);
     $before=$change['before']; $after=$change['after']; $table=u5CodeMigrationIdentifier($change['table']);
+    $u5SqlStage=array();
+    try {
     $set=array(); $compare=array();
-    foreach ($after as $field=>$value) if ($value!==$before[$field]) { $set[]=u5CodeMigrationIdentifier($field).'='.u5CodeMigrationColumnValue($value,$columns[$field]); $compare[$field]=$before[$field]; }
+    foreach ($after as $field=>$value) {
+        if ($value===$before[$field]) continue;
+        $expression=u5ResourceSqlStageValue($value,'u5CodeMigrationQuery',$u5SqlStage);
+        if ($expression!==null && strtolower($columns[$field]['Type'])==='json') $expression='CONVERT('.$expression.' USING utf8mb4)';
+        $set[]=u5CodeMigrationIdentifier($field).'='.($expression ?? u5CodeMigrationColumnValue($value,$columns[$field]));
+        $compare[$field]=$before[$field];
+    }
     if (!$set) return;
     // Use the whole original row, including nulls, instead of a guessed primary key.
     // This also handles duplicate history rows in the legacy MyISAM tables.
@@ -716,6 +726,7 @@ function u5CodeMigrationApplyRow($change,$columns=null) {
     }
     u5CodeMigrationQuery('UPDATE '.$table.' SET '.implode(',',$set).' WHERE '.u5CodeMigrationWhere($before,$columns));
     if (mysql_affected_rows()!==(int)$count[0]['n']) throw new RuntimeException('A row changed while applying migration in '.$change['table']);
+    } finally {u5ResourceSqlStageClear($u5SqlStage,'u5CodeMigrationQuery');}
 }
 
 function u5CodeMigrationInsert($table,$row) {
