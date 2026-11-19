@@ -1,14 +1,12 @@
 # u5CMS 12.9.5.7
 
-Koordinierte Speicheraktionen markieren fällige Indexarbeit serverseitig. Einzel- und Vollindex teilen ihre Sperre, respektieren offene Rename-Pläne und begrenzen die Datenbank-Sperrwartezeiten.
+Ordinary saves remain available while indexing and backups run. A save marks pending index work on the server. Single-resource and full indexing coordinate through the same lock, respect pending Rename operations and bound database lock waits.
 
-Der Vollindex arbeitet in begrenzten, wiederaufnehmbaren Teilaufrufen. Datenbanksperren werden auf seiner eigenen Verbindung zeitlich begrenzt. Die Suchanzeige nennt den Indexstand des letzten erfolgreich abgeschlossenen Gesamtlaufs; laufende oder fehlgeschlagene Versuche setzen diesen Stand nicht vorzeitig hoch.
+Full indexing runs in resumable batches. The search page shows the date of the last successfully completed full index. An interrupted or failed attempt leaves that date intact. Rename also bounds the lock wait on its own database connection. After a database conflict, the existing recovery plan allows the same operation to finish.
 
-Auch Rename begrenzt die Datenbank-Sperrwartezeiten auf seiner eigenen Verbindung. Nach einem SQL-Konflikt bleibt ein bereits angelegter Wiederaufnahmeplan erhalten; die gleiche Umbenennung kann kontrolliert fertiggestellt werden.
+The stable release includes memory-efficient search, corrected resource renaming and configurable SELF permissions. Existing installations continue to associate records with the individual user unless their administrator enables domain-based ownership.
 
-Enthalten sind die speicherschonende Suche, die korrigierte Objektumbenennung und die optionalen SELF-Berechtigungen aus der 12.9.5-Patchlinie. Bestehende Installationen behalten die persönliche Datensatzzuordnung, solange sie keinen Domainmodus konfigurieren.
-
-[Freies Speichern und schnelles Rename 12.9.5.7](docs/release-12.9.5.7.md) · [Speichern/Indexierung und kumulative Abnahme 12.9.5.6](docs/release-12.9.5.6.md) · [Rename-Sperrschutz und Abnahme 12.9.5.5](docs/release-12.9.5.5.md) · [Kumulative Änderungstabelle gegenüber 12.9.5](docs/release-12.9.5.4.md) · [SELF-Konfiguration](docs/onlymine.md) · [Branches](BRANCHES.md)
+[Non-blocking saves and fast Rename in 12.9.5.7](docs/release-12.9.5.7.md) · [Save and index coordination in 12.9.5.6](docs/release-12.9.5.6.md) · [Rename lock handling in 12.9.5.5](docs/release-12.9.5.5.md) · [Cumulative changes since 12.9.5](docs/release-12.9.5.4.md) · [SELF permissions](docs/onlymine.md) · [Branch guide](BRANCHES.md)
 
 ---
 
