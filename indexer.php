@@ -6,16 +6,33 @@ $u5CpuLimit=(int)ini_get('max_execution_time');
 if ($u5CpuLimit===0 || $u5CpuLimit>30) set_time_limit(30);
 require_once __DIR__.'/search-index.inc.php';
 $u5Slice = null;
+$u5NamedRelease = null;
+$u5MutationRelease = null;
 try {
     if (!isset($_GET['n'])) {
         $u5Slice = new U5IndexSlice(__DIR__.'/fileversions',isset($_GET['u5indexcontinue']),isset($_GET['u5indexauto']),u5SearchIndexNeedsUpdate(__DIR__.'/fileversions'));
         if (!$u5Slice->ready()) return;
         define('U5CMS_FULL_INDEX_BATCH', true);
+    }
+    require_once __DIR__.'/index-work.inc.php';
+    if (!$u5Slice) {
+        if (!is_string($_GET['n']) || $_GET['n']==='') { http_response_code(400); return; }
+        $u5NamedRelease=u5IndexNamedLock(__DIR__);
+        if (!$u5NamedRelease) { u5IndexDeferNamed();return; }
+    }
+    // Same lock order for named/full indexing: index mutex, then nonblocking
+    // source mutex. A pending Rename must never be rendered as finished data.
+    try { $u5MutationRelease=u5IndexMutationLock(__DIR__); }
+    catch (U5ResourceBusyException $busy) {
+        if ($u5Slice) { http_response_code(409);header('Retry-After: 10');$u5Slice->pause(); }
+        else u5IndexDeferNamed();
+        return;
+    }
+    define('U5CMS_INDEX_REQUEST', true);
         foreach (array('default_socket_timeout','mysqlnd.net_read_timeout') as $u5Timeout) {
             $u5Seconds = ini_get($u5Timeout);
             if ($u5Seconds!==false && ((int)$u5Seconds<=0 || (int)$u5Seconds>10)) ini_set($u5Timeout,'10');
         }
-    }
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('search-index.inc.php');
@@ -198,6 +215,8 @@ if ($result_i === false) throw new RuntimeException('Cannot update a search inde
     echo '<p>The search index could not be updated.</p>';
 } finally {
     if (isset($u5IndexReportMode)) mysqli_report($u5IndexReportMode);
+    if ($u5MutationRelease) $u5MutationRelease();
+    if ($u5NamedRelease) $u5NamedRelease();
     if ($u5Slice) $u5Slice->release();
 }
 function sanitize_content($content) {

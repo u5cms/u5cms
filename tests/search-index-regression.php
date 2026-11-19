@@ -104,6 +104,12 @@ try {
     foreach (array('indexer.php', 'search-index.inc.php', 'search-core.inc.php', 'htaccessandindexer.inc.php', 'indexupdate.inc.php') as $file) {
         copy(dirname(__DIR__) . '/' . $file, $fixture . '/' . $file);
     }
+    // The indexer now coordinates with the real source/Rename mutex before SQL.
+    // Supply those production helpers in this disposable mocked-SQL fixture.
+    mkdir($fixture . '/u5admin');
+    foreach (array('index-work.inc.php', 'codeassets.inc.php', 'u5admin/resource-rename-support.inc.php', 'u5admin/codeassets-migrate.inc.php') as $helper) {
+        if (is_file(dirname(__DIR__) . '/' . $helper)) copy(dirname(__DIR__) . '/' . $helper, $fixture . '/' . $helper);
+    }
     file_put_contents($fixture . '/getinserts.inc.php', '<?php $result_b=true; $num_b=0;');
     file_put_contents($fixture . '/render.inc.php', <<<'PHP'
 <?php
