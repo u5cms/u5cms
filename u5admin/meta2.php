@@ -7,17 +7,47 @@ require_once __DIR__.'/resource-mutation.inc.php';require_once('t2.php'); ?>
 <?php require('backendcss.php'); ?></head>
 <body id="body" bgcolor="#339900" text="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <?php
+require_once __DIR__.'/resource-save.inc.php';
+$u5EditorSnapshot=u5SaveSnapshot($_POST['name']);
 require('archivecheck.inc.php');
-require('delcheck.inc.php');
+$deleted=$u5EditorSnapshot['deleted'];
 
-$sql_a="SELECT operator,ip,lastmut FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) {
-echo 'SQL_a-Query failed!...!<p>';
-}
-$row_a = mysql_fetch_array($result_a);
-if ($_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER'])))) ) {
+$row_a=$u5EditorSnapshot;
+$u5SaveRevision=u5SaveNextRevision($row_a);
+$u5SavePolicyConflict=$_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER']))));
+$conflict='';
+if ($u5SavePolicyConflict || !u5SaveResource($row_a,array(
+    'content_1'=>trim($_POST['content_1']),
+    'title_1'=>trim($_POST['title_1']),
+    'desc_1'=>trim($_POST['desc_1']),
+    'key_1'=>trim($_POST['key_1']),
+    'content_2'=>trim($_POST['content_2']),
+    'title_2'=>trim($_POST['title_2']),
+    'desc_2'=>trim($_POST['desc_2']),
+    'key_2'=>trim($_POST['key_2']),
+    'content_3'=>trim($_POST['content_3']),
+    'title_3'=>trim($_POST['title_3']),
+    'desc_3'=>trim($_POST['desc_3']),
+    'key_3'=>trim($_POST['key_3']),
+    'content_4'=>trim($_POST['content_4']),
+    'title_4'=>trim($_POST['title_4']),
+    'desc_4'=>trim($_POST['desc_4']),
+    'key_4'=>trim($_POST['key_4']),
+    'content_5'=>trim($_POST['content_5']),
+    'title_5'=>trim($_POST['title_5']),
+    'desc_5'=>trim($_POST['desc_5']),
+    'key_5'=>trim($_POST['key_5']),
+    'logins'=>trim($_POST['logins']),
+    'hidden'=>0,
+    'operator'=>u5flatidnlower($_SERVER['PHP_AUTH_USER']),
+    'ip'=>$_SERVER['REMOTE_ADDR'],
+    'deleted'=>$deleted,
+    'typ'=>$_GET['typ'],
+    'ishomepage'=>0
+),$u5SaveRevision)) {
 $conflict='(!)';
+$row_a=u5SaveSnapshot($_POST['name']);
+$u5SaveRevision=(int)$row_a['lastmut'];
 ?>
 <div style="display:none" id="e"><?php echo str_replace('<','',str_replace('>','',$row_a['operator'])) ?></div>
 <script>
@@ -28,46 +58,6 @@ if(window.name=='ametai'){
 <?php 
 }
 
-else {
-$conflict='';
-require('delold.php');
-$sql_a="INSERT INTO resources (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES 
-(
-'".mysql_real_escape_string(trim($_POST['name']))."',
-'".mysql_real_escape_string(trim($_POST['content_1']))."',
-'".mysql_real_escape_string(trim($_POST['content_2']))."',
-'".mysql_real_escape_string(trim($_POST['content_3']))."',
-'".mysql_real_escape_string(trim($_POST['content_4']))."',
-'".mysql_real_escape_string(trim($_POST['content_5']))."',
-'".mysql_real_escape_string(trim($_POST['title_1']))."',
-'".mysql_real_escape_string(trim($_POST['title_2']))."',
-'".mysql_real_escape_string(trim($_POST['title_3']))."',
-'".mysql_real_escape_string(trim($_POST['title_4']))."',
-'".mysql_real_escape_string(trim($_POST['title_5']))."',
-'".mysql_real_escape_string(trim($_POST['desc_1']))."',
-'".mysql_real_escape_string(trim($_POST['desc_2']))."',
-'".mysql_real_escape_string(trim($_POST['desc_3']))."',
-'".mysql_real_escape_string(trim($_POST['desc_4']))."',
-'".mysql_real_escape_string(trim($_POST['desc_5']))."',
-'".mysql_real_escape_string(trim($_POST['key_1']))."',
-'".mysql_real_escape_string(trim($_POST['key_2']))."',
-'".mysql_real_escape_string(trim($_POST['key_3']))."',
-'".mysql_real_escape_string(trim($_POST['key_4']))."',
-'".mysql_real_escape_string(trim($_POST['key_5']))."',
-'".mysql_real_escape_string(trim($_POST['logins']))."',
-0,
-'".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
-'".time()."',$deleted,'".mysql_real_escape_string($_GET['typ'])."')";
-
-
-$result_a=mysql_query($sql_a);
-
-if ($result_a==false) {
-die('SQL_a-Query failed!...!<p>');
-}
-
-} //else if coco
 
 $sql_a="INSERT INTO resources_log (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES 
 (
@@ -96,7 +86,7 @@ $sql_a="INSERT INTO resources_log (name,content_1,content_2,content_3,content_4,
 0,
 '".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].$conflict)."',
 '".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
-'".time()."','$deleted','".mysql_real_escape_string($_GET['typ'])."')";
+'".($conflict==='' ? $u5SaveRevision : time())."','$deleted','".mysql_real_escape_string($_GET['typ'])."')";
 
 
 $result_a=mysql_query($sql_a);
