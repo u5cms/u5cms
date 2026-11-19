@@ -1,5 +1,17 @@
 # u5CMS development checkpoint
 
+## .7 save/Rename correction in progress, 19 November 2026
+
+Authorised: preserve this branch's cumulative work and forward-port .7.
+Target: fix/indexer-db-lock-wait-12953. Exact base: 6295b528e5a77fb6b5dad42bce0fbaac947bb8fd.
+Candidate: process-owned Rename gate, concurrent ordinary writes, index yielding,
+nonblocking recovery plans, real Rename phase/progress and crash recovery tests.
+This branch's renderer, version, search format, migration namespace and encoding
+remain distinct. Its existing monotonic resource update API is preserved where
+present. Tests and expected-head publication are still pending at this checkpoint.
+No production deployment or rollout email. Next: actual local HTTP/concurrency/
+Rename tests and this branch's comprehensive pipeline before release acceptance.
+
 ## Save/index coordination, 19 November 2026
 
 Base 5752177328b570b71761cda1f9e9f9995ff677a8. Target fix/indexer-db-lock-wait-12953.
