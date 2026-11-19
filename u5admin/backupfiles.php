@@ -18,6 +18,7 @@ $targetfile = U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions' . DIRECTORY_SEP
 $u5BackupRelease=null;$u5BackupError=null;
 try {
 $u5BackupRelease=u5CodeMigrationLock(U5ROOT_PATH,null,true);
+    $u5BackupGeneration=u5ResourceBackupStart(U5ROOT_PATH);
 $zip = new Zipper($targetfile);
 $zip->setStripPath(U5ROOT_PATH);
 
@@ -44,7 +45,10 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $u5RenameBackup) $zip->addFile($u5RenameBackup);
 foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*-rows-*',GLOB_ONLYDIR) as $u5RenameBackup) $zip->addFolder($u5RenameBackup);
 $zip->write();
+$u5BackupCreated=true;
+u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
 } catch (Throwable $error) {
+    if (!empty($u5BackupCreated) && is_file($targetfile)) @unlink($targetfile);
     unset($zip);
     http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
     $u5BackupError=$error;

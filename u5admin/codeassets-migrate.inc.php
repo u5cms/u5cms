@@ -835,9 +835,9 @@ function u5CodeAssetsMigrateLocked($root,$patchVersion='12.11.1') {
 }
 
 function u5CodeAssetsRename($root,$old,$new,$updateLinks=true) {
-    $release=u5CodeMigrationLock($root);
-    try { u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks); }
-    finally { $release(); }
+    $activityRelease=u5ResourceActivityLock($root,array('old'=>$old,'new'=>$new));$release=null;
+    try { $release=u5CodeMigrationLock($root);u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks); }
+    finally { if ($release) $release();$activityRelease(); }
 }
 
 function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
@@ -892,6 +892,8 @@ function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
         $plan['templates']=u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks);
         u5CodeAssetAtomicWrite($pending,u5CodeMigrationEncodeJournal($plan));
     }
+    u5IndexRenameDirty($root);
+    u5ResourceRenameProgress($root,'files');
     // Publish the new target before replacing stylesheets/templates which reference it.
     $newFile=u5CodeAssetFilename($new);
     if (isset($plan['files'][$newFile])) u5CodeAssetAtomicWrite($root.'/r/'.$newFile,$plan['files'][$newFile]);
@@ -900,7 +902,9 @@ function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
         u5CodeAssetAtomicWrite($root.'/r/'.$file,$body);
     }
     u5CodeMigrationPublishTemplates($root,$plan['templates']);
+    u5ResourceRenameProgress($root,'rows',0,(int)($plan['updates']['count'] ?? count($plan['updates'])));
     u5CodeMigrationApplyChanges($root,$plan['updates']);
+    u5ResourceRenameProgress($root,'export');
     $marker=$root.'/fileversions/codeassets-12.11.0.done.php';
     $state=is_file($marker) ? include $marker : array('version'=>'12.11.0','template'=>'htmltemplate!html','map'=>array());
     if ($state['template']===$old) $state['template']=$new;
@@ -913,5 +917,11 @@ function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
         if (!@unlink($root.'/r/'.$oldFile)) throw new RuntimeException('Cannot remove the old code export.');
     }
     u5CodeMigrationCleanupTemplates($root,$plan['templates']);
+    u5IndexRenameDirty($root);
     if (!@unlink($pending)) throw new RuntimeException('Cannot finalize code rename.');
+}
+
+function u5IndexRenameDirty($root) {
+    u5CodeAssetAtomicWrite($root.'/fileversions/search-index-pending.txt',(string)time());
+    u5CodeAssetAtomicWrite($root.'/fileversions/lastsave.txt',(string)time());
 }
