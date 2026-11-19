@@ -153,3 +153,24 @@ function u5ResourceBackupFinish($root,$generation) {
         throw new U5ResourceBusyException('Source content changed during the backup. This backup was not published. Retry the backup; ordinary saves remain available.');
     }
 }
+
+function u5ResourceBackupStage($target) {
+    // Keep the old downloadable archive until its replacement is complete and
+    // validated. The private directory is on the same filesystem for rename().
+    $directory=dirname($target).'/.u5backup-stage-'.bin2hex(random_bytes(12));
+    if (!@mkdir($directory,0700)) throw new RuntimeException('Cannot stage the backup. The previous backup has been kept.');
+    $path=$directory.'/backup.zip';
+    register_shutdown_function(function() use($path,$directory) {
+        if (is_file($path)) @unlink($path);
+        @rmdir($directory);
+    });
+    return $path;
+}
+
+function u5ResourceBackupPublish($staged,$target) {
+    // The caller has checked its source generation after completing the copy.
+    if (!is_file($staged) || !@chmod($staged,0666 & ~umask()) || !@rename($staged,$target)) {
+        throw new RuntimeException('Cannot publish the completed backup. The previous backup has been kept.');
+    }
+    @rmdir(dirname($staged));
+}
