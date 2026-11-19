@@ -1,10 +1,12 @@
-# u5CMS 12.9.5.4
+# u5CMS 12.9.5.5
 
 Der Vollindex arbeitet in begrenzten, wiederaufnehmbaren Teilaufrufen. Datenbanksperren werden auf seiner eigenen Verbindung zeitlich begrenzt. Die Suchanzeige nennt den Indexstand des letzten erfolgreich abgeschlossenen Gesamtlaufs; laufende oder fehlgeschlagene Versuche setzen diesen Stand nicht vorzeitig hoch.
 
+Auch Rename begrenzt die Datenbank-Sperrwartezeiten auf seiner eigenen Verbindung. Nach einem SQL-Konflikt bleibt ein bereits angelegter Wiederaufnahmeplan erhalten; die gleiche Umbenennung kann kontrolliert fertiggestellt werden.
+
 Enthalten sind die speicherschonende Suche, die korrigierte Objektumbenennung und die optionalen SELF-Berechtigungen aus der 12.9.5-Patchlinie. Bestehende Installationen behalten die persönliche Datensatzzuordnung, solange sie keinen Domainmodus konfigurieren.
 
-[Abnahme und vollständige Änderungstabelle gegenüber 12.9.5](docs/release-12.9.5.4.md) · [SELF-Konfiguration](docs/onlymine.md) · [Branches](BRANCHES.md)
+[Rename-Sperrschutz und Abnahme 12.9.5.5](docs/release-12.9.5.5.md) · [Kumulative Änderungstabelle gegenüber 12.9.5](docs/release-12.9.5.4.md) · [SELF-Konfiguration](docs/onlymine.md) · [Branches](BRANCHES.md)
 
 ---
 
