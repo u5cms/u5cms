@@ -380,7 +380,12 @@ function u5RenameHistoryLookup() {
     $length=150;
     if (preg_match('/^(?:var)?char\((\d+)\)/i',$columns['name']['Type'],$match)) $length=min($length,(int)$match[1]);
     // A restricted installation can still rename safely without ALTER privileges.
-    mysql_query('ALTER TABLE resources_log ADD INDEX u5_rename_history_lookup (name('.$length.'),lastmut,deleted)');
+    $lookup=mysql_query('ALTER TABLE resources_log ADD INDEX u5_rename_history_lookup (name('.$length.'),lastmut,deleted)');
+    // A denied optional index can use the slower plan. A lock timeout or
+    // interrupted statement must stop here instead of waiting again in that plan.
+    if ($lookup===false && in_array(mysql_errno(),array(1205,1213,1317),true)) {
+        throw new RuntimeException('The history index is blocked. Retry the same resource rename after the database conflict is resolved.');
+    }
 }
 
 function u5RenameLegacyCodePaths($text,$names) {

@@ -42,6 +42,16 @@ include('../config.php');
       die('DB not ready. Help: '.$mymail);
       }
 
+// A Rename must not keep the mutation lock while waiting indefinitely for SQL.
+// Preserve stricter server limits and leave other backend connections unchanged.
+if (defined('U5CMS_RESOURCE_RENAME_REQUEST') && U5CMS_RESOURCE_RENAME_REQUEST) {
+    $renameWaitSql = 'SET SESSION lock_wait_timeout = LEAST(@@SESSION.lock_wait_timeout, 5), '
+                   . 'SESSION innodb_lock_wait_timeout = LEAST(@@SESSION.innodb_lock_wait_timeout, 5)';
+    if (mysql_query($renameWaitSql) === false) {
+        throw new RuntimeException('Cannot limit database lock waits for resource renaming.');
+    }
+}
+
 $sql_a="SET NAMES latin1";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) {
