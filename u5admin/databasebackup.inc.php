@@ -101,7 +101,7 @@ class U5DatabaseBackupOutput {
         if ($this->temporary && is_file($this->temporary)) @unlink($this->temporary);
     }
 }
-function u5CreateDatabaseBackup($database,$directory,$compressed,$link) {
+function u5CreateDatabaseBackup($database,$directory,$compressed,$link,$beforePublish=null) {
     $directory=realpath($directory);
     if ($directory===false || !is_dir($directory)) throw new RuntimeException('The database backup directory is unavailable.');
     if (!mysql_select_db($database,$link)) throw new RuntimeException('Cannot select the database to back up.');
@@ -170,6 +170,7 @@ function u5CreateDatabaseBackup($database,$directory,$compressed,$link) {
         if ($stagingUsed) $data->append('DROP TABLE '.$staging.";\n");
         $structure->append("\nSET FOREIGN_KEY_CHECKS=1;\n");$data->append("\nSET FOREIGN_KEY_CHECKS=1;\n");
         $structure->finish();$data->finish();
+        if ($beforePublish!==null) $beforePublish();
         $published[]=$structure->publish();$published[]=$data->publish();
         return $published;
     } catch (Throwable $error) {
