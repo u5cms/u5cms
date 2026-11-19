@@ -7,8 +7,9 @@ const [base,site]=process.argv.slice(2);
 let checks=0;
 function equal(actual,expected,label){assert.deepEqual(actual,expected,label);checks++;}
 function verify(value,label){assert.ok(value,label);checks++;}
-async function locked(operation){
- const source='require '+JSON.stringify(path.join(site,'codeassets.inc.php'))+';$release=u5CodeMigrationLock('+JSON.stringify(site)+');echo "READY\\n";flush();fgets(STDIN);$release();';
+async function locked(operation,rename=true){
+ const gate=rename ? 'u5ResourceActivityLock('+JSON.stringify(site)+',array("old"=>"journey-source","new"=>"journey-target"))' : 'u5CodeMigrationLock('+JSON.stringify(site)+')';
+ const source='require_once '+JSON.stringify(path.join(site,'resource-activity.inc.php'))+';require_once '+JSON.stringify(path.join(site,'codeassets.inc.php'))+';$release='+gate+';echo "READY\\n";flush();fgets(STDIN);$release();';
  const worker=spawn(process.env.U5_TEST_PHP||'php',['-r',source],{stdio:['pipe','pipe','pipe']});
  let errors='';worker.stderr.on('data',data=>errors+=data);
  try{
@@ -38,14 +39,14 @@ async function locked(operation){
     const snapshot=async n=>(await context.request.get(base+'/fixture-snapshot.php?asset='+encodeURIComponent(n))).json();
     const openCode=async()=>{const p=await context.newPage();equal((await p.goto(base+'/u5admin/coding.php?name='+encodeURIComponent(name),{waitUntil:'domcontentloaded'})).status(),200,'open real code editor');await p.waitForFunction(()=>window.u5ResourceSave&&document.form1);return p;};
     const author=await openCode(),peer=await openCode();
-    const first='window.journey="Über € 中文 🌷 &amp; [literal]"; // '+mode;
+    let first='window.journey="Über € 中文 🌷 &amp; [literal]"; // '+mode;
     const rival='window.peer="Unsaved competing source 中文"; // '+mode;
     const revision=(await snapshot(name)).rows[0].lastmut;
     await author.locator('#codeTextarea').fill(first);
     await peer.locator('#codeTextarea').fill(rival);
     await locked(async()=>{
      const response=author.waitForResponse(r=>r.url().includes('/u5admin/coding2.php'));
-     await author.locator('#savebutton').click();equal((await response).status(),409,'actual busy code save');
+     await author.locator('#savebutton').click();equal((await response).status(),409,'code save reports a live Rename');
      await author.locator('#u5resource_status').waitFor();
      equal(await author.locator('#u5resource_status').getAttribute('role'),'alert','failed save is announced as an alert');
      equal(await author.locator('#codeTextarea').inputValue(),first,'busy code save retains exact input');
@@ -57,6 +58,15 @@ async function locked(operation){
     await author.waitForFunction(()=>document.getElementById('changes').value==='0');
     equal((await snapshot(name)).rows[0].content_1,first,'retry saves exact Unicode source');
     verify((await snapshot(name)).history.includes(first),'successful retry retained in history');
+    first+='\n// saved while background publication lock is held';
+    await author.locator('#codeTextarea').fill(first);
+    await locked(async()=>{
+     const response=author.waitForResponse(r=>r.url().includes('/u5admin/coding2.php'));
+     await author.locator('#savebutton').click();equal((await response).status(),200,'code editor saves during a background operation');
+     await author.waitForFunction(()=>document.getElementById('changes').value==='0');
+     equal((await snapshot(name)).rows[0].content_1,first,'background operation does not lose code source');
+     verify((await snapshot(name)).history.includes(first),'background-time code save retained in history');
+    },false);
     const stale=peer.waitForResponse(r=>r.url().includes('/u5admin/coding2.php'));
     await peer.locator('#savebutton').click();equal((await stale).status(),200,'peer receives actual conflict document');
     await peer.waitForFunction(()=>document.getElementById('changes').value==='1');
@@ -77,14 +87,14 @@ async function locked(operation){
     const right=await(await page.locator('iframe[name=i2]').elementHandle()).contentFrame();
     await left.waitForFunction(n=>document.readyState!=='loading'&&new URL(location.href).searchParams.get('c')===n&&document.form1&&document.form1.page.value===n,pname);
     await right.waitForFunction(n=>document.readyState!=='loading'&&new URL(location.href).searchParams.get('c')===n&&document.form1&&document.form1.page.value===n,rname);
-    const pageSource='Journey [b]Über €[/] '+mode,peerSource='Peer [i]unsaved[/] '+mode;
+    let pageSource='Journey [b]Über €[/] '+mode;const peerSource='Peer [i]unsaved[/] '+mode;
     await left.locator('textarea[name=content_1]').fill(pageSource);
     await right.locator('textarea[name=content_1]').fill(peerSource);
     const pageRevision=(await snapshot(pname)).rows[0].lastmut;
     const coordinatedPages=fs.readFileSync(path.join(site,'u5admin/savepage.php'),'utf8').includes('resource-mutation.inc.php');
     if(coordinatedPages)await locked(async()=>{
      const response=page.waitForResponse(r=>r.url().includes('/u5admin/savepage.php'));
-     await left.locator('#savebutton').click();equal((await response).status(),409,'real page save conflicts with active operation');
+     await left.locator('#savebutton').click();equal((await response).status(),409,'page save reports a live Rename');
      await page.waitForFunction(()=>!u5SavePending);
      equal(await left.locator('textarea[name=content_1]').inputValue(),pageSource,'page input survives actual failed save');
      equal(await right.locator('textarea[name=content_1]').inputValue(),peerSource,'other pane retains its independent input');
@@ -93,6 +103,15 @@ async function locked(operation){
     });
     await left.locator('#savebutton').click();await left.waitForFunction(()=>changes===0);
     equal((await snapshot(pname)).rows[0].content_1,pageSource,'page retry succeeds');
+    pageSource+='; saved during background publication';
+    await left.locator('textarea[name=content_1]').fill(pageSource);
+    await locked(async()=>{
+     const response=page.waitForResponse(r=>r.url().includes('/u5admin/savepage.php'));
+     await left.locator('#savebutton').click();equal((await response).status(),200,'page editor saves during a background operation');
+     await left.waitForFunction(()=>changes===0);
+     equal((await snapshot(pname)).rows[0].content_1,pageSource,'background operation does not lose page source');
+     equal(await right.locator('textarea[name=content_1]').inputValue(),peerSource,'background-time save preserves the other pane');
+    },false);
     const peerSave=page.waitForResponse(r=>r.url().includes('/u5admin/savepage.php'));
     await right.locator('#savebutton').click();equal((await peerSave).status(),200,'other-page pane saves its own resource');
     await page.waitForFunction(()=>!u5SavePending);
@@ -106,7 +125,7 @@ async function locked(operation){
     const fresh=page.frame({name:'i1'});
     equal(await fresh.locator('textarea[name=content_1]').inputValue(),pageSource,'reopen full backend retains successful page');
     equal(errors,[],'no JavaScript errors during real failure/retry/conflict journeys');
-    console.log(mode+': real lock, retained input, retry, peer conflict and reopen completed');
+    console.log(mode+': live Rename, background saves, retained input, retry, peer conflict and reopen completed');
    }finally{await context.close();}
   }
  }finally{fs.writeFileSync(config,original);await browser.close();}
