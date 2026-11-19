@@ -1,6 +1,7 @@
 <?php
 /* Ordinary resources: one candidate scan per table, immutable guarded checkpoints. */
 require_once __DIR__.'/codeassets-migrate.inc.php';
+require_once dirname(__DIR__).'/resource-activity.inc.php';
 
 function u5RenameName($name,$source=false) {
     if (!is_string($name) || strlen($name)<4 || strlen($name)>255 ||
@@ -276,14 +277,16 @@ function u5RenamePublishFiles($root,$plan) {
 }
 
 function u5RenameApplyChanges($root,$journal) {
-    $schema=array();
+    $schema=array();$done=0;$total=($journal['format'] ?? '')==='chunked-v1' ? (int)$journal['count'] : count($journal);
+    u5ResourceRenameProgress($root,'rows',0,$total);
     // Remove preserved target tombstones first so resource PK order never matters.
-    foreach (array(true,false) as $deletions) u5CodeMigrationEachChange($root,$journal,function($change,$index) use(&$schema,$deletions) {
+    foreach (array(true,false) as $deletions) u5CodeMigrationEachChange($root,$journal,function($change,$index) use(&$schema,$deletions,&$done,$total,$root) {
         if (!empty($change['delete'])!==$deletions) return;
         $table=$change['table'];if (!isset($schema[$table])) $schema[$table]=u5CodeMigrationColumns($table);
         if ($deletions) u5CodeMigrationQuery('DELETE FROM '.u5CodeMigrationIdentifier($table).' WHERE '.u5CodeMigrationWhere($change['before'],$schema[$table]));
         else u5CodeMigrationApplyRow($change,$schema[$table],$table==='resources' ? array('search_1','search_2','search_3','search_4','search_5') : array());
         u5CodeMigrationCheckpoint('rename:row:'.$index);
+        u5ResourceRenameProgress($root,'rows',++$done,$total);
     });
 }
 
@@ -291,8 +294,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
     u5RenameName($old,true);u5RenameName($new);
     if ($old===$new || strcasecmp($old,$new)===0) throw new RuntimeException('The new resource name must be different.');
     if ($options===null) $options=u5RenameOptions();
-    $base=u5RenameBase($root,$old,$new);$pending=$base.'.pending.php';$release=u5CodeMigrationLock($root,$pending);
+    $base=u5RenameBase($root,$old,$new);$pending=$base.'.pending.php';
+    $activityRelease=u5ResourceActivityLock($root,array('old'=>$old,'new'=>$new));$release=null;
     try {
+        $release=u5CodeMigrationLock($root,$pending);
         if (is_file($pending)) {
             $plan=u5CodeMigrationReadGuarded($pending);
             if (($plan['version'] ?? '')!=='12.12.1' || $plan['old']!==$old || $plan['new']!==$new) throw new RuntimeException('Invalid resource rename checkpoint.');
@@ -303,6 +308,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         }
         u5CodeMigrationValidateChanges($root,$plan['updates']);
         u5CodeMigrationCheckpoint('rename:planned');
+        // Keep search work due before a killed publication can change files.
+        u5CodeAssetAtomicWrite($root.'/fileversions/search-index-pending.txt',(string)time());
+        u5CodeAssetAtomicWrite($root.'/fileversions/lastsave.txt',(string)time());
+        u5ResourceRenameProgress($root,'files');
         u5RenamePublishFiles($root,$plan);
         if ($plan['companionFiles']!==null) u5RenamePublishFiles($root,array('old'=>'v'.$old,'new'=>'v'.$new,'files'=>$plan['companionFiles']));
         foreach ($plan['templates'] as $file=>$change) {
@@ -314,6 +323,7 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         u5CodeMigrationCheckpoint('rename:templates');
         u5RenameApplyChanges($root,$plan['updates']);
         u5CodeMigrationCheckpoint('rename:database');
+        u5ResourceRenameProgress($root,'export');
         u5CodeAssetExport($root);
         // A name change can alter rendered dependants which do not contain a rewritten link.
         u5CodeAssetAtomicWrite($root.'/fileversions/search-index-pending.txt',(string)time());
@@ -323,9 +333,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         u5CodeAssetAtomicWrite($base.'-'.$plan['files']['token'].'.done.php',$completed);
         u5CodeAssetAtomicWrite($base.'.done.php',$completed);
         u5CodeMigrationCheckpoint('rename:complete');
+        u5ResourceRenameProgress($root,'complete');
         if (!@unlink($pending)) throw new RuntimeException('Cannot finalize the resource rename checkpoint.');
         if ($plan['files']['directory']) @unlink($root.'/r/'.$new.'/.u5rename-'.$plan['files']['token'].'.php');
         if ($plan['companionFiles']!==null && $plan['companionFiles']['directory']) @unlink($root.'/r/v'.$new.'/.u5rename-'.$plan['companionFiles']['token'].'.php');
         return $plan;
-    } finally {$release();}
+    } finally {if ($release) $release();$activityRelease();}
 }

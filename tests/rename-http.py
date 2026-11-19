@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Real authenticated requests and before/after database/file checks; no browser claim."""
 from pathlib import Path
-import base64,http.cookiejar,json,os,re,subprocess,sys,urllib.request,urllib.parse,urllib.error
+import base64,fcntl,http.cookiejar,json,os,re,subprocess,sys,urllib.request,urllib.parse,urllib.error
 from fixture_environment import fixture_password_for
 base,site=sys.argv[1:];site=Path(site);repo=Path(__file__).resolve().parent.parent
 php=[os.environ.get('U5_TEST_PHP','php')]+json.loads(os.environ.get('U5_TEST_PHP_ARGS','[]'))
@@ -73,12 +73,14 @@ try:
         status,body=request(admin,'/u5admin/rename2.php?name='+old,{'name':new,'ulinks':'yes','u5scrtytknfrfrms':csrf})
         check(status==500 and 'Retry rename' in body,'publication failure offers exact retry')
         state=support('snapshot','failure');check(any(x['name']==new for x in state['resources']),'checkpoint covers moved source')
-        status,body=request(admin,'/u5admin/meta2.php?typ=p',{'name':new,'u5scrtytknfrfrms':csrf})
-        check(status==409 and 'did not change' in body,'coordinated metadata writer blocks pending rename')
-        for route in ['savepage.php','new2.php','copy2.php','delete2.php','archiveunarchive2.php','coding2.php','sendfile2.php','sendfilea2.php','deletefile.php','deletefilea.php','albumsort.php','cleanlog.php','defineloginglobals2.php','definelanguages2.php','ishomepage2.php','kill2.php','phperror.php','updateintranet.php']:
-            code,blocked=request(admin,'/u5admin/'+route,{'name':new,'page':new,'u5scrtytknfrfrms':csrf})
-            check(code==409 and 'did not change' in blocked,'pending rename blocks writer '+route)
-        check(support('snapshot','failure')==state,'all blocked writers preserve source/history/form data')
+        with (site/'fileversions/resource-rename.lock.php').open('a+') as gate:
+            fcntl.flock(gate,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            for route in ['meta2.php','savepage.php','new2.php','copy2.php','delete2.php','archiveunarchive2.php','coding2.php','sendfile2.php','sendfilea2.php','deletefile.php','deletefilea.php','albumsort.php','cleanlog.php','defineloginglobals2.php','definelanguages2.php','ishomepage2.php','kill2.php','phperror.php','updateintranet.php']:
+                code,blocked=request(admin,'/u5admin/'+route,{'name':new,'page':new,'u5scrtytknfrfrms':csrf})
+                check(code==409 and 'did not change' in blocked,'live Rename gate protects writer '+route)
+            check(support('snapshot','failure')==state,'live gate preserves source/history/form data')
+        status,body=request(admin,'/u5admin/renaming.php')
+        check(status==200 and 'These are recovery plans, not locks' in body and 'Rename in progress' not in body,'idle interrupted plan is distinguished from active Rename')
         lowcsrf=token(writer,old)
         status,_=request(writer,'/u5admin/rename2.php?name='+old,{'name':new,'ulinks':'yes','u5scrtytknfrfrms':lowcsrf})
         check(status==403 and support('snapshot','failure')==state,'retry retains archive rights after source has moved')
