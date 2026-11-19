@@ -84,6 +84,7 @@ def test_site(site):
         shutil.copy2(REPO / 'u5admin' / name, admin / name)
     shutil.copytree(REPO / 'u5admin/image-formats', admin / 'image-formats')
     shutil.copy2(REPO / 'index-work.inc.php', site / 'index-work.inc.php')
+    shutil.copy2(REPO / 'resource-activity.inc.php', site / 'resource-activity.inc.php')
     shutil.copy2(REPO / 'configallowedfileextensions.php', site / 'configallowedfileextensions.php')
     shutil.copy2(REPO / 'upload/spinner.gif', site / 'upload/spinner.gif')
     (admin / 'iniset.inc.php').write_text('<?php error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED);')
