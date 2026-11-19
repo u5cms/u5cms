@@ -107,7 +107,7 @@ try {
     // The indexer now coordinates with the real source/Rename mutex before SQL.
     // Supply those production helpers in this disposable mocked-SQL fixture.
     mkdir($fixture . '/u5admin');
-    foreach (array('index-work.inc.php', 'codeassets.inc.php', 'u5admin/resource-rename-support.inc.php', 'u5admin/codeassets-migrate.inc.php') as $helper) {
+    foreach (array('index-work.inc.php', 'resource-activity.inc.php','codeassets.inc.php', 'u5admin/resource-rename-support.inc.php', 'u5admin/codeassets-migrate.inc.php') as $helper) {
         if (is_file(dirname(__DIR__) . '/' . $helper)) copy(dirname(__DIR__) . '/' . $helper, $fixture . '/' . $helper);
     }
     file_put_contents($fixture . '/getinserts.inc.php', '<?php $result_b=true; $num_b=0;');

@@ -4,6 +4,7 @@ require_once('resource-rename.inc.php');
 $old=is_string($_GET['n'] ?? null) ? $_GET['n'] : '';
 $new=is_string($_GET['nn'] ?? null) ? $_GET['nn'] : '';
 $pending=false;$complete=false;$recoveries=array();$recoveryError='';
+$active=u5ResourceRenameStatus(dirname(__DIR__));
 try {
     if ($old==='' && $new==='') {
         foreach (glob(dirname(__DIR__).'/fileversions/resource-rename-*.pending.php') as $path) {
@@ -25,12 +26,17 @@ try {
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252" />
 <title>Resource rename status</title>
 <?php require('backendcss.php'); ?></head><body>
+<?php if ($active) { ?>
+<h1>Rename in progress</h1>
+<p><?php echo htmlXspecialchars(u5ResourceRenameMessage($active)); ?></p>
+<script>setTimeout(function(){location.reload();},2000);</script>
+<?php } ?>
 <?php if ($old==='' && $new==='') { ?>
 <h1>Unfinished resource renames</h1>
 <?php if ($recoveryError!=='') { ?><p><?php echo htmlXspecialchars($recoveryError); ?></p>
 <?php } elseif (!$recoveries) { ?><p>No unfinished resource rename is recorded.</p>
 <?php } else { ?>
-<p>Resume the same saved operation after resolving its reported error. The request checks your current permissions and keeps the original Rename policy. If an operation is still running, wait for its result.</p>
+<p>These are recovery plans, not locks. Ordinary saves remain available when no Rename is running. Resume an interrupted operation after resolving its reported error. Retry checks your current permissions and keeps the original Rename policy.</p>
 <?php foreach ($recoveries as $saved) { ?>
 <h2><?php echo htmlXspecialchars($saved['old']).' to '.htmlXspecialchars($saved['new']); ?></h2>
 <form method="post" action="rename2.php?name=<?php echo rawurlencode($saved['old']); ?>">
@@ -42,8 +48,8 @@ try {
 <?php } else { ?>
 <p><?php echo htmlXspecialchars($old).' to '.htmlXspecialchars($new); ?></p>
 <?php if ($pending) { ?>
-<p>The rename has not completed. Keep the original request window open. After a failed request, use its Retry rename button to resume.</p>
-<script>setTimeout(function(){location.reload();},3000);</script>
+<p><?php echo $active ? 'A Rename is running; the saved plan is not yet complete.' : 'This Rename is interrupted. No active Rename owns the gate. Ordinary saves are available. Use Retry rename in the recovery overview to resume the saved operation.'; ?></p>
+<p><a href="renaming.php">Open recovery overview</a></p>
 <?php } elseif ($complete) { ?>
 <p>The rename has completed, including files, references and history.</p>
 <?php } else { ?>
