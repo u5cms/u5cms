@@ -27,7 +27,8 @@
     "index-save-regression.py",
     "resource-activity-regression.py",
     "audit-save-during-index.py",
-    "backup-write-regression.py"
+    "backup-write-regression.py",
+    "rename-packet-regression.py"
   ],
   "main_browser": true,
   "rename_browser": false,
@@ -107,7 +108,8 @@
     "tests/index-save-regression.py",
     "tests/resource-activity-regression.py",
     "tests/audit-save-during-index.py",
-    "tests/backup-write-regression.py"
+    "tests/backup-write-regression.py",
+    "tests/rename-packet-regression.py"
   ],
   "legacy_https_routes": []
 }
