@@ -49,9 +49,10 @@ try {
 <title>Rename resource</title>
 <?php require('backendcss.php'); ?></head><body id="body">
 <?php if ($u5RenameError) { ?>
-<h1>Rename has not completed</h1>
+<h1>Rename <?php echo htmlXspecialchars($old).' to '.htmlXspecialchars($new); ?> has not completed</h1>
 <p><?php echo htmlXspecialchars($u5RenameError->getMessage()); ?></p>
-<p>Existing content has been kept. If a checkpoint exists, retry this same operation to resume it. Do not start a different rename while this operation is pending.</p>
+<p>If a checkpoint exists, retry this same operation to resume it. Completed steps are recognised. A concurrent edit is never silently overwritten. An interrupted operation does not block ordinary saves.</p>
+<p><a href="renaming.php" target="_blank" rel="noopener">Show active Rename and recovery plans</a></p>
 <form method="post" action="rename2.php?name=<?php echo rawurlencode($old); ?>">
 <input type="hidden" name="name" value="<?php echo htmlXspecialchars($new); ?>" />
 <input type="hidden" name="ulinks" value="<?php echo $updateLinks ? 'yes' : 'no'; ?>" />
