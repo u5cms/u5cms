@@ -285,14 +285,16 @@ function u5RenamePublishFiles($root,$plan) {
 }
 
 function u5RenameApplyChanges($root,$journal) {
-    $schema=array();
+    $schema=array();$done=0;$total=($journal['format'] ?? '')==='chunked-v1' ? (int)$journal['count'] : count($journal);
+    u5ResourceRenameProgress($root,'rows',0,$total);
     // Remove preserved target tombstones first so resource PK order never matters.
-    foreach (array(true,false) as $deletions) u5RenameStorageEachChange($root,$journal,function($change,$index) use(&$schema,$deletions) {
+    foreach (array(true,false) as $deletions) u5RenameStorageEachChange($root,$journal,function($change,$index) use(&$schema,$deletions,&$done,$total,$root) {
         if (!empty($change['delete'])!==$deletions) return;
         $table=$change['table'];if (!isset($schema[$table])) $schema[$table]=u5RenameStorageColumns($table);
         if ($deletions) u5RenameStorageQuery('DELETE FROM '.u5RenameStorageIdentifier($table).' WHERE '.u5RenameStorageWhere($change['before'],$schema[$table]));
         else u5RenameStorageApplyRow($change,$schema[$table],$table==='resources' ? array('search_1','search_2','search_3','search_4','search_5') : array());
         u5RenameStorageCheckpoint('rename:row:'.$index);
+        u5ResourceRenameProgress($root,'rows',++$done,$total);
     });
 }
 
@@ -300,8 +302,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
     u5RenameName($old,true);u5RenameName($new);
     if ($old===$new || strcasecmp($old,$new)===0) throw new RuntimeException('The new resource name must be different.');
     if ($options===null) $options=u5RenameOptions();
-    $base=u5RenameBase($root,$old,$new);$pending=$base.'.pending.php';$release=u5RenameStorageLock($root,$pending);
+    $base=u5RenameBase($root,$old,$new);$pending=$base.'.pending.php';
+    $activityRelease=u5ResourceActivityLock($root,array('old'=>$old,'new'=>$new));$release=null;
     try {
+        $release=u5RenameStorageLock($root,$pending);
         u5RenameHistoryLookup();
         if (is_file($pending)) {
             $plan=u5RenameStorageReadGuarded($pending);
@@ -313,6 +317,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         }
         u5RenameStorageValidateChanges($root,$plan['updates']);
         u5RenameStorageCheckpoint('rename:planned');
+        // Keep search work due before a killed publication can change files.
+        u5RenameSyntaxAtomicWrite($root.'/fileversions/search-index-pending.txt',(string)time());
+        u5RenameSyntaxAtomicWrite($root.'/fileversions/lastsave.txt',(string)time());
+        u5ResourceRenameProgress($root,'files');
         u5RenamePublishFiles($root,$plan);
         if ($plan['companionFiles']!==null) u5RenamePublishFiles($root,array('old'=>'v'.$old,'new'=>'v'.$new,'files'=>$plan['companionFiles']));
         foreach ($plan['templates'] as $file=>$change) {
@@ -324,6 +332,7 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         u5RenameStorageCheckpoint('rename:templates');
         u5RenameApplyChanges($root,$plan['updates']);
         u5RenameStorageCheckpoint('rename:database');
+        u5ResourceRenameProgress($root,'export');
         u5RenameSyntaxExport($root);
         // A name change can alter rendered dependants which do not contain a rewritten link.
         u5RenameSyntaxAtomicWrite($root.'/fileversions/search-index-pending.txt',(string)time());
@@ -333,9 +342,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         u5RenameSyntaxAtomicWrite($base.'-'.$plan['files']['token'].'.done.php',$completed);
         u5RenameSyntaxAtomicWrite($base.'.done.php',$completed);
         u5RenameStorageCheckpoint('rename:complete');
+        u5ResourceRenameProgress($root,'complete');
         if (!@unlink($pending)) throw new RuntimeException('Cannot finalize the resource rename checkpoint.');
         if ($plan['files']['directory']) @unlink($root.'/r/'.$new.'/.u5rename-'.$plan['files']['token'].'.php');
         if ($plan['companionFiles']!==null && $plan['companionFiles']['directory']) @unlink($root.'/r/v'.$new.'/.u5rename-'.$plan['companionFiles']['token'].'.php');
         return $plan;
-    } finally {$release();}
+    } finally {if ($release) $release();$activityRelease();}
 }

@@ -1,12 +1,14 @@
 <?php
 @set_time_limit(3600);
+ob_start();
 require('connect.inc.php');
 require_once __DIR__.'/resource-rename-support.inc.php';
 try {
     register_shutdown_function(u5RenameStorageLock(dirname(__DIR__),null,true));
-} catch (U5ResourceBusyException $error) {
-    http_response_code(409);
-    exit('Another CMS operation is in progress. Retry the backup once it finishes.');
+    $u5BackupGeneration=u5ResourceBackupStart(dirname(__DIR__));
+} catch (RuntimeException $error) {
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
+    exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
 }
 
 use U5cms\Zipper;
@@ -59,7 +61,10 @@ if (file_exists(U5ROOT_PATH . DIRECTORY_SEPARATOR . 'fileversions/configBACKUPED
 foreach (glob(U5ROOT_PATH.'/fileversions/resource-rename-*.php') as $u5RenameBackup) $zip->addFile($u5RenameBackup);
 foreach (glob(U5ROOT_PATH.'/fileversions/codeassets-*-rows-*',GLOB_ONLYDIR) as $u5RenameBackup) $zip->addFolder($u5RenameBackup);
 $zip->write();
+$u5BackupCreated=true;
+u5ResourceBackupFinish(U5ROOT_PATH,$u5BackupGeneration);
 } catch (Throwable $error) {
+    if (!empty($u5BackupCreated) && is_file($targetfile)) @unlink($targetfile);
     unset($zip);
     echo '<p>Backup failed. The previous backup has been kept.</p>';
     echo '<script>parent.document.title=parent.document.title.replace(/\.\.\./,"?");</script>';
