@@ -24,7 +24,9 @@ return false;
     with socket.socket() as probe:probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
     base='http://127.0.0.1:'+str(port)
     with (work/'server.log').open('w+') as log:
-        server=subprocess.Popen(PHP+['-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],cwd=site,stdout=log,stderr=log)
+        # The fixture switches Basic/session configuration between requests.
+        # Its development server must not retain a warmed configuration opcode.
+        server=subprocess.Popen(PHP+['-d','opcache.enable=0','-d','mysqli.default_port='+os.environ['U5CMS_TEST_PORT'],'-S','127.0.0.1:'+str(port),'-t',str(site),str(router)],cwd=site,stdout=log,stderr=log)
         try:
             for attempt in range(100):
                 try:urllib.request.urlopen(base+'/r/'+fixture['export'],timeout=1).close();break
@@ -32,6 +34,7 @@ return false;
                     if server.poll() is not None:raise RuntimeError('PHP server stopped')
                     time.sleep(.05)
             else:raise RuntimeError('PHP server did not start')
+            subprocess.run([os.sys.executable,str(REPO/'tests/rename-database-lock-regression.py'),base,str(site)],check=True)
             if os.environ.get('U5CMS_RENAME_HTTP_ONLY'):
                 subprocess.run([os.sys.executable,str(REPO/'tests/rename-http.py'),base,str(site)],check=True)
             else:
