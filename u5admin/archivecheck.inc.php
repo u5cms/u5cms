@@ -1,10 +1,15 @@
 <?php 
-$sql_a="SELECT deleted, typ FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
-$result_a=mysql_query($sql_a);
-if ($result_a==false) {
-die('SQL_a-Query failed!...!<p>');
+// Editors authorise the same row that their conditional UPDATE will compare.
+if (isset($u5EditorSnapshot)) {
+    $row_a=$u5EditorSnapshot;
+} else {
+    $sql_a="SELECT deleted, typ FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."'";
+    $result_a=mysql_query($sql_a);
+    if ($result_a==false) {
+    die('SQL_a-Query failed!...!<p>');
+    }
+    $row_a = mysql_fetch_array($result_a);
 }
-$row_a = mysql_fetch_array($result_a);
 $adeleted=$row_a['deleted'];
 $atyp=$row_a['typ'];
 
