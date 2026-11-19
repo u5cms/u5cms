@@ -22,3 +22,58 @@ Initial source findings, NOT newly executed runtime tests:
 Plan: map entrypoints/state/locks/dirty markers; move source invalidation to coordinated server mutations; guard named/full indexing consistently against SQL waits and simultaneous Rename/writers without invalidating source; meaningful real save/closed-frame/parallel/blocker/failure tests; rerun stable cumulative suites; architecture-aware forward ports and exact head/test inventory; release and mail only after passing acceptance.
 
 Current step: source analysis, disposable runtime preparation. Next: implement and reproduce the source findings, recording actual outcomes and limitations before publication.
+
+
+## First implementation and actual local verification
+
+Implemented on the dedicated .6 branch (not released): shared named/full index
+mutex, nonblocking source/Rename coordination using each architecture's existing
+mutation lock, bounded named SQL waits/socket reads, a maximum of three browser
+retries for busy named work, and atomic server-side dirty markers before writes
+and at shutdown before the mutation mutex is released. The legacy lastsave
+endpoint also writes the marker atomically. The common writer marks
+conservatively even if later validation rejects a request; this can schedule
+extra full work but cannot silently drop a source update.
+
+Actual local profile: PHP 8.4.24, native intl/ICU, MariaDB 11.8.6, isolated copied
+CMS and private database. First 22 save/index assertions passed, including a
+real editor POST without loading any child iframe, five-language index values,
+held index/source kernel locks, pending Rename, a real blocked named SQL call
+returning after about five seconds, zero waiting SQL afterwards, and retry.
+The expanded suite adds rapid saves and full/source contention; its newest
+result must be checked before quoting the final assertion count.
+
+Also freshly passed: full HTTP index completing in six requests; full DB-lock
+termination; SIGKILL/competitor/watermark test; 83 Rename DB-lock/recovery,
+114 authenticated Rename HTTP, 893 Rename core/DB, 12 index batch,
+13 index-notice, ownership/form-dispatch, 45 search-memory,
+55,990 HTML excerpt, 17 legacy SQL search, 158 address/mail and 40 login-host
+checks. These are local checks, not browser/CI or production claims.
+
+The first login-host run exposed the local fixture runtime setup: subprocesses
+using PHP_BINARY did not inherit the explicit -c ini. Setting PHPRC to that
+same runtime configuration (including native intl) made all 40 checks pass.
+No application or expectation was changed to hide that failure.
+
+Outstanding before .6 release: baseline reproduction of the closed-frame
+marker failure, broader cumulative review against .nix, new real concurrency
+cases and failure paths, PHP 8.3/8.4 CI with Chromium, modern-search and
+branch-specific forward ports with actual per-branch evidence, source/tag/Main
+archive verification, final cumulative report and authorised deployment mail.
+Never present this checkpoint as completed .6 acceptance. Next action: run the
+expanded save/index regression, reproduce its baseline failure, then review and
+forward-port while preserving modern search/migration/renderer sources.
+
+
+## Expanded save regression result
+
+All 26 assertions of the expanded save/index suite passed on the current .6
+sources. The suite found and corrected a real response-order error during
+implementation: the busy full slice initially emitted its continuation before
+setting HTTP 409. Status/Retry-After are now sent before the body; the test
+expectation remains unchanged. This was not a released-source regression.
+
+The identical real-save regression was run against an unchanged archive of
+v12.9.5.5 and failed exactly at the missing server-side dirty marker after
+a successful save without browser children. This reproduces the baseline
+defect; it is an expected failing test, not a passing acceptance run.
