@@ -62,6 +62,7 @@ jobs:
           python3 tests/indexer-http-regression.py
           python3 tests/index-save-regression.py
           python3 tests/resource-activity-regression.py
+          python3 tests/rename-packet-regression.py
           python3 tests/backup-write-regression.py
           python3 tests/international-email-smtp.py
           python3 tests/international-email-native.py
