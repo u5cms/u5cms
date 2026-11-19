@@ -1,6 +1,6 @@
 # Correction review checkpoint — 2026-11-03
 
-Branch: `12.12.3-PHP9-Compatibility`. Starting commit: `57108018e03cde544ff7cf90a988914c721fec99`.
+Branch: `12.12.4-Default-Design`. Starting commit: `45ab30b839988f8d4650092dacd5cb1552a4b243`.
 
 Scope: preserve original Main contracts, review previous corrections, exercise
 `u5conference.sql` and the documented Dat command, correct reproduced faults and

@@ -29,7 +29,7 @@ padding-top: 100px;
 #navLeftSubTop a {
 display: none;
 text-decoration: none;
-color: #3F3F3F;
+color: #46515e;
 }
 
 /* turn on visibility for second and subsequent levels only */
@@ -43,12 +43,12 @@ color: black;
 }
 
 #navLeftSubTop li a.activeItem {
-color: #e63320;
+color: #b3261e;
 font-weight: bolder;
 }
 
 #navLeftSubTop li li a.activeItem {
-color: #ff0000;
+color: #b3261e;
 font-weight: bold;
 }
 
@@ -83,6 +83,9 @@ border-bottom: none;
 }
 
 #navLeftSubTop li.active {
-color: #3F3F3F;
-background-color: #f9f9f9;
+color: #46515e;
+background-color: #f6f7f9;
 }
+
+#navLeftSubTop li li a { border-radius: 4px; padding: 4px 7px; }
+#navLeftSubTop li li a:hover, #navLeftSubTop li li a:focus-visible { background: #eef1f4; color: #222b35; }

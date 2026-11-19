@@ -1,6 +1,6 @@
-# u5CMS 15.0.0 development candidate
+# u5CMS 16.0.0 · Standard design
 
-V15 builds on the published 14.0.0 release. Search supports quoted phrases, accent-tolerant matching and highlighting on the destination page. The backend adds text-editing actions and optional OpenID Connect alongside the existing authentication modes. PHP compatibility and dependency changes are included in this line. See the [branch guide](BRANCHES.md) for its acceptance status.
+V16 starts at the published V15 release. New standard and conference installations use the revised typography, navigation, tables, forms and keyboard focus indicators. The fixed desktop columns and mobile script are retained. A site with its own styles can upgrade its application code independently and choose which design changes to adopt. See the [branch guide](BRANCHES.md) for the development history and the [design notes](docs/12.15.0-default-design.md) for the eight style resources and reset procedure.
 
 ---
 

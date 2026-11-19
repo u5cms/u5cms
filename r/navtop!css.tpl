@@ -39,8 +39,7 @@ margin-top:7px;
 #navTop a:hover {
 text-decoration: none;
 color: black;
-text-shadow: 1px 1px
-#ccc;
+text-shadow: none;
 }
 
 #navTop ul {
@@ -57,7 +56,7 @@ padding: 7px;
 }
 
 #navTop .active a {
-color: red;
+color: #b3261e;
 font-weight: bold;
 }
 
@@ -76,3 +75,6 @@ display: none;
 #navTop li li li {
 display: none;
 }
+
+#navTop li { background: #f4f6f8; border-radius: 5px; }
+#navTop a:hover, #navTop a:focus-visible { color: #b3261e; }

@@ -2,26 +2,26 @@
 font-size: 0.8em;
 background-color: #FFF;
 border-collapse: collapse;
-border: 1px solid #E6E6E6;
+border: 1px solid #dce2e8;
 }
 
 thead {
-background-color: #E6E6E6;
+background-color: #f1f4f7;
 }
 
 td, th {
 text-align: left;
 padding: 0.3em 0.6em 0.5em 0.6em;
-border: 1px solid #e6e6e6;
+border: 1px solid #e1e5e9;
 }
 
 td {
-border: 1px solid #e6e6e6;
+border: 1px solid #e1e5e9;
 padding: 0.3em 0.6em 0.2em 0.6em;
 }
 
 tr:hover {
-background: lightyellow;
+background: #f5f7fa;
 }
 
 .colorOver {
@@ -37,7 +37,7 @@ font-size: 0.9em;
 }
 
 td a:link, td a:visited {
-color: red;
+color: #b3261e;
 text-decoration: underline;
 }
 
@@ -53,3 +53,5 @@ table-layout: auto;
 border: 0px solid white;
 padding: 0 5px 0 0;
 }
+
+thead th { color: #394655; font-weight: 600; }

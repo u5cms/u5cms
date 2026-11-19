@@ -1,0 +1,4563 @@
+{
+  "date": "2026-11-02",
+  "timezone": "Europe/Zurich",
+  "original_commit": "9d366253417822c279692767b89dcf1ff0388c5c",
+  "main_commit": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+  "runtime": {
+    "php": "8.3.6",
+    "mariadb": "10.11.14",
+    "browser": "Chrome Headless Shell 156.0.8078.80"
+  },
+  "validated_branches": [
+    {
+      "branch": "12.10.0-Multi-Optimizations-by-AI",
+      "starting_sha": "29299b1964e939e15867a102c0b8b699c95af491",
+      "validated_application_commit": "29299b1964e939e15867a102c0b8b699c95af491",
+      "checked_application_blobs": 1103,
+      "differences": []
+    },
+    {
+      "branch": "12.10.1-Support-More-Image-Formats",
+      "starting_sha": "f40fbbf88e1501d7a44f64ac3939246faf64589e",
+      "validated_application_commit": "f40fbbf88e1501d7a44f64ac3939246faf64589e",
+      "checked_application_blobs": 1119,
+      "differences": []
+    },
+    {
+      "branch": "12.11.0-Code-Resource-Migration",
+      "starting_sha": "27562965b5ae5878918efe3bca2868fa0128f43b",
+      "validated_application_commit": "27562965b5ae5878918efe3bca2868fa0128f43b",
+      "checked_application_blobs": 1125,
+      "differences": []
+    },
+    {
+      "branch": "12.11.1-Migration-Hardening",
+      "starting_sha": "13c70fe9b593d49735844189f655cb69ee4b6a0a",
+      "validated_application_commit": "13c70fe9b593d49735844189f655cb69ee4b6a0a",
+      "checked_application_blobs": 1127,
+      "differences": []
+    },
+    {
+      "branch": "12.11.2-Backup-Restore-Corrections",
+      "starting_sha": "34fdd7f1fcd2dd1202c8ec9c39014603007edaef",
+      "validated_application_commit": "34fdd7f1fcd2dd1202c8ec9c39014603007edaef",
+      "checked_application_blobs": 1129,
+      "differences": []
+    },
+    {
+      "branch": "12.11.3-Private-File-Cache-Corrections",
+      "starting_sha": "97b0337345f4ca53cb2e2c02345fa26ad09df5e2",
+      "validated_application_commit": "97b0337345f4ca53cb2e2c02345fa26ad09df5e2",
+      "checked_application_blobs": 1129,
+      "differences": []
+    },
+    {
+      "branch": "12.11.4-Intranet-Login-Corrections",
+      "starting_sha": "d31a81810fb2ba70fd0e92811603e1e65d5d9e18",
+      "validated_application_commit": "d31a81810fb2ba70fd0e92811603e1e65d5d9e18",
+      "checked_application_blobs": 1129,
+      "differences": []
+    },
+    {
+      "branch": "12.12.0-OIDC",
+      "starting_sha": "b157bbed261d468a68658ae6be13d63b86953693",
+      "validated_application_commit": "b157bbed261d468a68658ae6be13d63b86953693",
+      "checked_application_blobs": 1179,
+      "differences": []
+    },
+    {
+      "branch": "12.12.1-General-Corrections",
+      "starting_sha": "245c77d33a88fd4fd592f6176d463ad5395a328c",
+      "validated_application_commit": "245c77d33a88fd4fd592f6176d463ad5395a328c",
+      "checked_application_blobs": 1181,
+      "differences": []
+    },
+    {
+      "branch": "12.12.2-Textarea-Interactions",
+      "starting_sha": "b9820bbce401253747bf3d3b9e86b3534ded777d",
+      "validated_application_commit": "b9820bbce401253747bf3d3b9e86b3534ded777d",
+      "checked_application_blobs": 1185,
+      "differences": []
+    },
+    {
+      "branch": "12.12.3-PHP9-Compatibility",
+      "starting_sha": "5df1713084563438e168cc67857208296d839125",
+      "validated_application_commit": "8931d314c2a5db4ae43ada86721a07afe899bba3",
+      "checked_application_blobs": 1184,
+      "differences": []
+    },
+    {
+      "branch": "12.12.4-Default-Design",
+      "starting_sha": "2008920e2cee0016cb052d6a7c4f4028b09a57a7",
+      "validated_application_commit": "0b1ab1c19dea9e7eec533d488a7ddd9f4e3e49be",
+      "checked_application_blobs": 1185,
+      "differences": []
+    },
+    {
+      "branch": "12.9.6-Misc-Backend-Optimizations",
+      "starting_sha": "032970e4a2f00595f78c371f0a97e146a118f834",
+      "validated_application_commit": "032970e4a2f00595f78c371f0a97e146a118f834",
+      "checked_application_blobs": 1099,
+      "differences": []
+    },
+    {
+      "branch": "feature/search-phrases-quotes-highlighting",
+      "starting_sha": "210571010525b10308e4869b8b08d105427a2277",
+      "validated_application_commit": "210571010525b10308e4869b8b08d105427a2277",
+      "checked_application_blobs": 1138,
+      "differences": []
+    },
+    {
+      "branch": "fix/nosniff-script-mime-types",
+      "starting_sha": "0fdc9f921b2e9992bf627bf34118f06f9e4597b7",
+      "validated_application_commit": "0fdc9f921b2e9992bf627bf34118f06f9e4597b7",
+      "checked_application_blobs": 1120,
+      "differences": []
+    },
+    {
+      "branch": "main",
+      "starting_sha": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+      "validated_application_commit": "78cadbf87b7307203b8bd4ff96929b306af7d982",
+      "checked_application_blobs": 1099,
+      "differences": []
+    }
+  ],
+  "runs": [
+    {
+      "label": "reference-all-branches",
+      "returncode": 0,
+      "seconds": 39.52
+    },
+    {
+      "label": "formdata-after",
+      "returncode": 0,
+      "seconds": 26.92
+    },
+    {
+      "label": "reference-contextual",
+      "returncode": 0,
+      "seconds": 7.13
+    },
+    {
+      "label": "migration",
+      "returncode": 0,
+      "seconds": 18.2
+    },
+    {
+      "label": "rename",
+      "returncode": 0,
+      "seconds": 2.18
+    },
+    {
+      "label": "mobiletools",
+      "returncode": 0,
+      "seconds": 5.59
+    },
+    {
+      "label": "cumulative-web",
+      "returncode": 0,
+      "seconds": 65.54
+    },
+    {
+      "label": "search-web",
+      "returncode": 0,
+      "seconds": 22.46
+    },
+    {
+      "label": "oidc-core",
+      "returncode": 0,
+      "seconds": 0.58
+    },
+    {
+      "label": "oidc-bindings",
+      "returncode": 0,
+      "seconds": 0.06
+    },
+    {
+      "label": "oidc-web",
+      "returncode": 0,
+      "seconds": 11.07
+    },
+    {
+      "label": "image-upload",
+      "returncode": 0,
+      "seconds": 13.69
+    },
+    {
+      "label": "default-design",
+      "returncode": 0,
+      "seconds": 13.52
+    }
+  ],
+  "core": [
+    {
+      "label": "search-core",
+      "returncode": 0,
+      "seconds": 0.678
+    },
+    {
+      "label": "search-allocation",
+      "returncode": 0,
+      "seconds": 0.023
+    },
+    {
+      "label": "search-service",
+      "returncode": 0,
+      "seconds": 4.175
+    },
+    {
+      "label": "search-suggestions",
+      "returncode": 0,
+      "seconds": 3.106
+    },
+    {
+      "label": "search-distance",
+      "returncode": 0,
+      "seconds": 0.46
+    },
+    {
+      "label": "search-index",
+      "returncode": 0,
+      "seconds": 0.734,
+      "setup_attempt_returncode": 255,
+      "rerun_note": "Corrected test-worker PHP wrapper lookup; 96 index checks / 16 fixtures plus 7623 folds passed."
+    },
+    {
+      "label": "search-normalization",
+      "returncode": 0,
+      "seconds": 0.079,
+      "setup_attempt_returncode": 1,
+      "rerun_note": "Corrected test-worker PHP wrapper lookup; 96 index checks / 16 fixtures plus 7623 folds passed."
+    },
+    {
+      "label": "idn-identity",
+      "returncode": 0,
+      "seconds": 0.166
+    },
+    {
+      "label": "login-host",
+      "returncode": 0,
+      "seconds": 0.622
+    },
+    {
+      "label": "dependency-contracts",
+      "returncode": 0,
+      "seconds": 0.018
+    },
+    {
+      "label": "mail-construction",
+      "returncode": 0,
+      "seconds": 0.12
+    }
+  ],
+  "syntax": {
+    "php": "8.3.6",
+    "files": 878,
+    "failures": [],
+    "seconds": 4.14
+  },
+  "reference": {
+    "method": "Original installation executes first; observations frozen before targets.",
+    "baseline": "/workspace/scratch/91c46662ae2d/audit-sources/original-main",
+    "results": [
+      {
+        "label": "12.10.0-Multi-Optimizations-by-AI",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.10.1-Support-More-Image-Formats",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.11.0-Code-Resource-Migration",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.11.1-Migration-Hardening",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.11.2-Backup-Restore-Corrections",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.11.3-Private-File-Cache-Corrections",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.11.4-Intranet-Login-Corrections",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.12.0-OIDC",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.12.1-General-Corrections",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.12.2-Textarea-Interactions",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.12.3-PHP9-Compatibility",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.12.4-Default-Design",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.9.6-Misc-Backend-Optimizations",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "feature__search-phrases-quotes-highlighting",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "fix__nosniff-script-mime-types",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "main",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      }
+    ],
+    "original": {
+      "upgrade": {
+        "status": 200,
+        "runonce_removed": true
+      },
+      "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "language-en": "REF-EN",
+      "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "language-it": "REF-IT",
+      "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "php-onallpages-refphp": true,
+      "php-onallpages-refarchive": true,
+      "php-inarchiveonly-refphp": false,
+      "php-inarchiveonly-refarchive": true,
+      "php-nowhere-refphp": false,
+      "php-nowhere-refarchive": false,
+      "private-denied": 401,
+      "private-allowed": true,
+      "application-array-c": {
+        "status": 200,
+        "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-n": {
+        "status": 200,
+        "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-p": {
+        "status": 200,
+        "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-u5prvldd": {
+        "status": 200,
+        "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-f": {
+        "status": 200,
+        "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-s": {
+        "status": 200,
+        "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-t": {
+        "status": 200,
+        "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-q": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-selection": {
+        "status": 200,
+        "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-cookie-array-u": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+      },
+      "application-cookie-array-p": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+      },
+      "application-cookie-array-hp": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+      },
+      "application-cookie-array-application": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+      },
+      "form-saved": {
+        "id": "2",
+        "formname": "refform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "1",
+        "notes": null,
+        "authuser": ""
+      },
+      "form-edited": {
+        "id": "2",
+        "formname": "refform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "1",
+        "notes": "",
+        "authuser": ""
+      },
+      "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+      "form-import": [
+        {
+          "id": "4",
+          "formname": "refimport",
+          "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+          "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+          "status": "7",
+          "notes": "fixed notes",
+          "authuser": "importowner"
+        },
+        {
+          "id": "5",
+          "formname": "refimport",
+          "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+          "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+          "status": "7",
+          "notes": "fixed notes",
+          "authuser": "importowner"
+        }
+      ],
+      "form-import-legacy": [
+        {
+          "id": "6",
+          "formname": "reflegacyimport",
+          "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+          "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+          "status": "7",
+          "notes": "fixed notes",
+          "authuser": "importowner"
+        }
+      ],
+      "export-low-rights-denied": true,
+      "export-low-rights-configured": true,
+      "owner-edited": [
+        {
+          "id": "7",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": "",
+          "authuser": "reader"
+        },
+        {
+          "id": "8",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "6",
+          "notes": null,
+          "authuser": "reader"
+        }
+      ],
+      "owner-deleted": [
+        {
+          "id": "7",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "5",
+          "notes": "",
+          "authuser": "reader"
+        },
+        {
+          "id": "8",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "6",
+          "notes": null,
+          "authuser": "reader"
+        },
+        {
+          "id": "9",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "6",
+          "notes": "",
+          "authuser": "reader"
+        }
+      ],
+      "browser-form": {
+        "charset": "windows-1252",
+        "callback": true,
+        "errors": [],
+        "row": {
+          "id": "10",
+          "formname": "refform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": null,
+          "authuser": ""
+        }
+      }
+    },
+    "original_checks": 36,
+    "checks": 612
+  },
+  "contextual_reference": {
+    "method": "Original installation executes first; observations frozen before targets.",
+    "baseline": "/workspace/scratch/91c46662ae2d/audit-sources/original-main",
+    "results": [
+      {
+        "label": "12.12.3-PHP9-Compatibility",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      },
+      {
+        "label": "12.12.4-Default-Design",
+        "differences": {},
+        "observations": {
+          "upgrade": {
+            "status": 200,
+            "runonce_removed": true
+          },
+          "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-en": "REF-EN",
+          "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "language-it": "REF-IT",
+          "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+          "php-onallpages-refphp": true,
+          "php-onallpages-refarchive": true,
+          "php-inarchiveonly-refphp": false,
+          "php-inarchiveonly-refarchive": true,
+          "php-nowhere-refphp": false,
+          "php-nowhere-refarchive": false,
+          "private-denied": 401,
+          "private-allowed": true,
+          "application-array-c": {
+            "status": 200,
+            "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-n": {
+            "status": 200,
+            "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-u5prvldd": {
+            "status": 200,
+            "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-f": {
+            "status": 200,
+            "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-s": {
+            "status": 200,
+            "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-t": {
+            "status": 200,
+            "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-q": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-array-selection": {
+            "status": 200,
+            "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+          },
+          "application-cookie-array-u": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-p": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-hp": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+          },
+          "application-cookie-array-application": {
+            "status": 200,
+            "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+          },
+          "form-saved": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": null,
+            "authuser": ""
+          },
+          "form-edited": {
+            "id": "2",
+            "formname": "refform",
+            "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+            "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+            "status": "1",
+            "notes": "",
+            "authuser": ""
+          },
+          "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+          "form-import": [
+            {
+              "id": "4",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            },
+            {
+              "id": "5",
+              "formname": "refimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "form-import-legacy": [
+            {
+              "id": "6",
+              "formname": "reflegacyimport",
+              "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+              "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+              "status": "7",
+              "notes": "fixed notes",
+              "authuser": "importowner"
+            }
+          ],
+          "export-low-rights-denied": true,
+          "export-low-rights-configured": true,
+          "owner-edited": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            }
+          ],
+          "owner-deleted": [
+            {
+              "id": "7",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "5",
+              "notes": "",
+              "authuser": "reader"
+            },
+            {
+              "id": "8",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": null,
+              "authuser": "reader"
+            },
+            {
+              "id": "9",
+              "formname": "refownerform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "6",
+              "notes": "",
+              "authuser": "reader"
+            }
+          ],
+          "browser-form": {
+            "charset": "windows-1252",
+            "callback": true,
+            "errors": [],
+            "row": {
+              "id": "10",
+              "formname": "refform",
+              "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+              "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+              "status": "1",
+              "notes": null,
+              "authuser": ""
+            }
+          }
+        }
+      }
+    ],
+    "original": {
+      "upgrade": {
+        "status": 200,
+        "runonce_removed": true
+      },
+      "language-de": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "language-en": "REF-EN",
+      "language-fr": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "language-it": "REF-IT",
+      "language-es": "REF-DE \u00dcber \u20ac &amp; [literal]",
+      "php-onallpages-refphp": true,
+      "php-onallpages-refarchive": true,
+      "php-inarchiveonly-refphp": false,
+      "php-inarchiveonly-refarchive": true,
+      "php-nowhere-refphp": false,
+      "php-nowhere-refarchive": false,
+      "private-denied": 401,
+      "private-allowed": true,
+      "application-array-c": {
+        "status": 200,
+        "body": "{\"query\":{\"c\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-n": {
+        "status": 200,
+        "body": "{\"query\":{\"n\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-p": {
+        "status": 200,
+        "body": "{\"query\":{\"p\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-u5prvldd": {
+        "status": 200,
+        "body": "{\"query\":{\"u5prvldd\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-f": {
+        "status": 200,
+        "body": "{\"query\":{\"f\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-s": {
+        "status": 200,
+        "body": "{\"query\":{\"s\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-t": {
+        "status": 200,
+        "body": "{\"query\":{\"t\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-q": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-array-selection": {
+        "status": 200,
+        "body": "{\"query\":{\"selection\":[\"alpha\",\"0\"],\"q\":\"\"},\"cookies\":[]}"
+      },
+      "application-cookie-array-u": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"u\":{\"setting\":\"compact\"}}}"
+      },
+      "application-cookie-array-p": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"p\":{\"setting\":\"compact\"}}}"
+      },
+      "application-cookie-array-hp": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"hp\":{\"setting\":\"compact\"}}}"
+      },
+      "application-cookie-array-application": {
+        "status": 200,
+        "body": "{\"query\":{\"q\":\"\"},\"cookies\":{\"application\":{\"setting\":\"compact\"}}}"
+      },
+      "form-saved": {
+        "id": "2",
+        "formname": "refform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "1",
+        "notes": null,
+        "authuser": ""
+      },
+      "form-edited": {
+        "id": "2",
+        "formname": "refform",
+        "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+        "datacsv": "\u00b7Bea;\u00b7Edited \u00dcber,. \"quote\" \\end;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+        "status": "1",
+        "notes": "",
+        "authuser": ""
+      },
+      "form-export": "\u00ef\u00bb\u00bfStatus;Notes;Authuser;name*;comment;optional;zero;qv2bo;in2my;em2cu;em2me;Sent;IP\r\n1;;;Bea;Edited \u00c3\u0153ber,. \u00e2\u20ac\u00b3quote\u00e2\u20ac\u00b3 \\end;;0;off;off;off;off;<TIME>;127.0.0.1 (3) referenceadmin <TIME>;\r\n",
+      "form-import": [
+        {
+          "id": "4",
+          "formname": "refimport",
+          "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+          "datacsv": "\u00b7Alice;\u00b7He said \"\"hi\"\" C:\\path;\u00b7;\u00b70;",
+          "status": "7",
+          "notes": "fixed notes",
+          "authuser": "importowner"
+        },
+        {
+          "id": "5",
+          "formname": "refimport",
+          "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+          "datacsv": "\u00b7Bob;\u00b7plain\\end;\u00b7;\u00b70;",
+          "status": "7",
+          "notes": "fixed notes",
+          "authuser": "importowner"
+        }
+      ],
+      "form-import-legacy": [
+        {
+          "id": "6",
+          "formname": "reflegacyimport",
+          "headcsv": "\u00b7Name;\u00b7Comment;\u00b7Empty;\u00b7Zero;",
+          "datacsv": "\u00b7Alice;\u00b7He said \\\"hi\\\" C:\\path;\u00b7;\u00b70;",
+          "status": "7",
+          "notes": "fixed notes",
+          "authuser": "importowner"
+        }
+      ],
+      "export-low-rights-denied": true,
+      "export-low-rights-configured": true,
+      "owner-edited": [
+        {
+          "id": "7",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": "",
+          "authuser": "reader"
+        },
+        {
+          "id": "8",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "6",
+          "notes": null,
+          "authuser": "reader"
+        }
+      ],
+      "owner-deleted": [
+        {
+          "id": "7",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "5",
+          "notes": "",
+          "authuser": "reader"
+        },
+        {
+          "id": "8",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Anna;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "6",
+          "notes": null,
+          "authuser": "reader"
+        },
+        {
+          "id": "9",
+          "formname": "refownerform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Owner edited;\u00b7He said \"hello\",. C:\\new\\path\r\nLine two \u00dcber \u20ac &amp,. [literal];\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "6",
+          "notes": "",
+          "authuser": "reader"
+        }
+      ],
+      "browser-form": {
+        "charset": "windows-1252",
+        "callback": true,
+        "errors": [],
+        "row": {
+          "id": "10",
+          "formname": "refform",
+          "headcsv": "\u00b7name_mandatory;\u00b7comment;\u00b7optional;\u00b7zero;\u00b7qv2bo;\u00b7in2my;\u00b7em2cu;\u00b7em2me;",
+          "datacsv": "\u00b7Browser Anna;\u00b7Browser \u00dcber \u20ac &#20013,.&#25991,. &#128512,.,. \"quote\" \\tail;\u00b7;\u00b70;\u00b7off;\u00b7off;\u00b7off;\u00b7off;",
+          "status": "1",
+          "notes": null,
+          "authuser": ""
+        }
+      }
+    },
+    "original_checks": 36,
+    "checks": 142
+  },
+  "formdata_after": {
+    "method": "Execute original first; compare complete HTTP views, actual row selections and installation hook.",
+    "results": [
+      {
+        "label": "12.10.0-Multi-Optimizations-by-AI",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.10.1-Support-More-Image-Formats",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.11.0-Code-Resource-Migration",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.11.1-Migration-Hardening",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.11.2-Backup-Restore-Corrections",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.11.3-Private-File-Cache-Corrections",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.11.4-Intranet-Login-Corrections",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.12.0-OIDC",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.12.1-General-Corrections",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.12.2-Textarea-Interactions",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.12.3-PHP9-Compatibility",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.12.4-Default-Design",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "12.9.6-Misc-Backend-Optimizations",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "feature__search-phrases-quotes-highlighting",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "fix__nosniff-script-mime-types",
+        "cases": 42,
+        "differences": {}
+      },
+      {
+        "label": "main",
+        "cases": 42,
+        "differences": {}
+      }
+    ],
+    "original": {
+      "formdata2.php/missing-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/empty-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/whitespace-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/quote-only-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [],
+        "fatal_output": false
+      },
+      "formdata2.php/single-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/or-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/and-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/negative-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97002"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/no-results": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [],
+        "fatal_output": false
+      },
+      "formdata2.php/notes-order": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/authuser-order": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97001",
+          "97002",
+          "97003",
+          "97004"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/field-order": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003",
+          "97001",
+          "97002",
+          "97004"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/status-1": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/status-2": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97002"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/status-3": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/status-4": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/status-5": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97005"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/status-6": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97007"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/status-7": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97008"
+        ],
+        "fatal_output": false
+      },
+      "formdata2.php/empty-form": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [],
+        "fatal_output": false
+      },
+      "formdata2.php/denied": {
+        "denied": true,
+        "rows": [],
+        "extension": false
+      },
+      "formdatamail.php/missing-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/empty-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/whitespace-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/quote-only-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [],
+        "fatal_output": false
+      },
+      "formdatamail.php/single-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/or-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/and-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/negative-filter": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97002"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/no-results": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [],
+        "fatal_output": false
+      },
+      "formdatamail.php/notes-order": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004",
+          "97003",
+          "97002",
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/authuser-order": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97001",
+          "97002",
+          "97003",
+          "97004"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/field-order": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003",
+          "97001",
+          "97002",
+          "97004"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/status-1": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97001"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/status-2": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97002"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/status-3": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97003"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/status-4": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97004"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/status-5": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97005"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/status-6": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97007"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/status-7": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [
+          "97008"
+        ],
+        "fatal_output": false
+      },
+      "formdatamail.php/empty-form": {
+        "status": 200,
+        "complete": true,
+        "extension": true,
+        "rows": [],
+        "fatal_output": false
+      },
+      "formdatamail.php/denied": {
+        "denied": true,
+        "rows": [],
+        "extension": false
+      }
+    }
+  },
+  "fix": {
+    "path": "u5admin/formdata.query.php",
+    "sha256": "5a539cea94bd0dc66ff7e7a174e53c28b09359637935277f99df9d462f4e8151",
+    "non_ascii_bytes_preserved": true
+  },
+  "dependency_check": "Pinned package/lock/patch trees byte-identical to previously upstream-verified application 4159972464e798eb3371cc2d15625fcaa1e9f35d; installed return-contract hashes checked; no new cold upstream download claimed.",
+  "environment_retries": "Initial fixture-only requests applied newer type guards to historical branches; corrected by separating contextual runs. Worker ini/PHP lookup and headless-browser path corrected. Failed setup attempts are not counted as passing runs."
+}

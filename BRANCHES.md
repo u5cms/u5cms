@@ -1,8 +1,12 @@
 # u5CMS development branches
 
-## V15 · 15.0.0 development candidate
+## V16 · 16.0.0 standard design
 
-The first parent is the published V14 commit `5667e955190a74a96757128433d83bd59cda50a3`. The integration covers the search feature line and the changes through 12.12.3. Acceptance covers search from query to destination, optional OpenID Connect, local login, editor behaviour and PHP dependencies. Earlier migration, editing and recovery contracts continue to apply. The PHP versions that passed the test matrix will be recorded in the release notes.
+The first parent is the published V15 release at `f2c3a8527dd5bf49228b1acfb454c9f764160d29`. The historical design work at `da687f5c58c560da0fcbdfa9cce357084ba3dba7` supplies the default styles for new standard and conference sites. The validation checks each of the eight style resources in the two SQL seeds, the exported stylesheets and the reset templates. Browser tests cover the fixed desktop layout, script-driven mobile navigation, form entry and keyboard focus. A populated upgrade has a separate check for locally customised styles.
+
+## V15 · published 15.0.0
+
+The first parent is the published V14 commit `5667e955190a74a96757128433d83bd59cda50a3`. The integration covers the search feature line and the changes through 12.12.3. Acceptance covers search from query to destination, optional OpenID Connect, local login, editor behaviour and PHP dependencies. Earlier migration, editing and recovery contracts continue to apply. The corrected release passed the PHP 8.3–8.5 test matrix. All 1,379 files in the published archive matched the accepted tree, including file modes.
 
 ## V14 · published 14.0.0
 
