@@ -96,7 +96,7 @@ if ($argv[2]==='hold') {
         indexed=row()
         check('LATEST_SAVE_TOKEN_1' in indexed['search_1'] and all('NEW_SAVE_TOKEN_'+str(n) in indexed['search_'+str(n)] for n in range(2,6)),'named index renders latest saved versions in all five languages')
         check(marker.read_text()=='100','named index retains full-index watermark')
-        for lockname in ['indexerrunning.txt','codeassets-12.11.0.lock.php']:
+        for lockname in ['indexerrunning.txt','resource-rename.lock.php']:
             with held_file(state/lockname):
                 status,body=request('/indexer.php?n=saveindextest')
                 check(status==409 and 'u5indexretry=1' in body,'named request defers at '+lockname)
@@ -105,29 +105,57 @@ if ($argv[2]==='hold') {
                 status,body=request('/indexer.php?n=saveindextest&u5indexretry=3')
                 check(status==409 and '<script>' not in body,'browser retries bounded at '+lockname)
         with held_file(state/'codeassets-12.11.0.lock.php'):
+            post['coco']=indexed['lastmut'];post['content_1']='SAVE_DURING_MAINTENANCE'
+            started=time.monotonic();status,body=request('/u5admin/savepage.php?i=i1',post)
+            check(status==200 and 'saved saveindextest' in body and time.monotonic()-started<2,'maintenance mutex does not delay or refuse source save')
+            check(row()['content_1']=='SAVE_DURING_MAINTENANCE','save under maintenance mutex persists exactly')
+            status,_=request('/indexer.php?n=saveindextest')
+            check(status==200,'maintenance mutex does not hold indexing hostage')
+        indexed=row()
+        with held_file(state/'resource-rename.lock.php'):
             post['coco']=indexed['lastmut'];post['content_1']='MUST_NOT_REPLACE'
             status,body=request('/u5admin/savepage.php?i=i1',post)
-            check(status==409 and 'editor contents have been kept' in body and row()==indexed,'index/source mutex refuses competing save without losing data')
+            check(status==409 and 'editor contents remain available' in body and row()==indexed,'only live Rename gate refuses competing save without losing data')
             status,body=request('/indexer.php')
-            check(status==409 and 'u5indexcontinue' in body,'full batch defers at the same source mutex: '+str(status)+' '+body[:800])
+            check(status==409 and 'u5indexcontinue' in body,'full batch yields to live Rename')
         progress=json.loads((state/'indexer-progress.php').read_text().split('\n',1)[1])
-        check(progress['failures']==0 and progress['next']>int(time.time()) and marker.read_text()=='100','source contention pauses full work without publishing success or failure backoff')
+        check(progress['failures']==0 and progress['next']>int(time.time()) and marker.read_text()=='100','Rename contention pauses full work without success or failure backoff')
         pending=state/'resource-rename-synthetic.pending.php'
         pending.write_text('<?php exit; ?>\n')
         try:
-            status,body=request('/indexer.php?n=saveindextest')
-            check(status==409 and row()==indexed,'pending Rename cannot publish intermediate index data')
+            post['coco']=indexed['lastmut'];post['content_1']='SAVE_WITH_RECOVERY_PLAN'
+            status,body=request('/u5admin/savepage.php?i=i1',post)
+            check(status==200 and row()['content_1']=='SAVE_WITH_RECOVERY_PLAN','idle recovery plan does not block ordinary save')
+            status,_=request('/indexer.php?n=saveindextest')
+            check(status==200 and 'SAVE_WITH_RECOVERY_PLAN' in row()['search_1'],'idle recovery plan does not block current-source indexing')
+            check(pending.read_text()=='<?php exit; ?>\n','save/index preserves recovery plan bytes')
+            indexed=row()
         finally:pending.unlink()
         with held_table():
             started=time.monotonic();status,_=request('/indexer.php?n=saveindextest');elapsed=time.monotonic()-started
             check(status==500 and 3.5<elapsed<8,'named SQL wait is bounded on database server')
             waiters=subprocess.check_output(php+[str(helper),str(site),'waiters'],text=True)
             check(waiters=='0','named failure leaves no waiting SQL statement')
-        for lockname in ['indexerrunning.txt','codeassets-12.11.0.lock.php']:
+        for lockname in ['indexerrunning.txt','resource-rename.lock.php']:
             with held_file(state/lockname):check(True,'failure releases '+lockname)
         check(marker.read_text()=='100','failure retains full watermark')
         status,_=request('/indexer.php?n=saveindextest')
         check(status==200 and row()==indexed,'named retry is safe after SQL failure')
+        # Editing a populated multilingual page must fit into a normal SQL packet
+        # even when the existing text and the replacement are both substantial.
+        packet=int(sql('SELECT @@max_allowed_packet AS n')[0]['n'])
+        field_bytes=min(1150000,packet//12)
+        for generation in ['A','B']:
+            expected=[]
+            for n in range(1,6):
+                value=generation+str(n)
+                expected.append(value)
+                post['content_'+str(n)]=value+('x'*field_bytes)
+            post['coco']=sql("SELECT lastmut FROM resources WHERE name='saveindextest' AND deleted=0")[0]['lastmut']
+            status,body=request('/u5admin/savepage.php?i=i1',post)
+            columns=','.join('LEFT(content_'+str(n)+',2) AS lang'+str(n) for n in range(1,6))
+            actual=sql('SELECT '+columns+" FROM resources WHERE name='saveindextest' AND deleted=0")[0]
+            check(status==200 and 'saved saveindextest' in body and [actual['lang'+str(n)] for n in range(1,6)]==expected,'large five-language save '+generation)
         print('Save/index coordination checks:',checks,'passed (real save without child frames, five languages, competing kernel locks, pending Rename, bounded SQL wait and retry).')
     finally:
         server.terminate();server.wait(timeout=10)

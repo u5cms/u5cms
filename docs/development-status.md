@@ -1,5 +1,17 @@
 # u5CMS development checkpoint
 
+## .7 save/Rename correction in progress, 19 November 2026
+
+Authorised: preserve this branch's cumulative work and forward-port .7.
+Target: 12.11.1-Migration-Hardening. Exact base: 630c61a0c1a86154e8468d22b1f32e7718e5c57e.
+Candidate: process-owned Rename gate, concurrent ordinary writes, index yielding,
+nonblocking recovery plans, real Rename phase/progress and crash recovery tests.
+This branch's renderer, version, search format, migration namespace and encoding
+remain distinct. Its existing monotonic resource update API is preserved where
+present. Tests and expected-head publication are still pending at this checkpoint.
+No production deployment or rollout email. Next: actual local HTTP/concurrency/
+Rename tests and this branch's comprehensive pipeline before release acceptance.
+
 ## Save/index coordination, 19 November 2026
 
 Base 10ebbfb806a54ce7af19de5a1318019bb5c56a7c. Target 12.11.1-Migration-Hardening.

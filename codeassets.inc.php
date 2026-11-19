@@ -1,6 +1,7 @@
 <?php
+require_once __DIR__.'/resource-activity.inc.php';
 /* Code resources are static assets. The LAST exclamation mark is the suffix separator. */
-class U5ResourceBusyException extends RuntimeException {}
+if (!class_exists('U5ResourceBusyException',false)) {class U5ResourceBusyException extends RuntimeException {}}
 
 function u5CodeMigrationLock($root,$renameCheckpoint=null,$allowPendingRename=false) {
     static $held=array();
@@ -12,10 +13,6 @@ function u5CodeMigrationLock($root,$renameCheckpoint=null,$allowPendingRename=fa
         if (!flock($handle,LOCK_EX|LOCK_NB)) {
             fclose($handle);
             throw new U5ResourceBusyException('Another code asset update is already running. Retry the backend when it has finished.');
-        }
-        foreach (glob($root.'/fileversions/resource-rename-*.pending.php') as $pending) if (!$allowPendingRename && $pending!==$renameCheckpoint) {
-            flock($handle,LOCK_UN);fclose($handle);
-            throw new U5ResourceBusyException('An interrupted resource rename must be resumed before another resource mutation or backup.');
         }
         if (fstat($handle)['size']===0) fwrite($handle,"<?php exit; ?>\n");
         $held[$key]=array('handle'=>$handle,'depth'=>1);
@@ -380,7 +377,7 @@ function u5CodeAssetRowsToFiles($rows,$stamp) {
 }
 
 function u5CodeAssetExport($root) {
-    $release=u5CodeMigrationLock($root);
+    $release=u5ResourceActivityLock($root);
     try {
     $result=mysql_query("SELECT *,CAST(CONVERT(content_1 USING utf8mb4) AS BINARY) AS u5_code_utf8 FROM resources WHERE typ='c' AND deleted!=1");
     if ($result===false) throw new RuntimeException('Cannot read code objects for export.');

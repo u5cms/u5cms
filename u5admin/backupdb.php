@@ -1,13 +1,15 @@
 <?php
 @set_time_limit(3600);
+ob_start();
 
 require('connect.inc.php');
 require_once __DIR__.'/resource-rename-support.inc.php';
 try {
     register_shutdown_function(u5RenameStorageLock(dirname(__DIR__),null,true));
-} catch (U5ResourceBusyException $error) {
-    http_response_code(409);
-    exit('Another CMS operation is in progress. Retry the backup once it finishes.');
+    $u5BackupGeneration=u5ResourceBackupStart(dirname(__DIR__));
+} catch (RuntimeException $error) {
+    http_response_code($error instanceof U5ResourceBusyException ? 409 : 500);
+    exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
 }
 require_once('u5idn.inc.php');
 if ($backupRqHIADRI != 'no') require('accadmin.inc.php');
@@ -268,6 +270,12 @@ ALTER TABLE trxlog ENGINE = MyISAM, DEFAULT CHARSET=utf8;
 } //End: while
 
 
+// Publish only if no source writer changed the snapshot while it was read.
+try {u5ResourceBackupFinish(dirname(__DIR__),$u5BackupGeneration);}
+catch (U5ResourceBusyException $error) {
+    foreach ($backup_files as $file) if (is_file($file)) @unlink($file);
+    http_response_code(409);exit(htmlspecialchars($error->getMessage(),ENT_QUOTES,'Windows-1252'));
+}
 //Backup per Email senden
 if ($backup_send_mail) {
     $from = $mymail;
