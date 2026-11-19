@@ -7,6 +7,9 @@ const [base,site]=process.argv.slice(2);
 let checks=0;
 function equal(actual,expected,label){assert.deepEqual(actual,expected,label);checks++;}
 function verify(value,label){assert.ok(value,label);checks++;}
+// HTML form submission canonicalises textarea line endings to CRLF;
+// the textarea DOM itself exposes LF. Compare exact bytes at each boundary.
+function submitted(text){return text.replace(/\r?\n/g,'\r\n');}
 async function locked(operation,rename=true){
  const gate=rename ? 'u5ResourceActivityLock('+JSON.stringify(site)+',array("old"=>"journey-source","new"=>"journey-target"))' : 'u5CodeMigrationLock('+JSON.stringify(site)+')';
  const source='require_once '+JSON.stringify(path.join(site,'resource-activity.inc.php'))+';require_once '+JSON.stringify(path.join(site,'codeassets.inc.php'))+';$release='+gate+';echo "READY\\n";flush();fgets(STDIN);$release();';
@@ -56,27 +59,27 @@ async function locked(operation,rename=true){
     });
     await author.locator('#savebutton').click();
     await author.waitForFunction(()=>document.getElementById('changes').value==='0');
-    equal((await snapshot(name)).rows[0].content_1,first,'retry saves exact Unicode source');
-    verify((await snapshot(name)).history.includes(first),'successful retry retained in history');
+    equal((await snapshot(name)).rows[0].content_1,submitted(first),'retry saves exact Unicode source');
+    verify((await snapshot(name)).history.includes(submitted(first)),'successful retry retained in history');
     first+='\n// saved while background publication lock is held';
     await author.locator('#codeTextarea').fill(first);
     await locked(async()=>{
      const response=author.waitForResponse(r=>r.url().includes('/u5admin/coding2.php'));
      await author.locator('#savebutton').click();equal((await response).status(),200,'code editor saves during a background operation');
      await author.waitForFunction(()=>document.getElementById('changes').value==='0');
-     equal((await snapshot(name)).rows[0].content_1,first,'background operation does not lose code source');
-     verify((await snapshot(name)).history.includes(first),'background-time code save retained in history');
+     equal((await snapshot(name)).rows[0].content_1,submitted(first),'background operation does not lose code source');
+     verify((await snapshot(name)).history.includes(submitted(first)),'background-time code save retained in history');
     },false);
     const stale=peer.waitForResponse(r=>r.url().includes('/u5admin/coding2.php'));
     await peer.locator('#savebutton').click();equal((await stale).status(),200,'peer receives actual conflict document');
     await peer.waitForFunction(()=>document.getElementById('changes').value==='1');
-    equal((await snapshot(name)).rows[0].content_1,first,'peer cannot overwrite successful retry');
+    equal((await snapshot(name)).rows[0].content_1,submitted(first),'peer cannot overwrite successful retry');
     equal(await peer.locator('#codeTextarea').inputValue(),rival,'peer keeps unsaved competing source');
     verify((await snapshot(name)).history.includes(rival),'peer conflict retained in real history');
     const reopened=await openCode();equal(await reopened.locator('#codeTextarea').inputValue(),first,'reopen after conflict preserves published source');
     const exported=fs.readFileSync(path.join(site,'r',name.replace(/!js$/,'.js')));
     equal(exported.subarray(0,3),Buffer.from([239,187,191]),'exact UTF-8 BOM');
-    equal(exported.subarray(3).toString('utf8'),first,'published file bytes equal successful editor input');
+    equal(exported.subarray(3).toString('utf8'),submitted(first),'published file bytes equal successful editor input');
     // Two views of the SAME page intentionally synchronize their source. Use
     // distinct pages for independent panes; separate code windows test conflicts.
     await context.addCookies([{name:'ns',value:'true',url:base},{name:'i1_p',value:pname,url:base},{name:'i2_p',value:rname,url:base},{name:'i1_l',value:'1',url:base},{name:'i2_l',value:'1',url:base}]);
