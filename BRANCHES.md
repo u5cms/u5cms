@@ -68,3 +68,5 @@ Die früher erstellten Prüfberichte behalten ihre Dateinamen, damit vorhandene 
 ## Historischer PHP-Kompatibilitätsversuch
 
 `php9_compat` gehört nicht zur aktuellen Branch-Reihe und wurde auf ausdrücklichen Wunsch entfernt. Letzter historischer Commit: [b5e1556](https://github.com/u5cms/u5cms/commit/b5e1556ed2d3ab923f39ba7b4bfb005ded593fcc). Sein Ansatz mit umgekehrt benannten Ersatzfunktionen ist nicht in die neue Lösung übernommen. Massgebend sind 12.12.3-PHP9-Compatibility und dessen Folgestände.
+
+Der Rename-Sperrschutz und die authentisierte Wiederaufnahme aus 12.9.5.5 sind auf allen 18 Branches mit diesem Rename nachgeführt. Versions-, Such- und Renderstände bleiben erhalten. [Nachweis und Prüfungen](docs/release-12.9.5.5-backports.json).

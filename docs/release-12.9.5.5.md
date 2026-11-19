@@ -43,10 +43,49 @@ overview linked from blocked writers and retry the recorded operation there.
 ## Acceptance and installation
 
 Local evidence: PHP 8.4.24, MariaDB 11.8.6, disposable TCP database and real
-authenticated PHP HTTP requests. Stable PHP 8.3/8.4 CI and maintained-branch
-forward-port results are recorded after completion of those checks.
+authenticated PHP HTTP requests. The complete stable acceptance passed on **PHP 8.3 and 8.4** in
+[Actions run 44471208093](https://github.com/u5cms/u5cms/actions/runs/44471208093),
+including the existing 92-check Chromium suite and the new 83-check SQL/recovery
+suite in each profile. Its tested application/test commit is
+`a2e201ea4798d2708b62b1bbd17cad7d87a2c6b2`; the closing additions are reporting
+and branch inventories, with those application/test blobs unchanged.
+
+The protection was carried to **18 maintained branches**. Each branch passed
+its existing Rename suite (887–893 checks, depending on its architecture),
+114 existing HTTP checks and all 83 new SQL/recovery checks. The original
+versions, renderer and search sources were retained. The five branches using
+the newer storage API keep their own journal version and namespace; no legacy
+helper was copied over that architecture. The exact starting/final commits,
+paths and counts are in the [branch inventory](release-12.9.5.5-backports.json).
+The branches' comprehensive Actions pipelines are separate from these local
+checks and can be inspected at their recorded final commits.
+
+The initial stable CI attempt passed the new lock tests but exposed opcode
+caching of the fixture's dynamically switched Basic/session configuration.
+The disposable web server now disables its opcode cache explicitly; application
+cache settings and test expectations were not changed. The repeated complete
+acceptance then passed in both PHP profiles.
 
 Install the complete release and preserve site configuration and data. Finish
 any pending Rename with its matching current source and recovery files before
 switching CMS versions. No production deployment is claimed by this report.
 The Policies-only November condition remains outside the release.
+
+## Complete changed-path inventory against v12.9.5.4
+
+| Path | Change |
+| --- | --- |
+| `u5admin/connect.inc.php` | Rename-only session wait limits before CMS queries. |
+| `u5admin/rename2.php` | Marks the actual Rename request for those limits. |
+| `u5admin/resource-rename-support.inc.php` | Stops the optional history-index fallback after a blocking/cancelled SQL error. |
+| `u5admin/resource-mutation.inc.php` | Links blocked writers to authenticated recovery. |
+| `u5admin/renaming.php` | Lists and resumes saved ordinary Rename plans without the original window. Existing named status remains read-only. |
+| `tests/rename-database-lock-regression.py` | New real HTTP/SQL/mutex/recovery suite. |
+| `tests/rename-web-regression.py` | Runs the new suite and isolates dynamically switched fixture configuration from opcode caching. |
+| `index.php` | Version 12.9.5.5. |
+| `README.md` | Current release and functional summary. |
+| `BRANCHES.md` | Current stable version and scope. |
+| `docs/rename.md` | Wait limits, recovery, visibility and operational limits. |
+| `docs/development-status.md` | Accepted work and continuation checkpoint. |
+| `docs/release-12.9.5.5.md` | This acceptance report. |
+| `docs/release-12.9.5.5-backports.json` | Exact maintained-branch provenance and test counts. |
