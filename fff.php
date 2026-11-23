@@ -14,6 +14,11 @@ $_GET['f'] = $f[0];
 $f = explode('/', $_GET['f']);
 $f = $filebase . '/' . basename($_GET['f']);
 $f=u5ProhibTravers($f, $filebase);
+if (is_file(__DIR__.'/fileversions/.u5-provision.php')) {
+    require_once __DIR__.'/provision-work.inc.php';
+    u5ProvisionRecoverFile(__DIR__,__DIR__.'/fileversions/.u5-provision.php');
+}
+
 
 if(substr(basename($_GET['f']),0,1)=='.')die('forbidden');
 
