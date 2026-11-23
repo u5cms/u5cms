@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.9
+# u5CMS 12.9.5.10
+
+Optional trusted-browser sessions now support a configurable maximum per account, individual revocation and multiple cloud browser profiles. The feature remains disabled by default. [Configuration and user guide](docs/trusted-browsers.md).
 
 The homepage selector loads only page names and homepage flags, including on large multilingual sites. Saving validates the selected page before switching the homepage in one database statement.
 

@@ -6,7 +6,8 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
-| [12.9.5.10](https://github.com/u5cms/u5cms/tree/release-12.9.5.10-trusted-sessions) | Optional, revocable trusted-browser sessions, disabled by default |\n| [V13](https://github.com/u5cms/u5cms/tree/V13) | Backend improvements, additional image formats and corrected upload media types |
+| [12.9.5.10](https://github.com/u5cms/u5cms/tree/release-12.9.5.10-trusted-sessions) | Optional, revocable trusted-browser sessions, disabled by default |
+| [V13](https://github.com/u5cms/u5cms/tree/V13) | Backend improvements, additional image formats and corrected upload media types |
 | [V14](https://github.com/u5cms/u5cms/tree/V14) | Typed code resources, resumable migration, backup and restore, private files and intranet login |
 | [V15](https://github.com/u5cms/u5cms/tree/V15) | Page search, destination highlighting, optional OpenID Connect, editor improvements and PHP compatibility |
 | [V16](https://github.com/u5cms/u5cms/tree/V16) | Standard and conference site design, style exports and reset templates |

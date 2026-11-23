@@ -160,11 +160,15 @@ use Laminas\Mail\Transport\SmtpOptions;
    $sticksessiontoip = 'no'; // $sticksessiontoip='yes' forces re-login if ip changes (obsolete if $usesessioninsteadofbasicauth = 'no';)
 
    // Optional trusted-browser session. It is HTTPS-only, host- and installation-bound,
-   // revocable, and limited to one browser for each explicitly allowed account.
+    // revocable, with a per-account maximum number of active trusted browsers.
    // The browser keeps a random bearer token; the database stores only its SHA-256 hash.
    // Register or revoke the browser at /u5admin/trusteddevice.php after a normal login.
    // Keep disabled unless this exception is deliberately required.
    $u5trusteddeviceenabled = 'no';
+    // Exact backend login => positive integer browser limit. Missing users or 0
+    // cannot register or resume trusted browsers. For example:
+    // $u5trusteddeviceusers = array('alice@example.org' => 3, 'bob@example.org' => 2);
+    // Legacy numeric allow-lists remain supported with a limit of one per user.
    $u5trusteddeviceusers = array();
 
    $minutestowaitaftertoomanyloginattempts=1; // Works only if $usesessioninsteadofbasicauth = 'yes';
