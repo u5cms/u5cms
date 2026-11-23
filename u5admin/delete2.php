@@ -40,6 +40,8 @@ if (!$u5DeleteRows) die('The resource no longer exists.');
 $u5DeleteKind=strtolower((string)$u5DeleteRows[0]['typ']);
 $u5DeleteState=(int)$u5DeleteRows[0]['deleted'];
 // The primary key includes deleted. Preserve other states in history instead of colliding with them.
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$_POST['name']);
 u5CodeMigrationQuery("DELETE FROM resources WHERE name='".$u5DeleteName."' AND deleted!=".$u5DeleteState);
 u5CodeMigrationQuery("UPDATE resources SET deleted=1,lastmut=GREATEST(COALESCE(lastmut,0)+1,".time().") WHERE name='".$u5DeleteName."' AND deleted=".$u5DeleteState);
 if ($u5DeleteKind==='c' && ($_POST['dfiles'] ?? '')==='yes') {

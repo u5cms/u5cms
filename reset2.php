@@ -56,13 +56,14 @@ if (!$u5mail_sent) exit;
 <li>An e-mail containing the new password was sent to <b><?php echo htmlXspecialchars($row_a['email']) ?></b></li>
 <li>With the new password, <a href="u5admin">log in</a> now</li>
 </ul>
-<iframe src="u5admin/htaccess.php?o=intranet" frameborder="0" width="0" height="0"></iframe>
 
 <?php 
 trxlog('reseted '.$row_a['email'].' ('.$row_a['id'].')');
 
 
 
+require_once __DIR__ . '/provision-changes.inc.php';
+u5ProvisionIdentityChange(__DIR__,true);
 $sql_a="UPDATE accounts SET pw='".pwdhsh($p)."', hash='$hash' WHERE hash='".mysql_real_escape_string($_GET['c'])."' AND id='".mysql_real_escape_string($_GET['i'])."'";
 $result_a=mysql_query($sql_a);
 
