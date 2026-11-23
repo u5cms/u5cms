@@ -83,6 +83,7 @@ def test_site(site):
         shutil.copy2(REPO / 'u5admin' / name, admin / name)
     shutil.copytree(REPO / 'u5admin/image-formats', admin / 'image-formats')
     shutil.copy2(REPO / 'codeassets.inc.php', site / 'codeassets.inc.php')
+    shutil.copy2(REPO / 'background-work.inc.php', site / 'background-work.inc.php')
     shutil.copy2(REPO / 'index-work.inc.php', site / 'index-work.inc.php')
     shutil.copy2(REPO / 'resource-activity.inc.php', site / 'resource-activity.inc.php')
     shutil.copy2(REPO / 'configallowedfileextensions.php', site / 'configallowedfileextensions.php')
