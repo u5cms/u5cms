@@ -1,5 +1,7 @@
 <?php
 require('connect.inc.php');
+require_once __DIR__ . '/trusteddevice.inc.php';
+u5TrustedDeviceRevokeCurrent();
 if (u5OidcEnabled()) {
     list($client)=u5OidcServices();
     u5OidcHeaders();

@@ -9,12 +9,21 @@ if ($autoresolvefastcgiproblems == 'yes') {
 }
 
 if ($usesessioninsteadofbasicauth != 'no') {
-    u5ValidateTextRequest($_COOKIE,array('u','p'));
-    $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'] ?? '';
-    $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'] ?? '';
+    require_once __DIR__ . '/trusteddevice.inc.php';
+    $u5TrustedDeviceSession = u5TrustedDeviceResume();
+    if (is_array($u5TrustedDeviceSession)) {
+        $_SERVER['PHP_AUTH_USER'] = $u5TrustedDeviceSession['username'];
+        $_SERVER['PHP_AUTH_PW'] = $u5TrustedDeviceSession['password_cookie'];
+        $_COOKIE['u'] = $_SERVER['PHP_AUTH_USER'];
+        $_COOKIE['p'] = $_SERVER['PHP_AUTH_PW'];
+    } else {
+        u5ValidateTextRequest($_COOKIE,array('u','p'));
+        $_SERVER['PHP_AUTH_USER'] = $_COOKIE['u'] ?? '';
+        $_SERVER['PHP_AUTH_PW'] = $_COOKIE['p'] ?? '';
+    }
     if (!u5OidcRequired()) {
-    setcookie('u', ($_SERVER['PHP_AUTH_USER'] ?? ''), 0, '/', '', $httpsisinuse, true);
-    setcookie('p', ($_SERVER['PHP_AUTH_PW'] ?? ''), 0, '/', '', $httpsisinuse, true);
+        setcookie('u', ($_SERVER['PHP_AUTH_USER'] ?? ''), 0, '/', '', $httpsisinuse, true);
+        setcookie('p', ($_SERVER['PHP_AUTH_PW'] ?? ''), 0, '/', '', $httpsisinuse, true);
     }
 }
 
