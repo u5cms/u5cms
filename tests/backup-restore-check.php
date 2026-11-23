@@ -64,12 +64,13 @@ try {
         symlink($root.'/u5admin/codeassets-migrate.inc.php',$pairedRoot.'/u5admin/codeassets-migrate.inc.php');
         copy($root.'/u5admin/resource-mutation.inc.php',$pairedRoot.'/u5admin/resource-mutation.inc.php');
         symlink($root.'/index-work.inc.php',$pairedRoot.'/index-work.inc.php');
+        symlink($root.'/provision-changes.inc.php',$pairedRoot.'/provision-changes.inc.php');
         symlink($root.'/resource-activity.inc.php',$pairedRoot.'/resource-activity.inc.php');
         symlink($root.'/codeassets.inc.php',$pairedRoot.'/codeassets.inc.php');
         $reset=file_get_contents($root.'/u5admin/reactivateinitialu5cmslayout.php');
         $reset=preg_replace('/^die\([^\n]+\);\n/m','',$reset,1,$removed);backupCheck($removed===1,'Test-only layout-reset guard was not found.');
         file_put_contents($pairedRoot.'/u5admin/restore-reset.php',$reset);$cssRqHIADRI='no';$_GET['iswear']='iknowthatthisoverwritesthecurrentlayout';
-        $cwd=getcwd();chdir($pairedRoot.'/u5admin');ob_start();try {include $pairedRoot.'/u5admin/restore-reset.php';}finally{ob_end_clean();chdir($cwd);}
+        $cwd=getcwd();chdir($pairedRoot.'/u5admin');ob_start();try {include $pairedRoot.'/u5admin/restore-reset.php';backupCheck(u5ProvisionFinish($pairedRoot),'Restored layout permissions are published.');}finally{ob_end_clean();chdir($cwd);}
         backupCheck(strpos(file_get_contents($template),'main-audit custom reset baseline')!==false,'Actual layout reset did not use its restored custom baseline.');
         backupCheck((int)mysql_result(backupQuery('SELECT COUNT(*) FROM resources_log'),0)>(int)$count,'Layout reset lost its source history.');
         backupCheck(u5CodeTemplateName($pairedRoot)===$name,'Layout reset changed its restored role mapping.');
