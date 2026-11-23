@@ -31,7 +31,7 @@ $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
 
 require_once __DIR__ . '/provision-changes.inc.php';
-if (substr((string)'!',0,1)==='!' && u5ProvisionPagePending(__DIR__,(string)'!')) u5ProvisionUnavailable();
+if (u5ProvisionPagePending(__DIR__,'!')) u5ProvisionUnavailable();
 $sql = "SELECT name, logins FROM resources WHERE typ='p' AND deleted!=1 AND name LIKE '!%' AND logins NOT LIKE '' AND name!='-' LIMIT 0,1";
 $result = mysql_query($sql);
 $num = @mysql_num_rows($result);

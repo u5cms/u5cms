@@ -37,14 +37,26 @@ function u5ProvisionWasPrivate($root,$name) {
     return is_file($dir.'/.htpasswd') || is_file($dir.'/.htaccess');
 }
 
-function u5ProvisionPolicies($root,$selected,$reverse,$ambiguous,$partial) {
+function u5ProvisionPolicies($root,$selected,$reverse,$ambiguous,$partial,$posters) {
     $refs=array();$edges=array();
-    foreach ($selected as $name=>$type) {
+    // Resolve upstream media as well. An admin-only orphan has an empty DB
+    // login list, so a child's permissions cannot be inferred from that row alone.
+    $nodes=$selected;$queue=array_keys($selected);
+    for ($i=0;$i<count($queue);$i++) {
+        $name=$queue[$i];
         $candidates=!$partial && preg_match('/^[a-z0-9!]+$/iD',(string)$name)
             ? array_unique(array_merge($reverse[strtolower((string)$name)] ?? array(),$ambiguous)) : null;
         $refs[$name]=u5ProvisionUses((string)$name,$candidates);
         $edges[$name]=array();
-        foreach ($refs[$name] as $row) if (!in_array($row['typ'],array('p','c','s'),true) && isset($selected[$row['name']])) $edges[$name][]=$row['name'];
+        foreach ($refs[$name] as $row) {
+            if (in_array($row['typ'],array('p','c','s'),true)) continue;
+            $parent=$row['name'];$edges[$name][]=$parent;
+            if (!isset($nodes[$parent])) {$nodes[$parent]=$row['typ'];$queue[]=$parent;}
+        }
+        if (isset($posters[$name])) {
+            $video=$posters[$name];$edges[$name][]=$video;
+            if (!isset($nodes[$video])) {$nodes[$video]='v';$queue[]=$video;}
+        }
     }
     list($components,$membership)=u5ProvisionComponents($edges);
     $policies=array();
@@ -67,9 +79,13 @@ function u5ProvisionPolicies($root,$selected,$reverse,$ambiguous,$partial) {
             foreach ($group as $name) if (u5ProvisionWasPrivate($root,$name)) $policy['public']=false;
             if (count($group)>1) $policy['used']=true;
         }
+        foreach ($group as $name) if (isset($posters[$name])) {
+            $video=$posters[$name];
+            if ($membership[$video]!==$id) $policy=u5ProvisionPosterPolicy($policies[$video],$policy);
+        }
         foreach ($group as $name) $policies[$name]=$policy;
     }
-    return $policies;
+    return array_intersect_key($policies,$selected);
 }
 
 // The poster may also be referenced in its own right. Neither relationship

@@ -318,7 +318,7 @@ function u5ResourceRename($root,$old,$new,$options=null) {
         u5RenameStorageValidateChanges($root,$plan['updates']);
         if (is_file($root.'/htaccess.php')) {
             require_once dirname(__DIR__).'/provision-changes.inc.php';
-            u5ProvisionRename($root,$plan,$old,$new);
+            u5ProvisionRename($root,$plan,$old,$new,null,$pending);
         }
         u5RenameStorageCheckpoint('rename:planned');
         // A killed process can leave real file changes without reaching the

@@ -13,6 +13,7 @@ with tempfile.TemporaryDirectory(prefix='u5-provision-') as tmp:
     run=[php,str(root/'tests/provision-regression.php'),str(site)]
     try:
         subprocess.run(run,check=True)
+        subprocess.run(run+['benchmark'],check=True)
         writer=subprocess.Popen(run+['abandon'],stdout=subprocess.PIPE,text=True)
         try:
             if writer.stdout.readline().strip()!='READY': raise AssertionError('writer did not reach checkpoint')

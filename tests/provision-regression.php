@@ -29,6 +29,27 @@ function finishWork() {global $root;verify(u5ProvisionFinish($root),'work comple
 function editRow($row) {global $root;u5ProvisionPrepare($root,$row['name'],$row);putRow($row);finishWork();}
 function usesNames($name,$sources=null) {return array_column(u5ProvisionUses($name,$sources),'name');}
 $state=$root.'/fileversions';
+if (($argv[2] ?? '')==='benchmark') {
+    $count=75;
+    for ($i=0;$i<$count;$i++) {
+        putRow(rowData('benchasset'.$i,'f'));
+        putRow(rowData('benchpage'.$i,'p',str_repeat('ordinary CMS page content ',50).'[benchasset'.$i.']','?bench:group;'));
+    }
+    $expected=array();$start=microtime(true);
+    for ($i=0;$i<$count;$i++) $expected[]=usesNames('benchasset'.$i);
+    $baseline=microtime(true)-$start;$start=microtime(true);
+    $map=u5ProvisionFetchSources();$lookup=array();$ambiguous=array();
+    foreach ($map as $source=>$row) {
+        if ($row['fallback']) $ambiguous[]=$source;
+        foreach ($row['names'] as $target) $lookup[$target][]=$source;
+    }
+    for ($i=0;$i<$count;$i++) {
+        $actual=usesNames('benchasset'.$i,array_unique(array_merge($lookup['benchasset'.$i] ?? array(),$ambiguous)));
+        if ($actual!==$expected[$i]) throw new RuntimeException('Benchmark reference mismatch.');
+    }
+    printf("75 media, 75 new pages, identical SQL results. Per-medium full scans %.3f s, catalogue and narrowed SQL %.3f s.\n",$baseline,microtime(true)-$start);
+    exit;
+}
 if (($argv[2] ?? '')==='retry') {verify(u5ProvisionRun($root),'independent recovery');exit;}
 if (($argv[2] ?? '')==='abandon') {
     u5ProvisionPrepare($root,'pa',rowData('pa','p','[photo]','?restored:qq;'));
@@ -105,6 +126,34 @@ editRow(rowData('chainentry','p','[chainparent] [circleone]','?next:pwd;'));
 verify(hasUser('chainchild','next') && !hasUser('circleone','chain'),'revocation propagates through dependencies');
 editRow(rowData('posterguard','p','[vfilm]','?poster:xyz;',2));
 verify(!hasUser('vfilm','alice') && !hasUser('vfilm','poster') && hasUser('film','alice'),'independent poster restriction intersects video rights');
+// An interrupted Rename prevents publication only on the named targets.
+$checkpoint='resource-rename-fixture.pending.php';
+file_put_contents($state.'/'.$checkpoint,'pending');
+u5ProvisionTicket($root,array('pb'),array('photo'),false,false,false,$checkpoint);
+u5ProvisionGuard($root,'photo');
+verify(!u5ProvisionFinish($root) && is_file($root.'/r/photo/.u5-provision.php'),'interrupted Rename retains file guard');
+$ordinary=rowData('unrelated','p','[manual]','?ordinary:abc;');
+u5ProvisionPrepare($root,'unrelated',$ordinary);putRow($ordinary);u5ProvisionFinish($root);
+verify(hasUser('manual','ordinary') && is_file($root.'/r/photo/.u5-provision.php'),'unrelated change published with older Rename checkpoint');
+unlink($state.'/'.$checkpoint);finishWork();
+mkdir($root.'/r/retired');
+file_put_contents(pwFile('retired'),'retired-admin:fixture');
+u5ProvisionIdentityChange($root,true);finishWork();
+verify(!hasUser('retired','retired-admin') && hasUser('retired','auditadmin'),'retained resource directory drops obsolete account');
+verify(!is_file($state.'/.u5-provision.php') && strpos(file_get_contents($state.'/.htpasswd'),'auditadmin:fixture-changed')!==false,'version archive receives current account credentials');
+putRow(rowData('accented','p','[caf'.chr(233).'] [test1file] [[literal]]'));
+putRow(rowData('cafe','f'));putRow(rowData('test_file','f'));
+putRow(rowData('metadataonly','p')+array('desc_5'=>'[cafe?l=fr]'));
+$all=u5ProvisionFetchSources();$reverse=array();$fallback=array();
+foreach ($all as $source=>$row) {
+    if ($row['fallback']) $fallback[]=$source;
+    foreach ($row['names'] as $token) $reverse[$token][]=$source;
+}
+foreach (array('cafe','test_file','literal','photo','manual') as $asset) {
+    $candidate=preg_match('/^[a-z0-9!]+$/iD',$asset) ? array_unique(array_merge($reverse[$asset] ?? array(),$fallback)) : null;
+    $expected=usesNames($asset);$actual=usesNames($asset,$candidate);sort($expected);sort($actual);
+    verify($expected===$actual,'reverse candidates agree with full SQL for '.$asset);
+}
 $owner=u5ProvisionLock(u5ProvisionDir($root).'/worker.lock',LOCK_EX);
 $start=microtime(true);$row=rowData('pb','p','[manual]','?test:ok;');
 u5ProvisionPrepare($root,'pb',$row);putRow($row);

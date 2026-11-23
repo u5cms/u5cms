@@ -87,14 +87,14 @@ function u5ProvisionGuard($root,$name,$create=false) {
     } finally {fclose($lock);}
 }
 
-function u5ProvisionTicket($root,$sources,$targets,$full=false,$identity=false,$grantOnly=false) {
+function u5ProvisionTicket($root,$sources,$targets,$full=false,$identity=false,$grantOnly=false,$checkpoint=null) {
     $dir=u5ProvisionDir($root);
     u5ProvisionDirectory($dir);
     $token=bin2hex(random_bytes(16));
     $path=$dir.'/job-'.$token.'.php';
     $owner=u5ProvisionLock($dir.'/owner-'.$token,LOCK_EX);
     $job=array('sources'=>array_values(array_unique($sources)),'targets'=>array_values(array_unique($targets)),
-        'full'=>$full,'identity'=>$identity,'grantOnly'=>$grantOnly);
+        'full'=>$full,'identity'=>$identity,'grantOnly'=>$grantOnly,'checkpoint'=>$checkpoint);
     try {
         u5ProvisionPut($path,u5ProvisionEncode($job));
         u5ProvisionPut($dir.'/generation',$token);

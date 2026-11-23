@@ -1,10 +1,21 @@
 <?php
 ignore_user_abort(true);
-require_once __DIR__.'/connect.inc.php';
+if (PHP_SAPI==='cli') {
+    require __DIR__.'/config.php';
+    require_once __DIR__.'/mysql.php';
+    require_once __DIR__.'/myfunctions.inc.php';
+    if (!mysql_connect($host,$username,$password) || !mysql_select_db($db) || !mysql_query('SET NAMES latin1')) {
+        fwrite(STDERR,"Cannot connect to the configured CMS database.\n");exit(1);
+    }
+} else {require_once __DIR__.'/connect.inc.php';}
 require_once __DIR__.'/provision.inc.php';
 try {
     $repair=PHP_SAPI==='cli' && in_array('--rebuild',$argv ?? array(),true);
-    if (!u5ProvisionRun(__DIR__,$repair)) {http_response_code(202);return;}
+    if (!u5ProvisionRun(__DIR__,$repair)) {
+        if (PHP_SAPI==='cli') {fwrite(STDERR,"Access update still pending. Retry after the active operation completes.\n");exit(2);}
+        http_response_code(202);return;
+    }
+    if (PHP_SAPI==='cli') exit(0);
 } catch (Throwable $error) {
     error_log('u5CMS provisioning: '.$error->getMessage());
     http_response_code(503);

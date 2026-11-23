@@ -40,7 +40,7 @@ function u5ProvisionPrepare($root,$name,$changes=null,$copyFrom=null,$createDir=
     $media=u5ProvisionMedia();
     $targets=u5ProvisionCandidates($summaries,$media);
     if ($createDir || isset($media[$name]) || $copyFrom===$name) $targets[]=$name;
-    if ($createDir && ($media[$copyFrom ?? ''] ?? '')==='v') $targets[]='v'.$name;
+    if ($copyFrom!==null && (($media[$copyFrom] ?? '')==='v' || ($copied[$copyFrom]['type'] ?? '')==='v')) $targets[]='v'.$name;
     $targets=u5ProvisionExpandTargets($root,$targets,$media);
     u5ProvisionTicket($root,array($name),$targets);
     foreach ($targets as $target) u5ProvisionGuard($root,(string)$target,$createDir && ($target===$name || $target==='v'.$name));
@@ -63,15 +63,23 @@ function u5ProvisionIdentityChange($root,$accountsChanged,$grantOnly=false) {
         $dir=u5ProvisionMediaDir($root,(string)$name);
         if (substr((string)$name,0,1)==='!' || ($accountsChanged && is_file($dir.'/.htpasswd'))) $targets[]=(string)$name;
     }
+    // Deleting a resource may leave its files and their published credentials on disk.
+    if ($accountsChanged) foreach (glob($root.'/r/*/.htpasswd') ?: array() as $passwordFile) {
+        $name=basename(dirname($passwordFile));
+        if (!isset($media[$name]) && u5ProvisionName($name)) $targets[]=$name;
+    }
     $targets=u5ProvisionExpandTargets($root,$targets,$media);
     u5ProvisionTicket($root,$sources,$targets,false,true,$grantOnly);
     if ($grantOnly) return;
     foreach ($targets as $target) u5ProvisionGuard($root,(string)$target);
     if ($accountsChanged) {
         $dir=$root.'/fileversions';
-        u5ProvisionPut($dir.'/.u5-provision.php',u5ProvisionEncode(array('private'=>true)));
-        u5ProvisionPut($dir.'/.htaccess',"Deny from all\n");
-        u5ProvisionPut($dir.'/.htpasswd','');
+        $lock=u5ProvisionLock(u5ProvisionDir($root).'/versions.lock',LOCK_EX);
+        try {
+            u5ProvisionPut($dir.'/.u5-provision.php',u5ProvisionEncode(array('private'=>true)));
+            u5ProvisionPut($dir.'/.htaccess',"Deny from all\n");
+            u5ProvisionPut($dir.'/.htpasswd','');
+        } finally {fclose($lock);}
     }
 }
 
@@ -82,9 +90,10 @@ function u5ProvisionUnavailable() {
     exit('Updating access to this resource. Please try again.');
 }
 
-function u5ProvisionRename($root,$plan,$old,$new,$each=null) {
+function u5ProvisionRename($root,$plan,$old,$new,$each=null,$checkpoint=null) {
     if ($each===null) $each=function_exists('u5RenameStorageEachChange') ? 'u5RenameStorageEachChange' : 'u5CodeMigrationEachChange';
-    $sources=array($old=>true,$new=>true);
+    $sources=array();
+    foreach (array($old,$new) as $name) if ($name!=='') $sources[$name]=true;
     $summaries=array();
     $each($root,$plan['updates'],function($change) use (&$sources,&$summaries) {
         if ($change['table']!=='resources') return;
@@ -98,17 +107,27 @@ function u5ProvisionRename($root,$plan,$old,$new,$each=null) {
     if (isset($media[$old]) || isset($media[$new])) {$targets[]=$old;$targets[]=$new;}
     if ($plan['companionFiles']!==null) {$targets[]='v'.$old;$targets[]='v'.$new;$sources['v'.$old]=true;$sources['v'.$new]=true;}
     $targets=u5ProvisionExpandTargets($root,$targets,$media);
-    u5ProvisionTicket($root,array_keys($sources),$targets);
+    foreach (array('files','companionFiles') as $key) {
+        if (!empty($plan[$key]['archive'])) $targets[]=$plan[$key]['archive'];
+    }
+    u5ProvisionTicket($root,array_keys($sources),$targets,false,false,false,$checkpoint===null ? null : basename($checkpoint));
     foreach ($targets as $name) u5ProvisionGuard($root,(string)$name);
 }
 
-function u5ProvisionPagePending($root,$name) {
+function u5ProvisionPagePending($root,$name,$retry=true) {
     if (!u5ProvisionPending($root)) return false;
     foreach (glob(u5ProvisionDir($root).'/job-*.php') ?: array() as $path) {
         if (!is_file($path)) continue;
         try {$job=u5ProvisionRead($path);}
         catch (Throwable $error) {if (!is_file($path)) continue;throw $error;}
-        if (empty($job['grantOnly']) && ($job['identity'] || in_array($name,$job['sources'],true))) return true;
+        if (!empty($job['grantOnly'])) continue;
+        $affected=$job['identity'] || in_array($name,$job['sources'],true);
+        if ($name==='!') foreach ($job['sources'] as $source) if (substr((string)$source,0,1)==='!') $affected=true;
+        if (!$affected) continue;
+        if (!$retry) return true;
+        try {u5ProvisionRun($root,false,true);}
+        catch (Throwable $error) {error_log('u5CMS intranet update: '.$error->getMessage());}
+        return u5ProvisionPagePending($root,$name,false);
     }
     return false;
 }

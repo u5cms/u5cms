@@ -56,7 +56,7 @@ function u5ProvisionIntranet($root,$accounts) {
         }
     }
     $value=u5ProvisionQuote($list);
-    u5ProvisionUpdate($root,"logins=".$value,"name LIKE '!%' AND NOT (BINARY logins <=> BINARY ".$value.")");
+    u5ProvisionUpdate($root,"logins=".$value,"name LIKE '!%' AND typ IN ('p','c','s') AND deleted!=1 AND NOT (BINARY logins <=> BINARY ".$value.")");
 }
 
 function u5ProvisionPolicy($uses) {
@@ -136,101 +136,107 @@ function u5ProvisionRun($root,$force=false,$foreground=false) {
         $full=$force || ($unbuilt && !$partial);
         if (!$jobs && !$full) return true;
         $sources=array();$targets=array();$identity=$full;
+        $blocked=array();$completed=array();
         foreach ($jobs as $file) {
             $owner=$dir.'/owner-'.substr(basename($file),4,-4);
             $probe=u5ProvisionLock($owner,LOCK_SH|LOCK_NB);
             if (!$probe) return false;
             fclose($probe);
             $job=u5ProvisionRead($file);
+            if (!empty($job['checkpoint']) && is_file($root.'/fileversions/'.$job['checkpoint'])) {
+                foreach ($job['targets'] as $name) $blocked[$name]=true;
+                continue;
+            }
+            $completed[]=$file;
             $full=$full || $job['full'];$identity=$identity || $job['identity'];
             foreach ($job['sources'] as $source) $sources[$source]=true;
             foreach ($job['targets'] as $target) $targets[$target]=true;
         }
+        if (!$completed && !$full) return false;
         // Rename has its own short-lived exclusive gate. Concurrent ordinary
         // saves take shared access and never queue behind a worker.
-        {
-            $accounts=u5ProvisionAdmins();
-            $admins='';
-            foreach ($accounts as $email=>$pw) $admins.=$email.':'.$pw."\r\n";
-            $admins=u5toutf8($admins);
-            if ($identity || $full || array_filter(array_keys($sources),function($n){return substr((string)$n,0,1)==='!';})) {
-                $release=u5ResourceActivityLock($root);
-                try {if (u5ProvisionGeneration($dir)!==$generation) return false;u5ProvisionIntranet($root,$accounts);}
-                finally {$release();}
-            }
-            if ($identity || $full) {
-                $versions=$root.'/fileversions';
+        $accounts=u5ProvisionAdmins();
+        $admins='';
+        foreach ($accounts as $email=>$pw) $admins.=$email.':'.$pw."\r\n";
+        $admins=u5toutf8($admins);
+        if ($identity || $full || array_filter(array_keys($sources),function($n){return substr((string)$n,0,1)==='!';})) {
+            $release=u5ResourceActivityLock($root);
+            try {if (u5ProvisionGeneration($dir)!==$generation) return false;u5ProvisionIntranet($root,$accounts);}
+            finally {$release();}
+        }
+        if ($identity || $full) {
+            $versions=$root.'/fileversions';
+            $lock=u5ProvisionLock($dir.'/versions.lock',LOCK_EX);
+            try {
                 if (u5ProvisionGeneration($dir)!==$generation) return false;
                 u5ProvisionPut($versions.'/.htpasswd',$admins);
                 u5ProvisionPut($versions.'/.htaccess',u5ProvisionDirectoryRules($versions,($u5allowbasicauthtoprotectedfilesindirr ?? '')==='yes'));
                 u5ProvisionRemove($versions.'/.u5-provision.php');
-            }
-            $media=u5ProvisionMedia();
-            $map=array();
-            if (!$full && !$partial) {
-                try {$map=u5ProvisionRead($cache);}
-                catch (RuntimeException $error) {$full=true;}
-            }
-            if ($identity && !$full) foreach ($map as $name=>$unused) if (substr((string)$name,0,1)==='!') $sources[$name]=true;
-            $changed=u5ProvisionFetchSources($full ? null : array_keys($sources));
-            $affected=array();
-            foreach ($sources as $name=>$unused) {
-                if (isset($map[$name])) $affected[]=$map[$name];
-                unset($map[$name]);
-                if (isset($changed[$name])) $affected[]=$changed[$name];
-            }
-            $map=$changed+$map;
-            if (!$full) foreach (u5ProvisionCandidates($affected,$media) as $name) $targets[$name]=true;
-            $reverse=array();$ambiguous=array();
-            foreach ($map as $name=>$source) {
-                if ($source['fallback']) $ambiguous[]=(string)$name;
-                foreach ($source['names'] as $token) $reverse[$token][]=(string)$name;
-            }
-            // A medium can itself refer to another medium. Revisit its outgoing
-            // dependencies in the same order as the legacy full calculation.
-            $queue=array_keys($targets);
-            for ($i=0;$i<count($queue);$i++) {
-                $name=$queue[$i];
-                if (!isset($map[$name])) continue;
-                foreach (u5ProvisionCandidates(array($map[$name]),$media) as $other) {
-                    if (!isset($targets[$other])) {$targets[$other]=true;$queue[]=$other;}
-                }
-            }
-            // A poster can have its own row or just a sibling directory. The
-            // video's effective protection also applies to that directory.
-            $posters=array();
-            foreach ($media as $name=>$type) if ($type==='v') {
-                $posters['v'.$name]=$name;
-                if (isset($targets['v'.$name])) $targets[$name]=true;
-            }
-            $selected=array();
-            foreach ($media as $name=>$type) {
-                if ($full || isset($targets[$name]) || ($identity && is_file(u5ProvisionMediaDir($root,(string)$name).'/.htpasswd'))) {
-                    $selected[$name]=$type;
-                    if ($type==='v') $selected['v'.$name]=$media['v'.$name] ?? 'i';
-                    if (isset($posters[$name])) $selected[$posters[$name]]='v';
-                }
-            }
-            $policies=u5ProvisionPolicies($root,$selected,$reverse,$ambiguous,$partial);
-            foreach ($policies as $name=>$policy) {
-                if (u5ProvisionGeneration($dir)!==$generation) return false;
-                if (isset($posters[$name],$policies[$posters[$name]])) {
-                    $policy=u5ProvisionPosterPolicy($policies[$posters[$name]],$policy);
-                }
-                if (!u5ProvisionPublish($root,(string)$name,$policy,$admins,$generation,$media[$name] ?? null)) return false;
-            }
-            foreach ($targets as $name=>$unused) {
-                if (isset($media[$name]) || isset($posters[$name])) continue;
-                $path=u5ProvisionMediaDir($root,(string)$name);
-                if (is_file($path.'/.u5-provision.php') && !u5ProvisionPublish($root,(string)$name,u5ProvisionPolicy(array()),$admins,$generation,null)) return false;
-            }
-            if (u5ProvisionGeneration($dir)!==$generation) return false;
-            if (!$partial || $full) u5ProvisionPut($cache,u5ProvisionEncode($map),0600);
-            foreach ($jobs as $file) {
-                u5ProvisionRemove($file);
-                u5ProvisionRemove($dir.'/owner-'.substr(basename($file),4,-4));
-            }
-            return true;
+            } finally {fclose($lock);}
         }
+        $media=u5ProvisionMedia();
+        $map=array();
+        if (!$full && !$partial) {
+            try {$map=u5ProvisionRead($cache);}
+            catch (RuntimeException $error) {$full=true;}
+        }
+        if ($identity && !$full) foreach ($map as $name=>$unused) if (substr((string)$name,0,1)==='!') $sources[$name]=true;
+        $changed=u5ProvisionFetchSources($full ? null : array_keys($sources));
+        $affected=array();
+        foreach ($sources as $name=>$unused) {
+            if (isset($map[$name])) $affected[]=$map[$name];
+            unset($map[$name]);
+            if (isset($changed[$name])) $affected[]=$changed[$name];
+        }
+        $map=$changed+$map;
+        if (!$full) foreach (u5ProvisionCandidates($affected,$media) as $name) $targets[$name]=true;
+        $reverse=array();$ambiguous=array();
+        foreach ($map as $name=>$source) {
+            if ($source['fallback']) $ambiguous[]=(string)$name;
+            foreach ($source['names'] as $token) $reverse[$token][]=(string)$name;
+        }
+        // A medium can itself refer to another medium. Revisit its outgoing
+        // dependencies in the same order as the legacy full calculation.
+        $queue=array_keys($targets);
+        for ($i=0;$i<count($queue);$i++) {
+            $name=$queue[$i];
+            if (!isset($map[$name])) continue;
+            foreach (u5ProvisionCandidates(array($map[$name]),$media) as $other) {
+                if (!isset($targets[$other])) {$targets[$other]=true;$queue[]=$other;}
+            }
+        }
+        // A poster can have its own row or just a sibling directory. The
+        // video's effective protection also applies to that directory.
+        $posters=array();
+        foreach ($media as $name=>$type) if ($type==='v') {
+            $posters['v'.$name]=$name;
+            if (isset($targets['v'.$name])) $targets[$name]=true;
+        }
+        $selected=array();
+        foreach ($media as $name=>$type) {
+            if ($full || isset($targets[$name]) || ($identity && is_file(u5ProvisionMediaDir($root,(string)$name).'/.htpasswd'))) {
+                $selected[$name]=$type;
+                if ($type==='v') $selected['v'.$name]=$media['v'.$name] ?? 'i';
+                if (isset($posters[$name])) $selected[$posters[$name]]='v';
+            }
+        }
+        $policies=u5ProvisionPolicies($root,$selected,$reverse,$ambiguous,$partial,$posters);
+        foreach ($policies as $name=>$policy) {
+            if (isset($blocked[$name])) continue;
+            if (u5ProvisionGeneration($dir)!==$generation) return false;
+            if (!u5ProvisionPublish($root,(string)$name,$policy,$admins,$generation,$media[$name] ?? null)) return false;
+        }
+        foreach ($targets as $name=>$unused) {
+            if (isset($blocked[$name]) || isset($media[$name]) || isset($posters[$name])) continue;
+            $path=u5ProvisionMediaDir($root,(string)$name);
+            if (is_file($path.'/.u5-provision.php') && !u5ProvisionPublish($root,(string)$name,u5ProvisionPolicy(array()),$admins,$generation,null)) return false;
+        }
+        if (u5ProvisionGeneration($dir)!==$generation) return false;
+        if (!$partial || $full) u5ProvisionPut($cache,u5ProvisionEncode($map),0600);
+        foreach ($completed as $file) {
+            u5ProvisionRemove($file);
+            u5ProvisionRemove($dir.'/owner-'.substr(basename($file),4,-4));
+        }
+        return count($completed)===count($jobs);
     } finally {fclose($worker);}
 }
