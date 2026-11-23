@@ -37,6 +37,8 @@ function u5SaveResource($before,$changes,&$stamp) {
     }
     for ($attempt=0;$attempt<3;$attempt++) {
         $guard=array("name='".mysql_real_escape_string($before['name'])."'",'deleted='.(int)$before['deleted'],u5SaveDigestSql().'='.u5CodeMigrationValue($before['edit_digest']));
+        require_once dirname(__DIR__).'/provision-changes.inc.php';
+        u5ProvisionPrepare(dirname(__DIR__),$before['name'],$changes);
         u5CodeMigrationQuery('UPDATE resources SET '.implode(',',$set).',lastmut='.(int)$stamp.' WHERE '.implode(' AND ',$guard));
         if (mysql_affected_rows()===1) return true;
         // Immediate optimistic recheck, with no wait or queue. Only the

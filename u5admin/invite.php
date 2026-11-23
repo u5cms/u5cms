@@ -1,5 +1,5 @@
 <?php require_once __DIR__.'/connect.inc.php'; ?>
-<?php ignore_user_abort(true);set_time_limit(36000);file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); ?>
+<?php ignore_user_abort(true);set_time_limit(36000);file_put_contents('../fileversions/lastsave.txt',time()); ?>
 <script>setTimeout("parent.main.location.reload()",777)</script>
 <?php require_once('connect.inc.php'); require_once('h2.php');?>
 <?php
@@ -54,6 +54,8 @@ $p=genRandomString();
 
 
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionIdentityChange(dirname(__DIR__),true);
 $sql_a="INSERT INTO accounts (email,pw,hash".($u5mail_delivery_column ? ',email_delivery' : '').") VALUES (
 '".$e."',
 '".mysql_real_escape_string(pwdhsh($p))."',
