@@ -179,6 +179,14 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
             u5TrustedDeviceClearCookie();
             return false;
         }
+        // An explicitly selected session account takes precedence. Keeping the
+        // old token would silently restore its identity now or after a restart.
+        $sessionUser = $_COOKIE['u'] ?? '';
+        if (is_string($sessionUser) && trim($sessionUser) !== ''
+            && u5TrustedDeviceNormaliseUser($sessionUser) !== u5TrustedDeviceNormaliseUser($row['username'])) {
+            u5TrustedDeviceRevokeCurrent();
+            return false;
+        }
         $slot = (int)($row['slot'] ?? 1);
         if ($slot < 1 || $slot > u5TrustedDeviceLimit($row['username'])) {
             u5TrustedDeviceRevoke($row['username'], $row['selector']);

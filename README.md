@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.11
+# u5CMS 12.9.5.12
+
+Switching accounts on a trusted browser now retains the newly selected account and revokes the previous registration on that browser. [Release notes](docs/release-12.9.5.12.md).
 
 Search indexing now runs through background requests after the page has loaded. Batches, pauses and lock handling continue without hidden index frames repeatedly activating the browser tab loading indicator. The same transport handles automatic access updates. [Release notes](docs/release-12.9.5.11.md).
 
