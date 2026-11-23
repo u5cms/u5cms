@@ -18,6 +18,7 @@ with tempfile.TemporaryDirectory(prefix='u5-rename-web-') as tmp:
 $path=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);$file=realpath(__DIR__.$path);
 if ($file===false || (strpos($file,__DIR__.'/')!==0 && $file!==__DIR__)) {http_response_code(404);return;}
 if (is_dir($file)) $file.='/index.php';
+if ($path==='/u5admin/ishomepage.php') ini_set('memory_limit','16M');
 if (substr($file,-4)==='.php') {chdir(dirname($file));require $file;return;}
 return false;
 ''')
@@ -36,6 +37,7 @@ return false;
             else:raise RuntimeError('PHP server did not start')
             subprocess.run([os.sys.executable,str(REPO/'tests/rename-database-lock-regression.py'),base,str(site)],check=True)
             if os.environ.get('U5CMS_RENAME_HTTP_ONLY'):
+                subprocess.run([os.sys.executable,str(REPO/'tests/homepage-http.py'),base,database],check=True)
                 subprocess.run([os.sys.executable,str(REPO/'tests/rename-http.py'),base,str(site)],check=True)
             else:
                 subprocess.run(['node',str(REPO/'tests/rename-browser.cjs'),base,str(site)],check=True)
