@@ -1,5 +1,8 @@
 <?php
 // Full rebuilds yield between bounded batches. A named edit indexes only its resource.
+require_once __DIR__.'/background-work.inc.php';
+if (u5BackgroundWorkBootstrap('index')) return;
+u5BackgroundWorkBegin('index');
 ignore_user_abort(false);
 header('Cache-Control: no-store');
 $u5CpuLimit=(int)ini_get('max_execution_time');
@@ -10,7 +13,11 @@ $u5MutationRelease = null;
 try {
     if (!isset($_GET['n'])) {
         $u5Slice = new U5IndexSlice(__DIR__.'/fileversions',isset($_GET['u5indexcontinue']),isset($_GET['u5indexauto']),false);
-        if (!$u5Slice->ready()) return;
+        if (!$u5Slice->ready()) {
+            $u5Wait=$u5Slice->resumeDelay();
+            u5BackgroundWorkState($u5Wait===null ? 'idle' : 'wait','?u5indexcontinue=1',$u5Wait ?? 0);
+            return;
+        }
         define('U5CMS_FULL_INDEX_BATCH', true);
     }
     require_once __DIR__.'/index-work.inc.php';
@@ -180,7 +187,7 @@ if ($u5Slice) {
         $u5Slice->complete();
         echo '<audio id="doneaudio" src="u5admin/indexingdone.mp3" autoplay></audio><script>top.document.title=";"+top.document.title</script>';
     }
-}
+} else u5BackgroundWorkState('done');
 } catch (Throwable $error) {
     http_response_code(500);
     error_log('u5CMS indexer: '.$error->getMessage());
@@ -189,6 +196,7 @@ if ($u5Slice) {
     if ($u5MutationRelease) $u5MutationRelease();
     if ($u5NamedRelease) $u5NamedRelease();
     if ($u5Slice) $u5Slice->release();
+    u5BackgroundWorkFinish();
 }
 
 function sanitize_content($content) {
@@ -371,16 +379,21 @@ final class U5IndexSlice {
         $this->markAttempt();
     }
     public function timeUsed() { return microtime(true) >= $this->deadline; }
+    public function resumeDelay() {
+        return $this->state===null ? null : max(1000,((int)$this->state['next']-time()+1)*1000);
+    }
     public function pause() {
         $this->state['failures'] = 0;
         $this->state['next'] = time() + self::REST_SECONDS;
         $this->save();
+        u5BackgroundWorkState('wait','?u5indexcontinue=1',(self::REST_SECONDS+1)*1000);
         echo '<script>setTimeout(function(){location.replace("?u5indexcontinue=1")},'.((self::REST_SECONDS+1)*1000).')</script>';
     }
     public function complete($publish = null) {
         if ($publish) $publish($this->state['started']);
         else $this->writeFile($this->directory.'/lastindex.txt',(string)max(0,$this->state['started']-1));
         if (!unlink($this->progressPath())) throw new RuntimeException('Cannot finish the index checkpoint.');
+        u5BackgroundWorkState('done',null,0,true);
     }
     public function release() {
         if (!is_resource($this->lock)) return;
