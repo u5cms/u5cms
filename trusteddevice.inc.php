@@ -7,7 +7,8 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
         global $u5trusteddeviceenabled, $usesessioninsteadofbasicauth;
         return isset($u5trusteddeviceenabled)
             && $u5trusteddeviceenabled === 'yes'
-            && $usesessioninsteadofbasicauth !== 'no';
+            && $usesessioninsteadofbasicauth !== 'no'
+            && (!function_exists('u5OidcEnabled') || !u5OidcEnabled());
     }
 
     function u5TrustedDeviceNormaliseUser($username) {

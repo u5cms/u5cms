@@ -10,6 +10,7 @@ This release adds an optional exception for a deliberately registered browser wi
 - The selector is installation-specific. There is no parent-domain cookie and no IP bypass.
 - The current account password hash is fingerprinted. A password, SAML salt or derived account credential change invalidates the trusted browser.
 - Registration requires an already authenticated backend session, an exact account allow-list match, HTTPS, same-origin form submission and a server-derived CSRF token.
+- The CSRF HMAC is stable across ordinary session rotation and accepts the verified public host supplied by a trusted reverse proxy without accepting cross-site submissions.
 - A second browser cannot replace an active browser. Deliberate logout revokes the current browser server-side.
 - The browser cookie is renewed at most once per day and uses the browser maximum of 400 days. Regular use therefore keeps it alive without a fixed server-side expiry; it remains revocable at any time.
 
@@ -29,6 +30,8 @@ To enable it for a specific account, set `yes` and list the exact backend login.
 ## Deployment
 
 Deploy the distribution as one consistent version and retain the installation's `config.php`, database, `r` and `fileversions` directories. No cron job is required. The small `u5trusteddevices` table is created only when the first browser is deliberately registered. Existing installations and sessions are unchanged while the feature is disabled.
+
+For a controlled multi-installation rollout, `scripts/trusted-device-rollout.php` defaults to a read-only dry-run, validates the exact installation count, lints every prospective PHP file, requires a new root-only backup directory for `--apply`, writes atomically and rolls back written files if an apply step fails.
 
 ## Verification
 
