@@ -46,7 +46,7 @@ try {
     unlink('fileversions/lastindex.txt');
     noticeCheck(strpos(noticeBody($tmp),'No completed full index rebuild is recorded yet.')!==false,'Missing initial state remains intelligible.');
     copy($root.'/indexer.php',$tmp.'/indexer.php');
-    foreach (array('search-index.inc.php','search-core.inc.php') as $file) if (is_file($root.'/'.$file)) copy($root.'/'.$file,$tmp.'/'.$file);
+    foreach (array('background-work.inc.php','search-index.inc.php','search-core.inc.php') as $file) if (is_file($root.'/'.$file)) copy($root.'/'.$file,$tmp.'/'.$file);
     file_put_contents('fileversions/lastindex.txt','100');
     file_put_contents('fileversions/indexerrunning.txt','0');
     $_GET = array('u5indexcontinue'=>'1');
