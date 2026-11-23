@@ -87,6 +87,13 @@ def test_site(site):
     shutil.copy2(REPO / 'resource-activity.inc.php', site / 'resource-activity.inc.php')
     shutil.copy2(REPO / 'configallowedfileextensions.php', site / 'configallowedfileextensions.php')
     shutil.copy2(REPO / 'upload/spinner.gif', site / 'upload/spinner.gif')
+    # This image-codec fixture has no CMS database. Record its handoff to the
+    # provisioning subsystem. provision-http.py exercises that subsystem with MariaDB.
+    (site / 'provision-changes.inc.php').write_text('''<?php
+function u5ProvisionUpload($root,$name) {
+    file_put_contents($root.'/upload-provision.log',$name.PHP_EOL,FILE_APPEND | LOCK_EX);
+}
+''')
     (admin / 'iniset.inc.php').write_text('<?php error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED);')
     (admin / 'backendcss.php').write_text('')
     (admin / 'blank.php').write_text('')
@@ -145,6 +152,8 @@ def main():
             errors = [line for line in log if 'Fatal error' in line or 'Uncaught' in line]
             assert not errors, errors
         rows = json.loads((work / 'results.json').read_text())
+        submitted=set((site/'upload-provision.log').read_text().splitlines())
+        assert all(Path(item['path']).parent.name in submitted for item in rows)
         transforms = {2:Image.Transpose.FLIP_LEFT_RIGHT, 3:Image.Transpose.ROTATE_180,
                       4:Image.Transpose.FLIP_TOP_BOTTOM, 5:Image.Transpose.TRANSPOSE,
                       6:Image.Transpose.ROTATE_270, 7:Image.Transpose.TRANSVERSE, 8:Image.Transpose.ROTATE_90}
