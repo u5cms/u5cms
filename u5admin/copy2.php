@@ -16,6 +16,8 @@ require_once('../globals.inc.php');
 $_POST['name']=basename($_POST['name']);
 $_GET['name']=basename($_GET['name']);
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$_POST['name'],null,$_GET['name'],true);
 $sql_a="DELETE FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) 

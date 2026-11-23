@@ -107,6 +107,8 @@ for ($i=1000;$i>99;$i--) {
 if (!file_exists('../r/'.$_POST['name'].'/'.$_POST['name'].'_'.$i.'.'.$ext)) $filename=$_POST['name'].'_'.$i.'.'.$ext;
 }
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionUpload(dirname(__DIR__),$_POST['name']);
 @mkdir('../r/'.$_POST['name'],0777);
 if (!move_uploaded_file($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
 if($originalimagetmp!='') @unlink($originalimagetmp);
