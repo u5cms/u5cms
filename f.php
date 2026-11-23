@@ -19,6 +19,11 @@ $f = explode('/', ($_GET['f'] ?? ''));
 if (!isset($f[1]) || $f[1]==='') { http_response_code(400);exit('Invalid file path.'); }
 $f = $filebase . '/' . basename($f[1]) . '/' . basename(($_GET['f'] ?? ''));
 $f=u5ProhibTravers($f, $filebase);
+if (is_file(dirname($f).'/.u5-provision.php')) {
+    require_once __DIR__.'/provision-work.inc.php';
+    u5ProvisionRecoverFile(__DIR__,dirname($f).'/.u5-provision.php');
+}
+
 
 
 if(substr(basename(($_GET['f'] ?? '')),0,1)=='.')die('forbidden');

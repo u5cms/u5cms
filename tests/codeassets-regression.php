@@ -107,6 +107,7 @@ function assetFixture($dump,$label) {
     $root=$testRoot.'/'.$label;mkdir($root.'/r',0700,true);mkdir($root.'/fileversions',0700,true);mkdir($root.'/u5admin',0700,true);
     copy(dirname(__DIR__).'/u5admin/resource-mutation.inc.php',$root.'/u5admin/resource-mutation.inc.php');
     symlink(dirname(__DIR__).'/index-work.inc.php',$root.'/index-work.inc.php');
+    symlink(dirname(__DIR__).'/provision-changes.inc.php',$root.'/provision-changes.inc.php');
     symlink(dirname(__DIR__).'/resource-activity.inc.php',$root.'/resource-activity.inc.php');
     symlink(dirname(__DIR__).'/codeassets.inc.php',$root.'/codeassets.inc.php');
     foreach (glob(dirname(__DIR__).'/r/*.tpl') as $source) copy($source,$root.'/r/'.basename($source));
@@ -169,7 +170,7 @@ function runAssetLayoutReset($root) {
     file_put_contents($root.'/u5admin/connect.inc.php','<?php');
     $_GET['iswear']='iknowthatthisoverwritesthecurrentlayout';
     $previous=getcwd();chdir($root.'/u5admin');ob_start();
-    try { include $root.'/u5admin/reset-layout.php';return ob_get_contents(); }
+    try { include $root.'/u5admin/reset-layout.php';u5ProvisionFinish($root);return ob_get_contents(); }
     finally { ob_end_clean();chdir($previous); }
 }
 function runBackendAssetUpdate($root) {

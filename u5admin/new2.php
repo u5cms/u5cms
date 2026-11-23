@@ -33,6 +33,8 @@ $result_a=mysql_query($sql_a);
 if ($result_a===false) die('Cannot read the resource state.');
 $num_a = mysql_num_rows($result_a);
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$_POST['name'],null,$_POST['name']);
 if ($num_a>0) {
 
 $sql_a="UPDATE resources SET lastmut=GREATEST(COALESCE(lastmut,0)+1,".time()."), deleted=0, typ='".mysql_real_escape_string($_GET['typ'])."' WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";

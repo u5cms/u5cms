@@ -8,6 +8,8 @@
 <?php 
 if ($_GET['a']==2) {
 if ($deletebackendusersRqHIADRI!='no') require_once('accadmin.inc.php');
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionIdentityChange(dirname(__DIR__),true);
 $sql_a="DELETE FROM accounts WHERE  id='".mysql_real_escape_string($_GET['id'])."'";
 $result_a=mysql_query($sql_a);
 
