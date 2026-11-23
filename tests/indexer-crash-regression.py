@@ -8,7 +8,7 @@ with tempfile.TemporaryDirectory(prefix='u5-index-crash-') as folder:
     temp = Path(folder)
     state = temp/'fileversions'
     state.mkdir()
-    for path in ['indexer.php', 'search-index.inc.php', 'search-core.inc.php']:
+    for path in ['indexer.php', 'background-work.inc.php', 'search-index.inc.php', 'search-core.inc.php']:
         if (root/path).is_file():
             shutil.copy(root/path, temp/path)
     for name, value in [('lastsave', 200), ('lastindex', 100), ('indexerrunning', 0)]:
