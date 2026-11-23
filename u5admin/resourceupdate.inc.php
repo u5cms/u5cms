@@ -48,6 +48,8 @@ function u5UpdateResource($name, $changes, $row, $revision,$inputEncodings=array
         for ($language=1;$language<=5;$language++) $set[]='search_'.$language.'=NULL';
         $previous=u5SaveDigestSql().'='.u5CodeMigrationValue($row['edit_digest']);
         $sql="UPDATE resources SET ".implode(',',$set)." WHERE name='".mysql_real_escape_string($name)."' AND deleted=".(int)$original['deleted'].' AND '.$previous.' LIMIT 1';
+        require_once dirname(__DIR__).'/provision-changes.inc.php';
+        u5ProvisionPrepare(dirname(__DIR__),$name,$new);
         if (mysql_query($sql)===false) throw new RuntimeException('Update failed. The current resource has been kept.');
         if (mysql_affected_rows()==1) return array('saved'=>true,'stamp'=>$stamp,'record'=>$new,'current'=>$row);
         try { $row=u5ResourceForUpdate($name,(bool)$encodings); }

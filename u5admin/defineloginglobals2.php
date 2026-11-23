@@ -72,6 +72,10 @@ die('SQL_a-Query failed!...!<p>');
 
 trxlog('def login instr');
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+$provisionRow=array('typ'=>'x','hidden'=>1,'logins'=>'');
+for ($i=1;$i<=5;$i++) $provisionRow['content_'.$i]=($_POST['loginintro_'.$i] ?? '')."\n".($_POST['loginoutro_'.$i] ?? '');
+u5ProvisionPrepare(dirname(__DIR__),'::LOGINPAGE::',$provisionRow);
 $sql_a="DELETE FROM resources WHERE name='::LOGINPAGE::'";
 $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query did not work!...!<p>';

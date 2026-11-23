@@ -59,6 +59,8 @@ jobs:
           python3 tests/indexer-crash-regression.py
           python3 tests/indexer-database-lock-regression.py
           python3 tests/indexer-http-regression.py
+          python3 tests/provision-regression.py
+          python3 tests/provision-http.py
           python3 tests/index-save-regression.py
           python3 tests/resource-activity-regression.py
           python3 tests/rename-packet-regression.py
