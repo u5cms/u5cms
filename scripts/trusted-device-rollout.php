@@ -131,6 +131,7 @@ function u5RolloutBackupPath($backupRoot, $absolutePath) {
 
 $options = getopt('', array('apply', 'scan-root:', 'source-root:', 'backup-root:', 'user:', 'expect-roots:'));
 $apply = array_key_exists('apply', $options);
+$testMode = getenv('U5_TRUSTED_ROLLOUT_TEST') === '1';
 $scanRoot = rtrim((string)($options['scan-root'] ?? '/var/www/vhosts'), '/');
 $sourceRoot = realpath((string)($options['source-root'] ?? ''));
 $backupRoot = rtrim((string)($options['backup-root'] ?? ''), '/');
@@ -141,7 +142,7 @@ if ($sourceRoot === false || !is_dir($sourceRoot)) u5RolloutFail('A valid --sour
 if ($user === '' || filter_var($user, FILTER_VALIDATE_EMAIL) === false) u5RolloutFail('A valid exact --user is required.');
 if ($apply) {
     if ($expectedRoots < 1) u5RolloutFail('--apply requires --expect-roots.');
-    if ($backupRoot === '' || strpos($backupRoot, '/root/u5trusteddevice-backup-') !== 0) u5RolloutFail('--apply requires a dedicated /root/u5trusteddevice-backup-* path.');
+    if ($backupRoot === '' || (!$testMode && strpos($backupRoot, '/root/u5trusteddevice-backup-') !== 0)) u5RolloutFail('--apply requires a dedicated /root/u5trusteddevice-backup-* path.');
     if (file_exists($backupRoot)) u5RolloutFail('Backup root already exists: ' . $backupRoot);
 }
 
