@@ -82,6 +82,16 @@ try:
         return request({'name':name,'u5scrtytknfrfrms':parsed.token})[0]
     assert save('hptest350') == 200 and selected() == [['hptest350']]
     assert form().options['hptest350'] and save('hptest350') == 200
+    # MyISAM may write earlier rows even when a subsequent row raises an error.
+    for rejected in ['hptest350', 'hpteststart']:
+        sql("CREATE TRIGGER homepage_fail BEFORE UPDATE ON resources FOR EACH ROW "
+            f"BEGIN IF NEW.name='{rejected}' THEN SIGNAL SQLSTATE '45000' "
+            "SET MESSAGE_TEXT='homepage fixture write failure'; END IF; END")
+        try:
+            assert save('hpteststart') == 500 and selected() == [['hptest350']]
+        finally:
+            sql("DROP TRIGGER homepage_fail")
+
     sql("UPDATE resources SET hidden=1 WHERE name='hptest1'")
     sql("UPDATE resources SET deleted=1 WHERE name='hptest2'")
     sql("UPDATE resources SET typ='f' WHERE name='hptest3'")

@@ -10,6 +10,12 @@ require_once('homepage-eligible.inc.php');
 
 $eligible = u5HomepageEligible();
 $escapedName = mysql_real_escape_string($homepageName);
+// Only homepage switches share this short-lived lock. A lost connection releases it.
+$lock = mysql_query("SELECT GET_LOCK(CONCAT('u5-homepage-', SHA1(DATABASE())), 2)");
+if (!$lock || (int)mysql_result($lock, 0) !== 1) {
+    http_response_code(503);
+    die('Homepage selection is busy. Please try again.');
+}
 $target = "SELECT name, deleted FROM resources WHERE name='$escapedName' AND BINARY name=BINARY '$escapedName'
            AND $eligible ORDER BY deleted LIMIT 1";
 $result = mysql_query($target);
@@ -26,6 +32,18 @@ if (!$page) {
 // The live target guards the entire change, including on legacy MyISAM tables.
 // If it disappeared or became ineligible since the lookup, nothing is cleared.
 $state = (int)$page['deleted'];
+// MyISAM cannot roll back rows already written if a later row fails.
+$previous = mysql_query("SELECT name, deleted FROM resources WHERE ishomepage=1");
+if ($previous === false) {
+    http_response_code(500);
+    die('Could not read the current homepage.');
+}
+$oldKeys = array();
+$alreadySelected = false;
+while ($row = mysql_fetch_assoc($previous)) {
+    $oldKeys[] = "(name='".mysql_real_escape_string($row['name'])."' AND deleted=".(int)$row['deleted'].")";
+    if ($row['name'] === $page['name'] && (int)$row['deleted'] === $state) $alreadySelected = true;
+}
 $update = "UPDATE resources AS page JOIN resources AS target
            ON target.name='$escapedName' AND BINARY target.name=BINARY '$escapedName'
            AND target.deleted=$state AND target.typ='p' AND target.hidden=0
@@ -33,7 +51,15 @@ $update = "UPDATE resources AS page JOIN resources AS target
            WHERE page.ishomepage=1 OR (page.name=target.name AND page.deleted=target.deleted)";
 if (mysql_query($update) === false) {
     http_response_code(500);
-    die('Could not save the selected homepage.');
+    // Restore only flags the failed statement actually changed, before removing a new one.
+    $restored = !$oldKeys || mysql_query("UPDATE resources SET ishomepage=1 WHERE
+        (ishomepage IS NULL OR ishomepage<>1) AND (".implode(' OR ', $oldKeys).")");
+    if ($restored && !$alreadySelected) {
+        $restored = mysql_query("UPDATE resources SET ishomepage=0 WHERE name='$escapedName'
+                                 AND deleted=$state AND ishomepage=1");
+    }
+    if (!$restored) error_log('u5CMS could not restore the homepage flags after a database write failure.');
+    die($restored ? 'Could not save the selected homepage.' : 'Homepage recovery failed. Please check the database.');
 }
 if (mysql_affected_rows() == 0) {
     $current = mysql_query("SELECT 1 FROM resources WHERE name='$escapedName' AND BINARY name=BINARY '$escapedName'
