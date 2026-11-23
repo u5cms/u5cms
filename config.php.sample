@@ -158,6 +158,14 @@ use Laminas\Mail\Transport\SmtpOptions;
    $usesessioninsteadofbasicauth = 'yes'; // $usesessioninsteadofbasicauth = 'yes'; is recommended. However, basic auth may be necessary if you offer very large files behind the login (intranet).
    $sessioncookiehashsalt = '1234'; // Any string. Changing this string cancels all open sessions and forces all users to log-in again; (obsolete if $usesessioninsteadofbasicauth = 'no';)
    $sticksessiontoip = 'no'; // $sticksessiontoip='yes' forces re-login if ip changes (obsolete if $usesessioninsteadofbasicauth = 'no';)
+
+   // Optional trusted-browser session. It is HTTPS-only, host- and installation-bound,
+   // revocable, and limited to one browser for each explicitly allowed account.
+   // The browser keeps a random bearer token; the database stores only its SHA-256 hash.
+   // Register or revoke the browser at /u5admin/trusteddevice.php after a normal login.
+   // Keep disabled unless this exception is deliberately required.
+   $u5trusteddeviceenabled = 'no';
+   $u5trusteddeviceusers = array();
    $minutestowaitaftertoomanyloginattempts=1; // Works only if $usesessioninsteadofbasicauth = 'yes';
    $allowedloginattemptsbeforepausing=7; // Works only if $usesessioninsteadofbasicauth = 'yes';
 
