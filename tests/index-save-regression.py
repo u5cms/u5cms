@@ -45,8 +45,8 @@ if ($argv[2]==='hold') {
     server=subprocess.Popen(php+['-S','127.0.0.1:'+str(port),'-t',str(site)],cwd=site,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     opener=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
     opener.addheaders=[('Authorization','Basic '+base64.b64encode(('auditadmin:'+os.environ['U5CMS_FIXTURE_PASSWORD']).encode()).decode())]
-    def request(path,data=None):
-        req=urllib.request.Request(origin+path,data=urllib.parse.urlencode(data).encode() if data is not None else None)
+    def request(path,data=None,headers=None):
+        req=urllib.request.Request(origin+path,data=urllib.parse.urlencode(data).encode() if data is not None else None,headers=headers or {})
         try:
             with opener.open(req,timeout=12) as r:return r.status,r.read().decode('cp1252')
         except urllib.error.HTTPError as e:return e.code,e.read().decode('cp1252')
@@ -101,9 +101,14 @@ if ($argv[2]==='hold') {
                 status,body=request('/indexer.php?n=saveindextest')
                 check(status==409 and 'u5indexretry=1' in body,'named request defers at '+lockname)
                 check(row()==indexed,'busy named request changes no resource')
+                status,body=request('/indexer.php?n=saveindextest',headers={'X-U5-Background-Work':'1'})
+                quiet=json.loads(body)
+                check(status==409 and quiet['state']=='wait' and quiet['delay']==10000 and quiet['next']=='?n=saveindextest&u5indexretry=1','quiet named retry retains the same lock policy at '+lockname)
             with held_file(state/lockname):
                 status,body=request('/indexer.php?n=saveindextest&u5indexretry=3')
                 check(status==409 and '<script>' not in body,'browser retries bounded at '+lockname)
+                status,body=request('/indexer.php?n=saveindextest&u5indexretry=3',headers={'X-U5-Background-Work':'1'})
+                check(status==409 and json.loads(body)['state']=='pending','quiet named retries are bounded at '+lockname)
         with held_file(state/'codeassets-12.11.0.lock.php'):
             post['coco']=indexed['lastmut'];post['content_1']='SAVE_DURING_MAINTENANCE'
             started=time.monotonic();status,body=request('/u5admin/savepage.php?i=i1',post)

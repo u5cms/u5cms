@@ -1,6 +1,7 @@
 <?php
 // Common coordination for full and named index requests. No site configuration
 // or database is loaded here, so a busy request can leave before doing SQL work.
+require_once __DIR__.'/background-work.inc.php';
 function u5IndexMarkDirty($root) {
     $path=$root.'/fileversions/lastsave.txt';
     $temporary=tempnam(dirname($path),'.index-save-');
@@ -41,7 +42,8 @@ function u5IndexDeferNamed() {
     $attempt=(isset($_GET['u5indexretry']) && is_scalar($_GET['u5indexretry'])) ? (int)$_GET['u5indexretry'] : 0;
     if ($attempt>=0 && $attempt<3) {
         $url='?n='.rawurlencode($_GET['n']).'&u5indexretry='.($attempt+1);
+        u5BackgroundWorkState('wait',$url,10000);
         echo '<script>setTimeout(function(){location.replace('.json_encode($url).')},10000)</script>';
-    }
+    } else u5BackgroundWorkState('pending');
     echo 'The saved resource is awaiting indexing. The full rebuild remains due.';
 }

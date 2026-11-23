@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.10
+# u5CMS 12.9.5.11
+
+Search indexing now runs through background requests after the page has loaded. Batches, pauses and lock handling continue without hidden index frames repeatedly activating the browser tab loading indicator. The same transport handles automatic access updates. [Release notes](docs/release-12.9.5.11.md).
 
 Optional trusted-browser sessions now support a configurable maximum per account, individual revocation and multiple cloud browser profiles. The feature remains disabled by default. [Configuration and user guide](docs/trusted-browsers.md).
 

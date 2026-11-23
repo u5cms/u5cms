@@ -2,7 +2,7 @@ name: u5CMS stable release acceptance
 
 on:
   push:
-    branches: ['main', '12.9.5.4-Indexer-Final', '12.9.5.7-Nonblocking-Saves', 'release-12.9.5.10-trusted-sessions']
+    branches: ['main', '12.9.5.4-Indexer-Final', '12.9.5.7-Nonblocking-Saves', 'release-12.9.5.10-trusted-sessions', 'release-12.9.5.11-quiet-background-work']
   pull_request:
   workflow_dispatch:
 
@@ -53,10 +53,11 @@ jobs:
       - name: PHP, search, ownership, Rename and mail contracts
         run: |
           set -e
-          for test in indexer-batch-regression index-update-notice search-legacy-memory-regression search-legacy-html-regression search-legacy-database-regression onlymine-domain rename-regression international-email login-host-regression trusted-device-regression trusted-device-database-regression trusted-device-rollout-regression; do
+          for test in background-work-regression indexer-batch-regression index-update-notice search-legacy-memory-regression search-legacy-html-regression search-legacy-database-regression onlymine-domain rename-regression international-email login-host-regression trusted-device-regression trusted-device-database-regression trusted-device-rollout-regression; do
             php "tests/$test.php"
           done
           php tests/search-legacy-database-regression.php u5sys._searchsi.php
+          node tests/background-runner-regression.cjs
           python3 tests/indexer-crash-regression.py
           python3 tests/indexer-database-lock-regression.py
           python3 tests/indexer-http-regression.py
@@ -82,5 +83,7 @@ jobs:
           node "$RUNNER_TEMP/u5-browser/node_modules/playwright/cli.js" install chromium
           echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
       - name: Real Chromium backend, authentication and recovery
-        run: python3 tests/rename-web-regression.py
+        run: |
+          node tests/background-browser.cjs
+          python3 tests/rename-web-regression.py
 
