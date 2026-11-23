@@ -30,6 +30,8 @@ $u5LoginDomain=$u5DomainLogin ? u5onlymineRemotepart($_SERVER['PHP_AUTH_USER']) 
 $_SERVER['PHP_AUTH_USER']=u5flatidn($_SERVER['PHP_AUTH_USER']);
 
 
+require_once __DIR__ . '/provision-changes.inc.php';
+if (substr((string)($_GET['n'] ?? ''),0,1)==='!' && u5ProvisionPagePending(__DIR__,(string)($_GET['n'] ?? ''))) u5ProvisionUnavailable();
 $sql = "SELECT name, logins FROM resources WHERE logins NOT LIKE '' AND name='" . mysql_real_escape_string($_GET['n']) . "'";
 $result = mysql_query($sql);
 $num = @mysql_num_rows($result);

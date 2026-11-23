@@ -1,4 +1,4 @@
-<?php require_once('connect.inc.php');require_once('t2.php');file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); ?>
+<?php require_once('connect.inc.php');require_once('t2.php');file_put_contents('../fileversions/lastsave.txt',time()); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +30,8 @@ else if (trim($_POST['new1'])=='') die("<script>alert('Your new password must no
 else if (strpos('x'.$_POST['new1'],':')>0) die("<script>alert('The colon (:) is a forbidden character in passwords.');err=1;history.go(-1);</script>");
 else {
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionIdentityChange(dirname(__DIR__),true);
 $sql_a="UPDATE accounts SET pw='".mysql_real_escape_string(pwdhsh($_POST['new1']))."' WHERE email='".mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']))."'";
 $result_a=mysql_query($sql_a);
 
