@@ -25,7 +25,10 @@ try {
             $query=u5CodeMigrationSelect($u5ResetColumns);
             $rows=u5CodeMigrationRows('SELECT '.$query['select'].' FROM resources WHERE name='.u5CodeMigrationValue($target)." AND typ='c' AND deleted!=1");
             foreach ($rows as $before) {
-                $after=$before;$after['content_1']=$content;require_once dirname(__DIR__).'/provision-changes.inc.php';u5ProvisionPrepare($u5ResetRoot,$before['name'],$after);u5CodeMigrationRevision($before,$after);
+                $after=$before;$after['content_1']=$content;
+                require_once dirname(__DIR__).'/provision-changes.inc.php';
+                u5ProvisionPrepare($u5ResetRoot,$before['name'],$after);
+                u5CodeMigrationRevision($before,$after);
                 u5CodeMigrationValidateRow('resources',$before,$after,$u5ResetColumns);
                 if ($before!==$after) u5CodeMigrationQueueChange($u5ResetRoot,$u5ResetChanges,array('table'=>'resources','before'=>$before,'after'=>$after));
             }
