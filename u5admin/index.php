@@ -362,6 +362,8 @@ body{background:#7695AD}
 })();
 </script>
 <?php
+require_once dirname(__DIR__).'/provision-changes.inc.php';
+u5ProvisionBackendStartup(dirname(__DIR__));
 include('zr.php');
 if (file_put_contents('../r/x','x')) {
 echo '<!--w ../r/ ok -->';

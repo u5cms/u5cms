@@ -269,7 +269,7 @@ function u5RenamePublishFiles($root,$plan) {
         if (!@symlink($change['after'],$temporary)) throw new RuntimeException('Cannot prepare a renamed symbolic link.');
         if (!@rename($temporary,$path)) {@unlink($temporary);throw new RuntimeException('Cannot update a resource symbolic link.');}
     }
-    if ($files['protection']!==null) {
+    if ($files['protection']!==null && !is_file($target.'/.u5-provision.php')) {
         $path=$target.'/.htaccess';$before=@file_get_contents($path);$change=$files['protection'];
         if (is_link($path) || ($before!==$change['before'] && $before!==$change['after'])) throw new RuntimeException('The resource access-control file changed during rename.');
         if ($before!==$change['after']) u5CodeAssetAtomicWrite($path,$change['after']);
@@ -307,6 +307,10 @@ function u5ResourceRename($root,$old,$new,$options=null) {
             u5CodeAssetAtomicWrite($pending,u5CodeMigrationEncodeJournal($plan));
         }
         u5CodeMigrationValidateChanges($root,$plan['updates']);
+        if (is_file($root.'/htaccess.php')) {
+            require_once dirname(__DIR__).'/provision-changes.inc.php';
+            u5ProvisionRename($root,$plan,$old,$new,null,$pending);
+        }
         u5CodeMigrationCheckpoint('rename:planned');
         // Keep search work due before a killed publication can change files.
         u5CodeAssetAtomicWrite($root.'/fileversions/search-index-pending.txt',(string)time());

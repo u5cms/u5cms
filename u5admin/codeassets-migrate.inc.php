@@ -815,6 +815,10 @@ function u5CodeAssetsMigrateLocked($root,$patchVersion='12.11.1') {
     }
     u5CodeMigrationCheckpoint('planned');
     u5CodeMigrationValidateChanges($root,$plan['updates']);
+    if (is_file($root.'/htaccess.php')) {
+        require_once dirname(__DIR__).'/provision-changes.inc.php';
+        u5ProvisionRename($root,$plan+array('companionFiles'=>null),'','', 'u5CodeMigrationEachChange',$pending);
+    }
     u5CodeMigrationTemplates($root,$plan['map'],$repair,$repair ? $patchVersion : '12.11.0');
     foreach ($plan['files'] as $file=>$data) {
         u5CodeMigrationBackupFile($root,'r/'.$file);u5CodeAssetAtomicWrite($root.'/r/'.$file,$data);
@@ -901,6 +905,10 @@ function u5CodeAssetsRenameLocked($root,$old,$new,$updateLinks=true) {
         } catch (Throwable $error) { u5CodeMigrationAbortChanges($root,$changes);throw $error; }
     }
     u5CodeMigrationValidateChanges($root,$plan['updates']);
+    if (is_file($root.'/htaccess.php')) {
+        require_once dirname(__DIR__).'/provision-changes.inc.php';
+        u5ProvisionRename($root,$plan+array('companionFiles'=>null),$old,$new,'u5CodeMigrationEachChange',$pending);
+    }
     if (!isset($plan['templates'])) {
         $plan['templates']=u5CodeMigrationRenameTemplates($root,$old,$new,$updateLinks);
         u5CodeAssetAtomicWrite($pending,u5CodeMigrationEncodeJournal($plan));

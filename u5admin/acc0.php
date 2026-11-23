@@ -157,6 +157,5 @@ window.onscroll=function saveScroll()
     createCookie('scrollpos3v',vscroll,1);
 }
 </script>
-<iframe src="htaccess.php" width="1" height="1" frameborder="0"></iframe>
 </body>
 </html>
