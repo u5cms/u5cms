@@ -1,5 +1,5 @@
 <?php 
-require_once('connect.inc.php');require_once('t2.php');file_put_contents('../fileversions/lastsave.txt',time());file_put_contents('../fileversions/htarunning.txt',0); 
+require_once('connect.inc.php');require_once('t2.php');file_put_contents('../fileversions/lastsave.txt',time());
 require('autointranetcheck.php');
 require_once('u5idn.inc.php');
 ?>
@@ -87,6 +87,8 @@ die('SQL_a-Query failed!...!<p>');
 
 
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionIdentityChange(dirname(__DIR__),false);
 $sql_a="UPDATE intranetmembers SET members='".mysql_real_escape_string($_POST['members'])."'";
 $result_a=mysql_query($sql_a);
 

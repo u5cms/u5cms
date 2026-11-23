@@ -13,8 +13,7 @@ try {
     if ($lock === false) throw new RuntimeException('Cannot open the intranet enrollment lock.');
     try {
         $busy = !flock($lock, LOCK_EX | LOCK_NB);
-        $running = is_file('fileversions/htarunning.txt') ? (int)file_get_contents('fileversions/htarunning.txt') : 0;
-        if ($busy || $running > time()-300) {
+        if ($busy) {
             http_response_code(503);
             header('Retry-After: 2');
             $retry = $oidcClient->basePath().'oidc/enroll.php?u='.rawurlencode($target);
@@ -23,6 +22,9 @@ try {
             exit;
         }
         $escaped = mysql_real_escape_string($user);
+        require_once dirname(__DIR__).'/provision-changes.inc.php';
+        $enrolled=u5ProvisionQuery("SELECT 1 FROM intranetmembers WHERE FIND_IN_SET(BINARY '".$escaped."',COALESCE(members,''))>0 LIMIT 1");
+        if (!mysql_num_rows($enrolled)) u5ProvisionIdentityChange(dirname(__DIR__),false,true);
         if (mysql_query("UPDATE intranetmembers SET members=CONCAT(CONCAT_WS(',',NULLIF(TRIM(BOTH ',' FROM COALESCE(members,'')),''),'".$escaped."'),',') WHERE FIND_IN_SET(BINARY '".$escaped."',BINARY COALESCE(members,''))=0") === false) {
             throw new RuntimeException('Cannot enroll the mapped OIDC identity.');
         }
@@ -32,22 +34,18 @@ try {
         $backendUser = mysql_num_rows($result) > 0;
         $missing = false;
         if (!$backendUser) {
-            $result = mysql_query("SELECT name FROM resources WHERE name LIKE '!%' AND deleted!=1 AND INSTR(logins,'?".$escaped.":')=0 LIMIT 1");
+            $result = mysql_query("SELECT name FROM resources WHERE name LIKE '!%' AND typ IN ('p','c','s') AND deleted!=1 AND INSTR(logins,'?".$escaped.":')=0 LIMIT 1");
             if ($result === false) throw new RuntimeException('Cannot check intranet permission publication.');
             $missing = mysql_num_rows($result) > 0;
         }
         $pending = 'fileversions/oidc-enrollment.pending.txt';
         if ($changed || $missing || is_file($pending)) {
             if (file_put_contents($pending, 'pending', LOCK_EX) === false) throw new RuntimeException('Cannot checkpoint intranet enrollment.');
-            // Complete the same intranet and private-file publication as the SAML workflow.
-            // Buffer the legacy progress HTML; redirect only after publication finishes.
-            $level = ob_get_level();
-            ob_start();
-            try { require 'htaccess.php'; }
-            finally { while (ob_get_level() > $level) ob_end_clean(); }
+            if (!$changed && $missing) u5ProvisionIdentityChange(dirname(__DIR__),false,true);
+            u5ProvisionFinish(dirname(__DIR__));
         }
         if (!$backendUser) {
-            $result = mysql_query("SELECT name FROM resources WHERE name LIKE '!%' AND deleted!=1 AND INSTR(logins,'?".$escaped.":')=0 LIMIT 1");
+            $result = mysql_query("SELECT name FROM resources WHERE name LIKE '!%' AND typ IN ('p','c','s') AND deleted!=1 AND INSTR(logins,'?".$escaped.":')=0 LIMIT 1");
             if ($result === false || mysql_num_rows($result) > 0) throw new RuntimeException('Intranet permission publication did not complete.');
         }
         if (is_file($pending) && !unlink($pending)) throw new RuntimeException('Cannot finish the enrollment checkpoint.');

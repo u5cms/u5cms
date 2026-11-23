@@ -126,6 +126,8 @@ $nojpg++;
 echo '<p>The original image could not be archived. No album image has been added.</p>';
 continue;
 }
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionUpload(dirname(__DIR__),$_POST['name']);
 @mkdir('../r/'.$_POST['name'],0777);
 if (!u5PublishUploadedFile($file['tmp_name'], '../r/'.$_POST['name'].'/'.$filename)) {
 if($originalimagetmp!='') @unlink($originalimagetmp);
