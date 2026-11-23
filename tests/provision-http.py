@@ -81,6 +81,26 @@ if (substr($p,-4)==='.php') {chdir(dirname($p));require $p;return;}return false;
             check('reader:' in pw.read_text(),'withdrawal of public access applied by successful save')
             post('/u5admin/copy2.php?name=aclpage',{'name':'aclcopy'})
             check('reader:' in pw.read_text(),'copy retains group')
+            # Check the normal thumbnail endpoint using the configured Basic reader.
+            png=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGOY2VEOAANWAZm83CTKAAAAAElFTkSuQmCC')
+            (file.parent/'aclfile.png').write_bytes(png)
+            thumb='/thumb.php?f=r/aclfile/aclfile.png&w=2'
+            reader='Basic '+base64.b64encode(b'reader:example').decode()
+            status,body,headers=fetch(port,thumb,{'Authorization':reader})
+            check(status==200 and body.startswith(png[:8]) and 'private' in headers.get('Cache-Control',''),'authorised thumbnail response')
+            modified=headers['Last-Modified']
+            status,body,_=fetch(port,thumb,{'Authorization':reader,'If-Modified-Since':modified})
+            check(status==304 and not body,'authorised conditional response')
+            status,body,_=fetch(port,thumb,{'If-Modified-Since':modified})
+            check(status==401 and not body.startswith(png[:8]),'anonymous conditional request receives login challenge')
+            post('/u5admin/new2.php?typ=p',{'name':'!aclmember'})
+            signed="""chdir($argv[1]);require 'config.php';$e=base64_encode('member@example.invalid');echo http_build_query(['e'=>$e,'k'=>sha1(date('Ymd').$password.$sessioncookiehashsalt.$e)]);"""
+            query=subprocess.check_output([php,'-d','display_errors=0','-r',signed,str(site)],text=True)
+            status,body,_=fetch(port,'/saml/autointranetenroll.php?'+query)
+            check(status==200 and b'parent.loginsave()' in body,'first SAML intranet enrolment publishes access')
+            (site/'fileversions/htarunning.txt').write_text(str(int(time.time())))
+            status,body,_=fetch(port,'/saml/autointranetenroll.php?'+query)
+            check(status==200 and b'parent.loginsave()' in body,'returning member proceeds despite legacy running marker')
             # Leave the file private for the actual web server below.
         apache=os.environ.get('U5_TEST_APACHE')
         if apache:
