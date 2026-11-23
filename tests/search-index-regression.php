@@ -101,7 +101,7 @@ try {
     indexCheck(!u5SearchIndexIsRunning($state), 'orphaned timestamps do not prevent retry');
 
     $fixture = $root . '/fixture'; mkdir($fixture); mkdir($fixture . '/fileversions');
-    foreach (array('indexer.php', 'search-index.inc.php', 'search-core.inc.php', 'htaccessandindexer.inc.php', 'indexupdate.inc.php') as $file) {
+    foreach (array('indexer.php', 'search-index.inc.php', 'search-core.inc.php', 'htaccessandindexer.inc.php', 'provision-work.inc.php', 'indexupdate.inc.php') as $file) {
         copy(dirname(__DIR__) . '/' . $file, $fixture . '/' . $file);
     }
     // The indexer now coordinates with the real source/Rename mutex before SQL.
