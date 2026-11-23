@@ -79,7 +79,11 @@ parent.i2.pframe.pviewit();
 </script>
 <div style="width:2px;height:19px;background:white;position:absolute;display:none;top:0px" id="htaccess"></div>
 <iframe style="display:none" src="lastsave.php"></iframe>
-<iframe style="display:none" src="../indexer.php?n=<?php $indexerName=explode(' ',trim($_GET['n']));echo rawurlencode(end($indexerName)); ?>"></iframe>
+<?php
+require_once dirname(__DIR__).'/background-work.inc.php';
+$u5IndexedName=trim($_GET['n'] ?? '') ? explode(' ',trim($_GET['n'])) : array('');
+u5BackgroundWorkLaunch('../indexer.php?n='.rawurlencode(end($u5IndexedName)),'index','../js/u5-background-work.js');
+?>
 <?php require('countblockrefresh.inc.php'); ?>
 </body>
 </html>
