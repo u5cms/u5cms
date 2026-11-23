@@ -38,11 +38,12 @@ if ($result_a===false) die('Cannot check the copy target.');
 $num_a = mysql_num_rows($result_a);
 if($num_a>0) die('<script>document.getElementById("body").style.background="red";;alert("ERROR: Target already exists!");history.go(-1)</script>');
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$_POST['name'],null,$_GET['name'],!$u5CopyCode);
+
 duplicateallrecsinTABLENAMEwithoutAUTOINCFIELDwhereCONDITIONSaltervlaueofFIELDNAMEtotihisNEWVALUE
 ('resources','id','WHERE deleted!=1 AND name=\''.mysql_real_escape_string($_GET['name']).'\'','name',$_POST['name']);
 
-require_once dirname(__DIR__) . '/provision-changes.inc.php';
-u5ProvisionPrepare(dirname(__DIR__),$_POST['name'],null,$_GET['name'],true);
 $sql_a="DELETE FROM resources WHERE deleted=1 AND name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 if ($result_a===false) die('Cannot prepare the copy.');
