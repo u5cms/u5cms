@@ -101,7 +101,7 @@ try {
     indexCheck(!u5SearchIndexIsRunning($state), 'orphaned timestamps do not prevent retry');
 
     $fixture = $root . '/fixture'; mkdir($fixture); mkdir($fixture . '/fileversions');
-    foreach (array('indexer.php', 'search-index.inc.php', 'search-core.inc.php', 'htaccessandindexer.inc.php', 'provision-work.inc.php', 'indexupdate.inc.php') as $file) {
+    foreach (array('indexer.php', 'background-work.inc.php', 'search-index.inc.php', 'search-core.inc.php', 'htaccessandindexer.inc.php', 'provision-work.inc.php', 'indexupdate.inc.php') as $file) {
         copy(dirname(__DIR__) . '/' . $file, $fixture . '/' . $file);
     }
     // The indexer now coordinates with the real source/Rename mutex before SQL.
@@ -202,7 +202,9 @@ PHP
     indexSame(file_get_contents($fixture . '/fileversions/lastindex.txt'), '120', 'failed manual full run retains known checkpoint');
     $reset();
     $result = indexProcess($fixture . '/run.php', array(), array('U5_SEARCH_INDEX_TEST_MODE'=>'refresh'));
-    indexCheck(strpos($result[1], 'src="indexer.php?u5indexauto=1"') !== false, 'format upgrade schedules full indexing without content edits');
+    indexSame($result[0], 0, 'format upgrade check renders successfully');
+    indexCheck(strpos($result[1], 'window.u5BackgroundWorkQueue.push({"url":"indexer.php?u5indexauto=1","kind":"index"})') !== false, 'format upgrade queues a full index without content edits');
+    indexCheck(strpos($result[1], '<iframe') === false, 'format upgrade runs without a maintenance frame');
     $result = indexProcess($fixture . '/run.php', array(), array('U5_SEARCH_INDEX_TEST_MODE'=>'status'));
     indexCheck(strpos($result[1], 'not yet fully up to date') !== false, 'status reports missing index upgrade');
     $result = indexProcess($fixture . '/run.php', array(), array('U5_SEARCH_INDEX_TEST_MODE'=>'normal','U5_SEARCH_INDEX_TEST_ITEM'=>'1'));
