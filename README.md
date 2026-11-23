@@ -8,7 +8,7 @@ Full indexing runs in resumable batches. The search page shows the date of the l
 
 The stable release includes memory-efficient search, corrected resource renaming and configurable SELF permissions. Existing installations continue to associate records with the individual user unless their administrator enables domain-based ownership.
 
-[Media access provisioning in 12.9.5.8](docs/release-12.9.5.8.md) · [Non-blocking saves and fast Rename in 12.9.5.7](docs/release-12.9.5.7.md) · [Save and index coordination in 12.9.5.6](docs/release-12.9.5.6.md) · [Rename lock handling in 12.9.5.5](docs/release-12.9.5.5.md) · [Cumulative changes since 12.9.5](docs/release-12.9.5.4.md) · [SELF permissions](docs/onlymine.md) · [Branch guide](BRANCHES.md)
+[Trusted-browser sessions in 12.9.5.10](docs/release-12.9.5.10.md) · [Media access provisioning in 12.9.5.8](docs/release-12.9.5.8.md) · [Non-blocking saves and fast Rename in 12.9.5.7](docs/release-12.9.5.7.md) · [Save and index coordination in 12.9.5.6](docs/release-12.9.5.6.md) · [Rename lock handling in 12.9.5.5](docs/release-12.9.5.5.md) · [Cumulative changes since 12.9.5](docs/release-12.9.5.4.md) · [SELF permissions](docs/onlymine.md) · [Branch guide](BRANCHES.md)
 
 ---
 
@@ -30,3 +30,4 @@ It is very easy to build a web application yourself with u5CMS. Let users log in
 
   ※ https://yuba.ch/r/rendertutorial/rendertutorial_en.pdf
 ※※ https://yuba.ch/?c=u5eformedit
+

@@ -6,7 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
-| [V13](https://github.com/u5cms/u5cms/tree/V13) | Backend improvements, additional image formats and corrected upload media types |
+| [12.9.5.10](https://github.com/u5cms/u5cms/tree/release-12.9.5.10-trusted-sessions) | Optional, revocable trusted-browser sessions, disabled by default |\n| [V13](https://github.com/u5cms/u5cms/tree/V13) | Backend improvements, additional image formats and corrected upload media types |
 | [V14](https://github.com/u5cms/u5cms/tree/V14) | Typed code resources, resumable migration, backup and restore, private files and intranet login |
 | [V15](https://github.com/u5cms/u5cms/tree/V15) | Page search, destination highlighting, optional OpenID Connect, editor improvements and PHP compatibility |
 | [V16](https://github.com/u5cms/u5cms/tree/V16) | Standard and conference site design, style exports and reset templates |
@@ -80,3 +80,4 @@ Earlier test reports retain their filenames so existing links continue to work. 
 The historical `php9_compat` branch was removed from the development series at the maintainer’s request. Its final commit was [b5e1556](https://github.com/u5cms/u5cms/commit/b5e1556ed2d3ab923f39ba7b4bfb005ded593fcc). The later implementation dispensed with its reverse-named substitute functions. See 12.12.3-PHP9-Compatibility and its successors for the maintained implementation.
 
 The Rename lock-wait safeguards and authenticated recovery from 12.9.5.5 were applied to all 18 branches using this Rename implementation. Each retained its version, search and rendering behaviour. [Backport evidence and test results](docs/release-12.9.5.5-backports.json).
+

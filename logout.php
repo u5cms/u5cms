@@ -1,5 +1,7 @@
 <?php
 require('connect.inc.php');
+require_once __DIR__ . '/trusteddevice.inc.php';
+u5TrustedDeviceRevokeCurrent();
 setcookie('u', '', 0, '/', '', $httpsisinuse, true);
 setcookie('p', '', 0, '/', '', $httpsisinuse, true);
 if(isset($u5samlsalt)&&$u5samlsalt!='') {
@@ -24,3 +26,4 @@ else location.href='index.php?c=loggedout&u=<?php echo rawurlencode($_GET['u'] ?
 </script>
 </body>
 </html>
+
