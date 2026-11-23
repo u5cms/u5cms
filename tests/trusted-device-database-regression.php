@@ -19,7 +19,14 @@ if (!$worker) {
     register_shutdown_function(function() use($database) { mysql_query('DROP DATABASE IF EXISTS `'.$database.'`'); });
 }
 mysql_select_db($database);mysql_set_charset('latin1');
-$mymail='admin@example.test';$host='localhost';$username='dbuser';$password='test-config-secret';$db=$database;
+// Bind the disposable installation to this test run, including its worker processes.
+if (!$worker) putenv('U5CMS_TRUSTED_TEST_NONCE=' . bin2hex(random_bytes(32)));
+$mymail = 'admin@example.test';
+$host = 'localhost';
+$username = getenv('U5CMS_TEST_USER');
+$password = getenv('U5CMS_TRUSTED_TEST_NONCE');
+$db = $database;
+u5TrustedDbAssert(is_string($password) && strlen($password) === 64, 'Missing disposable installation nonce.');
 $usesessioninsteadofbasicauth='yes';$u5trusteddeviceenabled='yes';
 $u5trusteddeviceusers=array('alice@example.test'=>2,'bob@example.test'=>1);
 $_SERVER['HTTPS']='on';$_SERVER['SERVER_PORT']=443;$_SERVER['HTTP_HOST']='cms.example.test';
@@ -57,9 +64,9 @@ function u5TrustedDbRace($database,$account,$limit,$workers=12) {
             list($process,$pipes)=$entry;
             $output=stream_get_contents($pipes[1]);$error=stream_get_contents($pipes[2]);
             fclose($pipes[1]);fclose($pipes[2]);$code=proc_close($process);
-            u5TrustedDbAssert($code===0,'Concurrent worker failed: '.$error.$output);
+            u5TrustedDbAssert($code===0,'Concurrent registration worker failed.');
             $result=json_decode($output,true);
-            u5TrustedDbAssert(is_array($result)&&in_array($result['result'],array('ok','limit'),true),'Unexpected concurrent result: '.$output);
+            u5TrustedDbAssert(is_array($result)&&in_array($result['result'],array('ok','limit'),true),'Unexpected concurrent registration result.');
             if($result['result']==='ok') $cookies[]=$result['cookie'];
         }
         u5TrustedDbAssert(count($cookies)===$limit,'Concurrent registrations did not fill exactly the allowed capacity.');
@@ -68,12 +75,14 @@ function u5TrustedDbRace($database,$account,$limit,$workers=12) {
 }
 
 u5TrustedDbQuery("CREATE TABLE accounts (email VARCHAR(255),pw VARCHAR(255)) ENGINE=MyISAM");
-u5TrustedDbQuery("INSERT INTO accounts VALUES ('alice@example.test','{SHA}alice'),('bob@example.test','{SHA}bob')");
+$aliceCredential = bin2hex(random_bytes(24));
+$bobCredential = bin2hex(random_bytes(24));
+u5TrustedDbQuery("INSERT INTO accounts VALUES ('alice@example.test','$aliceCredential'),('bob@example.test','$bobCredential')");
 u5TrustedDbAssert(u5TrustedDeviceBrowsers('alice@example.test')===array(),'First visit should show no registrations.');
 // Seed the released single-browser schema and a valid existing token.
 u5TrustedDbQuery("CREATE TABLE u5trusteddevices (installation_id CHAR(16) NOT NULL,username VARCHAR(255) NOT NULL,selector CHAR(32) NOT NULL,validator_hash CHAR(64) NOT NULL,account_hash CHAR(64) NOT NULL,created_at BIGINT UNSIGNED NOT NULL,last_used_at BIGINT UNSIGNED NOT NULL,revoked_at BIGINT UNSIGNED NOT NULL DEFAULT 0,PRIMARY KEY(installation_id,username),UNIQUE KEY u5trusteddevices_selector(installation_id,selector)) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin");
 $installation=u5TrustedDeviceInstallationId();$selector=bin2hex(random_bytes(16));$validator=bin2hex(random_bytes(32));$now=time();
-u5TrustedDbQuery("INSERT INTO u5trusteddevices VALUES ('$installation','alice@example.test','$selector','".hash('sha256',$validator)."','".hash('sha256','{SHA}alice')."',$now,$now,0)");
+u5TrustedDbQuery("INSERT INTO u5trusteddevices VALUES ('$installation','alice@example.test','$selector','".hash('sha256',$validator)."','".hash('sha256',$aliceCredential)."',$now,$now,0)");
 $first=$selector.'.'.$validator;
 u5TrustedDbAssert(is_array(u5TrustedDbResume($first)),'Existing token failed before schema migration.');
 u5TrustedDbAssert(u5TrustedDeviceIssue('alice@example.test')==='exists','Existing browser consumed another place.');
@@ -104,15 +113,30 @@ u5TrustedDbAssert(is_array(u5TrustedDbResume($replacement)),'Reduced quota rejec
 $u5trusteddeviceusers['alice@example.test']=0;
 u5TrustedDbAssert(u5TrustedDbResume($replacement)===false,'Zero quota resumed a trusted browser.');
 $u5trusteddeviceusers['alice@example.test']=2;
-u5TrustedDbQuery("UPDATE accounts SET pw='{SHA}changed' WHERE email='alice@example.test'");
+$newCredential = bin2hex(random_bytes(24));
+u5TrustedDbQuery("UPDATE accounts SET pw='$newCredential' WHERE email='alice@example.test'");
 u5TrustedDbAssert(u5TrustedDbResume($replacement)===false,'Changed account credential did not revoke trust.');
 $changed=u5TrustedDbRegister('alice@example.test');
-u5TrustedDbAssert(u5TrustedDbResume($changed)['password_cookie']==='current-cookie:{SHA}changed','Current credentials were not reconstructed.');
+u5TrustedDbAssert(u5TrustedDbResume($changed)['password_cookie']===pwdcookieget($newCredential),'Current credentials were not reconstructed.');
 $oldDb=$db;$db.='_different';
 u5TrustedDbAssert(u5TrustedDbResume($changed)===false,'Token crossed installation boundaries.');$db=$oldDb;
 $_COOKIE[u5TrustedDeviceCookieName()]=$bob;u5TrustedDeviceRevokeCurrent();
 u5TrustedDbAssert(u5TrustedDbResume($bob)===false,'Logout did not revoke the current browser.');
 u5TrustedDbAssert(u5TrustedDeviceIssue('missing@example.test')==='disabled','Unlisted account registered.');
+
+// A browser with a newly selected account keeps that choice after restarting.
+u5TrustedDbQuery('TRUNCATE TABLE u5trusteddevices');
+$currentBrowser = u5TrustedDbRegister('alice@example.test');
+$otherBrowser = u5TrustedDbRegister('alice@example.test');
+$_COOKIE['u'] = 'ALICE@EXAMPLE.TEST';
+u5TrustedDbAssert(is_array(u5TrustedDbResume($currentBrowser)), 'Equivalent account names must retain the registration.');
+$_COOKIE['u'] = 'bob@example.test';
+u5TrustedDbAssert(u5TrustedDbResume($currentBrowser) === false, 'Explicit account selection must take precedence.');
+u5TrustedDbAssert($_COOKIE['u'] === 'bob@example.test', 'The selected account must remain active.');
+u5TrustedDbAssert(!isset($_COOKIE[u5TrustedDeviceCookieName()]), 'The previous browser registration must be cleared.');
+unset($_COOKIE['u']);
+u5TrustedDbAssert(u5TrustedDbResume($currentBrowser) === false, 'The previous account must stay revoked after restart.');
+u5TrustedDbAssert(is_array(u5TrustedDbResume($otherBrowser)), 'An independent browser must retain its registration.');
 
 // Real independent database connections race for initially empty and revoked places.
 u5TrustedDbQuery('TRUNCATE TABLE u5trusteddevices');
