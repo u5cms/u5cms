@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.8
+# u5CMS 12.9.5.9
+
+The homepage selector loads only page names and homepage flags, including on large multilingual sites. Saving validates the selected page before switching the homepage in one database statement.
 
 Ordinary saves remain available while indexing and backups run. A save marks pending index work on the server. Single-resource and full indexing coordinate through the same lock, respect pending Rename operations and bound database lock waits.
 
