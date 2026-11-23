@@ -106,6 +106,13 @@ u5TrustedAssert(u5TrustedDeviceResume() === false && $u5TrustedFakeRow['revoked_
 
 $_SERVER['HTTP_ORIGIN']='https://box.example.test';$_SERVER['HTTP_SEC_FETCH_SITE']='same-origin';
 u5TrustedAssert(u5TrustedDeviceOriginMatches(), 'Same-origin POST was rejected.');
+$csrfBefore=u5TrustedDeviceCsrfToken('stefan.minder@bk.admin.ch','cookie-one');
+$sessioncookiehashsalt='changed-daily-salt';
+u5TrustedAssert(hash_equals($csrfBefore,u5TrustedDeviceCsrfToken('stefan.minder@bk.admin.ch','cookie-two')), 'CSRF token changed with the ordinary session.');
+$_SERVER['HTTP_HOST']='box-p.example.test';$_SERVER['HTTP_X_FORWARDED_HOST']='box.example.test';
+$_SERVER['HTTP_SEC_FETCH_SITE']='same-site';
+u5TrustedAssert(u5TrustedDeviceOriginMatches(), 'Forwarded public origin was rejected.');
+unset($_SERVER['HTTP_X_FORWARDED_HOST']);$_SERVER['HTTP_HOST']='box.example.test';
 $_SERVER['HTTP_ORIGIN']='https://attacker.example';$_SERVER['HTTP_SEC_FETCH_SITE']='cross-site';
 u5TrustedAssert(!u5TrustedDeviceOriginMatches(), 'Cross-site POST was accepted.');
 

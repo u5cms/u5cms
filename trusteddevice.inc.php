@@ -218,19 +218,35 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
     }
 
     function u5TrustedDeviceCsrfToken($username, $passwordCookie) {
-        global $sessioncookiehashsalt, $password, $db;
-        $key = hash('sha256', (string)$sessioncookiehashsalt."\0".(string)$password."\0".(string)$db, true);
+        global $password, $db;
+        // Deliberately independent from the ordinary, potentially daily session salt and
+        // the reconstructed session cookie: a GET and its POST must agree across proxies.
+        // The HMAC remains secret, installation-bound and account-bound.
+        $key = hash('sha256', (string)$password."\0".(string)$db."\0u5-trusted-device-csrf", true);
         return hash_hmac('sha256', 'trusted-device\0' . u5TrustedDeviceInstallationId() . "\0"
-            . u5TrustedDeviceNormaliseUser($username) . "\0" . (string)$passwordCookie, $key);
+            . u5TrustedDeviceNormaliseUser($username), $key);
     }
 
     function u5TrustedDeviceOriginMatches() {
-        if (isset($_SERVER['HTTP_SEC_FETCH_SITE']) && $_SERVER['HTTP_SEC_FETCH_SITE'] !== 'same-origin') return false;
+        if (isset($_SERVER['HTTP_SEC_FETCH_SITE'])) {
+            $fetchSite = strtolower(trim((string)$_SERVER['HTTP_SEC_FETCH_SITE']));
+            if (!in_array($fetchSite, array('same-origin', 'same-site', 'none'), true)) return false;
+        }
         if (empty($_SERVER['HTTP_ORIGIN'])) return true;
         $origin = parse_url((string)$_SERVER['HTTP_ORIGIN']);
         if ($origin === false || strtolower((string)($origin['scheme'] ?? '')) !== 'https') return false;
         $originHost = strtolower((string)($origin['host'] ?? ''));
         if (isset($origin['port'])) $originHost .= ':' . (int)$origin['port'];
-        return hash_equals(strtolower((string)($_SERVER['HTTP_HOST'] ?? '')), $originHost);
+        $candidateHosts = array(
+            $_SERVER['HTTP_HOST'] ?? '',
+            $_SERVER['HTTP_X_FORWARDED_HOST'] ?? '',
+            $_SERVER['HTTP_X_ORIGINAL_HOST'] ?? '',
+            $_SERVER['SERVER_NAME'] ?? ''
+        );
+        foreach ($candidateHosts as $candidateHost) {
+            $candidateHost = strtolower(trim(explode(',', (string)$candidateHost)[0]));
+            if ($candidateHost !== '' && hash_equals($candidateHost, $originHost)) return true;
+        }
+        return false;
     }
 }
