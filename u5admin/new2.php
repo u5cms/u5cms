@@ -17,6 +17,8 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) echo 'SQL_a-Query failed!...!<p>';
 $num_a = mysql_num_rows($result_a);
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$_POST['name'],null,$_POST['name']);
 if ($num_a>0) {
 
 $sql_a="UPDATE resources SET deleted=0, typ='".mysql_real_escape_string($_GET['typ'])."' WHERE name='".mysql_real_escape_string($_POST['name'])."'";

@@ -33,15 +33,15 @@ $email.=trim(str_replace($data[0][0],'',$data[0])).",";
 }
 
 $email=u5flatidn($email);
+require_once __DIR__ . '/provision-changes.inc.php';
+u5ProvisionIdentityChange(__DIR__,false);
 $sql_a="UPDATE intranetmembers SET members='".mysql_real_escape_string(str_replace(',&#0;@&#0;','',$email))."'";
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {
 echo 'SQL_a-Query failed!...!<p>';
 }
-$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
-$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
-file_get_contents($scriptFolder.'/htaccess.php');
+
 }
 ?>
 <script>

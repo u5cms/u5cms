@@ -35,6 +35,8 @@ if (!isset($_GET['n'])) $_GET['n'] = '';
 if ($_GET['c'] == '' && $_GET['n'] != '') $_GET['c'] = $_GET['n'];
 if (!isset($thatpage) || $thatpage == '') $thatpage = $_GET['c'];
 
+require_once __DIR__ . '/provision-changes.inc.php';
+if (substr((string)$thatpage,0,1)==='!' && u5ProvisionPagePending(__DIR__,(string)$thatpage)) u5ProvisionUnavailable();
 $sql = "SELECT name, logins FROM resources WHERE logins NOT LIKE '' AND name='" . mysql_real_escape_string($thatpage) . "'";
 $result = mysql_query($sql);
 $num = @mysql_num_rows($result);
