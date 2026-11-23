@@ -76,13 +76,21 @@ foreach (array($source, $oidc) as $root) {
     u5RolloutTestAssert(strpos(file_get_contents($root . '/u5admin/usercheck.inc.php'), 'u5TrustedDeviceResume') !== false, 'Backend hook missing.');
     u5RolloutTestAssert(strpos(file_get_contents($root . '/logout.php'), 'u5TrustedDeviceRevokeCurrent') !== false, 'Logout hook missing.');
     u5RolloutTestAssert(strpos(file_get_contents($root . '/config.php'), "\$u5trusteddeviceenabled = 'yes'") !== false, 'Enable flag missing.');
-    u5RolloutTestAssert(strpos(file_get_contents($root . '/config.php'), "array('stefan.minder@bk.admin.ch')") !== false, 'Exact allow-list missing.');
+    u5RolloutTestAssert(strpos(file_get_contents($root . '/config.php'), "array('stefan.minder@bk.admin.ch' => 1)") !== false, 'Exact account quota missing.');
     u5RolloutTestAssert(is_file($root . '/trusteddevice.inc.php') && is_file($root . '/u5admin/trusteddevice.php'), 'New files missing.');
 }
 u5RolloutTestAssert(strpos(file_get_contents($oidc . '/login.inc.php'), 'u5ValidateTextRequest') !== false, 'OIDC validation was lost.');
 u5RolloutTestAssert(strpos(file_get_contents($oidc . '/login.inc.php'), 'u5OidcRequired') !== false, 'OIDC frontend guard was lost.');
 u5RolloutTestAssert(strpos(file_get_contents($oidc . '/u5admin/usercheck.inc.php'), 'u5OidcEnabled') !== false, 'OIDC backend guard was lost.');
 u5RolloutTestAssert(is_file($backup . '/manifest.json'), 'Backup manifest missing.');
+
+// Updating the feature must not overwrite deliberately configured account limits.
+$configured = "\$u5trusteddeviceusers = array('stefan.minder@bk.admin.ch' => 3, 'other@example.test' => 2);";
+$path = $oidc . '/config.php';
+file_put_contents($path, str_replace("\$u5trusteddeviceusers = array('stefan.minder@bk.admin.ch' => 1);", $configured, file_get_contents($path)));
+$again = array_merge($common, array('--apply', '--backup-root=' . $tmp . '/backup-again'));
+u5RolloutTestAssert(u5RolloutTestRun($again, $reapplied) === 0, 'Repeat apply failed: ' . $reapplied);
+u5RolloutTestAssert(strpos(file_get_contents($path), $configured) !== false, 'Code rollout overwrote configured quotas.');
 
 u5RolloutTestRemove($tmp);
 u5RolloutTestRemove($backup);
