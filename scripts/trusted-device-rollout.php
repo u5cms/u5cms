@@ -70,10 +70,11 @@ function u5RolloutPatchLogout($content) {
 
 function u5RolloutPatchConfig($content, $user) {
     $enabled = "\$u5trusteddeviceenabled = 'yes';";
-    $users = "\$u5trusteddeviceusers = array('" . str_replace(array('\\', "'"), array('\\\\', "\\'"), $user) . "');";
+    $users = "\$u5trusteddeviceusers = array('" . str_replace(array('\\', "'"), array('\\\\', "\\'"), $user) . "' => 1);";
     if (strpos($content, '$u5trusteddeviceenabled') !== false || strpos($content, '$u5trusteddeviceusers') !== false) {
         $content = preg_replace("~\\\$u5trusteddeviceenabled\\s*=\\s*'[^']*'\\s*;~", $enabled, $content, 1, $enabledCount);
-        $content = preg_replace("~\\\$u5trusteddeviceusers\\s*=\\s*array\\s*\\([^;]*\\)\\s*;~s", $users, $content, 1, $usersCount);
+        // A code rollout must preserve the administrator's existing account quotas.
+        $usersCount = preg_match_all('~^[ \\t]*\\$u5trusteddeviceusers\\s*=~m', $content);
         if ($content === null || $enabledCount !== 1 || $usersCount !== 1) throw new RuntimeException('Trusted-device config is ambiguous.');
         return $content;
     }
@@ -83,7 +84,7 @@ function u5RolloutPatchConfig($content, $user) {
     $anchor = $match[0][0];
     $offset = $match[0][1] + strlen($anchor);
     $insert = "\n\n   // Optional trusted browser: HTTPS-only, host- and installation-bound,\n"
-        . "   // one active browser, revocable, and restricted to this exact account.\n"
+        . "   // revocable, with explicit per-account trusted-browser limits.\n"
         . "   // Register or revoke at /u5admin/trusteddevice.php after a normal login.\n"
         . "   " . $enabled . "\n"
         . "   " . $users;
