@@ -19,6 +19,8 @@ orignow('jsmobilespecific');
 
 function orignow($n) {
 $d=file_get_contents('../r/'.$n.'.tpl');
+require_once dirname(__DIR__).'/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$n,array('content_1'=>$d,'typ'=>'c','hidden'=>0,'logins'=>''));
 $sql_a="UPDATE resources SET content_1='".mysql_real_escape_string($d)."' WHERE name='$n'";
 echo '<pre>'.htmlspecialchars($sql_a).'</pre><hr>';
 $result_a=mysql_query($sql_a);

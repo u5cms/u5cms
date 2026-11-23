@@ -32,6 +32,8 @@ trxlog('not deleted '.$_POST['name']);
 exit;
 }
 
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$_POST['name']);
 $sql_a="UPDATE resources SET deleted=1 WHERE name='".mysql_real_escape_string($_POST['name'])."'";
 $result_a=mysql_query($sql_a);
 

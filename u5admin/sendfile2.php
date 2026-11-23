@@ -110,6 +110,8 @@ if ($originalimagetmp!='' && !u5ArchiveImageOriginal($originalimagetmp, '../file
 @unlink($originalimagetmp);
 die('<script>document.getElementById("body").style.background="red";alert("The original image could not be archived. No image has been replaced.");parent.location.href=parent.location.href</script>');
 }
+require_once dirname(__DIR__) . '/provision-changes.inc.php';
+u5ProvisionUpload(dirname(__DIR__),$_POST['name']);
 @mkdir('../r/'.$_POST['name'],0777);
 if (!u5PublishUploadedFile($_FILES['userfile']['tmp_name'], '../r/'.$_POST['name'].'/'.$_POST['name'].$_GET['l'].'.'.$ext)) {
 if($originalimagetmp!='') @unlink($originalimagetmp);

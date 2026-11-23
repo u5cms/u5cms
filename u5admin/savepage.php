@@ -55,6 +55,8 @@ $u5CheckConflict=$checksaveversionconflictinbackend!='none' &&
 if ($row_a['typ']!==$u5OriginalType || $row_a['deleted']!=$u5OriginalDeleted || ($u5Attempt>0 && $u5CheckConflict) || ((int)$_POST['coco']<(int)$row_a['lastmut'] && $u5CheckConflict)) break;
 $u5SaveTime=max(time(),(int)$row_a['lastmut']+1);
 $u5PreviousRevision=u5SaveDigestSql().'='.u5RenameStorageValue($row_a['edit_digest']);
+require_once dirname(__DIR__).'/provision-changes.inc.php';
+u5ProvisionPrepare(dirname(__DIR__),$_POST['name'],array_merge($_POST,array('typ'=>'p')));
 $sql_a="UPDATE resources SET ".implode(',',$u5Assignments).",lastmut=".$u5SaveTime.
 " WHERE name='".mysql_real_escape_string($_POST['name'])."' AND deleted=".(int)$u5OriginalDeleted." AND ".$u5PreviousRevision." LIMIT 1";
 $result_a=mysql_query($sql_a);

@@ -1,6 +1,4 @@
 <?php
-require('connect.inc.php');
-$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
-$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname(dirname($_SERVER['REQUEST_URI']));
-file_get_contents($scriptFolder . '/htaccess.php');
-?>
+require_once 'connect.inc.php';
+require_once dirname(__DIR__).'/provision.inc.php';
+u5ProvisionRun(dirname(__DIR__));
