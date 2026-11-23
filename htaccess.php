@@ -1,5 +1,7 @@
 <?php
 ignore_user_abort(true);
+// Keep the existing allowance for the initial catalogue on large installations.
+if (PHP_SAPI!=='cli' && function_exists('set_time_limit')) set_time_limit(36000);
 if (PHP_SAPI==='cli') {
     require __DIR__.'/config.php';
     require_once __DIR__.'/mysql.php';
