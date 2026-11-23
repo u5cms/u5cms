@@ -13,7 +13,7 @@ function batchCheck($condition,$message) {
     if (!$condition) throw new RuntimeException($message);
 }
 try {
-    foreach (array('indexer.php','search-index.inc.php','search-core.inc.php') as $file) {
+    foreach (array('indexer.php','background-work.inc.php','search-index.inc.php','search-core.inc.php') as $file) {
         if (is_file($root.'/'.$file)) copy($root.'/'.$file,$tmp.'/'.$file);
     }
     file_put_contents($dir.'/indexerrunning.txt','0');

@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . '/provision-work.inc.php';
+require_once __DIR__ . '/background-work.inc.php';
 if (($blockautoincluderefresherforhtaccessandindex ?? '')!=='yes' && u5ProvisionPending(__DIR__)) {
-    echo '<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="htaccess.php"></iframe>\')</script>';
+    u5BackgroundWorkLaunch('htaccess.php','provision','js/u5-background-work.js',true);
 }
 
 require_once __DIR__ . '/search-index.inc.php';
@@ -12,6 +13,6 @@ if ($blockautoincluderefresherforhtaccessandindex != 'yes' && !isset($_COOKIE['p
     if (u5SearchIndexNeedsUpdate() && !u5SearchIndexIsRunning()
         && (!is_file(__DIR__.'/fileversions/indexer-progress.php') || filemtime(__DIR__.'/fileversions/indexer-progress.php') <= time())
         && $u5LastSave < time() - $waitsecondstillindexingsincelastsave) {
-        echo '<script>if(!opener&&top==self)document.write(\'<iframe style="display:none" src="indexer.php?u5indexauto=1"></iframe>\')</script>';
+        u5BackgroundWorkLaunch('indexer.php?u5indexauto=1','index','js/u5-background-work.js',true);
     }
 }
