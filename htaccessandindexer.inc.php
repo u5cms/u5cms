@@ -20,7 +20,8 @@ if (($blockautoincluderefresherforhtaccessandindex ?? '') !== 'yes' && !isset($_
             if ($due <= $now || $due > $now + 86400) {
                 u5BackgroundWorkLaunch('indexer.php?u5indexcontinue=1','index','js/u5-background-work.js',true);
             }
-        } elseif ($needsNewRun && $lastSave < $now - $quietPeriod) {
+        } elseif ($needsNewRun && ($lastSave < $now - $quietPeriod
+            || ($lastSave > $now && u5SearchIndexFileTime($directory.'/lastindex.txt') > $now))) {
             u5BackgroundWorkLaunch('indexer.php?u5indexauto=1','index','js/u5-background-work.js',true);
         }
     }

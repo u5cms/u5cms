@@ -1,5 +1,17 @@
 # u5CMS development checkpoint
 
+## 12.9.5.14 maintenance on this development line
+
+Starting commit: `7cd6fd135a00c3a16f737eed0f4a963b6ff1e848`. Carry forward the stable index freshness and clock
+corrections and per-form Turnstile lifecycle. The branch keeps its own CMS
+version and search implementation. Changes cover the worker and launcher,
+form widgets, submission handlers and validator, with regression cases in
+`tests/indexer_recovery.py` and `tests/turnstile-browser.cjs`.
+The stable [release notes](https://github.com/u5cms/u5cms/blob/v12.9.5.14/docs/release-12.9.5.14.md)
+describe operation and rollback. Verify acceptance and regression runs on the
+published branch commit before deploying. No live installation is part of this
+source change.
+
 ## Source acceptance for 12.9.5.7, 19 November 2026
 
 Authorised scope: finish .6 on GitHub without rollout or mail; remove the urgent

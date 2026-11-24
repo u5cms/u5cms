@@ -106,3 +106,69 @@ def verify_recovery(site, php, get):
     assert 'recovery c' in sql("SELECT search_1 FROM resources WHERE name='zzauditc'")
     assert get('/indexer.php?u5indexcontinue=1', quiet=True)['state'] == 'idle'
     print('Public resume, busy result, legacy form policy and two independent row failures recovered.')
+
+    # A completion timestamp from a machine with a fast clock must not suppress work.
+    now = int(time.time())
+    saved.write_text(str(now - 7200))
+    marker.write_text(str(now + 86400))
+    assert b'indexer.php?u5indexauto=1' in homepage()
+    assert get('/indexer.php?u5indexauto=1', quiet=True)['state'] == 'wait'
+    for _ in range(100):
+        if step() == 'done':
+            break
+    assert not progress.exists() and 0 < int(marker.read_text()) <= time.time()
+    assert get('/indexer.php?u5indexauto=1', quiet=True)['state'] == 'idle'
+
+    # Keep one old failure open and edit rows on both sides of its retry interval.
+    # Hold the 24-hour retry deadline in the future; only advance the edit probe.
+    saved.write_text('100')
+    original = marker.read_bytes()
+    sql("CREATE TRIGGER audit_index_error BEFORE UPDATE ON resources FOR EACH ROW "
+        "BEGIN IF NEW.name='zzauditc' THEN SIGNAL SQLSTATE '45000' "
+        "SET MESSAGE_TEXT='controlled resource error'; END IF; END")
+    assert get('/indexer.php', quiet=True)['state'] == 'wait'
+    for _ in range(100):
+        step()
+        if 'checkEditsAfter' in checkpoint():
+            break
+    state = checkpoint()
+    assert 'checkEditsAfter' in state and bytes.fromhex(state['upper']) == b'zzauditc'
+    def wake_edit_probe(state):
+        state['next'] = int(time.time()) + 86300
+        state['checkEditsAfter'] = 0
+        progress.write_text('<?php exit; ?>\n' + json.dumps(state))
+    wake_edit_probe(state)
+    assert b'indexer.php?u5indexcontinue=1' in homepage()
+    probe = get('/indexer.php?u5indexcontinue=1', quiet=True)
+    assert probe['state'] == 'wait' and 895000 <= probe['delay'] <= 902000
+    assert checkpoint()['upper'] == state['upper'] and checkpoint()['next'] > time.time() + 86000
+    assert b'indexer.php?u5indexcontinue=1' not in homepage()
+    sql("UPDATE resources SET content_1='edited before hole u5earlyword', logins='', hidden=0 WHERE name='zzaudita'")
+    sql("INSERT INTO resources(name,typ,content_1,search_1) VALUES "
+        "('zzauditz','p','new after hole u5laterword','old')")
+    sql("UPDATE resources SET hidden=0, logins='' WHERE name='zzauditz'")
+    saved.write_text(str(int(time.time())))
+    wake_edit_probe(checkpoint())
+    assert b'indexer.php?u5indexcontinue=1' in homepage()
+    assert get('/indexer.php?u5indexcontinue=1', quiet=True)['state'] == 'wait'
+    for _ in range(100):
+        # Simulate continuing editing during the sweep. This must not rewind it.
+        saved.write_text(str(int(time.time())))
+        step()
+        assert marker.read_bytes() == original
+        if 'checkEditsAfter' in checkpoint():
+            break
+    assert 'checkEditsAfter' in checkpoint()
+    assert 'edited before hole' in sql("SELECT search_1 FROM resources WHERE name='zzaudita'")
+    assert 'new after hole' in sql("SELECT search_1 FROM resources WHERE name='zzauditz'")
+    for word, expected, other in [('u5earlyword', b'zzaudita', b'zzauditz'),
+                                  ('u5laterword', b'zzauditz', b'zzaudita')]:
+        results = get('/index.php?c=_search&l=de&q=' + word)
+        assert expected in results and other not in results, (word, expected, other)
+    assert marker.read_bytes() == original
+    sql('DROP TRIGGER audit_index_error')
+    for _ in range(100):
+        if step() == 'done':
+            break
+    assert not progress.exists()
+    print('Clock rollback, bounded idle probes and fresh content around a persistent failure passed.')
