@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.15
+# u5CMS 12.10.0
+
+Version 12.10.0 consolidates the stable 12.9.5 updates. When archived sender evidence is enabled, forms that depend on per-user version checks are rejected before storage or mail delivery. [Upgrade and release notes](docs/release-12.10.0.md).
 
 Optional archived-SAML sender evidence for authenticated forms. [Installation and release notes](docs/release-12.9.5.15.md).
 

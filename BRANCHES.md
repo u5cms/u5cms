@@ -6,17 +6,18 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
+| [12.10.0](docs/release-12.10.0.md) | Stable consolidation and compatibility of version-checked forms |
 | [12.9.5.15](docs/release-12.9.5.15.md) | Optional sender evidence for authenticated forms |
 | [12.9.5.14](https://github.com/u5cms/u5cms/tree/v12.9.5.14) | Index freshness during recovery, clock recovery and independent protected forms |
 | [12.9.5.13](https://github.com/u5cms/u5cms/tree/v12.9.5.13) | Resumable background indexing and compatibility for protected forms |
-| [12.9.5.12](https://github.com/u5cms/u5cms/tree/release-12.9.5.12-account-switch) | Account switching on a trusted browser |
-| [12.9.5.11](https://github.com/u5cms/u5cms/tree/release-12.9.5.11-quiet-background-work) | Quiet background index and access updates with unchanged work budgets and recovery |
-| [12.9.5.10](https://github.com/u5cms/u5cms/tree/release-12.9.5.10-trusted-sessions) | Optional, revocable trusted-browser sessions, disabled by default |
-| [V13](https://github.com/u5cms/u5cms/tree/V13) | Backend improvements, additional image formats and corrected upload media types |
-| [V14](https://github.com/u5cms/u5cms/tree/V14) | Typed code resources, resumable migration, backup and restore, private files and intranet login |
-| [V15](https://github.com/u5cms/u5cms/tree/V15) | Page search, destination highlighting, optional OpenID Connect, editor improvements and PHP compatibility |
-| [V16](https://github.com/u5cms/u5cms/tree/V16) | Standard and conference site design, style exports and reset templates |
-| [V17](https://github.com/u5cms/u5cms/tree/V17) | Responsive templates and a shared renderer for markup, resources and database table output |
+| [12.9.5.12](https://github.com/u5cms/u5cms/tree/v12.9.5.12) | Account switching on a trusted browser |
+| [12.9.5.11](https://github.com/u5cms/u5cms/tree/v12.9.5.11) | Quiet background index and access updates with unchanged work budgets and recovery |
+| [12.9.5.10](https://github.com/u5cms/u5cms/tree/v12.9.5.10) | Optional, revocable trusted-browser sessions, disabled by default |
+| [V13](https://github.com/u5cms/u5cms/tree/V13-more-Img-Formats) | Backend improvements, additional image formats and corrected upload media types |
+| [V14](https://github.com/u5cms/u5cms/tree/V14-JS-CSS-HTML-Exports) | Typed code resources, resumable migration, backup and restore, private files and intranet login |
+| [V15](https://github.com/u5cms/u5cms/tree/V15-Phrase-Search-and-OIDC) | Page search, destination highlighting, optional OpenID Connect, editor improvements and PHP compatibility |
+| [V16](https://github.com/u5cms/u5cms/tree/V16-Default-Design) | Standard and conference site design, style exports and reset templates |
+| [V17](https://github.com/u5cms/u5cms/tree/V17-New-Responsive-Layouts) | Responsive templates and a shared renderer for markup, resources and database table output |
 
 The [historical branch index](https://github.com/u5cms/u5cms/blob/d86b2a7ecac79d6b9df385d38396e7084b274b98/docs/17.0.0-historical-branches.md) records all 31 former branch names and their exact recoverable commits. The historical links below open the original source trees.
 
