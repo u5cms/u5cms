@@ -59,9 +59,10 @@ function u5SearchIndexFormatCurrent($directory = null) {
 
 function u5SearchIndexNeedsUpdate($directory = null) {
     if ($directory === null) $directory = __DIR__ . '/fileversions';
-    return is_file($directory . '/search-index-pending.txt')
+    $lastIndex = u5SearchIndexFileTime($directory . '/lastindex.txt');
+    return $lastIndex > time() || is_file($directory . '/search-index-pending.txt')
         || !u5SearchIndexFormatCurrent($directory)
-        || u5SearchIndexFileTime($directory . '/lastsave.txt') > u5SearchIndexFileTime($directory . '/lastindex.txt');
+        || u5SearchIndexFileTime($directory . '/lastsave.txt') > $lastIndex;
 }
 
 function u5SearchIndexIsRunning($directory = null) {
