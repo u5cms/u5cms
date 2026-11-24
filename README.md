@@ -1,5 +1,7 @@
 # u5CMS 14.0.0
 
+Includes the optional [12.9.5.15 form evidence module](docs/release-12.9.5.15.md).
+
 V14 builds on the published 13.0.0 release. This line introduces typed JavaScript, CSS and HTML resources. Existing installations must carry their customised database content, generated files and backups through the migration. The changes also cover private-file caching and intranet login handling. See the [branch guide](BRANCHES.md) for the predecessor and release history.
 
 ---
