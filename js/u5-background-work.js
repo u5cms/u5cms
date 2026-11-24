@@ -62,7 +62,7 @@
             if (!/^application\/json(?:;|$)/i.test(response.headers.get('Content-Type') || '')) throw new Error('Unexpected maintenance response.');
             return response.json().then(function (reply) {
                 if (!reply || reply.u5work !== 1 || reply.kind !== job.kind
-                    || ['done', 'idle', 'wait', 'pending', 'error'].indexOf(reply.state) === -1) throw new Error('Invalid maintenance response.');
+                    || ['done', 'idle', 'busy', 'wait', 'pending', 'error'].indexOf(reply.state) === -1) throw new Error('Invalid maintenance response.');
                 if (reply.state === 'wait' && response.status !== 200 && response.status !== 202 && response.status !== 409) throw new Error('Invalid maintenance continuation.');
                 if ((reply.state === 'done' || reply.state === 'idle') && !response.ok) throw new Error('Unsuccessful maintenance response.');
                 return reply;
@@ -79,7 +79,11 @@
                 wait(job, Math.max(minimumDelay, reply.delay));
             } else {
                 if (reply.state === 'done') complete(job, reply);
-                finish(job, reply.state === 'done' || reply.state === 'idle' ? 'Update complete.' : 'Update pending. Please try again.');
+                var message = 'Update pending. Please try again.';
+                if (reply.state === 'done') message = 'Update complete.';
+                if (reply.state === 'idle') message = 'Already up to date.';
+                if (reply.state === 'busy') message = 'An update is already running.';
+                finish(job, message);
             }
         }).catch(function () {
             if (timer !== null) window.clearTimeout(timer);
