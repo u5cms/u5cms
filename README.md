@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.12
+# u5CMS 12.9.5.13
+
+Full indexing resumes after a visitor leaves and can make progress past an interrupted resource. [Release notes](docs/release-12.9.5.13.md).
 
 Switching accounts on a trusted browser now retains the newly selected account and revokes the previous registration on that browser. [Release notes](docs/release-12.9.5.12.md).
 
