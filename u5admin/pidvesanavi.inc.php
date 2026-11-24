@@ -357,7 +357,7 @@ else { $delstatus=0;
 <a id="isloaded" style="font-size:120%" href="u5shortreference.pdf" title="short reference" target="_blank">?</a>
 
                 <?php
-                if ($usesessioninsteadofbasicauth != 'no') echo ' <span title="logout"><a style="font-size:120%" lang="ja" href="javascript:void(0)" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">&#x51FA;</a></span>'
+                if ($usesessioninsteadofbasicauth != 'no') echo ' <span title="logout u5CMS 13.0.0"><a style="font-size:120%" lang="ja" href="javascript:void(0)" onclick="parent.location.href=\'logout.php?u=\'+parent.location.href">&#x51FA;</a></span>'
                 ?>
 </div>
 </td>
