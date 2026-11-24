@@ -1,4 +1,11 @@
-<?php require('formdata.intro.php') ?> 
+<?php require('formdata.intro.php');
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    require_once __DIR__.'/../form-evidence.inc.php';
+    u5EvidenceRequireMode(1);
+    if ($formdataRqHIADRI === 'no') require('accadmin.inc.php');
+}
+echo " \n";
+?>
 <select onchange="location.href='formdata2.php?n=<?php echo $_GET['n']?>&s='+this.value+'&f='+escape(document.getElementById('filt').value)+'&o='+escape(getTransportText('u5_filt_o'))">
 <option value="0">all with any status 1) &ndash; 4)</option>
 <option <?php if ($_GET['s']==1) echo 'selected="selected"' ?> value="1">all with status 1) new</option>
@@ -133,6 +140,7 @@ $trattribs='onclick="cedit(this.firstChild,event)" style="background:#e1e1e1" on
 
 for ($i_a=0; $i_a<$num_a; $i_a++) {
 $row_a = mysql_fetch_array($result_a);
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') $u5EvidenceCells = u5EvidenceSummary($row_a, false);
 
 if ($row_a['authuser']!='') if (strpos('xx'.$authusers,'.,!,.'.$row_a['authuser'].'.,!,.')>1) $row_a['authuser']='<span style="background:pink" title="duplicate?">'.$row_a['authuser'].' ÷<span>';
 
@@ -141,7 +149,7 @@ $authusers.='.,!,.'.$row_a['authuser'].'.,!,.';
 $rowaid.=$row_a['id'].',';
 
 $row_a['headcsv']=str_replace('_mandatory','*',($row_a['headcsv'] ?? ''));
-if ($oldhead!=$row_a['headcsv']) $csv.='<small>N°</small><br>ID;Status;Notes;Authuser;'.$row_a['headcsv'].'Sent;IP'."\r\n";
+if ($oldhead!=$row_a['headcsv']) $csv.='<small>N°</small><br>ID;Status;Notes;Authuser;'.((!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') ? u5EvidenceHeader() : '').$row_a['headcsv'].'Sent;IP'."\r\n";
 if($i_a==0) $lasthead=$csv;
 $oldhead=$row_a['headcsv'];
 
@@ -166,7 +174,7 @@ $notesformstart='<form method="post" name="nf'.$row_a['id'].'" target="ifr'.$row
 $notesformend='</form>';
 if($noteslines==1)$notes=$notesformstart.'<input id="no'.$row_a['id'].'" name="note" style="width:'.$noteswidth.'px" type="text" '.$noteslogic.' value="'.$notesvalue.'">'.$notesformend;
 else $notes=$notesformstart.'<textarea id="no'.$row_a['id'].'" name="note" rows="'.$noteslines.'" style="width:'.$noteswidth.'px" type="text" '.$noteslogic.'><!!!u5dl_mtr!!!'.$notesvalue.'!!!u5dl_mtr!!!></textarea>'.$notesformend;
-$csv.='<a title="edit: Click here or Alt+Click anywhere" id="i'.$row_a['id'].'" style="text-decoration:none" onclick="document.cookie=\'fd2y='.$row_a['id'].'\'" href="../formdataedit.php?n='.$_GET['n'].'&a=1&id='.$row_a['id'].'"><small>'.$lnnr++.'</small><br>'.$row_a['id'].'</a>;<iframe scrolling="no" width="100%" height="3" frameborder="0" name="ifr'.$row_a['id'].'"></iframe><select onchange="ifr'.$row_a['id'].'.location.href=\'statussave.php?status=\'+this.value+\'&id='.$row_a['id'].'\'" id="sel'.$row_a['id'].'"><option value="1">1) new</option><option value="2">2) pending</option><option value="3">3) problem</option><option value="4">4) done</option><option value="5">'.$delete.'</option><option value="6">former version</option><option value="7">imported</option></select><script src=sel.php?id='.$row_a['id'].'&status='.$row_a['status'].'></script>;'.$notes.$notesscript.';'.str_replace(';',',.',($row_a['authuser'])).';'.str_replace("<br />"," | ",str_replace("\n","",str_replace("\r","",nl2br(str_replace(':&lt,.:','<',str_replace(':&gt,.:','>',str_replace('<','&lt,.',str_replace('>','&gt,.',($row_a['datacsv']))))))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip']."<br />";
+$csv.='<a title="edit: Click here or Alt+Click anywhere" id="i'.$row_a['id'].'" style="text-decoration:none" onclick="document.cookie=\'fd2y='.$row_a['id'].'\'" href="../formdataedit.php?n='.$_GET['n'].'&a=1&id='.$row_a['id'].'"><small>'.$lnnr++.'</small><br>'.$row_a['id'].'</a>;<iframe scrolling="no" width="100%" height="3" frameborder="0" name="ifr'.$row_a['id'].'"></iframe><select onchange="ifr'.$row_a['id'].'.location.href=\'statussave.php?status=\'+this.value+\'&id='.$row_a['id'].'\'" id="sel'.$row_a['id'].'"><option value="1">1) new</option><option value="2">2) pending</option><option value="3">3) problem</option><option value="4">4) done</option><option value="5">'.$delete.'</option><option value="6">former version</option><option value="7">imported</option></select><script src=sel.php?id='.$row_a['id'].'&status='.$row_a['status'].'></script>;'.$notes.$notesscript.';'.str_replace(';',',.',($row_a['authuser'])).';'.((!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') ? $u5EvidenceCells : '').str_replace("<br />"," | ",str_replace("\n","",str_replace("\r","",nl2br(str_replace(':&lt,.:','<',str_replace(':&gt,.:','>',str_replace('<','&lt,.',str_replace('>','&gt,.',($row_a['datacsv']))))))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip']."<br />";
 }
 $dnummer=date("YmdHis");
 $echo = str_replace(',.',';',str_replace('<tr '.$trattribs.'><td ondblclick="dbl(this)"><b>','<tr '.$trattribs.' style="font-weight:bold"><td ondblclick="dbl(this)"><b>','<table><tr '.$trattribs.'><td ondblclick="dbl(this)">'.str_replace(';','</td><td ondblclick="dbl(this)">',str_replace('<br />','</td></tr><tr '.$trattribs.'><td ondblclick="dbl(this)">',nl2br($csv))).'</tr></table>'));
