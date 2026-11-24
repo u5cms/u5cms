@@ -1,5 +1,7 @@
 # u5CMS 17.0.0 · Responsive renderer
 
+Includes the optional [12.9.5.15 form evidence module](docs/release-12.9.5.15.md).
+
 New standard and conference sites use a responsive template. Navigation, forms and media adapt to the viewport. Existing sites retain their installed template and its mobile behaviour. The renderer continues to use the same page and database content in both modes. The [renderer documentation](docs/responsive-design.md) describes template selection, media sizing and the database table syntax. The [branch guide](BRANCHES.md) records the accepted predecessor and the comparison used to verify the new line.
 
 ---

@@ -1,5 +1,7 @@
 # u5CMS development branches
 
+See also the [12.9.5.15 sender-evidence release notes](docs/release-12.9.5.15.md).
+
 ## Maintained branches
 
 `main` is the stable default. The cumulative development lines are `V13` (backend and uploads), `V14` (code migration), `V15` (search, authentication and editor), `V16` (standard design) and `V17` (responsive renderer). Each starts from its accepted predecessor. The [historical tip index](docs/17.0.0-historical-branches.md) lists all 31 former working heads and links to their fixed source trees.
