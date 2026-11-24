@@ -67,6 +67,10 @@ if ($pexerror>0 && $disableformfieldchecker!='yes') die('ERROR: Data cannot be s
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    if ($ismformfs === '1') {
+        http_response_code(409);
+        exit('This form requires version checks and cannot use append-only sender evidence.');
+    }
     try {
         $u5EvidenceOwner = u5EvidencePrepare($_POST, $pexcheck);
         $u5Identity = u5EvidenceIdentity($_SERVER['PHP_AUTH_USER'] ?? '', $_POST);
