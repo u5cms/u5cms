@@ -9,6 +9,11 @@
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('delreadrights.inc.php');
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    require_once __DIR__.'/form-evidence.inc.php';
+    u5EvidenceRequireMode(1);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
@@ -17,6 +22,15 @@ $result_a=mysql_query($sql_a);
 
 if ($result_a==false) die('SQL_a-Query failed!...!<p><script>alert("'.htmlXspecialchars(mysql_error()).'")</script>');
 $row_a = mysql_fetch_array($result_a);
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    if (!is_array($row_a) || !array_key_exists('sender_evidence_json', $row_a)) {
+        http_response_code(503);
+        exit('Original form evidence unavailable.');
+    }
+    $evidenceColumn = ',lastmut,sender_evidence_json';
+    $evidenceValue = $row_a['sender_evidence_json'] === null ? ',NULL' : ','.u5EvidenceQuote($row_a['sender_evidence_json']);
+    $evidenceValue = ','.time().$evidenceValue;
+}
 $authuser=$row_a['authuser'];
 $notes=$row_a['notes'];
 
@@ -168,6 +182,7 @@ id,formname,headcsv,datacsv,time,ip,authuser,humantime,status,notes
 '".mysql_real_escape_string(5)."',
 '".mysql_real_escape_string($notes)."'
 )";
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') $sql_a = u5EvidenceVersionInsert($sql_a, $evidenceColumn, $evidenceValue);
 $result_a=mysql_query($sql_a);
 
 if ($result_a==false) {

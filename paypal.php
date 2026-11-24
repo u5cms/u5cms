@@ -13,6 +13,12 @@ if (($requireturnstileonfrontendformsave ?? '') === 'yes' || ($requiregooglereca
     require('grc2.php');
 }
 unset($_POST['u5-turnstile-widget']);
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    require_once __DIR__.'/form-evidence.inc.php';
+    u5EvidenceRequireMode(1);
+    http_response_code(409);
+    exit('Payment forms require a separate installation when sender evidence is mandatory.');
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 

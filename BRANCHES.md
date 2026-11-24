@@ -6,6 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
+| [12.9.5.15](docs/release-12.9.5.15.md) | Optional sender evidence for authenticated forms |
 | [12.9.5.14](https://github.com/u5cms/u5cms/tree/v12.9.5.14) | Index freshness during recovery, clock recovery and independent protected forms |
 | [12.9.5.13](https://github.com/u5cms/u5cms/tree/v12.9.5.13) | Resumable background indexing and compatibility for protected forms |
 | [12.9.5.12](https://github.com/u5cms/u5cms/tree/release-12.9.5.12-account-switch) | Account switching on a trusted browser |
