@@ -16,6 +16,17 @@ const {spawnSync}=require('node:child_process');const {launchBrowser}=require('.
    const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:fixturePassword,send:'always',origin:base}});
    if(mode==='session')await context.request.post(base+'/loginsave.php?u=u5admin/rename.php',{form:{u:'auditadmin',p:fixturePassword}});
    const page=await context.newPage();await page.goto(base+'/u5admin/rename.php?name='+old);
+   const publicPage = await context.request.get(base+'/index.php?c=start');
+   const version = /This site runs with u5CMS version (\d+(?:\.\d+)+) from/.exec(await publicPage.text());
+   verify(version, 'The public page identifies the running CMS version.');
+   const navigation = await context.request.get(base+'/u5admin/p1.php');
+   equal(navigation.status(), 200, 'Authenticated resource navigation loads.');
+   const logout = await page.evaluate(html => {
+    const nav = new DOMParser().parseFromString(html, 'text/html');
+    const symbol = Array.from(nav.querySelectorAll('a[lang="ja"]')).find(a => a.textContent.trim() === '\u51fa');
+    return symbol ? symbol.closest('[title]')?.getAttribute('title') : null;
+   }, await navigation.text());
+   equal(logout, mode === 'session' ? 'logout u5CMS '+version[1] : null, 'Logout tooltip matches this version and login mode.');
    const token=await page.locator('input[name=u5scrtytknfrfrms]').inputValue();
    let response=await context.request.post(base+'/u5admin/rename2.php?name='+old,{form:{name:newName,ulinks:'yes'}});
    equal(response.status(),403,'rename checks CSRF '+mode);
