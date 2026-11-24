@@ -261,6 +261,7 @@ final class U5IndexSlice {
     const PAGE_LIMIT = 8;
     const WORK_SECONDS = 2;
     const REST_SECONDS = 10;
+    const EDIT_CHECK_SECONDS = 900;
     private $lock;
     private $directory;
     private $state;
@@ -289,7 +290,7 @@ final class U5IndexSlice {
                 ? json_decode(substr($raw,strlen($guard)),true) : null;
             if (is_array($state) && isset($state['started'],$state['next'],$state['failures'],$state['deleted'])
                 && is_int($state['started']) && is_int($state['next']) && is_int($state['failures'])
-                && $state['started']>0 && $state['next']<=$now+86400 && $state['failures']>=0 && $state['failures']<=4
+                && $state['started']>0 && $state['started']<=$now && $state['next']<=$now+86400 && $state['failures']>=0 && $state['failures']<=4
                 && array_key_exists('key',$state) && ($state['key']===null || self::validKey($state['key']))
                 && (!isset($state['upper']) || (self::validKey($state['upper']) && isset($state['upperDeleted'])))) {
                 if (self::validRecoveryState($state)) {
@@ -309,6 +310,23 @@ final class U5IndexSlice {
             }
         }
         if ($this->state!==null) {
+            // Reconsider later edits only between retry rounds. Never rewind an
+            // active sweep, even when edits continue during every batch.
+            if (isset($this->state['checkEditsAfter']) && $now >= $this->wakeTime()) {
+                $lastSave = (int)@file_get_contents($directory.'/lastsave.txt');
+                if ($lastSave >= $this->state['started']) {
+                    // A complete new sweep also revisits all outstanding rows.
+                    // Keep the retry round and never publish an incomplete run.
+                    $this->state = array('started'=>$now, 'key'=>null, 'deleted'=>0,
+                        'failures'=>0, 'next'=>0, 'retryRound'=>$this->state['retryRound']);
+                } elseif ($now < $this->state['next']) {
+                    $this->state['checkEditsAfter'] = $now + self::EDIT_CHECK_SECONDS;
+                    $this->save();
+                    return;
+                } else {
+                    unset($this->state['checkEditsAfter']);
+                }
+            }
             if ($now < $this->state['next']) return;
         } else {
             // A previous release may have launched a full run without flock.
@@ -317,7 +335,7 @@ final class U5IndexSlice {
             if ($continuation) return;
             $lastIndex = is_file($directory.'/lastindex.txt') ? (int)file_get_contents($directory.'/lastindex.txt') : 0;
             $lastSave = is_file($directory.'/lastsave.txt') ? (int)file_get_contents($directory.'/lastsave.txt') : 0;
-            if ($automatic && !$formatPending && $lastSave <= $lastIndex) return;
+            if ($automatic && !$formatPending && $lastIndex <= $now && $lastSave <= $lastIndex) return;
             $this->state = array('started'=>$now,'key'=>null,'deleted'=>0,'failures'=>0,'next'=>0);
         }
         $this->deadline = microtime(true) + self::WORK_SECONDS;
@@ -338,6 +356,8 @@ final class U5IndexSlice {
         if (isset($state['attempt']) && !self::validCursor($state['attempt'], false)) return false;
         if (isset($state['retryRound']) && (!is_int($state['retryRound'])
             || $state['retryRound'] < 1 || $state['retryRound'] > 4)) return false;
+        if (isset($state['checkEditsAfter']) && (!is_int($state['checkEditsAfter'])
+            || !isset($state['retryRound']) || $state['checkEditsAfter'] < 0)) return false;
         if (!isset($state['missed'])) return !isset($state['scanCursor']);
         return isset($state['missed']['from'], $state['missed']['through'], $state['scanCursor'])
             && self::validCursor($state['missed']['from'], true)
@@ -371,7 +391,7 @@ final class U5IndexSlice {
             $disk['key'] = $disk['missed']['from']['key'];
             $disk['deleted'] = $disk['missed']['from']['deleted'];
         }
-        $this->writeFile($this->progressPath(), "<?php exit; ?>\n".json_encode($disk, JSON_THROW_ON_ERROR), $disk['next']);
+        $this->writeFile($this->progressPath(), "<?php exit; ?>\n".json_encode($disk, JSON_THROW_ON_ERROR), $this->wakeTime());
     }
     private function markAttempt() {
         // Record the attempt before rendering. A fatal error or a killed PHP
@@ -437,8 +457,12 @@ final class U5IndexSlice {
         $this->markAttempt();
     }
     public function timeUsed() { return microtime(true) >= $this->deadline; }
+    private function wakeTime() {
+        $next = $this->state['next'];
+        return min($next, $this->state['checkEditsAfter'] ?? $next);
+    }
     public function resumeDelay() {
-        return $this->state===null ? null : min(86400000,max(1000,((int)$this->state['next']-time()+1)*1000));
+        return $this->state===null ? null : min(86400000,max(1000,($this->wakeTime()-time()+1)*1000));
     }
     public function pause() {
         $this->state['failures'] = 0;
@@ -460,6 +484,7 @@ final class U5IndexSlice {
             $this->state['retryRound'] = $round + 1;
             $this->state['failures'] = 0;
             $this->state['next'] = time() + $delays[$round];
+            $this->state['checkEditsAfter'] = time() + self::EDIT_CHECK_SECONDS;
             $this->save();
             $delay = $this->resumeDelay();
             u5BackgroundWorkState('wait','?u5indexcontinue=1',$delay);

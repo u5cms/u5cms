@@ -14,6 +14,7 @@ require_once('loginformsave.inc.php');
 if (($requireturnstileonfrontendformsave ?? '') === 'yes' || ($requiregooglerecaptchaonfrontendformsave ?? '') === 'yes') {
     require('grc2.php');
 }
+unset($_POST['u5-turnstile-widget']);
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
