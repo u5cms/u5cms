@@ -16,7 +16,9 @@ try {
         $u5Slice = new U5IndexSlice(__DIR__.'/fileversions',isset($_GET['u5indexcontinue']),isset($_GET['u5indexauto']),u5SearchIndexNeedsUpdate(__DIR__.'/fileversions'));
         if (!$u5Slice->ready()) {
             $u5Wait=$u5Slice->resumeDelay();
-            u5BackgroundWorkState($u5Wait===null ? 'idle' : 'wait','?u5indexcontinue=1',$u5Wait ?? 0);
+            if ($u5Slice->busy()) u5BackgroundWorkState('busy');
+            elseif ($u5Wait === null) u5BackgroundWorkState('idle');
+            else u5BackgroundWorkState('wait','?u5indexcontinue=1',$u5Wait);
             return;
         }
         define('U5CMS_FULL_INDEX_BATCH', true);
@@ -78,6 +80,7 @@ foreach ($u5Keys as $u5Position=>$u5Key) {
         $u5More=true;
         break;
     }
+    if ($u5Slice && !$u5Slice->beginResource($u5Key)) continue;
     $u5Where = "name=CONVERT(UNHEX('".$u5Key['resource_key']."') USING utf8mb4) AND deleted=".(int)$u5Key['deleted'];
     $u5Result = mysql_query("SELECT $u5Columns FROM resources WHERE $u5Where LIMIT 1");
     if (!$u5Result) throw new RuntimeException('Cannot read index resource.');
@@ -211,7 +214,7 @@ if ($result_i === false) throw new RuntimeException('Cannot update a search inde
 
     if ($u5Slice && $u5More) $u5Slice->pause();
     elseif ($u5Slice) {
-        $u5Slice->complete(function($started) use ($u5IndexRun) { $u5IndexRun['watermark']=max(0,$started-1); u5SearchIndexPublish($u5IndexRun); });
+        if (!$u5Slice->complete(function($started) use ($u5IndexRun) { $u5IndexRun['watermark']=max(0,$started-1); u5SearchIndexPublish($u5IndexRun); })) return;
         echo '<audio id="doneaudio" src="u5admin/indexingdone.mp3" autoplay />';
         echo '<script>var audio=document.getElementById("doneaudio");audio.volume=0.05;top.document.title=";"+top.document.title;</script>';
     } else u5BackgroundWorkState('done');
@@ -278,12 +281,14 @@ final class U5IndexSlice {
     private $state;
     private $deadline;
     private $ready = false;
+    private $busy = false;
 
     public function __construct($directory, $continuation, $automatic, $formatPending) {
         $this->directory = $directory;
         $this->lock = fopen($directory.'/indexerrunning.txt', 'c+');
         if (!$this->lock) throw new RuntimeException('Cannot open the index lock.');
         if (!flock($this->lock, LOCK_EX | LOCK_NB)) {
+            $this->busy = true;
             fclose($this->lock);
             $this->lock = null;
             return;
@@ -302,8 +307,18 @@ final class U5IndexSlice {
                 && $state['started']>0 && $state['next']<=$now+86400 && $state['failures']>=0 && $state['failures']<=4
                 && array_key_exists('key',$state) && ($state['key']===null || self::validKey($state['key']))
                 && (!isset($state['upper']) || (self::validKey($state['upper']) && isset($state['upperDeleted'])))) {
-                $this->state = $state;
-            } else {
+                if (self::validRecoveryState($state)) {
+                    // Earlier versions can safely resume before the first missed row.
+                    if (isset($state['scanCursor'])) {
+                        $state['key'] = $state['scanCursor']['key'];
+                        $state['deleted'] = $state['scanCursor']['deleted'];
+                        unset($state['scanCursor']);
+                    }
+                    $this->state = $state;
+                }
+            }
+            if ($this->state === null) {
+                $automatic = false;
                 error_log('u5CMS indexer: rebuilding an invalid progress marker.');
                 $continuation = false;
             }
@@ -313,7 +328,8 @@ final class U5IndexSlice {
         } else {
             // A previous release may have launched a full run without flock.
             $running = (int)stream_get_contents($this->lock);
-            if ($continuation || ($running > $now - 900 && $running <= $now)) return;
+            if ($running > $now - 900 && $running <= $now) { $this->busy = true; return; }
+            if ($continuation) return;
             $lastIndex = is_file($directory.'/lastindex.txt') ? (int)file_get_contents($directory.'/lastindex.txt') : 0;
             $lastSave = is_file($directory.'/lastsave.txt') ? (int)file_get_contents($directory.'/lastsave.txt') : 0;
             if ($automatic && !$formatPending && $lastSave <= $lastIndex) return;
@@ -327,6 +343,21 @@ final class U5IndexSlice {
 
     private static function validKey($key) {
         return is_string($key) && strlen($key)<=2040 && preg_match('/\A(?:[0-9A-F]{2})*\z/D',$key);
+    }
+    private static function validCursor($cursor, $allowStart) {
+        return is_array($cursor) && array_key_exists('key', $cursor) && isset($cursor['deleted'])
+            && is_int($cursor['deleted'])
+            && (($allowStart && $cursor['key'] === null) || self::validKey($cursor['key']));
+    }
+    private static function validRecoveryState($state) {
+        if (isset($state['attempt']) && !self::validCursor($state['attempt'], false)) return false;
+        if (isset($state['retryRound']) && (!is_int($state['retryRound'])
+            || $state['retryRound'] < 1 || $state['retryRound'] > 4)) return false;
+        if (!isset($state['missed'])) return !isset($state['scanCursor']);
+        return isset($state['missed']['from'], $state['missed']['through'], $state['scanCursor'])
+            && self::validCursor($state['missed']['from'], true)
+            && self::validCursor($state['missed']['through'], false)
+            && self::validCursor($state['scanCursor'], false);
     }
     private function progressPath() { return $this->directory.'/indexer-progress.php'; }
     private function marker($value) {
@@ -349,7 +380,13 @@ final class U5IndexSlice {
         }
     }
     private function save() {
-        $this->writeFile($this->progressPath(), "<?php exit; ?>\n".json_encode($this->state, JSON_THROW_ON_ERROR), $this->state['next']);
+        $disk = $this->state;
+        if (isset($disk['missed'])) {
+            $disk['scanCursor'] = array('key'=>$disk['key'], 'deleted'=>(int)$disk['deleted']);
+            $disk['key'] = $disk['missed']['from']['key'];
+            $disk['deleted'] = $disk['missed']['from']['deleted'];
+        }
+        $this->writeFile($this->progressPath(), "<?php exit; ?>\n".json_encode($disk, JSON_THROW_ON_ERROR), $disk['next']);
     }
     private function markAttempt() {
         // Record the attempt before rendering. A fatal error or a killed PHP
@@ -360,6 +397,7 @@ final class U5IndexSlice {
         $this->state['failures'] = $i + 1;
         $this->save();
     }
+    public function busy() { return $this->busy; }
     public function ready() { return $this->ready; }
     public function handle() { return $this->lock; }
     public function started() { return $this->state['started']; }
@@ -387,7 +425,27 @@ final class U5IndexSlice {
         mysql_free_result($rows);
         return $keys;
     }
+    public function beginResource($key) {
+        $cursor = array('key'=>$key['resource_key'], 'deleted'=>(int)$key['deleted']);
+        if (isset($this->state['attempt']) && $this->state['attempt'] === $cursor) {
+            // The last worker never finished this row. After its durable backoff,
+            // allow later rows through, retaining a bounded, inclusive retry range.
+            if (!isset($this->state['missed'])) {
+                $this->state['missed'] = array('from'=>array(
+                    'key'=>$this->state['key'], 'deleted'=>(int)$this->state['deleted']));
+            }
+            $this->state['missed']['through'] = $cursor;
+            error_log('u5CMS indexer: deferred resource key '.$cursor['key'].' (state '.$cursor['deleted'].').');
+            $this->processed($key);
+            return false;
+        }
+        // Persist before rendering, including for fatal errors and killed PHP workers.
+        $this->state['attempt'] = $cursor;
+        $this->save();
+        return true;
+    }
     public function processed($key) {
+        unset($this->state['attempt']);
         $this->state['key'] = $key['resource_key'];
         $this->state['deleted'] = (int)$key['deleted'];
         $this->state['failures'] = 0;
@@ -396,7 +454,7 @@ final class U5IndexSlice {
     }
     public function timeUsed() { return microtime(true) >= $this->deadline; }
     public function resumeDelay() {
-        return $this->state===null ? null : max(1000,((int)$this->state['next']-time()+1)*1000);
+        return $this->state===null ? null : min(86400000,max(1000,((int)$this->state['next']-time()+1)*1000));
     }
     public function pause() {
         $this->state['failures'] = 0;
@@ -406,10 +464,29 @@ final class U5IndexSlice {
         echo '<script>setTimeout(function(){location.replace("?u5indexcontinue=1")},'.((self::REST_SECONDS+1)*1000).')</script>';
     }
     public function complete($publish = null) {
+        if (isset($this->state['missed'])) {
+            $range = $this->state['missed'];
+            $this->state['key'] = $range['from']['key'];
+            $this->state['deleted'] = $range['from']['deleted'];
+            $this->state['upper'] = $range['through']['key'];
+            $this->state['upperDeleted'] = $range['through']['deleted'];
+            unset($this->state['missed'], $this->state['attempt']);
+            $delays = array(900,3600,21600,86400);
+            $round = min($this->state['retryRound'] ?? 0, count($delays)-1);
+            $this->state['retryRound'] = $round + 1;
+            $this->state['failures'] = 0;
+            $this->state['next'] = time() + $delays[$round];
+            $this->save();
+            $delay = $this->resumeDelay();
+            u5BackgroundWorkState('wait','?u5indexcontinue=1',$delay);
+            echo '<script>setTimeout(function(){location.replace("?u5indexcontinue=1")},'.$delay.')</script>';
+            return false;
+        }
         if ($publish) $publish($this->state['started']);
         else $this->writeFile($this->directory.'/lastindex.txt',(string)max(0,$this->state['started']-1));
         if (!unlink($this->progressPath())) throw new RuntimeException('Cannot finish the index checkpoint.');
         u5BackgroundWorkState('done',null,0,true);
+        return true;
     }
     public function release() {
         if (!is_resource($this->lock)) return;
