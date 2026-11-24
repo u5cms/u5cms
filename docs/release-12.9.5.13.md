@@ -8,6 +8,10 @@ The worker records the resource key before processing a row. If the worker fails
 
 The existing kernel lock, SQL wait limits, source comparisons, eight-resource batch limit and inter-batch pause remain in effect. A competing browser reports that maintenance is running. An idle continuation reports that the index is current.
 
+## Backend navigation
+
+The Japanese logout symbol shows the installed u5CMS version in its tooltip. It remains available in session mode.
+
 ## Protected forms
 
 Sites which previously enabled the Google reCAPTCHA setting continue to require server-side verification. Configure the Turnstile site key and secret before upgrading such a site. Missing credentials cause protected submissions to be refused. To deliberately disable verification, both the current and legacy settings must be disabled or removed. Sites with neither setting enabled retain their previous behaviour.
