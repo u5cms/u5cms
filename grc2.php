@@ -1,15 +1,19 @@
 <?php
-function u5turnstileReject($message) {
-    echo '<script>if(parent && typeof parent.u5turnstileReset==="function")parent.u5turnstileReset();alert(' . json_encode($message) . ');</script>';
+// The client number only routes the UI reset. It is never an input to Siteverify.
+$widget = $_POST['u5-turnstile-widget'] ?? null;
+$u5ResetWidget = is_string($widget) && preg_match('/^[1-9][0-9]{0,8}$/D', $widget) ? (int)$widget : 0;
+
+function u5turnstileReject($message, $widget) {
+    echo '<script>if(parent && typeof parent.u5turnstileReset==="function")parent.u5turnstileReset('.$widget.');alert(' . json_encode($message) . ');</script>';
     exit;
 }
 
 $token = $_POST['cf-turnstile-response'] ?? null;
 if (!is_string($token) || trim($token)==='' || strlen($token)>2048) {
-    u5turnstileReject('Turnstile verification is missing or expired. Please try again.');
+    u5turnstileReject('Turnstile verification is missing or expired. Please try again.', $u5ResetWidget);
 }
 if (!isset($u5turnstilesecret) || !is_string($u5turnstilesecret) || trim($u5turnstilesecret)==='') {
-    u5turnstileReject('Turnstile is not configured. Please contact the website administrator.');
+    u5turnstileReject('Turnstile is not configured. Please contact the website administrator.', $u5ResetWidget);
 }
 
 $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
@@ -32,7 +36,7 @@ if (function_exists('curl_init')) {
         CURLOPT_SSL_VERIFYHOST=>2
     ));
     $response = curl_exec($request);
-    unset($request);
+    curl_close($request);
 } else {
     $context = stream_context_create(array('http'=>array(
         'method'=>'POST',
@@ -46,10 +50,10 @@ if (function_exists('curl_init')) {
 
 $responseKeys = is_string($response) ? json_decode($response, true) : null;
 if (!is_array($responseKeys) || ($responseKeys['success'] ?? false)!==true) {
-    u5turnstileReject('Turnstile verification failed. Please try again.');
+    u5turnstileReject('Turnstile verification failed. Please try again.', $u5ResetWidget);
 }
 
 // The verification token is transport data, not a user-entered form field.
 unset($_POST['cf-turnstile-response']);
-echo '<script>window.addEventListener("load",function(){if(parent && typeof parent.u5turnstileReset==="function")parent.u5turnstileReset();});</script>';
+echo '<script>window.addEventListener("load",function(){if(parent && typeof parent.u5turnstileReset==="function")parent.u5turnstileReset('.$u5ResetWidget.');});</script>';
 ?>
