@@ -18,7 +18,8 @@ with tempfile.TemporaryDirectory(prefix='u5-index-http-') as temp:
         probe.bind(('127.0.0.1', 0))
         port = probe.getsockname()[1]
     origin = 'http://127.0.0.1:' + str(port)
-    server = subprocess.Popen(php + ['-S', '127.0.0.1:' + str(port), '-t', str(site)], cwd=site,
+    # Recovery exercises the legacy site setting by changing this fixture's config at runtime.
+    server = subprocess.Popen(php + ['-d', 'opcache.enable=0', '-S', '127.0.0.1:' + str(port), '-t', str(site)], cwd=site,
                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     def get(path, quiet=False, browser=False):
         headers = {'X-U5-Background-Work': '1', 'Accept': 'application/json'} if quiet else {}
