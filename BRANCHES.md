@@ -1,5 +1,7 @@
 # u5CMS development branches
 
+See also the [12.9.5.15 sender-evidence release notes](docs/release-12.9.5.15.md).
+
 ## Maintained branches
 
 The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). The numbered lines build on successive published predecessors.

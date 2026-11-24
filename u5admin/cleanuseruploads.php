@@ -1,5 +1,11 @@
 <?php
 require('connect.inc.php');
+// Evidence installations retain submission attachments, including retired versions.
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    require_once __DIR__.'/../form-evidence.inc.php';
+    u5EvidenceRequireMode(1);
+    return;
+}
 $delimiter=';';
 $path='./../fileversions/useruploads';
 $files='';

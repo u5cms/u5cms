@@ -1,5 +1,7 @@
 # u5CMS 13.0.0
 
+Includes the optional [12.9.5.15 form evidence module](docs/release-12.9.5.15.md).
+
 V13 starts at the published 12.9.5.7 revision. It combines the backend and image-handling changes from the 12.9.6, 12.10.0 and 12.10.1 development branches. The application retains the existing five-language content, templates and storage layout. The [branch guide](BRANCHES.md) records the source revisions, the scope of the integration and its acceptance status. For the stable release and deployment instructions, see [12.9.5.7](docs/release-12.9.5.7.md).
 
 ---
