@@ -11,7 +11,8 @@ if (($blockautoincluderefresherforhtaccessandindex ?? '') !== 'yes' && !isset($_
     $now = time();
     $quietPeriod = $waitsecondstillindexingsincelastsave ?? 1800;
     $lastSave = (int)@file_get_contents($directory.'/lastsave.txt');
-    $needsNewRun = $lastSave > (int)@file_get_contents($directory.'/lastindex.txt');
+    $lastIndex = (int)@file_get_contents($directory.'/lastindex.txt');
+    $needsNewRun = $lastIndex > $now || $lastSave > $lastIndex;
     $running = (int)@file_get_contents($directory.'/indexerrunning.txt');
     if (($running === 0 || $running <= $now - 300 || $running > $now)) {
         if (is_file($progress)) {
@@ -20,7 +21,8 @@ if (($blockautoincluderefresherforhtaccessandindex ?? '') !== 'yes' && !isset($_
             if ($due <= $now || $due > $now + 86400) {
                 u5BackgroundWorkLaunch('indexer.php?u5indexcontinue=1','index','js/u5-background-work.js',true);
             }
-        } elseif ($needsNewRun && $lastSave < $now - $quietPeriod) {
+        } elseif ($needsNewRun && ($lastSave < $now - $quietPeriod
+            || ($lastSave > $now && $lastIndex > $now))) {
             u5BackgroundWorkLaunch('indexer.php?u5indexauto=1','index','js/u5-background-work.js',true);
         }
     }
