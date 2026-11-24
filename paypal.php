@@ -9,7 +9,9 @@
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('loginformsave.inc.php');
-if($requireturnstileonfrontendformsave=='yes') require('grc2.php');
+if (($requireturnstileonfrontendformsave ?? '') === 'yes' || ($requiregooglerecaptchaonfrontendformsave ?? '') === 'yes') {
+    require('grc2.php');
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (count($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
