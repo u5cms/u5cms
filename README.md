@@ -1,5 +1,7 @@
 # u5CMS 15.0.0
 
+Includes the optional [12.9.5.15 form evidence module](docs/release-12.9.5.15.md).
+
 V15 builds on the published 14.0.0 release. Search supports quoted phrases, accent-tolerant matching and highlighting on the destination page. The backend adds text-editing actions and optional OpenID Connect alongside the existing authentication modes. PHP compatibility and dependency changes are included in this line. See the [branch guide](BRANCHES.md) for the release history.
 
 ---
