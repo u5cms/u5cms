@@ -63,7 +63,7 @@ mysql_set_charset('latin1');
 checked('CREATE TEMPORARY TABLE formdata(id INT AUTO_INCREMENT PRIMARY KEY, formname VARCHAR(120), headcsv MEDIUMTEXT,
  datacsv MEDIUMTEXT,time INT,ip TEXT,authuser TEXT,humantime TEXT,lastmut INT,status INT DEFAULT 1,notes TEXT) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4');
 checked('CREATE TEMPORARY TABLE resources(name VARCHAR(120),deleted INT,content_1 TEXT,content_2 TEXT,content_3 TEXT,content_4 TEXT,content_5 TEXT)');
-if (!str_starts_with($scenario,'legacy-') && !in_array($scenario,['off','writer','unset','custom-edit','custom-edit-explicit'],true)) {
+if (!str_starts_with($scenario,'legacy-') && !in_array($scenario,['off','writer','unset','custom-edit','custom-edit-explicit','ordinary-monofill'],true)) {
     checked('ALTER TABLE formdata ADD sender_evidence_json MEDIUMTEXT NULL');
     $ddl=substr(file_get_contents('schema.sql'),strpos(file_get_contents('schema.sql'),'CREATE TABLE'));
     if ($scenario!=='no-journal') checked(str_replace('CREATE TABLE','CREATE TEMPORARY TABLE',$ddl));
@@ -76,6 +76,10 @@ if (!str_starts_with($scenario,'legacy-') && !in_array($scenario,['off','writer'
     checked("INSERT INTO saml_response_archive VALUES (7,'response-fixture','sp-fixture','issuer-fixture','$attr','$raw','$digest')");
 }
 $html='<form name="u5form"><input name="youremail"><input name="message_mandatory"><input type="hidden" name="ouremail" value="owner@example.org"><input type="hidden" name="em2me" value="on"><input type="hidden" name="em2cu" value="on"></form>';
+if (in_array($scenario,['ordinary-monofill','protected-monofill'],true)) {
+    $html .= '<!-- ifrmonofill -->';
+    $allowmultiu5formloginsonfrontendpages='yes';
+}
 if ($scenario==='writer' || $scenario==='protected-writer') $html .= '<!-- u5cms-form-writer -->';
 if ($scenario==='custom-edit' || $scenario==='custom-edit-explicit') $html .= '<input name="ed2cu"><input name="frstsvrwnspgldtmstp">';
 checked("INSERT INTO resources VALUES ('caseform',0,'".mysql_real_escape_string($html)."','','','','')");
@@ -95,7 +99,7 @@ $scenario=$argv[1];
 $formSenderEvidenceRequired='saml-archive-v1';
 if ($scenario==='unset'||$scenario==='writer'||$scenario==='custom-edit') unset($formSenderEvidenceRequired);
 if (str_starts_with($scenario,'legacy-')) unset($formSenderEvidenceRequired);
-if ($scenario==='off'||$scenario==='custom-edit-explicit') $formSenderEvidenceRequired='no';
+if (in_array($scenario,['off','custom-edit-explicit','ordinary-monofill'],true)) $formSenderEvidenceRequired='no';
 if ($scenario==='old-mode') $formSenderEvidenceRequired='yes';
 $formSenderEvidenceSigningKey=str_repeat('synthetic-key-',4);
 $u5samlsspconfigdir=__DIR__;
@@ -158,7 +162,7 @@ if (in_array($scenario,['off','unset','changed','edit-delete'],true)) {
     for scenario in ['unset','off','writer','custom-edit','custom-edit-explicit','same','changed','missing','expired',
                      'digest-error','wrong-account','old-mode','no-journal','unlisted','protected-writer','uncertain','edit-delete','legacy-cleanup','secure-cleanup',
                      'legacy-view-formdata_n','legacy-view-formdata_h','legacy-view-formdata2','legacy-view-formdatamail',
-                     'secure-view-formdata2','secure-view-formdatamail']:
+                     'secure-view-formdata2','secure-view-formdatamail','ordinary-monofill','protected-monofill']:
         for name in ['results.json','mails.jsonl','export.csv','writer.txt']:
             (site / name).unlink(missing_ok=True)
         run = subprocess.run([PHP, 'worker.php', scenario], cwd=site, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -173,9 +177,11 @@ if (in_array($scenario,['off','unset','changed','edit-delete'],true)) {
                 assert b'verified' in html
         if scenario.endswith('cleanup'):
             assert (site/'fileversions/useruploads/old.dat').exists()==scenario.startswith('secure-')
-        if scenario in ['expired','digest-error','wrong-account','old-mode','no-journal','unlisted','protected-writer']:
+        if scenario == 'protected-monofill':
+            assert status == 409 and not rows and not mails and not events, (scenario, status, len(rows))
+        elif scenario in ['expired','digest-error','wrong-account','old-mode','no-journal','unlisted','protected-writer']:
             assert not rows and not events and not mails and status in [403,409,503], (scenario,status)
-        elif scenario.startswith('legacy-') or scenario in ['unset','off','writer','custom-edit','custom-edit-explicit']:
+        elif scenario.startswith('legacy-') or scenario in ['unset','off','writer','custom-edit','custom-edit-explicit','ordinary-monofill']:
             expected = 0 if scenario=='writer' else 2 if scenario.startswith('custom-edit') else 1
             assert len(rows)==expected and not loaded and not events, (scenario,len(rows),loaded)
             if scenario=='writer':
