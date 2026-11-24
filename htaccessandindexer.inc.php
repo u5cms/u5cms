@@ -6,13 +6,22 @@ if (($blockautoincluderefresherforhtaccessandindex ?? '')!=='yes' && u5Provision
 }
 
 require_once __DIR__ . '/search-index.inc.php';
-if ($blockautoincluderefresherforhtaccessandindex != 'yes' && !isset($_COOKIE['p'])) {
-    if (!isset($waitsecondstillindexingsincelastsave)) $waitsecondstillindexingsincelastsave = 60 * 60 * 0.5;
-    $u5LastSave = u5SearchIndexFileTime(__DIR__ . '/fileversions/lastsave.txt');
-
-    if (u5SearchIndexNeedsUpdate() && !u5SearchIndexIsRunning()
-        && (!is_file(__DIR__.'/fileversions/indexer-progress.php') || filemtime(__DIR__.'/fileversions/indexer-progress.php') <= time())
-        && $u5LastSave < time() - $waitsecondstillindexingsincelastsave) {
-        u5BackgroundWorkLaunch('indexer.php?u5indexauto=1','index','js/u5-background-work.js',true);
+if (($blockautoincluderefresherforhtaccessandindex ?? '') !== 'yes' && !isset($_COOKIE['p'])) {
+    $directory = __DIR__.'/fileversions';
+    $progress = $directory.'/indexer-progress.php';
+    $now = time();
+    $quietPeriod = $waitsecondstillindexingsincelastsave ?? 1800;
+    $needsNewRun = u5SearchIndexNeedsUpdate();
+    $lastSave = u5SearchIndexFileTime($directory.'/lastsave.txt');
+    if (!u5SearchIndexIsRunning()) {
+        if (is_file($progress)) {
+            $due = filemtime($progress);
+            // Resume only an existing pass. A concurrent finisher makes this a no-op.
+            if ($due <= $now || $due > $now + 86400) {
+                u5BackgroundWorkLaunch('indexer.php?u5indexcontinue=1','index','js/u5-background-work.js',true);
+            }
+        } elseif ($needsNewRun && $lastSave < $now - $quietPeriod) {
+            u5BackgroundWorkLaunch('indexer.php?u5indexauto=1','index','js/u5-background-work.js',true);
+        }
     }
 }

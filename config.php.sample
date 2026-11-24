@@ -90,6 +90,8 @@ use Laminas\Mail\Transport\SmtpOptions;
 // Cloudflare Turnstile: create a widget for your domain at https://dash.cloudflare.com/.
 // Set this to 'yes' to require Turnstile on frontend form saves and PayPal submissions.
 // Include grc.php inside each protected form; existing grc.php includes now render Turnstile.
+// A legacy requiregooglerecaptchaonfrontendformsave=yes also requires Turnstile.
+// Configure the new keys before upgrading a previously protected installation.
 // Copy these three settings to config.php and enter your Turnstile keys before enabling it.
    $requireturnstileonfrontendformsave = 'no';
    $u5turnstilesitekey = ''; // Public site key (rendered in the form).

@@ -36,6 +36,15 @@ function response(reply,status=200,type='application/json'){return Promise.resol
   await flush();await f.tick();await f.tick();await f.tick();
   assert.equal(f.calls.length,3,'Failed transport retries must be bounded: '+bad);assert.equal(f.window.u5BackgroundWork.pending(),0);
  }
+ for (const [state, message] of [['busy', 'An update is already running.'], ['idle', 'Already up to date.']]) {
+  const view = {textContent: ''};
+  const f = fixture(() => response({u5work: 1, kind: 'index', state}),
+   [{url: 'indexer.php', kind: 'index', status: 'target'}]);
+  f.document.getElementById = () => view;
+  await flush();
+  assert.equal(view.textContent, message);
+  assert.equal(f.calls.length, 1);
+ }
  const failed=fixture(()=>response({u5work:1,kind:'index',state:'error'},500));await flush();assert.equal(failed.calls.length,1);assert.equal(failed.window.u5BackgroundWork.pending(),0,'Server failures must retain work for a later visit.');
  const pending=fixture(()=>response({u5work:1,kind:'index',state:'pending'},409));await flush();assert.equal(pending.window.u5BackgroundWork.pending(),0,'Exhausted named retries must stop.');
  const notify=fixture(()=>response({u5work:1,kind:'index',state:'done',completed:true}));notify.window.Audio=function(){throw new Error('Media unavailable');};await flush();assert.equal(notify.calls.length,1,'A notification failure repeated successful indexing.');assert.equal(notify.window.u5BackgroundWork.pending(),0);

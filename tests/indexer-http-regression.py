@@ -1,6 +1,7 @@
 """Finish a real full rebuild and a named update in a disposable CMS."""
 from pathlib import Path
 import json, os, shutil, socket, subprocess, tempfile, time, urllib.request
+from indexer_recovery import verify_recovery
 from fixture_environment import ensure_fixture_environment
 
 ensure_fixture_environment()
@@ -89,6 +90,7 @@ with tempfile.TemporaryDirectory(prefix='u5-index-http-') as temp:
         assert access['kind'] == 'provision' and access['state'] == 'done'
         print(f'Real HTTP full index completed in {batches} requests; idle and named updates passed.')
         print(f'Quiet JSON full index completed in {quiet_batches} requests; bootstrap, waits, idle, named and provisioning responses passed.')
+        verify_recovery(site, php, get)
     finally:
         server.terminate()
         server.wait(timeout=10)
