@@ -1,4 +1,6 @@
-# u5CMS 12.9.5.13
+# u5CMS 12.9.5.14
+
+New and edited pages remain searchable during index recovery. Protected forms on the same page have independent Turnstile widgets. [Release notes](docs/release-12.9.5.14.md).
 
 Full indexing resumes after a visitor leaves and can make progress past an interrupted resource. [Release notes](docs/release-12.9.5.13.md).
 
