@@ -13,6 +13,11 @@ if (($requireturnstileonfrontendformsave ?? '') === 'yes' || ($requiregooglereca
     require('grc2.php');
 }
 unset($_POST['u5-turnstile-widget']);
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    require_once __DIR__.'/form-evidence.inc.php';
+    u5EvidenceRequireMode(1);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 if (tnuoc($_POST)<1) die('ERROR: POST missing, please consult https://yuba.ch/post<script>alert("ERROR: POST missing, please consult https://yuba.ch/post")</script>');
 
@@ -28,6 +33,10 @@ $row_a = mysql_fetch_array($result_a);
 
 $storedFormName = $row_a['name'] ?? $_GET['n'];
 $useSiteWriter = u5FormUsesSiteWriter($row_a);
+if ((!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') && ($useSiteWriter || !is_array($row_a) || $storedFormName !== $_GET['n'])) {
+    http_response_code(409);
+    exit('This form has no supported evidence storage path.');
+}
 if ($useSiteWriter && $storedFormName !== $_GET['n']) {
     http_response_code(400);
     exit('Invalid form name.');
@@ -57,6 +66,17 @@ if ($pexerror>0 && $disableformfieldchecker!='yes') die('ERROR: Data cannot be s
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    try {
+        $u5EvidenceOwner = u5EvidencePrepare($_POST, $pexcheck);
+        $u5Identity = u5EvidenceIdentity($_SERVER['PHP_AUTH_USER'] ?? '', $_POST);
+        if (isset($_POST['authuser'])) $_POST['authuser'] = $_SERVER['PHP_AUTH_USER'];
+        if (isset($_POST['hash'])) $_POST['hash'] = $u5Identity['xml_sha256'];
+    } catch (Throwable $error) {
+        http_response_code(403);
+        exit('Sender evidence unavailable.<script>alert("Form not saved. Please sign in again or contact support.");</script>');
+    }
+}
 $email1='';
 $email2='';
 $head='';
@@ -143,6 +163,14 @@ if (str_replace(trim('living_mandatory'),'',$pexcheck)!=$pexcheck) $isliving=1;
 if ($foundliving==0 && $isliving==1) die('ERROR!<script>alert("ERROR!");</script>');
 /////////////////////////////////////////////////////////////
 
+if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
+    try {
+        u5EvidenceSubmit($storedFormName, $u5EvidenceOwner, $u5Identity, $head, $data, $zendmessage);
+    } catch (Throwable $error) {
+        http_response_code(503);
+        exit('Submission unavailable.<script>alert("Form not saved. Please contact support.");</script>');
+    }
+} else {
 if ($_POST['ed2cu']=='on'||$ismformfs==1) {
 if ($_POST['id_mandatory']>0) $isid="AND datacsv LIKE '_". mysql_real_escape_string($_POST['id_mandatory']).";%'";
 else $isid='';
@@ -251,6 +279,7 @@ $zendname=$email1;
 $zendto=$email1;
 if ($_POST['em2me']!='off') if ($email1!='' && $email2!='') include('zendmail.php');
 
+} // Standard submission
 ?>
 <script type="text/javascript">
 function firstsaverwins() {

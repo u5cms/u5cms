@@ -217,6 +217,11 @@ $u5samlinfrontend = 'yes';
 $u5samlinfrontendyesenforcedifloginformsgetudoesnotcontain='thatstring';
 */
 
+// Optional authenticated form evidence. Leave unset or 'no' for normal sites.
+// $formSenderEvidenceRequired = 'saml-archive-v1';
+// Set formSenderEvidenceSigningKey in the private site configuration.
+// See docs/release-12.9.5.15.md for archive, recipient and schema prerequisites.
+
 // If your config.php is incomplete or messed up, get its initial structure and values at http://yuba.ch/cp
 
 // Allowed file extensions for http uploads in the front and the back end are configured in configallowedfileextensions.php
