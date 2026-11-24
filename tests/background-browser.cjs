@@ -57,6 +57,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(maximumActive,1,'A document must not send parallel maintenance requests.');
   assert.ok(seen.every(x=>x.mode==='1'),'Every worker request must select the structured response.');
   assert.equal(foreignRequests,0);
+  await require('./turnstile-browser.cjs')(browser);
   console.log('background-browser: passed (no child frames or navigations, complete document during pending work, sequential requests, continuation)');
  } finally {
   if(browser)await browser.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));fs.rmSync(temp,{recursive:true,force:true});
