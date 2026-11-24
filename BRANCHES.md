@@ -1,6 +1,6 @@
 # u5CMS development branches
 
-See also the [12.9.5.15 sender-evidence release notes](docs/release-12.9.5.15.md).
+See also the [12.9.5.15 sender-evidence release notes](docs/release-12.9.5.15.md). The [12.10.0 compatibility correction](https://github.com/u5cms/u5cms/blob/v12.10.0/docs/release-12.10.0.md) also applies to this development line.
 
 ## Maintained branches
 
