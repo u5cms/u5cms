@@ -42,7 +42,15 @@ const {launchBrowser} = require(process.env.U5_DOCUMENTATION_SOURCE + '/tests/br
     }
     try {
         const a=await context(), b=await context(), c=await context();
-        let ap=await login(a); await registered(ap,0,2);
+        let ap = await a.newPage();
+        await ap.goto(origin + management);
+        await ap.locator('input[name="u"]').fill('alice@example.org');
+        await ap.locator('input[name="p"]').fill(process.env.U5CMS_FIXTURE_PASSWORD);
+        await ap.getByRole('button', {name:'log in'}).click();
+        await ap.getByRole('heading', {name:'Trusted browsers'}).waitFor();
+        assert.equal(new URL(ap.url()).pathname, management);
+        await registered(ap,0,2);
+        record('Opening the management page while signed out returns here after a normal form login');
         await ap.getByRole('button',{name:'Trust this browser',exact:true}).click();
         assert.match(await ap.locator('body').innerText(),/This browser is now trusted/);
         await registered(ap,1,2); record('A normal login can register the intended browser');
