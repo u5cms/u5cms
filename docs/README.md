@@ -13,6 +13,7 @@ Practical guidance for people who configure, administer and use u5CMS, including
 | [Configuration](configuration.md) | Identify the applicable settings and change one installation deliberately. |
 | [Accounts and SELF permissions](permissions.md) | Distinguish login, backend rights, personal records and organisational sharing. |
 | [Editing and formatting](editing.md) | Build a small page, choose its language, include content and display literal syntax. |
+| [Using ChatGPT to edit a u5CMS website](using-chatgpt.md) | Start with one verified edit, then adapt prompts for pages, translations, media and site maintenance. |
 | [Forms and exports](forms.md) | Follow a submission from validation to storage, confirmation, table view and CSV. |
 | [Search and indexing](search-indexing.md) | Understand named updates, full rebuilds, background work and recovery. |
 | [Renaming resources](renaming.md) | Move an identifier and its recognised relationships, and recover interruptions. |
