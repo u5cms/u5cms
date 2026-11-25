@@ -16,7 +16,7 @@ Trusted Device is u5CMS's optional trusted-browser feature. A deliberately regis
 
 The trusted item is a **browser profile**, rather than the whole physical device. A different browser, a new profile or a replacement cloud browser needs its own registration. The feature is available from **12.9.5.10** and is disabled by default. Use **12.9.5.12 or later** for the corrected account-switching behaviour.
 
-For a stable installation, use **12.10.2 or later**. It includes the registration and database recovery fixes from 12.10.1. Opening the management page while signed out now returns you to that page after the ordinary CMS form login. See the [12.10.2 release notes](https://github.com/u5cms/u5cms/blob/v12.10.2/docs/release-12.10.2.md).
+For a stable installation, use **12.10.3 or later**. This release frees obsolete places after a password change and supports direct form login when JavaScript is disabled. [12.10.3 release notes](https://github.com/u5cms/u5cms/blob/v12.10.3/docs/release-12.10.3.md). It includes the registration and database recovery fixes from 12.10.1. Opening the management page while signed out now returns you to that page after the ordinary CMS form login. See the [12.10.2 release notes](https://github.com/u5cms/u5cms/blob/v12.10.2/docs/release-12.10.2.md).
 
 **Audience:** installation administrators and account holders. **Version:** feature from 12.9.5.10; direct form login, registration and revocation checked on the 12.10.2 update. **Scope:** browser registrations per account and installation.
 
