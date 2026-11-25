@@ -88,6 +88,29 @@ u5TrustedDbAssert(is_array(u5TrustedDbResume($first)),'Existing token failed bef
 u5TrustedDbAssert(u5TrustedDeviceIssue('alice@example.test')==='exists','Existing browser consumed another place.');
 u5TrustedDbAssert(u5TrustedDevicePrimaryKey()===array('installation_id','username','slot'),'Schema did not migrate.');
 u5TrustedDbAssert(is_array(u5TrustedDbResume($first)),'Migration invalidated an existing token.');
+// A failed read must deny resumption. Retry the actual retained cookie after recovery.
+$cookieName = u5TrustedDeviceCookieName();
+foreach (array('u5trusteddevices', 'accounts') as $table) {
+    u5TrustedDbQuery("RENAME TABLE `$table` TO `unavailable`");
+    try {
+        u5TrustedDbAssert(u5TrustedDeviceResume() === false, "Resumed without reading $table.");
+        u5TrustedDbAssert(($_COOKIE[$cookieName] ?? null) === $first, "Lost the registration during a $table read error.");
+        if ($table === 'accounts') {
+            u5TrustedDbAssert(u5TrustedDeviceIssue('alice@example.test') === 'error', 'Registered without reading the account.');
+        }
+    } finally {
+        u5TrustedDbQuery("RENAME TABLE `unavailable` TO `$table`");
+    }
+    u5TrustedDbAssert(is_array(u5TrustedDeviceResume()), "Valid registration failed after $table recovered.");
+}
+u5TrustedDbQuery('RENAME TABLE u5trusteddevices TO unavailable');
+try {
+    $_COOKIE['u'] = 'bob@example.test';
+    u5TrustedDbAssert(u5TrustedDeviceResume() === false && !isset($_COOKIE[$cookieName]), 'Retained an unverifiable identity during account selection.');
+} finally {
+    unset($_COOKIE['u']);
+    u5TrustedDbQuery('RENAME TABLE unavailable TO u5trusteddevices');
+}
 $second=u5TrustedDbRegister('alice@example.test');
 u5TrustedDbAssert($second!==$first,'Browsers share a secret.');
 unset($_COOKIE[u5TrustedDeviceCookieName()]);
