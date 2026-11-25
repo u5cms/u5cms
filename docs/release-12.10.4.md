@@ -10,6 +10,8 @@ The 12.10.3 installer could report success while leaving an older login form in 
 
 The installer now checks the form action together with its navigation script, preserves local attributes and edits the value of the PHP setting. It leaves existing browser allowances intact. An unfamiliar form, duplicate switch or unsupported setting stops the preflight before the installer writes to any site.
 
+On older installations, the new settings are inserted after the complete IP session policy, including when that policy spans several lines.
+
 ## Verify a feature-only installation
 
 1. Run the installer in dry-run mode against the intended installation roots. Review the reported count and any message naming a local file.

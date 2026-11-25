@@ -153,8 +153,28 @@ function u5RolloutPatchConfig($content, $user) {
         return substr_replace($content, 'yes', $value['offset'] + $opening + 1, strlen($value['text']) - $opening - 2);
     }
     $anchors = $assignments['$sticksessiontoip'];
-    if (count($anchors) !== 1 || ($tokens[$anchors[0] + 3]['text'] ?? '') !== ';') throw new RuntimeException('Session config anchor not found or ambiguous.');
-    $offset = $tokens[$anchors[0] + 3]['offset'] + 1;
+    if (count($anchors) !== 1) throw new RuntimeException('Session config anchor not found or ambiguous.');
+    // Older sites may compute this unrelated setting. Insert after its complete statement.
+    $offset = null;
+    $depth = 0;
+    for ($i = $anchors[0] + 2, $count = count($tokens); $i < $count; $i++) {
+        $token = $tokens[$i];
+        $symbol = $token['text'];
+        if ($token['type'] === T_CLOSE_TAG) break;
+        if ($token['type'] !== null) {
+            if ($token['type'] === T_CURLY_OPEN || $token['type'] === T_DOLLAR_OPEN_CURLY_BRACES
+                || ($symbol === '#[' && token_name($token['type']) === 'T_ATTRIBUTE')) $depth++;
+            continue;
+        }
+        if ($symbol === ';' && $depth === 0) {
+            $offset = $token['offset'] + 1;
+            break;
+        }
+        if (in_array($symbol, array('(', '[', '{'), true)) $depth++;
+        if (in_array($symbol, array(')', ']', '}'), true)) $depth--;
+        if ($depth < 0) break;
+    }
+    if ($offset === null) throw new RuntimeException('Cannot locate the end of the session setting.');
     // Keep an ordinary trailing comment attached to its setting without crossing a PHP closing tag.
     if (preg_match('~\G[ \t]*(?://|\#)(?:(?!\?>)[^\r\n])*(?=\r?\n|\z)~', $content, $comment, 0, $offset)) $offset += strlen($comment[0]);
     $insert = "\n\n   // Optional trusted browser: HTTPS-only, host- and installation-bound,\n"
