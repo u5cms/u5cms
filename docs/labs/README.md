@@ -6,7 +6,7 @@
 
 The handbook's examples were exercised independently against the actual u5CMS source. This page explains how to repeat the exercises and what their observations establish.
 
-**Audience:** maintainers and documentation authors. **Version:** 12.10.0 baseline with the stated header correction. **Scope:** disposable local exercises.
+**Audience:** maintainers and documentation authors. **Version:** corrected 12.10.0 baseline, rechecked on 12.10.1 and maintained V13–V17 sources. **Scope:** disposable local exercises.
 
 ## What was tested
 
@@ -19,6 +19,12 @@ The handbook's examples were exercised independently against the actual u5CMS so
 The environment used PHP **8.4.28**, MariaDB **11.8.9** and Chromium Headless Shell **156.0.8078.108** on Linux. The application base was main `42215f7521cf99b9440d705993e2e7a9d7a5da1a` (12.10.0), with the trusted-page referrer-policy correction described below. [Machine-readable observations](observations-2026-11-25.json) retain the individual cases.
 
 The browser walkthrough creates a disposable installation from the repository's original schema, generates its own account credential and uses a local HTTPS proxy. Browser requests to non-loopback hosts are blocked. It exercises ordinary CMS authentication; it does not claim a live AGOV, OIDC-provider or cloud-browser persistence test.
+
+## Recheck after release 12.10.1
+
+After the 12.10.1 corrections were published, all 40 independent scenarios and the existing trusted-device policy and database suites were repeated locally on 12.10.1 and the updated V13–V17 sources. All 24 suite invocations passed. The database suite includes schema migration, account isolation and 36 concurrent registration attempts.
+
+The merged handbook also passed the repository's stable acceptance workflow with PHP 8.3 and 8.4. These results extend the original observations above; they do not establish acceptance of a production installation or a live identity provider.
 
 ## Repeat the independent exercises
 
