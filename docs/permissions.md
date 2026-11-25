@@ -65,6 +65,8 @@ The documentation's independent SQL exercise observed:
 
 All stored owners were unchanged after the exercise. Another form's record remained outside the selected form, and an unverified identity could not use the central allowance. The lesson is that changing scope changes an access decision, while the underlying submission continues to record its original owner.
 
+For a worked example on real pages, build the [personal course list and detail view](dat.md#show-each-contributor-their-own-courses).
+
 ## Central SELF administration
 
 An installation can deliberately allow specific domains to work across organisations:
