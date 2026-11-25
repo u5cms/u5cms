@@ -45,25 +45,62 @@ function u5RolloutSessionBlock($backend, $oidc) {
     return $block . "}";
 }
 
-// The feature-only installer also carries the ordinary login form on existing sites.
+// Keep byte positions in the original PHP source. Site configuration must never be executed here.
+function u5RolloutPhpTokens($content) {
+    $tokens = array();
+    $offset = 0;
+    foreach (token_get_all($content) as $token) {
+        if (!is_array($token)) $token = array(null, $token);
+        list($type, $text) = $token;
+        if (!in_array($type, array(T_COMMENT, T_DOC_COMMENT, T_WHITESPACE), true)) {
+            $tokens[] = array('type' => $type, 'text' => $text, 'offset' => $offset);
+        }
+        $offset += strlen($text);
+    }
+    return $tokens;
+}
+
+// Patch just the action and its matching navigation script. Keep local form attributes.
 function u5RolloutPatchBackendForm($content) {
-    $oldForm = '<form name="form" action="../loginsave.php?u=u5admin"';
-    if (strpos($content, $oldForm) === false) return $content;
-    $newForm = <<<'FORM'
-<form name="form" action="../loginsave.php?u='.(basename($_SERVER['SCRIPT_NAME'] ?? '') === 'trusteddevice.php' ? 'u5admin/trusteddevice.php' : 'u5admin').'"
+    $error = 'Cannot update the customised backend login form automatically.';
+    $formPattern = '~<form\b(?=[^<>]*\sname\s*=\s*"form"(?=\s|/?>))[^<>]*>~i';
+    if (preg_match_all($formPattern, $content, $forms, PREG_OFFSET_CAPTURE) !== 1) throw new RuntimeException($error);
+    list($form, $formOffset) = $forms[0][0];
+    // The replacement below is a PHP single-quoted string concatenation in the standard prompt.
+    $inPrompt = false;
+    foreach (u5RolloutPhpTokens($content) as $token) {
+        if ($token['offset'] > $formOffset) break;
+        if ($token['offset'] + strlen($token['text']) > $formOffset) {
+            $inPrompt = $token['type'] === T_CONSTANT_ENCAPSED_STRING && $token['text'][0] === "'";
+            break;
+        }
+    }
+    if (!$inPrompt || preg_match_all('~\saction\s*=~i', $form) !== 1
+        || preg_match('~\saction\s*=\s*"([^"]*)"~i', $form, $actions, PREG_OFFSET_CAPTURE) !== 1) {
+        throw new RuntimeException($error);
+    }
+    list($action, $actionOffset) = $actions[1];
+    $oldAction = '../loginsave.php?u=u5admin';
+    $newAction = <<<'FORM'
+../loginsave.php?u='.(basename($_SERVER['SCRIPT_NAME'] ?? '') === 'trusteddevice.php' ? 'u5admin/trusteddevice.php' : 'u5admin').'
 FORM;
+    if ($action !== $oldAction && $action !== $newAction) throw new RuntimeException($error);
     $goto = 'if(gotopage)document.form.action="../loginsave.php?u="+escape(location.href);';
     $close = 'else if(top===self && location.href.indexOf(".php")>0&&location.href.indexOf("index.php")<0)self.close();';
     $previous = 'if(location.pathname.endsWith("/u5admin/trusteddevice.php"))document.form.action="../loginsave.php?u=u5admin/trusteddevice.php";';
-    // Other sites can have a customised prompt. Only transform the two known layouts.
-    $navigation = '~(?:' . preg_quote($previous, '~') . '\s*else )?' . preg_quote($goto, '~') . '\s*' . preg_quote($close, '~') . '~';
-    $replacement = 'if(document.form.getAttribute("action")==="../loginsave.php?u=u5admin") {' . "\n                "
-        . $goto . "\n                " . $close . "\n            }";
-    $patched = preg_replace($navigation, $replacement, $content, -1, $count);
-    if ($patched === null || $count !== 1 || substr_count($content, $oldForm) !== 1) {
-        throw new RuntimeException('Cannot update the customised backend login form automatically.');
+    $guard = 'if(document.form.getAttribute("action")==="../loginsave.php?u=u5admin") {';
+    $pair = preg_quote($goto, '~') . '\s*' . preg_quote($close, '~');
+    $navigation = '~<script>\s*(' . preg_quote($guard, '~') . '\s*' . $pair . '\s*\}'
+        . '|(?:' . preg_quote($previous, '~') . '\s*else )?' . $pair . ')(?=\s*' . preg_quote('if(top!=self)top.location.href=location.href;', '~') . ')~';
+    if (preg_match_all($navigation, $content, $blocks, PREG_OFFSET_CAPTURE) !== 1) throw new RuntimeException($error);
+    list($block, $blockOffset) = $blocks[1][0];
+    if ($blockOffset <= $formOffset + strlen($form)) throw new RuntimeException($error);
+    if (strpos($block, $guard) !== 0) {
+        $newline = strpos($block, "\r\n") === false ? "\n" : "\r\n";
+        $replacement = $guard . $newline . '                ' . $goto . $newline . '                ' . $close . $newline . '            }';
+        $content = substr_replace($content, $replacement, $blockOffset, strlen($block));
     }
-    return str_replace($oldForm, $newForm, $patched);
+    return $action === $newAction ? $content : substr_replace($content, $newAction, $formOffset + $actionOffset, strlen($action));
 }
 
 function u5RolloutPatchLogin($content, $backend) {
@@ -93,18 +130,33 @@ function u5RolloutPatchLogout($content) {
 function u5RolloutPatchConfig($content, $user) {
     $enabled = "\$u5trusteddeviceenabled = 'yes';";
     $users = "\$u5trusteddeviceusers = array('" . str_replace(array('\\', "'"), array('\\\\', "\\'"), $user) . "' => 1);";
-    if (strpos($content, '$u5trusteddeviceenabled') !== false || strpos($content, '$u5trusteddeviceusers') !== false) {
-        $content = preg_replace("~\\\$u5trusteddeviceenabled\\s*=\\s*'[^']*'\\s*;~", $enabled, $content, 1, $enabledCount);
-        // A code rollout must preserve the administrator's existing account quotas.
-        $usersCount = preg_match_all('~^[ \\t]*\\$u5trusteddeviceusers\\s*=~m', $content);
-        if ($content === null || $enabledCount !== 1 || $usersCount !== 1) throw new RuntimeException('Trusted-device config is ambiguous.');
-        return $content;
+    $tokens = u5RolloutPhpTokens($content);
+    $assignments = array('$u5trusteddeviceenabled' => array(), '$u5trusteddeviceusers' => array(), '$sticksessiontoip' => array());
+    $hasTrustedSettings = false;
+    foreach ($tokens as $index => $token) {
+        if ($token['type'] !== T_VARIABLE || !isset($assignments[$token['text']])) continue;
+        if ($token['text'] !== '$sticksessiontoip') $hasTrustedSettings = true;
+        if (($tokens[$index + 1]['text'] ?? '') === '=' && $tokens[$index + 1]['type'] === null) {
+            $assignments[$token['text']][] = $index;
+        }
     }
-    if (!preg_match('/^[ \t]*\$sticksessiontoip[^\r\n]*$/m', $content, $match, PREG_OFFSET_CAPTURE)) {
-        throw new RuntimeException('Session config anchor not found.');
+    $flags = $assignments['$u5trusteddeviceenabled'];
+    $quotas = $assignments['$u5trusteddeviceusers'];
+    if ($hasTrustedSettings) {
+        if (count($flags) !== 1 || count($quotas) !== 1) throw new RuntimeException('Trusted-device config is ambiguous.');
+        $value = $tokens[$flags[0] + 2] ?? null;
+        if (($value['type'] ?? null) !== T_CONSTANT_ENCAPSED_STRING || ($tokens[$flags[0] + 3]['text'] ?? '') !== ';') {
+            throw new RuntimeException('The trusted-device switch is not a simple quoted setting.');
+        }
+        // Preserve the complete quota expression, quote style, spacing and comments.
+        $opening = strpos($value['text'], substr($value['text'], -1));
+        return substr_replace($content, 'yes', $value['offset'] + $opening + 1, strlen($value['text']) - $opening - 2);
     }
-    $anchor = $match[0][0];
-    $offset = $match[0][1] + strlen($anchor);
+    $anchors = $assignments['$sticksessiontoip'];
+    if (count($anchors) !== 1 || ($tokens[$anchors[0] + 3]['text'] ?? '') !== ';') throw new RuntimeException('Session config anchor not found or ambiguous.');
+    $offset = $tokens[$anchors[0] + 3]['offset'] + 1;
+    // Keep an ordinary trailing comment attached to its setting without crossing a PHP closing tag.
+    if (preg_match('~\G[ \t]*(?://|\#)(?:(?!\?>)[^\r\n])*(?=\r?\n|\z)~', $content, $comment, 0, $offset)) $offset += strlen($comment[0]);
     $insert = "\n\n   // Optional trusted browser: HTTPS-only, host- and installation-bound,\n"
         . "   // revocable, with explicit per-account trusted-browser limits.\n"
         . "   // Register or revoke at /u5admin/trusteddevice.php after a normal login.\n"
