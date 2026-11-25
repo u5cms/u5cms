@@ -53,6 +53,12 @@ PHP;
 $oidcBackend = str_replace('u5OidcRequired()', 'u5OidcEnabled()', str_replace("\$_COOKIE['u'] ?? ''", "\$_COOKIE['u']", str_replace("\$_COOKIE['p'] ?? ''", "\$_COOKIE['p']", $oidcLogin)));
 $logout = "<?php\nrequire('connect.inc.php');\nsetcookie('u', '', 0, '/', '', \$httpsisinuse, true);\n";
 $config = "<?php\n   \$usesessioninsteadofbasicauth = 'yes';\n   \$sessioncookiehashsalt = 'daily';\n   \$sticksessiontoip = 'no';\n";
+$computedAnchor = <<<'PHP'
+$sticksessiontoip = (function () {
+    $default = 'no';
+    return getenv('U5_SITE_STICK_TO_IP') ?: $default;
+})(); // Site-specific IP policy.
+PHP;
 
 // Pre-12.10.2 and 12.10.2 ordinary login prompts must both converge on the release form.
 $legacyForm = <<<'PHP'
@@ -68,7 +74,8 @@ foreach (array($source => array($stableLogin,$stableBackend), $oidc => array($oi
     file_put_contents($root . '/login.inc.php', $pair[0]);
     file_put_contents($root . '/u5admin/usercheck.inc.php', $pair[1]);
     file_put_contents($root . '/logout.php', $logout);
-    file_put_contents($root . '/config.php', $config);
+    $siteConfig = $root === $oidc ? str_replace("\$sticksessiontoip = 'no';", $computedAnchor, $config) : $config;
+    file_put_contents($root . '/config.php', $siteConfig);
 }
 copy(dirname(__DIR__) . '/trusteddevice.inc.php', $source . '/trusteddevice.inc.php');
 copy(dirname(__DIR__) . '/u5admin/trusteddevice.php', $source . '/u5admin/trusteddevice.php');
@@ -99,6 +106,7 @@ u5RolloutTestAssert(strpos(file_get_contents($oidc . '/login.inc.php'), 'u5Valid
 u5RolloutTestAssert(strpos(file_get_contents($oidc . '/login.inc.php'), 'u5OidcRequired') !== false, 'OIDC frontend guard was lost.');
 u5RolloutTestAssert(strpos(file_get_contents($oidc . '/u5admin/usercheck.inc.php'), 'u5OidcEnabled') !== false, 'OIDC backend guard was lost.');
 u5RolloutTestAssert(is_file($backup . '/manifest.json'), 'Backup manifest missing.');
+u5RolloutTestAssert(strpos(file_get_contents($oidc . '/config.php'), $computedAnchor) !== false, 'Split a computed session setting during initial installation.');
 
 // Updating the feature must not overwrite deliberately configured account limits.
 $configured = "\$u5trusteddeviceusers = array('owner@example.test' => 3, 'other@example.test' => 2);";
