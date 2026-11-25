@@ -80,11 +80,12 @@ jobs:
         run: |
           npm install --prefix "$RUNNER_TEMP/u5-browser" --ignore-scripts --no-audit --no-fund playwright@1.62.1
           # Ubuntu 24.04 runners already supply the browser OS libraries.
-          # Install the pinned browser; avoid redundant apt mirror downloads.
-          node "$RUNNER_TEMP/u5-browser/node_modules/playwright/cli.js" install chromium
+          # Install the pinned browsers for the login and backend checks.
+          node "$RUNNER_TEMP/u5-browser/node_modules/playwright/cli.js" install chromium firefox
           echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
-      - name: Real Chromium backend, authentication and recovery
+      - name: Browser login, backend and recovery
         run: |
           python3 tests/documentation-walkthrough.py
+          U5_TEST_ENGINE=firefox python3 tests/documentation-walkthrough.py
           node tests/background-browser.cjs
           python3 tests/rename-web-regression.py
