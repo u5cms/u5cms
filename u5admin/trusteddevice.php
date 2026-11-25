@@ -6,7 +6,7 @@ header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Pragma: no-cache');
 header('Content-Security-Policy: default-src \'none\'; style-src \'unsafe-inline\'; form-action \'self\'; frame-ancestors \'none\'');
 header('X-Frame-Options: DENY');
-header('Referrer-Policy: no-referrer');
+header('Referrer-Policy: same-origin');
 
 $trustedUser = $_SERVER['PHP_AUTH_USER'] ?? '';
 if (!u5TrustedDeviceEnabled() || !u5TrustedDeviceAllowedUser($trustedUser)) {
