@@ -1,6 +1,8 @@
-# u5CMS 12.10.3
+# u5CMS 12.10.4
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.4 corrects the optional Trusted Device installer for locally formatted login forms and commented configuration examples. [Release notes and verification](docs/release-12.10.4.md).
 
 Version 12.10.3 frees obsolete browser places after a password change and returns to browser management after ordinary login with JavaScript disabled. [Upgrade and release notes](docs/release-12.10.3.md).
 
