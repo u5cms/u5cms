@@ -1,260 +1,138 @@
-# Erneute Evolutionsprüfung vom 2. November 2026
+<a id="erneute-evolutionsprüfung-vom-2-november-2026"></a>
+# Repeated evolution review of 2 November 2026
 
-Die Hauptprüfung und die drei zusätzlich beauftragten Untersuchungsläufe sind
-abgeschlossen. Drei Fehlergruppen sind reproduziert, in allen betroffenen Branches
-korrigiert, veröffentlicht und nach der letzten Anwendungskorrektur geprüft.
+The main review and three additionally requested investigations are complete. Three failure groups were reproduced, corrected on every affected branch, published and checked after the last application correction.
 
-| Bestätigter Fehler | Korrigierte Branches |
+| Confirmed failure | Corrected branches |
 | --- | --- |
-| Formular-Datenansichten brechen ohne Suchfilter ab | 12.12.3 und 12.12.4 |
-| Vorübergehend blockierte Änderungen liefern unbehandelte Serverfehler | Zehn Branches ab 12.11.1, einschliesslich Such-Arbeitsbranch |
-| Die Fehlermeldung verhindert den nächsten Klick auf Speichern | Alle 14 Branches ab 12.10.0, einschliesslich nosniff- und Such-Arbeitsbranch |
+| Form-data views abort without a search filter | 12.12.3 and 12.12.4 |
+| Temporarily blocked changes return unhandled server errors | Ten branches from 12.11.1, including the search working branch |
+| An error message prevents the next Save click | All 14 branches from 12.10.0, including the nosniff and search working branches |
 
-Main und produktive Installationen wurden nicht verändert. Es bleibt im
-geprüften Umfang kein bestätigter Fehler offen.
+Main and production installations were not changed. No confirmed failure remains within the checked scope.
 
-## Gegenstand und Referenzen
+<a id="gegenstand-und-referenzen"></a>
+## Subject and references
 
-Geprüft wurde die ganze heutige Reihe: main und 15 Entwicklungs-/Arbeitsbranches,
-bis `12.12.4-Default-Design`. Originalreferenz ist
-`9d366253417822c279692767b89dcf1ff0388c5c`; aktuelles main ist
-`78cadbf87b7307203b8bd4ff96929b306af7d982`. Die einzelnen Ausgangs- und geprüften
-Anwendungsstände stehen im [maschinellen Nachweis](../tests/evolution-review-2026-11-02-evidence.json).
+The complete series at the time was checked: main and 15 development/working branches, through `12.12.4-Default-Design`. Original reference: `9d366253417822c279692767b89dcf1ff0388c5c`; current main at the time: `78cadbf87b7307203b8bd4ff96929b306af7d982`. Individual starting and checked application sources are in the [machine-readable evidence](../tests/evolution-review-2026-11-02-evidence.json).
 
-Die [Quelleninventur](2026-11-02-evolution-paths.tsv) erfasst 909 unterschiedliche
-geänderte Pfade der Branch-Reihe gegenüber main, ohne Umbenennungen als einen
-einzigen Pfad zusammenzufassen. Sie ordnet die Änderungen den Prüfrouten zu.
-Eine Inventur ist kein Nachweis, dass jede denkbare kundenspezifische Verwendung
-ausgeführt wurde. Die Anwendungssnapshots der tatsächlich geprüften Branches
-wurden zusätzlich gegen die veröffentlichten Git-Blobs verglichen.
+The [source inventory](2026-11-02-evolution-paths.tsv) covers 909 distinct changed paths across the branch series against main, without collapsing renames into a single path. It assigns changes to verification routes. An inventory does not establish that every conceivable custom use was executed. Application snapshots of the actually tested branches were also compared with their published Git blobs.
 
-## Bestätigter und behobener Fehler
+<a id="bestätigter-und-behobener-fehler"></a>
+## Confirmed and corrected failure
 
-Die normalen Backend-Datenansichten `formdata2.php` und `formdatamail.php`
-brachen ohne nichtleeren Suchfilter ab. `formdata.query.php` legte `$keywords`
-nur für einen gesetzten Filter an. Nach dem Rückbau von `tnuoc` war daraus beim
-anschliessenden `count($keywords)` ein TypeError geworden. Betroffen waren
-`12.12.3-PHP9-Compatibility` und `12.12.4-Default-Design`.
+Ordinary backend data views `formdata2.php` and `formdatamail.php` aborted without a non-empty search filter. `formdata.query.php` defined `$keywords` only when a filter was supplied. After removing `tnuoc`, the subsequent `count($keywords)` caused a TypeError. `12.12.3-PHP9-Compatibility` and `12.12.4-Default-Design` were affected.
 
-Die Antwort konnte bereits HTTP 200 und einen Teil der Bedienoberfläche enthalten.
-Die eigentliche Tabelle, nachfolgende eigene Erweiterungen und der Abschluss der
-Seite fehlten trotzdem. Ein vorhandener OIDC-Test hatte nur den Status und das
-Ausbleiben einer Loginfehlermeldung geprüft und diesen Abbruch deshalb übersehen.
+The response could already contain HTTP 200 and part of the interface, while the actual table, subsequent custom extensions and page completion were absent. An existing OIDC test checked only status and the absence of a login error and therefore missed the abort.
 
-Die gemeinsame Abfragequelle definiert jetzt immer eine leere Stichwortliste,
-bevor sie einen vorhandenen Filter verarbeitet. Die Korrektur verändert zwei
-ASCII-Zeilen; alle vorhandenen Nicht-ASCII-Bytes bleiben erhalten. Es wurden keine
-Datenbankschemas oder gespeicherten Formulareingaben geändert.
+The shared query source now always defines an empty keyword list before processing an optional filter. The correction changes two ASCII lines; all existing non-ASCII bytes are retained. No database schemas or stored form submissions changed.
 
-Die [neue Vergleichsprüfung](../tests/formdata-view-reference.py) benutzt echte
-HTTP-Einstiege und frische Datenbanken aus der ursprünglichen SQL-Vorlage.
-Sie prüft vollständige Ausgabe, tatsächlich ausgewählte Datensätze, die eigene
-Erweiterung `modify!formdata2!php`, Status, Sortierung, Filter und verweigerten
-Zugriff. Die Mailingansicht wird nur angezeigt; es wird keine Mail verschickt.
+The [new comparison](../tests/formdata-view-reference.py) uses real HTTP entry points and fresh databases from the original SQL seed. It checks complete output, actual selected records, the custom `modify!formdata2!php` extension, status, sorting, filtering and denied access. The mailing view is displayed only; no mail is sent.
 
-Vor der Korrektur entstehen je betroffenem Branch 28 Abweichungen in 42 Fällen;
-aktuelles main stimmt mit dem Original überein.
-[Gesicherte Reproduktion](../tests/formdata-view-before-fix.json).
-Nach der Korrektur stimmen Original und alle 16 heutigen Branches in insgesamt
-714 vollständigen Ansichtsfällen überein. Der OIDC-Test verlangt jetzt ebenfalls
-den tatsächlichen Abschluss der Datenansicht.
+Before correction, each affected branch shows 28 differences in 42 cases; current main matches the original. [Saved reproduction](../tests/formdata-view-before-fix.json). After correction, the original and all 16 branches agree across 714 complete-view cases. The OIDC test now also requires actual completion of the data view.
 
-Korrekturcommits:
+Correction commits:
 
 - [12.12.3: 8931d31](https://github.com/u5cms/u5cms/commit/8931d314c2a5db4ae43ada86721a07afe899bba3)
 - [12.12.4: 0b1ab1c](https://github.com/u5cms/u5cms/commit/0b1ab1c19dea9e7eec533d488a7ddd9f4e3e49be)
 
-Die anderen 14 Branches enthalten den verursachenden Count-Rückbau nicht. Dort
-ist für diesen Fehler keine Anwendungskorrektur erforderlich. Main und produktive
-Installationen wurden in diesem Auftrag nicht verändert.
+The other 14 branches do not contain the causing count conversion. No application correction is needed there for this failure. Main and production installations were not changed by this task.
 
-## Neue tatsächliche Prüfausführungen
+<a id="neue-tatsächliche-prüfausführungen"></a>
+## Newly executed checks
 
-PHP 8.3.6, MariaDB 10.11.14 und Chrome Headless Shell 156.0.8078.80; ausschliesslich
-Einweginstallationen und Testdaten. Frühere Berichte werden nicht als neue Läufe
-gezählt. Die vollständige Integrationsmatrix lief auf der neuesten Designlinie;
-der Originalvergleich und die neuen Datenansichtsfälle liefen über alle Branches.
+PHP 8.3.6, MariaDB 10.11.14 and Chrome Headless Shell 156.0.8078.80; exclusively disposable installations and test data. Earlier reports are not counted as new runs. The complete integration matrix ran on the latest design line; original comparison and new data-view cases ran across every branch.
 
-| Bereich | Neues Ergebnis |
+| Area | New result |
 | --- | --- |
-| Original gegen alle 16 Branches, mit echten Browser-Formularübermittlungen | 612 Prüfungen, keine Vergleichsabweichung |
-| Neue vollständige Datenansichten, Original plus alle Branches | 714 Fälle, keine Vergleichsabweichung |
-| Zusätzliche kontextbezogene Request-/CSV-Verträge | 142 Prüfungen, keine Vergleichsabweichung |
-| Codeobjekt-Migration und Datenbank | 1.671 bestanden |
-| Umbenennung, einschliesslich Wiederaufnahme | 886 bestanden |
-| Mobile Migration | 69 bestanden |
-| Textarea-Transformationen | 748 bestanden |
-| Textarea/Frontend/Backend/Umbenennen im echten Browser | 159 / 51 / 98 / 92 bestanden |
-| Main-Differenzen, SQL-/ZIP-Restore und Editor | 504 bestanden, einschliesslich grosser Einzelzeile unter 64 MiB PHP |
-| Suchkern/Speicher/Service/Vorschläge/Distanz/Index | 7.767 / 46 / 350 / 6.491 / 20.907 / 96 bestanden |
-| PHP-/JavaScript-Normalisierung | 16 Fixtures und alle 7.623 Faltungen stimmen überein |
-| Suche HTTP/Browser/Standarddesign | 33 / 222 / 77 bestanden |
-| OIDC-Kern/konkurrierende Bindungen | 162 / 15 bestanden |
-| OIDC mit lokalem TLS-Provider, HTTP/Browser | 249 / 73 bestanden |
-| Bild-Upload, Archivierung und Fehlerfälle | 96 bestanden; 33 veröffentlichte Bilder inhaltlich geprüft |
-| Design, beide SQL-Seeds und ihre Exporte/Resetquellen | Je 16 Quellenprüfungen; 36 / 30 Browserprüfungen |
-| PHP-Kern/Request-Verträge/IDN/Login-Hosts | 135 / 22 / 40 / 40 bestanden |
-| PHP-Syntax und Quellprüfung | Je 878 Dateien ohne Fehler im jeweiligen Prüfumfang |
-| Mail-Konstruktion | 20 semantische Prüfungen aus 11 tatsächlichen Konstruktorfällen; kein Transportaufruf |
+| Original against all 16 branches, with real browser form submissions | 612 checks, no comparison differences |
+| New complete data views, original plus every branch | 714 cases, no comparison differences |
+| Additional contextual request/CSV contracts | 142 checks, no comparison differences |
+| Code-object migration and database | 1,671 passed |
+| Rename, including resumption | 886 passed |
+| Mobile migration | 69 passed |
+| Textarea transformations | 748 passed |
+| Textarea/frontend/backend/Rename in a real browser | 159 / 51 / 98 / 92 passed |
+| Main differences, SQL/ZIP restore and editor | 504 passed, including a large single row under 64 MiB PHP |
+| Search core/memory/service/suggestions/distance/index | 7,767 / 46 / 350 / 6,491 / 20,907 / 96 passed |
+| PHP/JavaScript normalisation | 16 fixtures and all 7,623 folds agree |
+| Search HTTP/browser/standard design | 33 / 222 / 77 passed |
+| OIDC core/concurrent bindings | 162 / 15 passed |
+| OIDC with a local TLS provider, HTTP/browser | 249 / 73 passed |
+| Image upload, archiving and failures | 96 passed; 33 published images inspected |
+| Design, both SQL seeds and their exports/reset sources | 16 source checks each; 36 / 30 browser checks |
+| PHP core/request contracts/IDN/login hosts | 135 / 22 / 40 / 40 passed |
+| PHP syntax and source inspection | 878 files each without errors within the respective scope |
+| Mail construction | 20 semantic checks from 11 actual constructor cases; no transport invocation |
 
-Die Paketbäume, Locks und deklarierten Patches aller 13 gesperrten Abhängigkeiten
-sind unverändert gegenüber dem zuvor gegen Upstream geprüften Anwendungsstand
-`4159972464e798eb3371cc2d15625fcaa1e9f35d`. Die installierten Hashes der
-Rückgabetyp-Patches wurden neu geprüft. Eine erneute kalte Installation aus neu
-heruntergeladenen Upstream-Archiven wird damit nicht behauptet.
+Package trees, locks and declared patches for all 13 locked dependencies are unchanged from application source `4159972464e798eb3371cc2d15625fcaa1e9f35d`, previously checked against upstream. Installed return-type patch hashes were checked again. This does not claim a new clean installation from freshly downloaded upstream archives.
 
-Zu Beginn mussten der Testaufbau für ältere Branches, die PHP-Konfiguration der
-Unterprozesse und der lokale Browserpfad berichtigt werden. Diese fehlgeschlagenen
-Aufbauversuche sind keine erfolgreichen Anwendungstests. Die Tabelle zählt nur
-die anschliessend tatsächlich bestandenen Ausführungen.
+Initially, older-branch test setup, child-process PHP configuration and the local browser path needed correction. These failed setup attempts are not successful application tests. The table counts only the subsequent genuinely passing executions.
 
-## Bewahrte Konzepte und Grenzen
+<a id="bewahrte-konzepte-und-grenzen"></a>
+## Preserved concepts and limits
 
-Die Quellen- und Ausführungsprüfung umfasst eigene P-/PHP-Anwendungen und
-Request-Collections, fünf Sprachen und Fallbacks, konfigurierbare PHP-Ausführung,
-öffentlich/geschützt/archiviert, lokale Anmeldung und optionale Föderation,
-HIADRI, Eigentümerrechte, Formularwerte und CSV-Verträge, Seiten-/Code-/Metadaten,
-Konflikterkennung, Historien, Ressourcenreferenzen, Migration, Umbenennen,
-Veröffentlichung, Dateischutz und Sicherungen. Die vier Website-Fassungen bleiben
-zusammen betrachtet: beide SQL-Seeds, CSS-Exporte und TPL-Resetvorlagen. Die
-getrennte Mobilansicht und die bestehende Encoding-Grenze bleiben erhalten.
+Source and execution review covers custom P/PHP applications and request collections, five languages/fallbacks, configurable PHP execution, public/protected/archived content, local login/optional federation, HIADRI, owner rights, form values and CSV contracts, page/code/metadata handling, conflict detection, histories, resource references, migration, Rename, publication, file protection and backups. All four website representations remain considered together: both SQL seeds, CSS exports and TPL reset templates. The separate mobile view and existing encoding boundary are retained.
 
-Nach allen vier Untersuchungsläufen und den anschliessenden Prüfungen bleibt im
-ausgeführten Umfang kein bestätigter Fehler offen. Das ist keine Zertifizierung beliebiger eigener Erweiterungen, externer
-Mailzustellung, produktiver Datenübernahme, eines echten externen Identity-Providers
-oder einer tatsächlichen PHP-9-Laufzeit. Die Ergebnisse stammen aus lokalen
-Prüfläufen; sie sind kein GitHub-CI-Status. Es wurde nichts gemergt oder installiert.
+After all four investigations and subsequent checks, no confirmed failure remains within the executed scope. This does not certify arbitrary custom extensions, external mail delivery, production data migration, a real external identity provider or an actual PHP 9 runtime. Results are from local runs, rather than a GitHub CI status. Nothing was merged or installed.
 
-## Drei zusätzlich beauftragte Untersuchungsläufe
+<a id="drei-zusätzlich-beauftragte-untersuchungsläufe"></a>
+## Three additionally requested investigations
 
-1. Ungewöhnliche Konfigurationen und eigene Erweiterungen: abgeschlossen; 2.210 Vergleichsfälle ohne Abweichung.
-2. Abbrüche, Fehlerfolgen und konkurrierende Änderungen: abgeschlossen; zusätzlicher Sperrfehler auf allen zehn betroffenen Branches korrigiert.
-3. Vollständige Redaktionsabläufe im Browser: abgeschlossen; überdeckender Fehlerhinweis auf allen 14 betroffenen Branches korrigiert.
+1. Unusual configuration and custom extensions: complete; 2,210 comparison cases without differences.
+2. Interruptions, failure sequences and conflicting changes: complete; an additional locking error corrected on all ten affected branches.
+3. Complete browser editorial workflows: complete; an overlapping error notice corrected on all 14 affected branches.
 
-Jeder Zusatzlauf hat eigene Fragestellungen, tatsächliche Ausführungen, Befunde
-und einen Abschluss. Die neu bestätigten Fehler sind in allen betroffenen Branches
-behoben und nach der letzten Korrektur geprüft.
+Each additional investigation has its own questions, actual executions, findings and completion. Newly confirmed failures are corrected on every affected branch and checked after the final correction.
 
-### Zusatzlauf 1: Konfiguration und eigene Erweiterungen
+<a id="zusatzlauf-1-konfiguration-und-eigene-erweiterungen"></a>
+### Additional investigation 1: configuration and custom extensions
 
-Abgeschlossen. Die [unabhängige Konfigurationsprüfung](../tests/configuration-reference.py)
-führt zuerst das Original aus, dann alle 16 Branches. Zehn Profile kombinieren
-Basic-/Cookie-Anmeldung, FastCGI, gewöhnliche und höhere Redaktionsrechte,
-ausdrücklich freigegebenen Backendzugang, Formularprüfung, Quotehandling sowie
-PHP-Ausführung überall, nur im Archiv und nirgends. Jedes Profil prüft fünf
-Sprachen, eigene Request-/Cookie-Collections, beide vollständigen Datenansichten,
-CSV und die vorhandenen Bearbeitungseinstiege.
+Complete. The [independent configuration comparison](../tests/configuration-reference.py) executes the original first, then all 16 branches. Ten profiles combine Basic/cookie login, FastCGI, ordinary/higher editorial permissions, explicitly permitted backend access, form checking, quote handling and PHP execution everywhere/archive only/nowhere. Each profile checks five languages, custom request/cookie collections, both complete data views, CSV and existing editing entry points.
 
-Ergebnis: 130 fachliche Beobachtungen je Installation, zusammen 2.210, ohne
-Vergleichsabweichung. Die vorhandene Präzisierung verweigerten Zugriffs von HTTP
-200 zu HTTP 403 wird ausdrücklich als erhaltene Ablehnung geprüft. Die Daten
-haben dieselben festgesetzten Zeitwerte; Zeitunterschiede zwischen Fixture-
-Erstellungen werden nicht als Anwendungsfehler gewertet. Es wurde kein weiterer
-Kollateralschaden bestätigt und keine Anwendungskorrektur aus diesem Lauf nötig.
-[Gespeicherte Ergebnisse](../tests/evolution-configuration-2026-11-02.json).
+Result: 130 functional observations per installation, 2,210 in total, without comparison differences. The existing refinement of denied access from HTTP 200 to HTTP 403 is explicitly checked as continued rejection. Data uses identical fixed times; differences in fixture creation times are not treated as application failures. No further collateral damage was confirmed and no application correction was needed from this investigation. [Saved results](../tests/evolution-configuration-2026-11-02.json).
 
-### Zusatzlauf 2: Echte Sperren und unterbrochene Umbenennung
+<a id="zusatzlauf-2-echte-sperren-und-unterbrochene-umbenennung"></a>
+### Additional investigation 2: real locks and interrupted Rename
 
-Abgeschlossen. Ein weiterer Fehler wurde bestätigt: Laufende Codeaktualisierungen
-und unterbrochene Umbenennungen verhinderten konkurrierende Änderungen, mehrere
-Schreibaktionen endeten dabei jedoch mit einem unbehandelten HTTP 500. Dies betraf
-Code speichern, Neu, Kopieren, Archivieren, Löschen und Umbenennen. Die beiden
-bereits kontrollierten Seiten-/Metadatenpfade zeigten, wie der Konflikt der
-Oberfläche mitgeteilt werden muss. Die ersten vier kumulativen Stände ergaben
-48 solcher Serverfehler bei unveränderten Daten.
+Complete. A further failure was confirmed: active code updates and interrupted renames blocked conflicting writes, but several write actions ended with an unhandled HTTP 500. Code save, New, Copy, Archive, Delete and Rename were affected. The two already controlled page/metadata paths demonstrated the required interface conflict response. The first four cumulative sources produced 48 such server errors with unchanged data.
 
-Die zehn betroffenen Branches ab `12.11.1-Migration-Hardening`, einschliesslich
-des Such-Arbeitsbranches, erhalten die gemeinsame Konfliktantwort. Eine eigene
-Busy-Exception trennt erwartete Konkurrenz von anderen Betriebsfehlern. Die
-betroffenen Einstiege liefern HTTP 409, `Retry-After: 2` und eine Erklärung.
-Die normale Revision-, Rechte- und CSRF-Prüfung bleibt Teil des Schreibablaufs.
+The ten affected branches from `12.11.1-Migration-Hardening`, including the search working branch, receive the shared conflict response. A dedicated busy exception separates expected contention from other operational failures. Affected entry points return HTTP 409, `Retry-After: 2` and an explanation. Normal revision, permission and CSRF checks remain in the write workflow.
 
-[HTTP-/Wiederaufnahmeprüfung](../tests/mutation-recovery-http.py): Ein getrennter
-Prozess hält die tatsächliche Dateisperre. Ein weiterer Lauf unterbricht eine
-echte Umbenennung nach dem Verzeichniswechsel und vor den Datenbankänderungen.
-Alle betroffenen Schreibversuche werden über die echten HTTP-Einstiege ausgeführt.
-Native SQL-Abfragen und Dateihashes vergleichen Ressourcen, Historien und Bytes
-vor und nach jedem abgewiesenen Versuch.
+[HTTP/resumption check](../tests/mutation-recovery-http.py): a separate process holds the actual file lock. Another run interrupts a real Rename after moving the directory and before database changes. All affected write attempts use the real HTTP entry points. Native SQL queries and file hashes compare resources, histories and bytes before and after every rejected attempt.
 
-Ergebnis: 100 blockierte Schreibaktionen liefern die kontrollierte Konfliktantwort
-und verändern keinen der geprüften Zustände. Vier tatsächlich unterbrochene
-Umbenennungen werden über das originale Retry-Ziel abgeschlossen; Wiederholung
-und veraltete Editoren verändern danach keine falschen Daten. Auf allen zehn
-Branches gelingt anschliessend wieder ein normaler Schreibzugriff. Die früheren
-Stände werden nur auf die dort bereits vorhandenen Sperrverbraucher geprüft;
-die umfassendere gewöhnliche Ressourcenkoordination kam erst mit 12.12.1 hinzu.
+Result: 100 blocked writes return the controlled conflict response and change none of the checked state. Four genuinely interrupted renames complete through the original retry target; subsequent repetition and stale editors do not change unrelated data. Normal writing succeeds again on all ten branches. Earlier sources are checked only against their existing lock consumers; comprehensive ordinary resource coordination arrived with 12.12.1.
 
-Zusätzlich bestehen auf **jedem** der zehn korrigierten Branches erneut 51
-Frontend- und 98 Backend-Browserprüfungen, einschliesslich Basic-/Cookie-Anmeldung,
-Unicode, Revisionen, CSRF, Neu/Kopieren/Umbenennen/Archivieren/Löschen/Reaktivieren.
-[Reproduktion vorher](../tests/evolution-recovery-before-fix.json) und
-[neue Ergebnisse](../tests/evolution-recovery-2026-11-02.json).
+Additionally, **every** corrected branch again passes 51 frontend and 98 backend browser checks, including Basic/cookie login, Unicode, revisions, CSRF, New/Copy/Rename/Archive/Delete/Reactivate. [Before-correction reproduction](../tests/evolution-recovery-before-fix.json) and [new results](../tests/evolution-recovery-2026-11-02.json).
 
-### Zusatzlauf 3: Tatsächliche Redaktionsabläufe
+<a id="zusatzlauf-3-tatsächliche-redaktionsabläufe"></a>
+### Additional investigation 3: actual editorial workflows
 
-Abgeschlossen. Die Fehlermeldung nach einem gescheiterten Ressourcen-Speichervorgang
-lag über dem Speichern-Knopf und fing den nächsten Mausklick ab. Der dritte Lauf
-reproduzierte dies im realen Browser auf allen drei untersuchten Entwicklungsstufen.
-Die Eingaben blieben erhalten, der normale Wiederholungsversuch scheiterte jedoch
-an der darüberliegenden Meldung. Die gemeinsame Datei ist auf allen 14 betroffenen
-Branches bytegleich; die Korrektur wird überall identisch nachgeführt.
+Complete. After a failed resource save, its error message covered the Save button and intercepted the next click. The third investigation reproduced this in a real browser at all three examined development stages. Input remained, but the normal retry failed because of the overlaid notice. The shared file is byte-identical on all 14 affected branches; the correction is applied identically throughout.
 
-Die Meldung sitzt jetzt unten rechts und fängt keine Zeigerereignisse ab. Ihre
-Breite bleibt im Fenster; sie wird als Alert angekündigt. Die neue Prüfung benutzt
-gewöhnliche Klicks und würde einen weiterhin verdeckten Knopf erkennen.
+The notice now sits at the lower right and intercepts no pointer events. Its width stays within the window and it is announced as an alert. The new check uses ordinary clicks and would detect a still-obscured button.
 
-[Browserablauf](../tests/editorial-journey-browser.cjs),
-[Einweg-Webrunner](../tests/editorial-journey-web.py) und
-[gesicherte Ergebnisse](../tests/evolution-editorial-2026-11-02.json): Je Basic- und
-Cookie-Anmeldung auf 12.11.1, 12.12.3 und 12.12.4; echte Sperre und abgewiesene
-Anfrage, erhaltene Eingaben und Dirty-Markierung, erfolgreicher Wiederholungsversuch,
-Gegenänderung in einem separaten Quellfenster, unveränderte neuere Veröffentlichung,
-beide Historien, exakte Unicode-/Entity-Werte und UTF-8-Dateibytes, zwei verschiedene
-Seiten in den Backendfenstern und erneutes Öffnen. Die vorhandene Kopplung zweier
-Ansichten derselben Seite bleibt dabei erhalten.
+[Browser workflow](../tests/editorial-journey-browser.cjs), [disposable web runner](../tests/editorial-journey-web.py) and [saved results](../tests/evolution-editorial-2026-11-02.json): Basic and cookie login on 12.11.1, 12.12.3 and 12.12.4; real lock and rejected request, retained input and dirty marker, successful retry, a competing change in a separate source window, unchanged newer publication, both histories, exact Unicode/entity values and UTF-8 file bytes, two different pages in backend windows and reopening. Existing synchronisation between two views of the same page remains.
 
-Ergebnis: 63 / 73 / 73 Prüfungen, insgesamt 209, bestanden. Die Prüfung wartet beim
-Wiederöffnen auf den tatsächlichen Objekteditor nach dessen Cookie-Weiterleitung.
-Frühere Stände werden auf ihre vorhandenen Sperrverbraucher geprüft, nicht auf erst
-später ergänzte Koordination. Die gemeinsame Abschlussprüfung nach der letzten Anwendungskorrektur ist ebenfalls
-abgeschlossen; sie ist kein vierter zusätzlicher Untersuchungslauf.
+Result: 63 / 73 / 73 checks, 209 total, passed. On reopening, the test waits for the actual object editor after its cookie redirect. Earlier sources are checked against their existing lock consumers, rather than coordination added later. Shared final acceptance after the last application correction is complete too; it is not a fourth additional investigation.
 
-## Verifizierter Abschluss nach der letzten Korrektur
+<a id="verifizierter-abschluss-nach-der-letzten-korrektur"></a>
+## Verified completion after the last correction
 
-Der [abschliessende maschinelle Nachweis](../tests/evolution-final-2026-11-02-evidence.json)
-enthält die tatsächlich veröffentlichten Anwendungscommits aller 16 Branches,
-die Dateigleichheit der geprüften Installationsquellen, die letzten Gruppenläufe
-und ihre Ausgaben. Insgesamt stimmen 18.237 Anwendungsdateien der geprüften
-Snapshots mit den zugehörigen veröffentlichten Git-Blobs überein. Branch-Namen
-und Versionskommentare sind geprüft. Main und 12.9.6 sind gegenüber Auftragsbeginn
-unverändert; es wurde kein zusätzlicher Entwicklungsbranch eingeführt.
+The [final machine-readable evidence](../tests/evolution-final-2026-11-02-evidence.json) contains the actually published application commits for all 16 branches, source-file equality in checked installations, final group runs and their output. In total, 18,237 application files in checked snapshots match their published Git blobs. Branch names and version comments are checked. Main and 12.9.6 are unchanged from task start; no extra development branch was introduced.
 
-Nach der letzten Anwendungskorrektur bestehen erneut der Originalvergleich mit
-612 Prüfungen, die vollständigen Datenansichten mit 714 Fällen, die kontextbezogenen
-142 Prüfungen, Migration 1.671, Umbenennung 886 und mobile Migration 69. Die gesamte
-HTTP-/Browsergruppe mit 159 Textarea-, 51 Frontend-, 98 Backend-, 92 Umbenennungs-
-und 504 Main-Differenz-/Restore-Prüfungen besteht, ebenso Suche, OIDC, Uploads
-und beide Design-Seeds. Die PHP-Kern-/Request-/IDN-/Hostreihen bestehen erneut
-mit 135 / 22 / 40 / 40 Fällen; Syntax und Quellprüfung umfassen je 878 PHP-Dateien.
+After the last application correction, the original comparison again passes 612 checks, complete data views 714 cases, contextual checks 142, migration 1,671, Rename 886 and mobile migration 69. The entire HTTP/browser group passes with 159 textarea, 51 frontend, 98 backend, 92 Rename and 504 main-difference/restore checks, as do search, OIDC, uploads and both design seeds. PHP core/request/IDN/host suites pass again with 135 / 22 / 40 / 40 cases; syntax and source inspection each cover 878 PHP files.
 
-Beim ersten Abschlusslauf scheiterte ausschliesslich das anschliessende Aufräumen
-einer Einwegdatenbank an einer zurückgebliebenen InnoDB-Fixture-Datei. Alle 904
-Anwendungsprüfungen dieser HTTP-/Browsergruppe waren bereits erfolgreich. Die
-komplette Gruppe wurde erneut ausgeführt und bestand einschliesslich Aufräumen.
-Der Nachweis bewahrt den ersten fehlgeschlagenen Prozessstatus und die erfolgreiche
-Wiederholung getrennt. Kein Anwendungstest wurde dafür abgeschwächt.
+The first closing run failed exclusively during subsequent cleanup of a disposable database because an InnoDB fixture file remained. All 904 application checks in that HTTP/browser group had already passed. The complete group was rerun and passed including cleanup. The evidence retains the first failed process status and successful repetition separately. No application test was weakened.
 
-Alle drei zusätzlichen Untersuchungsaufträge sind abgeschlossen. Es bleibt aus
-diesem Auftrag kein laufender Test oder automatischer Folgeauftrag. Merging,
-Release-Austausch und produktive Installation gehören nicht zu den ausgeführten
-Schritten.
+All three additional investigations are complete. No running test or automatic follow-up remains from this task. Merging, release replacement and production installation are outside the executed steps.
 
-### Veröffentlichte Anwendungsstände
+<a id="veröffentlichte-anwendungsstände"></a>
+### Published application sources
 
-Spätere Abschlusscommits können ausschliesslich Nachweise und Dokumentation
-fortschreiben. Die hier geprüften Anwendungsbytes sind dadurch nicht geändert.
+Later closing commits may update evidence and documentation only. They do not change the application bytes checked here.
 
-| Branch | Geprüfter veröffentlichter Anwendungscommit |
+| Branch | Checked published application commit |
 | --- | --- |
 | `12.10.0-Multi-Optimizations-by-AI` | [5072cb3](https://github.com/u5cms/u5cms/commit/5072cb3cb2308c5d96dc3d10a215b4c946f84721) |
 | `12.10.1-Support-More-Image-Formats` | [3c25b44](https://github.com/u5cms/u5cms/commit/3c25b440bc7186c229d16f7f742915539c742823) |

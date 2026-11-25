@@ -126,33 +126,35 @@ The Policies-only November condition is excluded from all release sources.
 Publication uses the reviewed candidate through PR 197; a deployment to a
 particular production installation requires its own recorded verification.
 
-## Freigabeprüfung 12.9.5.2 vom 18. November 2026
+<a id="freigabeprüfung-12952-vom-18-november-2026"></a>
+## Release verification for 12.9.5.2, 18 November 2026
 
-Der Release-Kandidat bestand 887 Rename-, 114 HTTP- und 92 Chromium-Prüfungen.
-Die 16 betroffenen Entwicklungsbranches sind im [Freigabebericht](rename-backport-12.9.5.2.md#release-verification) aufgeführt. Er dokumentiert auch die Testanpassung für sieben Branches mit HTML-Export.
+The release candidate passed 887 Rename, 114 HTTP and 92 Chromium checks.
+The 16 affected development branches are listed in the [release report](rename-backport-12.9.5.2.md#release-verification). It also records the test adjustment for seven branches with HTML exports.
 
-## Stand bei Eröffnung von Pull Request 190
+<a id="stand-bei-eröffnung-von-pull-request-190"></a>
+## Status when pull request 190 was opened
 
-Autorisierter Auftrag: 12.9.5.2 mit besserem Rename und konsistente Nachführung
-aller betroffenen Entwicklungsbranches. Ziel: `12.9.5.2-Faster-Rename`.
-Anwendungsbasis: 12.9.5.1 `4d6ffd209d13b1068ac5e3532685c32dcefb5d88`;
-vollständige Release-Nachweise von `e26dfb1` als zusätzlicher Merge-Elterncommit.
+Authorised task: 12.9.5.2 with improved Rename and consistent updates to all
+affected development branches. Target: `12.9.5.2-Faster-Rename`.
+Application base: 12.9.5.1 `4d6ffd209d13b1068ac5e3532685c32dcefb5d88`;
+complete release evidence from `e26dfb1` as an additional merge parent.
 
-Implementiert und geprüft: schnelle Objekt-/Referenz-/Historien-/Dateiumbenennung,
-Überschriftenschutz, Konfigurationsvarianten, Wiederaufnahme, Rechtekontrollen,
-Sicherung der Wiederaufnahmedaten und koordinierte Wartungsschreibfunktionen.
-Legacy-Codeobjekte, Exporte und Suchfunktionen bleiben erhalten.
+Implemented and checked: fast object/reference/history/file renaming,
+heading protection, configuration variants, resumption, permission checks,
+preservation of recovery data and coordinated maintenance writers.
+Legacy code objects, exports and search functionality are retained.
 
-[Bericht und Messwerte](rename-backport-12.9.5.2.md),
-[Matrix aller 16 Entwicklungsbranches](rename-backport-12.9.5.2-branches.json).
-887 Rename- und 114 HTTP-Prüfungen auf der Patchlinie; 14 145 Rename- und
-1 824 HTTP-Prüfungen auf den 16 Entwicklungsbranches. Zusätzlich geerbte
-Suchspeicher-/Textauszugstests. Browsergrenze und genaue Umgebung sind im Bericht
-festgehalten. Keine produktive Installation und kein Main-Merge.
+[Report and measurements](rename-backport-12.9.5.2.md),
+[matrix of all 16 development branches](rename-backport-12.9.5.2-branches.json).
+887 Rename and 114 HTTP checks on the patch line; 14,145 Rename and
+1,824 HTTP checks across the 16 development branches. Inherited search-memory
+and excerpt checks also passed. Browser limits and the exact environment are
+recorded in the report. No production installation or main merge was performed.
 
-Abgeschlossen: alle 17 Remote-Heads und gespeicherten Git-Bäume stimmen mit den
-geprüften Ständen überein; [Commit-/Baumnachweis](rename-backport-12.9.5.2-publication.json).
-Patch-Anwendungsstand: `a66b274b59240ab26c04a6e0c00ac9e1c189367b`.
-Dieser Abschlussnachweis ändert nur Dokumentation. Keine weitere Implementierung
-für diesen Auftrag vorgesehen. Main bleibt separat bei 12.9.5.1; die Übernahme
-des Patch-Branches wird als Pull Request bereitgestellt.
+Completed: all 17 remote heads and stored Git trees match the checked sources;
+[commit/tree evidence](rename-backport-12.9.5.2-publication.json).
+Patch application source: `a66b274b59240ab26c04a6e0c00ac9e1c189367b`.
+This closing record changes documentation only. No further implementation is
+planned for this task. Main remains separately at 12.9.5.1; the patch branch is
+provided as a pull request.

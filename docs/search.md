@@ -1,7 +1,8 @@
-# Search behavior, integration and tests
+<a id="search-behavior-integration-and-tests"></a>
+# Search behaviour, integration and tests
 
 The search request, result excerpts and target-page highlighting use one parsed
-query and one committed normalization table. The original query and original
+query and one committed normalisation table. The original query and original
 page text remain available for display; matching never treats user text as a
 regular expression or a SQL `LIKE` pattern.
 
@@ -10,7 +11,7 @@ regular expression or a SQL `LIKE` pattern.
 | Query | Meaning |
 | --- | --- |
 | `red blue` | Both terms must occur, in either order. A term may occur in the title or indexed body. |
-| `"Wort (Wort Wort) Wort"` | One contiguous phrase, including the parentheses, after the normalization below. |
+| `"Wort (Wort Wort) Wort"` | One contiguous phrase, including the parentheses, after the normalisation below. |
 | `login "security key"` | The term `login` and the complete phrase `security key` must occur. |
 | `C++ 100% foo_bar` | Three literal terms. `+`, `%` and `_` are not query operators or wildcards. |
 | `"say \"hello\""` | A phrase containing literal quotation marks. |
@@ -54,17 +55,17 @@ contiguously within one field. The generator never joins words from unrelated
 pages into a suggestion with no complete result. Existing matching terms stay
 unchanged. Corrected words use the source spelling and accents; literal
 punctuation, digits, quote roles and backslashes are preserved. Typographic outer
-quotation marks may be serialized as ordinary double quotes without changing
+quotation marks may be serialised as ordinary double quotes without changing
 their phrase meaning.
 
 An adjacent letter transposition counts as one typing error. Alphabetic word
-parts of 3-4 normalized characters allow one edit; parts of 5-40 allow two.
+parts of 3-4 normalised characters allow one edit; parts of 5-40 allow two.
 Shorter or longer parts, punctuation and numbers can remain exact but are not
 fuzzily rewritten. These limits apply to individual word parts, not to the number
 of terms in the complete query; the normal 16-term/512-character query limits
 still apply. Exact queries do not trigger a correction scan.
 
-The scan is bounded by 4 MiB each of source and normalized text, 100,000 letter
+The scan is bounded by 4 MiB each of source and normalised text, 100,000 letter
 tokens and 20,000 computed word-distance pairs. It keeps at most four alternatives
 per missing term, eight complete combinations per resource and twelve distinct
 candidate queries globally. At most three witness resources are retained per
@@ -80,7 +81,8 @@ then resource name. Results are paginated, with 25 per page by default. A match
 available only in the title is identified as such in the excerpt area instead
 of inventing a body quotation.
 
-## Shared normalization and original-text ranges
+<a id="shared-normalization-and-original-text-ranges"></a>
+## Shared normalisation and original-text ranges
 
 [`search-normalization.json`](../search-normalization.json) is the runtime
 authority for both PHP and JavaScript. Each Unicode codepoint is mapped once;
@@ -93,10 +95,10 @@ removal of designated invisible characters. For example, `Straße` can match
 match nonbreaking spaces or line breaks. Parentheses and ordinary punctuation
 remain literal, apart from the documented dash equivalence.
 
-This is a defined matching convention, not unrestricted language normalization.
+This is a defined matching convention, not unrestricted language normalisation.
 The generator preserves distinctions such as Japanese voicing marks and script
 vowel signs. Its Unicode data version is recorded in the JSON. Runtime PHP and
-JavaScript do not separately depend on their platform's Unicode normalization
+JavaScript do not separately depend on their platform's Unicode normalisation
 version. To intentionally update the table:
 
 ```bash
@@ -115,7 +117,7 @@ target-page marks, including phrases. A spelling suggestion can still turn
 `Mueller` into the indexed `Müller`, including in a multiword or quoted query;
 this is an explicit correction, not a new global character equivalence.
 
-Offsets are retained through normalization. An expansion such as `ß` to `ss`
+Offsets are retained through normalisation. An expansion such as `ß` to `ss`
 still marks the original `ß`; decomposed accents remain attached to their base
 character. PHP ranges use original UTF-8 byte offsets; browser ranges use DOM
 UTF-16 offsets. Excerpts and marks retain the spelling of the source text.
@@ -125,7 +127,7 @@ UTF-16 offsets. Excerpts and marks retain the spelling of the source text.
 | Component | Responsibility |
 | --- | --- |
 | [`search-request.inc.php`](../search-request.inc.php) | Capture and parse the original request before the legacy global sanitizer changes `q`. |
-| [`search-core.inc.php`](../search-core.inc.php) | Decode request versions, parse/serialize terms, normalize, match, rank field matches and produce escaped excerpts. |
+| [`search-core.inc.php`](../search-core.inc.php) | Decode request versions, parse/serialise terms, normalise, match, rank field matches and produce escaped excerpts. |
 | [`search-service.inc.php`](../search-service.inc.php) | Apply installation eligibility/preview policies, match indexed rows, sort, paginate and suggest alternatives. |
 | [`search-suggestions.inc.php`](../search-suggestions.inc.php) | Build bounded, complete-query spelling corrections from individual resources while preserving phrase and punctuation constraints. |
 | [`search-ui.inc.php`](../search-ui.inc.php), [`search-page.inc.php`](../search-page.inc.php) | Render forms, results, complete links and safely encoded browser configuration. |
@@ -147,10 +149,10 @@ the search core works in UTF-8, HTML output encodes non-ASCII characters as
 numeric references, and embedded configuration is JSON-escaped. Titles retain
 their existing numeric-reference interpretation; named entity-looking title
 text stays literal, as it does in the page title. The legacy
-sanitized `$_GET['q']` remains available for other application code.
+sanitised `$_GET['q']` remains available for other application code.
 
 The browser receives parsed `{text, normalized, phrase}` terms in
-`window.u5SearchConfig`; it does not reparse a search field. Normalization and
+`window.u5SearchConfig`; it does not reparse a search field. Normalisation and
 script and search stylesheet URLs contain file-content hashes so a changed
 deployment does not reuse an earlier asset accidentally. Deploy the PHP files,
 JavaScript, JSON and search stylesheet
@@ -174,7 +176,7 @@ case and punctuation remain intact, with balanced and escaped highlight markup.
 
 The scoped stylesheet separates result titles, quotations and status messages;
 partial results report the number of matched terms per result. It retains the
-installation's link colors. Search controls wrap on small screens, long query
+installation's link colours. Search controls wrap on small screens, long query
 strings and excerpts can wrap, and pagination has visible keyboard focus and
 44-pixel link targets. The standalone large form retains its existing IDs,
 names and `unibeform` class. The stylesheet also gives only this highlighter's
@@ -186,7 +188,7 @@ The normal scope is `#content`, falling back to `main` and then `body`. Inline
 elements do not interrupt a phrase. Block elements and `<br>` introduce a space;
 the indexer and browser use the same structural HTML tag set, independent of
 presentation CSS. Overlapping matches are merged before wrapping text in
-`span.hitshilite`, and repeated initialization removes only marks owned by this
+`span.hitshilite`, and repeated initialisation removes only marks owned by this
 highlighter. Existing elements, handlers and form values are preserved.
 
 Scripts, styles, forms, controls, editable regions, unrelated marks and hidden
@@ -246,7 +248,7 @@ The existing editable search/button labels from `languages.recherche_1` through
 `recherche_5` remain in use, along with the existing form IDs and large form's
 `unibeform` class. The existing settings remain relevant:
 
-| Setting | Behavior |
+| Setting | Behaviour |
 | --- | --- |
 | `doesfindpasswordprotectedcontent` | Whether protected resources may be found. Resource login metadata and directory `.htaccess` protection are considered. |
 | `doesshowpreviewofsuchcontent` | Whether protected body excerpts may be displayed. |
@@ -256,7 +258,7 @@ The existing editable search/button labels from `languages.recherche_1` through
 | `searchenginesqladditionalbooland` | Existing trusted administrator SQL restriction; it is not query text. |
 | `resulttitlemaxlength` | Result-title display length, defaulting to 60 when unset/invalid. |
 | `searchresultspagesize` | Optional page size; default 25, constrained to 5-100. |
-| `blockautoincluderefresherforhtaccessandindex`, `waitsecondstillindexingsincelastsave` | Existing automatic-update opt-out and idle-delay behavior. |
+| `blockautoincluderefresherforhtaccessandindex`, `waitsecondstillindexingsincelastsave` | Existing automatic-update opt-out and idle-delay behaviour. |
 | `donotautoindexifthisstringisfoundinfinalpagecontent` | Existing automatic-content-indexing exclusion marker. |
 
 `u5SearchAuthenticated` means credentials were actually verified and both the
@@ -318,7 +320,7 @@ nonstandard Playwright module path; engine overrides are defined in
 
 The full HTTP/database/browser runner creates a disposable site and database,
 indexes through the real HTTP endpoint and exercises actual result links,
-encoding, authorization and highlighting:
+encoding, authorisation and highlighting:
 
 ```bash
 python3 tests/search-web-regression.py
