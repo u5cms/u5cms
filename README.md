@@ -1,6 +1,8 @@
-# u5CMS 12.10.1
+# u5CMS 12.10.2
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.2 keeps the trusted-browser management page open for login and returns the account holder there after signing in. [Upgrade and release notes](docs/release-12.10.2.md).
 
 Version 12.10.1 restores trusted-browser registration and revocation in the browser and improves recovery after a database read error. [Upgrade and release notes](docs/release-12.10.1.md).
 
