@@ -2,6 +2,10 @@
 
 [Documentation home](../README.md) · [Trusted Device](../trusted-browsers.md)
 
+## Summary
+
+Sign in normally in the intended profile, open `/u5admin/trusteddevice.php` and choose **Trust this browser**. Return using the same host and profile. Use **Revoke** to remove an obsolete registration before replacing a lost profile. CMS logout revokes the current profile; closing a tab does not deliberately revoke it.
+
 ## Register a browser
 
 1. Open the intended CMS in the browser profile you will continue to use.

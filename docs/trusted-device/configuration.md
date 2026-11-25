@@ -2,6 +2,10 @@
 
 [Documentation home](../README.md) · [Trusted Device](../trusted-browsers.md)
 
+## Summary
+
+In each installation's existing private `config.php`, enable `$u5trusteddeviceenabled` and assign positive integer browser limits in `$u5trusteddeviceusers`. Use HTTPS and session authentication, with u5CMS OIDC disabled. Sign in normally, register the intended profile and check quota and revocation behaviour. Disabling an allowance prevents resumption but does not permanently revoke every retained registration.
+
 The installation administrator makes these changes in the installation's existing `config.php`. The feature is configured separately for each u5CMS installation. Editing `config.php.sample` alone does not enable it on a running website.
 
 ## Prerequisites

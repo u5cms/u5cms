@@ -2,6 +2,10 @@
 
 [Documentation home](../README.md) · [Trusted Device](../trusted-browsers.md)
 
+## Summary
+
+Start by checking the CMS host, browser profile, ordinary login and configured account allowance. Revoke an obsolete registration when the allowance is full. A missing cookie or replaced cloud profile requires a normal login and registration again. Use the exact displayed error to narrow the cause; preserve HTTPS, origin and CSRF protection.
+
 ## The management page returns 404
 
 An ineligible signed-in account deliberately receives **Not found.** Check that the correct installation's `config.php` enables the feature and lists the actual CMS login with a positive integer limit. Check session authentication and the OIDC exclusion. Also verify the URL and whether the installed release contains `u5admin/trusteddevice.php`.

@@ -2,6 +2,10 @@
 
 [Documentation home](README.md)
 
+## Summary
+
+Trusted Device lets selected CMS accounts resume authentication in deliberately registered browser profiles. An administrator enables it and assigns each account a browser allowance; the user then signs in normally and chooses **Trust this browser**. HTTPS and session authentication are required. A profile retains the account's existing permissions, and CMS logout revokes that profile's registration.
+
 Trusted Device is u5CMS's optional trusted-browser feature. A deliberately registered browser can resume the account's CMS authentication after the ordinary session ends. It retains that account's existing permissions.
 
 The trusted item is a **browser profile**, rather than the whole physical device. A different browser, a new profile or a replacement cloud browser needs its own registration. The feature is available from **12.9.5.10** and is disabled by default. Use **12.9.5.12 or later** for the corrected account-switching behaviour.

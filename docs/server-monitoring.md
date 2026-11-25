@@ -2,6 +2,10 @@
 
 [Documentation home](README.md)
 
+## Summary
+
+Monitor shared host capacity and every relevant website and PHP-FPM pool, with an independent external availability check and heartbeat. Choose a deployment variant, configure sustained-breach alerts and verify actual notifications before relying on the service. The ready-to-use prompts let ChatGPT assess and implement the design with authorised access; an operating-system service or monitoring platform performs the continuing checks. Thresholds are starting proposals to validate against the real server.
+
 A server hosting many u5CMS websites needs an early warning when its shared capacity is running out. One slow application, an external dependency or an overlapping background task can occupy PHP workers until unrelated websites also become slow. Monitor the whole hosting server, retain a view of each website, and provide an independent check from outside the server.
 
 This guide explains an operational design and provides copy-and-paste prompts with which ChatGPT can assess, implement and verify it. It does **not** install monitoring or change a u5CMS setting. The thresholds below are proposed starting values, not u5CMS defaults or measured capacity guarantees.

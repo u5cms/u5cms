@@ -2,6 +2,10 @@
 
 [Documentation home](../README.md) · [Trusted Device](../trusted-browsers.md)
 
+## Summary
+
+Trusted Device stores a secret in a host-bound, protected cookie and a verifier in the database. Resumption checks the account, credential fingerprint, allowance and registration. Cookies are issued for 400 days and renewed at most daily; browser retention and revocation still govern usability. This page maps the implementation and its verification suites.
+
 ## Credential and scope
 
 The cookie name starts with `__Host-u5td-` and includes an installation identifier. It has `Secure`, `HttpOnly`, `SameSite=Strict`, path `/` and no parent-domain scope. A value contains a random 128-bit selector and a random 256-bit validator. The database stores the selector and a SHA-256 verifier of the validator, rather than the reusable validator itself.

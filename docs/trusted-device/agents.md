@@ -2,6 +2,10 @@
 
 [Documentation home](../README.md) · [Trusted Device](../trusted-browsers.md)
 
+## Summary
+
+Register the browser profile the authorised agent will actually use, after completing the ordinary CMS login. Give the agent a clear task, scope and publication rules. The agent operates with the registered account's existing permissions. Continued access depends on that profile retaining its cookies; replacing the profile requires another login and registration.
+
 Trusted Device can let an authorised agent return to u5CMS in a deliberately registered browser profile. It uses the same browser mechanism as human operation. It does not provide an agent API, create a service account or give the agent additional permissions.
 
 ## Prepare the profile
