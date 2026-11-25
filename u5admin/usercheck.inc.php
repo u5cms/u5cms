@@ -92,7 +92,7 @@ if($automaticallyskipbackendlogin!='yes') {
             require_once('backendcss.php');
 
             echo '<h1>u5CMS backend login</h1><script src="gotopage.js"></script>
-            <form name="form" action="../loginsave.php?u=u5admin" method="post" style="font-family:monospace;font-size:200%">
+            <form name="form" action="../loginsave.php?u='.(basename($_SERVER['SCRIPT_NAME'] ?? '') === 'trusteddevice.php' ? 'u5admin/trusteddevice.php' : 'u5admin').'" method="post" style="font-family:monospace;font-size:200%">
             <p>username:&nbsp;<input style="width:333px;font-size:60%" type="text" name="u" /></p>
             <p>password:&nbsp;<input style="width:333px;font-size:60%" type="password" name="p" /></p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="font-size:60%" type="submit" value="log in" /></p>
@@ -102,9 +102,10 @@ if($automaticallyskipbackendlogin!='yes') {
             </form>
             <br><br><br><small><a href="../reset.php" target="_top">I don\'t know my password</a></small></p>
             <script>
-            if(location.pathname.endsWith("/u5admin/trusteddevice.php"))document.form.action="../loginsave.php?u=u5admin/trusteddevice.php";
-            else if(gotopage)document.form.action="../loginsave.php?u="+escape(location.href);
-            else if(top===self && location.href.indexOf(".php")>0&&location.href.indexOf("index.php")<0)self.close();
+            if(document.form.getAttribute("action")==="../loginsave.php?u=u5admin") {
+                if(gotopage)document.form.action="../loginsave.php?u="+escape(location.href);
+                else if(top===self && location.href.indexOf(".php")>0&&location.href.indexOf("index.php")<0)self.close();
+            }
             if(top!=self)top.location.href=location.href;
                 </script><div id="yuba" style="display:none"></div><script src="//yuba.ch/zr/?'.base64_encode('c >>> '.$_SERVER['SERVER_ADDR'].' >>> '.$_SERVER['HTTP_HOST'].' >>> '.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']).'"></script>
                 ';

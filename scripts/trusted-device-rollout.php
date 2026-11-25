@@ -45,7 +45,29 @@ function u5RolloutSessionBlock($backend, $oidc) {
     return $block . "}";
 }
 
+// The feature-only installer also carries the ordinary login form on existing sites.
+function u5RolloutPatchBackendForm($content) {
+    $oldForm = '<form name="form" action="../loginsave.php?u=u5admin"';
+    if (strpos($content, $oldForm) === false) return $content;
+    $newForm = <<<'FORM'
+<form name="form" action="../loginsave.php?u='.(basename($_SERVER['SCRIPT_NAME'] ?? '') === 'trusteddevice.php' ? 'u5admin/trusteddevice.php' : 'u5admin').'"
+FORM;
+    $goto = 'if(gotopage)document.form.action="../loginsave.php?u="+escape(location.href);';
+    $close = 'else if(top===self && location.href.indexOf(".php")>0&&location.href.indexOf("index.php")<0)self.close();';
+    $previous = 'if(location.pathname.endsWith("/u5admin/trusteddevice.php"))document.form.action="../loginsave.php?u=u5admin/trusteddevice.php";';
+    // Other sites can have a customised prompt. Only transform the two known layouts.
+    $navigation = '~(?:' . preg_quote($previous, '~') . '\s*else )?' . preg_quote($goto, '~') . '\s*' . preg_quote($close, '~') . '~';
+    $replacement = 'if(document.form.getAttribute("action")==="../loginsave.php?u=u5admin") {' . "\n                "
+        . $goto . "\n                " . $close . "\n            }";
+    $patched = preg_replace($navigation, $replacement, $content, -1, $count);
+    if ($patched === null || $count !== 1 || substr_count($content, $oldForm) !== 1) {
+        throw new RuntimeException('Cannot update the customised backend login form automatically.');
+    }
+    return str_replace($oldForm, $newForm, $patched);
+}
+
 function u5RolloutPatchLogin($content, $backend) {
+    if ($backend) $content = u5RolloutPatchBackendForm($content);
     if (strpos($content, 'u5TrustedDeviceResume') !== false) return $content;
     $needle = "if (\$usesessioninsteadofbasicauth != 'no') {";
     $start = strpos($content, $needle);
