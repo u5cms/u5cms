@@ -1,64 +1,48 @@
-# Vertrauenswürdige Browser in u5CMS
+<a id="vertrauenswürdige-browser-in-u5cms"></a>
+<a id="configphp-anpassen"></a>
+<a id="browser-registrieren"></a>
+<a id="browser-widerrufen-oder-ersetzen"></a>
+<a id="cloudbrowser-von-mehreren-personen"></a>
+<a id="laufzeit-und-technische-voraussetzungen"></a>
+<a id="manueller-rollout-nur-dieser-funktion"></a>
 
-Ab 12.9.5.10 kann eine u5CMS-Installation ausgewählten Benutzerkonten eine festgelegte Anzahl vertrauenswürdiger Browser erlauben. Ein registrierter Browser kann die Anmeldung nach Ablauf der gewöhnlichen CMS-Sitzung wieder aufnehmen. Er behält die bestehenden Berechtigungen des angemeldeten Kontos.
+# Trusted Device
 
-## config.php anpassen
+[Documentation home](README.md)
 
-Die bestehende produktive `config.php` bearbeiten. Die folgenden Einstellungen einmal aufnehmen beziehungsweise vorhandene Einstellungen ersetzen:
+## Summary
 
-```php
-$u5trusteddeviceenabled = 'yes';
-$u5trusteddeviceusers = array(
-    'alice@example.org' => 3,
-    'bob@example.org' => 2,
-);
-```
+Trusted Device is u5CMS's optional trusted-browser feature. A deliberately registered browser can resume the account's CMS authentication after the ordinary session ends. It retains that account's existing permissions.
 
-Die Schlüssel sind die genauen CMS-Anmeldenamen, die Zahlen die maximal gleichzeitig registrierten Browser pro Konto und CMS-Installation. Die Beispieladressen durch die tatsächlichen Konten ersetzen. Dieselbe E-Mail-Adresse allein ersetzt keine Anmeldung und verleiht keine neuen CMS-Rechte.
+The trusted item is a **browser profile**, rather than the whole physical device. A different browser, a new profile or a replacement cloud browser needs its own registration. The feature is available from **12.9.5.10** and is disabled by default. Use **12.9.5.12 or later** for the corrected account-switching behaviour.
 
-| Einstellung | Wirkung |
+**Audience:** installation administrators and account holders. **Version:** feature from 12.9.5.10; tested on 12.10.0 with the same-origin form correction. **Scope:** browser registrations per account and installation.
+
+## Read by task
+
+| Task | Guide |
 | --- | --- |
-| `'alice@example.org' => 3` | Dieses Konto darf bis zu drei Browser registrieren. |
-| `'bob@example.org' => 2` | Dieses Konto darf bis zu zwei Browser registrieren. |
-| Konto fehlt oder Wert `0` | Keine Registrierung und keine Wiederaufnahme über Browservertrauen. |
-| `$u5trusteddeviceenabled = 'no';` | Browservertrauen für die gesamte Installation deaktivieren. |
+| Learn through a two-profile exercise | [Practical walkthrough](trusted-device/walkthrough.md) |
+| Enable the feature and allocate browser places | [Configuration](trusted-device/configuration.md) |
+| Register, use, replace or revoke a browser | [Everyday use](trusted-device/usage.md) |
+| Prepare a cloud browser and give an agent a task | [Working with an AI agent](trusted-device/agents.md) |
+| Resolve a missing page, full quota or lost registration | [Troubleshooting](trusted-device/troubleshooting.md) |
+| Understand cookies, database records and authentication hooks | [Technical reference](trusted-device/reference.md) |
 
-Die Grenzen als ganze Zahlen ohne Anführungszeichen schreiben. Negative Werte, Dezimalzahlen, Zeichenketten und boolesche Werte erteilen keine Freigabe. Eine bisherige Liste wie `array('alice@example.org')` bleibt kompatibel und erlaubt einen Browser je aufgeführtem Konto.
+## How it works
 
-Eine höhere Grenze schafft zusätzliche freie Plätze; bestehende Browser bleiben registriert. Bei einer Senkung behalten die Browser innerhalb der verbleibenden nummerierten Plätze ihr Vertrauen. Browser auf höheren Plätzen werden bei der nächsten Verwendung abgewiesen und beim Anzeigen oder Verwenden widerrufen. Deshalb vor einer Senkung die Browserliste prüfen und gezielt nicht mehr benötigte Profile widerrufen.
+1. The installation administrator enables the feature for specific existing CMS accounts and sets a maximum number of browser profiles for each account.
+2. The account holder signs in through the installation's normal authentication flow and registers the intended browser.
+3. u5CMS places a secret cookie in that profile and records a verifier in the database.
+4. On subsequent authenticated requests, u5CMS can restore the account's session credentials. The normal permission checks still apply.
+5. An explicit CMS logout revokes the current browser's registration. A registration can also be revoked individually from the management page.
 
-## Browser registrieren
+Registration does not create an account, grant additional permissions or establish a session on another website. With a federated login such as AGOV through SAML, this is a local u5CMS persistence mechanism; it does not extend the identity provider's session or prove a fresh identity-provider login for each operation.
 
-1. Im gewünschten Browser regulär am betreffenden CMS anmelden, bei AGOV-Anbindung also mit AGOV.
-2. Auf genau diesem Host `/u5admin/trusteddevice.php` öffnen.
-3. Die angezeigte Belegung und das Konto prüfen.
-4. **Trust this browser** wählen. Das benötigt einen freien Platz im konfigurierten Kontingent.
-5. Für ein weiteres Browserprofil oder ein weiteres CMS wiederholen.
+## Before you start
 
-Ein bereits registrierter Browser belegt durch erneutes Klicken keinen weiteren Platz. Andere Browser werden nicht automatisch registriert. Ist die Grenze erreicht, muss zuerst ein bestehender Browser widerrufen werden.
+You need HTTPS, u5CMS session authentication, a permitted backend account and control of the intended browser profile. Trusted Device is unavailable with HTTP Basic authentication or when u5CMS OIDC is enabled. A cloud browser must retain the profile and its cookies for the registration to remain usable.
 
-## Browser widerrufen oder ersetzen
+The browser is an access credential: anyone controlling that registered profile can act with the account's permissions. Use a profile controlled by the intended operator and grant only the permissions needed for the work.
 
-Nach einer normalen Anmeldung zeigt dieselbe Seite die registrierten Browser des eigenen Kontos mit Platznummer, Registrierungszeit und letzter Verwendung in UTC. Der aktuelle Browser ist gekennzeichnet. Mit **Revoke** lässt sich jeder eigene Eintrag einzeln widerrufen. Damit kann auch ein verlorenes Cloudbrowserprofil entfernt werden; anschliessend den neuen Browser registrieren.
-
-Eine bewusste Abmeldung über die CMS-Abmeldefunktion widerruft das Vertrauen des aktuellen Browsers. Andere registrierte Browser bleiben erhalten. Eine Änderung des gespeicherten Kontogeheimnisses entwertet die daran gebundenen Browser ebenfalls. Der Widerruf beendet die dauerhafte Wiederaufnahme; eine bereits bestehende gewöhnliche Sitzung folgt weiterhin ihrer normalen Laufzeit.
-
-## Cloudbrowser von mehreren Personen
-
-Stefan und Markus verwenden vorzugsweise ihre eigenen CMS-Konten. Beide Konten können unabhängige Grenzen haben. Auch dasselbe Konto kann innerhalb seines Kontingents mehrere Browser registrieren; es arbeitet dann überall mit denselben Kontoberechtigungen.
-
-Das CMS erkennt den geheimen Cookie im registrierten Browserprofil. Es kann nicht feststellen, ob vor dem Browser ChatGPT oder eine andere Person sitzt. Browserprofile und Cookies dürfen deshalb nicht weitergegeben oder zwischen Profilen kopiert werden. Die Freigabe bleibt nur erhalten, solange das jeweilige Cloudbrowserprofil seinen Cookie behält. Ein neues Chatfenster allein garantiert weder dessen Erhalt noch dessen Verlust.
-
-## Laufzeit und technische Voraussetzungen
-
-Die Funktion benötigt HTTPS und die sitzungsbasierte u5CMS-Anmeldung. Bei aktiviertem OIDC und bei HTTP Basic Auth bleibt sie ausgeschaltet. Jede CMS-Installation wird separat konfiguriert und jeder Host separat registriert. Es gibt keinen gemeinsamen Cookie für alle Websites.
-
-Der geheime Browser-Cookie ist hostgebunden, `Secure`, `HttpOnly` und `SameSite=Strict`. Der Server speichert den SHA-256-Prüfwert des Geheimnisses. Der Cookie gilt bis zu 400 Tage und wird bei regelmässiger Nutzung höchstens einmal pro Tag erneuert. Das ist keine Garantie für ein unbegrenzt bestehendes Cloudbrowserprofil.
-
-Die Datenbanktabelle wird bei der Registrierung automatisch angelegt. Eine vorhandene Tabelle für bisher einen Browser je Konto wird dabei unter Erhalt der bestehenden Tokens angepasst. Ein Cronjob ist nicht erforderlich.
-
-## Manueller Rollout nur dieser Funktion
-
-Die beiden Produktivdateien `trusteddevice.inc.php` und `u5admin/trusteddevice.php` sowie die passenden Anschlussstellen in `login.inc.php`, `u5admin/usercheck.inc.php` und `logout.php` installieren. Die vorhandene `config.php` direkt bearbeiten und alle anderen Einstellungen erhalten. Dabei die vorhandenen OIDC-Prüfungen beibehalten. Ein vollständiger CMS-Versionswechsel ist für diesen gezielten Rollout nicht erforderlich. Zusätzliche Skripte, Backupkopien oder temporäre Deployment-Dateien müssen auf dem Zielserver nicht verbleiben.
-
-Anschliessend eine normale Anmeldung, die Browserregistrierung, die Wiederaufnahme nach Ablauf der gewöhnlichen Sitzung, die Kontingentgrenze und den gezielten Widerruf prüfen. Alle dauerhaft benötigten Dateien gehören zum Produktivcode; keine Hilfsendpunkte zur Registrierung oder zur Remoteausführung hinzufügen.
+The laboratory also identified and corrected a management-form origin failure in earlier source. Its [walkthrough](trusted-device/walkthrough.md#observed-results) records the correction. Compare the actual installed source as well as its version label when using an older package.

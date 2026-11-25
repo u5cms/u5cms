@@ -23,6 +23,11 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
     (site/'config.php').write_text(config,encoding='latin1')
     setup = "$_SERVER['REQUEST_URI']='/';$_SERVER['HTTP_HOST']='localhost';require 'connect.inc.php';mysql_query(\"UPDATE accounts SET email='alice@example.org' WHERE id=1\");mysql_query(\"INSERT INTO accounts(email,pw,accadmin) SELECT 'bob@example.org',pw,0 FROM accounts WHERE id=1\");"
     subprocess.run(php+['-r',setup],cwd=site,check=True,stdout=subprocess.DEVNULL)
+    lesson = "[[[[A small workshop]]]]\nUse [b]precise words[/] and [i]short sentences[/].\n[[[Reusable content]]]\n[$$$:docfragment]\n[Open the fragment:docfragment]\n[h:]<p id=\"literal-markers\">&#91;b&#93;Keep these markers&#91;/&#93;</p><section id=\"included-html\">[$$$:docfragment]</section>[:h]"
+    form = "[fo:]\n[fi:]\n[le:]Workshop registration[:le]\n[h:]\n<input type=\"hidden\" name=\"thanks\" value=\"documentationSaved()\">\n<input type=\"hidden\" name=\"in2my\" value=\"off\">\n<input type=\"hidden\" name=\"em2cu\" value=\"off\">\n<input type=\"hidden\" name=\"em2me\" value=\"off\">\n<label for=\"participant\">Your name</label><input id=\"participant\" name=\"participant_mandatory\">\n<button type=\"submit\">Register for the workshop</button>\n<p id=\"submission-status\"></p>\n<script>function documentationSaved(){document.getElementById('submission-status').textContent='Your registration was saved.';}</script>\n[:h]\n[:fi]\n[:fo]"
+    pages={'doclesson':['First-language version.',lesson], 'docfragment':['A reusable opening.','A reusable opening.'], 'docfallback':['Fallback text from the first language.',''], 'docform':[form,form], 'docsearch':['A search exercise.','The atlasquartz workshop begins here.']}
+    insert="$_SERVER['REQUEST_URI']='/';$_SERVER['HTTP_HOST']='localhost';require 'connect.inc.php';$pages=json_decode($argv[1],true);foreach($pages as $name=>$texts){$n=mysql_real_escape_string($name);$a=mysql_real_escape_string($texts[0]);$b=mysql_real_escape_string($texts[1]);if(!mysql_query(\"INSERT INTO resources(name,typ,content_1,content_2,title_1,title_2,logins,lastmut) VALUES ('$n','p','$a','$b','$n','$n','',\".time().\")\"))throw new RuntimeException(mysql_error());}"
+    subprocess.run(php+['-r',insert,json.dumps(pages)],cwd=site,check=True,stdout=subprocess.DEVNULL)
     router = directory/'router.php'
     router.write_text("<?php $_SERVER['HTTPS']='on'; return false;\n")
     backend_port = port()
@@ -60,6 +65,7 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
         environment=os.environ.copy();environment.update({'U5_DOCUMENTATION_SOURCE':str(root),'U5_DOCUMENTATION_SITE':str(site),'U5_DOCUMENTATION_ORIGIN':'https://localhost:'+str(tls_port),'U5_DOCUMENTATION_OUTPUT':str(output)})
         subprocess.run(['node',str(lab/'documentation-trusted-browser.cjs')],env=environment,check=True)
         print((output/'trusted-browser-observations.json').read_text())
+        subprocess.run(['node',str(lab/'documentation-content.cjs')],env=environment,check=True)
     finally:
         proxy.shutdown();proxy.server_close();server.terminate();server.wait(timeout=10)
         shutil.copyfile(directory/'php.log',output/'documentation-server.log')

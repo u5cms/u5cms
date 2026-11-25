@@ -56,6 +56,7 @@ jobs:
           for test in background-work-regression indexer-batch-regression index-update-notice search-legacy-memory-regression search-core-regression search-service-regression search-suggestions-regression search-index-regression onlymine-domain rename-regression international-email login-host-regression trusted-device-regression trusted-device-database-regression trusted-device-rollout-regression; do
             php "tests/$test.php"
           done
+          php tests/documentation-ownership.php
           node tests/background-runner-regression.cjs
           python3 tests/indexer-crash-regression.py
           python3 tests/indexer-database-lock-regression.py

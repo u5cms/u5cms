@@ -60,7 +60,7 @@ audit of every third-party library.
 | Template/media boundaries, final repeats | 68 with PCRE JIT, 68 without JIT |
 | Standard seed in Chromium / Firefox / WebKit | 323 / 323 / 323 browser checks |
 | Conference seed in Chromium / Firefox / WebKit | 323 / 323 / 323 browser checks |
-| Focus, resize, fragments, repeated initialization and malformed-link handling | 11 per engine |
+| Focus, resize, fragments, repeated initialisation and malformed-link handling | 11 per engine |
 | Changed source syntax | 3 PHP files, 3 JavaScript files; clean Git diff check |
 
 That is 1,938 responsive seeded-browser checks plus 33 focused navigation checks.
@@ -91,6 +91,6 @@ contract. [Activation and rollback](responsive-design.md) remain applicable.
 
 No confirmed defect remains open in the exercised scope. These are local test
 results, not an assertion about GitHub Actions. WebKit execution is not testing
-the Safari application on actual macOS/iOS devices. Private site customizations,
+the Safari application on actual macOS/iOS devices. Private site customisations,
 physical devices, screen readers and an actual PHP 9 runtime remain outside this
 acceptance. No automatic follow-up process remains active after completion.

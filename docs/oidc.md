@@ -14,10 +14,10 @@ credentials, issuer registration or provider-specific production configuration.
 
 * PHP 8.0 or newer, OpenSSL, cURL, mbstring, JSON and the PHP session extension.
 * HTTPS on both CMS and provider, with certificate and hostname validation.
-  The existing `$evaluateifhttpsisinuse` configuration must correctly recognize
+  The existing `$evaluateifhttpsisinuse` configuration must correctly recognise
   HTTPS, including behind a trusted reverse proxy. Never trust arbitrary
   forwarded headers from the public internet.
-* Authorization Code Flow, `response_mode=query`, PKCE **S256**, state and nonce.
+* Authorisation Code Flow, `response_mode=query`, PKCE **S256**, state and nonce.
   PKCE is always sent, including for confidential clients. Where discovery omits
   its optional PKCE capabilities, verify S256 enforcement in the provider's
   client policy before enabling the integration.
@@ -100,7 +100,7 @@ If a provider legitimately advertises a different origin, add only that
 specific HTTPS origin to `allowed_endpoint_origins`. Do not populate this list
 from request parameters. Redirects on discovery, token and JWKS backchannels
 are refused; endpoint responses have time and size limits. `ca_bundle` can
-select an organization's CA trust bundle; it never disables TLS verification.
+select an organisation's CA trust bundle; it never disables TLS verification.
 
 The normal public login starts at `oidc/login.php?u=...`. Return targets stay on
 the configured CMS origin and within its installation directory, including
@@ -146,7 +146,7 @@ frontend credentials in this mixed mode.
 
 If an OIDC policy key in the first six rows is omitted and the corresponding
 legacy variable is still set, that value is inherited. An explicitly configured
-OIDC value wins. The enrollment legacy string `yes` maps to boolean `true`.
+OIDC value wins. The enrolment legacy string `yes` maps to boolean `true`.
 The SAML salt must still be disabled: protocol selection is explicit and both
 protocols cannot be active simultaneously. Login information and nonmember
 messages are trusted administrator-supplied HTML, just as in the existing SAML
@@ -154,15 +154,15 @@ flow; never populate them with unescaped provider/user input. A relative logout 
 absolute HTTPS result may also be external, preserving the SAML landing-page
 use case. Request parameters cannot override this configured destination.
 
-With automatic intranet enrollment explicitly enabled, a successfully verified
+With automatic intranet enrolment explicitly enabled, a successfully verified
 and explicitly mapped identity with an email CMS username is appended once to
 the normal intranet member list. The normal intranet/private-file provisioning
 runs before the redirect, including a lock/progress retry and resumable pending
 marker. Existing members do not trigger needless republication. This option
 does not create backend users or grant higher admin rights. An unmapped external
-subject is rejected even when enrollment is enabled.
+subject is rejected even when enrolment is enabled.
 
-To preserve the SAML enrollment use case for new people without manually
+To preserve the SAML enrolment use case for new people without manually
 pre-registering every subject, select the optional **verified-email profile**:
 
 ```php
@@ -176,7 +176,7 @@ The trusted provider must put `email` and boolean `email_verified=true` in the
 explicit `subjects` entry still wins; usernames reserved by those entries
 cannot be claimed by another subject through the email profile. Keep privileged
 backend identities explicitly mapped when using this profile for broader
-intranet enrollment.
+intranet enrolment.
 
 Before enabling it, prepare the dedicated binding table using the real CMS
 database configuration:
@@ -195,7 +195,7 @@ one username to one subject within an issuer/client. First-login races cannot
 replace an existing binding. A changed email on an existing subject or the same
 email arriving from another subject fails closed for administrative review.
 There is no silent relinking. Local CMS permissions remain authoritative, and
-auto-enrollment still never creates a backend account or higher admin rights.
+auto-enrolment still never creates a backend account or higher admin rights.
 
 Review identity corrections administratively and invalidate existing sessions
 when changing bindings. Keep the table when disabling OIDC; deleting it loses
@@ -240,7 +240,7 @@ Secure, HttpOnly, SameSite=Lax cookie, also scoped to the CMS directory.
 
 The bridge covers backend login and higher-admin checks, frontend page rights,
 intranet/search rights, frontend form saves, upload identity attribution and
-the protected file/thumbnail authorization gate. File-specific `.htpasswd`
+the protected file/thumbnail authorisation gate. File-specific `.htpasswd`
 lists remain authoritative; maintain/regenerate those lists using the existing
 CMS workflow when changing file permissions. Direct web-server rules, custom
 PHP objects and integrations that implement their own authentication require
@@ -249,10 +249,11 @@ their own deployment review. They are not converted by this branch.
 Password reset, intranet-password requests and backend password changes are
 blocked in OIDC mode. Inviting a CMS backend user does not send a local password;
 the invitation screen explains the subject mapping that is also required.
-Automatic intranet enrollment requires the explicit setting above. There is no
+Automatic intranet enrolment requires the explicit setting above. There is no
 fallback password login on an OIDC-protected path or IdP-derived role elevation.
 
-## Session and logout behavior
+<a id="session-and-logout-behavior"></a>
+## Session and logout behaviour
 
 * Login transactions last five minutes and are single-use, including cancelled
   or failed callbacks. Up to five transactions support separate browser tabs.
@@ -281,7 +282,7 @@ The application still checks local rights on subsequent requests. Provider-side
 account suspension alone does not immediately terminate an existing CMS session;
 its maximum validity is the lifetime above. For immediate revocation, remove
 the local rights/mapping or rotate `$sessioncookiehashsalt`. With automatic
-intranet admission enabled, a still-eligible identity can enroll again; durable
+intranet admission enabled, a still-eligible identity can enrol again; durable
 revocation therefore also requires removing its provider/client eligibility or
 disabling that admission policy.
 
@@ -328,6 +329,6 @@ The reproducible regression commands and observed results are recorded in
 * [OpenID Connect Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html)
 * [OAuth security best current practice, RFC 9700](https://www.rfc-editor.org/rfc/rfc9700.html)
 * [PKCE, RFC 7636](https://www.rfc-editor.org/rfc/rfc7636.html)
-* [Authorization response issuer identification, RFC 9207](https://www.rfc-editor.org/rfc/rfc9207.html)
+* [Authorisation response issuer identification, RFC 9207](https://www.rfc-editor.org/rfc/rfc9207.html)
 * [OpenID Connect RP-initiated logout](https://openid.net/specs/openid-connect-rpinitiated-1_0.html)
 * [JWT validation dependency and upstream documentation](https://github.com/googleapis/php-jwt)

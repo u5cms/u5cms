@@ -6,7 +6,7 @@ The 19 existing remote heads were examined before branching. The newer audit
 heads have no additional application differences from this base. Historical
 branches keep their separate feature sets; no unrelated branch was merged.
 
-Authorized on 12 November 2026: replace JavaScript mobile conversion with real
+Authorised on 12 November 2026: replace JavaScript mobile conversion with real
 responsive design, redesign the renderer, preserve older databases and the
 u5CMS syntax/effects, with particular attention to https://yuba.ch/dat.
 This is a separate source branch. It does not update main or any live website.
