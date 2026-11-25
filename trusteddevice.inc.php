@@ -122,8 +122,9 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
         return array_values($columns);
     }
 
-    function u5TrustedDeviceBrowsers($username) {
-        if (!u5TrustedDeviceEnabled() || !u5TrustedDeviceAllowedUser($username)) return false;
+    function u5TrustedDeviceBrowsers($username, $expectedAccountHash = null) {
+        $limit = u5TrustedDeviceLimit($username);
+        if (!u5TrustedDeviceEnabled() || $limit === 0) return false;
         $installation = u5TrustedDeviceInstallationId();
         // SELECT * also reads the original one-browser table before its migration.
         $result = @mysql_query("SELECT * FROM u5trusteddevices WHERE installation_id='"
@@ -131,11 +132,18 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
             . mysql_real_escape_string(u5TrustedDeviceNormaliseUser($username))
             . "' AND revoked_at=0 ORDER BY created_at,selector");
         if ($result === false) return mysql_errno() === 1146 ? array() : false;
+        if (mysql_num_rows($result) === 0 && $expectedAccountHash === null) return array();
+        // Read the account after the list so a concurrent credential change cannot retire a newer registration.
+        $account = u5TrustedDeviceAccount($username);
+        if (!is_array($account)) return false;
+        $accountHash = hash('sha256', (string)$account['pw']);
+        if ($expectedAccountHash !== null && !hash_equals($expectedAccountHash, $accountHash)) return false;
         $rows = array();
         while ($row = mysql_fetch_array($result)) {
             $row['slot'] = (int)($row['slot'] ?? 1);
-            if ($row['slot'] < 1 || $row['slot'] > u5TrustedDeviceLimit($username)) {
-                if (!u5TrustedDeviceRevoke($username, $row['selector'])) return false;
+            if ($row['slot'] < 1 || $row['slot'] > $limit || !hash_equals($accountHash, (string)$row['account_hash'])) {
+                // A concurrent cleanup may already have retired this exact selector.
+                if (!u5TrustedDeviceRevoke($username, $row['selector'], true)) return false;
                 continue;
             }
             $rows[] = $row;
@@ -237,9 +245,7 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
         $where = "installation_id='" . mysql_real_escape_string($installation)
                . "' AND username='" . mysql_real_escape_string($username) . "'";
         $limit = u5TrustedDeviceLimit($username);
-        if (@mysql_query("UPDATE u5trusteddevices SET revoked_at=$now WHERE $where AND revoked_at=0"
-            . " AND (slot>$limit OR account_hash!='" . mysql_real_escape_string($accountHash) . "')") === false) return 'error';
-        $rows = u5TrustedDeviceBrowsers($username);
+        $rows = u5TrustedDeviceBrowsers($username, $accountHash);
         if ($rows === false) return 'error';
         $occupied = array();
         foreach ($rows as $row) {
@@ -276,14 +282,15 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
         return 'limit';
     }
 
-    function u5TrustedDeviceRevoke($username, $selector) {
+    function u5TrustedDeviceRevoke($username, $selector, $ifPresent = false) {
         if (!u5TrustedDeviceAllowedUser($username) || !is_string($selector)
             || !preg_match('/\A[a-f0-9]{32}\z/D', $selector)) return false;
         $sql = "UPDATE u5trusteddevices SET revoked_at=" . time()
              . " WHERE installation_id='" . mysql_real_escape_string(u5TrustedDeviceInstallationId()) . "'"
              . " AND username='" . mysql_real_escape_string(u5TrustedDeviceNormaliseUser($username)) . "'"
              . " AND selector='" . mysql_real_escape_string($selector) . "' AND revoked_at=0";
-        if (@mysql_query($sql) === false || mysql_affected_rows() !== 1) return false;
+        if (@mysql_query($sql) === false) return false;
+        if (mysql_affected_rows() !== 1) return $ifPresent;
         $token = u5TrustedDeviceCookieParts();
         if ($token !== false && hash_equals($selector, $token['selector'])) u5TrustedDeviceClearCookie();
         return true;
