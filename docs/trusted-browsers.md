@@ -16,7 +16,9 @@ Trusted Device is u5CMS's optional trusted-browser feature. A deliberately regis
 
 The trusted item is a **browser profile**, rather than the whole physical device. A different browser, a new profile or a replacement cloud browser needs its own registration. The feature is available from **12.9.5.10** and is disabled by default. Use **12.9.5.12 or later** for the corrected account-switching behaviour.
 
-**Audience:** installation administrators and account holders. **Version:** feature from 12.9.5.10; tested on 12.10.0 with the same-origin form correction. **Scope:** browser registrations per account and installation.
+For a stable installation, use **12.10.1 or later**. It includes the registration-form origin correction and recovery after temporary database read failures. Maintained V13–V17 sources carry the corresponding fixes. See the [12.10.1 release notes](https://github.com/u5cms/u5cms/blob/v12.10.1/docs/release-12.10.1.md).
+
+**Audience:** installation administrators and account holders. **Version:** feature from 12.9.5.10; exercised on the corrected 12.10.0 baseline and rechecked on 12.10.1. **Scope:** browser registrations per account and installation.
 
 ## Read by task
 
