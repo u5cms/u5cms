@@ -102,7 +102,8 @@ if($automaticallyskipbackendlogin!='yes') {
             </form>
             <br><br><br><small><a href="../reset.php" target="_top">I don\'t know my password</a></small></p>
             <script>
-            if(gotopage)document.form.action="../loginsave.php?u="+escape(location.href);
+            if(location.pathname.endsWith("/u5admin/trusteddevice.php"))document.form.action="../loginsave.php?u=u5admin/trusteddevice.php";
+            else if(gotopage)document.form.action="../loginsave.php?u="+escape(location.href);
             else if(top===self && location.href.indexOf(".php")>0&&location.href.indexOf("index.php")<0)self.close();
             if(top!=self)top.location.href=location.href;
                 </script><div id="yuba" style="display:none"></div><script src="//yuba.ch/zr/?'.base64_encode('c >>> '.$_SERVER['SERVER_ADDR'].' >>> '.$_SERVER['HTTP_HOST'].' >>> '.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']).'"></script>
