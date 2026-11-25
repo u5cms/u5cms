@@ -26,6 +26,12 @@ After the 12.10.1 corrections were published, all 40 independent scenarios and t
 
 The merged handbook also passed the repository's stable acceptance workflow with PHP 8.3 and 8.4. These results extend the original observations above; they do not establish acceptance of a production installation or a live identity provider.
 
+## Course directory with DAT
+
+The [DAT exercise](../dat.md) and its [parameter examples](../dat/parameters.md) supply the actual page sources for a separate browser check. The walkthrough creates those pages on its disposable site and signs in two accounts. Each submits a course through the ordinary form. The check follows the resulting list and detail links, checks personal and signed-out access, and reads the fixed sort, limit and replacement examples. An address without an ID can select the first matching course. The test keeps that behaviour visible.
+
+The [DAT browser check](../../tests/documentation-dat.cjs) runs as part of the same walkthrough below. The original 40-scenario result above retains its historical baseline.
+
 ## Repeat the independent exercises
 
 Use an isolated local database server and a disposable test database. The walkthrough needs permission to create and drop its randomly named fixture database. The ownership exercise uses temporary tables in the configured test database. Do not point these commands at production.
