@@ -16,6 +16,8 @@ Register the intended profile after a normal login, return in that profile and u
 4. Check **Account** and the number of permitted browsers.
 5. Choose **Trust this browser** and confirm the success message and **(this browser)** marker.
 
+After a password change, sign in with the new password. From 12.10.3, opening the management page frees places tied to the previous password even if those browsers are offline.
+
 A profile already registered for that account does not use another place when you visit the page again. Each additional profile and each separate CMS installation requires its own registration. Host aliases such as `cms.example.org` and `www.cms.example.org` do not share the cookie.
 
 ## Return to work
