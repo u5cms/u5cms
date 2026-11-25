@@ -1,6 +1,6 @@
 # u5CMS 12.9.5.1 — search memory correction
 
-Date: 18 November 2026 (Europe/Zurich). The user authorized a patch release from
+Date: 18 November 2026 (Europe/Zurich). The user authorised a patch release from
 current main, branch-local backports to all existing branches, an installed test
 on policies.eiam.admin.ch, and a deployment request to Markus Gaschen.
 
@@ -9,7 +9,8 @@ Release base: `bf6863337cd6dd64284cf429f65da986d821d741`. The public version in
 feature branch is imported into main. The [starting-head inventory](search-memory-starting-heads.json)
 records every examined branch; the [verified publication map](search-memory-backports.json) records all 20 branch-local backports.
 
-## Final behavior
+<a id="final-behavior"></a>
+## Final behaviour
 
 * Both legacy result entry points select result metadata, all five fallback
   titles and only the selected language's body, rather than every content and
@@ -25,7 +26,7 @@ records every examined branch; the [verified publication map](search-memory-back
   tie selection are retained. Resource boundaries no longer invent joined
   words. Correction-only limits are 16 terms, each at most 255 bytes; oversized
   source tokens are skipped without copying them. Ordinary exact search keeps
-  its existing input behavior.
+  its existing input behaviour.
 * The historical `levenshtein.inc.php` uses the same stream and escapes the
   suggestion label and URL. Its separate legacy query source is preserved.
 * The old `alloc.inc.php` HTML length/substrings now stream entity boundaries
@@ -63,7 +64,7 @@ SQL/HTTP fixtures are disposable. These are local executions, not GitHub CI.
 | HTML length/substrings against the original implementation | 55,990 comparisons passed, including malformed entities and negative offsets |
 | Entity-rich HTML stress under a 64-MiB PHP limit | 25,165,814 source bytes; 27,267,072-byte peak |
 | Unchanged modern core / alloc / index / service / suggestions / distances | 7,767 / 46 / 96 / 350 / 6,491 / 20,907 passed |
-| Modern PHP/JavaScript normalization parity | 16 fixtures and all 7,623 folds passed |
+| Modern PHP/JavaScript normalisation parity | 16 fixtures and all 7,623 folds passed |
 | Modern real browser / default-theme presentation / HTTP+database | 222 / 77 / 33 passed |
 | Published backports: exact tree, tested application blobs, own versions | 20 branches verified; unrelated files preserved |
 | PHP syntax and changed-line whitespace | Passed |
@@ -131,7 +132,7 @@ All 20 branch-local backports are published and verified against their exact
 starting parents. The old-engine application blobs match the tested patch; the
 ten modern-engine branches retain every active search file byte-for-byte.
 [Machine verification](../tests/search-memory-branch-verification.json).
-Main publication uses the authorized pull request and v12.9.5.1 tag;
+Main publication uses the authorised pull request and v12.9.5.1 tag;
 the release metadata records the final merge SHA. The installed Policies code
 was independently hash-verified with all eight final live cases and its
 November-only automatic-indexer pause.

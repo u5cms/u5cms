@@ -1,6 +1,6 @@
 # Mobile controls backport
 
-Authorized on 31 October 2026: backport the info.agov.ch mobile close, desktop
+Authorised on 31 October 2026: backport the info.agov.ch mobile close, desktop
 and search treatment to every release branch from 12.11.0 through 12.14.0.
 Then create a separate cumulative branch for a restrained default-site design
 refresh, without introducing responsive CSS or replacing the mobile script.
@@ -18,7 +18,7 @@ the observer watches the navigation rather than the entire page.
 The source addendum is in `u5admin/mobiletools-source.inc.php`. Distribution
 `r/mobile.js`, its `r/mobile!js.tpl` reset baseline and the mobile C-object in
 both SQL seeds contain the same addendum. Existing enhanced AGOV sources are
-recognized and retained without appending a second addendum.
+recognised and retained without appending a second addendum.
 
 Existing installations use the normal complete update, with only `runonce.php`
 overwritten in `r/`. Include both new `u5admin/mobiletools-*.inc.php` helpers.
@@ -81,7 +81,7 @@ branch also updates `docs/development-status.md`.
 
 Next action: verify guarded publication on all nine branch refs, then create
 `12.15.0-Default-Design` from the corrected cumulative 12.14.0 head. The design
-refresh is authorized; it must keep `u5standard.sql`, `u5conference.sql`, CSS
+refresh is authorised; it must keep `u5standard.sql`, `u5conference.sql`, CSS
 exports and reset templates consistent without introducing responsive CSS.
 
 | Target branch | Starting SHA |

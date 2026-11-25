@@ -45,14 +45,14 @@ alternate local test runtimes.
 Checks cover existing formats, mixed albums, original bytes, eight TIFF
 orientations, several TIFF compressions, missing/corrupt conversion parts,
 decoder failures, upload limits, a full album, and failed publication. The
-output images are also inspected for dimensions and expected colors.
+output images are also inspected for dimensions and expected colours.
 
 ## Bundled dependencies
 
 The scripts and source archives in `vendor` are unmodified copies from the
 photo-card implementation. Each script is independently replaceable.
 
-| Component | Version/license | Upstream |
+| Component | Version/licence | Upstream |
 | --- | --- | --- |
 | heic-to | 1.6.6, LGPL-3.0 | https://github.com/hoppergee/heic-to |
 | libheif | 1.23.6, LGPL-3.0 | https://github.com/strukturag/libheif |
@@ -60,6 +60,6 @@ photo-card implementation. Each script is independently replaceable.
 | UTIF.js | MIT | https://github.com/photopea/UTIF.js |
 | pako | 2.1.0, MIT/Zlib | https://github.com/nodeca/pako |
 
-License texts and corresponding source archives are supplied alongside the
+Licence texts and corresponding source archives are supplied alongside the
 scripts. The HEIC decoder includes its own worker and codec; TIFF uses UTIF.js
 and pako in `image-upload-worker.js`.

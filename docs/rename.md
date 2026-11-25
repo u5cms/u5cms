@@ -6,7 +6,7 @@ uses the disappearance of the old database name as proof of completion.
 
 ## Preserved policies and dependencies
 
-| Item | Behavior |
+| Item | Behaviour |
 | --- | --- |
 | Update links: yes/no | Always changes object ownership, file names and form ownership. Only yes rewrites references. |
 | `$ignoremanualfullpaths == 'yes'` | Leaves manually entered media paths and `c=`/`n=` query targets untouched. Normal CMS links still follow the object. |
@@ -32,7 +32,7 @@ static-extension checks and reset-template handling. Their bracket parser now
 also protects title delimiters. Existing 12.11 migration and rename checkpoints
 keep their identifiers and remain readable.
 
-This rewrites the CMS's recognized dependency syntax. Configuration PHP,
+This rewrites the CMS's recognised dependency syntax. Configuration PHP,
 external bookmarks, already sent emails and arbitrary application identifiers
 are not a general text-replacement namespace. Keep any installation-specific
 external integrations in the site's normal acceptance review.

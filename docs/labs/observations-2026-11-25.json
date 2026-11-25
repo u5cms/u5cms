@@ -1,0 +1,217 @@
+{
+  "date": "2026-11-25",
+  "base_commit": "42215f7521cf99b9440d705993e2e7a9d7a5da1a",
+  "application_version": "12.10.0",
+  "application_change": "u5admin/trusteddevice.php: Referrer-Policy same-origin",
+  "application_file_sha256": "557ca0f00fed6f5febc6eec1c8a6920b9c0cc28da2095f40f71b071d69175371",
+  "environment": {
+    "PHP": "8.4.28",
+    "MariaDB": "11.8.9",
+    "Chromium Headless Shell": "156.0.8078.108",
+    "OS": "Linux"
+  },
+  "independent_scenarios": 40,
+  "trusted_browser": {
+    "checks": 19,
+    "cases": [
+      {
+        "case": "A normal login can register the intended browser",
+        "passed": true
+      },
+      {
+        "case": "The real HTTPS cookie is host-only, HttpOnly, Secure and Strict, with a 400-day lifetime",
+        "passed": true
+      },
+      {
+        "case": "Revisiting does not allocate another place",
+        "passed": true
+      },
+      {
+        "case": "A second independent profile fills the two-place allowance",
+        "passed": true
+      },
+      {
+        "case": "A third profile is not silently substituted for an existing registration",
+        "passed": true
+      },
+      {
+        "case": "Removing ordinary session cookies still resumes through the trusted credential",
+        "passed": true
+      },
+      {
+        "case": "Closing and reopening a tab retains registration in the same profile",
+        "passed": true
+      },
+      {
+        "case": "A host alias does not receive the registered host cookie",
+        "passed": true
+      },
+      {
+        "case": "CMS logout revokes only the current browser, while another profile remains trusted",
+        "passed": true
+      },
+      {
+        "case": "Disabling prevents resumption, but re-enabling restores an unrevoked registration",
+        "passed": true
+      },
+      {
+        "case": "An eligible login with zero allowance receives 404; restoring the allowance retains records",
+        "passed": true
+      },
+      {
+        "case": "Clearing cookies loses the local credential without freeing the server place",
+        "passed": true
+      },
+      {
+        "case": "Revoking the stale place permits a replacement profile",
+        "passed": true
+      },
+      {
+        "case": "Reducing the allowance rejects place 2 and preserves place 1",
+        "passed": true
+      },
+      {
+        "case": "An explicit account switch revokes the previous profile identity, not another profile",
+        "passed": true
+      },
+      {
+        "case": "The new account has its own registration allowance",
+        "passed": true
+      },
+      {
+        "case": "Individual revocation leaves the already established ordinary session usable",
+        "passed": true
+      },
+      {
+        "case": "Bad CSRF tokens and cross-origin registration are rejected",
+        "passed": true
+      },
+      {
+        "case": "A numeric string is not a valid configured browser limit",
+        "passed": true
+      }
+    ]
+  },
+  "ownership": {
+    "checks": 9,
+    "cases": [
+      {
+        "case": "Alice in personal scope",
+        "visible_ids": [
+          1
+        ],
+        "passed": true
+      },
+      {
+        "case": "Alice shares the exact organisation domain",
+        "visible_ids": [
+          1,
+          2
+        ],
+        "passed": true
+      },
+      {
+        "case": "A subdomain remains separate",
+        "visible_ids": [
+          3
+        ],
+        "passed": true
+      },
+      {
+        "case": "A central-sounding name grants no additional access",
+        "visible_ids": [],
+        "passed": true
+      },
+      {
+        "case": "An explicitly configured central domain spans organisations",
+        "visible_ids": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "passed": true
+      },
+      {
+        "case": "The central allowance does not include subdomains",
+        "visible_ids": [],
+        "passed": true
+      },
+      {
+        "case": "An unverified identity cannot use the central allowance",
+        "visible_ids": [],
+        "passed": true
+      },
+      {
+        "case": "Returning to personal scope restores the original selection",
+        "visible_ids": [
+          1
+        ],
+        "passed": true
+      },
+      {
+        "case": "Policy changes did not rewrite stored owners",
+        "passed": true
+      }
+    ]
+  },
+  "content_forms_and_search": {
+    "checks": 12,
+    "cases": [
+      {
+        "case": "The worked source produces the intended heading levels and inline emphasis",
+        "passed": true
+      },
+      {
+        "case": "Encoded brackets display CMS markers verbatim inside an HTML section",
+        "passed": true
+      },
+      {
+        "case": "An inclusion renders content, while a labelled reference renders a link",
+        "passed": true
+      },
+      {
+        "case": "An empty language field can display fallback content rather than an empty page",
+        "passed": true
+      },
+      {
+        "case": "The form markers produce a usable labelled HTML field and submit control",
+        "passed": true
+      },
+      {
+        "case": "An empty mandatory field is rejected before a record is inserted",
+        "passed": true
+      },
+      {
+        "case": "A field absent from the stored form is rejected without writing a record",
+        "passed": true
+      },
+      {
+        "case": "A successful browser submission invokes its callback and inserts exactly one record",
+        "passed": true
+      },
+      {
+        "case": "The actual CSV export preserves accented, CJK and supplementary Unicode characters",
+        "passed": true
+      },
+      {
+        "case": "The actual backend data view renders the submitted Unicode value",
+        "passed": true
+      },
+      {
+        "case": "A named index update makes the exercise page discoverable by its unique text",
+        "passed": true
+      },
+      {
+        "case": "A named update leaves the last completed full-rebuild watermark unchanged",
+        "passed": true
+      }
+    ]
+  },
+  "boundaries": [
+    "Disposable installations and local database only",
+    "Local HTTPS fixture; no live identity provider or cloud-browser retention test",
+    "No production rollout or production restore",
+    "Local results are distinct from GitHub Actions"
+  ]
+}

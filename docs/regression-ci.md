@@ -32,7 +32,7 @@ For the 24 MiB single-row backup/restore fixture, that disposable server needs
 row. CI sets this explicitly, matching the local audit runtime. The PHP backup
 export itself is still tested with a 64 MiB memory limit.
 
-The runner refuses an implicit database port, creates randomized temporary
+The runner refuses an implicit database port, creates randomised temporary
 databases, removes them, and exports the fixed original commit
 `9d366253417822c279692767b89dcf1ff0388c5c` for independent comparisons. A full Git
 history is needed. `--baseline PATH` can supply that immutable export directly.
@@ -63,7 +63,7 @@ first and compares 38 seeded pages in German, English and French under five
 roles (570 cases per installation). It requires the actual abstract/registration
 controls to be present, checks nine destructive oracle mutations, and preserves
 page access, form actions, methods, targets and existing input/selection controls.
-Additive features are allowed. The deliberately modernized global navigation
+Additive features are allowed. The deliberately modernised global navigation
 search has its own real-browser suite and is excluded from this business-form
 comparison. On profiles which include mobile controls, CI also runs the 84-check
 mobile browser suite (five languages, keyboard, toolbar replacement, delayed
