@@ -57,6 +57,8 @@ Open the form-data area for the relevant form, choose the required status and in
 
 The internal `formdata.datacsv` representation contains CMS-specific separators and escaped values. It is not the finished export. During the exercise, inspecting that raw value without the normal decoding initially obscured the Unicode text. The CMS's own table view and CSV endpoint reproduced the original value correctly. Use those supported paths for ordinary viewing and exchange.
 
+To show selected fields on a visitor-facing page, build a [course directory with DAT](dat.md). Its list and detail views read the saved records directly.
+
 For ownership, see [SELF permissions](permissions.md). For a custom persistence routine, the technical [site-writer reference](onlymine.md#form-specific-storage) explains its explicit marker, fixed function and required result. Forms without that marker retain the built-in writer.
 
 ## Protect public submissions with Turnstile
