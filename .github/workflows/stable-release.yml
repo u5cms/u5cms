@@ -57,6 +57,7 @@ jobs:
             php "tests/$test.php"
           done
           php tests/search-legacy-database-regression.php u5sys._searchsi.php
+          php tests/documentation-ownership.php
           node tests/background-runner-regression.cjs
           python3 tests/indexer-crash-regression.py
           python3 tests/indexer-database-lock-regression.py
@@ -85,6 +86,7 @@ jobs:
           echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
       - name: Real Chromium backend, authentication and recovery
         run: |
+          python3 tests/documentation-walkthrough.py
           node tests/background-browser.cjs
           python3 tests/rename-web-regression.py
 
