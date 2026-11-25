@@ -12,6 +12,8 @@ This guide explains an operational design and provides copy-and-paste prompts wi
 
 The detailed examples assume Linux, Apache and PHP-FPM, optionally behind nginx and managed by Plesk. Apply the same principles to other hosting arrangements, using their native service and capacity metrics. Monitoring is an infrastructure task and does not require a new u5CMS release. Check the actual PHP, web server and hosting-panel versions before using particular status interfaces.
 
+**Audience:** hosting and operations administrators. **Version:** infrastructure guidance; inspect actual service versions. **Scope:** the hosting node and all relevant pools.
+
 ## Read by task
 
 | Task | Section |

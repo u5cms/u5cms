@@ -1,19 +1,28 @@
+<a id="vertrauenswürdige-browser-in-u5cms"></a>
+<a id="configphp-anpassen"></a>
+<a id="browser-registrieren"></a>
+<a id="browser-widerrufen-oder-ersetzen"></a>
+<a id="cloudbrowser-von-mehreren-personen"></a>
+<a id="laufzeit-und-technische-voraussetzungen"></a>
+<a id="manueller-rollout-nur-dieser-funktion"></a>
+
 # Trusted Device
 
 [Documentation home](README.md)
 
 ## Summary
 
-Trusted Device lets selected CMS accounts resume authentication in deliberately registered browser profiles. An administrator enables it and assigns each account a browser allowance; the user then signs in normally and chooses **Trust this browser**. HTTPS and session authentication are required. A profile retains the account's existing permissions, and CMS logout revokes that profile's registration.
-
 Trusted Device is u5CMS's optional trusted-browser feature. A deliberately registered browser can resume the account's CMS authentication after the ordinary session ends. It retains that account's existing permissions.
 
 The trusted item is a **browser profile**, rather than the whole physical device. A different browser, a new profile or a replacement cloud browser needs its own registration. The feature is available from **12.9.5.10** and is disabled by default. Use **12.9.5.12 or later** for the corrected account-switching behaviour.
+
+**Audience:** installation administrators and account holders. **Version:** feature from 12.9.5.10; tested on 12.10.0 with the same-origin form correction. **Scope:** browser registrations per account and installation.
 
 ## Read by task
 
 | Task | Guide |
 | --- | --- |
+| Learn through a two-profile exercise | [Practical walkthrough](trusted-device/walkthrough.md) |
 | Enable the feature and allocate browser places | [Configuration](trusted-device/configuration.md) |
 | Register, use, replace or revoke a browser | [Everyday use](trusted-device/usage.md) |
 | Prepare a cloud browser and give an agent a task | [Working with an AI agent](trusted-device/agents.md) |
@@ -35,3 +44,5 @@ Registration does not create an account, grant additional permissions or establi
 You need HTTPS, u5CMS session authentication, a permitted backend account and control of the intended browser profile. Trusted Device is unavailable with HTTP Basic authentication or when u5CMS OIDC is enabled. A cloud browser must retain the profile and its cookies for the registration to remain usable.
 
 The browser is an access credential: anyone controlling that registered profile can act with the account's permissions. Use a profile controlled by the intended operator and grant only the permissions needed for the work.
+
+The laboratory also identified and corrected a management-form origin failure in earlier source. Its [walkthrough](trusted-device/walkthrough.md#observed-results) records the correction. Compare the actual installed source as well as its version label when using an older package.

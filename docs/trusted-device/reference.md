@@ -4,7 +4,9 @@
 
 ## Summary
 
-Trusted Device stores a secret in a host-bound, protected cookie and a verifier in the database. Resumption checks the account, credential fingerprint, allowance and registration. Cookies are issued for 400 days and renewed at most daily; browser retention and revocation still govern usability. This page maps the implementation and its verification suites.
+This reference maps the credential, database, authentication hooks and verification suites. Use the configuration or everyday-use guide for the shortest operational procedure.
+
+**Audience:** developers and installation maintainers. **Version:** 12.10.0 with the same-origin form correction. **Scope:** implementation and verification.
 
 ## Credential and scope
 

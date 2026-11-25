@@ -4,7 +4,9 @@
 
 ## Summary
 
-Start by checking the CMS host, browser profile, ordinary login and configured account allowance. Revoke an obsolete registration when the allowance is full. A missing cookie or replaced cloud profile requires a normal login and registration again. Use the exact displayed error to narrow the cause; preserve HTTPS, origin and CSRF protection.
+Identify whether the failure concerns login, eligibility, a full allowance, form protection or a lost profile. Follow the matching check without weakening authentication safeguards.
+
+**Audience:** account holders and installation administrators. **Version:** 12.10.0 with the same-origin form correction. **Scope:** registration and persistent resumption.
 
 ## The management page returns 404
 
@@ -26,6 +28,8 @@ Open the list under the same account and revoke an obsolete registration. Removi
 | **The browser could not be revoked.** | Refresh the list; the entry may already have been revoked, or the database operation may have failed. |
 
 An administrator investigating a proxy must check the deployment's trusted forwarding configuration. Do not remove origin checks, CSRF protection or the HTTPS requirement to make registration succeed.
+
+An older management-page source using `Referrer-Policy: no-referrer` can cause its own form to submit `Origin: null`. The current page uses `same-origin`. Compare the installed file with the matching maintained source and see the [browser finding](walkthrough.md#observed-results); changing the page's header is different from accepting an unverified origin.
 
 ## A later visit asks for a login
 

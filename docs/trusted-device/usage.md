@@ -4,7 +4,9 @@
 
 ## Summary
 
-Sign in normally in the intended profile, open `/u5admin/trusteddevice.php` and choose **Trust this browser**. Return using the same host and profile. Use **Revoke** to remove an obsolete registration before replacing a lost profile. CMS logout revokes the current profile; closing a tab does not deliberately revoke it.
+Register the intended profile after a normal login, return in that profile and use the management page to replace or revoke it. CMS logout deliberately withdraws the current registration.
+
+**Audience:** account holders. **Version:** tested on 12.10.0 with the same-origin form correction. **Scope:** the signed-in account and its browser profiles.
 
 ## Register a browser
 
