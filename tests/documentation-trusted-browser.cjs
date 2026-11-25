@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const {execFileSync} = require('node:child_process');
+const {randomBytes} = require('node:crypto');
 const {launchBrowser} = require(process.env.U5_DOCUMENTATION_SOURCE + '/tests/browser-runtime.cjs');
 
 (async () => {
@@ -13,17 +13,17 @@ const {launchBrowser} = require(process.env.U5_DOCUMENTATION_SOURCE + '/tests/br
     const contexts = [];
     const record = name => { results.push({case:name,passed:true}); console.log('PASS ' + name); };
     const management = '/u5admin/trusteddevice.php';
-    async function context() {
-        const c = await browser.newContext({ignoreHTTPSErrors:true, viewport:{width:1120,height:900}});
+    async function context(options = {}) {
+        const c = await browser.newContext({ignoreHTTPSErrors:true, viewport:{width:1120,height:900}, ...options});
         await c.route('**/*', route => {
             const hostname = new URL(route.request().url()).hostname;
             return ['localhost','127.0.0.1'].includes(hostname) ? route.continue() : route.abort();
         });
         contexts.push(c); return c;
     }
-    async function login(c, user='alice@example.org') {
+    async function login(c, user='alice@example.org', password=process.env.U5CMS_FIXTURE_PASSWORD) {
         const response = await c.request.post(origin + '/loginsave.php?u=' + management,
-            {form:{u:user,p:process.env.U5CMS_FIXTURE_PASSWORD}});
+            {form:{u:user,p:password}});
         assert.equal(response.status(),200);
         const p = await c.newPage(); await p.goto(origin + management);
         assert.match(await p.locator('body').innerText(),new RegExp(user.replaceAll('.','\\.')));
@@ -117,6 +117,34 @@ const {launchBrowser} = require(process.env.U5_DOCUMENTATION_SOURCE + '/tests/br
         config("$u5trusteddeviceusers=array('alice@example.org'=>'2','bob@example.org'=>1);");
         const invalid=await bp.goto(origin+management);assert.equal(invalid.status(),404);
         config();await bp.reload();record('A numeric string is not a valid configured browser limit');
+        const changeContext = await context({javaScriptEnabled:false});
+        const changePage = await login(changeContext, 'bob@example.org');
+        const newPassword = randomBytes(32).toString('hex');
+        await changePage.goto(origin + '/u5admin/pwd.php');
+        await changePage.locator('[name="old"]').fill(process.env.U5CMS_FIXTURE_PASSWORD);
+        await changePage.locator('[name="new1"]').fill(newPassword);
+        await changePage.locator('[name="new2"]').fill(newPassword);
+        await changePage.getByRole('button', {name:'change password'}).click();
+        const replacement = await login(changeContext, 'bob@example.org', newPassword);
+        await registered(replacement, 0, 1);
+        await replacement.getByRole('button', {name:'Trust this browser',exact:true}).click();
+        await registered(replacement, 1, 1);
+        await clearSession(a);
+        await ap.goto(origin + management);
+        await missingLogin(ap);
+        await bp.reload();
+        await registered(bp, 1, 2);
+        record('Changing a password releases the old profile place before the old browser returns and preserves another account');
+
+        const plainContext = await context({javaScriptEnabled:false});
+        const plainPage = await plainContext.newPage();
+        await plainPage.goto(origin + management);
+        await plainPage.locator('[name="u"]').fill('alice@example.org');
+        await plainPage.locator('[name="p"]').fill(process.env.U5CMS_FIXTURE_PASSWORD);
+        await plainPage.getByRole('button', {name:'log in'}).click();
+        assert.equal(new URL(plainPage.url()).pathname, management);
+        await registered(plainPage, 1, 2);
+        record('The direct login form returns to browser management with JavaScript disabled');
         fs.writeFileSync(path.join(process.env.U5_DOCUMENTATION_OUTPUT,'trusted-browser-observations.json'),JSON.stringify({checks:results.length,cases:results},null,2));
     } finally {
         config();for (const c of contexts) await c.close();await browser.close();
