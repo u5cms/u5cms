@@ -54,6 +54,16 @@ $oidcBackend = str_replace('u5OidcRequired()', 'u5OidcEnabled()', str_replace("\
 $logout = "<?php\nrequire('connect.inc.php');\nsetcookie('u', '', 0, '/', '', \$httpsisinuse, true);\n";
 $config = "<?php\n   \$usesessioninsteadofbasicauth = 'yes';\n   \$sessioncookiehashsalt = 'daily';\n   \$sticksessiontoip = 'no';\n";
 
+// Pre-12.10.2 and 12.10.2 ordinary login prompts must both converge on the release form.
+$legacyForm = <<<'PHP'
+echo '<form name="form" action="../loginsave.php?u=u5admin" method="post"></form><script>
+            if(gotopage)document.form.action="../loginsave.php?u="+escape(location.href);
+            else if(top===self && location.href.indexOf(".php")>0&&location.href.indexOf("index.php")<0)self.close();
+            if(top!=self)top.location.href=location.href;</script>';
+PHP;
+$stableBackend .= "\n" . $legacyForm;
+$oidcBackend .= "\n" . str_replace('if(gotopage)', 'if(location.pathname.endsWith("/u5admin/trusteddevice.php"))document.form.action="../loginsave.php?u=u5admin/trusteddevice.php";' . "\n            else if(gotopage)", $legacyForm);
+
 foreach (array($source => array($stableLogin,$stableBackend), $oidc => array($oidcLogin,$oidcBackend)) as $root => $pair) {
     file_put_contents($root . '/login.inc.php', $pair[0]);
     file_put_contents($root . '/u5admin/usercheck.inc.php', $pair[1]);
@@ -63,7 +73,7 @@ foreach (array($source => array($stableLogin,$stableBackend), $oidc => array($oi
 copy(dirname(__DIR__) . '/trusteddevice.inc.php', $source . '/trusteddevice.inc.php');
 copy(dirname(__DIR__) . '/u5admin/trusteddevice.php', $source . '/u5admin/trusteddevice.php');
 
-$common = array('--scan-root=' . $scan, '--source-root=' . $source, '--user=stefan.minder@bk.admin.ch', '--expect-roots=2');
+$common = array('--scan-root=' . $scan, '--source-root=' . $source, '--user=owner@example.test', '--expect-roots=2');
 $before = hash_file('sha256', $oidc . '/login.inc.php');
 u5RolloutTestAssert(u5RolloutTestRun($common, $dry) === 0 && strpos($dry, '"mode":"dry-run"') !== false, 'Dry-run failed.');
 u5RolloutTestAssert(hash_equals($before, hash_file('sha256', $oidc . '/login.inc.php')), 'Dry-run changed a file.');
@@ -74,9 +84,15 @@ u5RolloutTestAssert(u5RolloutTestRun($apply, $applied) === 0 && strpos($applied,
 foreach (array($source, $oidc) as $root) {
     u5RolloutTestAssert(strpos(file_get_contents($root . '/login.inc.php'), 'u5TrustedDeviceResume') !== false, 'Frontend hook missing.');
     u5RolloutTestAssert(strpos(file_get_contents($root . '/u5admin/usercheck.inc.php'), 'u5TrustedDeviceResume') !== false, 'Backend hook missing.');
+    $backend = file_get_contents($root . '/u5admin/usercheck.inc.php');
+    $releaseBackend = file_get_contents(dirname(__DIR__) . '/u5admin/usercheck.inc.php');
+    foreach (array('~<form name="form" action="[^"\n]+"~', '~if\(document\.form\.getAttribute\("action"\).*?\n            \}~s') as $pattern) {
+        u5RolloutTestAssert(preg_match($pattern, $releaseBackend, $expected) === 1, 'Release login form missing.');
+        u5RolloutTestAssert(strpos($backend, $expected[0]) !== false, 'Feature-only rollout differs from the release login form.');
+    }
     u5RolloutTestAssert(strpos(file_get_contents($root . '/logout.php'), 'u5TrustedDeviceRevokeCurrent') !== false, 'Logout hook missing.');
     u5RolloutTestAssert(strpos(file_get_contents($root . '/config.php'), "\$u5trusteddeviceenabled = 'yes'") !== false, 'Enable flag missing.');
-    u5RolloutTestAssert(strpos(file_get_contents($root . '/config.php'), "array('stefan.minder@bk.admin.ch' => 1)") !== false, 'Exact account quota missing.');
+    u5RolloutTestAssert(strpos(file_get_contents($root . '/config.php'), "array('owner@example.test' => 1)") !== false, 'Exact account quota missing.');
     u5RolloutTestAssert(is_file($root . '/trusteddevice.inc.php') && is_file($root . '/u5admin/trusteddevice.php'), 'New files missing.');
 }
 u5RolloutTestAssert(strpos(file_get_contents($oidc . '/login.inc.php'), 'u5ValidateTextRequest') !== false, 'OIDC validation was lost.');
@@ -85,9 +101,9 @@ u5RolloutTestAssert(strpos(file_get_contents($oidc . '/u5admin/usercheck.inc.php
 u5RolloutTestAssert(is_file($backup . '/manifest.json'), 'Backup manifest missing.');
 
 // Updating the feature must not overwrite deliberately configured account limits.
-$configured = "\$u5trusteddeviceusers = array('stefan.minder@bk.admin.ch' => 3, 'other@example.test' => 2);";
+$configured = "\$u5trusteddeviceusers = array('owner@example.test' => 3, 'other@example.test' => 2);";
 $path = $oidc . '/config.php';
-file_put_contents($path, str_replace("\$u5trusteddeviceusers = array('stefan.minder@bk.admin.ch' => 1);", $configured, file_get_contents($path)));
+file_put_contents($path, str_replace("\$u5trusteddeviceusers = array('owner@example.test' => 1);", $configured, file_get_contents($path)));
 $again = array_merge($common, array('--apply', '--backup-root=' . $tmp . '/backup-again'));
 u5RolloutTestAssert(u5RolloutTestRun($again, $reapplied) === 0, 'Repeat apply failed: ' . $reapplied);
 u5RolloutTestAssert(strpos(file_get_contents($path), $configured) !== false, 'Code rollout overwrote configured quotas.');
