@@ -1,5 +1,7 @@
 # u5CMS 12.10.0
 
+[Documentation](docs/README.md) · [Authenticated messaging guide](docs/authenticated-messaging.md)
+
 Version 12.10.0 consolidates the stable 12.9.5 updates. When archived sender evidence is enabled, forms that depend on per-user version checks are rejected before storage or mail delivery. [Upgrade and release notes](docs/release-12.10.0.md).
 
 Optional archived-SAML sender evidence for authenticated forms. [Installation and release notes](docs/release-12.9.5.15.md).
@@ -44,4 +46,5 @@ It is very easy to build a web application yourself with u5CMS. Let users log in
 
   ※ https://yuba.ch/r/rendertutorial/rendertutorial_en.pdf
 ※※ https://yuba.ch/?c=u5eformedit
+
 
