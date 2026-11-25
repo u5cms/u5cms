@@ -46,4 +46,4 @@ For example, a person signed in as `alice@example.org` may request a receipt at 
 
 The mode applies to the **whole CMS installation**, rather than one selected form. It supports standard frontend submissions which create a new record. Site-specific form writers, PayPal submissions, submitter replacement with `ed2cu=on` and per-user version-checked forms using `ifrmonofill` are incompatible. Use a separate installation when ordinary application forms must keep those behaviours.
 
-For ordinary installations, leave `$formSenderEvidenceRequired` unset or set it to `'no'`. [Release notes](release-12.10.0.md) explain the version boundary; the [reference](authenticated-messaging/reference.md) explains the evidence's limits.
+For ordinary installations, leave `$formSenderEvidenceRequired` unset or set it to `'no'`. [Release notes](https://github.com/u5cms/u5cms/blob/v12.10.0/docs/release-12.10.0.md) explain the version boundary; the [reference](authenticated-messaging/reference.md) explains the evidence's limits.
