@@ -1,6 +1,8 @@
-# u5CMS 12.10.2
+# u5CMS 12.10.3
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.3 frees obsolete browser places after a password change and returns to browser management after ordinary login with JavaScript disabled. [Upgrade and release notes](docs/release-12.10.3.md).
 
 Version 12.10.2 keeps the trusted-browser management page open for login and returns the account holder there after signing in. [Upgrade and release notes](docs/release-12.10.2.md).
 

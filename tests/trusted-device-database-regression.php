@@ -97,6 +97,7 @@ foreach (array('u5trusteddevices', 'accounts') as $table) {
         u5TrustedDbAssert(($_COOKIE[$cookieName] ?? null) === $first, "Lost the registration during a $table read error.");
         if ($table === 'accounts') {
             u5TrustedDbAssert(u5TrustedDeviceIssue('alice@example.test') === 'error', 'Registered without reading the account.');
+            u5TrustedDbAssert(u5TrustedDeviceBrowsers('alice@example.test') === false, 'Listed registrations without reading the account.');
         }
     } finally {
         u5TrustedDbQuery("RENAME TABLE `unavailable` TO `$table`");
@@ -138,9 +139,15 @@ u5TrustedDbAssert(u5TrustedDbResume($replacement)===false,'Zero quota resumed a 
 $u5trusteddeviceusers['alice@example.test']=2;
 $newCredential = bin2hex(random_bytes(24));
 u5TrustedDbQuery("UPDATE accounts SET pw='$newCredential' WHERE email='alice@example.test'");
+unset($_COOKIE[u5TrustedDeviceCookieName()]);
+u5TrustedDbAssert(u5TrustedDeviceBrowsers('alice@example.test') === array(), 'An offline browser still occupied a place after a password change.');
+u5TrustedDbAssert(u5TrustedDeviceBrowsers('alice@example.test') === array(), 'Repeated cleanup changed the list.');
 u5TrustedDbAssert(u5TrustedDbResume($replacement)===false,'Changed account credential did not revoke trust.');
+u5TrustedDbAssert(is_array(u5TrustedDbResume($bob)), 'Listing one account affected another account.');
 $changed=u5TrustedDbRegister('alice@example.test');
 u5TrustedDbAssert(u5TrustedDbResume($changed)['password_cookie']===pwdcookieget($newCredential),'Current credentials were not reconstructed.');
+u5TrustedDbAssert(u5TrustedDeviceBrowsers('alice@example.test', hash('sha256', $aliceCredential)) === false, 'A stale registration request used an earlier credential.');
+u5TrustedDbAssert(is_array(u5TrustedDbResume($changed)), 'A stale request retired the replacement registration.');
 $oldDb=$db;$db.='_different';
 u5TrustedDbAssert(u5TrustedDbResume($changed)===false,'Token crossed installation boundaries.');$db=$oldDb;
 $_COOKIE[u5TrustedDeviceCookieName()]=$bob;u5TrustedDeviceRevokeCurrent();
