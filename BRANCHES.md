@@ -6,6 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
+| [12.10.1](docs/release-12.10.1.md) | Trusted-browser registration, revocation and recovery after database read errors |
 | [12.10.0](docs/release-12.10.0.md) | Stable consolidation and compatibility of version-checked forms |
 | [12.9.5.15](docs/release-12.9.5.15.md) | Optional sender evidence for authenticated forms |
 | [12.9.5.14](https://github.com/u5cms/u5cms/tree/v12.9.5.14) | Index freshness during recovery, clock recovery and independent protected forms |

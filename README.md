@@ -1,6 +1,8 @@
-# u5CMS 12.10.0
+# u5CMS 12.10.1
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.1 restores trusted-browser registration and revocation in the browser and improves recovery after a database read error. [Upgrade and release notes](docs/release-12.10.1.md).
 
 Version 12.10.0 consolidates the stable 12.9.5 updates. When archived sender evidence is enabled, forms that depend on per-user version checks are rejected before storage or mail delivery. [Upgrade and release notes](docs/release-12.10.0.md).
 
