@@ -1,15 +1,16 @@
-# Gemeinsame Korrektur der Login-Domainprüfung
+<a id="gemeinsame-korrektur-der-login-domainprüfung"></a>
+# Shared correction to login-domain checks
 
-31. Oktober 2026. Diese Korrektur wird in allen 16 bestehenden Branches nachgeführt. Sie ändert weder die Versionsnummer noch das Schema oder gespeicherte Benutzerkennungen.
+31 October 2026. This correction is carried forward to all 16 existing branches. It changes neither the version number nor the schema or stored user identifiers.
 
-Die vier vorhandenen Login-Prüfungen benutzten den transitionalen IDNA-Modus. Dieser setzt zum Beispiel `faß.example` mit `fass.example` gleich, während die gültige ASCII-Darstellung der ersten Domain `xn--fa-hia.example` lautet. Dadurch konnte ein fremder Domainname akzeptiert und eine gültige Unicode-/Punycode-Paarung abgewiesen werden.
+The four existing login checks used transitional IDNA processing. For example, this treats `faß.example` as equal to `fass.example`, although the valid ASCII representation of the first domain is `xn--fa-hia.example`. As a result, a different domain could be accepted and a valid Unicode/Punycode pair rejected.
 
-Die Prüfungen in `loginsave.php`, `u5admin/loginsave.php`, `saml/login.php` und `u5sys._login.php` verwenden nun den nichttransitionalen ASCII-Modus. Bestehende Pfad-, Port- und Protokollprüfungen bleiben bestehen. Die bisherige CMS-Normalisierung gespeicherter E-Mail-/Benutzerkennungen ist ein anderer Vertrag und wird dadurch nicht umgestellt. Ohne verfügbare IDN-API bleibt der bisherige direkte Hostvergleich erhalten.
+The checks in `loginsave.php`, `u5admin/loginsave.php`, `saml/login.php` and `u5sys._login.php` now use non-transitional ASCII processing. Existing path, port and protocol checks are retained. Historical CMS normalisation of stored email/user identifiers is a separate contract and is not changed. Without an available IDN API, the previous direct host comparison remains.
 
-Der direkte Backend-Endpunkt hatte zusätzlich einen falschen relativen Include-Pfad (`u5admin/u5idn.inc.php` aus dem Verzeichnis `u5admin`). Der Pfad ist jetzt relativ zu seiner eigenen Quelldatei eindeutig angegeben. Dieser Fehler wurde im echten HTTP-Endpunkt reproduziert und nicht durch Abschwächen der Domainprüfung umgangen.
+The direct backend endpoint also had an incorrect relative include path (`u5admin/u5idn.inc.php` from the `u5admin` directory). The path is now unambiguously relative to its own source file. The failure was reproduced in the real HTTP endpoint, rather than worked around by weakening the domain check.
 
-`tests/login-host-regression.php` führt die tatsächlichen vier Prüfblöcke ohne Datenbank-/Anmelde-Nebenwirkungen aus. Zehn unabhängige erlaubte und verbotene Fälle pro Datei prüfen normale Domains, Gross-/Kleinschreibung, verschiedene IDN-Domains, die gültige Unicode-/Punycode-Paarung, relative Pfade, Protokoll-relative URLs und abweichende Ports.
+`tests/login-host-regression.php` executes the actual four checking blocks without database or login side effects. Ten independent permitted and rejected cases per file cover ordinary domains, case differences, distinct IDN domains, the valid Unicode/Punycode pair, relative paths, protocol-relative URLs and different ports.
 
-Vor der Korrektur scheiterten 16 von 40 Fällen am kumulierten Prüfstand. Die vorbereiteten Quellstände aller 16 Branches bestehen jeweils 40 Fälle mit PHP 8.3.6 und nativer intl-Erweiterung (640 Fälle und 64 Syntaxprüfungen). Der neue Abhängigkeitsstand besteht die 40 Fälle auch mit den mitgelieferten Polyfills auf PHP 8.3.6 und 8.5.12. Zusätzliche HTTP-Prüfungen im kumulierten Branch benutzen die echten Endpunkte, unterbinden das Folgen von Redirects und kontaktieren keine fremden Domains.
+Before the correction, 16 of 40 cases failed on the cumulative test source. The prepared source on all 16 branches passes 40 cases with PHP 8.3.6 and native intl support (640 cases and 64 syntax checks). The new dependency source also passes the 40 cases using the supplied polyfills on PHP 8.3.6 and 8.5.12. Additional HTTP checks on the cumulative branch use the real endpoints, refuse to follow redirects and contact no external domains.
 
-Es handelt sich um lokale Tests in Einweginstallationen, nicht um GitHub-CI oder eine Änderung einer produktiven CMS-Installation. Der Originalstand von main bleibt als Commit `9d366253417822c279692767b89dcf1ff0388c5c` für den Evolutionsvergleich verfügbar.
+These are local tests in disposable installations, rather than GitHub CI or changes to a production CMS installation. The original main source remains available at commit `9d366253417822c279692767b89dcf1ff0388c5c` for the evolution comparison.
