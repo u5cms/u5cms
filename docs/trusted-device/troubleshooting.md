@@ -6,7 +6,11 @@
 
 Identify whether the failure concerns login, eligibility, a full allowance, form protection or a lost profile. Follow the matching check without weakening authentication safeguards.
 
-**Audience:** account holders and installation administrators. **Version:** 12.10.0 with the same-origin form correction. **Scope:** registration and persistent resumption.
+**Audience:** account holders and installation administrators. **Version:** 12.10.2 and the corresponding maintained development lines. **Scope:** registration and persistent resumption.
+
+## The login tab closes or opens the backend home page
+
+With 12.10.1 or earlier, a signed-out visit to the management page could close the tab or take you to the backend home page after form login. On those versions, sign in at `/u5admin/` first, then open `/u5admin/trusteddevice.php` on the same installation. From 12.10.2 the ordinary CMS login form returns directly to the management page.
 
 ## The management page returns 404
 
