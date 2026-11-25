@@ -155,7 +155,9 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
         $sql = "SELECT email,pw FROM accounts WHERE TRIM(email)!='' AND TRIM(pw)!=''"
              . " AND email='" . mysql_real_escape_string($username) . "' LIMIT 2";
         $result = @mysql_query($sql);
-        if ($result === false || @mysql_num_rows($result) !== 1) return false;
+        // A failed read cannot establish that the account has been removed.
+        if ($result === false) return null;
+        if (@mysql_num_rows($result) !== 1) return false;
         return mysql_fetch_array($result);
     }
 
@@ -169,7 +171,15 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
              . " AND selector='" . mysql_real_escape_string($token['selector']) . "'"
              . " AND revoked_at=0 LIMIT 1";
         $result = @mysql_query($sql);
-        if ($result === false || @mysql_num_rows($result) !== 1) {
+        $sessionUser = $_COOKIE['u'] ?? '';
+        $hasSessionUser = is_string($sessionUser) && trim($sessionUser) !== '';
+        if ($result === false) {
+            // Without a session choice, the same browser can safely retry later.
+            // With an explicit account, an unreadable token might belong to another user.
+            if ($hasSessionUser) u5TrustedDeviceClearCookie();
+            return false;
+        }
+        if (@mysql_num_rows($result) !== 1) {
             u5TrustedDeviceClearCookie();
             return false;
         }
@@ -181,8 +191,7 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
         }
         // An explicitly selected session account takes precedence. Keeping the
         // old token would silently restore its identity now or after a restart.
-        $sessionUser = $_COOKIE['u'] ?? '';
-        if (is_string($sessionUser) && trim($sessionUser) !== ''
+        if ($hasSessionUser
             && u5TrustedDeviceNormaliseUser($sessionUser) !== u5TrustedDeviceNormaliseUser($row['username'])) {
             u5TrustedDeviceRevokeCurrent();
             return false;
@@ -194,6 +203,7 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
             return false;
         }
         $account = u5TrustedDeviceAccount($row['username']);
+        if ($account === null) return false;
         if ($account === false || !hash_equals((string)$row['account_hash'], hash('sha256', (string)$account['pw']))) {
             @mysql_query("UPDATE u5trusteddevices SET revoked_at=" . time()
                 . " WHERE installation_id='" . mysql_real_escape_string($installation) . "'"
@@ -216,7 +226,7 @@ if (!function_exists('u5TrustedDeviceEnabled')) {
     function u5TrustedDeviceIssue($username) {
         if (!u5TrustedDeviceEnabled() || !u5TrustedDeviceIsHttps() || !u5TrustedDeviceAllowedUser($username)) return 'disabled';
         $account = u5TrustedDeviceAccount($username);
-        if ($account === false || !u5TrustedDeviceEnsureTable()) return 'error';
+        if (!is_array($account) || !u5TrustedDeviceEnsureTable()) return 'error';
         $installation = u5TrustedDeviceInstallationId();
         $username = u5TrustedDeviceNormaliseUser($account['email']);
         $selector = bin2hex(random_bytes(16));

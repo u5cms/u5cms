@@ -85,6 +85,7 @@ jobs:
           echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
       - name: Real Chromium backend, authentication and recovery
         run: |
+          python3 tests/documentation-walkthrough.py
           node tests/background-browser.cjs
           python3 tests/rename-web-regression.py
 
