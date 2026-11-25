@@ -7,6 +7,7 @@ Practical guidance for people who configure, administer and use u5CMS, including
 | Topic | What you can do |
 | --- | --- |
 | [Trusted Device](trusted-browsers.md) | Configure trusted browser profiles, register and revoke them, and work with an AI agent. |
+| [Server monitoring](server-monitoring.md) | Detect server-wide saturation across many or busy u5CMS installations, choose a monitoring variant and use ready-to-use ChatGPT prompts. |
 
 ## Versions and examples
 
