@@ -108,6 +108,51 @@ $again = array_merge($common, array('--apply', '--backup-root=' . $tmp . '/backu
 u5RolloutTestAssert(u5RolloutTestRun($again, $reapplied) === 0, 'Repeat apply failed: ' . $reapplied);
 u5RolloutTestAssert(strpos(file_get_contents($path), $configured) !== false, 'Code rollout overwrote configured quotas.');
 
+// Exercise sites that use the stock login and have formatted its attributes locally.
+$backendPath = $source . '/u5admin/usercheck.inc.php';
+$oldAction = '../loginsave.php?u=u5admin';
+$oldTag = '<form name="form" action="' . $oldAction . '"';
+$formattedTag = '<form class="staff-login" action = "' . $oldAction . '"' . "\r\n" . '                name = "form"';
+file_put_contents($backendPath, str_replace($oldTag, $formattedTag, $stableBackend));
+$localConfig = <<<'PHP'
+<?php
+// $u5trusteddeviceenabled = 'no'; was the original default.
+/*
+$u5trusteddeviceusers = array();
+*/
+$example = '$u5trusteddeviceenabled = "no";';
+$u5trusteddeviceenabled /* active switch */ = "no";
+$u5trusteddeviceusers = array('owner@example.test' => 3);
+PHP;
+file_put_contents($path, $localConfig);
+$applyFormatted = array_merge($common, array('--apply', '--backup-root=' . $tmp . '/formatted'));
+u5RolloutTestAssert(u5RolloutTestRun($applyFormatted, $output) === 0, 'Formatted installation failed: ' . $output);
+$expectedConfig = str_replace('/* active switch */ = "no"', '/* active switch */ = "yes"', $localConfig);
+u5RolloutTestAssert(file_get_contents($path) === $expectedConfig, 'Expected only the actual switch value to change.');
+$patchedBackend = file_get_contents($backendPath);
+u5RolloutTestAssert(preg_match('~<form name="form" action="([^"]*)"~', $releaseBackend, $target) === 1, 'Release form target missing.');
+$expectedTag = str_replace($oldAction, $target[1], $formattedTag);
+u5RolloutTestAssert(strpos($patchedBackend, $expectedTag) !== false, 'Lost the return target or a local form attribute.');
+u5RolloutTestAssert(u5RolloutTestRun($common, $output) === 0 && strpos($output, '"changed_files":0') !== false, 'Second preflight was not a no-op.');
+
+// One unsupported site must stop the whole plan before any backup or file write.
+$blocked = array(
+    array($path, $expectedConfig . "\n\$u5trusteddeviceenabled = 'no';", 'ambiguous'),
+    array($path, str_replace('/* active switch */ = "yes"', '= getenv("SITE_TRUST")', $expectedConfig), 'quoted setting'),
+    array($backendPath, str_replace('action = "' . $target[1] . '"', 'action = "custom-login.php"', $patchedBackend), 'login form'),
+    array($backendPath, str_replace('if(top!=self)top.location.href=location.href;', 'localNavigation();', $patchedBackend), 'login form')
+);
+foreach ($blocked as $number => $case) {
+    list($file, $unsupported, $reason) = $case;
+    $previous = file_get_contents($file);
+    file_put_contents($file, $unsupported);
+    $blockedBackup = $tmp . '/blocked-' . $number;
+    $blockedArgs = array_merge($common, array('--apply', '--backup-root=' . $blockedBackup));
+    u5RolloutTestAssert(u5RolloutTestRun($blockedArgs, $output) !== 0 && strpos($output, $reason) !== false, 'Unsupported layout reported success: ' . $output);
+    u5RolloutTestAssert(!file_exists($blockedBackup) && file_get_contents($file) === $unsupported, 'Failed preflight wrote files.');
+    file_put_contents($file, $previous);
+}
+
 u5RolloutTestRemove($tmp);
 u5RolloutTestRemove($backup);
 echo "trusted-device-rollout-regression: ok\n";

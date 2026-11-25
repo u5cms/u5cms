@@ -89,3 +89,5 @@ For permanent withdrawal, revoke the relevant registrations while the feature an
 ## Deployment reference
 
 Use the complete release and the normal update procedure. A maintainer performing a deliberately limited rollout must keep `trusteddevice.inc.php`, `u5admin/trusteddevice.php` and their matching hooks in `login.inc.php`, `u5admin/usercheck.inc.php` and `logout.php` consistent. Preserve existing OIDC guards and local configuration. The [original release notes](../release-12.9.5.10.md) describe this specialised procedure.
+
+For an automated feature-only rollout, use the installer from 12.10.4 or a maintained development branch containing that correction. Run its dry-run first. It recognises the standard form with reordered attributes and local formatting, reads PHP configuration with the CLI tokenizer, and preserves existing account allowances. If it reports an unfamiliar login form or an ambiguous setting, review the named file and use the manual procedure for that installation.
