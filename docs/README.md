@@ -13,6 +13,7 @@ If this is your first visit to the backend, start with [Create and publish your 
 | --- | --- |
 | Create a page, choose its language and open the saved result | [Your first page](first-page.md) |
 | Write headings, link pages or reuse a passage in several places | [Editing and formatting](editing.md) |
+| Recover a passage after an edit or a save conflict | [Compare text versions and recover a passage](editing.md#recover-text-from-an-earlier-version) |
 | Put a page on the menu, choose the homepage or change visibility | [Pages, navigation and the homepage](navigation.md) |
 | Add an accessible picture, link a PDF or replace a shared file | [Images and documents](media.md) |
 | Change the object name used in existing links | [Rename a resource](renaming.md) |
@@ -35,6 +36,7 @@ Start with [a registration form and its CSV export](forms.md#a-worked-registrati
 | Task | Guide |
 | --- | --- |
 | Start a site or change the settings of an existing one | [Install a new site](installation.md) · [Configuration](configuration.md) |
+| Change a stylesheet and check what visitors receive | [Edit and check a site stylesheet](stylesheets.md) |
 | Decide who can sign in, edit pages or see particular form records | [Accounts, permissions and SELF records](permissions.md) |
 | Register a browser for an account or manage its allowance | [Trusted Device for account holders](trusted-device/usage.md) · [Setup and troubleshooting](trusted-browsers.md) |
 | Find out why a page is missing from search | [Search and indexing](search-indexing.md) |

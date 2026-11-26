@@ -32,6 +32,8 @@ A saved page can have a direct address before anyone adds it to the menu. Choose
 
 Open **define homepage**, select the intended page and choose **save & close**. Open the site's root address without a `c=` parameter. In the stable selector, eligible pages have **public, indexing ok** status. Changing the homepage is a site-wide setting.
 
+For a public site, choose a homepage whose content everyone may read. u5CMS also uses it as the fallback page. Keep restricted material on separate pages and check the root address in a signed-out browser.
+
 ## Set page visibility
 
 Select the page in the editor. Choose **i**, then **Publicity status**, select a value and save with **s**. The choice applies to every language of the page.
