@@ -6,6 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
+| [12.10.7](docs/release-12.10.7.md) | CSS editor saving, text versions and editor revision checks |
 | [12.10.6](docs/release-12.10.6.md) | Complete compound fragments and short relative login-return queries; cumulative form regression coverage |
 | [12.10.5](docs/release-12.10.5.md) | Complete backend SAML return URLs and preserved media resource names |
 | [12.10.4](docs/release-12.10.4.md) | Feature-only Trusted Device installation on locally formatted sites |

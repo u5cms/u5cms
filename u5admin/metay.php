@@ -124,7 +124,7 @@ $row_a = mysql_fetch_array($result_a);
 
   </p>
   <p></p>
-<input type="hidden" name="coco" value="<?php echo time() ?>" />
+<input type="hidden" name="coco" value="<?php echo (int)$row_a['lastmut'] ?>" />
 <?php require('t1.php') ?></form>
 <script>
 initchanges();

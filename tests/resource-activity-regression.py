@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 import base64, fcntl, hashlib, http.cookiejar, json, os, re, select, shutil
 import signal, socket, subprocess, tempfile, time, urllib.error, urllib.parse, urllib.request
 from fixture_environment import ensure_fixture_environment
+from code_editor_form import check_code_editor
 
 ensure_fixture_environment()
 root=Path(__file__).resolve().parent.parent
@@ -80,6 +81,7 @@ return false;
         except OSError:return False
     wait_for(reachable,'HTTP fixture')
     try:
+        check_code_editor(site, request, sql)
         code,form=request('/u5admin/rename.php?name=activitypage')
         check(code==200,'authenticated editor reachable')
         token=re.search(r'name="u5scrtytknfrfrms"[^>]*value="([^"]+)"',form).group(1)

@@ -13,6 +13,9 @@ $u5EditorSnapshot=u5SaveSnapshot($_POST['name']);
 require('archivecheck.inc.php');
 $deleted=$u5EditorSnapshot['deleted'];
 
+if ($u5EditorSnapshot['typ'] !== 'c' || !isset($_POST['content_1']) || !is_string($_POST['content_1'])) {
+    die('<script>alert("Incomplete code form. Your changes are still in the editor.")</script>');
+}
 if ($_POST['name']=='htmltemplate') {
 $teststr=$_POST['content_1'];
 $teststr=str_replace("\t",' ',$teststr);
@@ -30,35 +33,15 @@ $row_a=$u5EditorSnapshot;
 $u5SaveRevision=u5SaveNextRevision($row_a);
 $u5SavePolicyConflict=$_POST['coco']<$row_a['lastmut'] && (($checksaveversionconflictinbackend!='none'&&$checksaveversionconflictinbackend!='foreign')||($checksaveversionconflictinbackend=='foreign'&&trim(u5flatidnlower($row_a['operator']))!=trim(u5flatidnlower($_SERVER['PHP_AUTH_USER']))));
 $conflict='';
-if ($u5SavePolicyConflict || !u5SaveResource($row_a,array(
-    'content_1'=>$_POST['content_1'],
-    'title_1'=>$_POST['title_1'],
-    'desc_1'=>$_POST['desc_1'],
-    'key_1'=>$_POST['key_1'],
-    'content_2'=>$_POST['content_2'],
-    'title_2'=>$_POST['title_2'],
-    'desc_2'=>$_POST['desc_2'],
-    'key_2'=>$_POST['key_2'],
-    'content_3'=>$_POST['content_3'],
-    'title_3'=>$_POST['title_3'],
-    'desc_3'=>$_POST['desc_3'],
-    'key_3'=>$_POST['key_3'],
-    'content_4'=>$_POST['content_4'],
-    'title_4'=>$_POST['title_4'],
-    'desc_4'=>$_POST['desc_4'],
-    'key_4'=>$_POST['key_4'],
-    'content_5'=>$_POST['content_5'],
-    'title_5'=>$_POST['title_5'],
-    'desc_5'=>$_POST['desc_5'],
-    'key_5'=>$_POST['key_5'],
-    'logins'=>$_POST['logins'],
-    'hidden'=>0,
-    'operator'=>u5flatidnlower($_SERVER['PHP_AUTH_USER']),
-    'ip'=>$_SERVER['REMOTE_ADDR'],
-    'deleted'=>$deleted,
-    'typ'=>$_GET['typ'],
-    'ishomepage'=>0
-),$u5SaveRevision)) {
+// The standard editor posts content_1 only. Custom forms may post additional text fields.
+$changes=array('typ'=>$row_a['typ'], 'operator'=>u5flatidnlower($_SERVER['PHP_AUTH_USER']), 'ip'=>$_SERVER['REMOTE_ADDR']);
+foreach (u5SaveFields() as $field) {
+    if (($field==='logins' || preg_match('/^(content|title|desc|key)_[1-5]$/D',$field)) && array_key_exists($field,$_POST)) {
+        if (!is_string($_POST[$field])) die('<script>alert("Invalid code form field. Your changes are still in the editor.")</script>');
+        $changes[$field]=$_POST[$field];
+    }
+}
+if ($u5SavePolicyConflict || !u5SaveResource($row_a,$changes,$u5SaveRevision)) {
 $conflict='(!)';
 $row_a=u5SaveSnapshot($_POST['name']);
 $u5SaveRevision=(int)$row_a['lastmut'];
@@ -71,41 +54,20 @@ msgconflict='CONFLICT(!)\n\nYour data has been saved only in the section «text v
 }
 
 
-$sql_a="INSERT INTO resources_log (name,content_1,content_2,content_3,content_4,content_5,title_1,title_2,title_3,title_4,title_5,desc_1,desc_2,desc_3,desc_4,desc_5,key_1,key_2,key_3,key_4,key_5,logins,hidden,operator,ip,lastmut,deleted,typ) VALUES
-(
-'".mysql_real_escape_string($_POST['name'])."',
-'".mysql_real_escape_string($_POST['content_1'])."',
-'".mysql_real_escape_string($_POST['content_2'])."',
-'".mysql_real_escape_string($_POST['content_3'])."',
-'".mysql_real_escape_string($_POST['content_4'])."',
-'".mysql_real_escape_string($_POST['content_5'])."',
-'".mysql_real_escape_string($_POST['title_1'])."',
-'".mysql_real_escape_string($_POST['title_2'])."',
-'".mysql_real_escape_string($_POST['title_3'])."',
-'".mysql_real_escape_string($_POST['title_4'])."',
-'".mysql_real_escape_string($_POST['title_5'])."',
-'".mysql_real_escape_string($_POST['desc_1'])."',
-'".mysql_real_escape_string($_POST['desc_2'])."',
-'".mysql_real_escape_string($_POST['desc_3'])."',
-'".mysql_real_escape_string($_POST['desc_4'])."',
-'".mysql_real_escape_string($_POST['desc_5'])."',
-'".mysql_real_escape_string($_POST['key_1'])."',
-'".mysql_real_escape_string($_POST['key_2'])."',
-'".mysql_real_escape_string($_POST['key_3'])."',
-'".mysql_real_escape_string($_POST['key_4'])."',
-'".mysql_real_escape_string($_POST['key_5'])."',
-'".mysql_real_escape_string($_POST['logins'])."',
-0,
-'".mysql_real_escape_string($_SERVER['PHP_AUTH_USER'].$conflict)."',
-'".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',
-'".($conflict==='' ? $u5SaveRevision : time())."','$deleted','".mysql_real_escape_string($_GET['typ'])."')";
-
-
-$result_a=mysql_query($sql_a);
-
-if ($result_a==false) {
-die('SQL_a-Query failed!...!<p>');
+// Copy unedited columns inside the database, retaining NULL and original character data.
+$history=$changes;
+$history['operator']=$_SERVER['PHP_AUTH_USER'].$conflict;
+$history['lastmut']=$conflict==='' ? $u5SaveRevision : time();
+$columns=array();
+$values=array();
+foreach (u5SaveFields() as $field) {
+    $column=u5RenameStorageIdentifier($field);
+    $columns[]=$column;
+    $values[]=array_key_exists($field,$history) ? "'".mysql_real_escape_string((string)$history[$field])."'" : $column;
 }
+$sql_a='INSERT INTO resources_log ('.implode(',',$columns).') SELECT '.implode(',',$values).
+       " FROM resources WHERE name='".mysql_real_escape_string($_POST['name'])."' AND deleted=".(int)$deleted.' LIMIT 1';
+if (!mysql_query($sql_a) || mysql_affected_rows()!==1) die('<script>alert("Could not record the text version. Reopen the editor to check the saved content.")</script>');
 
 if ($conflict==='') require('putcss.inc.php');
 
