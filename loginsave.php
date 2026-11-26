@@ -19,6 +19,9 @@ if (u5OidcEnabled()) {
 if (isset($_GET['u'])) {
     $u = $_GET['u'];
     if (!is_string($u)) die('<center style="color:red">Error: Invalid redirect target.</center>');
+    // connect.inc.php HTML-escapes GET values for rendering. Restore this
+    // URL value exactly once, then enforce the redirect policy below.
+    $_GET['u'] = $u = htmlspecialchars_decode($u, ENT_COMPAT | ENT_HTML401);
     if (class_exists('Normalizer')) $u = Normalizer::normalize($u, Normalizer::FORM_KC);
     $target = trim($u);
     if (strlen($target) > 2000) die('<center style="color:red">Error: Invalid redirect target.</center>');
