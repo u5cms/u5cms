@@ -44,3 +44,9 @@ Find the existing object under **I** or **D**. Choose **U** on its row and uploa
 | A standard image has a caption but no useful alternative text | Open **M**, choose the correct language and fill in **alt text**. The short caption and alternative text have separate fields. |
 
 File access can depend on the pages that reference the object. For a restricted document, check which other pages link to it and open the download with the intended reader permissions. See [page visibility](navigation.md#set-page-visibility) and the [original illustrated short reference](../u5admin/u5shortreference.pdf).
+
+### Recover an earlier upload
+
+Choose **file versions** at the foot of the far-right resource list. By default this requires **Higher Admin Rights**. Find the dated copy for the object and language, download it and open it to check the edition. Use **U** on the existing object to upload that copy into the same language slot. Follow a link on the visitor page and check the file again.
+
+For standard images and documents, the archive name includes the day, object name, language slot and extension. Uploads that produce the same archive name on the same day can replace that day's copy. If the edition you need is missing, look in a [matching backup](updates-backups.md#identify-what-must-travel-together).

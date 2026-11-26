@@ -72,6 +72,13 @@ The browser then displays `[b]Keep these markers[/]` verbatim. This encoded exam
 
 Confirm the object name and language, make a bounded change, preview it, save and check the saved page. Do not treat a spinner or an open confirmation window as proof of completion. If a save reports a conflict, retain the unsaved source, inspect the newer version and reconcile the changes before retrying.
 
-The current save/index checks exercise successful saves without browser child frames, all five language fields, contention and retained pending work. Text history and matching backups serve different recovery needs: use text history for a content mistake and [matching site backups](updates-backups.md) for a wider recovery.
+### Recover text from an earlier version
+
+1. At the foot of the far-right resource list, choose **text versions**. In **Versions of**, select the object by name. Each entry shows its timestamp and editor.
+2. Choose **diff**. Select the two revisions to compare. For a page, select the same language on both sides. Find the passage you want to recover.
+3. Return to **text versions** and copy the passage from the earlier revision. Open the current object in its editor, choose the intended language for a page and replace only that passage. This preserves later edits elsewhere in the source.
+4. Save, reopen the object and check the result on the visitor page. After a save conflict, the entry marked `(!)` contains the attempted change. Start with the current saved source when merging it.
+
+For a picture or PDF, use [file versions](media.md#recover-an-earlier-upload). For a CSS object, also [check the exported stylesheet](stylesheets.md). A [whole-site restore](updates-backups.md) needs the matching database and files.
 
 An agent editing a page should identify the host, account, object and language first, preserve existing syntax and change only the authorised content. The [agent example](trusted-device/agents.md) supplies a complete task prompt. The backend's formatting help and [existing reference material](https://yuba.ch/index.php?c=u5cmsformats&l=en) remain useful when you need a command outside this worked example.

@@ -35,7 +35,9 @@ Do not replace a maintained site's resources with a fresh demonstration seed. Li
 
 Use the complete matching release rather than selecting individual files whose names look relevant. Background JavaScript, form handlers, authentication helpers and bundled libraries can form one change. Preserve the site's configuration, assets and data according to its established deployment procedure.
 
-After deployment, verify ordinary page viewing and editing, each active language, login/logout, a representative form, access-protected media, search and any site-specific integration. If an optional feature is enabled, test its additional prerequisites and failure handling as well.
+After deploying the files, sign in to the backend at `u5admin/` beneath the installation directory. The backend runs the release's `r/runonce.php` when it is present. Follow any migration or recovery message before opening the updated site to readers. The [installation and update notes](../___readme_howtoinstall_and_license.txt) accompany the release.
+
+Verify ordinary page viewing and editing, each active language, login/logout, a representative form, access-protected media, search and any site-specific integration. If the layout looks different, [compare the stored stylesheet with its export](stylesheets.md#if-the-result-differs). If an optional feature is enabled, check its additional prerequisites and failure handling as well.
 
 For example, archived sender evidence requires compatible code and private configuration together. Downgrading only the handler while retaining the evidence guard is expected to stop incompatible access. That is a recovery boundary, not a reason to bypass the guard.
 
@@ -51,7 +53,7 @@ Settings `$backup_compress` and `$backup_send_mail` control compression and emai
 
 | Problem | Recovery approach |
 | --- | --- |
-| A page's text was edited incorrectly | Inspect its text history and restore the intended content through the normal interface. |
+| A page's text was edited incorrectly | [Compare two text versions and recover the passage](editing.md#recover-text-from-an-earlier-version) in the current editor. |
 | A Rename stopped part-way through | Preserve the plan, resolve the reported conflict and resume the same operation. |
 | An application update must be reversed | Restore the previous matching application and private configuration; consider any data migration separately. |
 | Database and media must be restored | Use the matching backup set and check ownership, access protection and derived state afterwards. |
