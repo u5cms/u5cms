@@ -1,5 +1,6 @@
 from pathlib import Path
-import http.client, http.server, json, os, re, shutil, socket, ssl, subprocess, tempfile, threading, time
+from importlib import import_module
+import email, email.policy, http.client, http.server, json, os, re, shutil, socket, ssl, subprocess, tempfile, threading, time
 
 root = Path(os.environ.get('U5_DOCUMENTATION_SOURCE', Path(__file__).resolve().parent.parent)).resolve()
 lab = Path(__file__).resolve().parent
@@ -18,8 +19,20 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
     site = directory / 'site'
     shutil.copytree(root, site, ignore=shutil.ignore_patterns('.git','tests'))
     fixture = json.loads(subprocess.check_output(php+[str(root/'tests/rename-web-fixture.php'),str(site)],cwd=site,text=True))
+    # Capture the actual SMTP envelopes and MIME messages from the serial-mail exercise.
+    mailbox = directory / 'mailbox'
+    mailbox.mkdir()
+    def capture_message(wire):
+        with tempfile.NamedTemporaryFile(dir=mailbox, suffix='.eml', delete=False) as capture:
+            capture.write(wire)
+    smtp = import_module('international-email-smtp').Peer(connections=2, accept_timeout=300, on_message=capture_message)
     config = (site/'config.php').read_text(encoding='latin1')
     config += "\n$usesessioninsteadofbasicauth='yes';\n$u5trusteddeviceenabled='yes';\n$u5trusteddeviceusers=array('alice@example.org'=>2,'bob@example.org'=>1);\n"
+    config += f"\n$usesmtp='yes';\n$mysmtpoptions=new SmtpOptions(['name'=>'cms.example.org','host'=>'127.0.0.1','port'=>{smtp.port},'connection_class'=>'smtp']);\n"
+    # Exercise both documented dispatch methods in the two existing browser runs.
+    paced_mail = os.environ.get('U5_TEST_ENGINE') == 'firefox'
+    if paced_mail:
+        config += "\n$serialmailmethod=1;\n$minimumwaitingbetweenserialmailcroncallinseconds=4;\n"
     (site/'config.php').write_text(config,encoding='latin1')
     setup = """
         $_SERVER['REQUEST_URI'] = '/';
@@ -36,11 +49,12 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
     pages={'doclesson':['First-language version.',lesson], 'docfragment':['A reusable opening.','A reusable opening.'], 'docfallback':['Fallback text from the first language.',''], 'docform':[form,form], 'docsearch':['A search exercise.','The atlasquartz workshop begins here.']}
     # Run each exercise from the same page sources that readers copy from the handbook.
     example_pages = {}
-    for guide in ('dat.md', 'dat/parameters.md', 'forms/survey-results.md', 'forms/manage-entries.md'):
+    for guide in ('dat.md', 'dat/parameters.md', 'forms/survey-results.md', 'forms/manage-entries.md', 'forms/multipage-surveys.md'):
         handbook = (root/'docs'/guide).read_text(encoding='utf-8')
         example_pages.update(re.findall(r'^### `([a-z]+)`\n\n```text\n(.*?)\n```$', handbook, re.MULTILINE | re.DOTALL))
     expected_pages = {'courseentry', 'courses', 'coursedetail', 'mycourses', 'mycourse', 'datcheck',
-                      'workshoppoll', 'pollresults', 'polltitles', 'loanentry', 'myloans', 'timepreference'}
+                      'workshoppoll', 'pollresults', 'polltitles', 'loanentry', 'myloans', 'timepreference',
+                      'youremail', 'workshopchoice', 'workshopformat', 'workshopthanks'}
     if set(example_pages) != expected_pages:
         raise ValueError('Expected the named page sources in the DAT and form guides')
     pages.update({name: [source, source, True] for name, source in example_pages.items()})
@@ -94,8 +108,33 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
             try:
                 with socket.create_connection(('127.0.0.1',backend_port),timeout=1):break
             except OSError:time.sleep(.05)
-        environment=os.environ.copy();environment.update({'U5_DOCUMENTATION_SOURCE':str(root),'U5_DOCUMENTATION_SITE':str(site),'U5_DOCUMENTATION_ORIGIN':'https://localhost:'+str(tls_port),'U5_DOCUMENTATION_OUTPUT':str(output)})
+        environment=os.environ.copy();environment.update({'U5_DOCUMENTATION_SOURCE':str(root),'U5_DOCUMENTATION_SITE':str(site),'U5_DOCUMENTATION_MAILBOX':str(mailbox),'U5_DOCUMENTATION_ORIGIN':'https://localhost:'+str(tls_port),'U5_DOCUMENTATION_OUTPUT':str(output)})
+        environment['U5_DOCUMENTATION_MAIL_MODE'] = 'paced' if paced_mail else 'direct'
         subprocess.run(['node', str(lab/'documentation-dat.cjs')], env=environment, check=True)
+        smtp.finish()
+        recipients = {'alex+workshop@example.org': ('Alex', 'We will send your joining link.'),
+                      'jo@example.org': ('Jo', 'Please meet us at the library.')}
+        delivered = set()
+        for wire in smtp.messages:
+            message = email.message_from_bytes(wire, policy=email.policy.default)
+            addresses = message['To'].addresses
+            assert len(addresses) == 1 and not message['Cc'] and not message['Bcc']
+            address = addresses[0].addr_spec
+            name, sentence = recipients[address]
+            assert address not in delivered and message['From'].addresses[0].addr_spec == 'workshops@example.org'
+            assert str(message['Subject']) == 'Workshop arrangements for ' + name
+            for subtype in ('plain', 'html'):
+                content = message.get_body(preferencelist=(subtype,)).get_content()
+                assert 'Dear ' + name + ',' in content and sentence in content, (address, subtype, content)
+                for other, other_sentence in recipients.values():
+                    if other != name:
+                        assert 'Dear ' + other + ',' not in content and other_sentence not in content
+            delivered.add(address)
+        assert delivered == set(recipients)
+        envelopes = [command.split(':', 1)[1].strip().lower() for command in smtp.commands if command.upper().startswith('RCPT TO:')]
+        assert sorted(envelopes) == sorted('<' + address + '>' for address in recipients), envelopes
+        print('PASS serial mail transport: two individual envelopes, sender, subjects, plain text and HTML for each recipient')
+
         subprocess.run(['node',str(lab/'documentation-trusted-browser.cjs')],env=environment,check=True)
         print((output/'trusted-browser-observations.json').read_text())
         subprocess.run(['node',str(lab/'documentation-content.cjs')],env=environment,check=True)
