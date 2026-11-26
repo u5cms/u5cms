@@ -47,6 +47,8 @@ Do not guess a lost original address for a historical account. If its stored ide
 
 ## Serial mail, form mail and backups
 
+To write to selected form respondents, follow the [personalised serial mail exercise](serial-mail.md). It takes you from a pair of workshop records to two individually addressed messages.
+
 Check the actual message type: plain text/HTML alternatives, recipient names, Cc/Bcc, attachments and delivery logs can all matter. Bcc belongs in the SMTP envelope and must not become a disclosed recipient header. The local protocol checks inspected these details instead of treating a successful function return as complete evidence.
 
 Use a clearly identified test recipient and inspect the received message before accepting a production configuration. For batch mail, preserve the site's existing `$serialmailmethod` and waiting policy; a transport correction does not change its intended sending cadence.
