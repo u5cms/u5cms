@@ -21,18 +21,28 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
     config = (site/'config.php').read_text(encoding='latin1')
     config += "\n$usesessioninsteadofbasicauth='yes';\n$u5trusteddeviceenabled='yes';\n$u5trusteddeviceusers=array('alice@example.org'=>2,'bob@example.org'=>1);\n"
     (site/'config.php').write_text(config,encoding='latin1')
-    setup = "$_SERVER['REQUEST_URI']='/';$_SERVER['HTTP_HOST']='localhost';require 'connect.inc.php';mysql_query(\"UPDATE accounts SET email='alice@example.org' WHERE id=1\");mysql_query(\"INSERT INTO accounts(email,pw,accadmin) SELECT 'bob@example.org',pw,0 FROM accounts WHERE id=1\");"
+    setup = """
+        $_SERVER['REQUEST_URI'] = '/';
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        require 'connect.inc.php';
+        mysql_query("UPDATE accounts SET email='alice@example.org' WHERE id=1");
+        foreach (['bob@example.org', 'charlie@example.org'] as $email) {
+            mysql_query("INSERT INTO accounts(email,pw,accadmin) SELECT '$email',pw,0 FROM accounts WHERE id=1");
+        }
+    """
     subprocess.run(php+['-r',setup],cwd=site,check=True,stdout=subprocess.DEVNULL)
     lesson = "[[[[A small workshop]]]]\nUse [b]precise words[/] and [i]short sentences[/].\n[[[Reusable content]]]\n[$$$:docfragment]\n[Open the fragment:docfragment]\n[h:]<p id=\"literal-markers\">&#91;b&#93;Keep these markers&#91;/&#93;</p><section id=\"included-html\">[$$$:docfragment]</section>[:h]"
     form = "[fo:]\n[fi:]\n[le:]Workshop registration[:le]\n[h:]\n<input type=\"hidden\" name=\"thanks\" value=\"documentationSaved()\">\n<input type=\"hidden\" name=\"in2my\" value=\"off\">\n<input type=\"hidden\" name=\"em2cu\" value=\"off\">\n<input type=\"hidden\" name=\"em2me\" value=\"off\">\n<label for=\"participant\">Your name</label><input id=\"participant\" name=\"participant_mandatory\">\n<button type=\"submit\">Register for the workshop</button>\n<p id=\"submission-status\"></p>\n<script>function documentationSaved(){document.getElementById('submission-status').textContent='Your registration was saved.';}</script>\n[:h]\n[:fi]\n[:fo]"
     pages={'doclesson':['First-language version.',lesson], 'docfragment':['A reusable opening.','A reusable opening.'], 'docfallback':['Fallback text from the first language.',''], 'docform':[form,form], 'docsearch':['A search exercise.','The atlasquartz workshop begins here.']}
-    # Run the course exercise from the handbook's own copyable page sources.
+    # Run each exercise from the same page sources that readers copy from the handbook.
     example_pages = {}
-    for guide in ('dat.md', 'dat/parameters.md'):
+    for guide in ('dat.md', 'dat/parameters.md', 'forms/survey-results.md', 'forms/manage-entries.md'):
         handbook = (root/'docs'/guide).read_text(encoding='utf-8')
         example_pages.update(re.findall(r'^### `([a-z]+)`\n\n```text\n(.*?)\n```$', handbook, re.MULTILINE | re.DOTALL))
-    if set(example_pages) != {'courseentry', 'courses', 'coursedetail', 'mycourses', 'mycourse', 'datcheck'}:
-        raise ValueError('Expected the named page sources in the DAT guides')
+    expected_pages = {'courseentry', 'courses', 'coursedetail', 'mycourses', 'mycourse', 'datcheck',
+                      'workshoppoll', 'pollresults', 'polltitles', 'loanentry', 'myloans', 'timepreference'}
+    if set(example_pages) != expected_pages:
+        raise ValueError('Expected the named page sources in the DAT and form guides')
     pages.update({name: [source, source, True] for name, source in example_pages.items()})
     insert = """
         $_SERVER['REQUEST_URI'] = '/';
