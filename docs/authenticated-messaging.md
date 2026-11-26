@@ -1,14 +1,16 @@
 # Authenticated messaging with sender evidence
 
+[Documentation home](README.md)
+
 ## Summary
 
 - Receive a message through a standard u5CMS form and retain an integrity-protected snapshot of its original contents and authenticated sender.
 - Use **u5CMS 12.10.0 or later**, a working SimpleSAMLphp login and a protected archive of the authenticated SAML responses. The archive requires a deployment-specific integration.
-- An administrator prepares the database, sets `saml-archive-v1` in the private `config.php`, supplies a private key and approves internal recipients.
+- An administrator prepares the database, sets `saml-archive-v1` in the private `config.php`, supplies a secret HMAC key and approves internal recipients.
 - Staff read messages in the existing form-data views. A contact address entered in the form can differ from the authenticated account; the comparison is recorded explicitly.
 - Complete the [setup](authenticated-messaging/setup.md) and [acceptance checks](authenticated-messaging/operations.md#check-before-going-live) before opening the service. Email transport acceptance does not confirm receipt in an inbox.
 
-**Audience:** installation administrators, form authors and staff handling submissions. **Version:** the feature began in 12.9.5.15; 12.10.0 adds an important compatibility check. Use the complete matching release.
+**For** installation administrators, form authors and staff handling submissions. **Version** the feature began in 12.9.5.15; 12.10.0 adds an important compatibility check. Use the complete matching release.
 
 ## Choose your task
 
