@@ -36,6 +36,10 @@ The [DAT browser check](../../tests/documentation-dat.cjs) runs as part of the s
 
 The [survey exercise](../forms/survey-results.md) submits two responses, uploads a PNG, reads the chart, changes one record to **4) done** in the backend and checks the results table before and after withdrawal. The [editable entries exercise](../forms/manage-entries.md) uses two contributor accounts, verifies an edit and a deletion, and reopens a single-response form. The [browser checks](../../tests/documentation-form-exercises.cjs) use the page sources printed in the guides and run with the existing walkthrough.
 
+## Multipage surveys and personalised serial mail
+
+The [two-page survey](../forms/multipage-surveys.md) runs from the printed page sources. Three browser profiles start the survey and two finish. The [browser check](../../tests/documentation-survey-mail.cjs) matches the two exported CSV files by email, including a plus address and an unfinished response. It opens the final step's mail view, filters the recipients, previews both versions of the [printed mail template](../serial-mail.md), runs **test**, then confirms **send**. A separate spreadsheet import checks the ten-row display against an eleven-record selection. A loopback SMTP server receives the two workshop messages. Chromium exercises direct dispatch. Firefox queues one message per eligible call to `mailingcron.php` and checks that the queue empties. The check compares the SMTP recipients, message headers, plain text and HTML for each participant.
+
 ## Repeat the independent exercises
 
 Use an isolated local database server and a disposable test database. The walkthrough needs permission to create and drop its randomly named fixture database. The ownership exercise uses temporary tables in the configured test database. Do not point these commands at production.
