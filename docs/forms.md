@@ -6,11 +6,15 @@
 
 A working form has several observable stages: the page renders the intended controls, validation accepts or rejects input, the server writes a record, the completion action runs, and the stored value can be viewed or exported. Check each stage separately. A visible confirmation alone does not establish every downstream result.
 
-**Audience:** form authors and installation administrators. **Version:** worked form exercised on 12.10.0. **Scope:** ordinary frontend submissions; optional modes stated separately.
+**For** form authors and installation administrators. **Tested on** u5CMS 12.10.4 for the complete editor-to-export exercise. Use an account that can create pages and open **Form data** on a practice installation. With the default `$formdataRqHIADRI` setting, access to the form-data area requires higher administration rights (HIADRI).
 
 ## A worked registration form
 
-The laboratory used this small form in a page named `docform`. Its callback deliberately keeps the visitor on the same page, making successful completion easy to observe. The three mail controls disable notifications for this exercise.
+1. Sign in to the backend. In the far-right column choose **P** (Pages), then **new**. Enter `docform` and wait for **name is available**. Leave **automatically go to the new page** ticked and select **insert new item**. The middle editor opens the new page. If the name is already in use, choose a fresh name and use it throughout the exercise.
+2. In the editor whose page selector shows `docform`, select the radio button for English. Paste the whole example below into its large text box.
+3. Choose the small **s** button in that editor to save. Wait for **saved docform** above the right-hand column. Click the **letter P** beside the language buttons to open the saved page in a new tab. The round control beside that letter opens the editor preview.
+
+The callback keeps the visitor on the form page so they can see a successful submission. The three mail controls disable notifications for this exercise.
 
 ```text
 [fo:]
@@ -53,7 +57,11 @@ The server validates field names against the stored form source. An extra client
 
 ## View and export the result
 
-Open the form-data area for the relevant form, choose the required status and inspect the record. Then use its CSV export and check the intended spreadsheet import settings. Filtering a view changes which rows you see; it does not transfer ownership or grant new permissions.
+1. On the visitor page, leave **Your name** empty and select **Register for the workshop**. The required field prevents the submission. Enter a made-up name, submit again and wait for **Your registration was saved.**
+2. Return to the backend tab. In the far-right column choose **S** (Save history & Special funcs). Open the **special funcs** view if needed, then select **form data**. Find the row for `docform` and follow **html**. New responses appear under **1) new**.
+3. In that view, select **Excel (CSV)**. Open the download as UTF-8 with a semicolon delimiter. Find your test value in the `participant*` column. The file should contain one data row if this was the form's first successful submission.
+
+Filtering a view changes which rows you see. The account and ownership rules still apply to the selected records.
 
 The internal `formdata.datacsv` representation contains CMS-specific separators and escaped values. It is not the finished export. During the exercise, inspecting that raw value without the normal decoding initially obscured the Unicode text. The CMS's own table view and CSV endpoint reproduced the original value correctly. Use those supported paths for ordinary viewing and exchange.
 

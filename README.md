@@ -1,6 +1,8 @@
-# u5CMS 12.10.5
+# u5CMS 12.10.6
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.6 preserves compound fragments and short relative return queries after login. It adds a cumulative SQL comparison of ordinary form behaviour since 12.9.5. [Release notes](docs/release-12.10.6.md).
 
 Version 12.10.5 preserves complete backend SAML return URLs, including media resource names, through login. [Release notes and verification](docs/release-12.10.5.md).
 

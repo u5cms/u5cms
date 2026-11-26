@@ -16,7 +16,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 PHP = os.environ.get('U5_TEST_PHP', 'php')
 SCENARIOS = ['ordinary','explicit-off','mail','exclude-columns','callback','repeat','two-steps','replace','conflict','foreign','monofill','shared','admin-edit','admin-delete','blank','invalid-email','unexpected-field','empty-post']
-FILES = ['formsave.php','editformsave.php','delformsave.php','saveversionconflict.inc.php','mysql.php','onlymine.inc.php','form-evidence.inc.php']
+FILES = ['formsave.php','editformsave.php','delformsave.php','saveversionconflict.inc.php','mysql.php','onlymine.inc.php','form-evidence.inc.php','request.inc.php']
 refs = subprocess.check_output(['git','tag','--list','v12.9.5*','--sort=version:refname'],cwd=ROOT,text=True).splitlines()
 refs += ['v12.10.0','v12.10.1','v12.10.2','v12.10.3','v12.10.4','v12.10.5']
 refs += [ref for ref in ['origin/V13-more-Img-Formats','origin/V14-JS-CSS-HTML-Exports','origin/V15-Phrase-Search-and-OIDC','origin/V16-Default-Design','origin/V17-New-Responsive-Layouts'] if subprocess.run(['git','rev-parse','--verify',ref],cwd=ROOT,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0]
