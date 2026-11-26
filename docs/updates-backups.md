@@ -6,7 +6,7 @@
 
 An installation is more than its PHP files. Recovery needs a matching set of application code, private configuration, database content, site resources and uploaded files. An interrupted operation can also require its saved recovery plan.
 
-**Audience:** installation administrators. **Version:** coordination exercised on 12.10.0; migrations depend on the target branch. **Scope:** a matching application, configuration, database and file set.
+**For** installation administrators. **Version** coordination exercised on 12.10.0; migrations depend on the target branch. **Scope** a matching application, configuration, database and file set.
 
 ## Identify what must travel together
 

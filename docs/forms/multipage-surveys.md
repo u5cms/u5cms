@@ -1,12 +1,12 @@
 # Collect a workshop survey over two pages
 
-[Forms and exports](../forms.md) · [Documentation home](../README.md)
+[Documentation home](../README.md) · [Forms and exports](../forms.md)
 
 ## Summary
 
 Use one form per step. Its hidden `thanks` field opens the next page after u5CMS saves the answer. This exercise asks participants to choose a workshop, then give their name and attendance preference. Both forms record the same email address so the organiser can match the two exports and see who stopped after the first step.
 
-**For** form authors and editors with access to **Form data**. **Tested on** u5CMS 12.10.4. **You need** a test installation, four page objects and two browser profiles. The exercise uses a named survey with one response per email address as its working assumption.
+**For** form authors and editors with access to **Form data**. **Version** checked on u5CMS 12.10.4. **You need** a test installation, four page objects and two browser profiles. The exercise uses a named survey with one response per email address as its working assumption.
 
 ## 1. Create the four pages
 
