@@ -1,0 +1,116 @@
+[
+  {
+    "branch": "main",
+    "starting_commit": "a732280c942eb366a947bb4c1e97326cac7f37ba",
+    "runtime": "PHP 8.4 WebAssembly; Node.js 24.22.3",
+    "rendered_button_round_trips": 16,
+    "full_chain_round_trips": 32,
+    "redirect_denials": 26,
+    "metadata_type_guard_unchanged": true,
+    "other_application_bytes_preserved": true,
+    "native_php_ci": "pending",
+    "files": {
+      "u5admin/usercheck.inc.php": "d54591236fa20beddd1ff9abb6103e964004c2af210b40acfdf7b42451a2e1d5",
+      "loginsave.php": "bf0623ecb30672cd37bbdeaa6d2a55b8bc085aa84c20cc32ab1aaa80068761cc",
+      "u5admin/loginsave.php": "c11c4095355cbefdcd65450175f4994848827c6aa005172a57e7fb33e63a7bbc"
+    },
+    "integration_base": "ce66c42a900f190cb47256f40f43ab33bd7204fd",
+    "concurrent_updates_preserved": true,
+    "live_installed_variant": "metadata open/save/fresh comparison passed; token guard unchanged"
+  },
+  {
+    "branch": "V13-more-Img-Formats",
+    "starting_commit": "5152eebb408bd7e94ced320af5576b8d66b502c5",
+    "runtime": "PHP 8.4 WebAssembly; Node.js 24.22.3",
+    "rendered_button_round_trips": 16,
+    "full_chain_round_trips": 32,
+    "redirect_denials": 26,
+    "metadata_type_guard_unchanged": true,
+    "other_application_bytes_preserved": true,
+    "native_php_ci": "pending",
+    "files": {
+      "u5admin/usercheck.inc.php": "97ae7a2eb52436367e9df88c09b3869f7579f07cc684bcce6c484c650c3c1ab6",
+      "loginsave.php": "bf0623ecb30672cd37bbdeaa6d2a55b8bc085aa84c20cc32ab1aaa80068761cc",
+      "u5admin/loginsave.php": "c11c4095355cbefdcd65450175f4994848827c6aa005172a57e7fb33e63a7bbc"
+    },
+    "integration_base": "ab16198f1e6721c48ad6559aca2f9737864d32dc",
+    "concurrent_updates_preserved": true,
+    "live_installed_variant": "metadata open/save/fresh comparison passed; token guard unchanged"
+  },
+  {
+    "branch": "V14-JS-CSS-HTML-Exports",
+    "starting_commit": "49887f9012dff6436e8430612fe1714596fbf5b8",
+    "runtime": "PHP 8.4 WebAssembly; Node.js 24.22.3",
+    "rendered_button_round_trips": 16,
+    "full_chain_round_trips": 32,
+    "redirect_denials": 26,
+    "metadata_type_guard_unchanged": true,
+    "other_application_bytes_preserved": true,
+    "native_php_ci": "pending",
+    "files": {
+      "u5admin/usercheck.inc.php": "97ae7a2eb52436367e9df88c09b3869f7579f07cc684bcce6c484c650c3c1ab6",
+      "loginsave.php": "bf0623ecb30672cd37bbdeaa6d2a55b8bc085aa84c20cc32ab1aaa80068761cc",
+      "u5admin/loginsave.php": "c11c4095355cbefdcd65450175f4994848827c6aa005172a57e7fb33e63a7bbc"
+    },
+    "integration_base": "b84f4b1c9d34bb7fc380a7e9c52f8f11a4d4aa8a",
+    "concurrent_updates_preserved": true,
+    "live_installed_variant": "metadata open/save/fresh comparison passed; token guard unchanged"
+  },
+  {
+    "branch": "V15-Phrase-Search-and-OIDC",
+    "starting_commit": "6e9bccb670f04d82377e02039af1e547bd4e121d",
+    "runtime": "PHP 8.4 WebAssembly; Node.js 24.22.3",
+    "rendered_button_round_trips": 16,
+    "full_chain_round_trips": 32,
+    "redirect_denials": 26,
+    "metadata_type_guard_unchanged": true,
+    "other_application_bytes_preserved": true,
+    "native_php_ci": "pending",
+    "files": {
+      "u5admin/usercheck.inc.php": "92b27ac2fb92eab3a07e714bbfe3c088647028871001e153208c561930674ed4",
+      "loginsave.php": "4578a7b9c23ccfe12b7319ac6314d46af1cc18809b41c2d27ff481cd3c5373f5",
+      "u5admin/loginsave.php": "46d580e6f63b1f1c9b7323259b048f752ff2dc211b2ce1017537ffdbe304e811"
+    },
+    "integration_base": "d9da348592e86cb9e005126a878f6fe403772124",
+    "concurrent_updates_preserved": true,
+    "live_installed_variant": "metadata open/save/fresh comparison passed; token guard unchanged"
+  },
+  {
+    "branch": "V16-Default-Design",
+    "starting_commit": "df2dfe123f794485d93f653e09f1a88746cc1ead",
+    "runtime": "PHP 8.4 WebAssembly; Node.js 24.22.3",
+    "rendered_button_round_trips": 16,
+    "full_chain_round_trips": 32,
+    "redirect_denials": 26,
+    "metadata_type_guard_unchanged": true,
+    "other_application_bytes_preserved": true,
+    "native_php_ci": "pending",
+    "files": {
+      "u5admin/usercheck.inc.php": "92b27ac2fb92eab3a07e714bbfe3c088647028871001e153208c561930674ed4",
+      "loginsave.php": "4578a7b9c23ccfe12b7319ac6314d46af1cc18809b41c2d27ff481cd3c5373f5",
+      "u5admin/loginsave.php": "46d580e6f63b1f1c9b7323259b048f752ff2dc211b2ce1017537ffdbe304e811"
+    },
+    "integration_base": "bc8e2a95806ce64c864da2b892b16f7770b6dc2d",
+    "concurrent_updates_preserved": true,
+    "live_installed_variant": "metadata open/save/fresh comparison passed; token guard unchanged"
+  },
+  {
+    "branch": "V17-New-Responsive-Layouts",
+    "starting_commit": "dcdcb8931d23820f4156b227ce04e76f107abc50",
+    "runtime": "PHP 8.4 WebAssembly; Node.js 24.22.3",
+    "rendered_button_round_trips": 16,
+    "full_chain_round_trips": 32,
+    "redirect_denials": 26,
+    "metadata_type_guard_unchanged": true,
+    "other_application_bytes_preserved": true,
+    "native_php_ci": "pending",
+    "files": {
+      "u5admin/usercheck.inc.php": "92b27ac2fb92eab3a07e714bbfe3c088647028871001e153208c561930674ed4",
+      "loginsave.php": "4578a7b9c23ccfe12b7319ac6314d46af1cc18809b41c2d27ff481cd3c5373f5",
+      "u5admin/loginsave.php": "46d580e6f63b1f1c9b7323259b048f752ff2dc211b2ce1017537ffdbe304e811"
+    },
+    "integration_base": "c94bb434fab29c8f1f1867cdf45c95f2f0cbceae",
+    "concurrent_updates_preserved": true,
+    "live_installed_variant": "metadata open/save/fresh comparison passed; token guard unchanged"
+  }
+]
