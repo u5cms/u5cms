@@ -6,13 +6,22 @@ ROOT=pathlib.Path(__file__).resolve().parent.parent
 PHP=json.loads(os.environ['U5_MAIL_TEST_PHP']) if 'U5_MAIL_TEST_PHP' in os.environ else [os.environ.get('U5_TEST_PHP','php')]+json.loads(os.environ.get('U5_TEST_PHP_ARGS','[]'))
 
 class Peer:
-    def __init__(self, utf8=True, reject=False, tls=False, cert=None):
+    def __init__(self, utf8=True, reject=False, tls=False, cert=None, *, connections=1, accept_timeout=10, on_message=None):
         self.utf8=utf8;self.reject=reject;self.tls=tls;self.cert=cert
         self.commands=[];self.messages=[];self.error=None
-        self.socket=socket.socket();self.socket.bind(('127.0.0.1',0));self.socket.listen(1);self.socket.settimeout(10)
+        self.connections = connections
+        self.on_message = on_message
+        self.socket=socket.socket();self.socket.bind(('127.0.0.1',0));self.socket.listen(1);self.socket.settimeout(accept_timeout)
         self.port=self.socket.getsockname()[1]
         self.thread=threading.Thread(target=self.run,daemon=True);self.thread.start()
     def run(self):
+        try:
+            for _ in range(self.connections):
+                if not self.serve_connection():
+                    break
+        finally:
+            self.socket.close()
+    def serve_connection(self):
         try:
             conn,_=self.socket.accept();conn.settimeout(10)
             stream=conn.makefile('rwb',buffering=0)
@@ -52,15 +61,21 @@ class Peer:
                         if value==b'.\r\n':break
                         if not value:raise RuntimeError('Truncated DATA')
                         message.append(value[1:] if value.startswith(b'..') else value)
-                    self.messages.append(b''.join(message));reply('250 Queued fixture')
+                    wire = b''.join(message)
+                    self.messages.append(wire)
+                    if self.on_message is not None:
+                        self.on_message(wire)
+                    reply('250 Queued fixture')
                 elif verb==b'QUIT':reply('221 Bye');break
                 elif verb in [b'RSET',b'NOOP']:reply('250 OK')
                 else:reply('500 Unsupported fixture command')
             stream.close();conn.close()
+            return True
         except socket.timeout:
-            pass # Capability/config rejection may occur before opening a socket.
-        except Exception as e:self.error=repr(e)
-        finally:self.socket.close()
+            return False  # Capability/config rejection may occur before opening a socket.
+        except Exception as e:
+            self.error = repr(e)
+            return False
     def finish(self):
         self.thread.join(12)
         if self.thread.is_alive():raise RuntimeError('Fixture did not stop')
