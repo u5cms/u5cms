@@ -6,7 +6,7 @@
 
 This reference maps the credential, database, authentication hooks and verification suites. Use the configuration or everyday-use guide for the shortest operational procedure.
 
-**Audience:** developers and installation maintainers. **Version:** 12.10.0 with the same-origin form correction. **Scope:** implementation and verification.
+**For** developers and installation maintainers. **Version** 12.10.0 with the same-origin form correction. **Scope** implementation and verification.
 
 ## Credential and scope
 

@@ -6,7 +6,7 @@
 
 Saving source content and rebuilding the search index are different events. A successfully saved page can be current for visitors while the last completed full index still describes an earlier state.
 
-**Audience:** content authors and installation administrators. **Version:** recovery and named updates exercised on 12.10.0. **Scope:** derived search state in one installation.
+**For** content authors and installation administrators. **Version** recovery and named updates exercised on 12.10.0. **Scope** derived search state in one installation.
 
 ## A useful first experiment
 

@@ -25,7 +25,15 @@ Use a durable topic path such as `docs/authenticated-messaging.md`, with optiona
 
 Keep the order predictable, but omit inapplicable sections. A short task page can combine checks with its numbered procedure. A reference page still starts with a Summary; it does not need an invented setup procedure. Longer topics use a brief “Choose your task” table and linked setup, usage/operations and reference pages. Each detail page must make sense when opened directly from a ticket.
 
-Start a new page from the [topic template](_templates/topic.md). Apply these conventions when adding or revising handbook pages. Release notes and historical test reports retain their separate purpose; link to them for a version boundary instead of making users reconstruct an installation procedure from release history.
+Start a new page from the [topic template](_templates/topic.md). Put **For** and **Version** below the summary. Add **You need** or **Scope** when it helps someone decide whether they can follow the steps. Keep the handbook link near the title. Where a reader needs a skill taught in an earlier guide, link to its relevant step.
+
+Place the complete worked path before optional variants and evidence. In [Forms and exports](forms.md), for example, the reader can submit a name and find it in the CSV before reading how the handler validated the field.
+
+## Choose an illustration
+
+Use a cropped screenshot for a control that is easily confused with its neighbour. Show enough of the interface for readers to locate it, use invented example content and name the relevant control in the alternative text. The [first-page guide](first-page.md#write-save-and-open) shows why the round preview control and the adjacent letter **P** need separate instructions.
+
+Use a diagram for relationships across pages, as in [the course directory](dat.md#set-up-the-exercise). Keep file contents and commands as selectable text. A reader should be able to complete the task with images hidden.
 
 ## Write concise, usable instructions
 
