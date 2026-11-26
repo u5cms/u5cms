@@ -59,7 +59,7 @@ The internal `formdata.datacsv` representation contains CMS-specific separators 
 
 To show selected fields on a visitor-facing page, build a [course directory with DAT](dat.md). Its list and detail views read the saved records directly.
 
-For two complete exercises, [publish reviewed survey results](forms/survey-results.md) or [let contributors add, edit and delete their own entries](forms/manage-entries.md).
+[Publish reviewed survey results](forms/survey-results.md), [collect a survey over two pages](forms/multipage-surveys.md) or [let contributors manage their own entries](forms/manage-entries.md). To contact people from a selected set of records, follow the [serial mail exercise](serial-mail.md).
 
 For ownership, see [SELF permissions](permissions.md). For a custom persistence routine, the technical [site-writer reference](onlymine.md#form-specific-storage) explains its explicit marker, fixed function and required result. Forms without that marker retain the built-in writer.
 
