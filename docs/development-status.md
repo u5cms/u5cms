@@ -1,5 +1,11 @@
 # u5CMS development checkpoint
 
+## Cumulative evolution review and 12.10.6 maintenance, 26 November 2026
+
+Authorised: inspect cumulative regressions from 12.9.5 and carry reproduced fixes to every maintained future line. This line starts at `a107da471403c0c8c8efa61a5f46df9e14780012`. The two login-save entry points each retain compound fragments and append a separate timestamp parameter to short relative return queries. New actual-source return and cumulative form fixtures accompany the correction. Branch versions, OIDC, search, rendering, uploads and migration code retain their original bytes. Native checks and remote publication remain acceptance steps; no live installation is changed by this branch preparation.
+
+Next action: run the branch fixtures and every declared workflow, verify the exact remote tree and preserve concurrent work before merging.
+
 ## Backend SAML return URLs, 26 November 2026
 
 Authorised: repair the Help media editor, publish 12.10.5 and carry the correction to all five maintained future lines. This line starts at `df2dfe123f794485d93f653e09f1a88746cc1ead`. Changes are limited to the backend SAML button, the two login-save URL values, regression fixtures, the focused workflow and release/checkpoint documentation. The full chain passed independently on this branch (16 rendered-button cases, 32 round trips and 26 denials on PHP 8.4 WebAssembly); existing OIDC, search, rendering and application version bytes are retained. Publication and live acceptance are separate steps. Next action: publish the tested candidate, inspect native PHP checks and record the actual remote result.
