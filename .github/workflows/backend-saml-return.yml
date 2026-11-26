@@ -1,0 +1,35 @@
+name: Backend SAML return URLs
+
+on:
+  push:
+    branches: [main, V13-more-Img-Formats, V14-JS-CSS-HTML-Exports, V15-Phrase-Search-and-OIDC, V16-Default-Design, V17-New-Responsive-Layouts]
+    paths: ['u5admin/usercheck.inc.php', 'u5admin/checktyp.inc.php', 'u5admin/loginsave.php', 'loginsave.php', 'san.inc.php', 'saml.inc.php', 'saml/**', 'tests/backend-saml-*', 'tests/login-return-roundtrip.php', 'tests/login-host-regression.php', '.github/workflows/backend-saml-return.yml']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  round-trip:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4']
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # 2.37.0
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, intl
+          coverage: none
+      - run: |
+          php -l u5admin/usercheck.inc.php
+          php -l loginsave.php
+          php -l u5admin/loginsave.php
+          php -l tests/backend-saml-login-fixture.php
+          php -l tests/login-return-roundtrip.php
+          U5_TEST_PHP=php node tests/backend-saml-return-url.cjs
+          php tests/login-host-regression.php

@@ -6,6 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
+| [12.10.5](docs/release-12.10.5.md) | Complete backend SAML return URLs and preserved media resource names |
 | [12.10.4](docs/release-12.10.4.md) | Feature-only Trusted Device installation on locally formatted sites |
 | [12.10.3](docs/release-12.10.3.md) | Browser replacement after a password change and direct login without JavaScript |
 | [12.10.2](docs/release-12.10.2.md) | Direct form login and return to trusted-browser management |
