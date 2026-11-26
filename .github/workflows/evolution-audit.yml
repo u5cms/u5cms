@@ -1,0 +1,65 @@
+name: Cumulative form evolution
+
+on:
+  pull_request:
+  push:
+    branches: [main, V13-more-Img-Formats, V14-JS-CSS-HTML-Exports, V15-Phrase-Search-and-OIDC, V16-Default-Design, V17-New-Responsive-Layouts]
+    paths: ['formsave.php', 'editformsave.php', 'delformsave.php', 'onlymine.inc.php', 'saveversionconflict.inc.php', 'tests/form-evolution-*', '.github/workflows/evolution-audit.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  forms:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4']
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MARIADB_ROOT_HOST: '%'
+          MARIADB_DATABASE: test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      U5CMS_TEST_PORT: '3306'
+      U5CMS_TEST_DB: test
+      U5CMS_TEST_USER: root
+      U5CMS_TEST_PASSWORD: ''
+      U5_TEST_PHP: php
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # 2.37.0
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, mbstring, intl
+          coverage: none
+          ini-values: sendmail_path=/bin/false, date.timezone=Europe/Zurich
+      - run: |
+          php -l tests/form-evolution-worker.php
+          python3 -m py_compile tests/form-evolution-regression.py
+          python3 tests/form-evolution-regression.py
+          php tests/provision-components-property.php
+      - name: Lint cumulative application changes
+        shell: python
+        run: |
+          import pathlib, subprocess
+          paths = subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=AM', '-z', 'v12.9.5', 'HEAD', '--', '*.php', ':!vendor/**', ':!calendar/**', ':!mail/idn/**', ':!mail/normalizer/**', ':!mail/phpmailer/**']).decode().split('\0')
+          checked = 0
+          for name in filter(None, paths):
+              source = pathlib.Path(name).resolve()
+              result = subprocess.run(['php', '-l', str(source)], capture_output=True, text=True)
+              assert result.returncode == 0, result.stdout + result.stderr
+              checked += 1
+          print(f'PASS: {checked} changed PHP files since 12.9.5 parsed successfully')

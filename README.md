@@ -1,8 +1,12 @@
-# u5CMS 12.10.6
+# u5CMS 12.10.7
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
 
-Version 12.10.6 restores saving in the CSS editor and uses the stored revision when an editor opens a resource. [Release notes](docs/release-12.10.6.md).
+Version 12.10.7 restores CSS editor saving and uses the stored revision when an editor opens a resource. [Release notes](docs/release-12.10.7.md).
+
+Version 12.10.6 preserves compound fragments and short relative return queries after login. It adds a cumulative SQL comparison of ordinary form behaviour since 12.9.5. [Release notes](docs/release-12.10.6.md).
+
+Version 12.10.5 preserves complete backend SAML return URLs, including media resource names, through login. [Release notes and verification](docs/release-12.10.5.md).
 
 Version 12.10.4 corrects the optional Trusted Device installer for locally formatted login forms and commented configuration examples. [Release notes and verification](docs/release-12.10.4.md).
 
