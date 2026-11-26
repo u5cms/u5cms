@@ -63,7 +63,7 @@ Each row supplies its own ID to the built-in edit and delete pages. **Add an ite
 | Alice chooses **Edit** beside Tripod | The form opens with Tripod and Studio already filled in. After she changes Studio to **Workshop** and saves, the same row reads **Tripod / Workshop**. |
 | Alice chooses **Delete** beside Projector, checks the displayed item and presses the CMS **delete** button | Projector disappears from her active list. Tripod remains. Bob still sees Screen. |
 
-Use the row's **Edit** link to open a saved item. Opening `loanentry` from **Add an item** starts a new entry. With the standard conflict check, opening the same item in two tabs can leave one tab behind. Wait a few seconds after opening both tabs, then save a change in the first and try to save the older copy. The CMS warns that a newer version exists. Reopen the item from the list, review the saved values and apply the intended change there.
+Use the row's **Edit** link to open a saved item. Opening `loanentry` from **Add an item** starts a new entry. To check the list afresh after saving, use its direct address, `index.php?c=myloans&l=en`. With the standard conflict check, opening the same item in two tabs can leave one tab behind. Wait a few seconds after opening both tabs, then save a change in the first and try to save the older copy. The CMS warns that a newer version exists. Reopen the item from the list, review the saved values and apply the intended change there.
 
 ## When each person needs just one response
 
