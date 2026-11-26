@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const {launchBrowser} = require('./browser-runtime.cjs');
+const {exerciseFormGuides} = require('./documentation-form-exercises.cjs');
 
 async function main() {
     const origin = process.env.U5_DOCUMENTATION_ORIGIN;
@@ -75,6 +76,7 @@ async function main() {
         await guest.goto(aliceDetail);
         await guest.waitForURL(url => url.searchParams.get('c') === '_login');
         assert.doesNotMatch(await guest.locator('body').innerText(), /Map reading|Bookbinding/);
+        await exerciseFormGuides({reader, open, origin});
         console.log('PASS DAT handbook: two real submissions, ordered list, direct details, both personal views, copied link, ordering and limit, field substitution, missing ID and signed-out access');
     } finally {
         await browser.close();

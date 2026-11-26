@@ -15,6 +15,8 @@ Practical guidance for people who configure, administer and use u5CMS, including
 | [Editing and formatting](editing.md) | Build a small page, choose its language, include content and display literal syntax. |
 | [Using ChatGPT to edit a u5CMS website](using-chatgpt.md) | Start with one verified edit, then adapt prompts for pages, translations, media and site maintenance. |
 | [Forms and exports](forms.md) | Follow a submission from validation to storage, confirmation, table view and CSV. |
+| [From survey to reviewed results](forms/survey-results.md) | Collect responses, inspect the chart and publish selected rows in a table. |
+| [Let contributors manage their entries](forms/manage-entries.md) | Give each contributor a list with add, edit and delete, or one revisable response. |
 | [Display form records with DAT](dat.md) | Build a course directory, link to individual records and show contributors their own entries. |
 | [Search and indexing](search-indexing.md) | Understand named updates, full rebuilds, background work and recovery. |
 | [Renaming resources](renaming.md) | Move an identifier and its recognised relationships, and recover interruptions. |
