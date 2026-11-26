@@ -6,12 +6,12 @@
 
 Register the intended profile after a normal login, return in that profile and use the management page to replace or revoke it. CMS logout deliberately withdraws the current registration.
 
-**Audience:** account holders. **Version:** tested on 12.10.0 with the same-origin form correction. **Scope:** the signed-in account and its browser profiles.
+**For** account holders. **Version** tested on 12.10.0 with the same-origin form correction. **Scope** the signed-in account and its browser profiles.
 
 ## Register a browser
 
 1. Open the intended CMS in the browser profile you will continue to use.
-2. Sign in through the normal login flow. If the installation uses AGOV through SAML, complete that login.
+2. Sign in with the account you want this profile to resume. If the site redirects you to an identity provider, complete that login and return to u5CMS.
 3. Open `/u5admin/trusteddevice.php` on the same public HTTPS host, adding the CMS directory if applicable.
 4. Check **Account** and the number of permitted browsers.
 5. Choose **Trust this browser** and confirm the success message and **(this browser)** marker.
