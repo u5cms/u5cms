@@ -6,7 +6,7 @@
 
 The installation administrator makes these changes in the installation's existing `config.php`. The feature is configured separately for each u5CMS installation. Editing `config.php.sample` alone does not enable it on a running website.
 
-**Audience:** installation administrators. **Version:** tested on 12.10.0 with the same-origin form correction. **Scope:** one installation.
+**For** installation administrators. **Version** tested on 12.10.0 with the same-origin form correction. **Scope** one installation.
 
 ## Prerequisites
 
