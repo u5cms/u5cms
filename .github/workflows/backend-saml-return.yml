@@ -3,7 +3,7 @@ name: Backend SAML return URLs
 on:
   push:
     branches: [main, V13-more-Img-Formats, V14-JS-CSS-HTML-Exports, V15-Phrase-Search-and-OIDC, V16-Default-Design, V17-New-Responsive-Layouts]
-    paths: ['u5admin/usercheck.inc.php', 'u5admin/checktyp.inc.php', 'u5admin/loginsave.php', 'loginsave.php', 'san.inc.php', 'saml.inc.php', 'saml/**', 'tests/backend-saml-*', 'tests/login-return-roundtrip.php', 'tests/login-host-regression.php', '.github/workflows/backend-saml-return.yml']
+    paths: ['u5admin/usercheck.inc.php', 'u5admin/checktyp.inc.php', 'u5admin/loginsave.php', 'loginsave.php', 'san.inc.php', 'saml.inc.php', 'saml/**', 'tests/backend-saml-*', 'tests/login-return-roundtrip.php', 'tests/login-return-corpus.cjs', 'tests/login-host-regression.php', '.github/workflows/backend-saml-return.yml']
   pull_request:
   workflow_dispatch:
 
@@ -32,4 +32,5 @@ jobs:
           php -l tests/backend-saml-login-fixture.php
           php -l tests/login-return-roundtrip.php
           U5_TEST_PHP=php node tests/backend-saml-return-url.cjs
+          U5_TEST_PHP=php node tests/login-return-corpus.cjs
           php tests/login-host-regression.php
