@@ -66,6 +66,8 @@ foreach (array('loginsave.php', 'u5admin/loginsave.php') as $path) {
         eval($tail);
         $parts = explode('#', $u[0], 2);
         returnUrlAssert(preg_match('/[?&][0-9]+$/', $parts[0], $cachebuster) === 1, 'Missing login cachebuster.');
+        $separator = parse_url($request['target'], PHP_URL_QUERY) !== null ? '&' : '?';
+        returnUrlAssert($cachebuster[0][0] === $separator, $path . ' merged the cachebuster into a query value.');
         $actual = substr($parts[0], 0, -strlen($cachebuster[0])) . (isset($parts[1]) ? '#' . $parts[1] : '');
         returnUrlAssert($actual === $request['target'], $path . ' changed return URL: ' . $actual);
         $roundTrips++;
