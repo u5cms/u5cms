@@ -1,10 +1,12 @@
 # Authenticated messaging: setup
 
-[Topic overview](../authenticated-messaging.md) · [Operations](operations.md) · [Reference](reference.md)
+[Documentation home](../README.md) · [Authenticated messaging](../authenticated-messaging.md) · [Operations](operations.md) · [Reference](reference.md)
 
 ## Summary
 
-Prepare the SAML response archive first. Then add the two CMS database structures, configure the private key and recipients, and publish a standard message form. Test the complete route with fresh authentication before enabling public submissions. All examples use reserved addresses; replace them with your own values.
+Prepare the SAML response archive first. Then add the two CMS database structures, configure the secret HMAC key and recipients, and publish a standard message form. Test the complete route with fresh authentication before enabling public submissions. All examples use reserved addresses; replace them with your own values.
+
+**For** installation administrators and form authors. **Version** u5CMS 12.10.0 and later for the workflow described here.
 
 ## 1. Prepare the installation
 

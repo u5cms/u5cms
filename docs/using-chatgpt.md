@@ -6,9 +6,11 @@
 
 With an interactive browser and an authorised editor account, ChatGPT can operate the u5CMS backend: open an object, edit its source, preview it, save it and check what visitors see. Start with one change whose result you can recognise. Give ChatGPT the backend address, the page and language, the change it may save and a way to check the outcome.
 
-**Audience:** content editors. **Version:** editor controls described for stable u5CMS 12.10.1. **Scope:** editorial work within the permissions of the account used for login.
+**For** content editors. **Version** editor controls described for stable u5CMS 12.10.1. **Scope** editorial work within the permissions of the account used for login.
 
 ## Make a first edit
+
+The [illustrated first-page guide](first-page.md#write-save-and-open) shows the editor controls used in this example.
 
 1. Choose a practice page that you may edit. Copy its visitor URL and the address of its backend. On a root installation the backend is usually at `/u5admin/`. Choose a sentence on the page and write its replacement.
 2. Start a ChatGPT session with an interactive browser. Paste the prompt below, replacing the text in braces. When the website asks you to log in, complete the login in that browser and return control to ChatGPT.

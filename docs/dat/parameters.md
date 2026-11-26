@@ -6,7 +6,7 @@
 
 A DAT command has up to fourteen positions, separated by vertical bars. The form object's name and the requested fields determine the source. The other positions select records and control their display. Start with the [working list and detail pages](../dat.md#enter-and-display-two-courses), then change one position at a time.
 
-**Audience:** form authors who already have saved records. **Version:** stable 12.10.3 and 12.10.4. **Scope:** the `:dat` command in a page source.
+**For** form authors who already have saved records. **Version** stable 12.10.3 and 12.10.4. **Scope** the `:dat` command in a page source.
 
 ```text
 [a|b|c|d|e|f|g|h|i|j|k|l|m|n:dat]

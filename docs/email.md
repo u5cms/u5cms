@@ -6,7 +6,7 @@
 
 Separate the address displayed to a person, the CMS's historical account identifier and the technical delivery address. They can represent different contracts. A delivery correction must not silently remap an existing login or its permissions.
 
-**Audience:** installation administrators and mail operators. **Version:** delivery paths exercised on 12.10.0. **Scope:** the configured installation and transport.
+**For** installation administrators and mail operators. **Version** delivery paths exercised on 12.10.0. **Scope** the configured installation and transport.
 
 ## Start with the address, not the alphabet
 
