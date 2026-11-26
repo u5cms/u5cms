@@ -1,12 +1,14 @@
 # Let contributors manage their own entries
 
-[Forms and exports](../forms.md) · [Documentation home](../README.md)
+[Documentation home](../README.md) · [Forms and exports](../forms.md)
 
 ## Summary
 
 Give each signed-in contributor a list of equipment they can lend. They can add several items, reopen one, correct its details and withdraw it. In personal ownership mode the form checks who owns the record for both edit and delete. The list selects that contributor's active records.
 
-**For** form authors. **Tested on** u5CMS 12.10.4. **You need** two ordinary reader accounts and two protected pages on a test installation. Ask the administrator to confirm [personal SELF ownership](../permissions.md#personal-ownership-the-default). Domain sharing deliberately gives a different result.
+**For** form authors. **Version** checked on u5CMS 12.10.4. **You need** two ordinary reader accounts and two protected pages on a test installation. Ask the administrator to confirm [personal SELF ownership](../permissions.md#personal-ownership-the-default). Domain sharing deliberately gives a different result.
+
+If you are following the two examples featured on yuba.ch, the [survey tutorial](survey-results.md) introduces the review and publication of saved responses. This scenario adds an edit and delete action for the person who owns each record.
 
 ## 1. Create the entry form and the management list
 

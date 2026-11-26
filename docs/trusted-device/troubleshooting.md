@@ -6,7 +6,7 @@
 
 Identify whether the failure concerns login, eligibility, a full allowance, form protection or a lost profile. Follow the matching check without weakening authentication safeguards.
 
-**Audience:** account holders and installation administrators. **Version:** 12.10.2 and the corresponding maintained development lines. **Scope:** registration and persistent resumption.
+**For** account holders and installation administrators. **Version** 12.10.2 and the corresponding maintained development lines. **Scope** registration and persistent resumption.
 
 ## The login tab closes or opens the backend home page
 

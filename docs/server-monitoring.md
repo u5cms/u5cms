@@ -4,15 +4,11 @@
 
 ## Summary
 
-Monitor shared host capacity and every relevant website and PHP-FPM pool, with an independent external availability check and heartbeat. Choose a deployment variant, configure sustained-breach alerts and verify actual notifications before relying on the service. The ready-to-use prompts let ChatGPT assess and implement the design with authorised access; an operating-system service or monitoring platform performs the continuing checks. Thresholds are starting proposals to validate against the real server.
+A slow site can occupy PHP workers and delay other sites on the same server. Watch the host, each relevant PHP-FPM pool and the response from outside the server. Give each alert a recipient who can act. The [deployment variants](#deployment-variants) help you choose where the monitoring will run.
 
-A server hosting many u5CMS websites needs an early warning when its shared capacity is running out. One slow application, an external dependency or an overlapping background task can occupy PHP workers until unrelated websites also become slow. Monitor the whole hosting server, retain a view of each website, and provide an independent check from outside the server.
+The examples assume Linux, Apache and PHP-FPM, optionally with nginx or Plesk. The [ChatGPT prompts](#ready-to-use-chatgpt-prompts) cover assessment, implementation and handover. Use the suggested thresholds as starting values for your own server.
 
-This guide explains an operational design and provides copy-and-paste prompts with which ChatGPT can assess, implement and verify it. It does **not** install monitoring or change a u5CMS setting. The thresholds below are proposed starting values, not u5CMS defaults or measured capacity guarantees.
-
-The detailed examples assume Linux, Apache and PHP-FPM, optionally behind nginx and managed by Plesk. Apply the same principles to other hosting arrangements, using their native service and capacity metrics. Monitoring is an infrastructure task and does not require a new u5CMS release. Check the actual PHP, web server and hosting-panel versions before using particular status interfaces.
-
-**Audience:** hosting and operations administrators. **Version:** infrastructure guidance; inspect actual service versions. **Scope:** the hosting node and all relevant pools.
+**For** hosting and operations administrators. **Version** infrastructure guidance; inspect actual service versions. **Scope** the hosting node and all relevant pools.
 
 ## Read by task
 
