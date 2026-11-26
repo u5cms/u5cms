@@ -24,7 +24,7 @@ A new installation needs application files, one initial database and its own `co
 ## Open the site and hand it over
 
 1. Open the site's HTTPS address. You should see the example homepage from your chosen database. Open `/u5admin/` beneath the same installation path and sign in with the initial account described in the [installation notes supplied with the release](../___readme_howtoinstall_and_license.txt).
-2. In the far-right column choose **A** (Accounts). Invite a named administrator and grant **Higher Admin Rights**. Open a separate browser profile and sign in with that account. Confirm that it can open account administration, then retire the initial account before opening the site to its readership.
+2. In the far-right column choose **A** (Accounts). Invite the first administrator at their own email address and grant **Higher Admin Rights**. In a separate browser profile, sign in to the backend with that account. Open **A** and check that the new administrator has the intended rights and that the initial `Temp` account has disappeared. Complete this handover before inviting other editors.
 3. Create [a first page](first-page.md) and open it from the visitor side. Replace the sample content and choose the [homepage and menu](navigation.md) for the site. Retain a [matching database and file backup](updates-backups.md#identify-what-must-travel-together).
 
 | What you see | Where to look |
