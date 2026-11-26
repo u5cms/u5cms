@@ -50,3 +50,16 @@ jobs:
           php -l tests/form-evolution-worker.php
           python3 -m py_compile tests/form-evolution-regression.py
           python3 tests/form-evolution-regression.py
+          php tests/provision-components-property.php
+      - name: Lint cumulative application changes
+        shell: python
+        run: |
+          import pathlib, subprocess
+          paths = subprocess.check_output(['git', 'diff', '--name-only', '--diff-filter=AM', '-z', 'v12.9.5', 'HEAD', '--', '*.php', ':!vendor/**', ':!calendar/**', ':!mail/idn/**', ':!mail/normalizer/**', ':!mail/phpmailer/**']).decode().split('\0')
+          checked = 0
+          for name in filter(None, paths):
+              source = pathlib.Path(name).resolve()
+              result = subprocess.run(['php', '-l', str(source)], capture_output=True, text=True)
+              assert result.returncode == 0, result.stdout + result.stderr
+              checked += 1
+          print(f'PASS: {checked} changed PHP files since 12.9.5 parsed successfully')

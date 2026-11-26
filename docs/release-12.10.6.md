@@ -8,7 +8,7 @@ The redirect policy, authentication, transaction protection, configuration and d
 
 ## Verification
 
-The actual rendered backend button passes 18 cases. The full login return-chain fixture passes 44 round trips and 26 invalid-target denials. It checks the separator of the added timestamp as well as preserving every byte of the original target; merely removing the timestamp could conceal corruption of the last query value.
+The actual rendered backend button passes 18 cases. A deterministic generated corpus adds 512 return-chain round trips across 256 references with duplicate keys, encoded values, short paths and compound fragments. The full login return-chain fixture passes 44 round trips and 26 invalid-target denials. It checks the separator of the added timestamp as well as preserving every byte of the original target; merely removing the timestamp could conceal corruption of the last query value.
 
 The new [form evolution fixture](../tests/form-evolution-regression.py) executes the actual create, edit and delete handlers, version checks and SQL compatibility layer using connection-private MariaDB tables. Eighteen scenarios cover ordinary submissions, disabled sender evidence, captured receipts, excluded columns, callbacks, repeated submissions, two form steps, replacement/history, stale versions, different owners, shared and per-user forms, administrator edit/delete and invalid submissions. It compares stored records and captured messages across releases from 12.9.5 and the five maintained future lines. Rendering and authentication are explicit fixture boundaries; wider browser and permission suites remain separate.
 
