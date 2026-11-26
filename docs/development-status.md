@@ -1,5 +1,10 @@
 # u5CMS development checkpoint
 
+## Backend SAML return URLs, 26 November 2026
+
+Authorised: repair the Help media editor, publish 12.10.5 and carry the correction to all five maintained future lines. This line starts at `6e9bccb670f04d82377e02039af1e547bd4e121d`. Changes are limited to the backend SAML button, the two login-save URL values, regression fixtures, the focused workflow and release/checkpoint documentation. The full chain passed independently on this branch (16 rendered-button cases, 32 round trips and 26 denials on PHP 8.4 WebAssembly); existing OIDC, search, rendering and application version bytes are retained. Publication and live acceptance are separate steps. Next action: publish the tested candidate, inspect native PHP checks and record the actual remote result.
+
+
 ## 12.9.5.14 maintenance on this development line
 
 Starting commit: `7cd6fd135a00c3a16f737eed0f4a963b6ff1e848`. Carry forward the stable index freshness and clock
