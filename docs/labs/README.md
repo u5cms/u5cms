@@ -6,7 +6,7 @@
 
 The handbook's examples were exercised independently against the actual u5CMS source. This page explains how to repeat the exercises and what their observations establish.
 
-**Audience:** maintainers and documentation authors. **Version:** corrected 12.10.0 baseline, rechecked on 12.10.1 and maintained V13–V17 sources. **Scope:** disposable local exercises.
+**For** maintainers and documentation authors. **Version** corrected 12.10.0 baseline, rechecked on 12.10.1 and maintained V13–V17 sources. **Scope** disposable local exercises.
 
 ## What was tested
 

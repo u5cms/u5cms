@@ -1,10 +1,12 @@
 # Authenticated messaging: technical reference
 
-[Topic overview](../authenticated-messaging.md) · [Setup](setup.md) · [Operations](operations.md)
+[Documentation home](../README.md) · [Authenticated messaging](../authenticated-messaging.md) · [Setup](setup.md) · [Operations](operations.md)
 
 ## Summary
 
 The module links a submission to an authenticated, archived SAML response and protects an original snapshot with HMAC-SHA-256. Working records remain editable. Verification of the snapshot, current form contents, identity-provider authentication and actual inbox delivery are distinct checks.
+
+**For** administrators and integrators. **Version** u5CMS 12.10.0 and later for the workflow described here.
 
 ## Original and working record
 

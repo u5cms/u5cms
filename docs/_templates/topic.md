@@ -1,12 +1,14 @@
 # Task-oriented topic title
 
+[Documentation home](../README.md)
+
 ## Summary
 
 - State the concrete outcome.
 - Name the essential prerequisite and supported version.
 - Point to the shortest usable procedure and state any consequential limit.
 
-**Audience:** role performing the task. **Version:** supported or tested baseline. **Scope:** installation, account, page or browser.
+**For** role performing the task. **Version** supported or tested baseline. **Scope** installation, account, page or browser.
 
 ## Before you start
 
@@ -34,4 +36,4 @@ Explain the next routine action. Include stopping, revoking or repeating when re
 
 ## Reference
 
-Link to detailed settings, behaviour, source and actual validation scope. Omit sections that do not apply. Follow the [documentation guide](../documentation-guide.md).
+Link to detailed settings, behaviour, source and actual validation scope. Omit sections that do not apply. When copying this template into the handbook, adjust the relative links for the new page's location. Follow the [documentation guide](../documentation-guide.md).

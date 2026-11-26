@@ -4,19 +4,19 @@
 
 ## Summary
 
-Work from the result you want visitors to see. A page has an object name, one or more language fields and its own source. The heading shown on the page is content; the object name identifies the resource that other pages reference.
+Use a workshop page to learn how headings, links and shared passages work. Edit the heading to change what visitors read. Keep the object name when you want existing links to continue to reach the page.
 
-**Audience:** content authors and authorised agents. **Version:** worked example exercised on 12.10.0. **Scope:** individual page and language fields.
+**For** content authors and authorised agents. **Version** worked example exercised on 12.10.0. **Scope** individual page and language fields.
 
 ## A small, testable page
 
-In a disposable installation, create a page object named `docfragment` containing:
+On a practice site, follow [Create your first page](first-page.md) to create an object named `docfragment`. Put the following line in its English field and save it.
 
 ```text
 A reusable opening.
 ```
 
-Then place the following in the English field of another page:
+Open a second practice page in the editor. Paste the following into its English field.
 
 ```text
 [[[[A small workshop]]]]
@@ -26,9 +26,7 @@ Use [b]precise words[/] and [i]short sentences[/].
 [Open the fragment:docfragment]
 ```
 
-Preview the page, save it and inspect the resulting website. The main heading should have level 1 and the subheading level 2. The text has visual emphasis, the fragment's content appears within the page, and the final reference is a link.
-
-The independent browser exercise verified those results through the actual renderer. It checked the visible font weight rather than assuming that bold text must use a particular HTML element.
+Choose **s**, then open the saved page with the **letter P**. Under *Reusable content* you should see “A reusable opening.” followed by a link labelled *Open the fragment*. Change the sentence in `docfragment`, save it and refresh the workshop page. The included sentence changes in place. The link still opens the fragment as a separate page.
 
 ## Three different uses of brackets
 
@@ -45,6 +43,10 @@ These are different operations. Replacing an object reference with heading brack
 Confirm the selected language before editing. In the exercise, an empty English field still displayed the first language's text through fallback. A page being readable in English mode therefore does not prove that its English source field contains a translation.
 
 Inspect the stored field, edit the intended language and verify both that language and any relevant fallback. Keep form field names identical across language versions even when their visible labels differ.
+
+## Give the page a browser title and description
+
+Choose the language in the editor, then choose **m**. Put a short identifying title in **Title** and a one-sentence description in **Description**. Choose **s** and open the saved page with the **letter P**. The browser tab uses the metadata title, together with any site-wide title suffix. The heading in the page body comes from the heading markup in its source.
 
 ## Include HTML deliberately
 
