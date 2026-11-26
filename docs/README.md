@@ -16,11 +16,13 @@ Practical guidance for people who configure, administer and use u5CMS, including
 | [Using ChatGPT to edit a u5CMS website](using-chatgpt.md) | Start with one verified edit, then adapt prompts for pages, translations, media and site maintenance. |
 | [Forms and exports](forms.md) | Follow a submission from validation to storage, confirmation, table view and CSV. |
 | [From survey to reviewed results](forms/survey-results.md) | Collect responses, inspect the chart and publish selected rows in a table. |
+| [Collect a survey over two pages](forms/multipage-surveys.md) | Link the steps, match the two CSV exports and identify incomplete responses. |
 | [Let contributors manage their entries](forms/manage-entries.md) | Give each contributor a list with add, edit and delete, or one revisable response. |
 | [Display form records with DAT](dat.md) | Build a course directory, link to individual records and show contributors their own entries. |
 | [Search and indexing](search-indexing.md) | Understand named updates, full rebuilds, background work and recovery. |
 | [Renaming resources](renaming.md) | Move an identifier and its recognised relationships, and recover interruptions. |
 | [Email](email.md) | Configure delivery, handle international addresses and interpret failures. |
+| [Personalised serial mail](serial-mail.md) | Select recipients, preview field variables and test one individual message per record. |
 | [Updates, backups and recovery](updates-backups.md) | Keep a matching recovery set and verify the result of an update or restore. |
 | [Server monitoring](server-monitoring.md) | Plan early capacity warnings across a hosting server and its PHP pools. |
 
