@@ -32,6 +32,10 @@ The [DAT exercise](../dat.md) and its [parameter examples](../dat/parameters.md)
 
 The [DAT browser check](../../tests/documentation-dat.cjs) runs as part of the same walkthrough below. The original 40-scenario result above retains its historical baseline.
 
+## Survey publication and editable entries
+
+The [survey exercise](../forms/survey-results.md) submits two responses, uploads a PNG, reads the chart, changes one record to **4) done** in the backend and checks the results table before and after withdrawal. The [editable entries exercise](../forms/manage-entries.md) uses two contributor accounts, verifies an edit and a deletion, and reopens a single-response form. The [browser checks](../../tests/documentation-form-exercises.cjs) use the page sources printed in the guides and run with the existing walkthrough.
+
 ## Repeat the independent exercises
 
 Use an isolated local database server and a disposable test database. The walkthrough needs permission to create and drop its randomly named fixture database. The ownership exercise uses temporary tables in the configured test database. Do not point these commands at production.
