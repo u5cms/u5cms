@@ -45,7 +45,7 @@ async function reviewSurvey({participant, editor, open, origin}) {
 
     await chartPage.close();
     await changeStatus('1', '4');
-    await participant.reload();
+    await open(participant, 'pollresults');
     assert.equal(await results.count(), 1);
     assert.deepEqual((await results.locator('td').allTextContents()).slice(0, 2), ['Map reading', 'Morning']);
     const photo = results.getByRole('img');
@@ -109,14 +109,14 @@ async function manageEntries({first, second, open}) {
     await olderCopy.getByRole('button', {name: 'Save item'}).click();
     assert.match(await warning, /newer than/);
     await olderCopy.close();
-    await first.reload();
+    await open(first, 'myloans');
     assert.deepEqual((await tripod.locator('td').allTextContents()).slice(0, 2), ['Tripod', 'Workshop']);
 
     await rows(first).filter({hasText: 'Projector'}).getByRole('link', {name: 'Delete'}).click();
     await first.waitForFunction(() => document.querySelector('[name="item_mandatory"]')?.value === 'Projector');
     await store(first, 'delete', 'myloans');
     assert.deepEqual(await rows(first).locator('td:first-child').allTextContents(), ['Tripod']);
-    await second.reload();
+    await open(second, 'myloans');
     assert.deepEqual(await rows(second).locator('td:first-child').allTextContents(), ['Screen']);
     console.log('PASS editable list handbook: two ordinary accounts, separate lists, add, prefilled edit, stale-edit conflict and confirmed deletion');
 }
