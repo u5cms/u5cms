@@ -6,7 +6,7 @@
 
 A resource name is an identifier used by pages, files and sometimes form records. Changing it is a coordinated operation. Use the CMS Rename action rather than editing the database name or moving a media directory yourself.
 
-**Audience:** content authors and installation administrators. **Version:** current workflow exercised on 12.10.0. **Scope:** one resource and its recognised dependencies.
+**For** content authors and installation administrators. **Version** current workflow exercised on 12.10.0. **Scope** one resource and its recognised dependencies.
 
 ## Decide what needs to change
 

@@ -1,12 +1,12 @@
 # Turn a survey into a reviewed results table
 
-[Forms and exports](../forms.md) · [Documentation home](../README.md)
+[Documentation home](../README.md) · [Forms and exports](../forms.md)
 
 ## Summary
 
 Collect workshop suggestions, see the distribution of preferred times in the backend, and publish the suggestions you have reviewed. The results page reads only records marked **4) done**. Changing a record back to **1) new** takes it off that page.
 
-**For** form authors and the editor reviewing the responses. **Tested on** u5CMS 12.10.4. **You need** a test installation, permission to create pages and access to **Form data**. Use sample workshop names and an image you can share with the intended readers.
+**For** form authors and the editor reviewing the responses. **Version** checked on u5CMS 12.10.4. **You need** a test installation, permission to create pages and access to **Form data**. Use sample workshop names and an image you can share with the intended readers.
 
 ## 1. Create the survey and its results page
 
@@ -94,3 +94,5 @@ For an existing spreadsheet, **Form data** also offers **import from Excel**. Th
 | A value is missing in a translated form | Check the input's `name` and the option's stored `value` in both languages. |
 
 For linked list and detail pages, use the [course directory](../dat.md). The [DAT reference](../dat/parameters.md) explains all fourteen positions. The original [form-rendering tutorial](https://yuba.ch/r/rendertutorial/rendertutorial_en.pdf) illustrates the progression with a jazz survey.
+
+Continue with [Scenario 2, a list that contributors can edit](manage-entries.md). There the contributor can change a saved response directly.

@@ -1,10 +1,12 @@
 # Authenticated messaging: use and operations
 
-[Topic overview](../authenticated-messaging.md) · [Setup](setup.md) · [Reference](reference.md)
+[Documentation home](../README.md) · [Authenticated messaging](../authenticated-messaging.md) · [Setup](setup.md) · [Reference](reference.md)
 
 ## Summary
 
 Sign in, submit once and retain the reference. Staff use the existing **Form data** views, distinguish the authenticated address from the contact address, and check delivery separately. A saved message with unconfirmed mail delivery needs investigation before another send. Preserve the original evidence, archive entries and attachment bytes through updates and records transfer.
+
+**For** staff handling messages and service administrators. **Version** u5CMS 12.10.0 and later for the workflow described here.
 
 ## Send and handle a message
 

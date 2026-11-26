@@ -6,7 +6,7 @@
 
 Trusted Device can let an authorised agent return to u5CMS in a deliberately registered browser profile. It uses the same browser mechanism as human operation. It does not provide an agent API, create a service account or give the agent additional permissions.
 
-**Audience:** account holders and authorised agent operators. **Version:** CMS flow tested on 12.10.0; profile retention depends on the browser service. **Scope:** a deliberately registered profile.
+**For** account holders and authorised agent operators. **Version** CMS flow tested on 12.10.0; profile retention depends on the browser service. **Scope** a deliberately registered profile.
 
 ## Prepare the profile
 

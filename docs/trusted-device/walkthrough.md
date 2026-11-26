@@ -6,7 +6,7 @@
 
 This exercise separates three things that are easy to confuse: an ordinary CMS session, a browser's persistent credential and its numbered registration in the database. Use a disposable installation and two independent browser profiles, A and B.
 
-**Audience:** account holders and testers. **Version:** 12.10.0 with the same-origin form correction. **Scope:** a disposable two-profile exercise.
+**For** account holders and testers. **Version** 12.10.0 with the same-origin form correction. **Scope** a disposable two-profile exercise.
 
 ## 1. Give one account two places
 
