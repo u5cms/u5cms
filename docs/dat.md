@@ -6,9 +6,20 @@
 
 Use `:dat` in a page's source to display selected fields from saved form records. This exercise builds a shared course directory, links each course to its details and gives each contributor a view of their own courses. Choose the pages' readers first. A list and its detail page each select records independently.
 
-**Audience:** form authors and content editors. **Version:** worked example checked on stable 12.10.3 and 12.10.4, with personal SELF scope. **Scope:** a form and its display pages on one installation.
+**For** form authors and content editors. **Version** worked example checked on stable 12.10.3 and 12.10.4, with personal SELF scope. **Scope** a form and its display pages on one installation.
 
 ## Set up the exercise
+
+The course form writes to one set of records. The shared and personal pages read those same records. Each detail page receives a fresh request when a reader follows a link.
+
+```mermaid
+flowchart TD
+    R["Saved course records"]
+    R -->|"Both contributors"| S["courses · shared list"]
+    R -->|"Current owner (SELF)"| P["mycourses · personal list"]
+    S -->|"Selected ID"| SD["coursedetail · shared detail"]
+    P -->|"Selected ID and SELF"| PD["mycourse · personal detail"]
+```
 
 1. Use a test site and two accounts, Alice and Bob, that can sign in as readers. Keep the default personal SELF scope for this exercise. An administrator can check the site's [ownership settings](permissions.md#personal-ownership-the-default).
 2. Create five page objects named `courseentry`, `courses`, `coursedetail`, `mycourses` and `mycourse`. Set their login restrictions so both accounts can open them. Check in a signed-out browser that the pages require login.
