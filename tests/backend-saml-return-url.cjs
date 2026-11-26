@@ -29,6 +29,8 @@ const targets = [
     'https://cms.example/u5admin/localize.php?name=example&typ=p',
     'https://cms.example/u5admin/formdataedit.php?n=!survey&id=27&l=de',
     'https://cms.example/u5admin/metai.php?typ=i&name=example5#caption-2',
+    'https://cms.example/u5admin/metai.php?typ=i&name=example5#caption-2#detail',
+    'https://cms.example/u5admin/metai.php?typ=i&name=example5#',
     'https://cms.example/u5admin/metai.php?typ=i&name=a%26b&next=%2Findex.php%3Fc%3Dfaq%26l%3Dde',
     'https://cms.example/u5admin/metai.php?typ=i&name=gr%C3%BCn&caption=a+b%20c',
     'https://cms.example/u5admin/metai.php?typ=i&name=example&literal=%26amp%3B&named=%26quot%3B',
@@ -53,11 +55,15 @@ for (const target of targets) {
 }
 
 if (process.env.U5_TEST_PHP) {
+    // Login-save also accepts relative return references from local forms.
+    for (const target of ['a?x=1&l=fr', '?c=faq&l=fr', '/?c=faq&l=fr', 'a?']) {
+        requests.push({ login: 'https://cms.example/loginsave.php?u=' + encodeURIComponent(target), target });
+    }
     const output = execFileSync(process.env.U5_TEST_PHP, [path.join(__dirname, 'login-return-roundtrip.php')], {
         encoding: 'utf8', input: JSON.stringify(requests), env: { ...process.env, U5CMS_SOURCE_ROOT: root },
     });
     const result = JSON.parse(output);
-    assert.equal(result.round_trips, targets.length * 2);
+    assert.equal(result.round_trips, requests.length * 2);
     assert.equal(result.denials, 26);
     console.log(`Full SAML chain: ${result.round_trips} round trips and ${result.denials} redirect denials passed.`);
 }
