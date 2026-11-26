@@ -61,10 +61,12 @@ The headings appear immediately. DAT adds one row per reviewed suggestion. Its t
 ## 2. Submit and review two suggestions
 
 1. Open `workshoppoll` as a participant. Enter **Map reading**, choose **Morning**, optionally upload a small PNG, and select **Send suggestion**. Submit **Bookbinding** with **Afternoon** and no image as a second response.
-2. On `pollresults` you should see the column headings and no data rows. A successful submission arrives as **1) new**. The results page selects **4) done**.
+2. Open the results page directly using `index.php?c=pollresults&l=en` in a second tab. You should see the column headings and no data rows. A successful submission arrives as **1) new**. The results page selects **4) done**.
 3. In the backend, open **Form data** and find `workshoppoll`. Its **html** view shows the two individual records. Open **chart** for the new records. The time question should show one response for each option, 50% apiece.
-4. In **html**, change only the **Map reading** row to **4) done**. Reload `pollresults`. It should show one row, **Map reading | Morning**, and the image if supplied. The **Bookbinding** response remains in the backend for review.
-5. To withdraw the published suggestion while keeping the response, open the **4) done** records in **Form data** and move the row back to **1) new**. Reload the results page and check that the row has disappeared.
+4. In **html**, change only the **Map reading** row to **4) done**. Refresh the results tab. It should show one row, **Map reading | Morning**, and the image if supplied. The **Bookbinding** response remains in the backend for review.
+5. To withdraw the published suggestion while keeping the response, open the **4) done** records in **Form data** and move the row back to **1) new**. Refresh the results tab and check that the row has disappeared.
+
+The form opens its thank-you destination by posting to it. Refreshing that particular tab can prompt Firefox to resend form data. The direct results address opens a fresh view that you can refresh throughout the review.
 
 ### Start with a single field
 
