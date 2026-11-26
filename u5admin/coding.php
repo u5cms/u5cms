@@ -131,7 +131,7 @@ tov='';
 
 <form  name="form1" action="coding2.php?typ=c" method="post" target="saver"><input type="hidden" name="changes" id="changes" />
 <div style="margin-top:-15px;margin-left:-12;padding-top:3px;background:#666666;position:fixed;z-index:9;width:102%">
-<input type="hidden" name="coco" value="<?php echo time() ?>" />
+<input type="hidden" name="coco" value="<?php echo (int)$row_a['lastmut'] ?>" />
 <?php 
 if($_COOKIE['shrchv'] == 1)$deletedvalue='deleted!=1';
 else $deletedvalue='deleted=0';

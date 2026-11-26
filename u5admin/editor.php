@@ -496,7 +496,7 @@ ns<input
         <iframe width="100%" height="0" frameborder="0" id="pframe" name="pframe"
                 src="../index.php?i=1&p=1&c=<?php echo $_GET['c'] ?>&l=<?php echo $lansel ?>"></iframe>
     </div>
-    <input type="hidden" name="coco" value="<?php echo time() ?>"/>
+    <input type="hidden" name="coco" value="<?php echo (int)$row_a['lastmut'] ?>"/>
 <?php require('t1.php') ?></form>
 
 
