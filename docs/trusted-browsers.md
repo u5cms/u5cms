@@ -12,13 +12,9 @@
 
 ## Summary
 
-Trusted Device is u5CMS's optional trusted-browser feature. A deliberately registered browser can resume the account's CMS authentication after the ordinary session ends. It retains that account's existing permissions.
+A registered browser profile can resume an existing account's u5CMS login after its ordinary session ends. An administrator enables the feature for selected accounts and gives each an allowance. The account holder can then [register a profile](trusted-device/usage.md#register-a-browser) or revoke one they have lost.
 
-The trusted item is a **browser profile**, rather than the whole physical device. A different browser, a new profile or a replacement cloud browser needs its own registration. The feature is available from **12.9.5.10** and is disabled by default. Use **12.9.5.12 or later** for the corrected account-switching behaviour.
-
-For a stable installation, use **12.10.3 or later**. This release frees obsolete places after a password change and supports direct form login when JavaScript is disabled. [12.10.3 release notes](https://github.com/u5cms/u5cms/blob/v12.10.3/docs/release-12.10.3.md). It includes the registration and database recovery fixes from 12.10.1. Opening the management page while signed out now returns you to that page after the ordinary CMS form login. See the [12.10.2 release notes](https://github.com/u5cms/u5cms/blob/v12.10.2/docs/release-12.10.2.md).
-
-**Audience:** installation administrators and account holders. **Version:** feature from 12.9.5.10; direct form login, registration and revocation checked on the 12.10.2 update. **Scope:** browser registrations per account and installation.
+**For** account holders and installation administrators. **Version** introduced in 12.9.5.10 and disabled by default. Use 12.10.3 or later for password-change recovery and direct form login with JavaScript disabled. For a feature-only deployment, follow the [12.10.4 installer guidance](trusted-device/configuration.md#deployment-reference).
 
 ## Read by task
 
@@ -39,7 +35,7 @@ For a stable installation, use **12.10.3 or later**. This release frees obsolete
 4. On subsequent authenticated requests, u5CMS can restore the account's session credentials. The normal permission checks still apply.
 5. An explicit CMS logout revokes the current browser's registration. A registration can also be revoked individually from the management page.
 
-Registration does not create an account, grant additional permissions or establish a session on another website. With a federated login such as AGOV through SAML, this is a local u5CMS persistence mechanism; it does not extend the identity provider's session or prove a fresh identity-provider login for each operation.
+A resumed session uses the account’s current CMS permissions. With federated login, the identity provider manages its own session. A workflow that requires fresh authentication must obtain that evidence separately.
 
 ## Before you start
 

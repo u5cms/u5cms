@@ -6,7 +6,9 @@
 
 Start by identifying what access you want to grant. Signing in identifies an account; backend administration, protected-page access and ownership of a submitted form record are separate permission decisions. A trusted browser keeps the account's existing permissions rather than adding another permission level.
 
-**Audience:** installation administrators and form authors. **Version:** SELF domain scope from 12.9.5.3; exercised on 12.10.0. **Scope:** record access in one installation.
+**For** installation administrators and form authors. **Version** SELF domain scope from 12.9.5.3; exercised on 12.10.0. **Scope** record access in one installation.
+
+For a page's availability or search listing, see [Set page visibility](navigation.md#set-page-visibility).
 
 ## Choose the relevant permission
 
