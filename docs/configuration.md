@@ -6,9 +6,11 @@
 
 Configuration has two parts: the application version determines which features exist, and the installation's own `config.php` determines which are enabled. A setting copied from a development branch cannot add the corresponding implementation to an older installation.
 
-**Audience:** installation administrators. **Version:** examples checked on 12.10.0; use the matching branch sample. **Scope:** one installation.
+**For** installation administrators. **Version** examples checked on 12.10.0; use the matching branch sample. **Scope** one installation.
 
 ## Find the right starting point
+
+Setting up an empty database and a new web directory? Start with [Install a new u5CMS site](installation.md).
 
 1. Identify the installed version. Recent versions include it in the backend logout tooltip; the release also identifies it in `index.php`.
 2. Use the matching branch's `config.php.sample` as a reference for available settings.

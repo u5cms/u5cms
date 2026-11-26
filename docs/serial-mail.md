@@ -6,7 +6,7 @@
 
 The **mail** view creates one message per selected form record. Put a column variable in **To**, use the participant's name in the subject and choose a sentence from their attendance preference. Preview two different records, save the job and run **test**. Only **send** starts delivery.
 
-**For** backend editors with **Form data** access and permission to contact the selected recipients. **Tested on** u5CMS 12.10.4. **You need** a configured sender and mail transport. For a first run, use a test installation and a local mail capture or mailboxes under your control.
+**For** backend editors with **Form data** access and permission to contact the selected recipients. **Version** checked on u5CMS 12.10.4. **You need** a configured sender and mail transport. For a first run, use a test installation and a local mail capture or mailboxes under your control.
 
 ## 1. Select the recipients
 
