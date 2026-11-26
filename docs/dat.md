@@ -101,4 +101,4 @@ Here `?` in the third position takes the record ID from the URL. Open details by
 | The shared list works but the personal list is empty | Check which account was signed in at submission and which account is reading. Confirm the site's SELF scope. |
 | Other people in the same organisation see the same personal records | Check whether the administrator enabled domain ownership or a central allowance. See [Accounts and SELF permissions](permissions.md). |
 
-For sorting, uploads, line breaks, conditional output and the meaning of each position, use the [DAT parameter reference](dat/parameters.md). The [original DAT manual](https://yuba.ch/dat) contains additional tutorials.
+For sorting, uploads, line breaks, conditional output and the meaning of each position, use the [DAT parameter reference](dat/parameters.md). To collect survey responses and publish approved rows, use the [reviewed results exercise](forms/survey-results.md). To let readers change their own records, use the [editable list exercise](forms/manage-entries.md). The [original DAT manual](https://yuba.ch/dat) contains additional tutorials.
