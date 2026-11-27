@@ -9,6 +9,8 @@
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('editreadrights.inc.php');
+require_once __DIR__.'/formdata-write-lock.inc.php';
+$u5FormDataWriteLock=u5FormDataRequireWriteLock();
 if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
     require_once __DIR__.'/form-evidence.inc.php';
     u5EvidenceRequireMode(1);
@@ -199,6 +201,7 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
 } // Default form storage
+u5FormDataWriteUnlock($u5FormDataWriteLock);
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
 
