@@ -97,20 +97,22 @@ legacyAssert($foundNames === array('ordinary') && $foundTerms === 'Informatik Si
 // Windows-1252 byte for the oe ligature because the endpoint maps its numeric entity back to
 // that byte before querying the legacy index.
 legacyInsert('unicode-links', array("caf&#233; \x9cuvre &#20013;&#25991; &#128512;"));
-set_error_handler(function ($severity, $message, $file, $line) {
-    throw new ErrorException($message, 0, $severity, $file, $line);
-});
 foreach (array(
     '%u00E9' => '&#233;',
     '%u0153' => '&#339;',
     '%u4E2D%u6587' => '&#20013;&#25991;',
     '%uD83D%uDE00' => '&#128512;',
 ) as $query => $terms) {
+    set_error_handler(function ($severity, $message, $file, $line) {
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    });
+    $decoded = u5SearchUnicodeEntities($query);
+    restore_error_handler();
+    legacyAssert($decoded === $terms, 'Legacy Unicode link decodes without PHP diagnostics for ' . $query);
     legacyFind($query);
     legacyAssert($foundNames === array('unicode-links'), 'Legacy Unicode link reaches the stored page for ' . $query);
     legacyAssert($foundTerms === $terms, 'Legacy Unicode link keeps decoded search terms for ' . $query);
 }
-restore_error_handler();
 foreach (array('Interngeheim','Passwortgeheim','Unsichtbar','Geloescht','Codegeheim','Bildgeheim') as $word) {
     legacyFind($word);
     legacyAssert(!in_array('!intranet',$foundNames,true) && !in_array('protected',$foundNames,true) && !in_array('hidden',$foundNames,true) && !in_array('deleted',$foundNames,true) && !in_array('code',$foundNames,true) && !in_array('excluded',$foundNames,true), 'Keep all configured exclusions for ' . $word);
