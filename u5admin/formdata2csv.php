@@ -4,6 +4,16 @@ require_once('connect.inc.php'); require_once('../san.inc.php');
 require('../config.php');
 $_GET['f']=htmlXspecialchars(trim(strip_tags($_GET['f'])));
 if ($formdataRqHIADRI!='no') require('accadmin.inc.php');
+function u5FormCsvCell($value) {
+    $value=(string)$value;
+    return preg_match('/^[\x00-\x20]*[=+@-]/',$value) ? "'".$value : $value;
+}
+function u5FormCsvFields($value) {
+    $fields=explode(';',(string)$value);
+    foreach ($fields as &$field) $field=u5FormCsvCell($field);
+    unset($field);
+    return implode(';',$fields);
+}
 if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
     require_once __DIR__.'/../form-evidence.inc.php';
     u5EvidenceRequireMode(1);
@@ -100,7 +110,7 @@ $row_a = mysql_fetch_array($result_a);
 if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') $u5EvidenceCells = u5EvidenceSummary($row_a, true);
 
 $row_a['headcsv']=str_replace('_mandatory','*',$row_a['headcsv']);
-if ($oldhead!=$row_a['headcsv']) echo 'Status;Notes;Authuser;'.((!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') ? u5EvidenceHeader() : '').str_replace('·','',$row_a['headcsv']).'Sent'.';'.'IP'."\r\n";
+if ($oldhead!=$row_a['headcsv']) echo 'Status;Notes;Authuser;'.((!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') ? u5EvidenceHeader() : '').u5FormCsvFields(str_replace('·','',$row_a['headcsv'])).'Sent'.';'.'IP'."\r\n";
 $oldhead=$row_a['headcsv'];
 
 $data=explode(';',(str_replace('·','',$row_a['datacsv'])));
@@ -109,6 +119,7 @@ $data[$i]=str_replace(',.',';',$data[$i]);
 $data[$i]=str_replace('"','&#8243;',$data[$i]);
 $data[$i]=html_entity_decode((($data[$i])), ENT_QUOTES, 'UTF-8');
 $data[$i]=str_replace(';',',.',$data[$i]);
+$data[$i]=u5FormCsvCell($data[$i]);
 }
 $row_a['datacsv']=implode(';',$data);
 
@@ -118,11 +129,12 @@ $data[$i]=str_replace(',.',';',$data[$i]);
 $data[$i]=str_replace('"','&#8243;',$data[$i]);
 $data[$i]=html_entity_decode((($data[$i])), ENT_QUOTES, 'UTF-8');
 $data[$i]=str_replace(';',',.',$data[$i]);
+$data[$i]=u5FormCsvCell($data[$i]);
 }
 $row_a['notes']=implode(';',$data);
 
 $row_a['datacsv']=str_replace('fileversions/useruploads/','ffff.php?c=',$row_a['datacsv']);
 
-echo $row_a['status'].';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['notes']))))).';'.str_replace(';',',.',$row_a['authuser']).';'.((!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') ? $u5EvidenceCells : '').str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['datacsv']))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.$row_a['ip'].';'."\r\n";
+echo $row_a['status'].';'.str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['notes']))))).';'.u5FormCsvCell(str_replace(';',',.',$row_a['authuser'])).';'.((!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') ? $u5EvidenceCells : '').str_replace("<br />"," | ",str_replace('·','',str_replace("\n","",str_replace("\r","",nl2br($row_a['datacsv']))))).(date('Y.m.d H:i:s',$row_a['time'])).';'.u5FormCsvCell($row_a['ip']).';'."\r\n";
 }
 ?>

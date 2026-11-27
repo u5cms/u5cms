@@ -196,6 +196,8 @@ return false;
                 check(int((state/'lastsave.txt').read_text())>100,'Rename marks search dirty before an interrupted publication can occur')
                 code,body=request('/u5admin/renaming.php')
                 check(code==200 and 'Rename in progress' in body and old in body and new in body and 'Elapsed:' in body,'live status names actual source/target and elapsed time')
+                code,body=request('/u5admin/rename2.php?name='+old,{'name':new,'ulinks':'yes','u5scrtytknfrfrms':token})
+                check(code==409 and old in body and new in body,'rapid duplicate Rename is rejected against the live operation without replacing its plan')
                 before=row();code,body,elapsed=save('MUST_NOT_SAVE_DURING_RENAME')
                 check(code==409 and old in body and new in body and 'Phase:' in body and elapsed<2,'live Rename alone promptly explains refused save')
                 check(row()==before,'refused save preserves exact source row')
