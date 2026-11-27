@@ -2,6 +2,7 @@
   "original_sha": "9d366253417822c279692767b89dcf1ff0388c5c",
   "https_routes": [
     "connect.inc.php",
+    "formdata-write-lock.inc.php",
     "u5admin/connect.inc.php",
     "saml/login.php",
     "oidc/bootstrap.inc.php"
@@ -10,6 +11,7 @@
   "php_tests": [
     "responsive-layout-regression.php",
     "formdata-transport-regression.php",
+    "formdata-write-lock-regression.php",
     "codeassets-regression.php",
     "rename-regression.php",
     "mobiletools-regression.php",
@@ -88,6 +90,7 @@
     "tests/fixture-environment.cjs",
     "tests/fixture_environment.py",
     "tests/formdata-transport-regression.php",
+    "tests/formdata-write-lock-regression.php",
     "tests/formdata-view-reference.py",
     "tests/https-detection-regression.php",
     "tests/idn-identity-compatibility.php",
