@@ -55,6 +55,7 @@
     "international-email-native.py",
     "index-save-regression.py",
     "resource-activity-regression.py",
+    "formdata-csv-regression.py",
     "audit-save-during-index.py",
     "backup-write-regression.py",
     "rename-packet-regression.py"
@@ -179,6 +180,7 @@
     "index-work.inc.php",
     "tests/index-save-regression.py",
     "tests/resource-activity-regression.py",
+    "tests/formdata-csv-regression.py",
     "tests/audit-save-during-index.py",
     "tests/backup-write-regression.py",
     "tests/rename-packet-regression.py"
