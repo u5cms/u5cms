@@ -13,7 +13,7 @@ if(isset($searchenginesqladditionalbooland))$nointranet=$nointranet.' '.$searche
 if (!function_exists('u5SearchUnicodeEntities')) {
 function u5SearchUnicodeEntities($value) {
   return preg_replace_callback(
-    '/%u([dD][89aAbB][0-9a-fA-F]{2})%u([dD][c-fC-F][0-9a-fA-F]{2})|%u(.{4})/',
+    '/%u([dD][89aAbB][0-9a-fA-F]{2})%u([dD][c-fC-F][0-9a-fA-F]{2})|%u([0-9a-fA-F]{4})/',
     function($match){
       if (isset($match[1]) && $match[1] !== '') {
         $high = hexdec($match[1]);
@@ -22,7 +22,7 @@ function u5SearchUnicodeEntities($value) {
         return '&#'.$codepoint.';';
       }
 
-      return '&#'.hexdec('x'.$match[3]).';';
+      return '&#'.hexdec($match[3]).';';
     },
     $value
   );
