@@ -1,6 +1,8 @@
-# u5CMS 12.10.9
+# u5CMS 12.10.10
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.10 retains the standard empty-string column default when a database backup is restored. [Release notes](docs/release-12.10.10.md).
 
 Version 12.10.9 prevents ordinary form-export cells from being interpreted as spreadsheet formulae while preserving empty, multilingual and legacy entity-encoded values. [Release notes](docs/release-12.10.9.md).
 
