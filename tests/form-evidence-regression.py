@@ -13,7 +13,7 @@ with tempfile.TemporaryDirectory(prefix='u5-form-') as tmp:
     site = Path(tmp)
     for folder in ['u5admin', 'fileversions', 'mail', 'simplesaml']:
         (site / folder).mkdir()
-    for name in ['formsave.php', 'editformsave.php', 'delformsave.php', 'form-evidence.inc.php',
+    for name in ['formsave.php', 'editformsave.php', 'delformsave.php', 'formdata-write-lock.inc.php', 'form-evidence.inc.php',
                  'onlymine.inc.php', 'mysql.php', 'mail/addresses.php', 'u5admin/formdata2csv.php',
                  'u5admin/formdata.php', 'u5admin/formdata2.php', 'u5admin/formdatamail.php', 'request.inc.php', 'u5admin/cleanuseruploads.php', 'u5admin/formdata_n.php','u5admin/formdata_h.php',
                  'u5admin/formdata.query.php','u5admin/formdata.intro.php','u5admin/formdata.filterlabel.php', 'u5admin/formdatacookies.inc.php']:
