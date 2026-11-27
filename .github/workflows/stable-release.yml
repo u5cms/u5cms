@@ -68,6 +68,7 @@ jobs:
           python3 tests/resource-activity-regression.py
           python3 tests/rename-packet-regression.py
           python3 tests/backup-write-regression.py
+          python3 tests/backup-restore-default-regression.py
           U5CMS_INDEX_SOURCE_ROOT="$PWD" U5_AUDIT_EXPECT_HTTP=200 python3 tests/audit-save-during-index.py
           U5CMS_INDEX_SOURCE_ROOT="$PWD" U5_AUDIT_EXPECT_HTTP=200 U5_AUDIT_INDEX_HOOK='$row_ii = mysql_fetch_assoc($u5Result);' python3 tests/audit-save-during-index.py
           python3 tests/form-evidence-regression.py

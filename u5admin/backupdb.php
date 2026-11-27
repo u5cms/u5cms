@@ -73,7 +73,7 @@ function get_def($table, $link)
     while ($row = mysql_fetch_assoc($result)) {
         $def.= sprintf("  `%s` %s", $row['Field'], $row['Type']);
         // if there's a default value
-        if ($row['Default'] != "") {
+        if ($row['Default'] !== null) {
             // do not quote integers
             if (false !== strpos(strtolower($row['Type']), 'int')) {
                 $def .= sprintf(" DEFAULT %s", $row['Default']);
@@ -82,7 +82,7 @@ function get_def($table, $link)
             }
         }
         // if there's no default value but NULL is the default; DO NOT use empty() here!
-        if ($row['Default'] == "" AND $row['Null'] == 'YES') $def .= ' DEFAULT NULL';
+        if ($row['Default'] === null AND $row['Null'] == 'YES') $def .= ' DEFAULT NULL';
         // if NULL is not allowed
         if ($row['Null'] != "YES") $def .= ' NOT NULL';
         if ($row['Extra'] != "") $def .= sprintf(' %s', strtoupper($row['Extra']));
