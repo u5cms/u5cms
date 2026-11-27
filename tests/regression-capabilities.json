@@ -10,6 +10,7 @@
   "php_tests": [
     "responsive-layout-regression.php",
     "formdata-transport-regression.php",
+    "formdata-write-lock-regression.php",
     "codeassets-regression.php",
     "rename-regression.php",
     "mobiletools-regression.php",
@@ -64,6 +65,7 @@
   "required_files": [
     ".github/workflows/regressions.yml",
     "config.php.sample",
+    "formdata-write-lock.inc.php",
     "connect.inc.php",
     "oidc/bootstrap.inc.php",
     "request.inc.php",
@@ -88,6 +90,7 @@
     "tests/fixture-environment.cjs",
     "tests/fixture_environment.py",
     "tests/formdata-transport-regression.php",
+    "tests/formdata-write-lock-regression.php",
     "tests/formdata-view-reference.py",
     "tests/https-detection-regression.php",
     "tests/idn-identity-compatibility.php",
