@@ -6,7 +6,7 @@ import urllib.error, urllib.request
 ROOT = Path(os.environ.get("U5_AUDIT_ROOT", Path(__file__).resolve().parent.parent)).resolve()
 PHP = os.environ.get("U5_TEST_PHP", "php")
 PORT = os.environ.get("U5CMS_TEST_PORT", "33791")
-PASSWORD = os.environ["U5CMS_FIXTURE_PASSWORD"]
+PASSWORD = os.environ.get("U5CMS_FIXTURE_PASSWORD", "u5-backup-restore-fixture-password-only")
 PHP_CMD = [PHP, "-d", "mysqli.default_port=" + PORT, "-d", "opcache.enable=0", "-d", "display_errors=0"]
 checks = 0
 
