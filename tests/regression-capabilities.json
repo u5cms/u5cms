@@ -2,11 +2,13 @@
   "original_sha": "9d366253417822c279692767b89dcf1ff0388c5c",
   "https_routes": [
     "connect.inc.php",
+    "formdata-write-lock.inc.php",
     "u5admin/connect.inc.php"
   ],
   "php9": false,
   "php_tests": [
     "formdata-transport-regression.php",
+    "formdata-write-lock-regression.php",
     "login-host-regression.php",
     "international-email.php"
   ],
@@ -38,6 +40,7 @@
     "tests/fixture-environment.cjs",
     "tests/fixture_environment.py",
     "tests/formdata-transport-regression.php",
+    "tests/formdata-write-lock-regression.php",
     "tests/formdata-view-reference.py",
     "tests/https-detection-regression.php",
     "tests/image-upload-regression.py",
