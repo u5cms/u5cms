@@ -173,9 +173,22 @@ async function sendSerialMail(mail) {
         console.log('PASS paced serial mail: queued without delivery, one message per eligible call, empty queue after completion');
     }
     await list.getByRole('button', {name: 'ok', exact: true}).click();
-    const popup = mail.waitForEvent('popup');
-    await list.getByRole('link', {name: 'info', exact: true}).click();
-    const info = await popup;
+    await mail.waitForFunction(() => {
+        try {
+            const frame = document.querySelector('iframe[name="ml"]');
+            return frame && frame.contentWindow.location.pathname.endsWith('/mailinglist.php');
+        } catch (_) {
+            return false;
+        }
+    });
+    const infoLink = list.getByRole('link', {name: 'info', exact: true});
+    const infoHref = await infoLink.getAttribute('href');
+    assert.match(infoHref, /^mailinfo\.php\?id=[1-9][0-9]*$/);
+    const [info] = await Promise.all([
+        mail.context().waitForEvent('page'),
+        infoLink.click(),
+    ]);
+    await info.waitForURL(url => url.pathname.endsWith('/u5admin/mailinfo.php') && /^[1-9][0-9]*$/.test(url.searchParams.get('id') || ''));
     for (const {address} of participants) await info.getByText(address, {exact: false}).first().waitFor();
     assert.equal(captured(), 2);
     await info.close();
