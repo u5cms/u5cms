@@ -1,6 +1,8 @@
-# u5CMS 12.10.10
+# u5CMS 12.10.11
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.11 decodes legacy `%u` search links without PHP 8.4 deprecation output and restores alternate-language metadata on PHP 8. [Release notes](docs/release-12.10.11.md).
 
 Version 12.10.10 retains the standard empty-string column default when a database backup is restored. [Release notes](docs/release-12.10.10.md).
 
