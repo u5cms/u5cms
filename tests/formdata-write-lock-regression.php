@@ -5,7 +5,14 @@ $host=getenv('U5CMS_TEST_HOST') ?: '127.0.0.1';
 $port=(int)(getenv('U5CMS_TEST_PORT') ?: 3306);
 $user=getenv('U5CMS_TEST_USER') ?: 'root';
 $password=getenv('U5CMS_TEST_PASSWORD') ?: '';
-$database=getenv('U5CMS_TEST_DB') ?: 'test';
+$holder=($argv[1] ?? '')==='hold';
+$database=$holder ? ($argv[2] ?? '') : 'u5_form_lock_'.bin2hex(random_bytes(8));
+if ($database==='') throw new RuntimeException('Fixture database name is missing.');
+if (!$holder) {
+    $bootstrap=new mysqli($host,$user,$password,'',$port);
+    if ($bootstrap->connect_errno || !$bootstrap->query('CREATE DATABASE `'.$database.'`')) throw new RuntimeException('Could not create the fixture database.');
+    $bootstrap->close();
+}
 
 function connectFixture() {
     global $root,$host,$port,$user,$password,$database;
@@ -17,7 +24,7 @@ function connectFixture() {
 }
 
 connectFixture();
-if (($argv[1] ?? '')==='hold') {
+if ($holder) {
     $lock=u5FormDataRequireWriteLock();
     echo "ready\n";flush();
     usleep(350000);
@@ -25,7 +32,7 @@ if (($argv[1] ?? '')==='hold') {
     exit;
 }
 
-$process=proc_open([PHP_BINARY,__FILE__,'hold'],[1=>['pipe','w'],2=>['pipe','w']],$pipes);
+$process=proc_open([PHP_BINARY,__FILE__,'hold',$database],[1=>['pipe','w'],2=>['pipe','w']],$pipes);
 if (!is_resource($process)) throw new RuntimeException('Could not start the lock holder.');
 if (trim(fgets($pipes[1]))!=='ready') throw new RuntimeException('Lock holder did not become ready: '.stream_get_contents($pipes[2]));
 $start=microtime(true);
@@ -37,4 +44,6 @@ fclose($pipes[1]);$error=stream_get_contents($pipes[2]);fclose($pipes[2]);
 if (proc_close($process)!==0 || $error!=='') throw new RuntimeException('Lock holder failed: '.$error);
 $start=microtime(true);$lock=u5FormDataRequireWriteLock();$immediate=microtime(true)-$start;
 if ($immediate>0.20 || !u5FormDataWriteUnlock($lock)) throw new RuntimeException('Released lock was not immediately reusable.');
+$bootstrap=new mysqli($host,$user,$password,'',$port);
+if ($bootstrap->connect_errno || !$bootstrap->query('DROP DATABASE `'.$database.'`')) throw new RuntimeException('Could not remove the fixture database.');
 echo "Form-data write lock: 3 checks passed.\n";

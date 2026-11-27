@@ -2,7 +2,6 @@
   "original_sha": "9d366253417822c279692767b89dcf1ff0388c5c",
   "https_routes": [
     "connect.inc.php",
-    "formdata-write-lock.inc.php",
     "u5admin/connect.inc.php"
   ],
   "php9": false,
@@ -38,6 +37,7 @@
   "required_files": [
     ".github/workflows/regressions.yml",
     "config.php.sample",
+    "formdata-write-lock.inc.php",
     "connect.inc.php",
     "request.inc.php",
     "tests/browser-runtime.cjs",
