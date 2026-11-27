@@ -6,6 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
+| [12.10.8](docs/release-12.10.8.md) | Serialised versioned form edits and preserved concurrent histories |
 | [12.10.7](docs/release-12.10.7.md) | CSS editor saving, text versions and editor revision checks |
 | [12.10.6](docs/release-12.10.6.md) | Complete compound fragments and short relative login-return queries; cumulative form regression coverage |
 | [12.10.5](docs/release-12.10.5.md) | Complete backend SAML return URLs and preserved media resource names |
@@ -33,7 +34,7 @@ The [historical branch index](https://github.com/u5cms/u5cms/blob/d86b2a7ecac79d
 | Branch | Version in `index.php` | Changes and purpose |
 | --- | --- | --- |
 | [12.9.5.3-Onlymine](https://github.com/u5cms/u5cms/tree/e19e5537b97b2a9ab7bfa0787f026af9b81a6488) | 12.9.5.3 | [Configurable SELF record permissions](docs/onlymine.md). |
-| [main](https://github.com/u5cms/u5cms/tree/main) | 12.10.6 | Stable maintenance, including complete login return targets, optional trusted browsers and sender evidence, non-blocking saves, resumable indexing, fast Rename and configurable SELF permissions. |
+| [main](https://github.com/u5cms/u5cms/tree/main) | 12.10.8 | Stable maintenance, including serialised versioned form edits, complete login return targets, optional trusted browsers and sender evidence, non-blocking saves, resumable indexing, fast Rename and configurable SELF permissions. |
 | [12.9.5.4-Indexer-Final](https://github.com/u5cms/u5cms/tree/8a546600746672770799a6355ec9e087f83a1029) | 12.9.5.4 | Verified release candidate. [Cumulative acceptance results against 12.9.5](docs/release-12.9.5.4.md). |
 | [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/4af9988febb075fb06e541257ee6f4d2a10d90c6) | 12.9.5.2 | Patch series based on 12.9.5.1. Fast, resumable object renaming preserves headings, references, history, files, existing code objects and exports. |
 | [12.9.6-Misc-Backend-Optimizations](https://github.com/u5cms/u5cms/tree/f10b72bc3c2b07e83caf67af2d07758b91006e0e) | 12.9.6 | Keeps the scroll position stable when filtering in the backend and corrects tooltips in object lists. |

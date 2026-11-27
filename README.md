@@ -1,6 +1,8 @@
-# u5CMS 12.10.7
+# u5CMS 12.10.8
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.8 serialises versioned form edits so simultaneous saves cannot leave two active versions of one response. [Release notes](docs/release-12.10.8.md).
 
 Version 12.10.7 restores CSS editor saving and uses the stored revision when an editor opens a resource. [Release notes](docs/release-12.10.7.md).
 

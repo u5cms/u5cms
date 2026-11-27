@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches: [main, V13-more-Img-Formats, V14-JS-CSS-HTML-Exports, V15-Phrase-Search-and-OIDC, V16-Default-Design, V17-New-Responsive-Layouts]
-    paths: ['formsave.php', 'editformsave.php', 'delformsave.php', 'onlymine.inc.php', 'saveversionconflict.inc.php', 'tests/form-evolution-*', '.github/workflows/evolution-audit.yml']
+    paths: ['formsave.php', 'editformsave.php', 'delformsave.php', 'formdata-write-lock.inc.php', 'onlymine.inc.php', 'saveversionconflict.inc.php', 'tests/form-evolution-*', 'tests/formdata-write-lock-regression.php', '.github/workflows/evolution-audit.yml']
   workflow_dispatch:
 
 permissions:
@@ -50,6 +50,7 @@ jobs:
           php -l tests/form-evolution-worker.php
           python3 -m py_compile tests/form-evolution-regression.py
           python3 tests/form-evolution-regression.py
+          php tests/formdata-write-lock-regression.php
           php tests/provision-components-property.php
       - name: Lint cumulative application changes
         shell: python

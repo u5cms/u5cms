@@ -176,6 +176,8 @@ if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no')
     }
 } else {
 if ($_POST['ed2cu']=='on'||$ismformfs==1) {
+require_once __DIR__.'/formdata-write-lock.inc.php';
+$u5FormDataWriteLock=u5FormDataRequireWriteLock();
 if ($_POST['id_mandatory']>0) $isid="AND datacsv LIKE '_". mysql_real_escape_string($_POST['id_mandatory']).";%'";
 else $isid='';
 $sql_b="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' $isauthuser $isid ORDER BY id DESC LIMIT 0,1";
@@ -250,6 +252,7 @@ if($head!=''||$data!='') {
 $result_a=mysql_query($sql_a);
 if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
+if (isset($u5FormDataWriteLock)) u5FormDataWriteUnlock($u5FormDataWriteLock);
 } // Default form storage
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
