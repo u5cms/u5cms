@@ -1,6 +1,8 @@
-# u5CMS 12.10.8
+# u5CMS 12.10.9
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.9 prevents ordinary form-export cells from being interpreted as spreadsheet formulae while preserving empty, multilingual and legacy entity-encoded values. [Release notes](docs/release-12.10.9.md).
 
 Version 12.10.8 serialises versioned form edits so simultaneous saves cannot leave two active versions of one response. [Release notes](docs/release-12.10.8.md).
 
