@@ -6,7 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
-| [12.10.11](docs/release-12.10.11.md) | Warning-free decoding of legacy Unicode search links on PHP 8.4 |
+| [12.10.11](docs/release-12.10.11.md) | Warning-free legacy Unicode search and restored alternate-language metadata on PHP 8 |
 | [12.10.10](docs/release-12.10.10.md) | Faithful restoration of the standard empty-string database column default |
 | [12.10.9](docs/release-12.10.9.md) | Safe spreadsheet export of ordinary, empty, multilingual and legacy form values |
 | [12.10.8](docs/release-12.10.8.md) | Serialised versioned form edits and preserved concurrent histories |
