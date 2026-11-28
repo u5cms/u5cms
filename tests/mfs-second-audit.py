@@ -16,8 +16,8 @@ import time
 import urllib.parse
 
 root = Path(__file__).resolve().parents[1]
-application = Path(os.environ['U5_AUDIT_APPLICATION'])
-php = [os.environ.get('U5_TEST_PHP', 'php'), '-d', 'mysqli.default_port=' + os.environ['U5CMS_TEST_PORT']]
+application = Path(os.environ.get('U5_AUDIT_APPLICATION', root))
+php = [os.environ.get('U5_TEST_PHP', 'php'), '-d', 'opcache.enable=0', '-d', 'mysqli.default_port=' + os.environ['U5CMS_TEST_PORT']]
 os.environ['U5CMS_FIXTURE_PASSWORD'] = secrets.token_urlsafe(36)
 
 class Form(html.parser.HTMLParser):
@@ -64,15 +64,9 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         port = probe.getsockname()[1]
     router = Path(temporary) / 'router.php'
     router.write_text("<?php $_SERVER['HTTPS']='on'; return false;\n")
-    observer = Path(temporary) / 'observe.php'
-    observer.write_text("""<?php register_shutdown_function(function() {
-        global $u5FormDataSubmittedVersion, $u5FormDataCurrentVersion, $checksaveversionconflictinfrontendforms;
-        if (strpos($_SERVER['REQUEST_URI'] ?? '', '/formsave.php') === false) return;
-        error_log('MFS_DIAG '.json_encode(array('posted'=>$_POST['firstsaverwins'] ?? null,'submitted'=>$u5FormDataSubmittedVersion ?? null,'current'=>$u5FormDataCurrentVersion ?? null,'mode'=>$checksaveversionconflictinfrontendforms ?? null)));
-    });""")
     environment = dict(os.environ, PHP_CLI_SERVER_WORKERS='2')
     log = (Path(temporary) / 'php.log').open('wb')
-    server = subprocess.Popen(php + ['-d', 'auto_prepend_file=' + str(observer), '-S', '127.0.0.1:' + str(port), '-t', str(site), str(router)], cwd=site, env=environment, stdout=log, stderr=log, start_new_session=True)
+    server = subprocess.Popen(php + ['-S', '127.0.0.1:' + str(port), '-t', str(site), str(router)], cwd=site, env=environment, stdout=log, stderr=log, start_new_session=True)
 
     def request(path, user='bob@example.org', fields=None):
         connection = http.client.HTTPConnection('127.0.0.1', port, timeout=15)
@@ -140,17 +134,63 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
                 print('OUTSIDE_SECOND', json.dumps({'stamp': stamp, 'first': active_a[0]['lastmut'], 'second': active_b[0]['lastmut']}), flush=True)
                 continue
             rejected = 'You cannot save your data' in response_b
-            result = {'revision': os.environ['U5_AUDIT_REVISION'], 'case': number, 'stamp': stamp, 'conflict': rejected, 'first_author': active_a[0]['authuser'], 'final_author': active_b[0]['authuser'], 'new_rows': len(state_b) - len(before), 'unchanged_after_stale': state_a == state_b}
+            assert rejected and state_a == state_b, (response_b[-1600:], state_a, state_b)
+            refreshed = request('/monofillshared.php?n=sharedsecond', 'charlie@example.org')
+            current = re.search(r'\+":([a-f0-9]{64})"', refreshed).group(1)
+            retry = dict(stale, firstsaverwins=stamp + ':' + current)
+            assert 'You cannot save your data' not in request(action, 'charlie@example.org', retry)
+            assert [r for r in snapshot() if int(r['status']) == 1][0]['authuser'] == 'charlie@example.org'
+
+            result = {'revision': os.environ.get('U5_AUDIT_REVISION', 'working-tree'), 'case': number, 'stamp': stamp, 'conflict': rejected, 'first_author': active_a[0]['authuser'], 'final_author': active_b[0]['authuser'], 'new_rows': len(state_b) - len(before), 'unchanged_after_stale': state_a == state_b}
             print('OBSERVATION', json.dumps(result), flush=True)
             findings.append(result)
         assert len(findings) >= 3, 'Fewer than three measured same-second pairs'
         assert all(r['conflict'] and r['unchanged_after_stale'] for r in findings), 'A stale same-second shared submission replaced the first save'
+        for mode, second_user, conflict in [
+            ('all', 'bob@example.org', True),
+            ('foreign', 'bob@example.org', False),
+            ('foreign', 'charlie@example.org', True),
+            ('none', 'charlie@example.org', False),
+        ]:
+            with config.open('a') as output:
+                output.write("\n$checksaveversionconflictinfrontendforms='" + mode + "';\n")
+            stamp = str(int(time.time()))
+            transport = request('/monofillshared.php?n=sharedsecond')
+            version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
+            fields = dict(parsed.fields, firstsaverwins=stamp + ':' + version, venue_mandatory='Policy ' + mode)
+            assert 'You cannot save your data' not in request(action, fields=fields)
+            before = snapshot()
+            response = request(action, second_user, dict(fields, venue_mandatory='Second ' + mode))
+            assert ('You cannot save your data' in response) == conflict, (mode, second_user, conflict, response[-1800:])
+            assert (before == snapshot()) == conflict
+            print('POLICY', json.dumps({'mode': mode, 'second_user': second_user, 'conflict': conflict}), flush=True)
+        with config.open('a') as output:
+            output.write("\n$checksaveversionconflictinfrontendforms='all';\n")
+        stamp = str(int(time.time()))
+        transport = request('/monofillshared.php?n=sharedsecond')
+        version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
+        fields = dict(parsed.fields, firstsaverwins=stamp + ':' + version, venue_mandatory='')
+        before = snapshot()
+        request(action, fields=fields)
+        assert before == snapshot(), 'A rejected empty required field changed storage'
+        fields['venue_mandatory'] = 'Resumed Genève &#26481;&#20140;'
+        assert 'You cannot save your data' not in request(action, fields=fields)
+        before = snapshot()
+        assert 'You cannot save your data' in request(action, fields=fields), 'A duplicate submission bypassed all-mode conflict detection'
+        assert snapshot() == before
+        print('PASS invalid required field, resumption and duplicate submission', flush=True)
+        transport = request('/monofillshared.php?n=sharedsecond')
+        version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
+        fields = dict(parsed.fields, firstsaverwins=str(int(time.time())) + ':' + version, venue_mandatory='Parallel')
+        before = snapshot()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as workers:
+            responses = list(workers.map(lambda user: request(action, user, fields), ['bob@example.org', 'charlie@example.org']))
+        assert sum('You cannot save your data' in response for response in responses) == 1, responses
+        after = snapshot()
+        assert len(after) == len(before) + 1 and len([r for r in after if int(r['status']) == 1]) == 1
+        print('PASS two independent PHP workers, exactly one accepted shared edit', flush=True)
     finally:
         import signal
         os.killpg(server.pid, signal.SIGTERM)
         server.wait(timeout=10)
-        log.flush()
-        for line in (Path(temporary) / 'php.log').read_text(errors='replace').splitlines():
-            if 'MFS_DIAG ' in line:
-                print(line, flush=True)
         subprocess.run(php + [str(root / 'tests/rename-web-fixture.php'), 'cleanup', fixture['database']], check=True)
