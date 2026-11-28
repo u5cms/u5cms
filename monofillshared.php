@@ -22,6 +22,7 @@ require('remotefill.inc.php');
 ?>
 <script>
 if(parent) if(parent.starterscript)parent.starterscript();
+if(parent && typeof parent.u5FormDataPrefillReady==='function')parent.u5FormDataPrefillReady('mono');
 </script>
 </body>
 </html>
