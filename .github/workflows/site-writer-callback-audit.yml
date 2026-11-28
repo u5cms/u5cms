@@ -1,0 +1,75 @@
+name: Check declared writer callback before and after
+on:
+  push:
+    branches: ['audit/mfs-same-second']
+    paths: [.github/workflows/site-writer-callback-audit.yml, tests/mfs-collateral-audit.py]
+
+concurrency:
+  group: mfs-writer-comparison
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - line: before
+            revision: 6108de9908f794c5a64a6800912a4dc5b493cb9d
+          - line: after
+            revision: 23bdd484d1ffda22fcce30ea8c6d54c7a206fcb2
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MARIADB_ROOT_HOST: '%'
+          MARIADB_DATABASE: test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      U5CMS_TEST_PORT: '3306'
+      U5CMS_TEST_DB: test
+      U5CMS_TEST_USER: root
+      U5CMS_TEST_PASSWORD: ''
+      U5_TEST_PHP: php
+      U5CMS_RENAME_AUDIT: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # 2.37.0
+        with:
+          php-version: '8.4'
+          extensions: mysqli, mbstring, intl, iconv, ctype, curl, gd, zip, fileinfo, dom
+          coverage: none
+          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable_cli=0
+      - name: Exercise callback continuity against both exact application trees
+        env:
+          U5_AUDIT_LINE: ${{ matrix.line }}
+          U5_AUDIT_REVISION: ${{ matrix.revision }}
+        run: |
+          mkdir "$RUNNER_TEMP/application"
+          git archive "$U5_AUDIT_REVISION" | tar -x -C "$RUNNER_TEMP/application"
+          export U5_AUDIT_APPLICATION="$RUNNER_TEMP/application"
+          python3 - <<'PY'
+          import os, subprocess
+          result = subprocess.run(['python3', 'tests/mfs-collateral-audit.py'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+          print(result.stdout, flush=True)
+          if os.environ['U5_AUDIT_LINE'] == 'before':
+              assert result.returncode != 0
+              assert 'Confirmation did not refresh the loaded row version' in result.stdout
+              print('EXPECTED FAILURE: declared writer confirmation did not refresh the loaded row version', flush=True)
+          else:
+              assert result.returncode == 0
+              assert 'PASS writercallback:' in result.stdout
+              print('PASS after correction: declared writer, deletion and callback collateral paths', flush=True)
+          PY
