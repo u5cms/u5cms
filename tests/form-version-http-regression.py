@@ -153,7 +153,7 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             ('none', 'charlie@example.org', False),
         ]:
             with config.open('a') as output:
-                output.write("\\n$checksaveversionconflictinfrontendforms='" + mode + "';\\n")
+                output.write("\n$checksaveversionconflictinfrontendforms='" + mode + "';\n")
             stamp = str(int(time.time()))
             transport = request('/monofillshared.php?n=sharedsecond')
             version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
@@ -164,7 +164,7 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             assert (before == snapshot()) == conflict
             print('POLICY', json.dumps({'mode': mode, 'second_user': second_user, 'conflict': conflict}), flush=True)
         with config.open('a') as output:
-            output.write("\\n$checksaveversionconflictinfrontendforms='all';\\n")
+            output.write("\n$checksaveversionconflictinfrontendforms='all';\n")
         stamp = str(int(time.time()))
         transport = request('/monofillshared.php?n=sharedsecond')
         version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
