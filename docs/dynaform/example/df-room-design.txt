@@ -1,0 +1,14 @@
+[[[[Configure the room-handover form]]]]
+[Add a question:df!room!edit]
+[Open the answering form:df!room!rdr]
+[Open my saved handover:df!room!pub]
+[h:]
+<table>
+<caption>Question definitions</caption>
+<thead><tr><th>Position</th><th>Name</th><th>Label</th><th>Type</th><th>Actions</th></tr></thead>
+<tbody>
+[position*,name*,label,type|df!room!edit|ALL||1|<tr><td>|</td><td><a href="e/?n=df!room!edit&amp;id=$id">Edit</a></td></tr>|</td><td>|id ASC:dat]
+</tbody>
+</table>
+[:h]
+The table lists definitions by record ID. Their Position determines the answering form's order.

@@ -1,0 +1,5 @@
+[$$$:df!edit]
+[h:]
+<!-- TOEDITITEMS_LOGINS_SAME_AS_[df!room!design] -->
+<!-- TODELETEITEMS_LOGINS_SAME_AS_[df!room!design] -->
+[:h]
