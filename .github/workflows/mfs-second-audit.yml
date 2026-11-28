@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - line: main
-            revision: 7a1c911735906cc91041334b7399a107eb49a9df
+            revision: 87000b4d8fdb84d3ee7aed3f6206969ba811f6e3
     services:
       database:
         image: mariadb:11.4
