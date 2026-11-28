@@ -113,15 +113,16 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             while time.time() % 1 > .08:
                 time.sleep(.002)
             stamp_source = request('/fv.php')
-            stamp = re.search(r"(?:firstsaverwins|field).value='([0-9]+)'", stamp_source).group(1)
+            stamp = re.search(r"firstsaverwins.value='([0-9]+)'", stamp_source).group(1)
             transport = request('/monofillshared.php?n=sharedsecond')
-            version = re.search(r'\+":([a-f0-9]{64})"', transport)
+            version = re.search(r'version.value="([a-f0-9]{64})"', transport)
             if (site / 'formdata-version.inc.php').exists():
                 assert version is not None, transport
-            opening = stamp + (':' + version.group(1) if version else '')
+            opening = stamp
+            token = version.group(1) if version else ''
             before = snapshot()
-            first = dict(parsed.fields, venue_mandatory='Ada Genève ' + str(number), firstsaverwins=opening)
-            stale = dict(parsed.fields, venue_mandatory='Ben Tokyo ' + str(number), firstsaverwins=opening)
+            first = dict(parsed.fields, venue_mandatory='Ada Genève ' + str(number), firstsaverwins=opening, u5cms_formversion=token)
+            stale = dict(parsed.fields, venue_mandatory='Ben Tokyo ' + str(number), firstsaverwins=opening, u5cms_formversion=token)
             response_a = request(action, fields=first)
             state_a = snapshot()
             response_b = request(action, 'charlie@example.org', stale)
@@ -136,8 +137,8 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             rejected = 'You cannot save your data' in response_b
             assert rejected and state_a == state_b, (response_b[-1600:], state_a, state_b)
             refreshed = request('/monofillshared.php?n=sharedsecond', 'charlie@example.org')
-            current = re.search(r'\+":([a-f0-9]{64})"', refreshed).group(1)
-            retry = dict(stale, firstsaverwins=stamp + ':' + current)
+            current = re.search(r'version.value="([a-f0-9]{64})"', refreshed).group(1)
+            retry = dict(stale, firstsaverwins=stamp, u5cms_formversion=current)
             assert 'You cannot save your data' not in request(action, 'charlie@example.org', retry)
             assert [r for r in snapshot() if int(r['status']) == 1][0]['authuser'] == 'charlie@example.org'
 
@@ -156,8 +157,8 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
                 output.write("\n$checksaveversionconflictinfrontendforms='" + mode + "';\n")
             stamp = str(int(time.time()))
             transport = request('/monofillshared.php?n=sharedsecond')
-            version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
-            fields = dict(parsed.fields, firstsaverwins=stamp + ':' + version, venue_mandatory='Policy ' + mode)
+            version = re.search(r'version.value="([a-f0-9]{64})"', transport).group(1)
+            fields = dict(parsed.fields, firstsaverwins=stamp, u5cms_formversion=version, venue_mandatory='Policy ' + mode)
             assert 'You cannot save your data' not in request(action, fields=fields)
             before = snapshot()
             response = request(action, second_user, dict(fields, venue_mandatory='Second ' + mode))
@@ -168,8 +169,8 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             output.write("\n$checksaveversionconflictinfrontendforms='all';\n")
         stamp = str(int(time.time()))
         transport = request('/monofillshared.php?n=sharedsecond')
-        version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
-        fields = dict(parsed.fields, firstsaverwins=stamp + ':' + version, venue_mandatory='')
+        version = re.search(r'version.value="([a-f0-9]{64})"', transport).group(1)
+        fields = dict(parsed.fields, firstsaverwins=stamp, u5cms_formversion=version, venue_mandatory='')
         before = snapshot()
         request(action, fields=fields)
         assert before == snapshot(), 'A rejected empty required field changed storage'
@@ -180,8 +181,8 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         assert snapshot() == before
         print('PASS invalid required field, resumption and duplicate submission', flush=True)
         transport = request('/monofillshared.php?n=sharedsecond')
-        version = re.search(r'\+":([a-f0-9]{64})"', transport).group(1)
-        fields = dict(parsed.fields, firstsaverwins=str(int(time.time())) + ':' + version, venue_mandatory='Parallel')
+        version = re.search(r'version.value="([a-f0-9]{64})"', transport).group(1)
+        fields = dict(parsed.fields, firstsaverwins=str(int(time.time())), u5cms_formversion=version, venue_mandatory='Parallel')
         before = snapshot()
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as workers:
             responses = list(workers.map(lambda user: request(action, user, fields), ['bob@example.org', 'charlie@example.org']))
