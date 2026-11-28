@@ -52,6 +52,8 @@ header('Content-Type: '.($mime[$extension] ?? 'application/octet-stream'));readf
                     assert response.headers.get('X-Content-Type-Options')=='nosniff'
             if os.environ.get('U5CMS_TEXTAREA_AUDIT'):
                 subprocess.run(['node',str(REPO/'tests/textarea-browser.cjs'),base,str(site)],check=True)
+                log.flush()
+                assert 'Allowed memory size' not in (work/'server.log').read_text(errors='replace'), 'Textarea fixture exhausted the renderer memory limit'
             if not os.environ.get('U5CMS_MAIN_AUDIT_ONLY') and not os.environ.get('U5CMS_RENAME_AUDIT_ONLY') and not os.environ.get('U5CMS_TEXTAREA_AUDIT_ONLY'):
                 subprocess.run(['node',str(REPO/'tests/codeassets-browser.cjs'),base,str(site)],check=True)
                 subprocess.run(['node',str(REPO/'tests/codeassets-backend.cjs'),base,str(site)],check=True)

@@ -10,9 +10,11 @@ ini_set('mysqli.default_port',(string)(int)getenv('U5CMS_TEST_PORT'));
 mysql_connect($host,$username,$password);mysql_select_db($db);mysql_query('SET NAMES latin1');
 foreach (array('textareatest'=>0,'textareatarget'=>0,'textareaarchive'=>2) as $name=>$deleted) {
     $columns=array('name','typ','deleted','hidden','lastmut');$values=array("'$name'","'p'",$deleted,0,1);
+    // The referenced target is a leaf; including itself would recurse in the renderer.
+    $content=$name==='textareatarget' ? 'Standalone target for source reference actions.' : 'Lead sample text [textareatarget] [$$$:textareatarget] [label:textareatarget] [:label:textareatarget] [accent!js] tail';
     foreach (range(1,5) as $l) {
         $columns[]='title_'.$l;$values[]="'Textarea fixture $l'";
-        $columns[]='content_'.$l;$values[]="'Lead sample text [textareatarget] [\$\$\$:textareatarget] [label:textareatarget] [:label:textareatarget] [accent!js] tail'";
+        $columns[]='content_'.$l;$values[]="'".mysql_real_escape_string($content)."'";
     }
     if (!mysql_query('INSERT INTO resources (`'.implode('`,`',$columns).'`) VALUES ('.implode(',',$values).')')) throw new RuntimeException(mysql_error());
 }

@@ -18,6 +18,13 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await page.waitForFunction(()=>['i1','i2'].every(name=>{const el=document.querySelector('iframe[name='+name+']');return el && el.contentWindow && el.contentWindow.u5TextareaActions;})).catch(async error=>{console.error('Editor initialization diagnostics',JSON.stringify({mode,checks,errors,frames:await Promise.all(page.frames().map(async f=>({url:f.url(),body:(await f.locator('body').innerText().catch(()=>'' )).slice(0,3000)})))}));throw error;});
    const left=page.frame({name:'i1'}),right=page.frame({name:'i2'});
    for(const f of [left,right])await f.waitForFunction(()=>window.u5TextareaActions && document.form1.page.value==='textareatest');
+   for(const f of [left,right])await f.evaluate(()=>{
+    const field=document.getElementById('ta1');window.u5TypingDiagnostics=[];
+    for(const type of ['focus','blur','keydown','beforeinput','input','compositionstart','compositionend'])field.addEventListener(type,event=>{
+     window.u5TypingDiagnostics.push({time:Date.now(),type:event.type,key:event.key,inputType:event.inputType,composing:event.isComposing,ctrl:event.ctrlKey,meta:event.metaKey,prevented:event.defaultPrevented,value:field.value,start:field.selectionStart,end:field.selectionEnd,focused:document.activeElement===field});
+     if(window.u5TypingDiagnostics.length>64)window.u5TypingDiagnostics.shift();
+    });
+   });
    const ta=left.locator('#ta1');
    for(const f of [left,right])equal(await f.locator('#u5-textarea-trigger').count(),0,mode+': no three-dot toolbar button in either editor');
    ok(await left.evaluate(()=>u5TextareaConfig.formats.some(x=>x.open==='[b]' && x.close==='[/]')),mode+': formats use real insert definitions');
@@ -48,7 +55,7 @@ const {launchBrowser}=require('./browser-runtime.cjs');
    await right.waitForFunction(value=>document.getElementById('ta1').value===value,typed);
    const waitForValue=async value=>{
     try {await left.waitForFunction(value=>document.getElementById('ta1').value===value,value,{timeout:2000});}
-    catch(error){console.error('Typing undo/redo diagnostics',JSON.stringify({mode,expected:value,left:await ta.inputValue(),right:await right.locator('#ta1').inputValue(),focused:await ta.evaluate(el=>el===el.ownerDocument.activeElement),errors}));throw error;}
+    catch(error){console.error('Typing undo/redo diagnostics',JSON.stringify({mode,expected:value,left:await ta.inputValue(),right:await right.locator('#ta1').inputValue(),focused:await ta.evaluate(el=>el===el.ownerDocument.activeElement),events:{left:await left.evaluate(()=>window.u5TypingDiagnostics),right:await right.evaluate(()=>window.u5TypingDiagnostics)},errors}));throw error;}
    };
    await ta.press('Control+z');await waitForValue(initial);equal(await ta.inputValue(),initial,mode+': ordinary typing undo');
    await ta.press('Control+y');await waitForValue(typed);equal(await ta.inputValue(),typed,mode+': ordinary typing redo');
