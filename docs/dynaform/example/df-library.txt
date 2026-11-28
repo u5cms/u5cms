@@ -1,0 +1,105 @@
+[h:]
+<?php
+// Shared by all pages in this exercise. No database writes happen here.
+if (!function_exists('u5dfExampleBase')) {
+    function u5dfExampleBase() {
+        $page = (string) ($_GET['c'] ?? $_GET['n'] ?? '');
+        foreach (array('df!room', 'df!kit') as $base) {
+            foreach (array('edit', 'design', 'rdr', 'pub', 'inc') as $suffix) {
+                if ($page === $base.'!'.$suffix) return $base;
+            }
+        }
+        throw new RuntimeException('Open a named DynaForm example page.');
+    }
+
+    function u5dfExampleEscape($value) {
+        return htmlspecialchars((string) $value,
+            ENT_QUOTES | ENT_SUBSTITUTE, 'WINDOWS-1252', false);
+    }
+
+    function u5dfExampleValues($row) {
+        $head = explode(';', (string) $row['headcsv']);
+        $data = explode(';', (string) $row['datacsv']);
+        $values = array();
+        foreach ($head as $index => $key) {
+            if ($key === '') continue;
+            // Each packed cell starts with one CMS marker byte.
+            $key = str_replace(',.', ';', substr($key, 1));
+            $values[$key] = str_replace(',.', ';',
+                substr((string) ($data[$index] ?? ''), 1));
+        }
+        return $values;
+    }
+
+    function u5dfExampleText($text) {
+        // First configured site language, then second, then third.
+        $parts = array_pad(explode('|||', (string) $text), 3, '');
+        return def(trim($parts[0]), trim($parts[1]), trim($parts[2]));
+    }
+
+    function u5dfExampleOptions($text) {
+        $options = array();
+        foreach (explode('|', u5dfExampleText($text)) as $option) {
+            $pair = explode('==', $option, 2);
+            if (count($pair) !== 2 || trim($pair[0]) === ''
+                || !preg_match('/\A[A-Za-z0-9_+.-]+\z/', trim($pair[1]))) {
+                throw new RuntimeException('Use Label==code for every SELECT option.');
+            }
+            $code = trim($pair[1]);
+            if (array_key_exists($code, $options)) {
+                throw new RuntimeException('Duplicate SELECT code: '.$code);
+            }
+            $options[$code] = trim($pair[0]);
+        }
+        return $options;
+    }
+
+    function u5dfExampleDefinitions($base) {
+        $query = "SELECT id,headcsv,datacsv FROM formdata WHERE formname='"
+            .mysql_real_escape_string($base.'!edit')."' AND status=1 ORDER BY id";
+        $result = mysql_query($query);
+        if ($result === false) throw new RuntimeException('Cannot read field definitions.');
+        $definitions = array();
+        $names = array();
+        while ($row = mysql_fetch_array($result)) {
+            $field = u5dfExampleValues($row);
+            $name = trim((string) ($field['name_mandatory'] ?? ''));
+            if (!preg_match('/\A[a-z][a-z0-9_]*\z/', $name)
+                || isset($names[$name])) {
+                throw new RuntimeException('Invalid or duplicate field name: '.$name);
+            }
+            $type = (string) ($field['type'] ?? '');
+            if (!in_array($type, array('INPUT', 'TEXTAREA', 'SELECT', 'PROLOGUEONLY'), true)) {
+                throw new RuntimeException('Unknown field type: '.$type);
+            }
+            $position = (string) ($field['position_mandatory'] ?? '');
+            if (!ctype_digit($position)) {
+                throw new RuntimeException('Give every field a whole-number position.');
+            }
+            $names[$name] = true;
+            $field['key'] = $name;
+            $field['rowid'] = (int) $row['id'];
+            $field['position'] = (int) $position;
+            if ($type === 'SELECT') u5dfExampleOptions($field['values'] ?? '');
+            $definitions[] = $field;
+        }
+        usort($definitions, static function ($left, $right) {
+            return ($left['position'] <=> $right['position'])
+                ?: ($left['rowid'] <=> $right['rowid']);
+        });
+        return $definitions;
+    }
+
+    function u5dfExampleAnswer($base) {
+        $user = u5flatidnlower((string) ($_SERVER['PHP_AUTH_USER'] ?? ''));
+        if ($user === '') return array();
+        $result = mysql_query("SELECT headcsv,datacsv FROM formdata WHERE formname='"
+            .mysql_real_escape_string($base.'!rdr')."' AND status=1 AND authuser='"
+            .mysql_real_escape_string($user)."' ORDER BY id DESC LIMIT 1");
+        if ($result === false) throw new RuntimeException('Cannot read the saved answer.');
+        $row = mysql_fetch_array($result);
+        return is_array($row) ? u5dfExampleValues($row) : array();
+    }
+}
+?>
+[:h]
