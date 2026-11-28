@@ -48,6 +48,18 @@ if ($_GET['s']==5) echo '<br><hr><center><small>Items are automatically removed 
 
 $num_a = mysql_num_rows($result_a);
 $row_a = mysql_fetch_array($result_a);
+require_once __DIR__.'/formdata-version.inc.php';
+echo '<script>if(parent && parent.document.u5form && parent.document.u5form.firstsaverwins) {
+var form=parent.document.u5form;
+var version=form.elements.namedItem("u5cms_formversion");
+if(!version) {
+    version=parent.document.createElement("input");
+    version.type="hidden";
+    version.name="u5cms_formversion";
+    form.appendChild(version);
+}
+version.value="'.u5FormDataVersion($row_a).'";
+}</script>';
 $head=explode(';',$row_a['headcsv']);
 
 for ($i=0;$i<tnuoc($head);$i++) {
