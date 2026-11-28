@@ -4,6 +4,10 @@ on:
     branches: ['audit/mfs-same-second']
     paths: [.github/workflows/mfs-second-audit.yml, tests/mfs-second-audit.py]
 
+concurrency:
+  group: mfs-http-candidates
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -16,17 +20,17 @@ jobs:
       matrix:
         include:
           - line: main
-            revision: 62eadd740339e0a24604d5eb7235a30041f9e5e7
+            revision: e54c41b8253192e81138f7ae1477752cf4c0fa8e
           - line: V13
-            revision: 6c0cf43b4e952ca2be5831f7757a4d62b00a441b
+            revision: 652abbdc55af873759281ac614904a753516bcb5
           - line: V14
-            revision: b2e845f415d7c07796d6f85f94c5b9cce37de9f4
+            revision: 18f1d3efb726701a98e15468b6cfa3ee5ce14b3c
           - line: V15
-            revision: aa63e60d9afc4e6fdce7368d6f25dd3cb2f0a825
+            revision: 09c97a029752318ebb81af1438831f9c456fce73
           - line: V16
-            revision: eff187fac3797721e1330cb93fb4c5157b9f8c2f
+            revision: 030e966d9cf9cd112e79fd53a3d90ee8638125e0
           - line: V17
-            revision: 8165590d4d37771d1b2c1609b0b63a2adc6dd37e
+            revision: 15f59ff3c79d4b4da0827422b694c70f73f1797e
     services:
       database:
         image: mariadb:11.4
