@@ -9,7 +9,11 @@
 //parent.document.getElementsByTagName('iframe')[0].style.width='1200px';
 
 function firstsaverwins() {
-if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';
+if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins) {
+var field=parent.u5form.firstsaverwins;
+var version=field.value.split(':')[1];
+field.value='<?php echo time()?>'+(version ? ':'+version : '');
+}
 }
 
 function werror(werr) {
