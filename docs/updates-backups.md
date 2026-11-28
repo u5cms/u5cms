@@ -37,6 +37,10 @@ Use the complete matching release rather than selecting individual files whose n
 
 After deploying the files, sign in to the backend at `u5admin/` beneath the installation directory. The backend runs the release's `r/runonce.php` when it is present. Follow any migration or recovery message before opening the updated site to readers. The [installation and update notes](../___readme_howtoinstall_and_license.txt) accompany the release.
 
+Retain `r/runonce.php` when preparing an update package: it is the backend's migration entry point. Changes to stored database structures or syntax definitions must include the corresponding upgrade path for an existing installation. The MF/MFS row fingerprint is a hidden transport field and needs no database column.
+
+An update must preserve current form records and their history, including ordinary text that happens to mention old column names. Language-reference conversion belongs to the matching three-language schema migration. Supplying `runonce.php` with a later package must not repeat that conversion on current business data. The update regression exercises current, old and partially upgraded schemas through the backend entry point, supplies the script again and checks configuration and favicon bytes. In that updated installation it saves, reopens and exports CSS through the actual editor form, then creates, loads, changes and deletes MF/MFS entries while checking conflicts and history.
+
 Verify ordinary page viewing and editing, each active language, login/logout, a representative form, access-protected media, search and any site-specific integration. If the layout looks different, [compare the stored stylesheet with its export](stylesheets.md#if-the-result-differs). If an optional feature is enabled, check its additional prerequisites and failure handling as well.
 
 For example, archived sender evidence requires compatible code and private configuration together. Downgrading only the handler while retaining the evidence guard is expected to stop incompatible access. That is a recovery boundary, not a reason to bypass the guard.
