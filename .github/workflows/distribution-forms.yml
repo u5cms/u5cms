@@ -1,0 +1,72 @@
+name: Form behaviour after overlaying the original distribution
+on:
+  push:
+    branches: ['audit/distribution-parity-1294']
+    paths: [.github/workflows/distribution-forms.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MARIADB_ROOT_HOST: '%'
+          MARIADB_DATABASE: test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      U5CMS_TEST_PORT: '3306'
+      U5CMS_TEST_DB: test
+      U5CMS_TEST_USER: root
+      U5CMS_TEST_PASSWORD: ''
+      U5_TEST_PHP: php
+      U5CMS_RENAME_AUDIT: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # 2.37.0
+        with:
+          php-version: '8.4'
+          extensions: mysqli, mbstring, intl, iconv, ctype, curl, gd, zip, fileinfo, dom
+          coverage: none
+          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable_cli=0
+      - name: Install the isolated browser test dependency
+        run: |
+          npm install --prefix "$RUNNER_TEMP/u5-browser" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+          # Ubuntu 24.04 runners already supply the browser OS libraries.
+          # Install the pinned browsers for the login and backend checks.
+          node "$RUNNER_TEMP/u5-browser/node_modules/playwright/cli.js" install chromium firefox
+          echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
+      - name: Verify the original distribution
+        run: |
+          cd "$RUNNER_TEMP"
+          curl --silent --show-error --fail --location --proto '=https' --max-time 60 --max-filesize 40000000 'https://yuba.ch/f.php?f=r%2Fu5cmszip%2Fu5cmszip_en.zip%3Ft%3D1790665382' -o distribution.zip
+          echo '2f49305b495d9f15cd526f487851c852c67b8bdb8818bcaa3292b5ffbebb8598  distribution.zip' | sha256sum -c
+      - name: Exercise the shipped form, frame and CSV download
+        run: |
+          for U5_AUDIT_REVISION in package 9d366253417822c279692767b89dcf1ff0388c5c dccf010f5e0bbbdbf20f6af75d4194e20ed7e224 a1cee139c3b101852b7ebe4d35d48324b468aeb9 6cc2177808dcbaa480317c57ded1b777f3c04aa6 ae63acd47f01fec1e18e99ea4e7652633de196b6 3a843d4535a738ec61b361bf60f53ca06080399c 32bc60cbbc459e3058998162b0850fee6ca01b72 6d17fc76111a63476fdc6f411f24fe576b41e649; do
+            echo "Application $U5_AUDIT_REVISION"
+            export U5_AUDIT_REVISION
+            unzip -qq "$RUNNER_TEMP/distribution.zip" -d "$RUNNER_TEMP/original-$U5_AUDIT_REVISION"
+          export U5_AUDIT_APPLICATION="$RUNNER_TEMP/original-$U5_AUDIT_REVISION/u5CMS_12.9.4"
+          if [ "$U5_AUDIT_REVISION" != package ]; then
+            git archive "$U5_AUDIT_REVISION" | tar -x -C "$U5_AUDIT_APPLICATION" --exclude='favicon.ico' --exclude='r/*'
+            for special in r/.htaccess r/runonce.php; do
+              if git cat-file -e "$U5_AUDIT_REVISION:$special" 2>/dev/null; then git show "$U5_AUDIT_REVISION:$special" > "$U5_AUDIT_APPLICATION/$special"; fi
+            done
+          fi
+          git checkout e6353106a86b06aef27a3d68cf7cb1137b8b2f5e -- tests/monofill-browser-audit.py tests/monofill-browser-audit.cjs
+          for engine in chromium firefox; do
+            U5_TEST_ENGINE="$engine" python3 tests/monofill-browser-audit.py
+          done
+          done
