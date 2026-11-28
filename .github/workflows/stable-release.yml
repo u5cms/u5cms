@@ -89,6 +89,7 @@ jobs:
           echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
       - name: Browser login, backend and recovery
         run: |
+          U5_AUDIT_APPLICATION="$PWD" U5_AUDIT_REVISION="$GITHUB_SHA" python3 tests/prefill-readiness.py
           python3 tests/documentation-walkthrough.py
           U5_TEST_ENGINE=firefox python3 tests/documentation-walkthrough.py
           node tests/background-browser.cjs
