@@ -1,5 +1,7 @@
 # Prefill readiness audit — 28 November 2026
 
+Published source correction: [v12.10.16](https://github.com/u5cms/u5cms/releases/tag/v12.10.16), Release ID 461765756, published 28 November 2026 at 18:24:27 UTC. The Release API reports Latest, not draft or prerelease; its target and direct tag ref are exactly `0e704d9d78e80c1d82892966b2e7dd740cea5787`. The direct predecessor is now v12.10.15. Publication does not close the site acceptance or intermittent findings below.
+
 ## Authorised scope and acceptance contract
 
 Investigate active-answer loss through the shipped edit/delete and MF/MFS browser paths, compare the resolved v12.9.5 source and the direct predecessor with the released stable source and all five maintained future lines, and repair only reproduced failures. No production or reference installation was changed by this isolated audit. Database contents, identities and browser input are synthetic.
