@@ -14,7 +14,8 @@ for(const engine of ['chromium','firefox']){
   await page.route('**/formsave.php?**',async route=>{posts++;const response=await route.fetch();await route.fulfill({response});});
   const loader=(kind==='personal'||kind==='append')?'**/monofill.php?**':'**/monofillshared.php?**';
   if(mode!=='loaded')await page.route(loader,async route=>{seen=true;if(mode==='aborted')return route.abort('failed');await gate;try{await route.continue();}catch{}});
-  await page.goto(origin+'/index.php?c=prefillaudit&l=en',{waitUntil:'domcontentloaded'});
+  const docResponse=await page.goto(origin+'/index.php?c=prefillaudit&l=en',{waitUntil:'domcontentloaded'});
+  const raw=await docResponse.text();const at=raw.indexOf('monofill');console.log('MONO_RAW '+JSON.stringify({kind,mode,excerpt:raw.slice(Math.max(0,at-200),at+900),guard:raw.includes('var ready = false'),frames:await page.locator('iframe').evaluateAll(es=>es.map(e=>({id:e.id,src:e.getAttribute('src')})))}));
   if(mode==='loaded'){
    if(kind==='new')await page.waitForLoadState('load');
    else await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
