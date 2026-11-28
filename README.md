@@ -1,6 +1,8 @@
-# u5CMS 12.10.14
+# u5CMS 12.10.15
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.15 detects conflicting form saves within the same second. [Release notes](docs/release-12.10.15.md).
 
 Version 12.10.14 avoids a PHP deprecation when opening saved search destinations. [Release notes](docs/release-12.10.14.md).
 
