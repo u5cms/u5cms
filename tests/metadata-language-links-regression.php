@@ -62,7 +62,7 @@ metadataCheck(strpos($html, 'hreflang=""') === false, 'Empty hreflang must not b
 foreach (array(array('de', 'fr'), array('de', 'fr', 'it'), array('de', 'fr', '', 'rm', 'en')) as $slots) {
     foreach (array_filter($slots) as $selected) {
         foreach (array('/?c=article&h=Gen%C3%A8ve&l=', '/?l=') as $prefix) {
-            $suffix = '&q=a%26b&archive=old';
+            $suffix = '&q=a%26b&archive=old&next=help?l=it';
             $links = metadataRenderAlternates($block, $slots, $selected, $prefix . $selected . $suffix);
             foreach (array_filter($slots) as $target) {
                 $expected = 'hreflang="' . $target . '" href="https://cms.example' . $prefix . $target . $suffix . '"';
@@ -71,5 +71,8 @@ foreach (array(array('de', 'fr'), array('de', 'fr', 'it'), array('de', 'fr', '',
         }
     }
 }
+
+$html = metadataRenderAlternates($block, array('de', 'fr'), 'de', '/?c=article&layout=old');
+metadataCheck(strpos($html, 'hreflang="fr" href="https://cms.example/?c=article&layout=old&l=fr"') !== false, 'Layout parameter must leave the language selectable');
 
 echo 'Metadata language links: ' . $metadataChecks . " passed.\n";

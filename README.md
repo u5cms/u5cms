@@ -1,6 +1,8 @@
-# u5CMS 12.10.11
+# u5CMS 12.10.12
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.12 corrects alternate-language URLs on sites with unused language slots. [Release notes](docs/release-12.10.12.md).
 
 Version 12.10.11 decodes legacy `%u` search links without PHP 8.4 deprecation output and restores alternate-language metadata on PHP 8. [Release notes](docs/release-12.10.11.md).
 
