@@ -14,18 +14,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - line: origin
+            revision: 9d366253417822c279692767b89dcf1ff0388c5c
+          - line: previous
+            revision: dccf010f5e0bbbdbf20f6af75d4194e20ed7e224
           - line: main
-            revision: 12e08c34c6920f91f14f03ee934519d9b234021f
+            revision: a1cee139c3b101852b7ebe4d35d48324b468aeb9
           - line: V13
-            revision: 26bb3fa12f651034cd61f5ead4872c599bd06d7b
+            revision: 6cc2177808dcbaa480317c57ded1b777f3c04aa6
           - line: V14
-            revision: a56c431b8577c6f9419539d97384de16de90b67d
+            revision: ae63acd47f01fec1e18e99ea4e7652633de196b6
           - line: V15
-            revision: 358a7e2399987327aee3b71f3624dfd5e9fe3deb
+            revision: 3a843d4535a738ec61b361bf60f53ca06080399c
           - line: V16
-            revision: 74e22a29b29ca185cb9dcbeb77418427de7f59eb
+            revision: 32bc60cbbc459e3058998162b0850fee6ca01b72
           - line: V17
-            revision: 4b4ec0d81218ed5e29584163fa362a2f7c5297f2
+            revision: 6d17fc76111a63476fdc6f411f24fe576b41e649
     services:
       database:
         image: mariadb:11.4
