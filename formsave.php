@@ -112,8 +112,8 @@ if ($key!='ouremail' && $key!='thanks' && $key!='thankssubject' &&  $key!='thank
 
 if (!in_array($key,$nt2me)) {
 if($key=='firstsaverwins')$key='frstsvrwnspgldtmstp';
-$head.='Â·'.str_replace(';',',.',$key).';';
-$data.='Â·'.str_replace(';',',.',$value).';';
+$head.='·'.str_replace(';',',.',$key).';';
+$data.='·'.str_replace(';',',.',$value).';';
 }
 
 if ($_POST['qv2bo']!='off') if (!in_array($key,$nt2cu)) $zendmessage.=str_replace('_mandatory','*',$key).': '.str_replace(str_replace(basename($scripturi),'',$scripturi).'fileversions/useruploads/',str_replace(basename($scripturi),'',$scripturi).'ffff.php?f=',$value)."\r\n";
