@@ -64,9 +64,15 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         port = probe.getsockname()[1]
     router = Path(temporary) / 'router.php'
     router.write_text("<?php $_SERVER['HTTPS']='on'; return false;\n")
+    observer = Path(temporary) / 'observe.php'
+    observer.write_text("""<?php register_shutdown_function(function() {
+        global $u5FormDataSubmittedVersion, $u5FormDataCurrentVersion, $checksaveversionconflictinfrontendforms;
+        if (strpos($_SERVER['REQUEST_URI'] ?? '', '/formsave.php') === false) return;
+        error_log('MFS_DIAG '.json_encode(array('posted'=>$_POST['firstsaverwins'] ?? null,'submitted'=>$u5FormDataSubmittedVersion ?? null,'current'=>$u5FormDataCurrentVersion ?? null,'mode'=>$checksaveversionconflictinfrontendforms ?? null)));
+    });""")
     environment = dict(os.environ, PHP_CLI_SERVER_WORKERS='2')
     log = (Path(temporary) / 'php.log').open('wb')
-    server = subprocess.Popen(php + ['-S', '127.0.0.1:' + str(port), '-t', str(site), str(router)], cwd=site, env=environment, stdout=log, stderr=log, start_new_session=True)
+    server = subprocess.Popen(php + ['-d', 'auto_prepend_file=' + str(observer), '-S', '127.0.0.1:' + str(port), '-t', str(site), str(router)], cwd=site, env=environment, stdout=log, stderr=log, start_new_session=True)
 
     def request(path, user='bob@example.org', fields=None):
         connection = http.client.HTTPConnection('127.0.0.1', port, timeout=15)
@@ -143,4 +149,8 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         import signal
         os.killpg(server.pid, signal.SIGTERM)
         server.wait(timeout=10)
+        log.flush()
+        for line in (Path(temporary) / 'php.log').read_text(errors='replace').splitlines():
+            if 'MFS_DIAG ' in line:
+                print(line, flush=True)
         subprocess.run(php + [str(root / 'tests/rename-web-fixture.php'), 'cleanup', fixture['database']], check=True)
