@@ -1,0 +1,71 @@
+name: Observe shared saves within one second
+on:
+  push:
+    branches: ['audit/mfs-same-second']
+    paths: [.github/workflows/mfs-second-audit.yml, tests/mfs-second-audit.py]
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - line: origin
+            revision: 9d366253417822c279692767b89dcf1ff0388c5c
+          - line: previous
+            revision: a1cee139c3b101852b7ebe4d35d48324b468aeb9
+          - line: main
+            revision: 0af39943e39f25b8ff3594675b2134801e5ee7ea
+          - line: V13
+            revision: 775d2d6f8c0b5dea29c63d7caafef970ceac5d38
+          - line: V14
+            revision: efe7cffe05822d64e6ede341976b98b60b113d63
+          - line: V15
+            revision: 3a843d4535a738ec61b361bf60f53ca06080399c
+          - line: V16
+            revision: 32bc60cbbc459e3058998162b0850fee6ca01b72
+          - line: V17
+            revision: 6d17fc76111a63476fdc6f411f24fe576b41e649
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MARIADB_ROOT_HOST: '%'
+          MARIADB_DATABASE: test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      U5CMS_TEST_PORT: '3306'
+      U5CMS_TEST_DB: test
+      U5CMS_TEST_USER: root
+      U5CMS_TEST_PASSWORD: ''
+      U5_TEST_PHP: php
+      U5CMS_RENAME_AUDIT: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # 2.37.0
+        with:
+          php-version: '8.4'
+          extensions: mysqli, mbstring, intl, iconv, ctype, curl, gd, zip, fileinfo, dom
+          coverage: none
+          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable_cli=0
+      - name: Submit the shipped shared form twice within one second
+        env:
+          U5_AUDIT_LINE: ${{ matrix.line }}
+          U5_AUDIT_REVISION: ${{ matrix.revision }}
+        run: |
+          mkdir "$RUNNER_TEMP/application"
+          git archive "$U5_AUDIT_REVISION" | tar -x -C "$RUNNER_TEMP/application"
+          export U5_AUDIT_APPLICATION="$RUNNER_TEMP/application"
+          python3 tests/mfs-second-audit.py
