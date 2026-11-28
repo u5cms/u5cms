@@ -37,9 +37,9 @@ if (trim($_GET['q'])!='') {
 $q=$_GET['q'];
 
   $q = preg_replace_callback(
-    '/%u(.{4})/',
+    '/%u([0-9A-Fa-f]{4})/',
     function($match){
-      return "&#".hexdec("x".$match[1]).";";
+      return "&#".hexdec($match[1]).";";
     },
     $q
   );
