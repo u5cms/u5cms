@@ -61,6 +61,7 @@ jobs:
           chmod -R u+rwX "$original"
           cp "$original/u5standard.sql" u5standard.sql
           export U5CMS_FIXTURE_PASSWORD="$(openssl rand -hex 24)"
+          export HTTP_HOST=localhost REQUEST_URI=/
           for revision in 9d366253417822c279692767b89dcf1ff0388c5c dccf010f5e0bbbdbf20f6af75d4194e20ed7e224 a1cee139c3b101852b7ebe4d35d48324b468aeb9 6cc2177808dcbaa480317c57ded1b777f3c04aa6 ae63acd47f01fec1e18e99ea4e7652633de196b6 3a843d4535a738ec61b361bf60f53ca06080399c 32bc60cbbc459e3058998162b0850fee6ca01b72 6d17fc76111a63476fdc6f411f24fe576b41e649; do
             site="$RUNNER_TEMP/site-$revision"
             cp -a "$original" "$site"
