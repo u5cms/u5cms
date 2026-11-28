@@ -51,10 +51,12 @@ async function main() {
                 const page = await open(context, before);
                 await page.getByLabel('Preferred venue').fill(after);
                 console.log('Submitting', name, JSON.stringify(after));
-                await Promise.all([
-                    page.waitForEvent('framenavigated', {predicate: frame => frame === page.mainFrame()}),
-                    page.getByRole('button', {name: 'Save preference'}).click(),
-                ]);
+                const returned = page.waitForURL(url => url.searchParams.get('c') === name && url.searchParams.get('f') === name, {waitUntil: 'load'});
+                await Promise.all([returned, page.getByRole('button', {name: 'Save preference'}).click()]);
+                console.log('Returned to the form', name);
+                await page.frameLocator('iframe[src*="'+framePath.slice(1)+'"]').locator('#u5transportcontainer').waitFor({state: 'attached'});
+                await page.waitForFunction(value => document.forms.u5form?.venue_mandatory.value === value, after);
+                console.log('Rendered the saved value', name);
                 await page.close();
             }
             async function csv(status, expected) {
@@ -94,6 +96,9 @@ async function main() {
             console.log('PASS', process.env.U5_AUDIT_REVISION, process.env.U5_TEST_ENGINE, name,
                 'three submissions, one abandoned change, both readers and both CSV downloads');
         }
+    } catch (error) {
+        console.error(error);
+        throw error;
     } finally {
         await browser.close();
     }
