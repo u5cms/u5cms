@@ -9,6 +9,9 @@
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('delreadrights.inc.php');
+require_once __DIR__.'/formdata-version.inc.php';
+$u5FormDataSubmittedVersion = (string)($_POST['u5cms_formversion'] ?? '');
+unset($_POST['u5cms_formversion']);
 require_once __DIR__.'/formdata-write-lock.inc.php';
 $u5FormDataWriteLock=u5FormDataRequireWriteLock();
 if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
@@ -38,6 +41,7 @@ $notes=$row_a['notes'];
 
 $foundthisformerauthuser=$row_a['authuser'];
 $foundthisformerlastmut=$row_a['lastmut'];
+$u5FormDataCurrentVersion=u5FormDataVersion($row_a);
 require('saveversionconflict.inc.php');
 
 $sql_a="SELECT * FROM resources WHERE deleted!=1 AND name='".mysql_real_escape_string($_GET['n'])."'";
@@ -190,6 +194,11 @@ $result_a=mysql_query($sql_a);
 if ($result_a==false) {
 die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
+if (isset($_POST['firstsaverwins'])) {
+    $u5VersionResult=mysql_query("SELECT * FROM formdata WHERE id='".mysql_real_escape_string($_GET['id'])."' AND formname='".mysql_real_escape_string($_GET['n'])."'");
+    if ($u5VersionResult===false) die('Form version could not be read.');
+    $u5FormDataVersionAfterSave=u5FormDataVersion(mysql_fetch_array($u5VersionResult));
+}
 u5FormDataWriteUnlock($u5FormDataWriteLock);
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
@@ -210,7 +219,8 @@ $zendto=$email1;
 ?>
 <script type="text/javascript">
 function firstsaverwins() {
-if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';	
+if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';
+if(parent)if(parent.u5form)if(parent.u5form.u5cms_formversion)parent.u5form.u5cms_formversion.value='<?php echo $u5FormDataVersionAfterSave ?? ''?>';	
 }
 if('<?php echo $_GET['a']?>'!='1'){
 if('<?php echo $thanks?>'.indexOf('(')<1){
