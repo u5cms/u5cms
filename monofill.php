@@ -23,6 +23,7 @@ require('remotefill.inc.php');
 <script>
 parent.document.u5form.action=parent.document.u5form.action+'&o=<?php echo rawurlencode(pwdhsh($_SERVER['PHP_AUTH_USER'])) ?>';
 if(parent)if(parent.starterscript)parent.starterscript();
+if(parent && typeof parent.u5FormDataPrefillReady==='function')parent.u5FormDataPrefillReady('mono');
 </script>
 </body>
 </html>
