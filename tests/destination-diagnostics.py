@@ -122,6 +122,7 @@ register_shutdown_function(function(){
             matches = re.findall(r'TARGET_PATH (.+)',log)
             assert len(matches)==1 and json.loads(matches[0])[1], (query,matches,log[-900:])
             notices = [json.loads(v) for v in re.findall(r'TARGET_DIAGNOSTIC (.+)',log)]
+            assert not notices, (query,notices)
             print('OBSERVED',json.dumps([query,json.loads(matches[0]),notices]),flush=True)
     finally:
         print('Stopping the isolated TLS proxy', flush=True)
