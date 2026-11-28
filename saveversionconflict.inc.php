@@ -2,7 +2,7 @@
 $foundthisformerauthuser=$foundthisformerauthuser ?? '';
 if(strpos($foundthisformerauthuser,'@')>0)$rowaauthuser=$foundthisformerauthuser;
 else $rowaauthuser='someone else';
-$u5FormDataConflictReason = empty($u5FormDataSubmittedVersion)
+$u5FormDataConflictReason = $foundthisformerlastmut > ($_POST['firstsaverwins'] ?? 0)
     ? ' which is newer than the timestamp of the moment when you opened the page at hand (which is '
     : ' which differs from the version loaded when you opened this form (opening timestamp ';
 
