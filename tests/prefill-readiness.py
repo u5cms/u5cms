@@ -2,7 +2,7 @@
 import json, os, secrets, shutil, signal, socket, subprocess, tempfile, time
 from pathlib import Path
 lab = Path(__file__).resolve().parent
-application = Path(os.environ['U5_AUDIT_APPLICATION']).resolve()
+application = Path(os.environ.get('U5_AUDIT_APPLICATION',lab.parent)).resolve()
 php = ['php', '-d', 'opcache.enable=0', '-d', 'mysqli.default_port='+os.environ['U5CMS_TEST_PORT']]
 os.environ['U5CMS_FIXTURE_PASSWORD'] = secrets.token_urlsafe(36)
 with tempfile.TemporaryDirectory(prefix='u5-prefill-') as temp:

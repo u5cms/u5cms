@@ -14,7 +14,9 @@ async function main(){
     const origin=process.env.U5_PREFILL_ORIGIN;
     const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:process.env.U5CMS_FIXTURE_PASSWORD}});
     const page=await context.newPage();
-    page.on('dialog',d=>d.dismiss());
+    page.on('dialog',d=>{console.log('PREFILL_DIALOG '+JSON.stringify({action,mode,trigger,message:d.message()}));return d.dismiss();});
+    page.on('pageerror',e=>console.log('PREFILL_PAGEERROR '+e.message));
+    page.on('request',r=>{if(r.method()==='POST')console.log('PREFILL_POST '+new URL(r.url()).pathname);});
     let posts=0, responseBody='';
     const endpoint=action==='edit'?'/editformsave.php':'/delformsave.php';
     await page.route('**'+endpoint+'?**',async route=>{posts++;const response=await route.fetch();responseBody=await response.text();await route.fulfill({response});});
@@ -28,6 +30,7 @@ async function main(){
     });
     const url=origin+'/'+(action==='edit'?'formdataedit.php':'formdatadel.php')+'?n=prefillaudit&id=900001&a=1&l=en';
     await page.goto(url,{waitUntil:'domcontentloaded'});
+    if(action==='delete')await page.locator('#genericformdataeditorlinkdiv').getByText('×',{exact:true}).click();
     if(mode==='loaded')await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
     else {for(let i=0;i<100&&!seen;i++)await page.waitForTimeout(20);assert.ok(seen,'Actual loader request was not intercepted');}
     await page.waitForFunction(()=>Number(document.forms.u5form.firstsaverwins.value)>0);
@@ -57,7 +60,7 @@ async function main(){
       if(changed||posts)defects.push(observed);
       release();
       if(!changed){
-        if(mode==='aborted'){await page.unroute('**/formdataedit2.php?**');await page.reload({waitUntil:'domcontentloaded'});}
+        if(mode==='aborted'){await page.unroute('**/formdataedit2.php?**');await page.reload({waitUntil:'domcontentloaded'});if(action==='delete')await page.locator('#genericformdataeditorlinkdiv').getByText('×',{exact:true}).click();}
         await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
         assert.equal(await page.locator('[name="optional"]').inputValue(),'');
         const response=page.waitForResponse(r=>new URL(r.url()).pathname===endpoint);await submit();assert.equal((await response).status(),200);
