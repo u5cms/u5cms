@@ -23,12 +23,19 @@ If this is your first visit to the backend, start with [Create and publish your 
 
 Start with [a registration form and its CSV export](forms.md#a-worked-registration-form). For the two examples featured on yuba.ch, continue with [the survey and its reviewed results](forms/survey-results.md), then [a list that contributors can edit (Scenario 2)](forms/manage-entries.md).
 
+To learn by building, follow these exercises in order:
+
+1. **Register one workshop participant.** Create the form, submit it and find the saved value in the [CSV export](forms.md).
+2. **Publish reviewed suggestions.** Collect two responses and choose which appears in the [results table](forms/survey-results.md).
+3. **Lend equipment.** Give each contributor an [editable list of their own items](forms/manage-entries.md).
+4. **Configure room handovers through a form.** Build [DynaForm](dynaform.md), using its eight complete page sources, then add a new question without changing the answering page's code.
+
 | When you need to… | Continue with |
 | --- | --- |
 | Show selected fields from saved records in a list and on a detail page | [Display records with DAT](dat.md) · [DAT parameter reference](dat/parameters.md) |
 | Let each person return to one saved response | [One revisable response (Scenario 1)](forms/manage-entries.md#when-each-person-needs-just-one-response) |
 | Choose a personal or shared revisable response | [MF and MFS: selection, versions and conflicts](forms/mf-mfs.md) |
-| Let trusted designers compose forms through a definition form | [u5CMS DynaForm](dynaform.md) · [Field schema and renderer contract](dynaform/schema.md) |
+| Build a configuration form which generates other forms | [DynaForm: room-handover tutorial](dynaform.md) · [Complete component sources](dynaform/example/README.md) · [Field and code reference](dynaform/schema.md) |
 | Add attachments and display their generated links | [Form uploads](forms/uploads.md) |
 | Collect answers over two pages and match the exports | [Multipage surveys](forms/multipage-surveys.md) |
 | Send individual messages to selected respondents | [Personalised serial mail](serial-mail.md) |

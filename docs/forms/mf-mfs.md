@@ -84,13 +84,24 @@ A keyed composer must place `id_mandatory` first among the fields that are actua
 
 When a calculation or conditional section needs saved values, initialise it through the `starterscript` hook in the form's HTML block:
 
+For a concrete example, open the protected `timepreference` page from the personal exercise. Inside its `[h:]` block, after the Preferred venue input, add this complete fragment:
+
 ```html
+<p id="venue-note" hidden>Please collect the key from reception.</p>
 <script>
+function updateVenueNote() {
+    var venue = document.querySelector('[name="venue_mandatory"]');
+    var note = document.getElementById('venue-note');
+    note.hidden = venue.value.trim().toLowerCase() !== 'town hall';
+}
 function starterscript() {
-    // Read the now-prefilled fields and update the form's display here.
+    updateVenueNote();
+    document.querySelector('[name="venue_mandatory"]').oninput = updateVenueNote;
 }
 </script>
 ```
+
+Save the page. Enter **Town hall**, save the response and reopen it: the restored value and key-collection note appear together. Enter **Library**: the note disappears immediately. Save and reopen again: it stays hidden. This demonstrates both post-prefill initialisation and subsequent user input. If a form already defines `starterscript`, add these two calls to its existing function rather than defining it a second time.
 
 The loader calls this after filling fields, including the first visit with no saved response. A normal `load` handler may run too early. A newly added ordinary form without MF/MFS needs its ordinary initialisation path as well; the hook is also called when an existing entry is opened for editing.
 

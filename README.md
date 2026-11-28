@@ -2,6 +2,27 @@
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
 
+u5CMS is a multilingual content management system with reusable page objects, media, protected areas and forms backed by MariaDB/MySQL. Start with the task you want to complete:
+
+| I want to… | Step-by-step guide |
+| --- | --- |
+| Set up an empty website | [Install u5CMS](docs/installation.md) |
+| Create, save and publish my first page | [Your first page](docs/first-page.md) |
+| Build a form and export its responses | [Workshop registration form](docs/forms.md) |
+| Let people maintain their own saved entries | [Equipment lending list](docs/forms/manage-entries.md) |
+| Build a form that configures other forms | [DynaForm: the complete room-handover tutorial](docs/dynaform.md) |
+| Add attachments and display their generated links | [Two-attachment example](docs/forms/uploads.md#build-a-two-attachment-example) |
+| Maintain or update an existing installation | [Configuration](docs/configuration.md) · [Updates and recovery](docs/updates-backups.md) |
+
+**Learn by building:** [first page](docs/first-page.md) → [first form](docs/forms.md) → [editable records](docs/forms/manage-entries.md) → [DynaForm](docs/dynaform.md). Each exercise gives concrete object names, source examples and visible results. The DynaForm exercise supplies [all eight component sources](docs/dynaform/example/README.md).
+
+For other tasks, use the [handbook index](docs/README.md). The [branch guide](BRANCHES.md) identifies which development features belong to V13–V17. Downloads, the original manuals and additional tutorials are on [yuba.ch](https://yuba.ch/u5cms/).
+
+## Release history
+
+<details>
+<summary>Release notes and maintenance changes</summary>
+
 Version 12.10.16 waits for existing response fields to load before browser edit, delete and MF/MFS submissions. [Release notes](docs/release-12.10.16.md).
 
 Version 12.10.15 detects conflicting form saves within the same second. [Release notes](docs/release-12.10.15.md).
@@ -57,6 +78,8 @@ Full indexing runs in resumable batches. The search page shows the date of the l
 The stable release includes memory-efficient search, corrected resource renaming and configurable SELF permissions. Existing installations continue to associate records with the individual user unless their administrator enables domain-based ownership.
 
 [Trusted-browser sessions in 12.9.5.10](docs/release-12.9.5.10.md) · [Media access provisioning in 12.9.5.8](docs/release-12.9.5.8.md) · [Non-blocking saves and fast Rename in 12.9.5.7](docs/release-12.9.5.7.md) · [Save and index coordination in 12.9.5.6](docs/release-12.9.5.6.md) · [Rename lock handling in 12.9.5.5](docs/release-12.9.5.5.md) · [Cumulative changes since 12.9.5](docs/release-12.9.5.4.md) · [SELF permissions](docs/onlymine.md) · [Branch guide](BRANCHES.md)
+
+</details>
 
 ## About u5CMS
 

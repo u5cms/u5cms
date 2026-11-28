@@ -1,0 +1,53 @@
+[$$$:df!library]
+[h:]
+<?php
+$u5dfFields = u5dfExampleDefinitions(u5dfExampleBase());
+if (count($u5dfFields) === 0) {
+    echo '<p>No questions have been configured yet.</p>';
+}
+foreach ($u5dfFields as $u5dfField) {
+    $u5dfKey = $u5dfField['key'];
+    $u5dfName = 'N_'.$u5dfKey;
+    $u5dfId = 'df-'.$u5dfKey;
+    $u5dfLabel = u5dfExampleText($u5dfField['label'] ?? '');
+    $u5dfHelp = u5dfExampleText($u5dfField['help'] ?? '');
+    $u5dfPrologue = u5dfExampleText($u5dfField['prologue'] ?? '');
+    $u5dfEpilogue = u5dfExampleText($u5dfField['epilogue'] ?? '');
+    $u5dfPlaceholder = u5dfExampleText($u5dfField['placeholder'] ?? '');
+    $u5dfDefault = u5dfExampleText($u5dfField['values'] ?? '');
+    $u5dfAttributes = (string) ($u5dfField['attributes'] ?? '');
+    $u5dfRequired = substr($u5dfKey, -10) === '_mandatory';
+
+    echo '<div class="df-question">';
+    if ($u5dfPrologue !== '') echo render($u5dfPrologue);
+    if ($u5dfField['type'] !== 'PROLOGUEONLY') {
+        echo '<label for="'.u5dfExampleEscape($u5dfId).'">'
+            .u5dfExampleEscape($u5dfLabel).($u5dfRequired ? ' *' : '').'</label>';
+        $u5dfCommon = ' id="'.u5dfExampleEscape($u5dfId).'" name="'
+            .u5dfExampleEscape($u5dfName).'"'
+            .($u5dfRequired ? ' required' : '')
+            .($u5dfHelp !== '' ? ' aria-describedby="'.$u5dfId.'-help"' : '')
+            .' placeholder="'.u5dfExampleEscape($u5dfPlaceholder).'"';
+        // Attributes are code supplied only by trusted form designers.
+        if ($u5dfField['type'] === 'INPUT') {
+            echo '<input'.$u5dfCommon.' '.$u5dfAttributes.' value="'
+                .u5dfExampleEscape($u5dfDefault).'">';
+        } elseif ($u5dfField['type'] === 'TEXTAREA') {
+            echo '<textarea'.$u5dfCommon.' '.$u5dfAttributes.'>'
+                .u5dfExampleEscape($u5dfDefault).'</textarea>';
+        } else {
+            echo '<select'.$u5dfCommon.' '.$u5dfAttributes.'><option value=""></option>';
+            foreach (u5dfExampleOptions($u5dfField['values'] ?? '') as $code => $label) {
+                echo '<option value="'.u5dfExampleEscape($code).'">'
+                    .u5dfExampleEscape($label).'</option>';
+            }
+            echo '</select>';
+        }
+        if ($u5dfHelp !== '') echo '<p id="'.$u5dfId.'-help">'
+            .u5dfExampleEscape($u5dfHelp).'</p>';
+    }
+    if ($u5dfEpilogue !== '') echo render($u5dfEpilogue);
+    echo '</div>';
+}
+?>
+[:h]

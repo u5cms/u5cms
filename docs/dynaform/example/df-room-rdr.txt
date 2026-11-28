@@ -1,0 +1,16 @@
+[$$$:df!room!inc]
+[fo:]
+[fi:]
+[le:]My room handover[:le]
+[$$$:df!form]
+[h:]
+<input type="hidden" name="thanks" value="df!room!pub">
+<input type="hidden" name="in2my" value="off">
+<input type="hidden" name="em2cu" value="off">
+<input type="hidden" name="em2me" value="off">
+<input type="hidden" name="firstsaverwins" value="">
+<button type="submit">Save handover</button>
+[:h]
+[mf]
+[:fi]
+[:fo]
