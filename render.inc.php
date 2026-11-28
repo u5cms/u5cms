@@ -1010,7 +1010,8 @@ function render($stringa) {
     $stringa=preg_replace('/<script\s*src\s*=\s*"Pupload"\s*>/','<script src="Pupload?k='.$uploadhash.'">',$stringa);
     $stringa=preg_replace('/<script\s*src\s*=\s*"upload_mandatory"\s*>/','<script src="upload_mandatory?k='.$uploadhash.'">',$stringa);
     $stringa=preg_replace('/<script\s*src\s*=\s*"Pupload_mandatory"\s*>/','<script src="Pupload_mandatory?k='.$uploadhash.'">',$stringa);
-    return $firstp.$stringa;
+    require_once __DIR__.'/formdata-prefill.inc.php';
+    return u5FormDataGuardMonoMarkup($firstp.$stringa);
 }
 
 // renders php code fetched from db to an output buffer and
