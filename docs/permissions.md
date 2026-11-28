@@ -22,6 +22,17 @@ For a page's availability or search listing, see [Set page visibility](navigatio
 
 Use the account-management area for backend accounts and the appropriate page/group mechanism for protected content. Giving an account a trusted-browser allowance does not create either type of permission.
 
+## Give a page reader access without a backend account
+
+For the equipment-list exercise, a contributor needs to open two pages and edit their own records. They do not need permission to edit website source.
+
+1. Open `loanentry` in the page editor. Choose **i → Publicity status** and select **public, no indexing** for the practice form. In the same controls, find **Usernames & passwords for all language versions of this page**.
+2. Enter the reader credential in the literal format `?username:password;`, one pair per line. For the exercise's first identity use username `alice@office.example`; choose its password privately. The initial `?`, colon and final semicolon are required delimiters. Use a different private password for each test identity.
+3. Save with **s**. Repeat the same intended reader pairs on `myloans`. These page credentials are not backend accounts and are not invitations sent by email. Existing backend accounts retain their administrative access to protected pages.
+4. In a separate browser profile, open the visitor URL `index.php?c=loanentry` and sign in with that reader credential. Submit a sample item, return to `myloans`, follow its **Edit** link and save a correction. In a signed-out profile, opening either URL must request login.
+
+A page whose logins field is just `?` requires a valid existing backend account without adding a page-reader pair. A page name beginning with `!` uses the separate intranet membership mechanism under **A**; its editor does not accept these local page-reader pairs. On a federated installation, use its established verified-identity admission process instead of introducing local credentials for this exercise.
+
 ## Personal ownership: the default
 
 ```php
@@ -44,7 +55,9 @@ The setting applies to SELF listing and add/edit/delete controls. Target form, r
 
 ## An exercise with four records
 
-Create a disposable fixture with the following active records in one form:
+Use the complete [equipment-list exercise](forms/manage-entries.md#1-create-the-entry-form-and-the-management-list) to create the protected `loanentry` form and `myloans` list on a disposable site. Keep personal scope for the first pass. Set up the four verified test identities below through the site's normal reader-account process. In a separate browser profile for each identity, open `loanentry` and submit one item: **Tripod**, **Projector**, **Screen** and **Lectern**, respectively. Enter **Library** as each collection point.
+
+In **S → special funcs → form data → loanentry → html**, check there are four active records and that their stored owners match the accounts used. The numbers in this table are labels for the exercise, rather than database IDs to type into a form:
 
 | Record | Stored owner |
 | --- | --- |
@@ -53,7 +66,9 @@ Create a disposable fixture with the following active records in one form:
 | 3 | `charlie@sub.office.example` |
 | 4 | `dana@other.example` |
 
-The documentation's independent SQL exercise observed:
+Open `myloans` in each profile. With personal scope Alice sees Tripod alone. In the practice site's existing `config.php`, change the single `$u5onlyminescope` assignment to `'domain'`, leaving the central allowance empty. Reopen Alice's list: it now shows Tripod and Projector. Open Charlie's list: it shows Screen alone. Return the scope to `'user'` and Alice again sees Tripod alone. The original owner values in **Form data** remain unchanged.
+
+The corresponding independent SQL exercise observed:
 
 | Authenticated identity and configuration | SELF records selected |
 | --- | --- |

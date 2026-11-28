@@ -35,6 +35,64 @@ The configuration sample enables ordinary uploads and disables public Puploads. 
 
 Use the exact script source above. The CMS renderer adds its upload authorisation parameter. Copying a rendered widget URL, iframe or temporary key into page source is not the installation procedure.
 
+## Build a two-attachment example
+
+The community centre wants a handover record with a signed checklist and a supporting document. This complete exercise uses protected files which a backend editor can retrieve. Use two authorised **backend test accounts** if both people must open the protected download links; an ordinary page-reader login alone does not grant that file access. Keep the installation's personal SELF scope for the exercise.
+
+1. In **P → new**, create `attachmentform` and `attachmentlinks`. Choose **i → Publicity status → public, no indexing** and enter `?` in each page's logins field so access requires an existing backend account. Save the source below into each page's first configured language field. The [first-page guide](../first-page.md#create-the-page) shows the exact creation controls.
+2. Confirm `$allowuseruploads = 'yes';` in this practice installation's private `config.php`, and that small PDF files are allowed by `configallowedfileextensions.php` and the host's upload limits. This example needs no public Pupload setting.
+
+### `attachmentform`
+
+```text
+[fo:]
+[fi:]
+[le:]My room-handover attachments[:le]
+[h:]
+<input type="hidden" name="thanks" value="attachmentlinks">
+<input type="hidden" name="in2my" value="off">
+<input type="hidden" name="em2cu" value="off">
+<input type="hidden" name="em2me" value="off">
+<input type="hidden" name="firstsaverwins" value="">
+<label>Room <input name="room_mandatory" required></label>
+<fieldset><legend>Signed checklist</legend>
+<script src="upload"></script>
+</fieldset>
+<fieldset><legend>Supporting document</legend>
+<script src="upload"></script>
+</fieldset>
+<p>Wait for both uploads to finish, then save the handover.</p>
+<button type="submit">Save attachments</button>
+[:h]
+[mf]
+[:fi]
+[:fo]
+```
+
+### `attachmentlinks`
+
+```text
+[[[[My saved handover attachments]]]]
+[h:]
+<table>
+<caption>My current handover</caption>
+<thead><tr><th>Room</th><th>Signed checklist</th><th>Supporting document</th></tr></thead>
+<tbody>
+[room*,userupload1,userupload2|attachmentform|ALL|SELF|1|<tr><td>|</td></tr>|</td><td>|id DESC LIMIT 1:dat]
+</tbody>
+</table>
+[:h]
+[Revise my attachments:attachmentform]
+```
+
+3. Open `index.php?c=attachmentform` as the first test account. Enter **Blue room**. Upload one small test PDF in Signed checklist and a **different** PDF in Supporting document. Wait for each widget's **OK**, then select **Save attachments**. `attachmentlinks` shows one row with the room and two generated links.
+4. Open each link and check the actual PDF contents. In **S → form data → attachmentform → html**, check that `userupload1` refers to the checklist and `userupload2` to the supporting document. The link text may be the extension, such as **pdf**; compare the file contents, not only that label.
+5. Choose **Revise my attachments**. Wait for the existing room and upload indicators. Change only Room to **Green room**, save and open both files again. The files should be unchanged.
+6. Reopen once more. In **Supporting document**, choose the **×** beside its OK indicator (tooltip **DELETE FILE**) and confirm **DELETE FILE?**. The second file picker reappears. Choose the replacement PDF, wait for OK and save. Leave the first widget untouched. The first link still retrieves the original checklist; the second retrieves the replacement document. This widget action clears that field's current association before replacement; it does not purge the older stored file. The form's former version remains available through the backend, subject to the site's retention policy.
+7. Open `attachmentlinks` in the other test account's browser profile. Under personal SELF scope it has no row until that account saves its own handover. A signed-out visitor must authenticate before opening either page.
+
+The two identical-looking script lines deliberately produce different numbered fields by their order in the form. Keep that order unchanged when adapting the example. The `!pub`/`!rdr` suffixes used in a composed application are optional naming conventions; this exercise's two names are `attachmentform` and `attachmentlinks` throughout.
+
 ## How a generated link reaches the response
 
 | Step | What exists |
