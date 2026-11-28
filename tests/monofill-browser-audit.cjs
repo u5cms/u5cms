@@ -54,7 +54,11 @@ async function main() {
                 const returned = page.waitForURL(url => url.searchParams.get('c') === name && url.searchParams.get('f') === name, {waitUntil: 'load'});
                 await Promise.all([returned, page.getByRole('button', {name: 'Save preference'}).click()]);
                 console.log('Returned to the form', name);
-                await page.frameLocator('iframe[src*="'+framePath.slice(1)+'"]').locator('#u5transportcontainer').waitFor({state: 'attached'});
+                const returnedFrame = page.frames().find(frame => new URL(frame.url()).pathname === framePath);
+                assert.ok(returnedFrame, 'Expected the navigated Monofill frame on return');
+                const element = await returnedFrame.frameElement();
+                console.log('Returned frame', await element.getAttribute('name'), await element.getAttribute('src'), new URL(returnedFrame.url()).pathname);
+                await returnedFrame.locator('#u5transportcontainer').waitFor({state: 'attached'});
                 await page.waitForFunction(value => document.forms.u5form?.venue_mandatory.value === value, after);
                 console.log('Rendered the saved value', name);
                 await page.close();
