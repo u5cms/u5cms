@@ -1,6 +1,8 @@
-# u5CMS 12.10.15
+# u5CMS 12.10.16
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.16 waits for existing response fields to load before browser edit, delete and MF/MFS submissions. [Release notes](docs/release-12.10.16.md).
 
 Version 12.10.15 detects conflicting form saves within the same second. [Release notes](docs/release-12.10.15.md).
 
