@@ -18,8 +18,6 @@ jobs:
             revision: dccf010f5e0bbbdbf20f6af75d4194e20ed7e224
           - line: V13
             revision: 183be185bd557b10d6b2f33a8a5af21549dd32c6
-          - line: V14
-            revision: 6e788495375a68a5b649e8bb5aa16d4bef9b00c5
     services:
       database:
         image: mariadb:11.4

@@ -1,5 +1,6 @@
 from pathlib import Path
-from importlib import import_module
+import faulthandler
+faulthandler.dump_traceback_later(90, repeat=True)
 import email, email.policy, http.client, http.server, json, os, re, shutil, socket, ssl, subprocess, tempfile, threading, time
 
 root = Path(os.environ.get('U5_DOCUMENTATION_SOURCE', Path(__file__).resolve().parent.parent)).resolve()
@@ -78,9 +79,14 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
             finally:connection.close()
         do_GET=handle_request
         do_POST=handle_request
-    proxy=http.server.ThreadingHTTPServer(('127.0.0.1',tls_port),Proxy)
+
     tls=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER);tls.load_cert_chain(directory/'cert.pem',directory/'key.pem')
-    proxy.socket=tls.wrap_socket(proxy.socket,server_side=True)
+    class ThreadedTLS(http.server.ThreadingHTTPServer):
+        def finish_request(self, request, address):
+            request.settimeout(25)
+            with tls.wrap_socket(request, server_side=True) as stream:
+                super().finish_request(stream, address)
+    proxy = ThreadedTLS(('127.0.0.1', tls_port), Proxy)
     thread=threading.Thread(target=proxy.serve_forever,daemon=True);thread.start()
     try:
         for _ in range(100):
@@ -88,7 +94,8 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
                 with socket.create_connection(('127.0.0.1',backend_port),timeout=1):break
             except OSError:time.sleep(.05)
         environment = dict(os.environ, U5_DOCUMENTATION_ORIGIN='https://localhost:'+str(tls_port))
-        subprocess.run(['node', str(lab/'monofill-browser-audit.cjs')], env=environment, check=True)
+        subprocess.run(['node', str(lab/'monofill-browser-audit.cjs')], env=environment, check=True, timeout=150)
     finally:
+        print('Stopping the isolated TLS proxy', flush=True)
         proxy.shutdown();proxy.server_close();server.terminate();server.wait(timeout=10)
         subprocess.run(php+[str(root/'tests/rename-web-fixture.php'),'cleanup',fixture['database']],check=True)
