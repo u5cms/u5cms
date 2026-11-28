@@ -35,7 +35,7 @@ HTML;
 }
 
 function u5FormDataGuardMonoMarkup($markup) {
-    if (preg_match('~<iframe\b[^>]*\bsrc\s*=\s*["\x27]?(?:\./)?monofill(?:shared)?\.php\?~i', $markup)) {
+    if (preg_match('~<iframe\b[^>]*\bname\s*=\s*["\x27]?ifrmonofill(?:shared)?(?:["\x27\s>])~i', $markup)) {
         return u5FormDataPrefillGuardScript('mono').$markup;
     }
     return $markup;
