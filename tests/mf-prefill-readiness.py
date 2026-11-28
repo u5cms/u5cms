@@ -26,7 +26,7 @@ with tempfile.TemporaryDirectory(prefix='u5-prefill-') as temp:
 [:h][mfs][:fi][:fo]'''
     setup='''$_SERVER['HTTP_HOST']='localhost';$_SERVER['REQUEST_URI']='/';require 'connect.inc.php';
     $source=mysql_real_escape_string($argv[1]);
-    if(!mysql_query("INSERT INTO resources(name,typ,content_1,content_2,title_1,title_2,lastmut) VALUES('prefillaudit','p','$source','$source','Prefill','Prefill',1)"))throw new RuntimeException(mysql_error());
+    if(!mysql_query("INSERT INTO resources(name,typ,content_1,content_2,title_1,title_2,lastmut,logins) VALUES('prefillaudit','p','$source','$source','Prefill','Prefill',1,'?')"))throw new RuntimeException(mysql_error());
     '''
     subprocess.run(php+['-r',setup,source],cwd=site,check=True,stdout=subprocess.DEVNULL)
     form_source=Path(temp)/'form-source.txt';form_source.write_bytes(source.encode('cp1252'));os.environ['U5_PREFILL_FORM_SOURCE']=str(form_source)

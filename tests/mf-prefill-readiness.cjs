@@ -14,7 +14,8 @@ for(const engine of ['chromium','firefox']){
   await page.route('**/formsave.php?**',async route=>{posts++;const response=await route.fetch();await route.fulfill({response});});
   const loader=(kind==='personal'||kind==='append')?'**/monofill.php?**':'**/monofillshared.php?**';
   if(mode!=='loaded')await page.route(loader,async route=>{seen=true;if(mode==='aborted')return route.abort('failed');await gate;try{await route.continue();}catch{}});
-  await page.goto(origin+'/index.php?c=prefillaudit&l=en',{waitUntil:'domcontentloaded'});
+  const docResponse=await page.goto(origin+'/index.php?c=prefillaudit&l=en',{waitUntil:'domcontentloaded'});
+  const raw=await docResponse.text();const at=raw.indexOf('monofill');if(mode==='loaded'&&trigger==='button')console.log('MONO_RAW '+JSON.stringify({kind,mode,excerpt:raw.slice(Math.max(0,at-200),at+900),guard:raw.includes('var ready = false'),frames:await page.locator('iframe').evaluateAll(es=>es.map(e=>({id:e.id,src:e.getAttribute('src')})))}));
   if(mode==='loaded'){
    if(kind==='new')await page.waitForLoadState('load');
    else await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
@@ -38,7 +39,7 @@ for(const engine of ['chromium','firefox']){
     console.log('MONO_PREFILL_RESUMED '+JSON.stringify({engine,kind,mode,trigger,posts,rows:resumed.length}));
    }
   }else{
-   assert.equal(posts,1);assert.equal(after.length,kind==='new'?1:2);assert.equal(active.length,kind==='append'?2:1);
+   assert.equal(posts,1);assert.ok(active.every(row=>row.authuser==='auditadmin'),'Authenticated ownership was not preserved');assert.equal(after.length,kind==='new'?1:2);assert.equal(active.length,kind==='append'?2:1);
    const data=Buffer.from(active[active.length-1].data,'hex').toString('utf8');
    assert.ok(data.includes(kind==='new'?'Fresh initial title':'Saved Gen'));
    if(kind!=='new')assert.ok(!data.includes('Fresh initial optional'));
