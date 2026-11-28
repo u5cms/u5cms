@@ -44,45 +44,17 @@ if(strpos($canonicalprotocolanddomain,'http://')===0 || strpos($canonicalprotoco
 	if(($num_a==0||$row_a['ishomepage']==1)&&$_GET['c']!='_search'&&$_GET['c']!='_sitemap')$canonicalcalculatedurl=$canonicalprotocolanddomain;
 	else $canonicalcalculatedurl=$canonicalprotocolanddomain.str_replace('index.php','',$_SERVER['REQUEST_URI']);
 	if(strpos($canonicalcalculatedurl,'?')<1)$canonicalcalculatedurl.='?';
-	if(strpos($canonicalcalculatedurl,'?l=')<1 && strpos($canonicalcalculatedurl,'&l')<1)$canonicalcalculatedurl.='&l='.$lancode;
+	if(!preg_match('/(?:^|&)l=/', substr($canonicalcalculatedurl, strpos($canonicalcalculatedurl, '?') + 1)))$canonicalcalculatedurl.='&l='.$lancode;
 	$canonicalcalculatedurl=str_replace('//?','/?',str_replace('?&','?',$canonicalcalculatedurl));
 	echo '<link rel="canonical" href="'.$canonicalcalculatedurl.'" />
 ';
 
-	if($lan1na!='') echo '<link rel="alternate" hreflang="'.$lan1na.'" href="'.
-	str_replace('&l='.$lan2na,'&l='.$lan1na, str_replace('?l='.$lan2na,'?l='.$lan1na,
-	str_replace('&l='.$lan3na,'&l='.$lan1na, str_replace('?l='.$lan3na,'?l='.$lan1na,
-	str_replace('&l='.$lan4na,'&l='.$lan1na, str_replace('?l='.$lan4na,'?l='.$lan1na,
-	str_replace('&l='.$lan5na,'&l='.$lan1na, str_replace('?l='.$lan5na,'?l='.$lan1na,
-	$canonicalcalculatedurl)))))))).'" />';
-
-	if($lan2na!='') echo '<link rel="alternate" hreflang="'.$lan2na.'" href="'.
-	str_replace('&l='.$lan1na,'&l='.$lan2na, str_replace('?l='.$lan1na,'?l='.$lan2na,
-	str_replace('&l='.$lan3na,'&l='.$lan2na, str_replace('?l='.$lan3na,'?l='.$lan2na,
-	str_replace('&l='.$lan4na,'&l='.$lan2na, str_replace('?l='.$lan4na,'?l='.$lan2na,
-	str_replace('&l='.$lan5na,'&l='.$lan2na, str_replace('?l='.$lan5na,'?l='.$lan2na,
-	$canonicalcalculatedurl)))))))).'" />';
-
-	if($lan3na!='') echo '<link rel="alternate" hreflang="'.$lan3na.'" href="'.
-	str_replace('&l='.$lan1na,'&l='.$lan3na, str_replace('?l='.$lan1na,'?l='.$lan3na,
-	str_replace('&l='.$lan2na,'&l='.$lan3na, str_replace('?l='.$lan2na,'?l='.$lan3na,
-	str_replace('&l='.$lan4na,'&l='.$lan3na, str_replace('?l='.$lan4na,'?l='.$lan3na,
-	str_replace('&l='.$lan5na,'&l='.$lan3na, str_replace('?l='.$lan5na,'?l='.$lan3na,
-	$canonicalcalculatedurl)))))))).'" />';
-
-	if($lan4na!='') echo '<link rel="alternate" hreflang="'.$lan4na.'" href="'.
-	str_replace('&l='.$lan1na,'&l='.$lan4na, str_replace('?l='.$lan1na,'?l='.$lan4na,
-	str_replace('&l='.$lan2na,'&l='.$lan4na, str_replace('?l='.$lan2na,'?l='.$lan4na,
-	str_replace('&l='.$lan3na,'&l='.$lan4na, str_replace('?l='.$lan3na,'?l='.$lan4na,
-	str_replace('&l='.$lan5na,'&l='.$lan4na, str_replace('?l='.$lan5na,'?l='.$lan4na,
-	$canonicalcalculatedurl)))))))).'" />';
-
-	if($lan5na!='') echo '<link rel="alternate" hreflang="'.$lan5na.'" href="'.
-	str_replace('&l='.$lan1na,'&l='.$lan5na, str_replace('?l='.$lan1na,'?l='.$lan5na,
-	str_replace('&l='.$lan2na,'&l='.$lan5na, str_replace('?l='.$lan2na,'?l='.$lan5na,
-	str_replace('&l='.$lan3na,'&l='.$lan5na, str_replace('?l='.$lan3na,'?l='.$lan5na,
-	str_replace('&l='.$lan4na,'&l='.$lan5na, str_replace('?l='.$lan4na,'?l='.$lan5na,
-	$canonicalcalculatedurl)))))))).'" />';
+	list($canonicalPath, $canonicalQuery) = explode('?', $canonicalcalculatedurl, 2);
+	foreach (array($lan1na, $lan2na, $lan3na, $lan4na, $lan5na) as $alternateLanguage) {
+		if ($alternateLanguage == '') continue;
+		$alternateUrl = $canonicalPath.'?'.preg_replace('/(^|&)l=[^&]*/', '${1}l='.rawurlencode($alternateLanguage), $canonicalQuery);
+		echo '<link rel="alternate" hreflang="'.$alternateLanguage.'" href="'.$alternateUrl.'" />';
+	}
 }
 else if($canonicalprotocolanddomain!='') echo '<script>alert("Error in config.php: The value for $canonicalprotocolanddomain must begin with the protocol https:// or http://")</script>';
 ?>
