@@ -78,6 +78,12 @@ const {launchBrowser}=require(process.env.U5_DOCUMENTATION_SOURCE+'/tests/browse
         await page.goto(back);
         assert.ok((await page.locator('body').innerText()).includes('The atlasquartz workshop begins here.'));
         passed('Published alternate links open both translated pages and retain the saved search');
+        await page.goto(origin + '/index.php?c=docsearch&l=en&q=formerworkshopname');
+        assert.ok((await page.locator('body').innerText()).includes('The atlasquartz workshop begins here.'));
+        assert.equal(await page.locator('.hitshilite:visible').count(), 0);
+        await page.evaluate(() => window.openshowblocks());
+        assert.equal(await page.evaluate(() => window.scrollY), 0);
+        passed('A saved search destination with no remaining match stays at the top without an exception');
         assert.equal(fs.existsSync(watermark)?fs.readFileSync(watermark,'utf8'):null,before);
         passed('A named update leaves the last completed full-rebuild watermark unchanged');
         fs.writeFileSync(path.join(process.env.U5_DOCUMENTATION_OUTPUT,'content-observations.json'),JSON.stringify({checks:observations.length,cases:observations},null,2));

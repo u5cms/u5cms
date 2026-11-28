@@ -154,8 +154,10 @@ e=document.getElementsByClassName('showblock2divinner');
 for(i=0;i<e.length;i++) {
 if(e[i].innerHTML.indexOf('<span class="hitshilite">')>-1)if(e[i].previousSibling)e[i].previousSibling.click();
 }
+var firstHit = jQuery('.hitshilite:visible').first();
+if (!firstHit.length) return;
 jQuery('html, body').animate({
-    scrollTop: ($(".hitshilite:visible").offset().top)-200
+    scrollTop: firstHit.offset().top - 200
 }, 700);
 }
 setTimeout("openshowblocks()",1111);
