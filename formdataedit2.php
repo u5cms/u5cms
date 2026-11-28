@@ -19,7 +19,7 @@ require('remotefill.inc.php');
 <script>
 if(parent) if(parent.starterscript)parent.starterscript();
 <?php if ($num_a>0) { ?>
-if(parent && typeof parent.u5FormDataPrefillReady==='function')parent.u5FormDataPrefillReady();
+if(parent && typeof parent.u5FormDataPrefillReady==='function')parent.u5FormDataPrefillReady('edit');
 <?php } ?>
 </script>
 </body>

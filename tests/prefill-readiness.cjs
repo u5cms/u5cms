@@ -60,7 +60,7 @@ async function main(){
       if(changed||posts)defects.push(observed);
       release();
       if(!changed){
-        if(mode==='aborted'){await page.unroute('**/formdataedit2.php?**');await page.reload({waitUntil:'domcontentloaded'});}
+        if(mode==='aborted'){await page.unroute('**/formdataedit2.php?**');await page.reload({waitUntil:'domcontentloaded'});if(action==='delete')await page.locator('#genericformdataeditorlinkdiv').getByText('×',{exact:true}).click();}
         await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
         assert.equal(await page.locator('[name="optional"]').inputValue(),'');
         const response=page.waitForResponse(r=>new URL(r.url()).pathname===endpoint);await submit();assert.equal((await response).status(),200);
