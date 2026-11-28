@@ -14,7 +14,9 @@ async function main(){
     const origin=process.env.U5_PREFILL_ORIGIN;
     const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:process.env.U5CMS_FIXTURE_PASSWORD}});
     const page=await context.newPage();
-    page.on('dialog',d=>d.dismiss());
+    page.on('dialog',d=>{console.log('PREFILL_DIALOG '+JSON.stringify({action,mode,trigger,message:d.message()}));return d.dismiss();});
+    page.on('pageerror',e=>console.log('PREFILL_PAGEERROR '+e.message));
+    page.on('request',r=>{if(r.method()==='POST')console.log('PREFILL_POST '+new URL(r.url()).pathname);});
     let posts=0, responseBody='';
     const endpoint=action==='edit'?'/editformsave.php':'/delformsave.php';
     await page.route('**'+endpoint+'?**',async route=>{posts++;const response=await route.fetch();responseBody=await response.text();await route.fulfill({response});});
