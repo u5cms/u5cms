@@ -27,6 +27,9 @@ Start with [a registration form and its CSV export](forms.md#a-worked-registrati
 | --- | --- |
 | Show selected fields from saved records in a list and on a detail page | [Display records with DAT](dat.md) · [DAT parameter reference](dat/parameters.md) |
 | Let each person return to one saved response | [One revisable response (Scenario 1)](forms/manage-entries.md#when-each-person-needs-just-one-response) |
+| Choose a personal or shared revisable response | [MF and MFS: selection, versions and conflicts](forms/mf-mfs.md) |
+| Let trusted designers compose forms through a definition form | [u5CMS DynaForm](dynaform.md) · [Field schema and renderer contract](dynaform/schema.md) |
+| Add attachments and display their generated links | [Form uploads](forms/uploads.md) |
 | Collect answers over two pages and match the exports | [Multipage surveys](forms/multipage-surveys.md) |
 | Send individual messages to selected respondents | [Personalised serial mail](serial-mail.md) |
 | Keep evidence of who submitted an authenticated message | [Authenticated messaging with sender evidence](authenticated-messaging.md) |
@@ -38,6 +41,7 @@ Start with [a registration form and its CSV export](forms.md#a-worked-registrati
 | Start a site or change the settings of an existing one | [Install a new site](installation.md) · [Configuration](configuration.md) |
 | Change a stylesheet and check what visitors receive | [Edit and check a site stylesheet](stylesheets.md) |
 | Decide who can sign in, edit pages or see particular form records | [Accounts, permissions and SELF records](permissions.md) |
+| Connect an identity provider or choose the correct protocol/branch | [SAML and OpenID Connect](federation.md) · [SAML setup](saml.md) |
 | Register a browser for an account or manage its allowance | [Trusted Device for account holders](trusted-device/usage.md) · [Setup and troubleshooting](trusted-browsers.md) |
 | Find out why a page is missing from search | [Search and indexing](search-indexing.md) |
 | Configure mail delivery and investigate failures | [Email delivery](email.md) |

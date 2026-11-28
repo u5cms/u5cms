@@ -78,6 +78,8 @@ The internal `formdata.datacsv` representation contains CMS-specific separators 
 
 For ownership, see [SELF permissions](permissions.md). For a custom persistence routine, the technical [site-writer reference](onlymine.md#form-specific-storage) explains its explicit marker, fixed function and required result. Forms without that marker retain the built-in writer.
 
+For one personal or shared revisable response, continue with [MF and MFS](forms/mf-mfs.md). For a definition form which lets trusted designers compose the answering form, see [u5CMS DynaForm](dynaform.md). [Form uploads](forms/uploads.md) explains the separate upload/save steps and the generated file links.
+
 ## Protect public submissions with Turnstile
 
 Configure the site's actual widget keys before enabling protection:

@@ -28,6 +28,8 @@ The sample is a reference. Replacing a site's configuration wholesale can lose c
 | Identify the site's system sender | `$mymail`; use a real address appropriate to the website's mail setup. |
 | Select SMTP delivery | `$usesmtp` and `$mysmtpoptions`; see [email](email.md). |
 | Select CMS session authentication | `$usesessioninsteadofbasicauth`; coordinate changes with the existing login integration. |
+| Connect an external identity provider | [SAML and OIDC](federation.md); [SAML configuration](saml.md) for the stable bridge. OIDC requires V15 or a successor. |
+| Choose eligible revisable form records | `$mfwhereclause`; see [MF and MFS](forms/mf-mfs.md). This condition is shared by those workflows. |
 | Allow trusted browser profiles | `$u5trusteddeviceenabled`, `$u5trusteddeviceusers`; see [Trusted Device](trusted-browsers.md). |
 | Share SELF records by organisation | `$u5onlyminescope`, `$u5onlymineadmindomains`; see [permissions](permissions.md). |
 | Protect public form submissions | Turnstile settings in [forms](forms.md). |
