@@ -1,0 +1,54 @@
+name: Isolated textarea timing diagnosis
+on:
+  push:
+    branches: ['audit/textarea-timing-20261128']
+permissions:
+  contents: read
+jobs:
+  diagnosis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        source: ['159bce1d80287f70948e8a42293dfc216f01c3ca', '428e797355283fe62d8654977f92f55c62e67be8']
+        variant: ['original', 'nonrecursive']
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MARIADB_ROOT_HOST: '%'
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      U5CMS_TEST_PORT: '3306'
+      U5CMS_TEST_USER: root
+      U5CMS_TEST_PASSWORD: ''
+      U5_TEST_PHP: php
+      U5_DIAG_SOURCE: ${{ matrix.source }}
+      U5_DIAG_VARIANT: ${{ matrix.variant }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09
+        with:
+          php-version: '8.3'
+          extensions: mysqli, mbstring, intl, iconv, ctype, curl, gd, zip, fileinfo, exif
+          coverage: none
+          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable=0, opcache.enable_cli=0
+      - name: Install disposable fixture dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/u5-python"
+          "$RUNNER_TEMP/u5-python/bin/pip" install -r tests/ci-requirements.txt
+          npm install --prefix "$RUNNER_TEMP/u5-browser" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+          node "$RUNNER_TEMP/u5-browser/node_modules/playwright/cli.js" install chromium
+          echo "$RUNNER_TEMP/u5-python/bin" >> "$GITHUB_PATH"
+          echo "NODE_PATH=$RUNNER_TEMP/u5-browser/node_modules" >> "$GITHUB_ENV"
+          echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
+      - name: Diagnose undo history at the original 64 MiB limit
+        run: python3 tests/textarea-diagnosis.py
