@@ -80,6 +80,8 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
     server_log=(directory/'php.log').open('wb')
     server=subprocess.Popen(php+['-d','opcache.enable=0','-S','127.0.0.1:'+str(backend_port),'-t',str(site),str(router)],cwd=site,stdout=server_log,stderr=server_log)
     tls_port=port()
+    with (site/'config.php').open('a', encoding='latin1') as fixture_config:
+        fixture_config.write(f"\n$canonicalprotocolanddomain='https://localhost:{tls_port}';\n")
     subprocess.run(['openssl','req','-x509','-newkey','rsa:2048','-nodes','-keyout',str(directory/'key.pem'),'-out',str(directory/'cert.pem'),'-days','1','-subj','/CN=localhost','-addext','subjectAltName=DNS:localhost,IP:127.0.0.1'],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     class Proxy(http.server.BaseHTTPRequestHandler):
         def log_message(self,*args): pass
