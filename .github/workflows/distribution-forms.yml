@@ -59,6 +59,8 @@ jobs:
             export U5_AUDIT_REVISION
             unzip -qq "$RUNNER_TEMP/distribution.zip" -d "$RUNNER_TEMP/original-$U5_AUDIT_REVISION"
           export U5_AUDIT_APPLICATION="$RUNNER_TEMP/original-$U5_AUDIT_REVISION/u5CMS_12.9.4"
+          stat -c 'Resource directory before fixture setup: %a' "$U5_AUDIT_APPLICATION/r"
+          chmod -R u+rwX "$U5_AUDIT_APPLICATION"
           if [ "$U5_AUDIT_REVISION" != package ]; then
             git archive "$U5_AUDIT_REVISION" | tar -x -C "$U5_AUDIT_APPLICATION" --exclude='favicon.ico' --exclude='r/*'
             for special in r/.htaccess r/runonce.php; do
