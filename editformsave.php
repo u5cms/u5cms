@@ -10,7 +10,8 @@ require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('editreadrights.inc.php');
 require_once __DIR__.'/formdata-version.inc.php';
-$u5FormDataSubmittedVersion = isset($_POST['firstsaverwins']) ? u5FormDataOpeningVersion($_POST['firstsaverwins']) : '';
+$u5FormDataSubmittedVersion = (string)($_POST['u5cms_formversion'] ?? '');
+unset($_POST['u5cms_formversion']);
 require_once __DIR__.'/formdata-write-lock.inc.php';
 $u5FormDataWriteLock=u5FormDataRequireWriteLock();
 if (!empty($formSenderEvidenceRequired) && $formSenderEvidenceRequired !== 'no') {
@@ -229,7 +230,8 @@ $zendto=$email1;
 ?>
 <script type="text/javascript">
 function firstsaverwins() {
-if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time().(isset($u5FormDataVersionAfterSave) ? ':'.$u5FormDataVersionAfterSave : '')?>';	
+if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';
+if(parent)if(parent.u5form)if(parent.u5form.u5cms_formversion)parent.u5form.u5cms_formversion.value='<?php echo $u5FormDataVersionAfterSave ?? ''?>';	
 }
 if('<?php echo $_GET['a']?>'!='1'){
 if('<?php echo $thanks?>'.indexOf('(')<1){
