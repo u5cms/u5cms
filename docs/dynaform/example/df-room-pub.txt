@@ -1,0 +1,25 @@
+[$$$:df!library]
+[[[[My saved room handover]]]]
+[h:]
+<?php
+$u5dfBase = u5dfExampleBase();
+$u5dfAnswer = u5dfExampleAnswer($u5dfBase);
+if (count($u5dfAnswer) === 0) {
+    echo '<p>No handover has been saved for this account.</p>';
+} else {
+    echo '<dl>';
+    foreach (u5dfExampleDefinitions($u5dfBase) as $u5dfField) {
+        if ($u5dfField['type'] === 'PROLOGUEONLY') continue;
+        $u5dfValue = $u5dfAnswer['N_'.$u5dfField['key']] ?? '';
+        if ($u5dfField['type'] === 'SELECT' && $u5dfValue !== '') {
+            $u5dfOptions = u5dfExampleOptions($u5dfField['values'] ?? '');
+            $u5dfValue = $u5dfOptions[$u5dfValue] ?? $u5dfValue;
+        }
+        echo '<dt>'.u5dfExampleEscape(u5dfExampleText($u5dfField['label'] ?? '')).'</dt>';
+        echo '<dd>'.nl2br(u5dfExampleEscape($u5dfValue)).'</dd>';
+    }
+    echo '</dl>';
+}
+?>
+[:h]
+[Revise my handover:df!room!rdr]
