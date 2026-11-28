@@ -1,0 +1,79 @@
+name: Check visible matches after the destination decoder correction
+on:
+  push:
+    branches: ['audit/distribution-parity-1294']
+    paths: [.github/workflows/destination-browser-check.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - line: main
+            revision: 290e491b3bb21af302dd5b2979a3285f20117865
+          - line: V13
+            revision: 9bc53229dcbab5203d77777ed1728a4ea7f84aef
+          - line: V14
+            revision: d69921868af93c860f5d6f8164f49d27b8449ff9
+          - line: V15
+            revision: 3a843d4535a738ec61b361bf60f53ca06080399c
+          - line: V16
+            revision: 32bc60cbbc459e3058998162b0850fee6ca01b72
+          - line: V17
+            revision: 6d17fc76111a63476fdc6f411f24fe576b41e649
+    services:
+      database:
+        image: mariadb:11.4
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MARIADB_ROOT_HOST: '%'
+          MARIADB_DATABASE: test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      U5CMS_TEST_PORT: '3306'
+      U5CMS_TEST_DB: test
+      U5CMS_TEST_USER: root
+      U5CMS_TEST_PASSWORD: ''
+      U5_TEST_PHP: php
+      U5CMS_RENAME_AUDIT: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # 2.37.0
+        with:
+          php-version: '8.4'
+          extensions: mysqli, mbstring, intl, iconv, ctype, curl, gd, zip, fileinfo, dom
+          coverage: none
+          ini-values: memory_limit=512M, date.timezone=Europe/Zurich, sendmail_path=/bin/false, opcache.enable_cli=0
+      - name: Install the isolated browser test dependency
+        run: |
+          npm install --prefix "$RUNNER_TEMP/u5-browser" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+          # Ubuntu 24.04 runners already supply the browser OS libraries.
+          # Install the pinned browsers for the login and backend checks.
+          node "$RUNNER_TEMP/u5-browser/node_modules/playwright/cli.js" install chromium firefox
+          echo "U5_TEST_PLAYWRIGHT=$RUNNER_TEMP/u5-browser/node_modules/playwright" >> "$GITHUB_ENV"
+      - name: Measure the rendered search destination
+        env:
+          U5_AUDIT_REVISION: ${{ matrix.revision }}
+        run: |
+          git show 60cee025cc5139e55ad58f9494185e3fafd21aa8:tests/search-viewport-audit.py > tests/search-viewport-audit.py
+          git show 60cee025cc5139e55ad58f9494185e3fafd21aa8:tests/search-viewport-audit.cjs > tests/search-viewport-audit.cjs
+          mkdir "$RUNNER_TEMP/application"
+          git archive "$U5_AUDIT_REVISION" | tar -x -C "$RUNNER_TEMP/application"
+          export U5_AUDIT_APPLICATION="$RUNNER_TEMP/application"
+          status=0
+          for engine in chromium firefox; do
+            U5_TEST_ENGINE="$engine" python3 tests/search-viewport-audit.py || status=1
+          done
+          exit "$status"
