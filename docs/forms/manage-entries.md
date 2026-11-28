@@ -69,6 +69,8 @@ Use the row's **Edit** link to open a saved item. Opening `loanentry` from **Add
 
 ## When each person needs just one response
 
+The [MF/MFS guide](mf-mfs.md) compares personal and shared selection, status eligibility, logical keys, prefilling hooks, conflicts and uploads. The personal MF exercise follows here; MFS needs a deliberately shared access policy.
+
 For one revisable response per account, such as a workshop preference, use the other pattern from the original guide (**Scenario 1**). On a protected form put `[mf]` after `[:h]` and before `[:fi]`. Keep the hidden `firstsaverwins` field. Reopening that form loads the signed-in person's eligible response. The default `$mfwhereclause` selects status `1`. Create a separate protected page named `timepreference`. Save a preference, close the page and reopen it from the same account. Change the wording and save it again. The next visit should show the revised preference. The editor can see the earlier value under **former version** in **Form data**. A second account starts with its own blank field.
 
 ### `timepreference`
