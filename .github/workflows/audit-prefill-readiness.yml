@@ -14,7 +14,7 @@ jobs:
       matrix:
         include:
           - name: legal-template-variant
-            sha: b482d7fd1a56c2bb67cad43fcea29f8cfdf6d0c0
+            sha: 208836e8792e14c7d48cba89f2a3fb570618d0e0
     services:
       database:
         image: mariadb:11.4
