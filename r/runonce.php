@@ -103,8 +103,8 @@ foreach ($legacyLangCols as $langCol) {
     $sql_a="UPDATE resources SET $langCol=REPLACE($langCol, 'search_f', 'search_3');";
     $result_a=u5CodeMigrationLegacyQuery($sql_a);
 }
-}
 
+// Convert stored language references only as part of this legacy schema migration.
 $sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'content_d', 'content_1');";
 $result_a=u5CodeMigrationLegacyQuery($sql_a);
 $sql_a="UPDATE formdata SET datacsv=REPLACE(datacsv, 'content_e', 'content_2');";
@@ -174,6 +174,7 @@ $sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'search_e', 'search_2');";
 $result_a=u5CodeMigrationLegacyQuery($sql_a);
 $sql_a="UPDATE formdata SET headcsv=REPLACE(headcsv, 'search_f', 'search_3');";
 $result_a=u5CodeMigrationLegacyQuery($sql_a);
+}
 // END: Fix language columns in PHP-code in content
 
 $sql_a="ALTER TABLE languages ADD IF NOT EXISTS lan4na varchar(255) DEFAULT NULL AFTER lan3na";
