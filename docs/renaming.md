@@ -21,9 +21,22 @@ Save any open edits before renaming. Note the source and target names, the affec
 
 ## Walk through a rename
 
-In a test installation, create a page and reference it from another page. Include a labelled link and an inclusion so you can see the difference after renaming. Open Rename, enter an unused destination and leave **Update links? yes** selected. Keep the result window open until the complete operation reports success.
+The workshop organiser has a page whose draft name should become its permanent identifier. Use a practice site for this exercise.
 
-Then inspect the renamed object, the referring page, each relevant language and any associated media or form records. Test the final visitor-facing link rather than using disappearance of the old database row as a completion check.
+1. Follow [Create your first page](first-page.md#create-the-page) to create `workshopdraft`. Put `[[[[Workshop meeting place]]]]` on its first line and `Meet at the library.` on its second line; save it.
+2. Create a second page, `workshopindex`, in the same language. Paste and save this complete source:
+
+   ```text
+   [[[[Our workshop]]]]
+   [Read the meeting instructions:workshopdraft]
+   [$$$:workshopdraft]
+   ```
+
+3. Open `workshopindex` with the editor's **letter P**. It shows a link and, below it, the included heading and meeting sentence. Follow the link once to check the draft page, then return to the backend.
+4. In **P**, find the `workshopdraft` row and select its **R** (Rename) action. Enter the unused destination `workshopready`. Leave **Update links? yes** selected and submit the Rename form. Keep the result window open until the complete operation reports success.
+5. Reopen `workshopindex` in its source editor. The link now ends in `:workshopready]` and the inclusion reads `[$$$:workshopready]`. Open the visitor page again. The included text remains visible; the link now opens a URL whose `c=` identifies `workshopready`.
+
+The exercise changes one page identifier and its two referring commands. When adapting it to a real resource, also inspect each relevant language and its associated media or form records. The visitor-facing link is the completion check; disappearance of the old row alone is insufficient.
 
 The executed browser regression covered the real Rename form, five languages, rendering, histories, permissions, failure and retry. It also exercised genuine table and row locks. The normal five-second lock policy and a stricter one-second server policy both released the mutex and allowed the exact saved operation to resume.
 

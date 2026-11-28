@@ -10,7 +10,14 @@ Saving source content and rebuilding the search index are different events. A su
 
 ## A useful first experiment
 
-In a disposable installation, put a distinctive word such as `atlasquartz` in a public page's English source. Refresh the named resource's index using the installation's normal indexing path, then search for that word.
+The workshop organiser has added a new meeting note and wants readers to find it.
+
+1. Follow [Create your first page](first-page.md#create-the-page) to create `docsearch` on a practice site. In its English field paste `The atlasquartz workshop meets at the library.`
+2. Choose **i → Publicity status → public, indexing ok**. Keep this made-up note public and save it with **s**. The normal editor save starts the named background indexing request for `docsearch`. Leave the backend open until that request finishes; check the browser's network/error display if it fails.
+3. Open the site's visitor page, select English and enter `atlasquartz` in the normal search field. The results should link to `docsearch`. Follow that link and check the saved sentence.
+4. Change the sentence to `The copperatlas workshop meets at the library.`, save with **s** and search for `copperatlas`. The new word should find the same page. The last successful **full** rebuild date need not change after these named updates.
+
+An administrator who needs to diagnose the named request can inspect `indexer.php?n=docsearch` in the editor save's network activity. The worker uses the CMS background-request header and a bounded launcher; repeatedly opening its URL is not the maintenance procedure.
 
 The documentation exercise invoked the actual named worker for `docsearch`, then opened the real English search page. The result linked to the intended page. The last completed **full** rebuild watermark remained unchanged. A named update therefore confirms work on that resource rather than completion of the whole site's rebuild.
 
