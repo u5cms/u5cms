@@ -7,6 +7,20 @@ async function main() {
     const browser = await launchBrowser();
     async function account(name) {
         const context = await browser.newContext({ignoreHTTPSErrors: true, acceptDownloads: true});
+        context.setDefaultTimeout(20000);
+        context.setDefaultNavigationTimeout(30000);
+        context.on('page', page => {
+            page.on('dialog', async dialog => {
+                console.log('Dialog', dialog.type(), dialog.message().slice(0, 240));
+                await dialog.dismiss();
+            });
+            page.on('response', response => {
+                const url = new URL(response.url());
+                if (['/formsave.php', '/formsav.php', '/fv.php', '/monofill.php', '/monofillshared.php', '/u5admin/formdata2csv.php'].includes(url.pathname))
+                    console.log('HTTP', response.status(), url.pathname, url.searchParams.get('n') || '');
+            });
+            page.on('pageerror', error => console.log('Page error', error.message));
+        });
         await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
         const login = await context.request.post(origin + '/loginsave.php?u=/index.php', {
             form: {u: name, p: process.env.U5CMS_FIXTURE_PASSWORD},
@@ -22,6 +36,7 @@ async function main() {
             const name = shared ? 'sharedpreference' : 'timepreference';
             const framePath = shared ? '/monofillshared.php' : '/monofill.php';
             async function open(context, expected) {
+                console.log('Opening', name, JSON.stringify(expected));
                 const page = await context.newPage();
                 await page.goto(origin + '/index.php?c=' + name + '&l=en');
                 const frame = page.frames().find(frame => new URL(frame.url()).pathname === framePath);
@@ -35,6 +50,7 @@ async function main() {
             async function save(context, before, after) {
                 const page = await open(context, before);
                 await page.getByLabel('Preferred venue').fill(after);
+                console.log('Submitting', name, JSON.stringify(after));
                 await Promise.all([
                     page.waitForEvent('framenavigated', {predicate: frame => frame === page.mainFrame()}),
                     page.getByRole('button', {name: 'Save preference'}).click(),
@@ -42,6 +58,7 @@ async function main() {
                 await page.close();
             }
             async function csv(status, expected) {
+                console.log('Downloading', name, status);
                 await editor.goto(origin + '/u5admin/formdata2.php?n=' + name + '&f=&s=' + status);
                 const link = editor.locator('a[href^="formdata2csv.php?"]');
                 const [file] = await Promise.all([editor.waitForEvent('download'), link.click()]);
