@@ -14,16 +14,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - line: origin
-            revision: 9d366253417822c279692767b89dcf1ff0388c5c
-          - line: previous
-            revision: 7a6df576d677e6666776f3ec4d809f98808fb05a
           - line: main
-            revision: dccf010f5e0bbbdbf20f6af75d4194e20ed7e224
+            revision: 12e08c34c6920f91f14f03ee934519d9b234021f
           - line: V13
-            revision: 183be185bd557b10d6b2f33a8a5af21549dd32c6
+            revision: 26bb3fa12f651034cd61f5ead4872c599bd06d7b
           - line: V14
-            revision: 6e788495375a68a5b649e8bb5aa16d4bef9b00c5
+            revision: a56c431b8577c6f9419539d97384de16de90b67d
           - line: V15
             revision: 358a7e2399987327aee3b71f3624dfd5e9fe3deb
           - line: V16
