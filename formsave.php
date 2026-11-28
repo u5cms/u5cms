@@ -261,13 +261,13 @@ if($head!=''||$data!='') {
 $result_a=mysql_query($sql_a);
 if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
+} // Default form storage
 if (isset($_POST['firstsaverwins'], $u5FormDataVersionQuery)) {
     $u5VersionResult=mysql_query($u5FormDataVersionQuery);
     if ($u5VersionResult===false) die('Form version could not be read.');
     $u5FormDataVersionAfterSave=u5FormDataVersion(mysql_fetch_array($u5VersionResult));
 }
 if (isset($u5FormDataWriteLock)) u5FormDataWriteUnlock($u5FormDataWriteLock);
-} // Default form storage
 
 $zendmessage.="\r\n\r\n".$_POST['thanksgreetings'];
 
