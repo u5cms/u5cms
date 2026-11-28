@@ -2,6 +2,8 @@
 require_once('connect.inc.php');
 require_once('render.inc.php');
 require_once('loginformsave.inc.php');
+require_once __DIR__.'/formdata-version.inc.php';
+$u5FormDataSubmittedVersion = isset($_POST['firstsaverwins']) ? u5FormDataOpeningVersion($_POST['firstsaverwins']) : '';
 ?>
 <!DOCTYPE html>
 <html>
@@ -108,8 +110,8 @@ if ($key!='ouremail' && $key!='thanks' && $key!='thankssubject' &&  $key!='thank
 
 if (!in_array($key,$nt2me)) {
 if($key=='firstsaverwins')$key='frstsvrwnspgldtmstp';
-$head.='·'.str_replace(';',',.',$key).';';
-$data.='·'.str_replace(';',',.',$value).';';
+$head.='Â·'.str_replace(';',',.',$key).';';
+$data.='Â·'.str_replace(';',',.',$value).';';
 }
 
 if ($_POST['qv2bo']!='off') if (!in_array($key,$nt2cu)) $zendmessage.=str_replace('_mandatory','*',$key).': '.str_replace(str_replace(basename($scripturi),'',$scripturi).'fileversions/useruploads/',str_replace(basename($scripturi),'',$scripturi).'ffff.php?f=',$value)."\r\n";
@@ -183,6 +185,7 @@ $u5FormDataWriteLock=u5FormDataRequireWriteLock();
 if ($_POST['id_mandatory']>0) $isid="AND datacsv LIKE '_". mysql_real_escape_string($_POST['id_mandatory']).";%'";
 else $isid='';
 $sql_b="SELECT * FROM formdata WHERE $mfwhereclause AND formname='".mysql_real_escape_string($_GET['n'])."' $isauthuser $isid ORDER BY id DESC LIMIT 0,1";
+$u5FormDataVersionQuery=$sql_b;
 $result_b=mysql_query($sql_b);
 if ($result_b==false) echo 'SQL_b-Query failed!...!<p>';
 $num_b = mysql_num_rows($result_b);
@@ -190,6 +193,7 @@ $row_b = mysql_fetch_array($result_b);
 
 $foundthisformerauthuser=$row_b['authuser'];
 $foundthisformerlastmut=$row_b['lastmut'];
+$u5FormDataCurrentVersion=u5FormDataVersion($row_b);
 require('saveversionconflict.inc.php');
 }
 
@@ -254,6 +258,11 @@ if($head!=''||$data!='') {
 $result_a=mysql_query($sql_a);
 if ($result_a==false) die('SQL_a-Query failed!...!<p><script>parent.u5form.submit();</script>');
 }
+if (isset($_POST['firstsaverwins'], $u5FormDataVersionQuery)) {
+    $u5VersionResult=mysql_query($u5FormDataVersionQuery);
+    if ($u5VersionResult===false) die('Form version could not be read.');
+    $u5FormDataVersionAfterSave=u5FormDataVersion(mysql_fetch_array($u5VersionResult));
+}
 if (isset($u5FormDataWriteLock)) u5FormDataWriteUnlock($u5FormDataWriteLock);
 } // Default form storage
 
@@ -292,7 +301,7 @@ if ($_POST['em2me']!='off') if ($email1!='' && $email2!='') include('zendmail.ph
 ?>
 <script type="text/javascript">
 function firstsaverwins() {
-if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time()?>';
+if(parent)if(parent.u5form)if(parent.u5form.firstsaverwins)parent.u5form.firstsaverwins.value='<?php echo time().(isset($u5FormDataVersionAfterSave) ? ':'.$u5FormDataVersionAfterSave : '')?>';
 }
 if('<?php echo htmlspecialchars($thanks) ?>'.indexOf('(')<1){
 ziel='index.php?c=<?php echo htmlspecialchars($thanks) ?>&l=<?php echo $_GET['l']?>&f=<?php echo $_GET['n']?>';
