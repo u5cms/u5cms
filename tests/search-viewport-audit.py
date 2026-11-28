@@ -32,7 +32,7 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
         }
     """
     subprocess.run(php+['-r',setup],cwd=site,check=True,stdout=subprocess.DEVNULL)
-    common = '[h:]<div style="height:1900px" aria-hidden="true"></div><p id="audit-target"><em>Alpenquarz</em> und <strong>Seidenatlas</strong></p><div style="height:1300px" aria-hidden="true"></div>[:h]'
+    common = '[h:]<div style="height:1900px" aria-hidden="true"></div><p id="audit-target"><em>Gen&#232;ve</em> und <strong>Seidenatlas</strong></p><div style="height:1300px" aria-hidden="true"></div>[:h]'
     pages = {'auditvenue': [common, common]}
     insert = """
         $_SERVER['REQUEST_URI'] = '/';
