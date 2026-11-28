@@ -127,7 +127,7 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             opening = stamp + (':' + version.group(1) if version else '')
             before = snapshot()
             first = dict(parsed.fields, venue_mandatory='Ada Genève ' + str(number), firstsaverwins=opening)
-            stale = dict(parsed.fields, venue_mandatory='Ben Tokyo ' + str(number), firstsaverwins=stamp)
+            stale = dict(parsed.fields, venue_mandatory='Ben Tokyo ' + str(number), firstsaverwins=opening)
             response_a = request(action, fields=first)
             state_a = snapshot()
             response_b = request(action, 'charlie@example.org', stale)
