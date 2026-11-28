@@ -49,6 +49,9 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         output.write("\n$usesessioninsteadofbasicauth='no';\n$checksaveversionconflictinfrontendforms='all';\n")
     form = re.search(r'^### `timepreference`\n\n```text\n(.*?)\n```', (root / 'docs/forms/manage-entries.md').read_text(), re.M | re.S).group(1)
     form = form.replace('[mf]', '[mfs]').replace('timepreference', 'sharedsecond')
+    callback_form = form.replace('value="sharedsecond"', 'value="savedInPlace()"')
+    callback_form = callback_form.replace('[fo:]', '[fo:][h:]<input type="hidden" name="id_mandatory" value="101">[:h]', 1)
+    callback_form = callback_form.replace('[:h]\n[mfs]', '<input name="I_service" type="hidden" value="Question">\n<input name="N_service" value="draft">\n<input name="S_service" type="hidden" value="Draft">\n<input name="O_service" type="hidden" value="Help">\n<input name="userupload1" type="hidden" value="">\n[:h]\n[mfs]')
     setup = '''
         $_SERVER['HTTP_HOST']='localhost'; $_SERVER['REQUEST_URI']='/';
         require 'connect.inc.php';
@@ -57,8 +60,34 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         }
         $form=mysql_real_escape_string($argv[1]);
         if (!mysql_query("INSERT INTO resources(name,typ,content_1,content_2,title_1,title_2,logins,lastmut) VALUES('sharedsecond','p','$form','$form','Shared','Shared','?',1)")) throw new RuntimeException(mysql_error());
+        foreach (['personalcallback','personalappendcallback','sharedcallback','writercallback'] as $name) {
+            $source=$argv[2];
+            if (strpos($name,'personal')===0) $source=str_replace('[mfs]','[mf]',$source);
+            if ($name==='personalappendcallback') $source=str_replace('[mf]','',$source).'[mf]';
+            if ($name==='writercallback') $source.='<!-- u5cms-form-writer -->';
+            $source=mysql_real_escape_string($source);
+            if (!mysql_query("INSERT INTO resources(name,typ,content_1,content_2,title_1,title_2,logins,lastmut) VALUES('$name','p','$source','$source','Callback','Callback','?',1)")) throw new RuntimeException(mysql_error());
+        }
     '''
-    subprocess.run(php + ['-r', setup, form], cwd=site, check=True, stdout=subprocess.DEVNULL)
+    subprocess.run(php + ['-r', setup, form, callback_form], cwd=site, check=True, stdout=subprocess.DEVNULL)
+    # A synthetic, declared site writer uses real SQL and leaves the CMS to
+    # perform validation, conflict checks and confirmation. No site code/data.
+    with config.open('a') as output:
+        output.write('''
+if (!function_exists('u5FormWriteRecord')) {
+    function u5FormWriteRecord($form) {
+        if ($form!=='writercallback') return false;
+        global $head,$data,$row_b;
+        $name=mysql_real_escape_string($form);
+        $values="headcsv='".mysql_real_escape_string($head)."',datacsv='".mysql_real_escape_string($data)."',lastmut=".time();
+        if (is_array($row_b) && $row_b['id']) {
+            return mysql_query("UPDATE formdata SET $values WHERE id=".(int)$row_b['id']." AND formname='$name'")!==false;
+        }
+        $owner=mysql_real_escape_string(u5flatidnlower($_SERVER['PHP_AUTH_USER']));
+        return mysql_query("INSERT INTO formdata SET formname='$name',authuser='$owner',time=".time().",ip='127.0.0.1',humantime='fixture',status=1,notes='',$values")!==false;
+    }
+}
+''')
     with socket.socket() as probe:
         probe.bind(('127.0.0.1', 0))
         port = probe.getsockname()[1]
@@ -86,9 +115,18 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         finally:
             connection.close()
 
-    def snapshot():
-        script = "$_SERVER['HTTP_HOST']='localhost';$_SERVER['REQUEST_URI']='/';require 'connect.inc.php';$r=mysql_query(\"SELECT id,status,authuser,lastmut,HEX(headcsv) AS head,HEX(datacsv) AS data FROM formdata WHERE formname='sharedsecond' ORDER BY id\");$rows=[];while($a=mysql_fetch_assoc($r))$rows[]=$a;echo json_encode($rows);"
+    def snapshot(name='sharedsecond'):
+        assert re.fullmatch('[a-z]+', name)
+        script = "$_SERVER['HTTP_HOST']='localhost';$_SERVER['REQUEST_URI']='/';require 'connect.inc.php';$r=mysql_query(\"SELECT id,status,authuser,lastmut,HEX(headcsv) AS head,HEX(datacsv) AS data FROM formdata WHERE formname='" + name + "' ORDER BY id\");$rows=[];while($a=mysql_fetch_assoc($r))$rows[]=$a;echo json_encode($rows);"
         return json.loads(subprocess.check_output(php + ['-r', script], cwd=site, text=True))
+
+    def stored_fields(row):
+        # HEX exposes the fixture's UTF-8 column bytes before SET NAMES latin1
+        # would convert them for the ordinary PHP read path.
+        head = bytes.fromhex(row['head']).decode('utf-8').split(';')
+        data = bytes.fromhex(row['data']).decode('utf-8').split(';')
+        return {key[1:].replace(',.', ';'): value[1:].replace(',.', ';')
+                for key, value in zip(head, data) if key}
 
     try:
         for _ in range(100):
@@ -190,6 +228,123 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
         after = snapshot()
         assert len(after) == len(before) + 1 and len([r for r in after if int(r['status']) == 1]) == 1
         print('PASS two independent PHP workers, exactly one accepted shared edit', flush=True)
+
+        # The same prefill helper also serves deletion screens. Its transport
+        # metadata must be consumed before the source-field check and storage.
+        active = next(r for r in after if int(r['status']) == 1)
+        delete_url = '/formdatadel.php?n=sharedsecond&id=' + str(active['id']) + '&l=en'
+        delete_page = request(delete_url, 'auditadmin')
+        delete_form = Form()
+        delete_form.feed(delete_page)
+        delete_action = '/' + re.search(r"document\.u5form\.action='([^']+)'", delete_page).group(1).lstrip('/')
+        loader = '/formdataedit2.php?n=sharedsecond&id=' + str(active['id']) + '&l=en'
+        loaded_delete = request(loader, 'auditadmin')
+        loaded_version = re.search(r'version.value="([a-f0-9]{64})"', loaded_delete).group(1)
+        stale_delete = dict(delete_form.fields, venue_mandatory='Parallel',
+                            firstsaverwins=str(int(time.time())), u5cms_formversion=loaded_version)
+
+        # Save a newer response after the deletion form was opened. The stale
+        # deletion must preserve that response. The row fingerprint must cover
+        # deletion as well as editing and ordinary frontend submissions.
+        latest = request('/monofillshared.php?n=sharedsecond')
+        latest_version = re.search(r'version.value="([a-f0-9]{64})"', latest).group(1)
+        changed = dict(parsed.fields, firstsaverwins=str(int(time.time())),
+                       u5cms_formversion=latest_version, venue_mandatory='Newer before delete')
+        assert 'You cannot save your data' not in request(action, fields=changed)
+        before_delete = snapshot()
+        response = request(delete_action, 'auditadmin', stale_delete)
+        assert 'You cannot save your data' in response, response[-1800:]
+        assert snapshot() == before_delete, 'A stale deletion changed the newer response'
+        print('PASS stale versioned deletion preserves the newer response', flush=True)
+
+        # Reopening the actual deletion loader permits the deliberate deletion.
+        refreshed = request(loader, 'auditadmin')
+        refreshed_version = re.search(r'version.value="([a-f0-9]{64})"', refreshed).group(1)
+        delete_fields = dict(delete_form.fields, venue_mandatory='Newer before delete',
+                             firstsaverwins=str(int(time.time())), u5cms_formversion=refreshed_version)
+        response = request(delete_action, 'auditadmin', delete_fields)
+        assert 'ERROR: Data cannot be saved' not in response, response[-1800:]
+        assert 'You cannot save your data' not in response, response[-1800:]
+        deleted = snapshot()
+        assert len(deleted) == len(before_delete) + 1
+        assert not [r for r in deleted if int(r['status']) == 1]
+        assert len([r for r in deleted if int(r['status']) == 5]) == 1
+        assert all('u5cms_formversion' not in bytes.fromhex(r['head']).decode('latin1') for r in deleted)
+        print('PASS refreshed deletion, retained former version and transport metadata excluded from storage', flush=True)
+
+        upload_link = 'https://fixture.example/fileversions/useruploads/kept-document.pdf?download=1&key=synthetic'
+        for name in ['personalcallback','personalappendcallback','sharedcallback','writercallback']:
+            page = Form()
+            page.feed(request('/index.php?c=' + name + '&l=en&id=101'))
+            assert page.action and 'id_mandatory' in page.fields
+            personal = name.startswith('personal')
+            append_only = name == 'personalappendcallback'
+            assert ('ed2cu' in page.fields) == (not append_only)
+            loader = '/monofill.php' if personal else '/monofillshared.php'
+
+            def loaded(user='bob@example.org', key=101):
+                content = request(loader + '?n=' + name + '&id=' + str(key), user)
+                version = re.search(r'version.value="([a-f0-9]{64})"', content).group(1)
+                action = '/' + page.action.lstrip('/')
+                if personal:
+                    action += '&o=' + re.search(r"action\+'&o=([^']+)'", content).group(1)
+                return action, version, content
+
+            action, version, _ = loaded()
+            fields = dict(page.fields, id_mandatory='101', venue_mandatory='First in place',
+                          firstsaverwins=str(int(time.time())), u5cms_formversion=version,
+                          userupload1=upload_link, N_service='review', S_service='Review')
+            first_response = request(action, fields=fields)
+            assert 'You cannot save your data' not in first_response, first_response[-1800:]
+            assert 'parent.savedInPlace()' in first_response, first_response[-1000:]
+            returned = re.search(r"u5form\.u5cms_formversion\.value='([a-f0-9]*)'", first_response).group(1)
+            _, current, transport = loaded()
+            assert returned == current, (name, 'Confirmation did not refresh the loaded row version', returned, current)
+            assert 'kept-document.pdf?download=1&amp;key=synthetic' in transport
+
+            # Continue using the version returned to the still-open page.
+            fields.update(venue_mandatory='Second in place', u5cms_formversion=returned)
+            second_response = request(action, fields=fields)
+            assert 'You cannot save your data' not in second_response, second_response[-1800:]
+            current_rows = [r for r in snapshot(name) if int(r['status']) == 1]
+            assert len(current_rows) == (2 if append_only else 1), (name, current_rows)
+            saved = stored_fields(max(current_rows, key=lambda row: int(row['id'])))
+            assert next(iter(saved)) == 'id_mandatory' and saved['id_mandatory'] == '101', (name, saved)
+            assert saved['venue_mandatory'] == 'Second in place'
+            assert saved['userupload1'] == upload_link
+            assert [saved[key] for key in ['I_service','N_service','S_service','O_service']] == ['Question','review','Review','Help']
+            assert 'u5cms_formversion' not in saved
+
+            # A second tab saves after the callback. The first tab must keep
+            # precise conflict protection instead of falling back to seconds.
+            returned_second = re.search(r"u5form\.u5cms_formversion\.value='([a-f0-9]*)'", second_response).group(1)
+            _, latest_version, _ = loaded()
+            assert returned_second == latest_version
+            other_editor = 'bob@example.org' if personal else 'charlie@example.org'
+            independent_action, independent_version, _ = loaded(other_editor)
+            independent = dict(fields, venue_mandatory='Independent edit',
+                               firstsaverwins=str(int(time.time())), u5cms_formversion=independent_version)
+            assert 'You cannot save your data' not in request(independent_action, other_editor, independent)
+            before_stale_callback = snapshot(name)
+            stale_callback = dict(fields, venue_mandatory='Stale callback edit',
+                                  firstsaverwins=str(int(time.time())), u5cms_formversion=returned_second)
+            assert 'You cannot save your data' in request(action, fields=stale_callback)
+            assert snapshot(name) == before_stale_callback
+
+            # A different key starts blank. MF also keeps two users independent;
+            # MFS deliberately exposes the shared saved response to both users.
+            _, _, other_key = loaded(key=102)
+            assert 'kept-document.pdf' not in other_key
+            other_action, other_version, other_transport = loaded('charlie@example.org')
+            assert ('kept-document.pdf' in other_transport) == (not personal)
+            if personal:
+                other = dict(page.fields, id_mandatory='101', venue_mandatory='Charlie only',
+                             firstsaverwins=str(int(time.time())), u5cms_formversion=other_version)
+                assert 'You cannot save your data' not in request(other_action, 'charlie@example.org', other)
+                active_rows = [r for r in snapshot(name) if int(r['status']) == 1]
+                assert {r['authuser'] for r in active_rows} == {'bob@example.org','charlie@example.org'}
+                assert 'Independent edit' in loaded()[2] and 'Charlie only' not in loaded()[2]
+            print('PASS ' + name + ': callback continuity, key separation, ownership and retained upload/dynamic fields', flush=True)
     finally:
         import signal
         os.killpg(server.pid, signal.SIGTERM)
