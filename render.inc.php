@@ -16,5 +16,6 @@ function render($stringa) {
     global $mymail, $scripturi;
     $stringa = trim($stringa ?? '');
     require __DIR__.'/render.superglobals.inc.php';
-    return u5RenderOutput(u5RenderResources(u5RenderMarkup($stringa)));
+    require_once __DIR__.'/formdata-prefill.inc.php';
+    return u5FormDataGuardMonoMarkup(u5RenderOutput(u5RenderResources(u5RenderMarkup($stringa))));
 }
