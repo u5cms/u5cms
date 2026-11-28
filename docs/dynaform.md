@@ -1,130 +1,287 @@
-# u5CMS DynaForm: compose forms through forms
+# u5CMS DynaForm: build a form that configures other forms
 
-[Documentation home](README.md) · [Forms and exports](forms.md)
+[Documentation home](README.md) · [Complete component sources](dynaform/example/README.md) · [Field and code reference](dynaform/schema.md)
 
 ## Summary
 
-**u5CMS DynaForm** is the method of storing a form's field definitions as ordinary u5CMS form records and using a reusable renderer to compose the answering form. A trusted form designer edits questions through a definition form; respondents fill in the resulting form. Definitions, answers and uploads remain separate. MF/MFS, DAT, version checks and upload widgets supply the surrounding workflow.
+Build a small form builder for room handovers. Alice sets it up once and then uses a configuration form to add questions. Bob opens the resulting questionnaire, saves his handover and returns to revise it. Alice can change a question's wording through the configuration form without editing the questionnaire's page source. Every component used below is supplied in full.
 
-**For** solution designers, form authors and administrators. **Version** method documented on 28 November 2026; core primitives reviewed on stable 12.10.14. **Scope** a composition method implemented with CMS page components, not a newly shipped core module, configuration switch or `[dynaform]` command. A new installation needs the composer components as well as the CMS.
+**For** a u5CMS administrator setting up the builder, followed by a trusted form designer. **You need** a separate practice installation with working ordinary forms, PHP execution in CMS page content and access to **Form data**. The example uses the stable line's native form handler, personal MF selection and the usual `status=1` current records. It adds CMS page objects; it changes no core PHP file or database schema.
 
-## Start with the appropriate level
+## The story and the finished result
 
-| Need | Start here |
-| --- | --- |
-| A fixed contact or registration form | [A first form](forms.md#a-worked-registration-form) |
-| Each person returns to one answer | [MF and MFS](forms/mf-mfs.md) |
-| Several editable records per person | [Add, edit and delete entries](forms/manage-entries.md) |
-| Designers add/reorder questions through another form | DynaForm, this guide |
-| Supporting files and generated links | [Uploads](forms/uploads.md) |
+A community centre lends out two rooms. Alice needs three questions: which room was used, whether it is ready for the next group, and any access notes. Later she wants to ask how many keys were returned. She wants to maintain these questions through a form.
 
-For DynaForm, continue with the [field schema and definition-form example](dynaform/schema.md). Identify or implement a compatible renderer before using that example for respondents. Adding its definition page alone does not create an answering application.
+Bob's first handover will read **Blue room / Needs attention / Side door sticks**. After reopening it, he will change the notes to **Side door repaired**. Another respondent starts with their own empty handover. The configuration records remain separate from all these answers.
 
-## How the components fit together
+## 1. Reserve the eight object names
 
-```mermaid
-flowchart TD
-    D["Designer: definition form"] --> S["Saved field definitions"]
-    S --> R["Reusable composer"]
-    R --> F["Respondent: composed form"]
-    F --> A["Saved answers and former versions"]
-    F --> U["Upload widget"]
-    U --> L["Generated file URL"]
-    L --> A
-    S --> V["Read-only renderer"]
-    A --> V
-```
+Use **P → new** as shown in [Create your first page](first-page.md#create-the-page). Create these eight **page objects**. Put each supplied source in the first configured language's content field and save it with **s**. Keep the other language fields empty for the first run so the same source is used through fallback. If any of these names already exists, use a clean practice installation; replacing an unfamiliar existing object is not part of this exercise.
 
-One definition record describes one question or explanatory block. The composer reads the selected active definitions in their intended order, chooses their language, then emits the appropriate control. The ordinary CMS form handler saves the respondent's answers under the response form's own name. A read-only renderer can combine the same definitions with selected saved answers.
-
-| Component | Neutral example name | Responsibility |
+| Create this exact object | Complete source | Role |
 | --- | --- | --- |
-| Definition form | `roomcheck!edit` | Add/edit a question's stable name, type, wording, choices and help. Restricted to trusted designers. |
-| Definition records | `formdata` rows whose `formname` is `roomcheck!edit` | Store the questions, independently of respondents' answers. |
-| Definition list and composer | `roomcheck!rdr` plus a reusable `dynacompose` page | Read the active definitions; expose designer edit links only to authorised designers; render the answering form. |
-| Response records | `formdata` rows whose `formname` is `roomcheck!rdr` | Store actual responses and their versions. Use MF, MFS or explicit row editing as designed. |
-| Read-only renderer | `roomcheck!view` | Combine authorised response selection with the definitions to display a completed checklist. |
-| Upload wrapper | A reusable page around `upload` | Show an existing attachment link and offer replacement through a numbered widget. |
+| `df!library` | [df-library.txt](dynaform/example/df-library.txt) | Shared functions: choose the form family, unpack records, order definitions and read the current user's answer. |
+| `df!edit` | [df-edit.txt](dynaform/example/df-edit.txt) | The reusable configuration form. One submission defines one question. |
+| `df!form` | [df-form.txt](dynaform/example/df-form.txt) | The reusable composer that turns definitions into answer controls. |
+| `df!room!edit` | [df-room-edit.txt](dynaform/example/df-room-edit.txt) | The room form's entry point for adding or editing a definition. |
+| `df!room!design` | [df-room-design.txt](dynaform/example/df-room-design.txt) | Alice's question list, with Add and Edit links. |
+| `df!room!inc` | [df-room-inc.txt](dynaform/example/df-room-inc.txt) | A reusable introduction included on the answering page. |
+| `df!room!rdr` | [df-room-rdr.txt](dynaform/example/df-room-rdr.txt) | Bob's generated answering form. Native MF reopens his own answer. |
+| `df!room!pub` | [df-room-pub.txt](dynaform/example/df-room-pub.txt) | A read-only view of the current user's saved handover. |
 
-The names above illustrate a component arrangement, not reserved CMS names. Only a **leading** `!` has the core intranet-page meaning; the `!edit`, `!rdr` and `!view` suffixes are this method's naming convention. Set explicit page logins and transaction permissions. An archive flag or an unlinked component is not an access restriction.
+These are CMS object names, not server filenames. For example, paste the contents of `df-form.txt` into the page named `df!form`; uploading that text file to the web directory would not create the object.
 
-## Build or reuse a composed workflow
+`!edit`, `!design`, `!rdr`, `!pub` and `!inc` are naming conventions, not access settings. The `!pub` page in this exercise remains protected. A **leading** `!` has a separate built-in intranet meaning; none of these eight names starts with it.
 
-1. **Record the component inventory.** Locate the definition form, shared composer, answer page, output renderer, upload wrapper and their included scripts/texts. Record their dependencies, PHP execution requirements and login policy. CMS page components are database content: copying the application ZIP alone does not install them.
-2. **Choose the response model.** Use MF for a personal revisable response, MFS for a deliberately shared response, or explicit add/edit links for multiple records. Define how a business case or dossier maps to a CMS identity or logical key. Do not silently equate a business key, a username and `formdata.id`.
-3. **Create the definition form and its rights.** Use the [documented field schema](dynaform/schema.md). Keep definition editing separate from answering. Definition text may include trusted markup and control attributes, so ordinary respondents must not gain designer rights.
-4. **Enter a small example.** Add a `room` INPUT, a `condition` SELECT and an `accessnotes` TEXTAREA. Choose stable machine names and explicit stored option values. Set a definite order before collecting answers.
-5. **Connect the renderer.** Select only the intended form's active definitions, in a deterministic order. Read each named value from that record's `headcsv`/`datacsv` pair; do not treat the packed data as independently named database columns. The inspected pattern orders definitions by their `notes` value; its renumbering helper maintains that order. Confirm the local convention before moving questions.
-6. **Compose the answering page.** Put the emitted controls inside one ordinary `[fo:]…[:fo]` form, add its submit/thanks behaviour and `firstsaverwins`, then apply the chosen MF/MFS marker. A minimal integration shell is shown below. `dynacompose` stands for the required site component, which must target this form's definition set.
+## 2. Set up Alice and Bob's access
 
-   ```text
-   [fo:]
-   [fi:]
-   [le:]Room handover[:le]
-   [$$$:dynacompose]
-   [h:]
-   <input type="hidden" name="thanks" value="roomcheck!rdr">
-   <input type="hidden" name="in2my" value="off">
-   <input type="hidden" name="em2cu" value="off">
-   <input type="hidden" name="em2me" value="off">
-   <input type="hidden" name="firstsaverwins" value="">
-   <button type="submit">Save room handover</button>
-   [:h]
-   [mf][:fi]
-   [:fo]
-   ```
+Use Alice's existing backend account for the administrator/designer. Bob is a **page reader**, without a backend account. In the page editor choose **i → Publicity status**. Set each exercise page to **public, no indexing**; in the same controls set its **Usernames & passwords** field as below and save with **s**.
 
-7. **Add output and attachments.** Reuse the selected definition set for read-only presentation. Use DAT or the local renderer to select the permitted saved response. If attachments are required, include the [appropriate upload widget](forms/uploads.md), keep its numbering stable and save its returned URL with the response.
-8. **Run the acceptance cases below.** Open the visitor pages directly, use two ordinary accounts, and examine both form datasets in the backend before widening access.
+| Objects | Page-logins field |
+| --- | --- |
+| `df!library`, `df!edit`, `df!form`, `df!room!edit`, `df!room!design` | `?` — no additional reader credential; access is through existing backend accounts. |
+| `df!room!rdr`, `df!room!pub`, `df!room!inc` | Add Bob's chosen reader credential in the UI's `?username:password;` format. For example, the username is `bob`; choose the password privately. Add a second reader, `clara`, on its own line for the separation check. Use the same pairs on all three pages. |
 
-An existing composer may already supply save controls, notification fields, hooks or MF/MFS. Avoid adding them twice. The example deliberately uses the ordinary CMS save flow; a custom site writer is a separate integration with its own contract.
+Existing backend accounts can open protected reader pages. They are trusted administrators/designers in this example. Adding a person's name to a page is not a way to restrict a backend account's existing administrative powers. On a federated or intranet installation, have its administrator apply the equivalent established policy rather than introducing local reader passwords.
 
-## Edit questions during everyday use
+Page inclusions are expanded inside their parent page; the parent's access matters. The designer wrappers and their edit steering comments are the write boundary. Bob must not be able to open `df!room!design`, `df!room!edit` or an existing definition's edit URL.
 
-Use the definition form to add or revise a question; save it, then reopen the answering page and its read-only output. The definition change should appear in the intended language. Check an existing response as well as a new blank response.
+For this practice installation confirm `$executephp = 'onallpages';` and `$mfwhereclause = 'status=1';` in its private configuration. Use the installation's PHP policy on an existing site; switching a live site's policy for an exercise would affect other pages. Leave the ordinary form-field checker enabled. The sources silence all three automatic email routes.
 
-Keep machine names and choice codes stable. Change a label from **Room condition** to **Condition at handover** without changing the stored key. Add optional questions first. Reordering ordinary text controls and reordering numbered upload widgets have different consequences: the latter can reassign existing file values to another visible question. Plan that change as a data migration.
+**Expected now:** Alice opens `index.php?c=df!room!design` and sees an empty Question definitions table. Bob can sign in to `index.php?c=df!room!rdr`; it says no questions are configured. Without login, both answering and saved-result pages require authentication.
 
-Removing a definition does not delete its previously saved answers, history or files. Retire definitions deliberately and preserve a readable interpretation of older responses. A change from MF to MFS is also an access/model change, not a wording edit.
+## 3. Understand the configuration form you just installed
 
-## Upload a file, then produce its link
-
-The inspected composition pattern combines a normal protected `upload` widget with a small wrapper. The wrapper displays a link to the already-saved upload and opens the upload control when a replacement is requested. DAT reads the corresponding `userupload1`, `userupload2`, etc. from the selected current response. A reusable placeholder/counter keeps wrapper IDs distinct when the component appears more than once.
-
-The sequence is **upload → receive URL → save the composed form → retrieve the stored link**. An upload's **OK** indicator confirms only the first part. A visible warning or unsaved-change indicator should make the required form save clear.
-
-For example, a personal latest-response display can select one stored attachment:
+The entire reusable form is below. It collects **definitions**, not room handovers:
 
 ```text
-[userupload1|roomcheck!rdr|ALL|SELF|1||||id DESC LIMIT 1:dat]
+[$$$:df!library]
+[fo:]
+[fi:]
+[le:]Configure one question[:le]
+[h:]
+<input type="hidden" name="thanks" value="[_pagename!_]!design">
+<input type="hidden" name="in2my" value="off">
+<input type="hidden" name="em2cu" value="off">
+<input type="hidden" name="em2me" value="off">
+<input type="hidden" name="firstsaverwins" value="">
+<p><label>Position
+<input type="number" name="position_mandatory" min="1" step="1" required></label></p>
+<p><label>Stable name
+<input name="name_mandatory" pattern="[a-z][a-z0-9_]*" required></label></p>
+<p>Names are unique within this form. End a required answer's name in
+<code>_mandatory</code>. Keep a name unchanged after collecting answers.</p>
+<p><label>Label <input name="label"></label></p>
+<p><label for="df-type">Type</label> <select id="df-type" name="type">
+<option value="INPUT">INPUT</option>
+<option value="TEXTAREA">TEXTAREA</option>
+<option value="SELECT">SELECT</option>
+<option value="PROLOGUEONLY">PROLOGUE ONLY</option>
+</select></p>
+<p><label>Control attributes <input name="attributes"></label></p>
+<p><label>Default value or SELECT options <input name="values"></label></p>
+<p><label>Placeholder <input name="placeholder"></label></p>
+<p><label>Prologue <textarea name="prologue"></textarea></label></p>
+<p><label>Help <textarea name="help"></textarea></label></p>
+<p><label>Epilogue <textarea name="epilogue"></textarea></label></p>
+<button type="submit">Save question</button>
+<p><a href="?c=[_pagename!_]!design">Return to the question list</a></p>
+[:h]
+[:fi]
+[:fo]
 ```
 
-This example uses the installation's SELF policy and is appropriate only when that selection matches the response model. A shared MFS answer or keyed case needs its own authorised selection. Keep the standard protected-file routing and test it with the intended readers; a link being displayed does not itself grant download access. See [the upload guide](forms/uploads.md) for the protected/public distinction, numbered fields, save lifecycle and cleanup.
+Its room-specific wrapper contains only the inclusion and the two server-side edit/delete steering comments:
 
-## Check the composed application
+```text
+[$$$:df!edit]
+[h:]
+<!-- TOEDITITEMS_LOGINS_SAME_AS_[df!room!design] -->
+<!-- TODELETEITEMS_LOGINS_SAME_AS_[df!room!design] -->
+[:h]
+```
 
-| Case | Expected result |
+When this wrapper is opened, `[_pagename!_]` means `df!room`: the core removes the final `!edit` from the current page name. Thus `thanks` returns to `df!room!design`. A definition is saved under `formdata.formname = 'df!room!edit'`, because that is the calling form's page name. The shared object `df!edit` does not own the submitted records.
+
+## 4. Configure Alice's first three questions
+
+Open `index.php?c=df!room!design` as Alice. Choose **Add a question**. Fill in one row of this table, select **Save question**, then repeat for the other rows. Leave fields not shown here empty.
+
+| Position | Stable name | Label | Type | Control attributes | Default value or SELECT options |
+| --- | --- | --- | --- | --- | --- |
+| `10` | `room_mandatory` | Room | INPUT | `type="text" maxlength="80"` | Empty |
+| `20` | `condition_mandatory` | Condition at handover | SELECT | Empty | `Ready==ready\|Needs attention==attention` |
+| `30` | `accessnotes` | Access notes | TEXTAREA | `rows="4" maxlength="1000"` | Empty |
+
+For the dropdown, enter this literal value, with no Markdown escape:
+
+```text
+Ready==ready|Needs attention==attention
+```
+
+On the third definition, also enter **Tell us about doors, alarms or keys.** in **Help**. On the answering form the name ending `_mandatory` requests a required control and the normal CMS mandatory-field check. The visible label may change later; the stable name must remain unchanged.
+
+**Expected now:** Alice's list contains three definition records. The answering page shows Room, Condition at handover and Access notes in position order. Room and condition have an asterisk. The dropdown begins with a blank choice. The help appears beside Access notes. The composer detects duplicate names, invalid names, unknown types and malformed option definitions when it reads the configuration.
+
+The list itself displays rows in record-ID order and shows their positions. To move a question, use its **Edit** link, change Position and save. This example stores position in the definition's own `position_mandatory` field; it needs no missing renumbering service. An existing installation may instead order by the system `notes` column and use separate ordering components.
+
+## 5. See how definitions become an answering form
+
+The room wrapper is complete:
+
+```text
+[$$$:df!room!inc]
+[fo:]
+[fi:]
+[le:]My room handover[:le]
+[$$$:df!form]
+[h:]
+<input type="hidden" name="thanks" value="df!room!pub">
+<input type="hidden" name="in2my" value="off">
+<input type="hidden" name="em2cu" value="off">
+<input type="hidden" name="em2me" value="off">
+<input type="hidden" name="firstsaverwins" value="">
+<button type="submit">Save handover</button>
+[:h]
+[mf]
+[:fi]
+[:fo]
+```
+
+`df!form` reads only the active definitions belonging to `df!room!edit`. It creates `N_room_mandatory`, `N_condition_mandatory` and `N_accessnotes`. These stable control names are what the native form handler stores. The `df!library` code is supplied in full in the [code reference](dynaform/schema.md#complete-shared-library); there is no `dynacompose` placeholder to implement.
+
+The whole composer is:
+
+```text
+[$$$:df!library]
+[h:]
+<?php
+$u5dfFields = u5dfExampleDefinitions(u5dfExampleBase());
+if (count($u5dfFields) === 0) {
+    echo '<p>No questions have been configured yet.</p>';
+}
+foreach ($u5dfFields as $u5dfField) {
+    $u5dfKey = $u5dfField['key'];
+    $u5dfName = 'N_'.$u5dfKey;
+    $u5dfId = 'df-'.$u5dfKey;
+    $u5dfLabel = u5dfExampleText($u5dfField['label'] ?? '');
+    $u5dfHelp = u5dfExampleText($u5dfField['help'] ?? '');
+    $u5dfPrologue = u5dfExampleText($u5dfField['prologue'] ?? '');
+    $u5dfEpilogue = u5dfExampleText($u5dfField['epilogue'] ?? '');
+    $u5dfPlaceholder = u5dfExampleText($u5dfField['placeholder'] ?? '');
+    $u5dfDefault = u5dfExampleText($u5dfField['values'] ?? '');
+    $u5dfAttributes = (string) ($u5dfField['attributes'] ?? '');
+    $u5dfRequired = substr($u5dfKey, -10) === '_mandatory';
+
+    echo '<div class="df-question">';
+    if ($u5dfPrologue !== '') echo render($u5dfPrologue);
+    if ($u5dfField['type'] !== 'PROLOGUEONLY') {
+        echo '<label for="'.u5dfExampleEscape($u5dfId).'">'
+            .u5dfExampleEscape($u5dfLabel).($u5dfRequired ? ' *' : '').'</label>';
+        $u5dfCommon = ' id="'.u5dfExampleEscape($u5dfId).'" name="'
+            .u5dfExampleEscape($u5dfName).'"'
+            .($u5dfRequired ? ' required' : '')
+            .($u5dfHelp !== '' ? ' aria-describedby="'.$u5dfId.'-help"' : '')
+            .' placeholder="'.u5dfExampleEscape($u5dfPlaceholder).'"';
+        // Attributes are code supplied only by trusted form designers.
+        if ($u5dfField['type'] === 'INPUT') {
+            echo '<input'.$u5dfCommon.' '.$u5dfAttributes.' value="'
+                .u5dfExampleEscape($u5dfDefault).'">';
+        } elseif ($u5dfField['type'] === 'TEXTAREA') {
+            echo '<textarea'.$u5dfCommon.' '.$u5dfAttributes.'>'
+                .u5dfExampleEscape($u5dfDefault).'</textarea>';
+        } else {
+            echo '<select'.$u5dfCommon.' '.$u5dfAttributes.'><option value=""></option>';
+            foreach (u5dfExampleOptions($u5dfField['values'] ?? '') as $code => $label) {
+                echo '<option value="'.u5dfExampleEscape($code).'">'
+                    .u5dfExampleEscape($label).'</option>';
+            }
+            echo '</select>';
+        }
+        if ($u5dfHelp !== '') echo '<p id="'.$u5dfId.'-help">'
+            .u5dfExampleEscape($u5dfHelp).'</p>';
+    }
+    if ($u5dfEpilogue !== '') echo render($u5dfEpilogue);
+    echo '</div>';
+}
+?>
+[:h]
+```
+
+The trusted designer supplies `attributes`, prologue and epilogue; these can affect HTML and CMS rendering. Keep this authoring right with trusted designers. Use the control attributes shown in the table; do not introduce a second `name`, `id`, form destination or submit control in that field. Ordinary answers are escaped for display and are never interpreted as CMS/PHP source.
+
+## 6. Save and reopen Bob's handover
+
+1. In a separate browser profile, open `index.php?c=df!room!rdr` as Bob. Use this explicit page URL, including `c=`; MF selects its source form from that name.
+2. Enter **Blue room**, select **Needs attention** and enter **Side door sticks**. Choose **Save handover**. The page `df!room!pub` displays those three values. A SELECT stores `attention`; the output maps it to its visible label.
+3. Choose **Revise my handover**. Wait for saved values to appear. Change only the notes to **Side door repaired** and save again. The result shows the revised text.
+4. In the backend, open **S → special funcs → form data**. There are two separate form families: `df!room!edit` contains the three question definitions; `df!room!rdr` contains the response. Open **html** on the latter. Its current row is status **1) new** and the former handover is available as **6) former version**.
+5. In another profile, sign in as Clara and open the answering page and saved-result page. Her answer starts empty. After she saves her own handover, Bob still sees his own values.
+
+The saved-result object uses the authenticated CMS identity and a fixed form name. It does not select another person's response from an `id` or username supplied in the URL. Its [complete source](dynaform/example/df-room-pub.txt) also shows the empty-result message and the return link.
+
+MF and its output must agree on current-record eligibility. This example uses status `1` throughout. MFS would deliberately share one response; changing only `[mf]` to `[mfs]` without changing the output selection would make these pages disagree. Use the [MF/MFS guide](forms/mf-mfs.md) for that separate design.
+
+## 7. Change the questionnaire through the configuration form
+
+As Alice, edit the condition definition and change only its Label to **Condition when returning the key**. Bob reopens his handover: the saved selection remains **Needs attention**.
+
+Now add this fourth definition:
+
+| Position | Stable name | Label | Type | Control attributes |
+| --- | --- | --- | --- | --- |
+| `40` | `keycount` | Keys returned | INPUT | `type="number" min="0" max="20"` |
+
+Bob reopens his existing answer. The original three values remain; the new optional field is empty. He enters `2`, saves and sees all four values in his saved result. Alice has changed the questionnaire through the configuration form; she has not edited `df!room!rdr` or the composer.
+
+Keep existing stable names and SELECT codes. Changing a required field's suffix changes its stored key, so decide requiredness before collecting answers. Keep recoverable definition versions and retire used questions deliberately: this small reader uses the current definition set and does not reconstruct historical wording automatically. Native answer history and definition revision history have different jobs.
+
+## 8. Configure a second form with the same builder
+
+The supplied library already permits a second family, `df!kit`. Create these five page objects by copying the corresponding room source to a **new** object and replacing `df!room` with `df!kit` throughout each copied source. Retain the three shared objects unchanged.
+
+| New object | Copy source from |
 | --- | --- |
-| Add one definition through the designer form | It appears once, at the intended position, in both the answering form and its output. |
-| Ordinary respondent opens the designer's definition/edit URL | No definition-edit permission is granted by their answering rights. |
-| Save, close and reopen a personal answer as Alice and then Bob | MF finds each person's own eligible response. |
-| Two authorised readers open a deliberately shared form | MFS shows the common response; stale saves trigger the configured conflict check. |
-| Change labels or switch language | Existing answers still match the same machine names and option codes. |
-| Add an optional question to a form with older responses | Older responses remain readable; no older value shifts into the new field. |
-| Upload two different files; save; reopen; replace only the second | The first link remains unchanged, the second matches its new file, and both have the intended retrieval policy. |
-| Submit without completing a required upload or answer | The response is not reported as successfully saved. |
-| Open a saved link as another person and signed out | Page, record and file rules enforce the intended model independently. |
-| Restore a matching database and file backup | Definitions, answers, history and file links still correspond. |
+| `df!kit!edit` | `df!room!edit` |
+| `df!kit!design` | `df!room!design` |
+| `df!kit!inc` | `df!room!inc` |
+| `df!kit!rdr` | `df!room!rdr` |
+| `df!kit!pub` | `df!room!pub` |
 
-## Troubleshooting and evidence
+Apply the same designer/reader access choices to the new family. Change its visible headings to **Equipment return**. In `df!kit!design`, add position `10`, name `item_mandatory`, label **Equipment**, type INPUT; then position `20`, name `returned_mandatory`, label **Returned?**, type SELECT, options `Yes==yes|No==no`. Leave other fields empty.
 
-| Symptom | Check and next action |
+Open `index.php?c=df!kit!rdr` as Bob. Only the two equipment questions appear. Saving them does not change his room handover. Each family has its own definitions (`!edit`) and answers (`!rdr`). Creating the five small wrapper objects is the administrator's per-form setup; later question maintenance is done entirely through the configuration form. For a third family, also add its fixed base name to the allowed list in `df!library`.
+
+## 9. Add an attachment when the form needs one
+
+Complete [the upload exercise](forms/uploads.md#build-a-two-attachment-example) first. It supplies two complete named pages and explains which reader can retrieve a protected file.
+
+For this builder, create a definition at position `50`, name `supportingfile`, type PROLOGUEONLY. Put the following in its Prologue; leave the other fields empty:
+
+```text
+[h:]
+<p>Supporting document. After uploading, save the handover.</p>
+<script src="upload"></script>
+[:h]
+```
+
+The composer renders the standard protected widget inside Bob's answering form. Upload a small permitted test file, wait for **OK**, then **Save handover**. In the backend, Alice opens the `df!room!rdr` response and its `userupload1` link. The native protected-file endpoint requires its own authorised retrieval; Bob's reader login alone does not confer backend-file access. The simple `!pub` reader above lists answer controls and deliberately does not build a custom file-sharing route.
+
+Keep upload positions stable. If a second widget is needed, append it after the first. Moving or inserting numbered upload widgets can connect an old `userupload1` value to a different visible question.
+
+## If the result differs
+
+| Observation | Check and next action |
 | --- | --- |
-| The definition form works, but no questions appear | Check that the composer exists, PHP execution is permitted where required, and its exact definition form/status/order match the saved rows. |
-| Another form's questions appear | Check the family/prefix convention and any explicit definition-set selector. Map/validate request-supplied selectors against allowed families. |
-| Old answers disappear after a wording change | Check for a changed machine name, option code, response form name, login identity or eligibility status. |
-| A dropdown changes meaning after rearranging options | Give options explicit stable codes; implicit positional values change when reordered. |
-| Conditional sections initialise incorrectly | Use the post-prefill `starterscript` hook and compose multiple initialisers without redefining the same function. |
-| A link exists but its file cannot be retrieved | Check the stored widget value, file existence and protected download rights separately. |
+| PHP source is visible or controls never appear | Check the installation's CMS PHP policy and that every complete source was pasted into the correctly named page. |
+| No questions appear | Check `df!room!edit` in Form data, status `1`, and the exact eight object names. Saving definitions under the shared `df!edit` page is the wrong entry point. |
+| A duplicate/invalid-name message appears | Open the design list and correct the relevant new definition before collecting answers. Keep used keys stable. |
+| Bob can edit definitions | Check that Bob is a reader without backend administration, that the design pages contain no Bob reader credential and that the two steering comments target `df!room!design`. |
+| Saved values vanish | Check the same login, explicit `c=df!room!rdr`, current status `1` and unchanged `N_` field names. |
+| Another form's questions appear | Compare the family name in the wrapper, definition form and library's allowed bases. |
+| A SELECT is empty or its meaning changes | Use explicit `Label==code` options, one `|` between options and unchanged codes in translations. |
+| A file uploaded but its link is absent from Form data | Save the enclosing handover after the widget reports OK. |
 
-The method was grounded in a read-only inspection of an existing composition implementation: its common definition form, PHP composer, answer shell and upload/link wrappers. No live responses were changed or submitted for that inspection. This public guide uses neutral names and examples. The stable repository supplies the documented form, MF/MFS, DAT and upload primitives; acceptance of a particular composer and hosting configuration remains a separate check.
+The [reference](dynaform/schema.md) explains the exact field map, the library and the relation to existing `s!edit`/`s!form`, `!rdr`, `!pub`, `!inc` and ordering components. The supplied example is a small independent teaching implementation of that method, rather than an export of a private site's application and access integration.
+
+The [teaching-check record](labs/dynaform-2026-11-28.md) identifies the source version, runtime, observed form/save/edit paths and limits of the local verification.
