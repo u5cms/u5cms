@@ -8,7 +8,7 @@ const {launchBrowser} = require('./browser-runtime.cjs');
             const context = await browser.newContext({viewport:{width,height:760},ignoreHTTPSErrors:true});
             const origin = process.env.U5_DOCUMENTATION_ORIGIN;
             await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
-            for (const query of ['Gen%C3%A8ve', 'Gen%u00E8ve', 'Gen%u00E8ve,Seidenatlas']) {
+            for (const query of ['Seidenatlas', 'FormerSearchTerm']) {
                 const page = await context.newPage();
                 const errors = [];
                 page.on('pageerror', e => errors.push(e.message));
@@ -16,7 +16,8 @@ const {launchBrowser} = require('./browser-runtime.cjs');
                 url.search += '&q=' + query;
                 const response = await page.goto(url.href);
                 await page.locator('#audit-target').waitFor({state:'attached'});
-                const expected = query.includes(',') ? ['Genève','Seidenatlas'] : ['Genève'];
+                const present = query === 'Seidenatlas';
+                const expected = present ? [query] : [];
                 const measure = () => page.locator('#audit-target').evaluate(target => {
                     const hits = Array.from(target.querySelectorAll('.hitshilite,[data-u5-search-hit]'));
                     return {text:target.textContent, marks:hits.map(h=>h.textContent), y:window.scrollY, top:target.getBoundingClientRect().top,
@@ -26,7 +27,7 @@ const {launchBrowser} = require('./browser-runtime.cjs');
                 const deadline = Date.now()+4500;
                 do {
                     m = await measure();
-                    if (query && m.y>400 && m.top>=0 && m.bottom<=m.height) break;
+                    if (present && m.y>400 && m.top>=0 && m.bottom<=m.height) break;
                     await page.waitForTimeout(100);
                 } while (Date.now()<deadline);
                 const result = {width,query,status:response.status(),...m,errors};
@@ -35,7 +36,9 @@ const {launchBrowser} = require('./browser-runtime.cjs');
                     assert.equal(response.status(),200);
                     assert.equal(m.text,'Genève und Seidenatlas');
                     assert.deepEqual(m.marks,expected);
-                    assert.ok(query ? m.y>400 && m.top>=0 && m.bottom<=m.height : m.y<100 && m.top>m.height);
+                    assert.deepEqual(errors, []);
+                    assert.equal(m.input,query);
+                    assert.ok(present ? m.y>400 && m.top>=0 && m.bottom<=m.height : m.y<100 && m.top>m.height);
                 } catch (e) {failures.push({width,query,message:e.message});}
                 await page.close();
             }

@@ -73,6 +73,8 @@ jobs:
           mkdir "$RUNNER_TEMP/application"
           git archive "$U5_AUDIT_REVISION" | tar -x -C "$RUNNER_TEMP/application"
           export U5_AUDIT_APPLICATION="$RUNNER_TEMP/application"
+          status=0
           for engine in chromium firefox; do
-            U5_TEST_ENGINE="$engine" python3 tests/search-viewport-audit.py
+            U5_TEST_ENGINE="$engine" python3 tests/search-viewport-audit.py || status=1
           done
+          exit "$status"
