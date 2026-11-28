@@ -21,7 +21,39 @@ The decisive difference is often the part **before** `@`. A non-ASCII domain can
 
 ## Configure the existing transport
 
-Use the installation's real system sender in `$mymail`. Set `$usesmtp = 'yes';` and configure `$mysmtpoptions` when SMTP is required. The configuration sample shows host, port, connection class, TLS and credentials; retain the provider's actual requirements rather than guessing them from another site's settings.
+In this example, the community centre wants its workshop forms to send through its existing mail provider. Obtain that provider's SMTP host, port, encryption, authentication method and permitted sender address before editing. A CMS setting does not create a mailbox or an SMTP account.
+
+1. Open the installation's **existing private `config.php`**, beside `index.php`. Find `$mymail`, `$usesmtp` and `$mysmtpoptions`. Replace their existing assignments with the following block, retaining unrelated settings. The names ending in `.example.org` describe the example; enter the actual values supplied by your provider.
+
+   ```php
+   $mymail = 'workshops@example.org';
+   $usesmtp = 'yes';
+   $workshopSmtpUser = getenv('WORKSHOP_SMTP_USER');
+   $workshopSmtpPassword = getenv('WORKSHOP_SMTP_PASSWORD');
+   if (!is_string($workshopSmtpUser) || $workshopSmtpUser === ''
+       || !is_string($workshopSmtpPassword) || $workshopSmtpPassword === '') {
+       throw new RuntimeException('The workshop SMTP credentials are unavailable.');
+   }
+   $mysmtpoptions = new \Laminas\Mail\Transport\SmtpOptions(array(
+       'name' => 'cms.example.org',
+       'host' => 'smtp.example.org',
+       'port' => 587,
+       'connection_class' => 'login',
+       'connection_config' => array(
+           'ssl' => 'tls',
+           'username' => $workshopSmtpUser,
+           'password' => $workshopSmtpPassword,
+       ),
+   ));
+   ```
+
+   This exact block describes authenticated SMTP with STARTTLS on port 587. Use it only when that is your provider's profile. Supply the two secret values to the **PHP web process**, through the hosting service's secret/environment settings; setting them only in an administrator's shell does not configure PHP-FPM. Keep the existing autoload/import section of `config.php`.
+
+2. Check the edited file with the site's PHP executable, for example `php -l config.php` from the installation directory. A syntax check confirms that PHP can parse the file; opening an ordinary page also checks that the web process can load its secrets.
+3. On a practice copy of the [registration form](forms.md#a-worked-registration-form), change `em2me` to `on` and add `<input type="hidden" name="ouremail" value="YOUR_CONTROLLED_TEST_MAILBOX">` inside its `[h:]` block. Replace that mailbox value before saving. Keep `in2my` and `em2cu` off for this one-recipient check.
+4. Submit one recognisable test registration. Confirm the saved form record, the sending log and the actual message in the controlled mailbox, including sender and text. A confirmation page alone is not a delivery check. Restore the form's intended notification choices after the exercise.
+
+The configuration sample remains the reference for other transport profiles. Retain the provider's actual requirements rather than guessing them from another site's settings.
 
 Keep credentials in protected installation configuration or its secret-loading mechanism. Do not put working SMTP credentials into a repository or a public support example.
 

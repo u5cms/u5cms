@@ -40,6 +40,8 @@ Use a diagram for relationships across pages, as in [the course directory](dat.m
 - Use British English throughout: for example, *authorised*, *organisation*, *normalise* and *behaviour*. Preserve literal API names, filenames, interface labels and test data.
 - Lead with the outcome. Prefer “Set the mode in the private `config.php`” to a narrative about how the feature was developed.
 - Give complete, small examples. State where to put them, which values to replace and whether to replace an existing assignment. Preserve unrelated configuration and encoding.
+- Give a practical tutorial a concrete story and a complete object manifest. Use the same object names and field names from the first step to the final result. Supply every included component in full, or identify an externally supplied prerequisite before the first step. A reference to an unimplemented renderer is not a working example.
+- After each significant action state what the reader should see. Include the first save, a fresh reopen and the next ordinary change. Replace empty callback bodies and instructions such as “connect the component” with the actual code or UI operation.
 - Use reserved domains such as `example.org`. Keep real installations, personal data, recipients, credentials and organisation-specific retention rules out of generic documentation.
 - Explain defaults, enable/disable behaviour and scope. Distinguish a temporary disable from permanent revocation, or a working copy from retained evidence, whenever that distinction changes an action.
 - Use tables for exact configuration or status mappings. Use a diagram only when it explains relationships or branching more clearly than a short procedure.
