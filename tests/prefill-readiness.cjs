@@ -15,13 +15,15 @@ async function main(){
     const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:process.env.U5CMS_FIXTURE_PASSWORD}});
     const page=await context.newPage();
     page.on('dialog',d=>d.dismiss());
+    let responseBody='';
+    await page.route('**/editformsave.php?**',async route=>{const response=await route.fetch();responseBody=await response.text();await route.fulfill({response});});
     let release;
     const gate=new Promise(r=>release=r);
     let seen=false;
     if(mode!=='loaded')await page.route('**/formdataedit2.php?**',async route=>{
       seen=true;
       if(mode==='aborted')return route.abort('failed');
-      await gate; await route.continue();
+      await gate; try{await route.continue();}catch(error){if(!page.isClosed()&&!page.url().includes('/u5admin/'))throw error;}
     });
     await page.goto(origin+'/formdataedit.php?n=prefillaudit&id=900001&a=1&l=en',{waitUntil:'domcontentloaded'});
     if(mode==='loaded')await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
@@ -33,7 +35,7 @@ async function main(){
     else assert.equal(values.title,'Fresh initial title');
     const response=page.waitForResponse(r=>new URL(r.url()).pathname==='/editformsave.php');
     await page.getByRole('button',{name:'Save',exact:true}).click({noWaitAfter:true});
-    const saved=await response;const body=await saved.text();
+    const saved=await response;const body=responseBody;
     const after=snapshot();
     const changed=JSON.stringify(before)!==JSON.stringify(after);
     const active=after.filter(r=>Number(r.status)===1);
