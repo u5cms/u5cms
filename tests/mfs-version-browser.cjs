@@ -23,7 +23,7 @@ const {launchBrowser} = require('./browser-runtime.cjs');
             const form = document.forms.u5form;
             const path = shared ? '/monofillshared.php' : '/monofill.php';
             return form && form.venue_mandatory.value === expected &&
-                /^[0-9]+:[a-f0-9]{64}$/.test(form.firstsaverwins.value) &&
+                /^[0-9]+$/.test(form.firstsaverwins.value) && /^[a-f0-9]{64}$/.test(form.u5cms_formversion?.value || '') &&
                 Array.from(document.querySelectorAll('iframe')).some(frame => {
                     try { return frame.contentWindow.location.pathname === path &&
                         frame.contentDocument.querySelector('#u5transportcontainer'); } catch (_) { return false; }
@@ -34,10 +34,10 @@ const {launchBrowser} = require('./browser-runtime.cjs');
         const page = await context.newPage();
         await page.goto(origin + '/index.php?c=' + name + '&l=en');
         await ready(page,expected,name!=='timepreference');
-        const first = await page.locator('[name=firstsaverwins]').inputValue();
+        const first = await page.locator('[name=u5cms_formversion]').inputValue();
         await page.waitForTimeout(900);
-        const later = await page.locator('[name=firstsaverwins]').inputValue();
-        assert.equal(first.split(':')[1],later.split(':')[1]);
+        const later = await page.locator('[name=u5cms_formversion]').inputValue();
+        assert.equal(first,later);
         return page;
     }
     async function save(page, value) {
@@ -86,12 +86,12 @@ const {launchBrowser} = require('./browser-runtime.cjs');
         const callback = await open(bob,'sharedcallback','');
         const old = await open(charlie,'sharedcallback','');
         for (let count=1;count<=2;count++) {
-            const before = await callback.locator('[name=firstsaverwins]').inputValue();
+            const before = await callback.locator('[name=u5cms_formversion]').inputValue();
             await callback.getByLabel('Preferred venue').fill('Callback Genève '+count);
             await callback.getByRole('button',{name:'Save preference'}).click();
             await callback.waitForFunction(count=>window.auditSavedCount===count,count);
-            const after = await callback.locator('[name=firstsaverwins]').inputValue();
-            assert.notEqual(before.split(':')[1],after.split(':')[1]);
+            const after = await callback.locator('[name=u5cms_formversion]').inputValue();
+            assert.notEqual(before,after);
         }
         await reject(old,'Stale callback');
         await exportRows(editor,'sharedcallback',['Callback Genève 2','bob@example.org']);
