@@ -116,6 +116,8 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             stamp = re.search(r"(?:firstsaverwins|field).value='([0-9]+)'", stamp_source).group(1)
             transport = request('/monofillshared.php?n=sharedsecond')
             version = re.search(r'\+":([a-f0-9]{64})"', transport)
+            if (site / 'formdata-version.inc.php').exists():
+                assert version is not None, transport
             opening = stamp + (':' + version.group(1) if version else '')
             before = snapshot()
             first = dict(parsed.fields, venue_mandatory='Ada Genève ' + str(number), firstsaverwins=opening)
