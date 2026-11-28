@@ -17,7 +17,7 @@ import urllib.parse
 
 root = Path(__file__).resolve().parents[1]
 application = Path(os.environ.get('U5_AUDIT_APPLICATION', root))
-php = [os.environ.get('U5_TEST_PHP', 'php'), '-d', 'mysqli.default_port=' + os.environ['U5CMS_TEST_PORT']]
+php = [os.environ.get('U5_TEST_PHP', 'php'), '-d', 'opcache.enable=0', '-d', 'mysqli.default_port=' + os.environ['U5CMS_TEST_PORT']]
 os.environ['U5CMS_FIXTURE_PASSWORD'] = secrets.token_urlsafe(36)
 
 class Form(html.parser.HTMLParser):
@@ -160,7 +160,8 @@ with tempfile.TemporaryDirectory(prefix='u5-mfs-second-') as temporary:
             fields = dict(parsed.fields, firstsaverwins=stamp + ':' + version, venue_mandatory='Policy ' + mode)
             assert 'You cannot save your data' not in request(action, fields=fields)
             before = snapshot()
-            assert ('You cannot save your data' in request(action, second_user, dict(fields, venue_mandatory='Second ' + mode))) == conflict
+            response = request(action, second_user, dict(fields, venue_mandatory='Second ' + mode))
+            assert ('You cannot save your data' in response) == conflict, (mode, second_user, conflict, response[-1800:])
             assert (before == snapshot()) == conflict
             print('POLICY', json.dumps({'mode': mode, 'second_user': second_user, 'conflict': conflict}), flush=True)
         with config.open('a') as output:
