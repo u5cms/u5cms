@@ -1,6 +1,8 @@
-# u5CMS 12.10.12
+# u5CMS 12.10.13
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.13 fixes a browser exception when a saved search term is no longer on the page. [Release notes](docs/release-12.10.13.md).
 
 Version 12.10.12 corrects alternate-language URLs on sites with unused language slots. [Release notes](docs/release-12.10.12.md).
 

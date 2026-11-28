@@ -6,6 +6,7 @@ The stable default branch is [main](https://github.com/u5cms/u5cms/tree/main). T
 
 | Line | Scope |
 | --- | --- |
+| [12.10.13](docs/release-12.10.13.md) | Handle saved search destinations with no visible match |
 | [12.10.12](docs/release-12.10.12.md) | Correct alternate-language URLs on multilingual sites |
 | [12.10.11](docs/release-12.10.11.md) | Warning-free legacy Unicode search and restored alternate-language metadata on PHP 8 |
 | [12.10.10](docs/release-12.10.10.md) | Faithful restoration of the standard empty-string database column default |
@@ -38,7 +39,7 @@ The [historical branch index](https://github.com/u5cms/u5cms/blob/d86b2a7ecac79d
 | Branch | Version in `index.php` | Changes and purpose |
 | --- | --- | --- |
 | [12.9.5.3-Onlymine](https://github.com/u5cms/u5cms/tree/e19e5537b97b2a9ab7bfa0787f026af9b81a6488) | 12.9.5.3 | [Configurable SELF record permissions](docs/onlymine.md). |
-| [main](https://github.com/u5cms/u5cms/tree/main) | 12.10.12 | Stable maintenance, including warning-free legacy Unicode search links, faithful database-default restoration, safe form CSV exports, serialised versioned form edits, complete login return targets, optional trusted browsers and sender evidence, non-blocking saves, resumable indexing, fast Rename and configurable SELF permissions. |
+| [main](https://github.com/u5cms/u5cms/tree/main) | 12.10.13 | Stable maintenance, including warning-free legacy Unicode search links, faithful database-default restoration, safe form CSV exports, serialised versioned form edits, complete login return targets, optional trusted browsers and sender evidence, non-blocking saves, resumable indexing, fast Rename and configurable SELF permissions. |
 | [12.9.5.4-Indexer-Final](https://github.com/u5cms/u5cms/tree/8a546600746672770799a6355ec9e087f83a1029) | 12.9.5.4 | Verified release candidate. [Cumulative acceptance results against 12.9.5](docs/release-12.9.5.4.md). |
 | [12.9.5.2-Faster-Rename](https://github.com/u5cms/u5cms/tree/4af9988febb075fb06e541257ee6f4d2a10d90c6) | 12.9.5.2 | Patch series based on 12.9.5.1. Fast, resumable object renaming preserves headings, references, history, files, existing code objects and exports. |
 | [12.9.6-Misc-Backend-Optimizations](https://github.com/u5cms/u5cms/tree/f10b72bc3c2b07e83caf67af2d07758b91006e0e) | 12.9.6 | Keeps the scroll position stable when filtering in the backend and corrects tooltips in object lists. |
