@@ -22,7 +22,8 @@ $template = str_replace('</html>','',str_replace('</body>','<div style="width:30
 </html>';
 
 require_once __DIR__.'/formdata-prefill.inc.php';
-$template=preg_replace_callback('/<\/head\s*>/i', static function ($match) { return u5FormDataPrefillGuardScript().$match[0]; }, $template, 1);
+$template=preg_replace_callback('/<\/head\s*>/i', static function ($match) { return u5FormDataPrefillGuardScript().$match[0]; }, $template, 1, $u5PrefillGuardCount);
+if ($u5PrefillGuardCount===0) $template=str_replace('{{{content}}}', u5FormDataPrefillGuardScript().'{{{content}}}', $template);
 
 $i_i_item=explode('{{{',$template);
 

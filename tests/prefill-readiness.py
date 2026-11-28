@@ -39,6 +39,13 @@ with tempfile.TemporaryDirectory(prefix='u5-prefill-') as temp:
     }
     $r=mysql_query("SELECT id,status,authuser,lastmut,HEX(headcsv) AS head,HEX(datacsv) AS data FROM formdata WHERE formname='prefillaudit' ORDER BY id");$rows=[];while($a=mysql_fetch_assoc($r))$rows[]=$a;echo json_encode($rows);
     ''',encoding='utf-8')
+    if os.environ.get("U5_PREFILL_TEMPLATE_NO_HEAD_CLOSE") == "1":
+        import re
+        template=site/"r"/fixture["export"]
+        original=template.read_bytes()
+        changed=re.sub(br"</head\s*>",b"",original,count=1,flags=re.I)
+        assert changed!=original
+        template.write_bytes(changed)
     # The seed is intentionally encoded as the application expects from legacy PHP.
     snapshot.write_bytes(snapshot.read_text().encode('cp1252'))
     with socket.socket() as probe:

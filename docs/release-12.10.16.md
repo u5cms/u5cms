@@ -10,6 +10,7 @@ The correction covers the standard edit and delete pages, personal MF responses 
 
 - Edit and delete screens install a submission guard before their form is rendered. Only their actual response loader releases it after filling a saved row and completing the existing starter hook.
 - The renderer recognises the named Monofill frames before their script-driven navigation. Personal and shared loaders release their own guard after prefilling; a different frame cannot release an edit-page guard.
+- Templates that omit the optional closing head tag receive the guard before their content component, preserving their document mode.
 - Button clicks, Enter and direct `form.submit()` calls are covered. A failed request leaves the response unchanged; reloading and completing the prefill permits the intended operation.
 
 The existing timestamp, row fingerprints, ownership and conflict policies, callback handling, storage and export formats remain unchanged. The maintained V13–V17 lines receive the correction with their own renderer, template paths and version numbers.
