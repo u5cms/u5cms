@@ -20,17 +20,17 @@ jobs:
       matrix:
         include:
           - line: main
-            revision: 149c54487220d2d23abe223256e40f38942e7142
+            revision: 6108de9908f794c5a64a6800912a4dc5b493cb9d
           - line: V13
-            revision: b7cea6691b2109192ba80cf3cf734ef80cfdda3c
+            revision: ff799c472ce84aa880647690307507f75a7e0235
           - line: V14
-            revision: db5f74e4487f0d3948d706352b2dab7fbd6d79a8
+            revision: 5881b546d0be3fc74f6caa9df4c98df2594cd777
           - line: V15
-            revision: fa271a7c4e84daa87f11ff9ab31548fe4c4fdab5
+            revision: 5be5370f5c166be01c71d28cb5ad8123d2d25940
           - line: V16
-            revision: 18d24cb7b0bfc88a206f5cbc35a84e7621b423e4
+            revision: 84a6cb92c4e0ef6cef5f74957738723f3eba670c
           - line: V17
-            revision: 59ca476cca6452bdb23e7f8b4f13c715cf9752d1
+            revision: d6e9e4366bb5c02774c5f79042e4628b25d7e63d
     services:
       database:
         image: mariadb:11.4
