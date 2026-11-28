@@ -1,5 +1,13 @@
 # Optional OpenID Connect in u5CMS 12.12.0
 
+[Documentation home](README.md) · [SAML and OIDC](federation.md)
+
+## Summary
+
+Connect an identity provider using authorisation code flow, PKCE and validated signed ID tokens. Register the client first, map its identities to existing CMS usernames, then test login, local permissions, private files and logout in a separate installation. The default subject mapping and optional verified-email binding profile have different enrolment requirements, described below.
+
+**For** installation and identity-provider administrators. **Version** optional feature introduced in 12.12.0, maintained in V15, V16 and V17. Stable 12.10.x, V13 and V14 do not contain this implementation. Use the higher PHP minimum required by the installed branch and its authentication dependencies.
+
 OIDC is an opt-in alternative to the existing SAML integration. An installation
 selects one federation protocol in `config.php`; it does not present a new
 protocol selector to its users. Without an enabled `$u5oidc` configuration,
