@@ -76,12 +76,6 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
     subprocess.run(php + ['-r', insert, json.dumps(pages)], cwd=site, check=True, stdout=subprocess.DEVNULL)
     router = directory/'router.php'
     router.write_text("<?php $_SERVER['HTTPS']='on'; return false;\n")
-    backend_port = port()
-    server_log=(directory/'php.log').open('wb')
-    server=subprocess.Popen(php+['-d','opcache.enable=0','-S','127.0.0.1:'+str(backend_port),'-t',str(site),str(router)],cwd=site,stdout=server_log,stderr=server_log)
-    tls_port=port()
-    with (site/'config.php').open('a', encoding='latin1') as fixture_config:
-        fixture_config.write(f"\n$canonicalprotocolanddomain='https://localhost:{tls_port}';\n")
     subprocess.run(['openssl','req','-x509','-newkey','rsa:2048','-nodes','-keyout',str(directory/'key.pem'),'-out',str(directory/'cert.pem'),'-days','1','-subj','/CN=localhost','-addext','subjectAltName=DNS:localhost,IP:127.0.0.1'],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     class Proxy(http.server.BaseHTTPRequestHandler):
         def log_message(self,*args): pass
@@ -101,7 +95,13 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
             finally:connection.close()
         do_GET=handle_request
         do_POST=handle_request
-    proxy=http.server.ThreadingHTTPServer(('127.0.0.1',tls_port),Proxy)
+    proxy=http.server.ThreadingHTTPServer(('127.0.0.1',0),Proxy)
+    tls_port=proxy.server_port
+    with (site/'config.php').open('a', encoding='latin1') as fixture_config:
+        fixture_config.write(f"\n$canonicalprotocolanddomain='https://localhost:{tls_port}';\n")
+    backend_port = port()
+    server_log=(directory/'php.log').open('wb')
+    server=subprocess.Popen(php+['-d','opcache.enable=0','-S','127.0.0.1:'+str(backend_port),'-t',str(site),str(router)],cwd=site,stdout=server_log,stderr=server_log)
     tls=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER);tls.load_cert_chain(directory/'cert.pem',directory/'key.pem')
     proxy.socket=tls.wrap_socket(proxy.socket,server_side=True)
     thread=threading.Thread(target=proxy.serve_forever,daemon=True);thread.start()
