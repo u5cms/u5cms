@@ -60,6 +60,24 @@ const {launchBrowser}=require(process.env.U5_DOCUMENTATION_SOURCE+'/tests/browse
         await page.goto(origin+'/index.php?c=_search&l=en&q=atlasquartz');
         assert.ok(await page.locator('a[href*="c=docsearch"]').count()>0);
         passed('A named index update makes the exercise page discoverable by its unique text');
+        await page.locator('a[href*="c=docsearch"]').first().click();
+        assert.equal(new URL(page.url()).searchParams.get('c'), 'docsearch');
+        // A saved search destination must retain its query across language changes.
+        await page.goto(origin + '/index.php?c=docsearch&l=en&q=atlasquartz&view=Gen%C3%A8ve');
+        const firstLanguage = page.locator('link[rel="alternate"][hreflang]').first();
+        const language = await firstLanguage.getAttribute('hreflang');
+        assert.ok(language && language !== 'en');
+        const alternative = new URL(await firstLanguage.getAttribute('href'));
+        assert.equal(alternative.origin, origin);
+        assert.equal(alternative.searchParams.get('l'), language);
+        assert.equal(alternative.searchParams.get('q'), 'atlasquartz');
+        assert.equal(alternative.searchParams.get('view'), 'Genève');
+        await page.goto(alternative.href);
+        assert.ok((await page.locator('body').innerText()).includes('A search exercise.'));
+        const back = await page.locator('link[rel="alternate"][hreflang="en"]').getAttribute('href');
+        await page.goto(back);
+        assert.ok((await page.locator('body').innerText()).includes('The atlasquartz workshop begins here.'));
+        passed('Published alternate links open both translated pages and retain the saved search');
         assert.equal(fs.existsSync(watermark)?fs.readFileSync(watermark,'utf8'):null,before);
         passed('A named update leaves the last completed full-rebuild watermark unchanged');
         fs.writeFileSync(path.join(process.env.U5_DOCUMENTATION_OUTPUT,'content-observations.json'),JSON.stringify({checks:observations.length,cases:observations},null,2));
