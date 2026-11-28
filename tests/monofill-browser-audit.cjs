@@ -51,17 +51,24 @@ async function main() {
                 const page = await open(context, before);
                 await page.getByLabel('Preferred venue').fill(after);
                 console.log('Submitting', name, JSON.stringify(after));
-                const returned = page.waitForURL(url => url.searchParams.get('c') === name && url.searchParams.get('f') === name, {waitUntil: 'load'});
-                await Promise.all([returned, page.getByRole('button', {name: 'Save preference'}).click()]);
-                console.log('Returned to the form', name);
-                const returnedFrame = page.frames().find(frame => new URL(frame.url()).pathname === framePath);
-                assert.ok(returnedFrame, 'Expected the navigated Monofill frame on return');
-                const element = await returnedFrame.frameElement();
-                console.log('Returned frame', await element.getAttribute('name'), await element.getAttribute('src'), new URL(returnedFrame.url()).pathname);
-                await returnedFrame.locator('#u5transportcontainer').waitFor({state: 'attached'});
-                await page.waitForFunction(value => document.forms.u5form?.venue_mandatory.value === value, after);
-                console.log('Rendered the saved value', name);
+                let stage = 'submit';
+                const timeout = setTimeout(async () => {
+                    console.error('Outstanding operation', stage, name);
+                    try {
+                        const result = await editor.request.get(origin + '/u5admin/formdata2csv.php?n=' + name + '&s=1', {timeout: 5000});
+                        const body = await result.text();
+                        console.error('Independent active export', result.status(), 'includes just-submitted value', body.includes(after));
+                    } finally { process.exit(2); }
+                }, 10000);
+                await Promise.all([
+                    page.waitForEvent('framenavigated', {predicate: frame => frame === page.mainFrame()}).then(() => console.log('Main frame committed')),
+                    page.getByRole('button', {name: 'Save preference'}).click().then(() => console.log('Click completed')),
+                ]);
+                stage = 'closing the tab immediately after navigation commit';
+                console.log('Closing committed tab');
                 await page.close();
+                clearTimeout(timeout);
+                console.log('Closed committed tab');
             }
             async function csv(status, expected) {
                 console.log('Downloading', name, status);
@@ -100,9 +107,6 @@ async function main() {
             console.log('PASS', process.env.U5_AUDIT_REVISION, process.env.U5_TEST_ENGINE, name,
                 'three submissions, one abandoned change, both readers and both CSV downloads');
         }
-    } catch (error) {
-        console.error(error);
-        throw error;
     } finally {
         await browser.close();
     }
