@@ -1,0 +1,34 @@
+[$$$:df!library]
+[fo:]
+[fi:]
+[le:]Configure one question[:le]
+[h:]
+<input type="hidden" name="thanks" value="[_pagename!_]!design">
+<input type="hidden" name="in2my" value="off">
+<input type="hidden" name="em2cu" value="off">
+<input type="hidden" name="em2me" value="off">
+<input type="hidden" name="firstsaverwins" value="">
+<p><label>Position
+<input type="number" name="position_mandatory" min="1" step="1" required></label></p>
+<p><label>Stable name
+<input name="name_mandatory" pattern="[a-z][a-z0-9_]*" required></label></p>
+<p>Names are unique within this form. End a required answer's name in
+<code>_mandatory</code>. Keep a name unchanged after collecting answers.</p>
+<p><label>Label <input name="label"></label></p>
+<p><label for="df-type">Type</label> <select id="df-type" name="type">
+<option value="INPUT">INPUT</option>
+<option value="TEXTAREA">TEXTAREA</option>
+<option value="SELECT">SELECT</option>
+<option value="PROLOGUEONLY">PROLOGUE ONLY</option>
+</select></p>
+<p><label>Control attributes <input name="attributes"></label></p>
+<p><label>Default value or SELECT options <input name="values"></label></p>
+<p><label>Placeholder <input name="placeholder"></label></p>
+<p><label>Prologue <textarea name="prologue"></textarea></label></p>
+<p><label>Help <textarea name="help"></textarea></label></p>
+<p><label>Epilogue <textarea name="epilogue"></textarea></label></p>
+<button type="submit">Save question</button>
+<p><a href="?c=[_pagename!_]!design">Return to the question list</a></p>
+[:h]
+[:fi]
+[:fo]

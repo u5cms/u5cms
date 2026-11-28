@@ -1,0 +1,2 @@
+[[[[Room handover]]]]
+Record the room, its condition and any access notes before returning the key.
