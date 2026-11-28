@@ -1,6 +1,8 @@
-# u5CMS 12.10.13
+# u5CMS 12.10.14
 
 **[Read the u5CMS documentation](docs/README.md)** — practical guides, configuration examples and reproducible exercises in British English.
+
+Version 12.10.14 avoids a PHP deprecation when opening saved search destinations. [Release notes](docs/release-12.10.14.md).
 
 Version 12.10.13 fixes a browser exception when a saved search term is no longer on the page. [Release notes](docs/release-12.10.13.md).
 
