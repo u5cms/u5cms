@@ -30,6 +30,7 @@ async function main(){
     });
     const url=origin+'/'+(action==='edit'?'formdataedit.php':'formdatadel.php')+'?n=prefillaudit&id=900001&a=1&l=en';
     await page.goto(url,{waitUntil:'domcontentloaded'});
+    if(action==='delete')await page.locator('#genericformdataeditorlinkdiv').getByText('×',{exact:true}).click();
     if(mode==='loaded')await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
     else {for(let i=0;i<100&&!seen;i++)await page.waitForTimeout(20);assert.ok(seen,'Actual loader request was not intercepted');}
     await page.waitForFunction(()=>Number(document.forms.u5form.firstsaverwins.value)>0);
