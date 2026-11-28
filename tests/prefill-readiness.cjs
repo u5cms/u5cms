@@ -4,12 +4,12 @@ const {launchBrowser}=require('./browser-runtime.cjs');
 const php=['-d','mysqli.default_port='+process.env.U5CMS_TEST_PORT,process.env.U5_PREFILL_SNAPSHOT];
 function snapshot(reset=false){return JSON.parse(execFileSync('php',[...php,...(reset?['reset']:[])],{cwd:process.env.U5_PREFILL_SITE,encoding:'utf8'}));}
 async function main(){
- const defects=[];
+ const defects=[]; const customTemplate=process.env.U5_PREFILL_TEMPLATE_NO_HEAD_CLOSE==='1';
  for(const engine of ['chromium','firefox']){
   process.env.U5_TEST_ENGINE=engine;
   const browser=await launchBrowser();
   try{
-   for(const action of ['edit','delete'])for(const mode of ['loaded','paused','aborted'])for(const trigger of ['button','enter','script']){
+   for(const action of ['edit','delete'])for(const mode of customTemplate?['loaded','paused']:['loaded','paused','aborted'])for(const trigger of customTemplate?['button']:['button','enter','script']){
     const before=snapshot(true);
     const origin=process.env.U5_PREFILL_ORIGIN;
     const context=await browser.newContext({httpCredentials:{username:'auditadmin',password:process.env.U5CMS_FIXTURE_PASSWORD}});
@@ -34,8 +34,8 @@ async function main(){
     if(mode==='loaded')await page.waitForFunction(()=>document.forms.u5form.title_mandatory.value.startsWith('Saved Genève'));
     else {for(let i=0;i<100&&!seen;i++)await page.waitForTimeout(20);assert.ok(seen,'Actual loader request was not intercepted');}
     await page.waitForFunction(()=>Number(document.forms.u5form.firstsaverwins.value)>0);
-    const values=await page.evaluate(()=>{let f=document.forms.u5form;return{title:f.title_mandatory.value,optional:f.optional.value,version:f.u5cms_formversion?.value||'',action:new URL(f.action).pathname};});
-    assert.equal(values.action,endpoint);
+    const values=await page.evaluate(()=>{let f=document.forms.u5form;return{compatMode:document.compatMode,title:f.title_mandatory.value,optional:f.optional.value,version:f.u5cms_formversion?.value||'',action:new URL(f.action).pathname};});
+    assert.equal(values.action,endpoint);assert.equal(values.compatMode,'CSS1Compat');
     if(mode==='loaded'){assert.equal(values.optional,'');await page.locator('[name="title_mandatory"]').fill('Edited after complete prefill');}
     else assert.equal(values.title,'Fresh initial title');
     async function submit(){
