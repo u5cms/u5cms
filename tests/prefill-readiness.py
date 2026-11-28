@@ -26,7 +26,7 @@ with tempfile.TemporaryDirectory(prefix='u5-prefill-') as temp:
 [:h][:fi][:fo]'''
     setup='''$_SERVER['HTTP_HOST']='localhost';$_SERVER['REQUEST_URI']='/';require 'connect.inc.php';
     $source=mysql_real_escape_string($argv[1]);
-    if(!mysql_query("INSERT INTO resources(name,typ,content_1,content_2,title_1,title_2,lastmut) VALUES('prefillaudit','p','$source','$source','Prefill','Prefill',1)"))throw new RuntimeException(mysql_error());
+    if(!mysql_query("INSERT INTO resources(name,typ,content_1,content_2,title_1,title_2,lastmut,logins) VALUES('prefillaudit','p','$source','$source','Prefill','Prefill',1,'?')"))throw new RuntimeException(mysql_error());
     '''
     subprocess.run(php+['-r',setup,source],cwd=site,check=True,stdout=subprocess.DEVNULL)
     snapshot=Path(temp)/'snapshot.php'
@@ -39,6 +39,13 @@ with tempfile.TemporaryDirectory(prefix='u5-prefill-') as temp:
     }
     $r=mysql_query("SELECT id,status,authuser,lastmut,HEX(headcsv) AS head,HEX(datacsv) AS data FROM formdata WHERE formname='prefillaudit' ORDER BY id");$rows=[];while($a=mysql_fetch_assoc($r))$rows[]=$a;echo json_encode($rows);
     ''',encoding='utf-8')
+    if os.environ.get("U5_PREFILL_TEMPLATE_NO_HEAD_CLOSE") == "1":
+        import re
+        template=site/"r"/fixture["export"]
+        original=template.read_bytes()
+        changed=re.sub(br"</head\s*>",b"",original,count=1,flags=re.I)
+        assert changed!=original
+        template.write_bytes(changed)
     # The seed is intentionally encoded as the application expects from legacy PHP.
     snapshot.write_bytes(snapshot.read_text().encode('cp1252'))
     with socket.socket() as probe:
