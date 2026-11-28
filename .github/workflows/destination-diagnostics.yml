@@ -2,7 +2,7 @@ name: Observe server diagnostics for saved search links
 on:
   push:
     branches: ['audit/distribution-parity-1294']
-    paths: [.github/workflows/destination-diagnostics.yml]
+    paths: [.github/workflows/destination-diagnostics.yml, tests/destination-diagnostics.py]
 
 permissions:
   contents: read

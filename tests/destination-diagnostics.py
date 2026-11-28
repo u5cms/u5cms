@@ -54,6 +54,8 @@ with tempfile.TemporaryDirectory(prefix='u5-documentation-') as temporary:
     router.write_text("<?php $_SERVER['HTTPS']='on'; return false;\n")
     observer = directory/'observer.php'
     observer.write_text("""<?php
+if (defined("U5_DESTINATION_OBSERVER")) return;
+define("U5_DESTINATION_OBSERVER",true);
 set_error_handler(function($kind,$message,$file,$line){
     if ($kind===E_DEPRECATED && basename($file)==='u5sys.content.php') {
         error_log('TARGET_DIAGNOSTIC '.json_encode([$line,$message,(bool)(error_reporting() & $kind)]));
@@ -62,7 +64,7 @@ set_error_handler(function($kind,$message,$file,$line){
 });
 register_shutdown_function(function(){
     $files=array_map('basename',get_included_files());
-    error_log('TARGET_PATH '.json_encode([$_GET['q'] ?? null,in_array('u5sys.content.php',$files,true)]));
+    error_log('TARGET_PATH '.json_encode([bin2hex($_GET['q'] ?? ''),in_array('u5sys.content.php',$files,true)]));
 });
 """)
     backend_port = port()
