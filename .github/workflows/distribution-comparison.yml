@@ -1,0 +1,57 @@
+name: Distribution source comparison
+on:
+  push:
+    branches: [audit/distribution-parity-1294]
+    paths: [.github/workflows/distribution-comparison.yml]
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Read the published installation archive
+        run: curl --fail --silent --show-error --location --proto '=https' --max-time 60 --max-filesize 40000000 'https://yuba.ch/f.php?f=r%2Fu5cmszip%2Fu5cmszip_en.zip%3Ft%3D1790665382' -o "$RUNNER_TEMP/distribution.zip"
+      - name: Compare unmodified file contents with Git objects
+        shell: python
+        run: |
+          import hashlib, json, os, subprocess, zipfile
+          from pathlib import Path
+          path = Path(os.environ["RUNNER_TEMP"]) / "distribution.zip"
+          print("ARCHIVE", path.stat().st_size, hashlib.sha256(path.read_bytes()).hexdigest())
+          with zipfile.ZipFile(path) as archive:
+              files = [entry for entry in archive.infolist() if not entry.is_dir()]
+              assert sum(f.file_size for f in files) < 200_000_000
+              names = {f.filename for f in files}
+              roots = [p[:-len("index.php")] for p in names if p.endswith("index.php") and p[:-len("index.php")]+"u5sys.content.php" in names and p[:-len("index.php")]+"u5admin/formdata2csv.php" in names]
+              assert len(roots) == 1, roots
+              prefix, = roots
+              archive_files = {}
+              for f in files:
+                  if not f.filename.startswith(prefix):
+                      continue
+                  name = f.filename[len(prefix):]
+                  assert name not in archive_files
+                  data = archive.read(f)
+                  archive_files[name] = hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+              print("ROOT", repr(prefix), "files", len(archive_files), "outside", len(files)-len(archive_files))
+          for label, rev in [["distribution","c8a405cb97f8ea93dc5534e74e467278b2901968"],["origin","9d366253417822c279692767b89dcf1ff0388c5c"],["previous","dccf010f5e0bbbdbf20f6af75d4194e20ed7e224"],["main","a1cee139c3b101852b7ebe4d35d48324b468aeb9"],["V13-more-Img-Formats","6cc2177808dcbaa480317c57ded1b777f3c04aa6"],["V14-JS-CSS-HTML-Exports","ae63acd47f01fec1e18e99ea4e7652633de196b6"],["V15-Phrase-Search-and-OIDC","3a843d4535a738ec61b361bf60f53ca06080399c"],["V16-Default-Design","32bc60cbbc459e3058998162b0850fee6ca01b72"],["V17-New-Responsive-Layouts","6d17fc76111a63476fdc6f411f24fe576b41e649"]]:
+              tree = subprocess.check_output(["git","ls-tree","-rz",rev])
+              blobs = {}
+              for entry in tree.rstrip(b"\0").split(b"\0"):
+                  meta, name = entry.split(b"\t",1)
+                  mode, kind, oid = meta.split()
+                  if kind == b"blob":
+                      blobs[name.decode()] = oid.decode()
+              both = archive_files.keys() & blobs.keys()
+              changed = sorted(k for k in both if blobs[k] != archive_files[k])
+              print("RESULT", label, rev, json.dumps(dict(equal=len(both)-len(changed),changed=len(changed),archive_only=len(archive_files.keys()-blobs.keys()),git_only=len(blobs.keys()-archive_files.keys()))))
+              if label == "distribution":
+                  for group, paths in [("changed",changed),("archive_only",sorted(archive_files.keys()-blobs.keys())),("git_only",sorted(blobs.keys()-archive_files.keys()))]:
+                      print("PATHS",group,json.dumps(paths[:100]))
+                  for key in ["index.php","u5sys.content.php","u5admin/formdata2csv.php","formsav.php","formsave.php","monofill.php","monofills.php","config.php","config.php.sample"]:
+                      print("FILE",key,archive_files.get(key),blobs.get(key))
