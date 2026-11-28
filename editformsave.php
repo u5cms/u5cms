@@ -90,8 +90,8 @@ if (strpos($key,'living')==1) $foundliving=1;
 
 if ($key!='ouremail' && $key!='thanks' && $key!='thankssubject' &&  $key!='thankstext'  &&  $key!='thanksgreetings' && strpos($key,'living')!=1) {
 if($key=='firstsaverwins')$key='frstsvrwnspgldtmstp';
-$head.='Â·'.str_replace(';',',.',$key).';';
-$data.='Â·'.str_replace(';',',.',$value).';';
+$head.='·'.str_replace(';',',.',$key).';';
+$data.='·'.str_replace(';',',.',$value).';';
 $zendmessage.=str_replace('_mandatory','*',$key).': '.$value."\r\n";
 }
 
